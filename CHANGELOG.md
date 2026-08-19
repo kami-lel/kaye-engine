@@ -25,8 +25,6 @@ todo todo utilize personalities, allow multi agent conversation
 
 - `--version` flag on the `kaye-engine` CLI, reporting the installed
   distribution's version via `importlib.metadata`
-- `ClaudeSurface` enum, mapping each Claude surface (Chat, Cowork, Code,
-  VS Code) to its available affordance names
 - `Affordance` registry (`kaye_engine/prompt/affordance_registry.py`),
   tracking platform capabilities and deriving Usage/Lack sidecar names
 - `affordances` kwarg on `render_prompt_lines`, auto-checkmarking sidecars
@@ -35,23 +33,33 @@ todo todo utilize personalities, allow multi agent conversation
   `affordance_registry` name, sorted
 - `kaye-engine glossary`/`g` CLI subcommand, printing a registered
   glossary's content (`glossary ls` lists every registered name)
-- `kaye_engine/cli/render_options_parser.py`:
-  `build_render_options_parent_parser`/`resolve_render_options`, a
+- `RenderProfile` dataclass (`kaye_engine/prompt/blueprint/render_profile.py`),
+  a layerable bundle of render kwargs (`conditional_sidecars`,
+  `affordances`, and the rest) with a `merge()` that combines a
+  caller-supplied profile with a registry entry's own default without
+  clobbering either
+- `kaye_engine/cli/render_profile_parser.py`:
+  `build_render_profile_parent_parser`/`resolve_render_profile`, a
   shared parent parser and aux function unifying `--surface`,
   `--comment`/`--no-comment`, `--conditional-sidecar`, `--affordance`,
   and `--sparseness` across every rendering command (`blueprint
   generate`, `dynamic-node`, `exportable`, and every `claude` export
   subcommand) — `--affordance`/`--conditional-sidecar` union
-  additively with whatever `--surface` derives
+  additively with whatever `--surface` derives; returns a
+  `RenderProfile` rather than a kwargs dict
 - `kaye_engine/cli/comment_parser.py`:
   `build_comment_parent_parser`, the shared `--comment`/`--no-comment`
   (`-c`/`-C`) mutually-exclusive pair, also used standalone by
   `kaye-engine blueprint show`
 - `-u` short flag for `--surface`; `-a`/`-i` short flags for the new
   `--affordance`/`--conditional-sidecar` flags
-- registered Claude affordance catalog, auto-loaded on `setup_claude_cli`
-- per-surface sidecar names on `ClaudeSurface.as_contained_sidecars`,
-  derived from the enum member name
+- `affordance_names`/`surface_profiles` params on `setup_claude_cli()`:
+  a consumer-supplied `Iterable[str]` registering its own affordance
+  catalog (`register_claude_affordances()`, idempotent across repeated
+  calls) and a `dict[str, RenderProfile]` populating the `--surface`
+  flag's choices; `get_surface_profiles()` getter added alongside;
+  `--surface` is omitted entirely when a consumer never configures
+  `surface_profiles`
 - `DEFAULT_SPARSENESS` constant (`kaye_engine/cli/__init__.py`), the shared
   default for every CLI entry point accepting a `sparseness` param
 - `generate_user_system_prompt()`, rendering the Chat (optionally +Coder)
@@ -65,34 +73,36 @@ todo todo utilize personalities, allow multi agent conversation
 - `resolve_dynamic_node_factory`, the single canonical-name resolver
   (`kaye_engine/prompt/dynamic_nodes/registry.py`) now shared by the
   corpus loader and the `dynamic-node` CLI
-- `git`, `Claude`, `ClaudeChat`, `ClaudeCowork`, `ClaudeCode` registered to
-  the Claude affordance catalog (`claude_affordances.py`); `Claude` and the
-  per-surface identity affordances are auto-checkmarked by
-  `ClaudeSurface.as_affordances()` alongside each surface's tool
-  affordances
-- `docs/affordance-doc.md`, the Claude affordance/surface reference,
-  replacing the tables `docs/claude-doc.md` used to carry inline
-- `conditional_sidecars`/`affordances` params on `register_blueprint()`
-  and the `Exportable` base class, letting a registry entry carry its
-  own default surface derivation applied whenever a caller renders it
-  without passing those kwargs explicitly
+- `render_profile` param on `register_blueprint()` and the `Exportable`
+  base class (a `RenderProfile`, default `RenderProfile()`), letting a
+  registry entry carry its own default render settings — including
+  `conditional_sidecars`/`affordances` — merged (not clobbered) with
+  whatever a caller passes at render time
+- `kaye_engine/exportable/` package (`base.py`, `registry.py`),
+  replacing the single `kaye_engine/exportable.py` module
+- `disable_remark` param on `register_abbr_glossary()`,
+  `AbbrEntry.as_md_list_entry()`, and `GlossaryNode.content_lines()`,
+  omitting the `(...)` remark suffix from rendered entries; a glossary's
+  registered default may be overridden per render
 
 ### Changed
 
-- `ClaudeSurface.as_affordances()` now folds each surface's identity
-  directly into its returned affordance names (the universal `Claude`
-  plus, for `chat`/`cowork`/`code`, a per-surface identity affordance
-  such as `ClaudeCode`; `vsc` has none of its own), replacing the former
-  plain `for Claude <surface>` sidecar names that `as_contained_sidecars`
-  used to append separately — every name it returns is now bracket-wrapped
-- `docs/claude-doc.md` trimmed to a pointer at `docs/affordance-doc.md`
-  in place of its inline affordance tables
+- Claude surface derivation moved out of `kaye-engine` entirely: the
+  `ClaudeSurface` enum and its `as_affordances()`/
+  `as_contained_sidecars()` methods, and the `claude_affordances.py`
+  hardcoded catalog, are removed — a consumer project now supplies its
+  own `surface_profiles` (`dict[str, RenderProfile]`, keying each
+  surface name to the affordances/conditional sidecars it checkmarks)
+  and `affordance_names` to `setup_claude_cli()`, keeping `kaye-engine`
+  agnostic to what surfaces or affordances exist
+- `docs/claude-doc.md` trimmed to drop the removed affordance/surface
+  tables; `docs/affordance-doc.md` removed with them
 - `generate_user_system_prompt()` no longer hard-checkmarks an
   `Agentic` → `Claude Behavior` node by name; a consumer corpus now
   opts Claude-specific content into CLAUDE.md via the `{[Claude] Usage}`
   affordance sidecar instead, checkmarked through the existing
-  `affordances=surface.as_affordances()` render path — updated
-  `docs/claude-doc.md`'s Consumer Requirement section to match
+  `affordances=...` render path — updated `docs/claude-doc.md`'s
+  Consumer Requirement section to match
 - `setup_claude_cli()` now takes a `display_name` argument, letting each
   consumer stamp its own `plugin.json` `display_name` instead of the
   hardcoded `DISPLAY_NAME` constant, which is removed
@@ -101,10 +111,9 @@ todo todo utilize personalities, allow multi agent conversation
   `get_affordance`
 - `claude` CLI export functions' `contains_sidecars` param renamed to
   `affordances`; hardcoded per-surface sidecar tuples dropped in favor of
-  deriving from `ClaudeSurface`
-- rewrote `docs/claude-doc.md` and `docs/sidecar-node-doc.md`: replaced
-  tool inventory/sidecar matrix tables with affordance registry
-  reference, cross-linked the two docs
+  deriving from consumer-configured `surface_profiles`
+- rewrote `docs/sidecar-node-doc.md`: replaced tool inventory/sidecar
+  matrix tables with affordance registry reference
 - `kaye-engine claude user-system-prompt` (`usp`) now prints the rendered
   prompt to stdout instead of writing it to a file; the `PROMPT_FILE`
   positional argument is removed
@@ -139,9 +148,11 @@ todo todo utilize personalities, allow multi agent conversation
   user-system-prompt, code) now threads a single `render_kwargs` dict
   end-to-end instead of individual `surface`/`sparseness`/
   `show_comment` params
-- `BlueprintRegistry.content()` now applies the registry entry's own
-  `conditional_sidecars`/`affordances` as defaults (via
-  `dict.setdefault`) unless the caller passes explicit values
+- `BlueprintRegistry.content(*, profile=None, **kwargs)` now merges any
+  caller-supplied `RenderProfile` with the registry entry's own
+  `render_profile` via `RenderProfile.merge()`, rather than clobbering
+  it — a caller-supplied field wins per-field, an unset one falls
+  through to the entry's default
 - `load_blueprint_from_args()` now returns a 3-tuple `(blueprint,
   display_name, registry)`; `registry` is `None` when loaded from
   stdin
@@ -151,13 +162,13 @@ todo todo utilize personalities, allow multi agent conversation
   loaded from the registry
 - `Skill.from_exportable()` now calls `exportable.content(...)`
   instead of `exportable.blueprint.generate_prompt()` directly, so
-  registry-level `conditional_sidecars`/`affordances` defaults apply
-  to `claude skill` export too
-- `resolve_render_options()` now omits `affordances`/
-  `conditional_sidecars` from the returned kwargs entirely (rather
-  than defaulting to `None`/`()`) when neither the corresponding flag
-  nor `--surface` was passed, so a registry-level default can still
-  apply via `dict.setdefault`
+  registry-level `render_profile` defaults apply to `claude skill`
+  export too
+- `resolve_render_profile()` now omits `affordances`/
+  `conditional_sidecars` from the returned `RenderProfile` entirely
+  (rather than defaulting to `None`/`()`) when neither the
+  corresponding flag nor `--surface` was passed, so a registry-level
+  default can still apply via `RenderProfile.merge()`
 - `registry.py`'s `__all__` sorted alphabetically
 - `ShorthandNode` renamed `DecodeOnlyAbbrNode` (`shorthand_node.py` →
   `decode_only_abbr_node.py`); its `NAME`/CLI keyword renamed
