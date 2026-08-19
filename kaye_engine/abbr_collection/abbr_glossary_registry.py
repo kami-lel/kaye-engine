@@ -40,12 +40,16 @@ class AbbrGlossaryRegistry:
             :attr:`AbbrEntry.priority` instead of insertion order by
             default; defaults to False
     :type is_sorted: bool, optional
+    :param disable_remark: render entries without the ``(...)`` remark
+            suffix by default; defaults to False
+    :type disable_remark: bool, optional
     """
 
     name: str
     is_exportable: bool
     uses_numbered_list: bool = False
     is_sorted: bool = False
+    disable_remark: bool = False
 
 
 # Main Entry Point  ############################################################
@@ -54,7 +58,11 @@ abbr_glossary_registry = {}
 
 
 def register_abbr_glossary(
-    name, is_exportable, uses_numbered_list=False, is_sorted=False
+    name,
+    is_exportable,
+    uses_numbered_list=False,
+    is_sorted=False,
+    disable_remark=False,
 ):
     """
     create an `AbbrGlossaryRegistry` and insert it into
@@ -78,7 +86,7 @@ def register_abbr_glossary(
         )
 
     reg = AbbrGlossaryRegistry(
-        name, is_exportable, uses_numbered_list, is_sorted
+        name, is_exportable, uses_numbered_list, is_sorted, disable_remark
     )
     abbr_glossary_registry[name] = reg
 
