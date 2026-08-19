@@ -24,6 +24,7 @@ def gen_glossary_content_lines(
     is_sorted=None,
     uses_numbered_list=None,
     glossary_priority_threshold=None,
+    disable_remark=None,
 ):
     """
     :param is_sorted: sort by ascending priority instead of insertion
@@ -37,6 +38,9 @@ def gen_glossary_content_lines(
             is greater than this value from rendering; ``None`` (the
             default) disables this filtering
     :type glossary_priority_threshold: int, optional
+    :param disable_remark: omit the ``(...)`` remark suffix; defaults to
+            the glossary's registered ``disable_remark``
+    :type disable_remark: bool, optional
     :return: markdown list items for ``glossary_name``'s entries;
             empty when the abbr data singleton is empty
     :rtype: list[str]
@@ -51,6 +55,8 @@ def gen_glossary_content_lines(
         is_sorted = reg.is_sorted
     if uses_numbered_list is None:
         uses_numbered_list = reg.uses_numbered_list
+    if disable_remark is None:
+        disable_remark = reg.disable_remark
 
     entries = tuple(
         entry
@@ -68,11 +74,14 @@ def gen_glossary_content_lines(
 
     if uses_numbered_list:
         return [
-            entry.as_md_list_entry(number=i)
+            entry.as_md_list_entry(number=i, disable_remark=disable_remark)
             for i, entry in enumerate(entries, start=1)
         ]
 
-    return [entry.as_md_list_entry() for entry in entries]
+    return [
+        entry.as_md_list_entry(disable_remark=disable_remark)
+        for entry in entries
+    ]
 
 
 class GlossaryNode(DynamicNode):  ##############################################
@@ -96,6 +105,7 @@ class GlossaryNode(DynamicNode):  ##############################################
         is_sorted=None,
         uses_numbered_list=None,
         glossary_priority_threshold=None,
+        disable_remark=None,
         **kwargs
     ):
         return self._preface + gen_glossary_content_lines(
@@ -103,6 +113,7 @@ class GlossaryNode(DynamicNode):  ##############################################
             is_sorted=is_sorted,
             uses_numbered_list=uses_numbered_list,
             glossary_priority_threshold=glossary_priority_threshold,
+            disable_remark=disable_remark,
         )
 
     def __copy__(self):
