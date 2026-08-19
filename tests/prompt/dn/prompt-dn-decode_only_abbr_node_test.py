@@ -1,7 +1,7 @@
 """
-prompt-dn-shorthand_node_test.py
+prompt-dn-decode_only_abbr_node_test.py
 
-Unit Tests (using pytest) for: ShorthandNode, GlossaryNode,
+Unit Tests (using pytest) for: DecodeOnlyAbbrNode, GlossaryNode,
 covering the case where the abbr data singleton is empty
 """
 
@@ -9,10 +9,9 @@ import logging
 from unittest.mock import patch
 
 import pytest
-
 from kaye_engine import LOGGER_NAME
 from kaye_engine.abbr_collection import AbbrData, AbbrMeaning
-from kaye_engine.prompt.dynamic_nodes import ShorthandNode, GlossaryNode
+from kaye_engine.prompt.dynamic_nodes import DecodeOnlyAbbrNode, GlossaryNode
 
 _GLOSSARY_NAMES = (
     "usable-abbreviations",
@@ -47,9 +46,7 @@ class TestGlossaryNodesEmpty:
 
         print(opt)
         assert opt == []
-        assert any(
-            rec.levelno == logging.ERROR for rec in caplog.records
-        )
+        assert any(rec.levelno == logging.ERROR for rec in caplog.records)
 
     def test_heading_and_glossary_name(_):
         testee = GlossaryNode(None, glossary_name="coding-terms")
@@ -132,11 +129,11 @@ class TestGlossaryNodeSorting:  # =============================================
         ]
 
 
-# ShorthandNode  ################################################################
-class TestShorthandNodeEmpty:
+# DecodeOnlyAbbrNode  ################################################################
+class TestDecodeOnlyAbbrNodeEmpty:
 
     def test_content_lines_no_query(_, empty_abbr_data, caplog):
-        testee = ShorthandNode(None)
+        testee = DecodeOnlyAbbrNode(None)
 
         with patch(
             "kaye_engine.prompt.dynamic_nodes.shorthand_tag_nodes.get_abbr_data",
@@ -147,15 +144,13 @@ class TestShorthandNodeEmpty:
 
         print(opt)
         assert opt == []
-        assert any(
-            rec.levelno == logging.ERROR for rec in caplog.records
-        )
+        assert any(rec.levelno == logging.ERROR for rec in caplog.records)
 
     def test_content_lines_with_query(_, empty_abbr_data, caplog):
-        testee = ShorthandNode(None)
+        testee = DecodeOnlyAbbrNode(None)
 
         with patch(
-            "kaye_engine.prompt.dynamic_nodes.shorthand_node.get_abbr_data",
+            "kaye_engine.prompt.dynamic_nodes.decode_only_abbr_node.get_abbr_data",
             return_value=empty_abbr_data,
         ):
             with caplog.at_level(logging.ERROR, logger=LOGGER_NAME):
@@ -163,6 +158,4 @@ class TestShorthandNodeEmpty:
 
         print(opt)
         assert opt == []
-        assert any(
-            rec.levelno == logging.ERROR for rec in caplog.records
-        )
+        assert any(rec.levelno == logging.ERROR for rec in caplog.records)

@@ -159,6 +159,10 @@ todo todo utilize personalities, allow multi agent conversation
   nor `--surface` was passed, so a registry-level default can still
   apply via `dict.setdefault`
 - `registry.py`'s `__all__` sorted alphabetically
+- `ShorthandNode` renamed `DecodeOnlyAbbrNode` (`shorthand_node.py` →
+  `decode_only_abbr_node.py`); its `NAME`/CLI keyword renamed
+  `shorthand` → `decode-only-abbr`, matching the CLI keyword convention
+  every other dynamic node already follows (mirrors its `NAME` slug)
 
 ### Deprecated
 

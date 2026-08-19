@@ -5,9 +5,9 @@ Unit Tests (using pytest) for: PromptBlueprint.parse()
 """
 
 from kaye_engine.prompt.dynamic_nodes import (
-    TodayNode,
-    ShorthandNode,
+    DecodeOnlyAbbrNode,
     GlossaryNode,
+    TodayNode,
 )
 
 
@@ -22,12 +22,12 @@ class TestDynamics:
         assert node in bp
         assert bp.is_checkmarked(node)
 
-    def test_shorthand_node(_, dynamic_bp_testee3):
+    def test_decode_only_abbr_node(_, dynamic_bp_testee3):
         bp = dynamic_bp_testee3
         print(bp.generate_blueprint(content_preview_lines=0))
 
         node = bp.corpus["(decode-only-abbr)"]
-        assert isinstance(node, ShorthandNode)
+        assert isinstance(node, DecodeOnlyAbbrNode)
         assert node in bp
         assert bp.is_checkmarked(node)
 
@@ -51,12 +51,12 @@ class TestDynamics:
 
     # use dynamic_bp_testee1  --------------------------------------------------
 
-    def test_mux_shorthand(_, dynamic_bp_testee1):
+    def test_mux_decode_only_abbr(_, dynamic_bp_testee1):
         print(dynamic_bp_testee1.generate_blueprint(content_preview_lines=0))
 
         node = dynamic_bp_testee1.corpus["(decode-only-abbr)"]
 
-        assert isinstance(node, ShorthandNode)
+        assert isinstance(node, DecodeOnlyAbbrNode)
 
     def test_mux_plc(_, dynamic_bp_testee1):
         print(dynamic_bp_testee1.generate_blueprint(content_preview_lines=0))

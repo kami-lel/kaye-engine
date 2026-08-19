@@ -30,7 +30,7 @@ class TestListAllNodeTypeNames:
         expected_glossary_names = sorted(abbr_glossary_registry)
 
         assert opt == (
-            ["today", "shorthand"]
+            ["today", "decode-only-abbr"]
             + expected_tag_names
             + expected_glossary_names
         )

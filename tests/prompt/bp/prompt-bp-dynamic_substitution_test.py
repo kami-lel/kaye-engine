@@ -66,7 +66,7 @@ class TestUnresolvedPlaceholder:
 
 class TestKwargsThreadThrough:
 
-    def test_query_reaches_shorthand_node(_):
+    def test_query_reaches_decode_only_abbr_node(_):
         opt = apply_dynamic_substitutions(
             "(((decode-only-abbr)))", query=""
         )

@@ -49,9 +49,9 @@ def _build_description():
 renders a single blueprint merged from every given NODE dynamic node,
 result is printed to stdout
 
-when NODE=shorthand, reads query content from stdin, optional:
+when NODE=decode-only-abbr, reads query content from stdin, optional:
 
-    echo "use an algo to calc the avg" | kaye-engine dynamic-node shorthand
+    echo "use an algo to calc the avg" | kaye-engine dynamic-node decode-only-abbr
 
 run to list available NODE values:
 

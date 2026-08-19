@@ -9,11 +9,12 @@ from kaye_engine.abbr_collection import AbbrTags
 from kaye_engine.prompt.dynamic_nodes.shorthand_tag_nodes import (
     gen_shorthand_content_lines,
 )
+
 from .dynamic_node import DynamicNode
 
-__all__ = ("AbbrTagNode", "ABBR_TAG_NODE_MEMBERS", "slug_for_abbr_tag")
+__all__ = ("ABBR_TAG_NODE_MEMBERS", "AbbrTagNode", "slug_for_abbr_tag")
 
-# excluded from ABBR_TAG_NODE_MEMBERS: already covered by ShorthandNode's
+# excluded from ABBR_TAG_NODE_MEMBERS: already covered by DecodeOnlyAbbrNode's
 # no-query fallback
 _EXCLUDED_ABBR_TAGS = frozenset({AbbrTags.always_understand})
 
@@ -39,7 +40,9 @@ def slug_for_abbr_tag(abbr_tag):
     return abbr_tag.name.replace("_", "-").lower()
 
 
-class AbbrTagNode(DynamicNode):  ################################################
+class AbbrTagNode(
+    DynamicNode
+):  ################################################
     """
     dynamic node that provides every abbr entry tagged with a single
     ``AbbrTags`` member -- unlike the fixed set of dynamic node types in
@@ -59,6 +62,4 @@ class AbbrTagNode(DynamicNode):  ###############################################
         return self._preface + gen_shorthand_content_lines(self.abbr_tag)
 
     def __copy__(self):
-        return type(self)(
-            None, abbr_tag=self.abbr_tag, preface=self._preface
-        )
+        return type(self)(None, abbr_tag=self.abbr_tag, preface=self._preface)
