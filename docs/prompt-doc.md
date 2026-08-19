@@ -89,7 +89,7 @@ E.g.
 >>> str(corpus_node)
 "PromptCorpusNode(Introduction#Data#Advanced)"
 >>> str(abbr_node)
-"ShorthandNode(Introduction#Data#(decode-only-abbr))"
+"DecodeOnlyAbbrNode(Introduction#Data#(decode-only-abbr))"
 ```
 
 ----
@@ -224,7 +224,7 @@ classDiagram
     BasePromptNode <|-- PromptCorpusNode
     BasePromptNode <|-- DynamicNode
     DynamicNode <|-- TodayNode
-    DynamicNode <|-- ShorthandNode
+    DynamicNode <|-- DecodeOnlyAbbrNode
     DynamicNode <|-- GlossaryNode
     DynamicNode <|-- AbbrTagNode
     AbbrTagNode : +AbbrTags tag
