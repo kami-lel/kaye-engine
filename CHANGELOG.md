@@ -3,6 +3,7 @@
 [^format]
 
 <!--
+fixme affordance vs toolset: affordance = toolsets + fallback
 todo todo CLI to import/export w/ OpenWebUI
 todo todo utilize personalities, allow multi agent conversation
 -->
@@ -29,7 +30,7 @@ todo todo utilize personalities, allow multi agent conversation
   tracking platform capabilities and deriving Usage/Lack sidecar names
 - `affordances` kwarg on `render_prompt_lines`, auto-checkmarking sidecars
   per surface
-- `kaye-engine affordance`/`a` CLI subcommand, listing every
+- `kaye-engine affordance` CLI subcommand, listing every
   `affordance_registry` name, sorted
 - `kaye-engine glossary`/`g` CLI subcommand, printing a registered
   glossary's content (`glossary ls` lists every registered name)
@@ -84,6 +85,10 @@ todo todo utilize personalities, allow multi agent conversation
   `AbbrEntry.as_md_list_entry()`, and `GlossaryNode.content_lines()`,
   omitting the `(...)` remark suffix from rendered entries; a glossary's
   registered default may be overridden per render
+- `term_definition` `AbbrTags` value, rendering an entry as a bare
+  term-definition list item (`mean` alone, or `mean (remark)`) instead
+  of the default `abbr:mean` decode format in
+  `AbbrEntry.as_md_list_entry()`
 
 ### Changed
 
@@ -135,8 +140,8 @@ todo todo utilize personalities, allow multi agent conversation
   substitution are unified under one Dynamic Substitution section
 - `kaye-engine export` CLI subcommand renamed `exportable` (alias `x`
   kept)
-- `claude`'s `anthropic`/`a` aliases dropped in favor of a single `c`,
-  freeing `a` for the new `affordance` subcommand
+- `claude`'s `anthropic` alias dropped; `a` is retained on `claude`
+  and not moved to the new `affordance` subcommand, which has no alias
 - `Exportable.content()` widened to `content(self, **render_kwargs)`;
   `BlueprintRegistry.content()` forwards the kwargs straight into
   `generate_prompt()` (drops the hardcoded `sparseness=0`);
@@ -187,9 +192,17 @@ todo todo utilize personalities, allow multi agent conversation
   root regardless of where the heading sits
 - documented the Coder-blueprint merge contract (`coder_bp_name` is
   merged into Chat via `|` to build the `-c` prompt, and may also stand
-  alone as its own exportable Skill) in `blueprint_name.py`,
+  alone as its own exportable Skill) in `exportable_name.py`,
   `setup.py`, and `docs/claude-doc.md`; cleared the resolved
   FIXME/Todo comments this settles in `user_prompt/export.py`
+- `AGENTS.md`/`CONTEXT.md` cited nonexistent `get_claude_chat_blueprint()`/
+  `get_claude_coder_blueprint()`; corrected to the actual
+  `get_claude_chat_exportable()`/`get_claude_chat_coder_exportable()`
+  getters in `exportable_name.py`
+- `docs/abbrs-doc.md`'s `AbbrTags` value list omitted `term_definition`;
+  added
+- README's core-concepts list never linked
+  `docs/exportable-registry-doc.md`; added
 
 ### Security
 

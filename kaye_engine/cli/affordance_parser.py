@@ -30,10 +30,7 @@ def register_affordance_parser(cli_subparser):
     register the ``kaye-engine affordance`` subcommand parser
     """
     affordance_parser = cli_subparser.add_parser(
-        "affordance",
-        help=_HELP,
-        description=_DESCRIPTION,
-        aliases=["a"],
+        "affordance", help=_HELP, description=_DESCRIPTION
     )
 
     affordance_parser.set_defaults(func=_affordance_main)

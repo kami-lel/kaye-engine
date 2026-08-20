@@ -46,18 +46,10 @@ class TestRegisterAffordanceParser:
 
         assert args.func is affordance_parser._affordance_main
 
-    def test_registers_a_alias(self):
-        parser = _build_affordance_parser()
-        args = parser.parse_args(["a"])
-
-        assert args.func is affordance_parser._affordance_main
-
 
 class TestAffordanceMain:
 
-    def test_lists_registered_affordances_sorted(
-        self, _fake_registry, capsys
-    ):
+    def test_lists_registered_affordances_sorted(self, _fake_registry, capsys):
         parser = _build_affordance_parser()
         args = parser.parse_args(["affordance"])
         args.func(args)
