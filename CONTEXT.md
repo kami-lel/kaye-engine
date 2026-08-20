@@ -157,8 +157,8 @@ to surface a bare-checkout misuse early, not to enforce the boundary. The
 plugin name, display name, marketplace name, Chat/Coder blueprint names,
 version, and marketplace folder name are enforced separately, each by its own
 getter (`get_plugin_name()`, `get_claude_cli_display_name()`,
-`get_marketplace_name()`, `get_claude_chat_blueprint()`,
-`get_claude_coder_blueprint()`, `get_claude_cli_consumer_version()`,
+`get_marketplace_name()`, `get_claude_chat_exportable()`,
+`get_claude_chat_coder_exportable()`, `get_claude_cli_consumer_version()`,
 `get_marketplace_folder_name()`), which logs `logger.critical` and raises
 `SystemExit(1)` when unset — or, for the blueprint getters, when the
 configured name is not in `blueprint_registry` — rather than letting `None`
