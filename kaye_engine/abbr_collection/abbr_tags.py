@@ -28,5 +28,9 @@ class AbbrTags(Flag):
     ascii_only = auto()
     emoji = auto()
 
+    # rendering  -----------------------------------------------------------
+
+    term_definition = auto()
+
     WORD_CHARACTER = letters_only | word_character_only
     ASCII = WORD_CHARACTER | ascii_only

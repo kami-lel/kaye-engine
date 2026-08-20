@@ -38,6 +38,7 @@ Other core concepts:
 - 🎭 role: task-specific **Behavior Profile** inside the corpus shaping response style and scope
 - 📝 prompt: final **Rendered Text** tailored to a context and ready for direct use
 - 🌲 blueprint: tree **Selection Spec** that controls which corpus parts are rendered
+- 📦 exportable: **Registry Entry** unifying blueprints and abbreviation/glossary groups under one exportable name — Q.v. [`Exportable` registry documentation](docs/exportable-registry-doc.md)
 - 🔀 dynamic node: corpus node whose content is **Generated** at render time — Q.v. [Dynamic Node documentation](docs/dynamic-content-doc.md)
 - 🗂️ sidecar node: corpus node holding structured **Metadata** about its parent — Q.v. [Sidecar Node documentation](docs/sidecar-node-doc.md)
 

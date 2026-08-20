@@ -103,11 +103,12 @@ kaye-engine glossary ls                     # list every registered glossary nam
 ```
 
 Aliases: `blueprint` → `bp`; `blueprint show` → `bp s`; `blueprint
-generate` → `bp gen`/`bp g`; `dynamic-node` → `dn`; `claude` → `c` (was
-`anthropic`/`a`); `claude code` → `claude c`; `claude marketplace` →
-`claude m`; `claude plugin` → `claude p`; `claude skill` → `claude s`;
-`claude user-system-prompt` → `claude usp`; `claude vs-code-extension`
-→ `claude v`; `exportable` → `x`; `affordance` → `a`; `glossary` → `g`.
+generate` → `bp gen`/`bp g`; `dynamic-node` → `dn`; `claude` → `a` (was
+also `anthropic`, now dropped); `claude code` → `claude c`; `claude
+marketplace` → `claude m`; `claude plugin` → `claude p`; `claude skill`
+→ `claude s`; `claude user-system-prompt` → `claude usp`; `claude
+vs-code-extension` → `claude v`; `exportable` → `x`; `glossary` → `g`.
+`affordance` has no alias.
 
 **Rendering commands** — any subcommand that reaches
 `PromptBlueprint.generate_prompt(...)`, directly or via
@@ -170,8 +171,8 @@ there is no default for any of the seven. `display_name` is stamped into
 the former hardcoded `DISPLAY_NAME` constant in `kaye_engine/__init__.py`. On
 a bare checkout, or when `setup_claude_cli(...)` was never called,
 `get_plugin_name()`, `get_claude_cli_display_name()`,
-`get_marketplace_name()`, `get_claude_chat_blueprint()`,
-`get_claude_coder_blueprint()`, `get_claude_cli_consumer_version()`, and
+`get_marketplace_name()`, `get_claude_chat_exportable()`,
+`get_claude_chat_coder_exportable()`, `get_claude_cli_consumer_version()`, and
 `get_marketplace_folder_name()` each log `logger.critical` and raise
 `SystemExit(1)`; the blueprint getters do the same when the configured name
 is not a registered blueprint — expected, not a bug.
