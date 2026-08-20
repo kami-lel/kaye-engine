@@ -4,6 +4,7 @@
 
 <!--
 Todo affordance group
+Todo for glossary, add term definition mode
 todo todo CLI to import/export w/ OpenWebUI
 todo todo utilize personalities, allow multi agent conversation
 -->
