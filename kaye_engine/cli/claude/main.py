@@ -19,6 +19,8 @@ def register_cli_claude_parser(  ###############################################
         "claude",
         help=__doc__,
         description=__doc__,
+        # BUG CHANGELOG.md:139 claims this alias dropped for "c", freeing
+        # "a" for `affordance`; neither change landed here
         aliases=["a"],
     )
 

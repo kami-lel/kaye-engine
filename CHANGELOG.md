@@ -3,8 +3,7 @@
 [^format]
 
 <!--
-Todo affordance group
-Todo for glossary, add term definition mode
+fixme affordance vs toolset: affordance = toolsets + fallback
 todo todo CLI to import/export w/ OpenWebUI
 todo todo utilize personalities, allow multi agent conversation
 -->
@@ -189,7 +188,7 @@ todo todo utilize personalities, allow multi agent conversation
   root regardless of where the heading sits
 - documented the Coder-blueprint merge contract (`coder_bp_name` is
   merged into Chat via `|` to build the `-c` prompt, and may also stand
-  alone as its own exportable Skill) in `blueprint_name.py`,
+  alone as its own exportable Skill) in `exportable_name.py`,
   `setup.py`, and `docs/claude-doc.md`; cleared the resolved
   FIXME/Todo comments this settles in `user_prompt/export.py`
 

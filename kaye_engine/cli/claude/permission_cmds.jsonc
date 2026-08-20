@@ -7,7 +7,6 @@
 ################################################################################
 */
 
-// TODO update git worktree related
 // todo update permission for agent work w/ worktree
 {
   "allow": [  //  ##############################################################

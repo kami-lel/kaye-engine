@@ -29,6 +29,8 @@ def register_affordance_parser(cli_subparser):
     """
     register the ``kaye-engine affordance`` subcommand parser
     """
+    # BUG AGENTS.md:110 documents `affordance` -> `a`; no alias is
+    # registered here, and `claude` still holds "a" (cli/claude/main.py:22)
     affordance_parser = cli_subparser.add_parser(
         "affordance", help=_HELP, description=_DESCRIPTION
     )

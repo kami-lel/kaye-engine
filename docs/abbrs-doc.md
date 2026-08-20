@@ -322,6 +322,9 @@ before this entry is loaded, or loading raises `ValueError`.
 Fixed `AbbrTags` values:
 
 - `"common"`: common abbreviations that any person might understand
+- `"term_definition"`: renders the entry as a term-definition list item
+  (`mean` alone, or `mean (remark)`) instead of the default `abbr:mean`
+  decode format
 - usage cases (these tags should be mutually exclusive):
 
   - `"always_understand"`: list of abbreviation always provided such LLM may understand

@@ -170,8 +170,8 @@ there is no default for any of the seven. `display_name` is stamped into
 the former hardcoded `DISPLAY_NAME` constant in `kaye_engine/__init__.py`. On
 a bare checkout, or when `setup_claude_cli(...)` was never called,
 `get_plugin_name()`, `get_claude_cli_display_name()`,
-`get_marketplace_name()`, `get_claude_chat_blueprint()`,
-`get_claude_coder_blueprint()`, `get_claude_cli_consumer_version()`, and
+`get_marketplace_name()`, `get_claude_chat_exportable()`,
+`get_claude_chat_coder_exportable()`, `get_claude_cli_consumer_version()`, and
 `get_marketplace_folder_name()` each log `logger.critical` and raise
 `SystemExit(1)`; the blueprint getters do the same when the configured name
 is not a registered blueprint — expected, not a bug.
