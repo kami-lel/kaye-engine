@@ -123,13 +123,20 @@ class AbbrEntry:
         :rtype: str
         """
         marker = "-" if number is None else "{}.".format(number)
+        is_term_definition = AbbrTags.term_definition in self.tags
 
         if not disable_remark:
             remarks = [r for r in (self.mean.remark, self.remark) if r]
             if remarks:
+                if is_term_definition:
+                    return "{} {} ({})".format(
+                        marker, self.mean, "; ".join(remarks)
+                    )
                 return "{} {}:{} ({})".format(
                     marker, self.abbr, self.mean, "; ".join(remarks)
                 )
+        if is_term_definition:
+            return "{} {}".format(marker, self.mean)
         return "{} {}:{}".format(marker, self.abbr, self.mean)
 
     def verify_found(self, found, char_before, char_after):
