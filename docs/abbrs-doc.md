@@ -93,12 +93,13 @@ Q.v. [abbreviation entries `json` file](#abbreviation-entries-json-file) below f
 
 
 
-#### `register_abbr_glossary(name, uses_numbered_list=False, is_sorted=False)`
+#### `register_abbr_glossary(name, uses_numbered_list=False, is_sorted=False, disable_remark=False)`
 
 Register a glossary name so entries may reference it via `tags` (v.i.), and set that glossary's default rendering behavior for its `GlossaryNode`:
 
 - `uses_numbered_list`: render entries with numbered markers (`"1. ..."`) instead of bullets (`"- ..."`)
 - `is_sorted`: render entries ordered by ascending `priority` instead of insertion order
+- `disable_remark`: omit the `(...)` remark suffix (v.i.) from every entry in this glossary by default
 
 ```python
 from kaye_engine.abbr_collection import register_abbr_glossary
@@ -149,14 +150,14 @@ Priority-based filtering is not a registration concern — it is supplied by the
 
 ## abbreviations-related dynamic nodes
 
-Every abbreviation-related [dynamic node](dynamic-node-doc.md) lives in `kaye_engine/prompt/dynamic_nodes/` and reads through `get_abbr_data()`.
+Every abbreviation-related [dynamic node](dynamic-content-doc.md) lives in `kaye_engine/prompt/dynamic_nodes/` and reads through `get_abbr_data()`.
 
 | Node | Heading | Source | Behavior |
 | --- | --- | --- | --- |
-| `ShorthandNode` | `(Decode-Only Shorthand)` | `shorthand_node.py` | scans a `query=` string against `get_abbr_data().automaton`, verifying each raw match with `AbbrEntry.verify_found` before including it; falls back to every `always_understand`-tagged entry when `query` is omitted |
+| `DecodeOnlyAbbrNode` | `(decode-only-abbr)` | `decode_only_abbr_node.py` | scans a `query=` string against `get_abbr_data().automaton`, verifying each raw match with `AbbrEntry.verify_found` before including it; falls back to every `always_understand`-tagged entry when `query` is omitted |
 | `GlossaryNode` | `(glossary-name)` | `glossary_node.py` | every entry whose `glossaries` array contains `glossary-name` |
 
-Unlike `ShorthandNode`, `GlossaryNode` is not a fixed engine type — one instance is created per glossary name a consumer registered via `register_abbr_glossary` (v.s.) and referenced on `AbbrEntry.glossaries` (q.v. [`tags`](#tags) below), never enumerated in `kaye-engine` code itself. Its rendering — bullets vs. numbered markers, and insertion order vs. sorted by `priority` — defaults to that glossary's registered flags, and both may be overridden per render via `content_lines(is_sorted=..., uses_numbered_list=...)`. Whether high-priority-number entries are hidden is a generation-time-only concern, not a registration default: pass `content_lines(glossary_priority_threshold=...)` (or the matching `generate_prompt(glossary_priority_threshold=...)` kwarg, since it flows through to every checkmarked node's `content_lines()`) — `None` (default) disables the filter. Q.v. [dynamic-node-doc.md](dynamic-node-doc.md) for the heading resolution order.
+Unlike `DecodeOnlyAbbrNode`, `GlossaryNode` is not a fixed engine type — one instance is created per glossary name a consumer registered via `register_abbr_glossary` (v.s.) and referenced on `AbbrEntry.glossaries` (q.v. [`tags`](#tags) below), never enumerated in `kaye-engine` code itself. Its rendering — bullets vs. numbered markers, insertion order vs. sorted by `priority`, and whether the `(...)` remark suffix appears — defaults to that glossary's registered flags, and all three may be overridden per render via `content_lines(is_sorted=..., uses_numbered_list=..., disable_remark=...)`. Whether high-priority-number entries are hidden is a generation-time-only concern, not a registration default: pass `content_lines(glossary_priority_threshold=...)` (or the matching `generate_prompt(glossary_priority_threshold=...)` kwarg, since it flows through to every checkmarked node's `content_lines()`) — `None` (default) disables the filter. Q.v. [dynamic-content-doc.md](dynamic-content-doc.md) for the heading resolution order.
 
 
 
@@ -170,9 +171,9 @@ Unlike `ShorthandNode`, `GlossaryNode` is not a fixed engine type — one instan
 
 
 
-### queried shorthand
+### queried decode-only abbr
 
-`(Decode-Only Shorthand)` needs render-time input — a piece of text to scan for abbreviation occurrences. Pass it as `query=` to `generate_prompt()` / `render.render_prompt_lines()`:
+`(decode-only-abbr)` needs render-time input — a piece of text to scan for abbreviation occurrences. Pass it as `query=` to `generate_prompt()` / `render.render_prompt_lines()`:
 
 ```python
 prompt = blueprint.generate_prompt(
@@ -180,14 +181,14 @@ prompt = blueprint.generate_prompt(
 )
 ```
 
-Given that query, `(Decode-Only Shorthand)` finds `algo` and `calc` (verifying each match against its surrounding characters to avoid false positives) and renders them as a Markdown list:
+Given that query, `(decode-only-abbr)` finds `algo` and `calc` (verifying each match against its surrounding characters to avoid false positives) and renders them as a Markdown list:
 
 ```markdown
 - algo:algorithm
 - calc:calculate
 ```
 
-If `query` is omitted or empty, `(Decode-Only Shorthand)` falls back to rendering every abbreviation tagged `always_understand`, the same way every `GlossaryNode` always does — those nodes ignore `query` entirely and simply render every entry carrying their glossary.
+If `query` is omitted or empty, `(decode-only-abbr)` falls back to rendering every abbreviation tagged `always_understand`, the same way every `GlossaryNode` always does — those nodes ignore `query` entirely and simply render every entry carrying their glossary.
 
 
 
@@ -315,12 +316,15 @@ A *required array* of *string*. Each item is resolved by trying it against
 the fixed, engine-defined `AbbrTags` enum first; anything that doesn't
 match a member is treated instead as a free-form, consumer-defined
 glossary name, which must already be registered via
-[`register_abbr_glossary`](#register_abbr_glossaryname-uses_numbered_listfalse-is_sortedfalse)
+[`register_abbr_glossary`](#register_abbr_glossaryname-uses_numbered_listfalse-is_sortedfalse-disable_remarkfalse)
 before this entry is loaded, or loading raises `ValueError`.
 
 Fixed `AbbrTags` values:
 
 - `"common"`: common abbreviations that any person might understand
+- `"term_definition"`: renders the entry as a term-definition list item
+  (`mean` alone, or `mean (remark)`) instead of the default `abbr:mean`
+  decode format
 - usage cases (these tags should be mutually exclusive):
 
   - `"always_understand"`: list of abbreviation always provided such LLM may understand
@@ -339,7 +343,7 @@ Anything else is looked up as a glossary name, e.g.:
 "tags": ["ascii_only", "coding-terms", "programming-language-codes"]
 ```
 
-Each glossary name also works as a [dynamic node](dynamic-node-doc.md)
+Each glossary name also works as a [dynamic node](dynamic-content-doc.md)
 heading: `(glossary-name)` auto-populates with every matching entry, via
 `GlossaryNode` — q.v. [abbreviations-related dynamic nodes](#abbreviations-related-dynamic-nodes).
 
@@ -368,4 +372,4 @@ Must be a *string* of these selected values:
 
 An *optional string* free-text note about this specific abbreviation (as opposed to the meaning's `remark`, which applies to every spelling). Omit this key entirely when there is no remark.
 
-When rendered as a Markdown list entry, the meaning's `remark` and the abbr's `remark` are both included (in that order, separated by `; `) when present, e.g. `- abbr:meaning (meaning remark; abbr remark)`.
+When rendered as a Markdown list entry, the meaning's `remark` and the abbr's `remark` are both included (in that order, separated by `; `) when present, e.g. `- abbr:meaning (meaning remark; abbr remark)`. Pass `disable_remark=True` to `AbbrEntry.as_md_list_entry`, `GlossaryNode.content_lines`, or `register_abbr_glossary` (v.s.) to omit this suffix regardless of either `remark` being set.

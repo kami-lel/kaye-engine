@@ -13,4 +13,5 @@ from .prompt_corpus_node import *
 from .prompt_corpus_loader import *
 from .dynamic_nodes import *
 from .sidecar_node import *
+from .affordance_registry import *
 from .blueprint import *

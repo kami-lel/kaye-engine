@@ -9,12 +9,13 @@ from dataclasses import dataclass
 from kaye_engine.exportable import Exportable, register_exportable_entry
 
 from .prompt_blueprint import PromptBlueprint
+from .render_profile import RenderProfile
 
 __all__ = (
     "BlueprintRegistry",
-    "register_blueprint",
-    "get_blueprint",
     "blueprint_registry",
+    "get_blueprint",
+    "register_blueprint",
 )
 
 
@@ -33,20 +34,59 @@ class BlueprintRegistry(Exportable):
 
     :param blueprint: the underlying blueprint
     :type blueprint: PromptBlueprint
-    :param is_internal: never export this blueprint as a Claude Agent
-            Skill; defaults to False
-    :type is_internal: bool, optional
+    :param is_exportable: whether this blueprint is exported as a Claude
+            Agent Skill; defaults to True
+    :type is_exportable: bool, optional
     """
 
     blueprint: PromptBlueprint
-    is_internal: bool = False
+    is_exportable: bool = True
 
-    def content(self):
+    def content(self, *, profile=None, **kwargs):
         """
+        :param profile: render profile merged with this registry
+                entry's own `render_profile`, not replaced by it
+        :type profile: RenderProfile, optional
+        :param kwargs: further render options (e.g. ``query``)
+                forwarded to ``PromptBlueprint.generate_prompt(...)``
         :return: this blueprint's rendered prompt
         :rtype: str
         """
-        return self.blueprint.generate_prompt(sparseness=0)
+        merged = self.render_profile
+        if profile is not None:
+            merged = merged.merge(profile)
+        return self.blueprint.generate_prompt(profile=merged, **kwargs)
+
+    def merge(self, other):
+        """
+        create a new, unregistered `BlueprintRegistry` combining
+        ``self`` and ``other``: the underlying blueprints are merged
+        via ``|``, `render_profile` is merged via
+        `RenderProfile.merge`; every other field (``canonical_name``,
+        ``display_name``, ``is_exportable``, ``user_invokable``,
+        ``llm_invokable``) is taken from ``self``
+
+
+        :param other: registry entry to merge with
+        :type other: BlueprintRegistry
+        :raises TypeError: ``other`` is not a `BlueprintRegistry`
+        :return: newly created, unregistered merged entry
+        :rtype: BlueprintRegistry
+        """
+        if not isinstance(other, BlueprintRegistry):
+            raise TypeError(
+                "cannot merge BlueprintRegistry with {}".format(type(other))
+            )
+
+        return BlueprintRegistry(
+            canonical_name=self.canonical_name,
+            display_name=self.display_name,
+            blueprint=self.blueprint | other.blueprint,
+            is_exportable=self.is_exportable,
+            user_invokable=self.user_invokable,
+            llm_invokable=self.llm_invokable,
+            render_profile=self.render_profile.merge(other.render_profile),
+        )
 
 
 # Entry Point  #################################################################
@@ -59,31 +99,27 @@ def register_blueprint(
     display_name,
     blueprint,
     *,
-    is_internal=False,
-    always_apply=False,
+    is_exportable=True,
     user_invokable=True,
     llm_invokable=True,
+    render_profile=RenderProfile(),
 ):
     """
     create a `BlueprintRegistry` and insert it into `blueprint_registry`;
-    unless ``is_internal``, the same instance is also inserted into
+    when ``is_exportable``, the same instance is also inserted into
     `exportable_registry` via `register_exportable_entry`
 
 
     :param canonical_name: kebab-case name, used directly as the
-            exported skill name when not ``is_internal``
+            exported skill name when ``is_exportable``
     :type canonical_name: str
     :param display_name: human-readable name, e.g. ``"Coder Python"``
     :type display_name: str
     :param blueprint: the underlying blueprint
     :type blueprint: PromptBlueprint
-    :param is_internal: never export this blueprint as a Claude Agent
-            Skill; defaults to False
-    :type is_internal: bool, optional
-    :param always_apply: whether this entry is unconditionally relevant
-            and should always be applied, rather than surfaced only when
-            judged relevant; defaults to False
-    :type always_apply: bool, optional
+    :param is_exportable: whether this blueprint is exported as a Claude
+            Agent Skill; defaults to True
+    :type is_exportable: bool, optional
     :param user_invokable: whether a human may deliberately invoke this
             entry by name, rather than it only ever surfacing on its
             own; defaults to True
@@ -92,12 +128,17 @@ def register_blueprint(
             into play on its own judgment, without being explicitly
             named; defaults to True
     :type llm_invokable: bool, optional
+    :param render_profile: default render settings for this entry,
+            merged with any caller-supplied profile unless the caller
+            passes its own value explicitly; defaults to a plain
+            `RenderProfile()`
+    :type render_profile: RenderProfile, optional
     :raises ValueError: ``canonical_name`` is already registered
     :return: the created registry entry
     :rtype: BlueprintRegistry
     :example:
-    >>> register_blueprint("coder", "Kaye Peer Coder", coder_blueprint, always_apply=True)
-    >>> register_blueprint("chat", "Chat", chat_blueprint, is_internal=True)
+    >>> register_blueprint("coder", "Kaye Peer Coder", coder_blueprint)
+    >>> register_blueprint("chat", "Chat", chat_blueprint, is_exportable=False)
     """
     if canonical_name in blueprint_registry:
         raise ValueError(
@@ -108,14 +149,14 @@ def register_blueprint(
         canonical_name=canonical_name,
         display_name=display_name,
         blueprint=blueprint,
-        is_internal=is_internal,
-        always_apply=always_apply,
+        is_exportable=is_exportable,
         user_invokable=user_invokable,
         llm_invokable=llm_invokable,
+        render_profile=render_profile,
     )
     blueprint_registry[canonical_name] = reg
 
-    if not is_internal:
+    if is_exportable:
         register_exportable_entry(reg)
 
     return reg

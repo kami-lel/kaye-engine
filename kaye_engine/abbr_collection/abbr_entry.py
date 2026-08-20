@@ -110,22 +110,33 @@ class AbbrEntry:
 
     # instance methods  ********************************************************
 
-    def as_md_list_entry(self, number=None):
+    def as_md_list_entry(self, number=None, disable_remark=False):
         """
         render this entry as a markdown list item
 
         :param number: numbered list item instead of a bullet, if given
         :type number: int, optional
+        :param disable_remark: omit the ``(...)`` remark suffix, even if
+                `mean.remark` or `remark` are set; defaults to False
+        :type disable_remark: bool, optional
         :return: a single markdown list item
         :rtype: str
         """
         marker = "-" if number is None else "{}.".format(number)
+        is_term_definition = AbbrTags.term_definition in self.tags
 
-        remarks = [r for r in (self.mean.remark, self.remark) if r]
-        if remarks:
-            return "{} {}:{} ({})".format(
-                marker, self.abbr, self.mean, "; ".join(remarks)
-            )
+        if not disable_remark:
+            remarks = [r for r in (self.mean.remark, self.remark) if r]
+            if remarks:
+                if is_term_definition:
+                    return "{} {} ({})".format(
+                        marker, self.mean, "; ".join(remarks)
+                    )
+                return "{} {}:{} ({})".format(
+                    marker, self.abbr, self.mean, "; ".join(remarks)
+                )
+        if is_term_definition:
+            return "{} {}".format(marker, self.mean)
         return "{} {}:{}".format(marker, self.abbr, self.mean)
 
     def verify_found(self, found, char_before, char_after):

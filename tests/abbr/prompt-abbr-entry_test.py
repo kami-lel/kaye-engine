@@ -15,6 +15,7 @@ from kaye_engine.abbr_collection import (
 MEAN = AbbrMeaning("for example")
 ABBR = "e.g."
 ABBR_OBJ = {"priority": 5, "tags": ["ascii_only", "common"], "wrap": "word"}
+TERM_DEFINITION_OBJ = {"priority": 5, "tags": ["term_definition"], "wrap": "word"}
 
 
 # err handling  ###############################################################
@@ -256,6 +257,80 @@ class TestAsMdListEntry:  # ====================================================
         entry = AbbrEntry(AbbrMeaning("for example"), "e.g.", abbr_obj)
         assert entry.as_md_list_entry(number=2) == (
             "2. e.g.:for example (casual usage only)"
+        )
+
+    def test_disable_remark_no_remark(_):
+        entry = AbbrEntry(AbbrMeaning("for example"), "e.g.", ABBR_OBJ)
+        assert entry.as_md_list_entry(disable_remark=True) == (
+            "- e.g.:for example"
+        )
+
+    def test_disable_remark_mean_remark_only(_):
+        mean = AbbrMeaning("for example", remark="Latin exempli gratia")
+        entry = AbbrEntry(mean, "e.g.", ABBR_OBJ)
+        assert entry.as_md_list_entry(disable_remark=True) == (
+            "- e.g.:for example"
+        )
+
+    def test_disable_remark_abbr_remark_only(_):
+        abbr_obj = ABBR_OBJ.copy()
+        abbr_obj["remark"] = "casual usage only"
+        entry = AbbrEntry(AbbrMeaning("for example"), "e.g.", abbr_obj)
+        assert entry.as_md_list_entry(disable_remark=True) == (
+            "- e.g.:for example"
+        )
+
+    def test_disable_remark_both_remarks(_):
+        abbr_obj = ABBR_OBJ.copy()
+        abbr_obj["remark"] = "casual usage only"
+        mean = AbbrMeaning("for example", remark="Latin exempli gratia")
+        entry = AbbrEntry(mean, "e.g.", abbr_obj)
+        assert entry.as_md_list_entry(disable_remark=True) == (
+            "- e.g.:for example"
+        )
+
+
+# .as_md_list_entry() w/ term_definition tag  ##################################
+class TestAsMdListEntryTermDefinition:  # ======================================
+
+    def test_no_remark(_):
+        entry = AbbrEntry(AbbrMeaning("for example"), "e.g.", TERM_DEFINITION_OBJ)
+        assert entry.as_md_list_entry() == "- for example"
+
+    def test_mean_remark_only(_):
+        mean = AbbrMeaning("for example", remark="Latin exempli gratia")
+        entry = AbbrEntry(mean, "e.g.", TERM_DEFINITION_OBJ)
+        assert entry.as_md_list_entry() == (
+            "- for example (Latin exempli gratia)"
+        )
+
+    def test_abbr_remark_only(_):
+        abbr_obj = TERM_DEFINITION_OBJ.copy()
+        abbr_obj["remark"] = "casual usage only"
+        entry = AbbrEntry(AbbrMeaning("for example"), "e.g.", abbr_obj)
+        assert entry.as_md_list_entry() == (
+            "- for example (casual usage only)"
+        )
+
+    def test_both_remarks(_):
+        abbr_obj = TERM_DEFINITION_OBJ.copy()
+        abbr_obj["remark"] = "casual usage only"
+        mean = AbbrMeaning("for example", remark="Latin exempli gratia")
+        entry = AbbrEntry(mean, "e.g.", abbr_obj)
+        assert entry.as_md_list_entry() == (
+            "- for example (Latin exempli gratia; casual usage only)"
+        )
+
+    def test_number_no_remark(_):
+        entry = AbbrEntry(AbbrMeaning("for example"), "e.g.", TERM_DEFINITION_OBJ)
+        assert entry.as_md_list_entry(number=1) == "1. for example"
+
+    def test_disable_remark_with_remark(_):
+        abbr_obj = TERM_DEFINITION_OBJ.copy()
+        abbr_obj["remark"] = "casual usage only"
+        entry = AbbrEntry(AbbrMeaning("for example"), "e.g.", abbr_obj)
+        assert entry.as_md_list_entry(disable_remark=True) == (
+            "- for example"
         )
 
 

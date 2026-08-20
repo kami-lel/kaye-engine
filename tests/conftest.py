@@ -20,4 +20,4 @@ for _glossary_name in (
     "other-glossary",
     "g",
 ):
-    register_abbr_glossary(_glossary_name)
+    register_abbr_glossary(_glossary_name, True)

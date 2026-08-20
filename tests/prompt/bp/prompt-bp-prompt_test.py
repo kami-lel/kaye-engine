@@ -7,22 +7,25 @@ Unit Tests (using pytest) for: PromptBlueprint.generate_prompt()
 import re
 
 from kaye_engine.prompt import PromptBlueprint
-from kaye_engine.prompt.prompt_corpus_node import PromptCorpusNode
 from kaye_engine.prompt.blueprint.render import REPLACEMENT_NEWLINE_SYMBOL
+from kaye_engine.prompt.blueprint.render_profile import RenderProfile
+from kaye_engine.prompt.dynamic_nodes import TodayNode
+from kaye_engine.prompt.prompt_corpus_node import PromptCorpusNode
 
 from tests.prompt.bp import (
-    BLUEPRINT_1_FULL,
     BLUEPRINT_1_EMPTY,
+    BLUEPRINT_1_FULL,
     BLUEPRINT_1_PARTIAL_1,
     BLUEPRINT_1_PARTIAL_2,
-    BLUEPRINT_2_FULL,
     BLUEPRINT_2_EMPTY,
+    BLUEPRINT_2_FULL,
+    BLUEPRINT_3_EMPTY,
     BLUEPRINT_3_FULL,
     BLUEPRINT_3_PARTIAL_1,
     BLUEPRINT_3_PARTIAL_2,
-    BLUEPRINT_3_EMPTY,
     _split_content_and_comment,
 )
+
 
 class Test1:  # with PROMPT1  ##################################################
 
@@ -30,7 +33,7 @@ class Test1:  # with PROMPT1  ##################################################
         bp_text = BLUEPRINT_1_FULL
         bp = PromptBlueprint.parse(bp_text, corpus_tree=corpus_testee1)
 
-        opt = bp.generate_prompt(show_comment=True)
+        opt = bp.generate_prompt(profile=RenderProfile(show_comment=True))
 
         print(opt)
         content, comment = _split_content_and_comment(opt)
@@ -52,7 +55,7 @@ Licensed under the MIT License."""
         bp_text = BLUEPRINT_1_PARTIAL_1
         bp = PromptBlueprint.parse(bp_text, corpus_tree=corpus_testee1)
 
-        opt = bp.generate_prompt(show_comment=False)
+        opt = bp.generate_prompt(profile=RenderProfile(show_comment=False))
 
         print(opt)
         assert opt == """## Description
@@ -68,7 +71,7 @@ Licensed under the MIT License."""
         bp_text = BLUEPRINT_1_PARTIAL_2
         bp = PromptBlueprint.parse(bp_text, corpus_tree=corpus_testee1)
 
-        opt = bp.generate_prompt(show_comment=False)
+        opt = bp.generate_prompt(profile=RenderProfile(show_comment=False))
 
         print(opt)
         assert opt == """# Project Title
@@ -82,7 +85,7 @@ Licensed under the MIT License."""
         bp_text = BLUEPRINT_1_EMPTY
         bp = PromptBlueprint.parse(bp_text, corpus_tree=corpus_testee1)
 
-        opt = bp.generate_prompt(show_comment=False)
+        opt = bp.generate_prompt(profile=RenderProfile(show_comment=False))
 
         print(opt)
         assert opt == ""
@@ -94,7 +97,7 @@ class Test2:  # with PROMPT2  ##################################################
         bp_text = BLUEPRINT_2_FULL
         bp = PromptBlueprint.parse(bp_text, corpus_tree=corpus_testee2)
 
-        opt = bp.generate_prompt(show_comment=False)
+        opt = bp.generate_prompt(profile=RenderProfile(show_comment=False))
 
         print(opt)
         assert opt == """# Project Title
@@ -123,7 +126,7 @@ This project is licensed under the MIT License."""
     def test_part1(_, bp_testee2pa1):
         bp = bp_testee2pa1
 
-        opt = bp.generate_prompt(show_comment=False)
+        opt = bp.generate_prompt(profile=RenderProfile(show_comment=False))
 
         print(opt)
         assert opt == """# Project Title
@@ -141,7 +144,7 @@ This project is licensed under the MIT License."""
         bp_text = BLUEPRINT_2_EMPTY
         bp = PromptBlueprint.parse(bp_text, corpus_tree=corpus_testee2)
 
-        opt = bp.generate_prompt(show_comment=False)
+        opt = bp.generate_prompt(profile=RenderProfile(show_comment=False))
 
         print(opt)
         assert opt == ""
@@ -153,7 +156,7 @@ class Test3:  # with PROMPT3  ##################################################
         bp_text = BLUEPRINT_3_FULL
         bp = PromptBlueprint.parse(bp_text, corpus_tree=corpus_testee3)
 
-        opt = bp.generate_prompt(show_comment=False)
+        opt = bp.generate_prompt(profile=RenderProfile(show_comment=False))
 
         print(opt)
         assert opt == """# Main Title
@@ -188,7 +191,7 @@ Summarizing the findings and implications."""
         bp_text = BLUEPRINT_3_PARTIAL_1
         bp = PromptBlueprint.parse(bp_text, corpus_tree=corpus_testee3)
 
-        opt = bp.generate_prompt(show_comment=False)
+        opt = bp.generate_prompt(profile=RenderProfile(show_comment=False))
 
         print(opt)
         assert opt == """# Main Title
@@ -211,7 +214,7 @@ Summarizing the findings and implications."""
         bp_text = BLUEPRINT_3_PARTIAL_2
         bp = PromptBlueprint.parse(bp_text, corpus_tree=corpus_testee3)
 
-        opt = bp.generate_prompt(show_comment=False)
+        opt = bp.generate_prompt(profile=RenderProfile(show_comment=False))
 
         print(opt)
         assert opt == """# Main Title
@@ -231,7 +234,7 @@ Suggestions for future research or tasks."""
         bp_text = BLUEPRINT_3_EMPTY
         bp = PromptBlueprint.parse(bp_text, corpus_tree=corpus_testee3)
 
-        opt = bp.generate_prompt(show_comment=False)
+        opt = bp.generate_prompt(profile=RenderProfile(show_comment=False))
 
         print(opt)
         assert opt == ""
@@ -240,7 +243,11 @@ Suggestions for future research or tasks."""
         bp_text = BLUEPRINT_3_PARTIAL_2
         bp = PromptBlueprint.parse(bp_text, corpus_tree=corpus_testee3)
 
-        opt = bp.generate_prompt(show_comment=False, disable_first_heading=True)
+        opt = bp.generate_prompt(
+            profile=RenderProfile(
+                show_comment=False, disable_first_heading=True
+            )
+        )
 
         print(opt)
         assert opt == """### Background
@@ -254,6 +261,41 @@ How data was gathered for analysis.
 
 ##### Future Work
 Suggestions for future research or tasks."""
+
+
+class TestInlineSubstitution:  # (((name))) placeholder in authored body  #####
+
+    def _bp(_, *, checkmark_today_node):
+        corpus = PromptCorpusNode("○", None, [])
+        PromptCorpusNode("Section", corpus, ["Date is (((today))). "])
+        TodayNode(corpus)
+
+        bp_text = "    ○\n{}[x] └── Section".format(
+            "[x] ├── (today)\n" if checkmark_today_node else ""
+        )
+        return PromptBlueprint.parse(
+            bp_text, disable_prune=True, corpus_tree=corpus
+        )
+
+    def test_substitutes_regardless_of_today_node_checkmark(_):
+        unchecked = _._bp(checkmark_today_node=False)
+        checked = _._bp(checkmark_today_node=True)
+
+        opt_unchecked = unchecked.generate_prompt(
+            profile=RenderProfile(
+                show_comment=False, disable_first_heading=True
+            )
+        )
+        opt_checked = checked.generate_prompt(
+            profile=RenderProfile(
+                show_comment=False, disable_first_heading=True
+            )
+        )
+
+        print(opt_unchecked)
+        assert "(((today)))" not in opt_unchecked
+        assert "Date: " in opt_unchecked
+        assert "Date: " in opt_checked
 
 
 class TestSparseness:  # sparseness param of generate_prompt  #################
@@ -280,7 +322,11 @@ class TestSparseness:  # sparseness param of generate_prompt  #################
     def test_default(_):
         bp = _._bp()
 
-        opt = bp.generate_prompt(show_comment=False, disable_first_heading=True)
+        opt = bp.generate_prompt(
+            profile=RenderProfile(
+                show_comment=False, disable_first_heading=True
+            )
+        )
 
         print(repr(opt))
         assert opt == """First line.
@@ -291,7 +337,9 @@ Second line."""
         bp = _._bp()
 
         opt = bp.generate_prompt(
-            show_comment=False, disable_first_heading=True, sparseness=99
+            profile=RenderProfile(
+                show_comment=False, disable_first_heading=True, sparseness=99
+            )
         )
 
         print(repr(opt))
@@ -307,7 +355,9 @@ Second line.
         bp = _._bp()
 
         opt = bp.generate_prompt(
-            show_comment=False, disable_first_heading=True, sparseness=0
+            profile=RenderProfile(
+                show_comment=False, disable_first_heading=True, sparseness=0
+            )
         )
 
         print(repr(opt))
@@ -318,7 +368,9 @@ Second line."""
         bp = _._bp()
 
         opt = bp.generate_prompt(
-            show_comment=False, disable_first_heading=True, sparseness=2
+            profile=RenderProfile(
+                show_comment=False, disable_first_heading=True, sparseness=2
+            )
         )
 
         print(repr(opt))
@@ -331,7 +383,9 @@ Second line."""
         bp = _._bp()
 
         opt = bp.generate_prompt(
-            show_comment=False, disable_first_heading=True, sparseness=-1
+            profile=RenderProfile(
+                show_comment=False, disable_first_heading=True, sparseness=-1
+            )
         )
 
         print(repr(opt))

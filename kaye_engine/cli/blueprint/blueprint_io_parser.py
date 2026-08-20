@@ -25,14 +25,6 @@ blueprint_io_parser.add_argument(
     nargs="?",
     default=None,
 )
-# options
-blueprint_io_parser.add_argument(
-    "-C",
-    "--no-comment",
-    action="store_true",
-    help="disable last-line comment in result",
-)
-
 
 # Public API  ###################################################################
 def load_blueprint_from_args(args):
@@ -40,10 +32,17 @@ def load_blueprint_from_args(args):
     load the blueprint identified by ``args.BLUEPRINT``, either from
     the blueprint registry by name, or from stdin when ``args.BLUEPRINT``
     is ``None``
+
+
+    :return: ``(blueprint, display_name, registry)`` -- ``registry`` is the
+            `BlueprintRegistry` the blueprint was looked up from, or
+            ``None`` when loaded from stdin (no registry entry to consult
+            for defaults)
+    :rtype: tuple[PromptBlueprint, str, BlueprintRegistry or None]
     """
     if args.BLUEPRINT is None:
         blueprint = PromptBlueprint.parse(sys.stdin.read())
-        return blueprint, "<stdin>"
+        return blueprint, "<stdin>", None
 
     try:
         registry = blueprint_registry[args.BLUEPRINT]
@@ -51,4 +50,4 @@ def load_blueprint_from_args(args):
         logger.critical("unknown blueprint:\t{}".format(args.BLUEPRINT))
         raise SystemExit(1) from err
 
-    return registry.blueprint, registry.display_name
+    return registry.blueprint, registry.display_name, registry

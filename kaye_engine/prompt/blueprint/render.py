@@ -13,17 +13,19 @@ import copy
 import importlib.metadata
 from datetime import datetime
 
-from anytree import RenderTree, PreOrderIter
+from anytree import PreOrderIter, RenderTree
 
 from kaye_engine import PACKAGE_NAME
+
 from ..prompt_corpus_node import HEADING_PREFIX_ELEMENT
 from ..sidecar_node import get_sidecar_name
+from .render_profile import RenderProfile
 
 __all__ = (
-    "render_blueprint_tree",
-    "render_prompt_lines",
-    "render_comment",
     "REPLACEMENT_NEWLINE_SYMBOL",
+    "render_blueprint_tree",
+    "render_comment",
+    "render_prompt_lines",
 )
 
 
@@ -63,6 +65,76 @@ def _create_pruned_tree_for_preview_recursively(blueprint, node):
             new_child.parent = new_node
 
     return new_node
+
+
+def _build_affordance_sidecar_map(affordances):
+    """
+    build a sidecar-name -> should-checkmark lookup from every entry in
+    ``affordance_registry``, given which affordances are available
+
+    (helper function used in ``_splice_conditional_sidecars()``)
+
+
+    :param affordances: canonical names of affordances available on the
+            target surface
+    :type affordances: collections.abc.Iterable[str]
+    :return: sidecar name -> whether it should be auto-checkmarked
+    :rtype: dict[str, bool]
+    """
+    from ..affordance_registry import affordance_registry
+
+    available = set(affordances)
+    sidecar_map = {}
+    for entry in affordance_registry.values():
+        is_available = entry.canonical_name in available
+        sidecar_map[entry.usage_sidecar_name] = is_available
+        sidecar_map[entry.lack_sidecar_name] = not is_available
+    return sidecar_map
+
+
+def _splice_conditional_sidecars(
+    blueprint, *, conditional_sidecars, affordances
+):
+    """
+    auto-checkmark conditional sidecar nodes ahead of rendering -- both
+    plain ``conditional_sidecars`` name matches and, when ``affordances``
+    is given, the ``Usage``/``Lack`` sidecar pair for every entry in
+    ``affordance_registry``
+
+    (helper function used in ``render_prompt_lines()``)
+
+
+    :param blueprint:
+    :type blueprint: PromptBlueprint
+    :param conditional_sidecars: see ``render_prompt_lines()``
+    :type conditional_sidecars: collections.abc.Iterable[str]
+    :param affordances: see ``render_prompt_lines()``
+    :type affordances: collections.abc.Iterable[str] or None
+    :return: ``blueprint``, or a checkmark-spliced copy of it when either
+            mechanism has anything to apply
+    :rtype: PromptBlueprint
+    """
+    affordance_sidecar_names = (
+        _build_affordance_sidecar_map(affordances)
+        if affordances is not None
+        else None
+    )
+
+    if not conditional_sidecars and affordance_sidecar_names is None:
+        return blueprint
+
+    working_bp = copy.copy(blueprint)
+    for node in PreOrderIter(working_bp.corpus):
+        sidecar_name = get_sidecar_name(node)
+        if sidecar_name is None or not working_bp.is_checkmarked(node.parent):
+            continue
+        if sidecar_name in conditional_sidecars or (
+            affordance_sidecar_names is not None
+            and affordance_sidecar_names.get(sidecar_name)
+        ):
+            working_bp.checkmark(node)
+
+    return working_bp
 
 
 def _apply_sparseness(lines, sparseness):
@@ -190,11 +262,7 @@ def render_blueprint_tree(  # ==================================================
 def render_prompt_lines(  # ====================================================
     blueprint,
     *,
-    show_comment=False,
-    disable_first_heading=False,
-    contains_sidecars=(),
-    display_name="",
-    sparseness=1,
+    profile=RenderProfile(),
     **kwargs,
 ):
     """
@@ -206,48 +274,27 @@ def render_prompt_lines(  # ====================================================
 
     :param blueprint:
     :type blueprint: PromptBlueprint
-    :param show_comment: show comment part after last line;
-            defaults to False
-    :type show_comment: bool, optional
-    :param disable_first_heading: whether disable showing top heading;
-            defaults to False
-    :type disable_first_heading: bool, optional
-    :param contains_sidecars: auto-checkmark conditional sidecar nodes
-            whose name is in this collection and whose parent is
-            checkmarked (e.g., ``("Claude Tool:TodoWrite",)``);
-            defaults to ``()`` (disabled)
-    :type contains_sidecars: collections.abc.Iterable[str], optional
-    :param display_name: blueprint's human-readable name, included in the
-            comment when ``show_comment`` is set; defaults to ""
-    :type display_name: str, optional
-    :param sparseness: controls how runs of blank lines collapse:
-
-    - ``-1`` collapses the whole output into a single line, joined with
-            ``REPLACEMENT_NEWLINE_SYMBOL`` in place of every newline
-    - ``0`` removes all blank lines
-    - ``1`` collapses every run of blank lines to a single blank line (default)
-    - ``2`` caps runs at two blank lines, and so on
-    - 〃
-    - ``99`` disables trimming entirely
-
-    :type sparseness: int, optional
+    :param profile: bundled render settings -- see `RenderProfile` for
+            the full field list (``show_comment``,
+            ``disable_first_heading``, ``conditional_sidecars``,
+            ``affordances``, ``display_name``, ``sparseness``, plus the
+            glossary-related fields); defaults to a plain
+            `RenderProfile()`
+    :type profile: RenderProfile, optional
+    :param kwargs: further render options (e.g. ``query``) forwarded
+            to each checkmarked node's ``content_lines(**kwargs)``
     :return: list of prompt lines
     :rtype: list[str]
     """
-    if contains_sidecars:
-        working_bp = copy.copy(blueprint)
-        for node in PreOrderIter(working_bp.corpus):
-            sidecar_name = get_sidecar_name(node)
-            if (
-                sidecar_name in contains_sidecars
-            ) and working_bp.is_checkmarked(node.parent):
-                working_bp.checkmark(node)
-    else:
-        working_bp = blueprint
+    working_bp = _splice_conditional_sidecars(
+        blueprint,
+        conditional_sidecars=profile.conditional_sidecars,
+        affordances=profile.affordances,
+    )
 
     lines = []
 
-    should_skip_heading = disable_first_heading
+    should_skip_heading = profile.disable_first_heading
 
     last_node_idx = working_bp.corpus.size - 1
     for i, node in enumerate(PreOrderIter(working_bp.corpus)):
@@ -267,10 +314,10 @@ def render_prompt_lines(  # ====================================================
                 if i != last_node_idx:
                     lines.append("")  # add an empty line
 
-    if show_comment:
-        lines.append("<!-- " + render_comment(display_name) + " -->")
+    if profile.show_comment:
+        lines.append("<!-- " + render_comment(profile.display_name) + " -->")
 
-    return _apply_sparseness(lines, sparseness)
+    return _apply_sparseness(lines, profile.sparseness)
 
 
 def render_comment(display_name=""):  # ========================================

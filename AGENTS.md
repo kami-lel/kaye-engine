@@ -14,6 +14,11 @@ abbreviation database, and no blueprint registrations — a consumer package
 such as `kaye-vault` supplies all three. Never add that content here to make
 something work; fix the mechanism or fix the consumer.
 
+**kaye-engine is consumed by multiple projects.** Never name any specific
+consumer project anywhere in this repository's content (code, comments,
+docs, or tests) — doing so would leak one consumer's identity into a
+mechanism meant to stay consumer-agnostic.
+
 ## Setup
 
 ```bash
@@ -48,8 +53,9 @@ pytest tests/prompt/bp/prompt-bp-merge_test.py::TestMerge::test1_1
 exportable-abbr registration, `dynamic-node` parsing, and `SKILL.md`
 rendering. The exporters themselves need a corpus to produce output, so the
 consumer package's suite covers those; do not scaffold corpus fixtures here
-to widen the directory. The `blueprint` and `export` subcommand parsers
-currently have no dedicated tests — a known gap, not an intentional
+to widen the directory. `exportable`, `affordance`, and `glossary` are now
+covered by dedicated parser tests; the `blueprint` subcommand parser
+currently has no dedicated tests — a known gap, not an intentional
 exclusion like the exporters above.
 
 **Do not parallelize** — no `pytest-xdist`, no `-n auto`. The suite is
@@ -66,8 +72,8 @@ pytest
 
 The editable install registers a `kaye-engine` console script, so
 `kaye-engine ...` and `python -m kaye_engine ...` are equivalent — prefer
-the shorter form. **Four** subcommands exist, `blueprint`, `claude`,
-`dynamic-node`, and `export`:
+the shorter form. **Six** top-level subcommands exist: `blueprint`,
+`claude`, `dynamic-node`, `exportable`, `affordance`, and `glossary`:
 
 ```bash
 kaye-engine --help                          # show CLI usage
@@ -76,10 +82,9 @@ kaye-engine blueprint show BLUEPRINT        # preview a blueprint's structure
 kaye-engine blueprint show < FILE           # preview from stdin (BLUEPRINT omitted)
 kaye-engine blueprint generate BLUEPRINT    # render a concrete prompt
 kaye-engine blueprint generate < FILE       # render from stdin (BLUEPRINT omitted)
-kaye-engine dynamic-node NODE...            # render 1+ dynamic nodes merged into one blueprint/output; NODE is "today"/"shorthand", any simple AbbrTags name (eg "emoji", "single_character"), or any known abbr glossary name
+kaye-engine dynamic-node NODE...            # render 1+ dynamic nodes merged into one blueprint/output; NODE is "today"/"decode-only-abbr", any simple AbbrTags kebab slug (eg "emoji", "single-character"), or any known abbr glossary name
 kaye-engine dynamic-node NODE -t THRESHOLD  # for a glossary NODE, hide entries with priority > THRESHOLD
-kaye-engine dynamic-node NODE -s SPARSENESS # blank-line policy, v.i.
-kaye-engine dynamic-node ls                 # list every available NODE value: today, shorthand, every AbbrTags-derived name, then glossary names alphabetically
+kaye-engine dynamic-node ls                 # list every available NODE value: today, decode-only-abbr, every AbbrTags-derived name, then glossary names alphabetically
 kaye-engine claude skill SKILLS_FOLDER      # export blueprints as Skill folders
 kaye-engine claude skill -z ZIPS_FOLDER     # create .zip Skill packages
 kaye-engine claude plugin PLUGINS_FOLDER    # export blueprints as plugin folder
@@ -87,48 +92,102 @@ kaye-engine claude plugin -z PLUGINS_FOLDER # .zip package (-n drops version)
 kaye-engine claude marketplace              # to ~/.claude/<marketplace folder>
 kaye-engine claude marketplace MARKETPLACE  # to a custom folder
 kaye-engine claude code                     # plugin + CLAUDE.md into ~/.claude
-kaye-engine claude user-system-prompt       # Chat blueprint as CLAUDE.md
+kaye-engine claude user-system-prompt       # print Chat blueprint to stdout
 kaye-engine claude user-system-prompt -c    # append Coder blueprint content
 kaye-engine claude vs-code-extension        # CLAUDE.md + marketplace + settings
-kaye-engine export EXPORTABLE               # print an exportable's content
-kaye-engine export ls                       # list every registered exportable name
+kaye-engine exportable EXPORTABLE           # print an exportable's content
+kaye-engine exportable ls                   # list every registered exportable name
+kaye-engine affordance                      # list affordance_registry names, sorted
+kaye-engine glossary GLOSSARY               # print a glossary's content
+kaye-engine glossary ls                     # list every registered glossary name
 ```
 
 Aliases: `blueprint` → `bp`; `blueprint show` → `bp s`; `blueprint
-generate` → `bp gen`/`bp g`; `dynamic-node` → `dn`; `claude` →
-`anthropic`, `a`; `claude code` → `claude c`; `claude marketplace` →
-`claude m`; `claude plugin` → `claude p`; `claude skill` → `claude s`;
-`claude user-system-prompt` → `claude usp`; `claude vs-code-extension`
-→ `claude v`; `export` → `x`.
+generate` → `bp gen`/`bp g`; `dynamic-node` → `dn`; `claude` → `a` (was
+also `anthropic`, now dropped); `claude code` → `claude c`; `claude
+marketplace` → `claude m`; `claude plugin` → `claude p`; `claude skill`
+→ `claude s`; `claude user-system-prompt` → `claude usp`; `claude
+vs-code-extension` → `claude v`; `exportable` → `x`; `glossary` → `g`.
+`affordance` has no alias.
 
-`blueprint generate` and `dynamic-node` both take `-s`/`--sparseness SPARSENESS`
-(shared parser in `kaye_engine/cli/sparseness_parser.py`) to control
-blank-line collapsing in the rendered output: `-1` joins everything into one
-line, `0` strips all blank lines, `1` (default) collapses every run to a
-single blank line, up through `99` which disables trimming entirely.
-Exporters set their own default independent of the CLI default — `SKILL.md`
-and `vs-code-extension` render with `sparseness=0`, `user-system-prompt` with
-`sparseness=1` unless a caller overrides it.
+**Rendering commands** — any subcommand that reaches
+`PromptBlueprint.generate_prompt(...)`, directly or via
+`Exportable.content()` (`blueprint generate`, `dynamic-node`,
+`exportable`, `claude skill`, `claude plugin`, `claude marketplace`,
+`claude user-system-prompt`, `claude vs-code-extension`, `claude
+code`) — all expose the same 5 options via one shared parent parser
+and one aux function, `build_render_profile_parent_parser`/
+`resolve_render_profile` (`kaye_engine/cli/render_profile_parser.py`),
+the latter returning a `RenderProfile` rather than a kwargs dict:
+
+| flag | short | effect |
+|---|---|---|
+| `--surface` | `-u` | Claude surface(s) to checkmark affordances for; combinable |
+| `--comment`/`--no-comment` | `-c`/`-C` | show/omit the trailing generated-by comment |
+| `--conditional-sidecar` | `-i` | conditional-sidecar name(s), unioned with `--surface` |
+| `--affordance` | `-a` | affordance name(s), unioned with `--surface` |
+| `--sparseness` | `-s` | blank-line policy, v.i. |
+
+`--affordance`/`--conditional-sidecar` are additive: on surface-aware
+(`claude ...`) subcommands they union with whatever `--surface` derives;
+on surface-less subcommands (`blueprint generate`, `dynamic-node`,
+`exportable`) they work standalone. When neither the corresponding flag
+nor `--surface` is passed, `resolve_render_profile`'s returned
+`RenderProfile` keeps `affordances=None`/`conditional_sidecars=()` --
+its own defaults -- rather than an explicit override; `RenderProfile.
+merge()` treats those as a no-op contribution, so on `blueprint generate`
+and `claude skill`, a `register_blueprint(render_profile=RenderProfile(
+conditional_sidecars=..., affordances=...))` entry's own defaults apply
+instead of being clobbered by an empty value. `--comment`/`--no-comment` and
+`--sparseness` each keep their own pre-existing per-subcommand default
+when the flags are omitted. `claude user-system-prompt` already owns
+`-c` for `--coder`, so on that subcommand `--comment`/`--no-comment`
+are long-form only (no `-c`/`-C`). `kaye-engine blueprint show` is not
+a rendering command but shares the `--comment`/`--no-comment` toggle
+(`-c`/`-C` included there).
+
+`--sparseness SPARSENESS` controls blank-line collapsing in the
+rendered output: `-1` joins everything into one line, `0` strips all
+blank lines, `1` collapses every run to a single blank line, up through
+`99` which disables trimming entirely. The default lives in
+`DEFAULT_SPARSENESS` (`kaye_engine/cli/__init__.py`) unless a caller
+overrides it.
 
 `claude vs-code-extension` also writes `permissions` (`allow`/`ask`/`deny`
 Bash command patterns) into `settings.json`, sourced from
 `kaye_engine/cli/claude/permission_cmds.jsonc` (parsed with `json5`, so
 comments are allowed).
 
-`kaye_engine/cli/cli_continue/` is **deprecated and unreachable** —
-`cli_main.py` never registers it, so no `continue` subcommand exists. Do not
-document it, invoke it, or wire it back in without being asked.
+The Continue AI integration (formerly `kaye_engine/cli/cli_continue/`) has
+been removed entirely; no `continue` subcommand exists. Do not document it,
+invoke it, or add it back without being asked.
 
 Every `claude` subcommand needs a consumer to call
-`setup_claude_cli(plugin_name, marketplace_name, chat_bp_name,
-coder_bp_name, version, marketplace_folder_name)` before invoking the CLI —
-there is no default for any of the six. On a bare checkout, or when
-`setup_claude_cli(...)` was never called, `get_plugin_name()`,
-`get_marketplace_name()`, `get_claude_chat_blueprint()`,
-`get_claude_coder_blueprint()`, `get_claude_cli_consumer_version()`, and
+`setup_claude_cli(plugin_name, display_name, marketplace_name,
+chat_exportable_name, chat_coder_exportable_name, version,
+marketplace_folder_name)` before invoking the CLI —
+there is no default for any of the seven. `display_name` is stamped into
+`plugin.json`'s `display_name` field by `claude plugin export`; it replaces
+the former hardcoded `DISPLAY_NAME` constant in `kaye_engine/__init__.py`. On
+a bare checkout, or when `setup_claude_cli(...)` was never called,
+`get_plugin_name()`, `get_claude_cli_display_name()`,
+`get_marketplace_name()`, `get_claude_chat_exportable()`,
+`get_claude_chat_coder_exportable()`, `get_claude_cli_consumer_version()`, and
 `get_marketplace_folder_name()` each log `logger.critical` and raise
 `SystemExit(1)`; the blueprint getters do the same when the configured name
 is not a registered blueprint — expected, not a bug.
+
+`kaye-engine --version` reports the installed distribution's version via
+`importlib.metadata.version(PACKAGE_NAME)` — run against an installed
+package, not a bare checkout.
+
+`--surface` takes combinable names keyed into the consumer-supplied
+`surface_profiles` dict (a `dict[str, RenderProfile]` passed to
+`setup_claude_cli(...)`) — each name's `RenderProfile` is merged in,
+checkmarking the affordances/conditional sidecars that surface
+carries. `--surface` is omitted entirely when no consumer project
+configures `surface_profiles`. Each subcommand defines its own
+default surface set when the flag is present but omitted.
 
 ## Code Conventions
 
@@ -146,15 +205,20 @@ is not a registered blueprint — expected, not a bug.
 only gate — every exporter reads `blueprint_registry` directly. **Calls
 live in the consumer package**, not here.
 
-Export policy — one gate plus three independent flags, no allow-list
+Export policy — one gate plus two independent flags, no allow-list
 constant:
 
 | flag | default | effect |
 |---|---|---|
-| `is_internal` | `False` | `True` excludes it from `exportable_registry` entirely — never export as a Claude Agent Skill |
-| `always_apply` | `False` | apply unconditionally, skipping relevance |
+| `is_exportable` | `True` | `False` excludes it from `exportable_registry` entirely — never export as a Claude Agent Skill |
 | `user_invokable` | `True` | a human may invoke it by name |
 | `llm_invokable` | `True` | the assistant may surface it unprompted |
+
+`render_profile` (a `RenderProfile`, default `RenderProfile()`) sets
+this entry's own default render settings — including
+`conditional_sidecars`/`affordances` — merged (not clobbered) by
+`BlueprintRegistry.content()` with any caller-supplied `profile=`
+via `RenderProfile.merge()`.
 
 ## Abbreviation Data
 

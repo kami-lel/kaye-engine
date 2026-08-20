@@ -15,7 +15,7 @@ logger = kamilog.getLogger(LOGGER_CLAUDE_NAME)
 # entry point  #################################################################
 
 
-def export_skills_as_folders(parent_folder, *, version):
+def export_skills_as_folders(parent_folder, *, version, render_profile=None):
     """
     export every `exportable_registry` entry as a skill folder
 
@@ -27,14 +27,17 @@ def export_skills_as_folders(parent_folder, *, version):
     :type parent_folder: Path-like
     :param version: installed package version
     :type version: str
+    :param render_profile: render options forwarded to
+            :meth:`Skill.from_exportable`
+    :type render_profile: RenderProfile, optional
     """
     logger.enter("exporting exportables as skills")
 
     for exportable in exportable_registry.values():
         try:
-            folder = Skill.from_exportable(exportable, version=version).write(
-                parent_folder
-            )
+            folder = Skill.from_exportable(
+                exportable, version=version, render_profile=render_profile
+            ).write(parent_folder)
         except OSError as err:
             logger.critical("cannot write skill:\t" + exportable.display_name)
             raise SystemExit(1) from err

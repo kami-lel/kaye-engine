@@ -1,7 +1,7 @@
 """
 shorthand_tag_nodes.py
 
-define tag-filtered content for the decode-only shorthand node
+define tag-filtered content for the decode-only abbr node
 """
 
 from kaye_engine import LOGGER_NAME, kamilog

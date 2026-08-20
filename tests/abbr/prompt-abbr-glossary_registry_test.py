@@ -33,11 +33,12 @@ def registered_names():
 class TestRegisterAbbrGlossary:  ###################################################
 
     def test_dft(_, registered_names):
-        reg = register_abbr_glossary("test-glossary-dft")
+        reg = register_abbr_glossary("test-glossary-dft", True)
         registered_names.append(reg.name)
 
         assert isinstance(reg, AbbrGlossaryRegistry)
         assert reg.name == "test-glossary-dft"
+        assert reg.is_exportable is True
         assert reg.uses_numbered_list is False
         assert reg.is_sorted is False
         assert abbr_glossary_registry["test-glossary-dft"] is reg
@@ -45,6 +46,7 @@ class TestRegisterAbbrGlossary:  ###############################################
     def test_flags(_, registered_names):
         reg = register_abbr_glossary(
             "test-glossary-flags",
+            True,
             uses_numbered_list=True,
             is_sorted=True,
         )
@@ -54,11 +56,11 @@ class TestRegisterAbbrGlossary:  ###############################################
         assert reg.is_sorted is True
 
     def test_duplicate_name(_, registered_names):
-        reg = register_abbr_glossary("test-glossary-dup")
+        reg = register_abbr_glossary("test-glossary-dup", True)
         registered_names.append(reg.name)
 
         with pytest.raises(ValueError) as exec_info:
-            register_abbr_glossary("test-glossary-dup")
+            register_abbr_glossary("test-glossary-dup", True)
 
         opt = exec_info.value.args[0]
         print(opt)
@@ -68,7 +70,7 @@ class TestRegisterAbbrGlossary:  ###############################################
 class TestGetAbbrGlossary:  ########################################################
 
     def test_known_name(_, registered_names):
-        reg = register_abbr_glossary("test-glossary-get")
+        reg = register_abbr_glossary("test-glossary-get", True)
         registered_names.append(reg.name)
 
         assert get_abbr_glossary("test-glossary-get") is reg
@@ -104,7 +106,7 @@ class TestRenderingDefaults:  ##################################################
 
     def test_uses_numbered_list_default(_, registered_names):
         reg = register_abbr_glossary(
-            "test-glossary-numbered", uses_numbered_list=True
+            "test-glossary-numbered", True, uses_numbered_list=True
         )
         registered_names.append(reg.name)
 
@@ -132,7 +134,9 @@ class TestRenderingDefaults:  ##################################################
         assert opt == ["1. e.g.:for example"]
 
     def test_is_sorted_default(_, registered_names):
-        reg = register_abbr_glossary("test-glossary-sorted", is_sorted=True)
+        reg = register_abbr_glossary(
+            "test-glossary-sorted", True, is_sorted=True
+        )
         registered_names.append(reg.name)
 
         data = AbbrData()
@@ -169,7 +173,7 @@ class TestRenderingDefaults:  ##################################################
 
     def test_explicit_override_wins(_, registered_names):
         reg = register_abbr_glossary(
-            "test-glossary-override", uses_numbered_list=True
+            "test-glossary-override", True, uses_numbered_list=True
         )
         registered_names.append(reg.name)
 
@@ -199,7 +203,7 @@ class TestRenderingDefaults:  ##################################################
     def test_glossary_priority_threshold_omitted_renders_all(
         _, registered_names
     ):
-        reg = register_abbr_glossary("test-glossary-threshold")
+        reg = register_abbr_glossary("test-glossary-threshold", True)
         registered_names.append(reg.name)
 
         data = AbbrData()
@@ -236,8 +240,74 @@ class TestRenderingDefaults:  ##################################################
         print(opt)
         assert opt == ["- e.g.:for example", "- i.e.:id est"]
 
+    def test_disable_remark_default(_, registered_names):
+        reg = register_abbr_glossary(
+            "test-glossary-disable-remark", True, disable_remark=True
+        )
+        registered_names.append(reg.name)
+
+        data = AbbrData()
+        with data:
+            data.add_entry(
+                AbbrMeaning("for example", remark="Latin exempli gratia"),
+                "e.g.",
+                {
+                    "priority": 5,
+                    "tags": ["test-glossary-disable-remark"],
+                    "wrap": "word",
+                },
+            )
+
+        testee = GlossaryNode(
+            None, glossary_name="test-glossary-disable-remark"
+        )
+        with pytest.MonkeyPatch.context() as mp:
+            mp.setattr(
+                "kaye_engine.prompt.dynamic_nodes.glossary_node.get_abbr_data",
+                lambda: data,
+            )
+            opt = testee.content_lines()
+
+        print(opt)
+        assert opt == ["- e.g.:for example"]
+
+    def test_disable_remark_explicit_override_wins(_, registered_names):
+        reg = register_abbr_glossary(
+            "test-glossary-disable-remark-override",
+            True,
+            disable_remark=True,
+        )
+        registered_names.append(reg.name)
+
+        data = AbbrData()
+        with data:
+            data.add_entry(
+                AbbrMeaning("for example", remark="Latin exempli gratia"),
+                "e.g.",
+                {
+                    "priority": 5,
+                    "tags": ["test-glossary-disable-remark-override"],
+                    "wrap": "word",
+                },
+            )
+
+        testee = GlossaryNode(
+            None, glossary_name="test-glossary-disable-remark-override"
+        )
+        with pytest.MonkeyPatch.context() as mp:
+            mp.setattr(
+                "kaye_engine.prompt.dynamic_nodes.glossary_node.get_abbr_data",
+                lambda: data,
+            )
+            opt = testee.content_lines(disable_remark=False)
+
+        print(opt)
+        assert opt == ["- e.g.:for example (Latin exempli gratia)"]
+
     def test_glossary_priority_threshold_filters(_, registered_names):
-        reg = register_abbr_glossary("test-glossary-threshold-filtered")
+        reg = register_abbr_glossary(
+            "test-glossary-threshold-filtered", True
+        )
         registered_names.append(reg.name)
 
         data = AbbrData()

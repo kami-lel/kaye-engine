@@ -1,7 +1,7 @@
 """
-shorthand_node.py
+decode_only_abbr_node.py
 
-define the decode-only shorthand node type
+define the decode-only abbr node type
 """
 
 from kaye_engine import LOGGER_NAME, kamilog
@@ -11,21 +11,21 @@ from kaye_engine.prompt.dynamic_nodes.shorthand_tag_nodes import (
 )
 from .dynamic_node import DynamicNode
 
-__all__ = ("ShorthandNode",)
+__all__ = ("DecodeOnlyAbbrNode",)
 
 # logger  ######################################################################
 logger = kamilog.getLogger(LOGGER_NAME)
 
 
-class ShorthandNode(DynamicNode):  #############################################
+class DecodeOnlyAbbrNode(DynamicNode):  ########################################
     """
-    dynamic node to provide decode-only shorthand meanings
+    dynamic node to provide decode-only abbr meanings
     based on a given ``query`` content
     """
 
     # implement DynamicNode  ===================================================
 
-    HEADING = "Decode-Only Shorthand"
+    NAME = "decode-only-abbr"
 
     # implement BasePromptNode  ================================================
 

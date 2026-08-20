@@ -4,9 +4,17 @@ from argparse import RawDescriptionHelpFormatter
 from pathlib import Path
 
 from kaye_engine import PACKAGE_NAME, kamilog
+from kaye_engine.cli import DEFAULT_SPARSENESS
 from kaye_engine.cli.claude import LOGGER_CLAUDE_NAME
-from kaye_engine.cli.claude.setup import get_claude_cli_consumer_version
+from kaye_engine.cli.claude.setup import (
+    get_claude_cli_consumer_version,
+    get_surface_profiles,
+)
 from kaye_engine.cli.cli_setup_guard import check_corpus_setup_for_cli
+from kaye_engine.cli.render_profile_parser import (
+    build_render_profile_parent_parser,
+    resolve_render_profile,
+)
 
 from .export_folders import (
     export_skills_as_folders,
@@ -40,6 +48,13 @@ def register_skill_parser(cli_subparser):  #####################################
         description=__doc__ + _DESCRIPTION,
         formatter_class=RawDescriptionHelpFormatter,
         aliases=["s"],
+        parents=[
+            build_render_profile_parent_parser(
+                default_surface=("chat",),
+                default_sparseness=DEFAULT_SPARSENESS,
+                surface_profiles=get_surface_profiles(),
+            )
+        ],
     )
 
     skill_parser.add_argument(
@@ -69,15 +84,22 @@ def register_skill_parser(cli_subparser):  #####################################
         folder = args.folder
         if folder is None:
             folder = Path.cwd() if args.zip else _DEFAULT_SKILLS_FOLDER
+        render_profile = resolve_render_profile(
+            args,
+            surface_profiles=get_surface_profiles(),
+            default_show_comment=False,
+        )
 
         if args.zip:
             logger.debug("export skills as zip packages")
-            export_skills_as_zips(folder)
+            export_skills_as_zips(folder, render_profile=render_profile)
             done_msg = "export skills as zip packages"
         else:
             logger.debug("export skills as folders")
             export_skills_as_folders(
-                folder, version=get_claude_cli_consumer_version()
+                folder,
+                version=get_claude_cli_consumer_version(),
+                render_profile=render_profile,
             )
             done_msg = "export skills as folders"
 

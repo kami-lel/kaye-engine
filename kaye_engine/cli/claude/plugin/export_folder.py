@@ -7,13 +7,17 @@ define ``export_plugin_as_folder``
 from email.utils import parseaddr
 from importlib.metadata import PackageNotFoundError, metadata
 
-from kaye_engine import DISPLAY_NAME, PACKAGE_NAME, kamilog
+from kaye_engine import PACKAGE_NAME, kamilog
 from kaye_engine.cli.claude import LOGGER_CLAUDE_NAME
 from kaye_engine.cli.claude.plugin_marketplace_name import get_plugin_name
-from kaye_engine.cli.claude.setup import get_claude_cli_consumer_version
+from kaye_engine.cli.claude.setup import (
+    get_claude_cli_consumer_version,
+    get_claude_cli_display_name,
+)
 from kaye_engine.cli.claude.skill.export_folders import (
     export_skills_as_folders,
 )
+
 from .manifest import ManifestPluginJson
 
 # logger  ######################################################################
@@ -26,7 +30,7 @@ _SKILLS_DIR = "skills"
 # entry point  #################################################################
 
 
-def export_plugin_as_folder(parent_folder):
+def export_plugin_as_folder(parent_folder, *, render_profile=None):
     """
     export all Kaye blueprints as a single Anthropic Claude plugin folder
 
@@ -37,6 +41,9 @@ def export_plugin_as_folder(parent_folder):
 
     :param parent_folder: destination directory to write the plugin into
     :type parent_folder: Path-like
+    :param render_profile: render profile forwarded to
+            :func:`export_skills_as_folders`
+    :type render_profile: RenderProfile, optional
     :return: path to the created plugin directory
     :rtype: Path
     """
@@ -64,7 +71,7 @@ def export_plugin_as_folder(parent_folder):
 
     with ManifestPluginJson(plugin_root) as manifest:
         manifest.name = plugin_name
-        manifest.display_name = DISPLAY_NAME
+        manifest.display_name = get_claude_cli_display_name()
         manifest.version = pkg_version
         manifest.description = meta["Summary"]
         manifest.author_name = pkg_author
@@ -75,7 +82,11 @@ def export_plugin_as_folder(parent_folder):
         logger.succ("write plugin manifest:\t" + str(manifest.path))
 
     logger.debug("exporting blueprints as plugin skills")
-    export_skills_as_folders(plugin_root / _SKILLS_DIR, version=pkg_version)
+    export_skills_as_folders(
+        plugin_root / _SKILLS_DIR,
+        version=pkg_version,
+        render_profile=render_profile,
+    )
 
     logger.succ("export plugin:\t" + str(plugin_root))
 

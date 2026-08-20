@@ -6,7 +6,6 @@ define ``Skill``
 
 from pathlib import Path
 
-from kaye_engine.cli.claude import CLAUDE_CODE_SIDECARS
 from kaye_engine.cli.frontmatter_doc import FrontmatterDoc, dump_yaml
 from kaye_engine.cli.exportable_abbr import ExportableAbbr
 from kaye_engine.prompt.blueprint import BlueprintRegistry
@@ -138,7 +137,7 @@ class Skill(FrontmatterDoc):
     # factory  -----------------------------------------------------------------
 
     @classmethod
-    def from_exportable(cls, exportable, version=""):
+    def from_exportable(cls, exportable, version="", render_profile=None):
         """
         dispatches on the concrete `Exportable` implementer -- this
         isinstance check lives here, in the Claude-specific translation
@@ -151,6 +150,11 @@ class Skill(FrontmatterDoc):
         :param version: installed package version, forwarded to
                 :meth:`__init__`
         :type version: str, optional
+        :param render_profile: render profile forwarded to
+                ``exportable.content(...)`` -- already resolved (e.g. via
+                :func:`resolve_render_profile`); merged with, not
+                clobbering, the registry entry's own `render_profile`
+        :type render_profile: RenderProfile, optional
         :return: a skill built from ``exportable``'s content
         :rtype: Skill
         """
@@ -162,9 +166,7 @@ class Skill(FrontmatterDoc):
                 when_to_use=sidecars.when_to_use,
                 paths=list(sidecars.globs) if sidecars.globs else [],
                 user_invocable=exportable.user_invokable,
-                body=exportable.blueprint.generate_prompt(
-                    contains_sidecars=CLAUDE_CODE_SIDECARS, sparseness=0
-                ),
+                body=exportable.content(profile=render_profile),
                 version=version,
             )
 
