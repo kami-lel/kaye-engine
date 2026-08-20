@@ -24,161 +24,7 @@ todo todo utilize personalities, allow multi agent conversation
 
 ### Added
 
-- `--version` flag on the `kaye-engine` CLI, reporting the installed
-  distribution's version via `importlib.metadata`
-- `Affordance` registry (`kaye_engine/prompt/affordance_registry.py`),
-  tracking platform capabilities and deriving Usage/Lack sidecar names
-- `affordances` kwarg on `render_prompt_lines`, auto-checkmarking sidecars
-  per surface
-- `kaye-engine affordance` CLI subcommand, listing every
-  `affordance_registry` name, sorted
-- `kaye-engine glossary`/`g` CLI subcommand, printing a registered
-  glossary's content (`glossary ls` lists every registered name)
-- `RenderProfile` dataclass (`kaye_engine/prompt/blueprint/render_profile.py`),
-  a layerable bundle of render kwargs (`conditional_sidecars`,
-  `affordances`, and the rest) with a `merge()` that combines a
-  caller-supplied profile with a registry entry's own default without
-  clobbering either
-- `kaye_engine/cli/render_profile_parser.py`:
-  `build_render_profile_parent_parser`/`resolve_render_profile`, a
-  shared parent parser and aux function unifying `--surface`,
-  `--comment`/`--no-comment`, `--conditional-sidecar`, `--affordance`,
-  and `--sparseness` across every rendering command (`blueprint
-  generate`, `dynamic-node`, `exportable`, and every `claude` export
-  subcommand) — `--affordance`/`--conditional-sidecar` union
-  additively with whatever `--surface` derives; returns a
-  `RenderProfile` rather than a kwargs dict
-- `kaye_engine/cli/comment_parser.py`:
-  `build_comment_parent_parser`, the shared `--comment`/`--no-comment`
-  (`-c`/`-C`) mutually-exclusive pair, also used standalone by
-  `kaye-engine blueprint show`
-- `-u` short flag for `--surface`; `-a`/`-i` short flags for the new
-  `--affordance`/`--conditional-sidecar` flags
-- `affordance_names`/`surface_profiles` params on `setup_claude_cli()`:
-  a consumer-supplied `Iterable[str]` registering its own affordance
-  catalog (`register_claude_affordances()`, idempotent across repeated
-  calls) and a `dict[str, RenderProfile]` populating the `--surface`
-  flag's choices; `get_surface_profiles()` getter added alongside;
-  `--surface` is omitted entirely when a consumer never configures
-  `surface_profiles`
-- `DEFAULT_SPARSENESS` constant (`kaye_engine/cli/__init__.py`), the shared
-  default for every CLI entry point accepting a `sparseness` param
-- `generate_user_system_prompt()`, rendering the Chat (optionally +Coder)
-  blueprint to a string; `export_user_system_prompt_file()` now writes
-  that string to a file rather than rendering it itself
-- inline `(((name)))` placeholder substitution
-  (`apply_dynamic_substitutions`), a render-time search-and-replace pass
-  resolving dynamic-node content anywhere inside a generated prompt,
-  independent of checkmarking; wired into
-  `PromptBlueprint.generate_prompt()`
-- `resolve_dynamic_node_factory`, the single canonical-name resolver
-  (`kaye_engine/prompt/dynamic_nodes/registry.py`) now shared by the
-  corpus loader and the `dynamic-node` CLI
-- `render_profile` param on `register_blueprint()` and the `Exportable`
-  base class (a `RenderProfile`, default `RenderProfile()`), letting a
-  registry entry carry its own default render settings — including
-  `conditional_sidecars`/`affordances` — merged (not clobbered) with
-  whatever a caller passes at render time
-- `kaye_engine/exportable/` package (`base.py`, `registry.py`),
-  replacing the single `kaye_engine/exportable.py` module
-- `disable_remark` param on `register_abbr_glossary()`,
-  `AbbrEntry.as_md_list_entry()`, and `GlossaryNode.content_lines()`,
-  omitting the `(...)` remark suffix from rendered entries; a glossary's
-  registered default may be overridden per render
-- `term_definition` `AbbrTags` value, rendering an entry as a bare
-  term-definition list item (`mean` alone, or `mean (remark)`) instead
-  of the default `abbr:mean` decode format in
-  `AbbrEntry.as_md_list_entry()`
-
 ### Changed
-
-- Claude surface derivation moved out of `kaye-engine` entirely: the
-  `ClaudeSurface` enum and its `as_affordances()`/
-  `as_contained_sidecars()` methods, and the `claude_affordances.py`
-  hardcoded catalog, are removed — a consumer project now supplies its
-  own `surface_profiles` (`dict[str, RenderProfile]`, keying each
-  surface name to the affordances/conditional sidecars it checkmarks)
-  and `affordance_names` to `setup_claude_cli()`, keeping `kaye-engine`
-  agnostic to what surfaces or affordances exist
-- `docs/claude-doc.md` trimmed to drop the removed affordance/surface
-  tables; `docs/affordance-doc.md` removed with them
-- `generate_user_system_prompt()` no longer hard-checkmarks an
-  `Agentic` → `Claude Behavior` node by name; a consumer corpus now
-  opts Claude-specific content into CLAUDE.md via the `{[Claude] Usage}`
-  affordance sidecar instead, checkmarked through the existing
-  `affordances=...` render path — updated `docs/claude-doc.md`'s
-  Consumer Requirement section to match
-- `setup_claude_cli()` now takes a `display_name` argument, letting each
-  consumer stamp its own `plugin.json` `display_name` instead of the
-  hardcoded `DISPLAY_NAME` constant, which is removed
-- tool affordances now namespaced `ClaudeChat:` / `ClaudeCode:`
-- affordance API simplified: dropped `display_name`/`remark` fields and
-  `get_affordance`
-- `claude` CLI export functions' `contains_sidecars` param renamed to
-  `affordances`; hardcoded per-surface sidecar tuples dropped in favor of
-  deriving from consumer-configured `surface_profiles`
-- rewrote `docs/sidecar-node-doc.md`: replaced tool inventory/sidecar
-  matrix tables with affordance registry reference
-- `kaye-engine claude user-system-prompt` (`usp`) now prints the rendered
-  prompt to stdout instead of writing it to a file; the `PROMPT_FILE`
-  positional argument is removed
-- default `sparseness` changed from `1` to `0` everywhere it is applied
-  (`sparseness_parser`, `usp`, `claude skill`, `vs-code-extension`), so
-  omitting `--sparseness` now strips blank lines rather than keeping
-  single ones
-- every dynamic node (engine-defined types, `AbbrTagNode` tags, and
-  registered glossaries) now auto-attaches to every corpus tree
-  unconditionally, in canonical kebab-case `NAME`; an authored `(name)`
-  heading is no longer required for a dynamic node to exist, only to
-  customize its preface and tree location
-- `DynamicNode.HEADING` renamed `NAME`; `AbbrTagNode` slugs derive from
-  `slug_for_abbr_tag()` (was `heading_for_abbr_tag()`), producing
-  kebab-case (`single-character`) instead of Title Case
-  (`Single Character`)
-- `dynamic-node-doc.md` renamed `dynamic-content-doc.md` and
-  reorganized: the tree auto-attach mechanism and inline `(((name)))`
-  substitution are unified under one Dynamic Substitution section
-- `kaye-engine export` CLI subcommand renamed `exportable` (alias `x`
-  kept)
-- `claude`'s `anthropic` alias dropped; `a` is retained on `claude`
-  and not moved to the new `affordance` subcommand, which has no alias
-- `Exportable.content()` widened to `content(self, **render_kwargs)`;
-  `BlueprintRegistry.content()` forwards the kwargs straight into
-  `generate_prompt()` (drops the hardcoded `sparseness=0`);
-  `ExportableAbbr.content()` accepts and ignores them
-- `sparseness_parser`'s fixed-default module-level singleton replaced
-  by a `build_sparseness_parent_parser(default=...)` builder, so each
-  rendering command states its own default
-- every `claude` export chain (skill, plugin, marketplace, VS Code,
-  user-system-prompt, code) now threads a single `render_kwargs` dict
-  end-to-end instead of individual `surface`/`sparseness`/
-  `show_comment` params
-- `BlueprintRegistry.content(*, profile=None, **kwargs)` now merges any
-  caller-supplied `RenderProfile` with the registry entry's own
-  `render_profile` via `RenderProfile.merge()`, rather than clobbering
-  it — a caller-supplied field wins per-field, an unset one falls
-  through to the entry's default
-- `load_blueprint_from_args()` now returns a 3-tuple `(blueprint,
-  display_name, registry)`; `registry` is `None` when loaded from
-  stdin
-- `blueprint generate` now renders through `registry.content(...)`
-  (applying the registry entry's defaults) instead of calling
-  `blueprint.generate_prompt()` directly, when the blueprint was
-  loaded from the registry
-- `Skill.from_exportable()` now calls `exportable.content(...)`
-  instead of `exportable.blueprint.generate_prompt()` directly, so
-  registry-level `render_profile` defaults apply to `claude skill`
-  export too
-- `resolve_render_profile()` now omits `affordances`/
-  `conditional_sidecars` from the returned `RenderProfile` entirely
-  (rather than defaulting to `None`/`()`) when neither the
-  corresponding flag nor `--surface` was passed, so a registry-level
-  default can still apply via `RenderProfile.merge()`
-- `registry.py`'s `__all__` sorted alphabetically
-- `ShorthandNode` renamed `DecodeOnlyAbbrNode` (`shorthand_node.py` →
-  `decode_only_abbr_node.py`); its `NAME`/CLI keyword renamed
-  `shorthand` → `decode-only-abbr`, matching the CLI keyword convention
-  every other dynamic node already follows (mirrors its `NAME` slug)
 
 ### Deprecated
 
@@ -186,27 +32,65 @@ todo todo utilize personalities, allow multi agent conversation
 
 ### Fixed
 
-- `load_corpus_tree` now attaches a dynamic node at its authored
-  `(name)` heading's exact tree location -- any depth, in place of the
-  heading, preserving sibling order -- instead of always appending to
-  root regardless of where the heading sits
-- documented the Coder-blueprint merge contract (`coder_bp_name` is
-  merged into Chat via `|` to build the `-c` prompt, and may also stand
-  alone as its own exportable Skill) in `exportable_name.py`,
-  `setup.py`, and `docs/claude-doc.md`; cleared the resolved
-  FIXME/Todo comments this settles in `user_prompt/export.py`
-- `AGENTS.md`/`CONTEXT.md` cited nonexistent `get_claude_chat_blueprint()`/
-  `get_claude_coder_blueprint()`; corrected to the actual
-  `get_claude_chat_exportable()`/`get_claude_chat_coder_exportable()`
-  getters in `exportable_name.py`
-- `docs/abbrs-doc.md`'s `AbbrTags` value list omitted `term_definition`;
-  added
-- README's core-concepts list never linked
-  `docs/exportable-registry-doc.md`; added
-
 ### Security
 
-[unreleased]: https://github.com/kami-lel/kaye-engine/compare/v7.2.0...dev
+[unreleased]: https://github.com/kami-lel/kaye-engine/compare/v7.3.0...dev
+
+
+
+
+
+
+
+
+
+
+
+
+
+## [7.3.0] - 2026-08-21
+
+### Added
+
+- `--version` flag on the `kaye-engine` CLI
+- `affordance` registry and CLI subcommand, tracking platform
+  capabilities a rendered prompt can check for
+- `glossary`/`g` CLI subcommand, printing or listing a registered
+  glossary
+- shared `--surface`, `--comment`/`--no-comment`, `--conditional-sidecar`,
+  `--affordance`, and `--sparseness` flags across every command that
+  renders a prompt, via a common `RenderProfile` settings bundle
+- `disable_remark` option on a glossary, omitting the `(...)` remark
+  suffix from its rendered entries, overridable per render
+- `term_definition`-tagged abbreviations now render as a plain
+  term-definition list item instead of the usual `abbr:meaning` form
+
+### Changed
+
+- Claude surface and affordance configuration moved out of
+  `kaye-engine`; a consumer project now supplies its own surfaces and
+  affordances instead of relying on a built-in catalog
+- `claude user-system-prompt` (`usp`) now prints the prompt to stdout
+  instead of writing a file
+- default blank-line trimming (`sparseness`) is stricter — omitting
+  `--sparseness` now strips blank lines instead of keeping single ones
+- every dynamic node (built-in types and registered glossaries) now
+  attaches to a corpus automatically; an authored heading is only
+  needed to customize its placement or preface
+- `export` CLI subcommand renamed `exportable` (alias `x` kept)
+- `claude`'s `anthropic` alias dropped; `a` still works
+- decode-only abbreviations node renamed `decode-only-abbr`
+
+### Fixed
+
+- a dynamic node with an authored heading now attaches at that
+  heading's exact spot in the tree, instead of always at the root
+- documentation corrections: `AGENTS.md`/`CONTEXT.md` referenced
+  getters that no longer exist; the abbreviation-tag reference was
+  missing `term_definition`; the README was missing a link to the
+  exportable-registry docs
+
+[7.3.0]: https://github.com/kami-lel/kaye-engine/compare/v7.2.0...v7.3.0
 
 
 
