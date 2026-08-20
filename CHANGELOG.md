@@ -3,7 +3,7 @@
 [^format]
 
 <!--
-fixme affordance vs toolset: affordance = toolsets + fallback
+Fixme affordance vs toolset: affordance = toolsets + fallback
 todo todo CLI to import/export w/ OpenWebUI
 todo todo utilize personalities, allow multi agent conversation
 -->
