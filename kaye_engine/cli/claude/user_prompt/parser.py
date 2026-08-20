@@ -1,13 +1,19 @@
-"""write the Kaye Chat blueprint as the User System Prompt CLAUDE.md"""
+"""render the Kaye Chat blueprint as the User System Prompt"""
 
 from argparse import RawDescriptionHelpFormatter
 from pathlib import Path
 
-from kaye_engine import PACKAGE_NAME, kamilog
+from kaye_engine import kamilog
+from kaye_engine.cli import DEFAULT_SPARSENESS
 from kaye_engine.cli.claude import LOGGER_CLAUDE_NAME
 from kaye_engine.cli.cli_setup_guard import check_corpus_setup_for_cli
+from kaye_engine.cli.claude.setup import get_surface_profiles
+from kaye_engine.cli.render_profile_parser import (
+    build_render_profile_parent_parser,
+    resolve_render_profile,
+)
 
-from .export import export_user_system_prompt_file
+from .export import generate_user_system_prompt
 
 # logger  ######################################################################
 logger = kamilog.getLogger(LOGGER_CLAUDE_NAME)
@@ -16,10 +22,10 @@ logger = kamilog.getLogger(LOGGER_CLAUDE_NAME)
 
 _DESCRIPTION = """
 
-renders the Chat blueprint and writes it to PROMPT_FILE as the User System
-Prompt; optionally appends the Coder blueprint with -c.
+renders the Chat blueprint as the User System Prompt; the result is
+printed to stdout. Optionally appends the Coder blueprint with -c.
 
-PROMPT_FILE  (default: ~/.claude/CLAUDE.md)
+    kaye-engine claude usp > ~/.claude/CLAUDE.md
 """
 
 # helper  ######################################################################
@@ -29,14 +35,20 @@ DEFAULT_CLAUDE_FOLDER = Path.home() / ".claude"
 
 def _user_prompt_main(args):
     kamilog.set_logging_level_by_namespace(args, logger=logger)
-    logger.enter("{} claude user-system-prompt".format(PACKAGE_NAME))
     check_corpus_setup_for_cli()
 
-    prompt_file = args.prompt_file
+    render_profile = resolve_render_profile(
+        args,
+        surface_profiles=get_surface_profiles(),
+        default_show_comment=True,
+    )
 
-    export_user_system_prompt_file(prompt_file, use_coder=args.coder)
+    prompt = generate_user_system_prompt(
+        use_coder=args.coder,
+        render_profile=render_profile,
+    )
 
-    logger.done("export user system prompt" + "\t" + str(prompt_file))
+    print(prompt)
 
 
 def find_user_system_prompt_file(claude_folder):
@@ -57,15 +69,14 @@ def register_user_prompt_parser(cli_subparser):  ###############################
         description=__doc__ + _DESCRIPTION,
         formatter_class=RawDescriptionHelpFormatter,
         aliases=["usp"],
-    )
-
-    user_prompt_parser.add_argument(
-        "prompt_file",
-        nargs="?",
-        metavar="PROMPT_FILE",
-        type=Path,
-        default=find_user_system_prompt_file(DEFAULT_CLAUDE_FOLDER),
-        help="path to CLAUDE.md file; default: ~/.claude/CLAUDE.md",
+        parents=[
+            build_render_profile_parent_parser(
+                default_surface=("chat", "cowork"),
+                default_sparseness=DEFAULT_SPARSENESS,
+                comment_short_flags=False,
+                surface_profiles=get_surface_profiles(),
+            )
+        ],
     )
 
     user_prompt_parser.add_argument(

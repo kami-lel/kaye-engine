@@ -105,20 +105,39 @@ Lists file glob patterns indicating which file types or paths make the parent no
 
 ### Conditional Sidecar Nodes
 
-Conditional sidecar nodes are real prompt content (e.g., instructions, rules) that are conditionally spliced into the rendered prompt based on explicit requests via the `contains_sidecars` parameter, a plain collection of sidecar names. Unlike descriptor sidecars, there is no fixed set of conditional names — any `{name}` heading can be requested this way, including reserved descriptor names.
+Conditional sidecar nodes are real prompt content (e.g., instructions, rules) that are conditionally spliced into the rendered prompt based on explicit requests via `RenderProfile`'s `conditional_sidecars` field, a plain collection of sidecar names. Unlike descriptor sidecars, there is no fixed set of conditional names — any `{name}` heading can be requested this way, including reserved descriptor names.
 
-**Rendering behavior:** Pass `contains_sidecars=(...)` to auto-include sidecars of the given name(s) during rendering.
+**Rendering behavior:** Pass `profile=RenderProfile(conditional_sidecars=(...))` to auto-include sidecars of the given name(s) during rendering.
 
-Q.v. [`claude-doc.md`](claude-doc.md) for the list of `{Claude Tool:...}` sidecars, which Claude export surface includes each of these, and the underlying API.
+Q.v. [`claude-doc.md`](claude-doc.md) for the list of `{[ClaudeCode:...]}`/`{[ClaudeChat:...]}` sidecars, which Claude export surface includes each of these, and the underlying API.
 
-
-
-
+A conditional sidecar can itself carry sidecar children — e.g. its own `{description}` — since detection and depth placement apply per-node, independent of the parent's own type.
 
 
-#### `{explicit}`
 
-A persona-intensifier sidecar supplementing a personality node; not tool-specific and currently has no code consumer (no `CLAUDE_*_SIDECARS` constant references it yet).
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -127,29 +146,29 @@ A persona-intensifier sidecar supplementing a personality node; not tool-specifi
 
 Sidecar nodes follow the standard Markdown heading format in `prompt_corpus.md`:
 
-```markdown
-# Parent Node
+    ```markdown
+    # Parent Node
 
-Content of parent node.
+    Content of parent node.
 
-## {description}
+    ## {description}
 
-This node describes the parent.
+    This node describes the parent.
 
-## {when_to_use}
+    ## {when_to_use}
 
-This node indicates when to use the parent.
+    This node indicates when to use the parent.
 
-## {globs}
+    ## {globs}
 
-```glob
-**/*.py
-```
+    ```glob
+    **/*.py
+    ```
 
-## {Claude Tool:TodoWrite}
+    ## {[ClaudeCode:TodoWrite]}
 
-This node contains TodoWrite-specific instructions.
-```
+    This node contains TodoWrite-specific instructions.
+    ```
 
 **Heading conventions:**
 - The heading level of a sidecar node (e.g., `##`, `###`) determines its depth in the tree
@@ -160,15 +179,56 @@ This node contains TodoWrite-specific instructions.
 **Checkmarking behavior:**
 - Sidecar nodes are **never auto-checkmarked** by `create_full_blueprint()` or by `.checkmark()` with `recursively=True`
 - Descriptor sidecars are generally not checkmarked at all — their content is accessed via the `.sidecars` blueprint attribute
-- Conditional sidecar nodes can be auto-checkmarked only when you explicitly pass their name in the `contains_sidecars` collection to `generate_prompt()` or `render.render_prompt_lines()`
+- Conditional sidecar nodes can be auto-checkmarked only when you explicitly pass their name in the `conditional_sidecars` collection to `generate_prompt()` or `render.render_prompt_lines()`
 - To explicitly checkmark a sidecar node: `bp.checkmark(sidecar_node)`
 
 
 
 
-## Python Module `kaye_engine/prompt/sidecar_node.py`
 
-### `get_sidecar_name(node)`
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+## Programmatic API
+
+### `kaye_engine/prompt/sidecar_node.py`
+
+#### `get_sidecar_name(node)`
 
 Determine a node's sidecar name from its heading.
 
@@ -200,13 +260,13 @@ if name is not None:
 
 Check for specific sidecar names:
 ```python
-if name == "Claude Tool:TodoWrite":
+if name == "[ClaudeCode:TodoWrite]":
     print("this is a conditional sidecar node")
 ```
 
 ---
 
-### `BlueprintDescriptorSidecars`
+#### `BlueprintDescriptorSidecars`
 
 Container for descriptor sidecar metadata extracted from a node's descriptor children.
 
@@ -217,7 +277,7 @@ Represents the structured metadata (description, when_to_use, globs) derived fro
 
 **Attributes:**
 
-#### `description`
+##### `description`
 
 The description metadata from the node's `{description}` sidecar child.
 
@@ -231,7 +291,7 @@ blueprint.sidecars.description = "Custom description"
 print(blueprint.sidecars.description)  # "Custom description"
 ```
 
-#### `when_to_use`
+##### `when_to_use`
 
 The when_to_use metadata from the node's `{when_to_use}` sidecar child.
 
@@ -244,7 +304,7 @@ The when_to_use metadata from the node's `{when_to_use}` sidecar child.
 print(blueprint.sidecars.when_to_use)  # content of {when_to_use} node
 ```
 
-#### `globs`
+##### `globs`
 
 The file glob patterns from the node's `{globs}` sidecar child.
 
@@ -258,7 +318,7 @@ patterns = blueprint.sidecars.globs
 # e.g., ["**/*.py", "**/*.pyi"]
 ```
 
-#### `description_and_when_to_use`
+##### `description_and_when_to_use`
 
 Derived property combining both description and when_to_use fields.
 
@@ -277,7 +337,7 @@ combined = blueprint.sidecars.description_and_when_to_use
 
 **Methods:**
 
-#### `__or__(other)`
+##### `__or__(other)`
 
 Merge two `BlueprintDescriptorSidecars` instances using the `|` operator.
 
@@ -321,8 +381,61 @@ merged_bp = bp1 | bp2
 
 Conditional rendering with conditional sidecar nodes:
 ```python
-from kaye_engine.cli.claude import CLAUDE_CODE_SIDECARS
+# Include arbitrary named sidecar content
+prompt = bp.generate_prompt(
+    profile=RenderProfile(conditional_sidecars=("[ClaudeCode:TodoWrite]",))
+)
+```
 
-# Include Claude Code tool instructions
-prompt = bp.generate_prompt(contains_sidecars=CLAUDE_CODE_SIDECARS)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+## Affordances
+
+A second, independent auto-checkmark mechanism for a common case: acknowledging whether a platform capability is available at all, rather than splicing in arbitrary named content.
+
+In the corpus, pair a `{[canonical_name] Usage}` / `{[canonical_name] Lack}` sidecar under a checkmarked node, describing respectively what to do when the capability is present or absent.
+
+Programmatically, register each capability once via `register_affordance(canonical_name)`, then pass `profile=RenderProfile(affordances=(...))` to `generate_prompt()` / `render_prompt_lines()`, `affordances` being a collection of canonical names available for this invocation, alongside `conditional_sidecars` on the same `RenderProfile`. Each registered affordance's `Usage` sidecar is checkmarked when its `canonical_name` is present in `affordances`, and its `Lack` sidecar when absent — either way, only under an already-checkmarked parent. `affordances=None` is the default, keeping the render as-is; `affordances=()` marks every affordance absent.
+
+How a consumer's own CLI determines what to pass as `affordances` for a given invocation is entirely up to that consumer — the engine has no concept of "surface" or "which affordances apply where."
+
+Q.v. [`claude-doc.md`](claude-doc.md) for how to uses this mechanism for Claude platform tools specifically.
+
+**Example:**
+```python
+# Usage/Lack checkmarking for every registered affordance
+prompt = bp.generate_prompt(
+    profile=RenderProfile(affordances=("ClaudeCode:TodoWrite",))
+)
 ```

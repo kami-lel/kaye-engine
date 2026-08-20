@@ -3,6 +3,7 @@
 [^format]
 
 <!--
+fixme affordance vs toolset: affordance = toolsets + fallback
 todo todo CLI to import/export w/ OpenWebUI
 todo todo utilize personalities, allow multi agent conversation
 -->
@@ -33,7 +34,63 @@ todo todo utilize personalities, allow multi agent conversation
 
 ### Security
 
-[unreleased]: https://github.com/kami-lel/kaye-engine/compare/v7.2.0...dev
+[unreleased]: https://github.com/kami-lel/kaye-engine/compare/v7.3.0...dev
+
+
+
+
+
+
+
+
+
+
+
+
+
+## [7.3.0] - 2026-08-21
+
+### Added
+
+- `--version` flag on the `kaye-engine` CLI
+- `affordance` registry and CLI subcommand, tracking platform
+  capabilities a rendered prompt can check for
+- `glossary`/`g` CLI subcommand, printing or listing a registered
+  glossary
+- shared `--surface`, `--comment`/`--no-comment`, `--conditional-sidecar`,
+  `--affordance`, and `--sparseness` flags across every command that
+  renders a prompt, via a common `RenderProfile` settings bundle
+- `disable_remark` option on a glossary, omitting the `(...)` remark
+  suffix from its rendered entries, overridable per render
+- `term_definition`-tagged abbreviations now render as a plain
+  term-definition list item instead of the usual `abbr:meaning` form
+
+### Changed
+
+- Claude surface and affordance configuration moved out of
+  `kaye-engine`; a consumer project now supplies its own surfaces and
+  affordances instead of relying on a built-in catalog
+- `claude user-system-prompt` (`usp`) now prints the prompt to stdout
+  instead of writing a file
+- default blank-line trimming (`sparseness`) is stricter — omitting
+  `--sparseness` now strips blank lines instead of keeping single ones
+- every dynamic node (built-in types and registered glossaries) now
+  attaches to a corpus automatically; an authored heading is only
+  needed to customize its placement or preface
+- `export` CLI subcommand renamed `exportable` (alias `x` kept)
+- `claude`'s `anthropic` alias dropped; `a` still works
+- decode-only abbreviations node renamed `decode-only-abbr`
+
+### Fixed
+
+- a dynamic node with an authored heading now attaches at that
+  heading's exact spot in the tree, instead of always at the root
+- documentation corrections: `AGENTS.md`/`CONTEXT.md` referenced
+  getters that no longer exist; the abbreviation-tag reference was
+  missing `term_definition`; the README was missing a link to the
+  exportable-registry docs
+
+[7.3.0]: https://github.com/kami-lel/kaye-engine/compare/v7.2.0...v7.3.0
 
 
 

@@ -1,21 +1,17 @@
-import pytest
-
-
 from copy import deepcopy
 from unittest.mock import mock_open, patch
 
-
+import pytest
 from kaye_engine.abbr_collection import get_abbr_data
 from kaye_engine.abbr_collection.abbr_data import _abbr_data
 from kaye_engine.abbr_collection.abbr_meaning import AbbrMeaning
+from kaye_engine.prompt import (
+    DecodeOnlyAbbrNode,
+    GlossaryNode,
+    TodayNode,
+)
 from kaye_engine.prompt.prompt_corpus_loader import load_corpus_tree
 from kaye_engine.prompt.prompt_corpus_node import PromptCorpusNode
-
-from kaye_engine.prompt import (
-    TodayNode,
-    ShorthandNode,
-    GlossaryNode,
-)
 
 
 @pytest.fixture(scope="session", autouse=True)
@@ -143,7 +139,7 @@ def corpus_testee3():
 def corpus_dynamic_testee(corpus_testee3):
     tree = deepcopy(corpus_testee3)
 
-    for node_type in (TodayNode, ShorthandNode):
+    for node_type in (TodayNode, DecodeOnlyAbbrNode):
         node_type(tree)
 
     for glossary_name in (

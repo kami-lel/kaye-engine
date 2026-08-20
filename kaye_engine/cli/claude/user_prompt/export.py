@@ -1,16 +1,16 @@
 """
 export_user_file.py
 
-define ``export_user_system_prompt_file``
+define ``generate_user_system_prompt``, ``export_user_system_prompt_file``
 """
 
 from pathlib import Path
 
 from kaye_engine import kamilog
-from kaye_engine.cli.claude import CLAUDE_CHAT_SIDECARS, LOGGER_CLAUDE_NAME
-from kaye_engine.cli.claude.blueprint_name import (
-    get_claude_chat_blueprint,
-    get_claude_coder_blueprint,
+from kaye_engine.cli.claude import LOGGER_CLAUDE_NAME
+from kaye_engine.cli.claude.exportable_name import (
+    get_claude_chat_coder_exportable,
+    get_claude_chat_exportable,
 )
 
 # logger  ######################################################################
@@ -18,46 +18,63 @@ logger = kamilog.getLogger(LOGGER_CLAUDE_NAME)
 
 
 # Main Entry Point  ############################################################
+def generate_user_system_prompt(*, use_coder=False, render_profile=None):
+    """
+    render the Chat exportable as the Claude user/system prompt
+
+    renders the configured Chat exportable; when ``use_coder``, renders
+    the configured Chat Coder exportable instead -- the precomputed
+    merge of Chat and Coder
+
+    :param use_coder: render the precomputed Chat+Coder exportable
+            instead of the plain Chat exportable
+    :type use_coder: bool
+    :param render_profile: render profile forwarded to
+            ``exportable.content(...)``, v.s. ``resolve_render_profile()``;
+            ``None`` renders with the exportable's own defaults
+    :type render_profile: RenderProfile, optional
+    :return: rendered prompt
+    :rtype: str
+    """
+    exportable = (
+        get_claude_chat_coder_exportable()
+        if use_coder
+        else get_claude_chat_exportable()
+    )
+
+    return exportable.content(profile=render_profile)
+
+
 def export_user_system_prompt_file(
     file_path,
     *,
     use_coder=False,
-    sparseness=1,
-    sidecars=CLAUDE_CHAT_SIDECARS,
+    render_profile=None,
 ):
     """
-    export the Chat blueprint as Claude user/system prompt to CLAUDE.md
+    export the Chat exportable as Claude user/system prompt to CLAUDE.md
 
-    renders the configured Chat blueprint and writes the prompt to the given
-    file path; optionally appends the configured Coder blueprint
+    renders the configured Chat (or Chat Coder) exportable via
+    :func:`generate_user_system_prompt` and writes the prompt to the given
+    file path
 
     :param file_path: destination file path for CLAUDE.md
     :type file_path: Path-like
-    :param use_coder: append the Coder blueprint after the main blueprint
+    :param use_coder: render the precomputed Chat+Coder exportable
+            instead of the plain Chat exportable
     :type use_coder: bool
-    :param sparseness: blank-line policy forwarded to
-            ``generate_prompt()``; defaults to 1
-    :type sparseness: int, optional
-    :param sidecars: conditional sidecar names to auto-checkmark, forwarded
-            to ``generate_prompt()`` as ``contains_sidecars``; defaults to
-            ``CLAUDE_CHAT_SIDECARS``
-    :type sidecars: collections.abc.Iterable[str], optional
+    :param render_profile: render profile forwarded to
+            ``exportable.content(...)``, v.s. ``resolve_render_profile()``;
+            ``None`` renders with the exportable's own defaults
+    :type render_profile: RenderProfile, optional
     """
     file_path = Path(file_path).resolve()
     file_path.parent.mkdir(parents=True, exist_ok=True)
 
-    blueprint = get_claude_chat_blueprint()
-
-    agent_behavior = blueprint.corpus["Agent Behavior"]
-    blueprint.checkmark(agent_behavior)
-    blueprint.checkmark(agent_behavior["Claude Behavior"])
-
-    if use_coder:
-        blueprint = blueprint | get_claude_coder_blueprint()
-
     file_path.write_text(
-        blueprint.generate_prompt(
-            contains_sidecars=sidecars, sparseness=sparseness
+        generate_user_system_prompt(
+            use_coder=use_coder,
+            render_profile=render_profile,
         ),
         encoding="utf-8",
     )

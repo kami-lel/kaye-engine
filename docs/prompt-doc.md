@@ -41,7 +41,7 @@ A *node* in prompt tree is an instance of abstract class ``BasePromptNode``, whi
 nodes types:
 
 - Prompt Corpus Node `PromptCorpusNode`
-- dynamic nodes `DynamicNode`; q.v. [`Dynamic Node Documentation`](dynamic-node-doc.md) for the full type list and details
+- dynamic nodes `DynamicNode`; q.v. [`Dynamic Node Documentation`](dynamic-content-doc.md) for the full type list and details
 
 
 
@@ -58,7 +58,7 @@ E.g.
 >>> corpus_node.name
 "Introduction"
 >>> dynamic_node.name
-"(Decode-Only Shorthand)"
+"(decode-only-abbr)"
 ```
 
 > [!NOTE]
@@ -66,7 +66,7 @@ E.g.
 
 **Sidecar nodes** are identified by names in curly braces, e.g. `{description}`. They are metadata or conditional instructions attached to parent nodes. For identification, checkmarking, rendering, and complete details, see [`sidecar-node-doc.md`](sidecar-node-doc.md).
 
-**Dynamic nodes** are identified by names in parentheses, such as `(Today)`, `(Decode-Only Shorthand)`. Unlike sidecar nodes, dynamic nodes are injected at render time and **are** included in the rendered prompt output. Q.v. [`Dynamic Node Documentation`](dynamic-node-doc.md) for comprehensive documentation on dynamic nodes.
+**Dynamic nodes** are identified by names in parentheses, such as `(today)`, `(decode-only-abbr)`. Unlike sidecar nodes, dynamic nodes are injected at render time and **are** included in the rendered prompt output. Q.v. [`Dynamic Node Documentation`](dynamic-content-doc.md) for comprehensive documentation on dynamic nodes.
 
 
 
@@ -89,7 +89,7 @@ E.g.
 >>> str(corpus_node)
 "PromptCorpusNode(Introduction#Data#Advanced)"
 >>> str(abbr_node)
-"ShorthandNode(Introduction#Data#(Decode-Only Shorthand))"
+"DecodeOnlyAbbrNode(Introduction#Data#(decode-only-abbr))"
 ```
 
 ----
@@ -194,7 +194,7 @@ an entire prompt tree, use `load_corpus_tree(tree_name, file_path)`.
 `kaye_engine` bundles no corpus markdown file of its own — the caller
 supplies the file and a name to cache it under. It parses the file and
 attaches the runtime dynamic nodes once; q.v.
-[`Dynamic Node Documentation`](dynamic-node-doc.md#using-a-dynamic-node)
+[`Dynamic Node Documentation`](dynamic-content-doc.md#using-a-dynamic-node)
 for details:
 
 ```python
@@ -224,7 +224,7 @@ classDiagram
     BasePromptNode <|-- PromptCorpusNode
     BasePromptNode <|-- DynamicNode
     DynamicNode <|-- TodayNode
-    DynamicNode <|-- ShorthandNode
+    DynamicNode <|-- DecodeOnlyAbbrNode
     DynamicNode <|-- GlossaryNode
     DynamicNode <|-- AbbrTagNode
     AbbrTagNode : +AbbrTags tag
@@ -330,7 +330,7 @@ E.g.
 bp.checkmark(bp.corpus[0][1])
 bp.checkmark(node_hash)
 bp.uncheckmark("Important Instruction")
-bp.uncheckmark("(Decode-Only Shorthand)")
+bp.uncheckmark("(decode-only-abbr)")
 ```
 
 However, when encounter a node findable in corpus tree, but not contained in the blueprint:
@@ -367,12 +367,12 @@ Use `.generate_prompt()` to render the concrete prompt as a single string.
 Use `render.render_prompt_lines()` (`kaye_engine.prompt.blueprint.render`) when you
 want the rendered prompt as a list of lines instead.
 
-Both support `disable_first_heading=`, `show_comment=`, and
-`contains_sidecars=` to conditionally include conditional sidecar nodes during rendering.
+Both take a `profile=` `RenderProfile` (fields include `disable_first_heading`,
+`show_comment`, and `conditional_sidecars`) to conditionally include conditional sidecar nodes during rendering.
 For details on sidecar node types and conditional inclusion patterns, see [`sidecar-node-doc.md`](sidecar-node-doc.md#conditional-sidecar-nodes).
 Any extra keyword arguments are passed through to node `content_lines()`
 implementations, which is how dynamic nodes receive values such as `query=`;
-q.v. [`Dynamic Node Documentation`](dynamic-node-doc.md#feeding-render-time-input).
+q.v. [`Dynamic Node Documentation`](dynamic-content-doc.md#feeding-render-time-input).
 
 E.g.
 
@@ -472,8 +472,7 @@ canonical_name = registry.canonical_name  # kebab-case slug, e.g. "chat"
 
 Each `BlueprintRegistry` carries the underlying `PromptBlueprint` as
 `.blueprint`, its `.canonical_name`/`.display_name`, whether it is
-`.is_internal` (never exported as a Claude Agent Skill), and the
-export-policy flags `always_apply`, `user_invokable`, and
-`llm_invokable`. Iterate `blueprint_registry` directly to enumerate every
-registered blueprint.
+`.is_exportable` (whether it is exported as a Claude Agent Skill), and the
+export-policy flags `user_invokable` and `llm_invokable`. Iterate
+`blueprint_registry` directly to enumerate every registered blueprint.
 

@@ -13,7 +13,7 @@ import pytest
 
 from kaye_engine.abbr_collection.abbr_data import _abbr_data
 from kaye_engine.abbr_collection.abbr_meaning import AbbrMeaning
-from kaye_engine.prompt.dynamic_nodes import GlossaryNode
+from kaye_engine.prompt.dynamic_nodes import GlossaryNode, TodayNode
 from kaye_engine.prompt.prompt_corpus_loader import load_corpus_tree
 
 
@@ -31,31 +31,53 @@ def prompt_corpus_tree_preview():
 # pytest  ######################################################################
 class TestDynamic:
     """
-    engine-defined dynamic node types (``DYNAMIC_NODE_TYPES``) still attach
-    unconditionally, with no corresponding corpus heading required; abbr
-    glossary nodes do not -- they are consumer-defined data, so they only
-    attach when a matching ``(glossary-name)`` heading is present, see
-    ``TestGlossaryHeading`` below
+    every dynamic node -- engine-defined types (``DYNAMIC_NODE_TYPES``),
+    every ``ABBR_TAG_NODE_MEMBERS`` tag, and every registered abbr
+    glossary -- auto-attaches unconditionally, with no corresponding
+    corpus heading required; an explicit ``(name)`` heading instead
+    fixes preface and location, see ``TestPreface``/``TestNestedParenHeading``
     """
 
     def test_today(_, prompt_corpus_tree_preview):
         opt = prompt_corpus_tree_preview
 
         print(opt)
-        assert "── (Today)" in opt
+        assert "── (today)" in opt
 
     def test_abbr(_, prompt_corpus_tree_preview):
         opt = prompt_corpus_tree_preview
 
         print(opt)
-        assert "── (Decode-Only Shorthand)" in opt
+        assert "── (decode-only-abbr)" in opt
 
     def test_abbr_tag(_, prompt_corpus_tree_preview):
         opt = prompt_corpus_tree_preview
 
         print(opt)
-        assert "── (Emoji)" in opt
-        assert "── (Single Character)" in opt
+        assert "── (emoji)" in opt
+        assert "── (single-character)" in opt
+
+    def test_glossary_auto_attaches_without_authored_heading(_):
+        mean = AbbrMeaning("auto-attach glossary meaning", remark=None)
+        with _abbr_data:
+            _abbr_data.add_entry(
+                mean,
+                "atgrp",
+                {
+                    "priority": 0,
+                    "tags": ["some-glossary"],
+                    "wrap": "word",
+                },
+            )
+
+        m = mock_open(read_data="# Title\n")
+
+        with patch("builtins.open", m):
+            tree = load_corpus_tree("dynamic-nodes-glossary-auto-test", "d.md")
+
+        node = tree["(some-glossary)"]
+        assert isinstance(node, GlossaryNode)
+        assert "- atgrp:auto-attach glossary meaning" in node.content_lines()
 
 
 class TestGlossaryHeading:
@@ -88,7 +110,7 @@ class TestGlossaryHeading:
         m = mock_open(read_data="# Title\n\n# (no-such-glossary)\nContent.\n")
 
         with pytest.raises(
-            ValueError, match="unrecognized dynamic node heading"
+            ValueError, match="unrecognized dynamic node name"
         ):
             with patch("builtins.open", m):
                 load_corpus_tree("dynamic-nodes-glossary-reject-test", "d.md")
@@ -98,41 +120,59 @@ class TestPreface:
 
     def test_matching_heading_becomes_preface(_):
         m = mock_open(
-            read_data="# Title\n\n# (Today)\nThe current date, for reference.\n"
+            read_data="# Title\n\n# (today)\nThe current date, for reference.\n"
         )
 
         with patch("builtins.open", m):
             tree = load_corpus_tree("dynamic-nodes-preface-test", "d.md")
 
-        today_node = tree["(Today)"]
+        today_node = tree["(today)"]
         assert "The current date, for reference." in today_node.content_lines()
 
-        today_children = [c for c in tree.children if c.name == "(Today)"]
+        today_children = [c for c in tree.children if c.name == "(today)"]
         assert len(today_children) == 1
 
     def test_matching_abbr_tag_heading_becomes_preface(_):
         m = mock_open(
-            read_data="# Title\n\n# (Emoji)\nEvery abbr tagged emoji.\n"
+            read_data="# Title\n\n# (emoji)\nEvery abbr tagged emoji.\n"
         )
 
         with patch("builtins.open", m):
             tree = load_corpus_tree("dynamic-nodes-abbr-tag-preface-test", "d.md")
 
-        emoji_node = tree["(Emoji)"]
+        emoji_node = tree["(emoji)"]
         assert "Every abbr tagged emoji." in emoji_node.content_lines()
 
-        emoji_children = [c for c in tree.children if c.name == "(Emoji)"]
+        emoji_children = [c for c in tree.children if c.name == "(emoji)"]
         assert len(emoji_children) == 1
 
     def test_unrecognized_paren_heading_raises(_):
         m = mock_open(read_data="# Title\n\n# (Bogus)\nSome content.\n")
 
-        with pytest.raises(ValueError, match="unrecognized dynamic node heading"):
+        with pytest.raises(ValueError, match="unrecognized dynamic node name"):
             with patch("builtins.open", m):
                 load_corpus_tree("dynamic-nodes-reject-test", "d.md")
 
 
-class TestNestedParenHeadingRejected:
+class TestNestedParenHeading:
+    """
+    a ``(name)`` heading registers its dynamic node at that exact tree
+    location -- any depth, in place of the heading -- not only as a
+    direct child of root
+    """
+
+    def test_recognized_nested_paren_heading_attaches_at_location(_):
+        m = mock_open(read_data="# Intro\n\n## (today)\nSome content.\n")
+
+        with patch("builtins.open", m):
+            tree = load_corpus_tree("dynamic-nodes-nested-today-test", "d.md")
+
+        today_node = tree["Intro"]["(today)"]
+        assert isinstance(today_node, TodayNode)
+        assert "Some content." in today_node.content_lines()
+
+        # not also appended at root
+        assert "(today)" not in [c.name for c in tree.children]
 
     def test_unrecognized_nested_paren_heading_raises(_):
         m = mock_open(
@@ -140,16 +180,34 @@ class TestNestedParenHeadingRejected:
         )
 
         with pytest.raises(
-            ValueError, match="only allowed as a direct child of root"
+            ValueError, match="unrecognized dynamic node name"
         ):
             with patch("builtins.open", m):
                 load_corpus_tree("dynamic-nodes-nested-reject-test", "d.md")
 
-    def test_recognized_nested_paren_heading_still_raises(_):
-        m = mock_open(read_data="# Intro\n\n## (Today)\nSome content.\n")
+    def test_duplicate_heading_for_same_node_raises(_):
+        m = mock_open(
+            read_data="# (today)\nRoot preface.\n\n# Intro\n\n## (today)\n"
+            "Nested preface.\n"
+        )
 
         with pytest.raises(
-            ValueError, match="only allowed as a direct child of root"
+            ValueError, match="duplicate heading for dynamic node"
         ):
             with patch("builtins.open", m):
-                load_corpus_tree("dynamic-nodes-nested-today-test", "d.md")
+                load_corpus_tree("dynamic-nodes-duplicate-heading-test", "d.md")
+
+
+class TestLocationOrdering:
+    """
+    a dynamic node located via heading swaps into that heading's
+    position, preserving order among its siblings
+    """
+
+    def test_root_sibling_order_preserved(_):
+        m = mock_open(read_data="# A\n\n# (today)\nPreface.\n\n# B\n")
+
+        with patch("builtins.open", m):
+            tree = load_corpus_tree("dynamic-nodes-order-test", "d.md")
+
+        assert [c.name for c in tree.children][:3] == ["A", "(today)", "B"]

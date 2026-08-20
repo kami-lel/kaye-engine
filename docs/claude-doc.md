@@ -23,7 +23,7 @@ kaye-engine claude skill                # export exportables as Skill folders or
 kaye-engine claude plugin               # export exportables as a plugin folder or .zip package
 kaye-engine claude marketplace          # export a marketplace folder for the Claude sidebar
 kaye-engine claude code                 # export a plugin plus CLAUDE.md into ~/.claude
-kaye-engine claude user-system-prompt   # export a blueprint as ~/.claude/CLAUDE.md
+kaye-engine claude user-system-prompt   # print the User System Prompt
 kaye-engine claude vs-code-extension    # export CLAUDE.md, marketplace, and settings.json
                                         # into ~/.claude for the Claude Code VS Code Extension
 ```
@@ -90,53 +90,10 @@ To load the marketplace in VS Code:
 
 ## Consumer Requirement
 
-A corpus must supply a node at `Agent Behavior` → `Claude Behavior`, and register a Chat blueprint and a Coder blueprint under whatever names the consumer passes to `setup_claude_cli(...)`; `user_prompt/export.py` resolves them via `get_claude_chat_blueprint()`/`get_claude_coder_blueprint()` in `blueprint_name.py`.
+A corpus must register a Chat exportable and a Chat Coder exportable under whatever names it passes to `setup_claude_cli(...)` as `chat_exportable_name`/`chat_coder_exportable_name`; `user_prompt/export.py` resolves them via `get_claude_chat_exportable()`/`get_claude_chat_coder_exportable()` in `exportable_name.py`.
+
+The Chat Coder exportable (`chat_coder_exportable_name`) is the precomputed merge (via `BlueprintRegistry.merge()`, q.v. [`exportable-registry-doc.md`](exportable-registry-doc.md)) of the Chat exportable and the Coder exportable, built once at registration time rather than merged live at export time; it is what builds the final `-c` prompt used by `usp -c`, `claude code`, and `claude vs-code-extension`. Both Chat and Chat Coder may also double as their own standalone exportable Skills (e.g. a consumer package may register the merge under `"chat"` and `"chat-coder"` names of its own choosing).
 
 ----
 
-A `claude`-exporting consumer must call `setup_claude_cli(~~)` before invoking the. The version passed here is the consumer's own, stamped into every `plugin.json`, `marketplace.json`, and `SKILL.md` the CLI writes
-
-
-
-
-
-
-
-
-
-
-
-
-
-## Conditional Sidecar Inclusion
-
-<!-- bug better surfaced based sidecar org  -->
-
-Conditional `{Claude Tool:...}` sidecar nodes are optional; when present, each Claude export surface auto-includes them via its own `CLAUDE_*_SIDECARS` constant in `kaye_engine.cli.claude`.
-
-Q.v. [`sidecar-node-doc.md`](sidecar-node-doc.md) for the sidecar node concept and how they're authored in the prompt corpus.
-
-| sidecar name | Claude tool |
-| --- | --- |
-| `{Claude Tool:Enter/ExitPlanMode}` | `EnterPlanMode`/`ExitPlanMode` |
-| `{Claude Tool:TodoWrite}` | `TodoWrite` |
-| `{Claude Tool:AskUserQuestion}` | `AskUserQuestion` |
-| `{Claude Tool:Subagents}` | `Agent`, `ListAgents`, `SendMessage`, `TaskStop` |
-| `{Claude Tool:Tasks}` | `TaskCreate`, `TaskGet`, `TaskList`, `TaskOutput`, `TaskStop`, `TaskUpdate` |
-| `{Claude Tool:Worktrees}` | `EnterWorktree`, `ExitWorktree` |
-| `{Claude Tool:Skill}` | `Skill` |
-| `{Claude Tool:Workflow}` | `Workflow` |
-| `{Claude Tool:ReportFindings}` | `ReportFindings` |
-
-
-| sidecar name | `CLAUDE_CHAT_SIDECARS` | `CLAUDE_COWORK_SIDECARS` | `CLAUDE_CODE_SIDECARS` | `CLAUDE_CODE_VSC_XTN_SIDECARS` |
-| --- | --- | --- | --- | --- |
-| `Claude Tool:Enter/ExitPlanMode` | ❌ | ❌ | ✔️ | ✔️ |
-| `Claude Tool:TodoWrite` | ❌ | ❌ | ✔️ | ✔️ |
-| `Claude Tool:AskUserQuestion` | ❌ | ❌ | ✔️ | ✔️ |
-| `Claude Tool:Subagents` | ❌ | ❌ | ✔️ | ✔️ |
-| `Claude Tool:Tasks` | ❌ | ❌ | ✔️ | ✔️ |
-| `Claude Tool:Worktrees` | ❌ | ❌ | ✔️ | ✔️ |
-| `Claude Tool:Skill` | ❌ | ❌ | ✔️ | ✔️ |
-| `Claude Tool:Workflow` | ❌ | ❌ | ✔️ | ✔️ |
-| `Claude Tool:ReportFindings` | ❌ | ❌ | ✔️ | ✔️ |
+A `claude`-exporting consumer must call `setup_claude_cli(~~)` before invoking the CLI. The version passed here is the consumer's own, stamped into every `plugin.json`, `marketplace.json`, and `SKILL.md` the CLI writes.

@@ -85,7 +85,6 @@ class ExportableAbbr(list, Exportable):  #######################################
         *,
         canonical_name="",
         display_name="",
-        always_apply=False,
         user_invokable=False,
         llm_invokable=True,
     ):
@@ -94,17 +93,25 @@ class ExportableAbbr(list, Exportable):  #######################################
             self,
             canonical_name=canonical_name,
             display_name=display_name,
-            always_apply=always_apply,
             user_invokable=user_invokable,
             llm_invokable=llm_invokable,
         )
 
-    def content(self):
+    def content(self, **_kwargs):
         """
         :return: this group's markdown abbr list
         :rtype: str
         """
         return self.as_md_list()
+
+    def merge(self, other):
+        """
+        :raises NotImplementedError: abbreviation groups have no
+                defined merge
+        """
+        raise NotImplementedError(
+            "ExportableAbbr does not support merge()"
+        )
 
     def as_md_list(self):
         """
@@ -118,11 +125,14 @@ def _sort_entries(entries):
     return sorted(entries, key=lambda e: e.abbr.lower())
 
 
-def _make_group(display_name, entries, canonical_name=None):
+def _make_group(
+    display_name, entries, canonical_name=None, user_invokable=False
+):
     return ExportableAbbr(
         entries,
         canonical_name=canonical_name or _to_skill_name(display_name),
         display_name=display_name,
+        user_invokable=user_invokable,
     )
 
 
@@ -144,8 +154,10 @@ def _get_abbrs_by_glossaries(abbr_data):
                 e for e in abbr_data.abbrs if glossary_name in e.glossaries
             ),
             canonical_name="abbr-glossary-" + glossary_name,
+            user_invokable=True,
         )
         for glossary_name in sorted(abbr_glossary_registry)
+        if abbr_glossary_registry[glossary_name].is_exportable
     ]
 
 

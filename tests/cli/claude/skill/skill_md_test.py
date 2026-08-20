@@ -12,6 +12,15 @@ import yaml
 
 from kaye_engine.cli.claude.skill.skill_md import Skill
 from kaye_engine.prompt.blueprint import BlueprintRegistry
+from kaye_engine.prompt.blueprint.render_profile import RenderProfile
+
+
+def _dummy_registry(blueprint):
+    return BlueprintRegistry(
+        canonical_name="test-skill",
+        display_name="Test Skill",
+        blueprint=blueprint,
+    )
 
 _NOT_CALLED_MSG = "Skill must not call importlib.metadata itself"
 
@@ -37,12 +46,46 @@ class TestVersionInjection:
         blueprint.sidecars.globs = []
         blueprint.generate_prompt.return_value = "body"
 
-        registry = BlueprintRegistry(
-            canonical_name="test-skill",
-            display_name="Test Skill",
-            blueprint=blueprint,
-        )
+        registry = _dummy_registry(blueprint)
 
         skill = Skill.from_exportable(registry, version="1.2.3")
 
         assert skill.version == "1.2.3"
+
+    def test_from_exportable_threads_render_profile(_):
+        blueprint = MagicMock()
+        blueprint.sidecars.description = "d"
+        blueprint.sidecars.when_to_use = "w"
+        blueprint.sidecars.globs = []
+        blueprint.generate_prompt.return_value = "body"
+
+        registry = _dummy_registry(blueprint)
+        render_profile = RenderProfile(
+            affordances=("Claude", "ClaudeCowork"),
+            conditional_sidecars=("[Claude]", "[ClaudeCowork]"),
+            sparseness=0,
+            show_comment=False,
+        )
+
+        Skill.from_exportable(registry, render_profile=render_profile)
+
+        blueprint.generate_prompt.assert_called_once_with(
+            profile=registry.render_profile.merge(render_profile)
+        )
+
+    def test_from_exportable_without_render_profile_uses_registry_defaults(
+        _,
+    ):
+        blueprint = MagicMock()
+        blueprint.sidecars.description = "d"
+        blueprint.sidecars.when_to_use = "w"
+        blueprint.sidecars.globs = []
+        blueprint.generate_prompt.return_value = "body"
+
+        registry = _dummy_registry(blueprint)
+
+        Skill.from_exportable(registry)
+
+        blueprint.generate_prompt.assert_called_once_with(
+            profile=registry.render_profile
+        )
