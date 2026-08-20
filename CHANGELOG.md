@@ -136,8 +136,8 @@ todo todo utilize personalities, allow multi agent conversation
   substitution are unified under one Dynamic Substitution section
 - `kaye-engine export` CLI subcommand renamed `exportable` (alias `x`
   kept)
-- `claude`'s `anthropic`/`a` aliases dropped in favor of a single `c`,
-  freeing `a` for the new `affordance` subcommand
+- `claude`'s `anthropic` alias dropped; `a` is retained on `claude`
+  and not moved to the new `affordance` subcommand, which has no alias
 - `Exportable.content()` widened to `content(self, **render_kwargs)`;
   `BlueprintRegistry.content()` forwards the kwargs straight into
   `generate_prompt()` (drops the hardcoded `sparseness=0`);

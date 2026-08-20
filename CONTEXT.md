@@ -184,7 +184,7 @@ kaye_engine/
 │   │   └── surface_parser.py      shared `--surface` parent parser --
 │   │                              choices from consumer's surface_profiles
 │   ├── dynamic_node/    `dynamic-node`/`dn` subcommand: multi-node render
-│   ├── affordance_parser.py  `affordance`/`a` subcommand: list affordance_registry
+│   ├── affordance_parser.py  `affordance` subcommand (no alias): list affordance_registry
 │   ├── glossary_parser.py    `glossary`/`g` subcommand: print/list glossaries
 │   ├── comment_parser.py     shared `--comment`/`--no-comment` parent parser
 │   ├── render_profile_parser.py  shared 5-option parent parser + aux fn

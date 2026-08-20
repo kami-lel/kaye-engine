@@ -103,11 +103,12 @@ kaye-engine glossary ls                     # list every registered glossary nam
 ```
 
 Aliases: `blueprint` → `bp`; `blueprint show` → `bp s`; `blueprint
-generate` → `bp gen`/`bp g`; `dynamic-node` → `dn`; `claude` → `c` (was
-`anthropic`/`a`); `claude code` → `claude c`; `claude marketplace` →
-`claude m`; `claude plugin` → `claude p`; `claude skill` → `claude s`;
-`claude user-system-prompt` → `claude usp`; `claude vs-code-extension`
-→ `claude v`; `exportable` → `x`; `affordance` → `a`; `glossary` → `g`.
+generate` → `bp gen`/`bp g`; `dynamic-node` → `dn`; `claude` → `a` (was
+also `anthropic`, now dropped); `claude code` → `claude c`; `claude
+marketplace` → `claude m`; `claude plugin` → `claude p`; `claude skill`
+→ `claude s`; `claude user-system-prompt` → `claude usp`; `claude
+vs-code-extension` → `claude v`; `exportable` → `x`; `glossary` → `g`.
+`affordance` has no alias.
 
 **Rendering commands** — any subcommand that reaches
 `PromptBlueprint.generate_prompt(...)`, directly or via
