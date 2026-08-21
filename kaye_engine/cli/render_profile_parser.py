@@ -4,7 +4,7 @@ render_profile_parser.py
 define ``build_render_profile_parent_parser`` and
 ``resolve_render_profile`` -- the shared parent parser and aux function
 behind the 5 render options (``--surface``, ``--comment``/
-``--no-comment``, ``--conditional-sidecar``, ``--affordance``,
+``--no-comment``, ``--conditional-sidecar``, ``--variant``,
 ``--sparseness``) every rendering command exposes
 """
 
@@ -64,12 +64,11 @@ def build_render_profile_parent_parser(
         ],
     )
     parent.add_argument(
-        "-a",
-        "--affordance",
+        "--variant",
         nargs="+",
-        metavar="AFFORDANCE",
+        metavar="VARIANT",
         default=(),
-        help="affordance name(s) to include, unioned with --surface",
+        help="variant name(s) to include, unioned with --surface",
     )
     parent.add_argument(
         "-i",
@@ -125,10 +124,8 @@ def resolve_render_profile(
     for name in surface_names:
         profile = profile.merge(surface_profiles[name])
 
-    if args.affordance or surface_names:
-        profile = profile.merge(
-            RenderProfile(affordances=tuple(args.affordance))
-        )
+    if args.variant or surface_names:
+        profile = profile.merge(RenderProfile(variants=tuple(args.variant)))
     if args.conditional_sidecar:
         profile = profile.merge(
             RenderProfile(
