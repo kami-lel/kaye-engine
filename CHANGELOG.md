@@ -39,8 +39,9 @@ todo todo utilize personalities, allow multi agent conversation
 - `RenderProfile.affordances` renamed `variants`; `merge_affordances`
   renamed `merge_variants`; `--affordance`/`-a` CLI flag renamed
   `--variant` (long-flag only, no short form)
-- `setup_claude_cli`'s `affordance_names` parameter split into
-  `standalone_affordance_names` and `affordance_groups`
+- `setup_claude_cli`'s `affordance_names` parameter renamed
+  `affordance_groups` (affordance canonical name -> its variant
+  canonical names); a singleton affordance is simply a 1-tuple entry
 - `affordance` CLI subcommand renamed `list-affordance`/`lsa`, now
   listing only affordance names (variants moved to `list-variant`)
 

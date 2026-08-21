@@ -53,10 +53,10 @@ pytest tests/prompt/bp/prompt-bp-merge_test.py::TestMerge::test1_1
 exportable-abbr registration, `dynamic-node` parsing, and `SKILL.md`
 rendering. The exporters themselves need a corpus to produce output, so the
 consumer package's suite covers those; do not scaffold corpus fixtures here
-to widen the directory. `exportable`, `affordance`, and `glossary` are now
-covered by dedicated parser tests; the `blueprint` subcommand parser
-currently has no dedicated tests — a known gap, not an intentional
-exclusion like the exporters above.
+to widen the directory. `exportable`, `list-affordance`, `list-variant`,
+and `glossary` are now covered by dedicated parser tests; the
+`blueprint` subcommand parser currently has no dedicated tests — a
+known gap, not an intentional exclusion like the exporters above.
 
 **Do not parallelize** — no `pytest-xdist`, no `-n auto`. The suite is
 already fast, worker startup cancels out any gain, and splitting across
@@ -72,8 +72,9 @@ pytest
 
 The editable install registers a `kaye-engine` console script, so
 `kaye-engine ...` and `python -m kaye_engine ...` are equivalent — prefer
-the shorter form. **Six** top-level subcommands exist: `blueprint`,
-`claude`, `dynamic-node`, `exportable`, `affordance`, and `glossary`:
+the shorter form. **Seven** top-level subcommands exist: `blueprint`,
+`claude`, `dynamic-node`, `exportable`, `list-affordance`,
+`list-variant`, and `glossary`:
 
 ```bash
 kaye-engine --help                          # show CLI usage
@@ -97,7 +98,8 @@ kaye-engine claude user-system-prompt -c    # append Coder blueprint content
 kaye-engine claude vs-code-extension        # CLAUDE.md + marketplace + settings
 kaye-engine exportable EXPORTABLE           # print an exportable's content
 kaye-engine exportable ls                   # list every registered exportable name
-kaye-engine affordance                      # list affordance_registry names, sorted
+kaye-engine list-affordance                 # list affordance_registry names, sorted
+kaye-engine list-variant                    # list variant_registry canonical names, sorted
 kaye-engine glossary GLOSSARY               # print a glossary's content
 kaye-engine glossary ls                     # list every registered glossary name
 ```
@@ -107,8 +109,8 @@ generate` → `bp gen`/`bp g`; `dynamic-node` → `dn`; `claude` → `a` (was
 also `anthropic`, now dropped); `claude code` → `claude c`; `claude
 marketplace` → `claude m`; `claude plugin` → `claude p`; `claude skill`
 → `claude s`; `claude user-system-prompt` → `claude usp`; `claude
-vs-code-extension` → `claude v`; `exportable` → `x`; `glossary` → `g`.
-`affordance` has no alias.
+vs-code-extension` → `claude v`; `exportable` → `x`; `list-affordance`
+→ `lsa`; `list-variant` → `lsv`; `glossary` → `g`.
 
 **Rendering commands** — any subcommand that reaches
 `PromptBlueprint.generate_prompt(...)`, directly or via
@@ -122,22 +124,22 @@ the latter returning a `RenderProfile` rather than a kwargs dict:
 
 | flag | short | effect |
 |---|---|---|
-| `--surface` | `-u` | Claude surface(s) to checkmark affordances for; combinable |
+| `--surface` | `-u` | Claude surface(s) to checkmark variants for; combinable |
 | `--comment`/`--no-comment` | `-c`/`-C` | show/omit the trailing generated-by comment |
 | `--conditional-sidecar` | `-i` | conditional-sidecar name(s), unioned with `--surface` |
-| `--affordance` | `-a` | affordance name(s), unioned with `--surface` |
+| `--variant` | none | variant name(s), unioned with `--surface` |
 | `--sparseness` | `-s` | blank-line policy, v.i. |
 
-`--affordance`/`--conditional-sidecar` are additive: on surface-aware
+`--variant`/`--conditional-sidecar` are additive: on surface-aware
 (`claude ...`) subcommands they union with whatever `--surface` derives;
 on surface-less subcommands (`blueprint generate`, `dynamic-node`,
 `exportable`) they work standalone. When neither the corresponding flag
 nor `--surface` is passed, `resolve_render_profile`'s returned
-`RenderProfile` keeps `affordances=None`/`conditional_sidecars=()` --
+`RenderProfile` keeps `variants=None`/`conditional_sidecars=()` --
 its own defaults -- rather than an explicit override; `RenderProfile.
 merge()` treats those as a no-op contribution, so on `blueprint generate`
 and `claude skill`, a `register_blueprint(render_profile=RenderProfile(
-conditional_sidecars=..., affordances=...))` entry's own defaults apply
+conditional_sidecars=..., variants=...))` entry's own defaults apply
 instead of being clobbered by an empty value. `--comment`/`--no-comment` and
 `--sparseness` each keep their own pre-existing per-subcommand default
 when the flags are omitted. `claude user-system-prompt` already owns
@@ -184,7 +186,7 @@ package, not a bare checkout.
 `--surface` takes combinable names keyed into the consumer-supplied
 `surface_profiles` dict (a `dict[str, RenderProfile]` passed to
 `setup_claude_cli(...)`) — each name's `RenderProfile` is merged in,
-checkmarking the affordances/conditional sidecars that surface
+checkmarking the variants/conditional sidecars that surface
 carries. `--surface` is omitted entirely when no consumer project
 configures `surface_profiles`. Each subcommand defines its own
 default surface set when the flag is present but omitted.
@@ -216,7 +218,7 @@ constant:
 
 `render_profile` (a `RenderProfile`, default `RenderProfile()`) sets
 this entry's own default render settings — including
-`conditional_sidecars`/`affordances` — merged (not clobbered) by
+`conditional_sidecars`/`variants` — merged (not clobbered) by
 `BlueprintRegistry.content()` with any caller-supplied `profile=`
 via `RenderProfile.merge()`.
 
