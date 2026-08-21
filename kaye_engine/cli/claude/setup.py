@@ -11,8 +11,8 @@ define ``setup_claude_cli``, ``get_claude_cli_consumer_version``,
 from kaye_engine import kamilog
 from kaye_engine.cli import claude
 from kaye_engine.prompt.affordance_registry import (
-    affordance_registry,
-    register_affordance,
+    register_variant,
+    variant_registry,
 )
 
 __all__ = (
@@ -38,7 +38,8 @@ def setup_claude_cli(
     chat_coder_exportable_name,
     version,
     marketplace_folder_name,
-    affordance_names=(),
+    standalone_affordance_names=(),
+    affordance_groups=None,
     surface_profiles=None,
 ):
     """
@@ -74,10 +75,15 @@ def setup_claude_cli(
             destination, and under the target Claude folder for ``claude
             vs-code-extension``
     :type marketplace_folder_name: str
-    :param affordance_names: canonical names registered into
-            `affordance_registry` via `register_claude_affordances`;
-            defaults to ``()``
-    :type affordance_names: Iterable[str], optional
+    :param standalone_affordance_names: variant canonical names, each
+            registered as its own singleton affordance via
+            `register_claude_affordances`; defaults to ``()``
+    :type standalone_affordance_names: Iterable[str], optional
+    :param affordance_groups: affordance canonical name -> its variant
+            canonical names, registered via
+            `register_claude_affordances`; defaults to ``None``
+            (treated as ``{}``)
+    :type affordance_groups: dict[str, Iterable[str]] or None, optional
     :param surface_profiles: populates the ``--surface`` flag's
             choices; ``None`` (default) omits ``--surface`` entirely
     :type surface_profiles: dict[str, RenderProfile] or None, optional
@@ -89,7 +95,8 @@ def setup_claude_cli(
     claude._chat_coder_exportable_name = chat_coder_exportable_name
     claude._version = version
     claude._marketplace_folder_name = marketplace_folder_name
-    claude._affordance_names = affordance_names
+    claude._standalone_affordance_names = standalone_affordance_names
+    claude._affordance_groups = affordance_groups or {}
     claude._surface_profiles = surface_profiles
 
     register_claude_affordances()
@@ -97,16 +104,23 @@ def setup_claude_cli(
 
 def register_claude_affordances():
     """
-    register every name in the consumer-configured `affordance_names`
-    (see `setup_claude_cli`) into `affordance_registry` via
-    `register_affordance`, skipping any `canonical_name` already
-    registered -- keeps repeated `setup_claude_cli(...)` calls within
-    one process idempotent instead of raising on the second call
+    register every name in the consumer-configured
+    `standalone_affordance_names` and `affordance_groups` (see
+    `setup_claude_cli`) into `variant_registry` via `register_variant`,
+    skipping any `canonical_name` already registered -- keeps repeated
+    `setup_claude_cli(...)` calls within one process idempotent instead
+    of raising on the second call
     """
-    for canonical_name in claude._affordance_names:
-        if canonical_name in affordance_registry:
+    for canonical_name in claude._standalone_affordance_names:
+        if canonical_name in variant_registry:
             continue
-        register_affordance(canonical_name)
+        register_variant(canonical_name, affordance_name=canonical_name)
+
+    for affordance_name, variant_names in claude._affordance_groups.items():
+        for canonical_name in variant_names:
+            if canonical_name in variant_registry:
+                continue
+            register_variant(canonical_name, affordance_name=affordance_name)
 
 
 def get_claude_cli_consumer_version():
