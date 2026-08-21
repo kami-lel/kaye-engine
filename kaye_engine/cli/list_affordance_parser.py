@@ -1,7 +1,7 @@
 """
-affordance_parser.py
+list_affordance_parser.py
 
-define ``register_affordance_parser``
+define ``register_list_affordance_parser``
 """
 
 from kaye_engine.cli.cli_setup_guard import check_corpus_setup_for_cli
@@ -17,20 +17,24 @@ affordance_registry, sorted alphabetically, one per line"""
 
 
 # auxiliaries  #################################################################
-def _affordance_main(_):
+def _list_affordance_main(_):
     check_corpus_setup_for_cli()
 
-    for name in sorted(affordance_registry):
-        print(name)
+    for affordance_name in sorted(affordance_registry):
+        print(affordance_name)
 
 
 # Public API  ##################################################################
-def register_affordance_parser(cli_subparser):
+def register_list_affordance_parser(cli_subparser):
     """
-    register the ``kaye-engine affordance`` subcommand parser
+    register the ``kaye-engine list-affordance``/``lsa`` subcommand
+    parser
     """
-    affordance_parser = cli_subparser.add_parser(
-        "affordance", help=_HELP, description=_DESCRIPTION
+    list_affordance_parser = cli_subparser.add_parser(
+        "list-affordance",
+        aliases=["lsa"],
+        help=_HELP,
+        description=_DESCRIPTION,
     )
 
-    affordance_parser.set_defaults(func=_affordance_main)
+    list_affordance_parser.set_defaults(func=_list_affordance_main)

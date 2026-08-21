@@ -87,7 +87,7 @@ class TestRegisterBlueprint:  ##################################################
         assert blueprint_registry["test-registry-internal"] is reg
         assert "test-registry-internal" not in exportable_registry
 
-    def test_conditional_sidecars_and_affordances(
+    def test_conditional_sidecars_and_variants(
         _, corpus_testee1, registered_names
     ):
         bp = PromptBlueprint.create_empty_blueprint(
@@ -99,13 +99,13 @@ class TestRegisterBlueprint:  ##################################################
             "Test Registry Sidecars",
             bp,
             render_profile=RenderProfile(
-                conditional_sidecars=("for Kaye",), affordances=()
+                conditional_sidecars=("for Kaye",), variants=()
             ),
         )
         registered_names.append(reg.canonical_name)
 
         assert reg.render_profile.conditional_sidecars == ("for Kaye",)
-        assert reg.render_profile.affordances == ()
+        assert reg.render_profile.variants == ()
 
     def test_duplicate_name(_, corpus_testee1, registered_names):
         bp = PromptBlueprint.create_empty_blueprint(
@@ -141,13 +141,13 @@ class TestBlueprintRegistryContent:  ###########################################
             display_name="Test Content Dft",
             blueprint=bp,
             render_profile=RenderProfile(
-                conditional_sidecars=("for Kaye",), affordances=()
+                conditional_sidecars=("for Kaye",), variants=()
             ),
         )
         reg.content()
 
         assert captured["profile"].conditional_sidecars == ("for Kaye",)
-        assert captured["profile"].affordances == ()
+        assert captured["profile"].variants == ()
 
     def test_explicit_kwargs_merge_with_registry_defaults(
         _, corpus_testee1, monkeypatch
@@ -167,21 +167,21 @@ class TestBlueprintRegistryContent:  ###########################################
             display_name="Test Content Owr",
             blueprint=bp,
             render_profile=RenderProfile(
-                conditional_sidecars=("for Kaye",), affordances=()
+                conditional_sidecars=("for Kaye",), variants=()
             ),
         )
         reg.content(
             profile=RenderProfile(
-                conditional_sidecars=("for Ria",), affordances=None
+                conditional_sidecars=("for Ria",), variants=None
             )
         )
 
         # the explicit profile is unioned with the registry's own
         # defaults rather than replacing them, so a caller-supplied
-        # value (e.g. surface-derived sidecars/affordances from the
+        # value (e.g. surface-derived sidecars/variants from the
         # CLI) never clobbers this entry's own registered defaults
         assert captured["profile"].conditional_sidecars == (
             "for Kaye",
             "for Ria",
         )
-        assert captured["profile"].affordances == ()
+        assert captured["profile"].variants == ()

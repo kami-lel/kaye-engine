@@ -3,7 +3,6 @@
 [^format]
 
 <!--
-Fixme affordance vs toolset: affordance = toolsets + fallback
 todo todo CLI to import/export w/ OpenWebUI
 todo todo utilize personalities, allow multi agent conversation
 -->
@@ -24,11 +23,34 @@ todo todo utilize personalities, allow multi agent conversation
 
 ### Added
 
+- `Affordance`/`Variant` two-level model: an affordance is a
+  conceptual capability family, a variant is one concrete
+  implementation of it, registered via the single `register_variant
+  (canonical_name, affordance_name)` entry point (auto-creating its
+  affordance on first use)
+- `{[affordance canonical_name] Fallback}` sidecar, checkmarked when
+  every variant registered under an affordance is absent (and the
+  affordance has ≥1 registered variant)
+- `list-variant`/`lsv` CLI subcommand, listing every registered
+  variant canonical name
+
 ### Changed
+
+- `RenderProfile.affordances` renamed `variants`; `merge_affordances`
+  renamed `merge_variants`; `--affordance`/`-a` CLI flag renamed
+  `--variant` (long-flag only, no short form)
+- `setup_claude_cli`'s `affordance_names` parameter renamed
+  `affordance_groups` (affordance canonical name -> its variant
+  canonical names); a singleton affordance is simply a 1-tuple entry
+- `affordance` CLI subcommand renamed `list-affordance`/`lsa`, now
+  listing only affordance names (variants moved to `list-variant`)
 
 ### Deprecated
 
 ### Removed
+
+- per-variant `Lack` sidecar and `Affordance.lack_sidecar_name`,
+  superseded by the affordance-level `Fallback` sidecar
 
 ### Fixed
 
