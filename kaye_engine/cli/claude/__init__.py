@@ -22,9 +22,6 @@ _marketplace_name = None
 _chat_exportable_name = None
 _chat_coder_exportable_name = None
 
-# standalone variant names for register_claude_affordances()
-_standalone_affordance_names = ()
-
 # affordance name -> its variant names for register_claude_affordances()
 _affordance_groups = {}
 
