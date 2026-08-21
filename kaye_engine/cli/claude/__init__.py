@@ -22,8 +22,8 @@ _marketplace_name = None
 _chat_exportable_name = None
 _chat_coder_exportable_name = None
 
-# affordance canonical names registered via register_claude_affordances()
-_affordance_names = ()
+# affordance name -> its variant names for register_claude_affordances()
+_affordance_groups = {}
 
 # dict[str, RenderProfile] populating the --surface flag's choices;
 # None when the consumer project never configured surfaces

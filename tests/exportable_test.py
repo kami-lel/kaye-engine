@@ -157,19 +157,19 @@ class TestBlueprintRegistryMerge:  #############################################
         assert merged.canonical_name == "merge-a"
         assert merged.display_name == reg_a.display_name
 
-    def test_merge_combines_sidecars_and_affordances(_, empty_corpus):
+    def test_merge_combines_sidecars_and_variants(_, empty_corpus):
         reg_a = _dummy_blueprint_registry(
             "merge-sc-a",
             empty_corpus,
             render_profile=RenderProfile(
-                conditional_sidecars=("s1", "s2"), affordances=("aff1",)
+                conditional_sidecars=("s1", "s2"), variants=("aff1",)
             ),
         )
         reg_b = _dummy_blueprint_registry(
             "merge-sc-b",
             empty_corpus,
             render_profile=RenderProfile(
-                conditional_sidecars=("s2", "s3"), affordances=None
+                conditional_sidecars=("s2", "s3"), variants=None
             ),
         )
 
@@ -180,7 +180,7 @@ class TestBlueprintRegistryMerge:  #############################################
             "s2",
             "s3",
         )
-        assert merged.render_profile.affordances == ("aff1",)
+        assert merged.render_profile.variants == ("aff1",)
 
     def test_merge_raises_type_error_on_mismatched_kind(_, empty_corpus):
         reg_a = _dummy_blueprint_registry("merge-mismatch", empty_corpus)
