@@ -3,7 +3,7 @@
 [^format]
 
 <!--
-Todo allow sensitive info not part of prompt, dynamic subs
+TODO allow sensitive info not part of prompt, dynamic subs
 todo todo CLI to import/export w/ OpenWebUI
 todo todo utilize personalities, allow multi agent conversation
 -->
