@@ -116,7 +116,9 @@ def apply_dynamic_substitutions(text, **kwargs):
                 )
                 return cache[name]
             try:
-                factory = resolve_dynamic_node_factory(name)
+                factory = resolve_dynamic_node_factory(
+                    name, require_substitution_flag=True
+                )
                 node = factory(parent=None)
                 cache[name] = "\n".join(node.content_lines(**kwargs))
             except ValueError:
