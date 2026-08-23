@@ -4,21 +4,61 @@ dynamic_substitution.py
 define ``apply_dynamic_substitutions`` -- a render-time
 search-and-replace pass resolving inline ``(((name)))`` placeholders
 against the same canonical dynamic node universe as the tree
-mechanism, independent of checkmarking
+mechanism, independent of checkmarking; also define
+``DynamicSubstitution`` / ``StringDynamicSubstitution`` -- a lighter,
+directly-registered substitution path
 """
 
 import re
+from abc import ABC, abstractmethod
 
 from kaye_engine import LOGGER_NAME, kamilog
 from kaye_engine.prompt.dynamic_nodes import resolve_dynamic_node_factory
 
-__all__ = ("apply_dynamic_substitutions",)
+__all__ = (
+    "DynamicSubstitution",
+    "StringDynamicSubstitution",
+    "apply_dynamic_substitutions",
+)
 
 # logger  ######################################################################
 logger = kamilog.getLogger(LOGGER_NAME)
 
 # constants  ###################################################################
 PLACEHOLDER_PATTERN = re.compile(r"\(\(\(([^()]+)\)\)\)")
+
+
+# Public API  ##################################################################
+class DynamicSubstitution(ABC):
+    """
+    a directly-registered ``(((name)))`` substitution source, lighter
+    than the tree/glossary mechanism
+    """
+
+    @abstractmethod
+    def generate(self, **kwargs):
+        """
+        :param kwargs: forwarded from :func:`apply_dynamic_substitutions`
+        :return: the text to substitute in place of the placeholder
+        :rtype: str
+        """
+        raise NotImplementedError
+
+
+class StringDynamicSubstitution(DynamicSubstitution):
+    """
+    a :class:`DynamicSubstitution` wrapping a single fixed string,
+    given at construction
+
+    :param content: the fixed string returned by :meth:`generate`
+    :type content: str
+    """
+
+    def __init__(self, content):
+        self.content = content
+
+    def generate(self, **kwargs):
+        return self.content
 
 
 # Public API  ##################################################################
