@@ -18,7 +18,7 @@ through a Python API and a CLI.
 | distribution / import name | `kaye-engine` / `kaye_engine` |
 | dependencies | `anytree`, `json5`, `pyahocorasick`, `pyyaml` |
 | entry point | `kaye-engine` console script → `kaye_engine.__main__:main` |
-| CLI subcommands | `blueprint`, `claude`, `dynamic-node`, `exportable`, `list-affordance`, `list-variant`, `glossary` |
+| CLI subcommands | `blueprint`, `claude`, `dynamic-node`, `dynamic-substitution`, `exportable`, `list-affordance`, `list-variant`, `glossary` |
 
 ## Personalization Boundary
 
@@ -45,6 +45,7 @@ not a gap to fill.
 | **Role** | a task-specific behavior profile held inside the corpus |
 | **Sidecar Node** | a `{name}` subnode; metadata or conditional content |
 | **Dynamic Node** | a `(name)` node (canonical kebab-case `NAME`) whose content is generated at render |
+| **Dynamic Substitution** | a directly-registered `DynamicSubstitution` held in `dynamic_substitution_registry`, resolved by a `(((name)))` placeholder ahead of the dynamic-node/glossary universe |
 | **Affordance** | a conceptual capability family, tracked in `affordance_registry`; auto-created on first `register_variant()` call naming it |
 | **Variant** | one concrete implementation of an affordance, tracked in `variant_registry` via `register_variant(canonical_name, affordance_name)` |
 | **RenderProfile** | a `kw_only` dataclass bundling render settings (`conditional_sidecars`, `variants`, `sparseness`, ...); `.merge()` overrides scalar fields and unions the collection fields |
@@ -62,6 +63,11 @@ Rendering takes a `sparseness` parameter governing how runs of blank lines
 collapse in the output, from `-1` (whole output joined onto one line) through
 `99` (no trimming); descriptor sidecar rendering always renders at `-1` so a
 multi-line description or when-to-use collapses to one string.
+`PromptBlueprint.generate_prompt()` applies `sparseness` last: it renders
+the tree unsparse, then `apply_dynamic_substitutions()`, then applies the
+caller's `sparseness` to the substituted result — so a substitution's own
+blank lines are shaped by the same policy instead of being collapsed
+before the substitution exists.
 
 Sidecars split by usage rather than by class. *Descriptor* sidecars
 (`{description}`, `{when_to_use}`, `{globs}`) are consumed as blueprint
@@ -121,9 +127,19 @@ heading required for existence — and cover today's date plus the
 abbreviation glossaries; an authored `(name)` heading, at any depth,
 fixes the node's preface and tree location in place of the heading
 itself, else it falls back to a direct child of root. A second,
-independent mechanism, inline `(((name)))` substitution, resolves the
-same canonical names anywhere inside rendered prompt text at
-`generate_prompt()` time. Q.v. [dynamic node
+independent mechanism, inline `(((name)))` substitution, resolves
+canonical names anywhere inside rendered prompt text at
+`generate_prompt()` time, against two sources in order: first
+`dynamic_substitution_registry` (populated via
+`register_dynamic_substitution(name, substitution)`, where
+`substitution` is a `DynamicSubstitution` — commonly
+`StringDynamicSubstitution` wrapping a fixed string), then
+`resolve_dynamic_node_factory(name, require_substitution_flag=True)`,
+the same dynamic-node universe the tree mechanism draws on but with
+glossary names admitted only when `register_abbr_glossary(name, ...,
+register_as_dynamic_substitution=True)` opted in — the tree mechanism
+itself resolves glossary names unconditionally, since the opt-in gate
+applies to placeholder substitution only. Q.v. [dynamic node
 documentation](docs/dynamic-content-doc.md) and [abbreviation
 collection documentation](docs/abbrs-doc.md).
 
@@ -134,8 +150,10 @@ from kaye_engine import (
     PACKAGE_NAME, LOGGER_NAME,
     load_corpus_tree, get_default_corpus_tree,
     AbbrData,
+    DynamicSubstitution, StringDynamicSubstitution,
     register_abbr_glossary,
     register_blueprint,
+    register_dynamic_substitution,
     setup_claude_cli,
 )
 ```
@@ -193,6 +211,9 @@ kaye_engine/
 │   │   └── surface_parser.py      shared `--surface` parent parser --
 │   │                              choices from consumer's surface_profiles
 │   ├── dynamic_node/    `dynamic-node`/`dn` subcommand: multi-node render
+│   ├── dynamic_substitution_parser.py  `dynamic-substitution`/`ds`
+│   │                                    subcommand: print/list
+│   │                                    dynamic_substitution_registry
 │   ├── list_affordance_parser.py  `list-affordance`/`lsa` subcommand: list affordance_registry
 │   ├── list_variant_parser.py     `list-variant`/`lsv` subcommand: list variant_registry
 │   ├── glossary_parser.py    `glossary`/`g` subcommand: print/list glossaries
