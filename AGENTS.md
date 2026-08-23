@@ -72,9 +72,9 @@ pytest
 
 The editable install registers a `kaye-engine` console script, so
 `kaye-engine ...` and `python -m kaye_engine ...` are equivalent — prefer
-the shorter form. **Seven** top-level subcommands exist: `blueprint`,
-`claude`, `dynamic-node`, `exportable`, `list-affordance`,
-`list-variant`, and `glossary`:
+the shorter form. **Eight** top-level subcommands exist: `blueprint`,
+`claude`, `dynamic-node`, `dynamic-substitution`, `exportable`,
+`list-affordance`, `list-variant`, and `glossary`:
 
 ```bash
 kaye-engine --help                          # show CLI usage
@@ -86,6 +86,8 @@ kaye-engine blueprint generate < FILE       # render from stdin (BLUEPRINT omitt
 kaye-engine dynamic-node NODE...            # render 1+ dynamic nodes merged into one blueprint/output; NODE is "today"/"decode-only-abbr", any simple AbbrTags kebab slug (eg "emoji", "single-character"), or any known abbr glossary name
 kaye-engine dynamic-node NODE -t THRESHOLD  # for a glossary NODE, hide entries with priority > THRESHOLD
 kaye-engine dynamic-node ls                 # list every available NODE value: today, decode-only-abbr, every AbbrTags-derived name, then glossary names alphabetically
+kaye-engine dynamic-substitution NAME       # print a registered dynamic substitution's content
+kaye-engine dynamic-substitution ls         # list every registered dynamic substitution name
 kaye-engine claude skill SKILLS_FOLDER      # export blueprints as Skill folders
 kaye-engine claude skill -z ZIPS_FOLDER     # create .zip Skill packages
 kaye-engine claude plugin PLUGINS_FOLDER    # export blueprints as plugin folder
@@ -105,10 +107,11 @@ kaye-engine glossary ls                     # list every registered glossary nam
 ```
 
 Aliases: `blueprint` → `bp`; `blueprint show` → `bp s`; `blueprint
-generate` → `bp gen`/`bp g`; `dynamic-node` → `dn`; `claude` → `a` (was
-also `anthropic`, now dropped); `claude code` → `claude c`; `claude
-marketplace` → `claude m`; `claude plugin` → `claude p`; `claude skill`
-→ `claude s`; `claude user-system-prompt` → `claude usp`; `claude
+generate` → `bp gen`/`bp g`; `dynamic-node` → `dn`;
+`dynamic-substitution` → `ds`; `claude` → `a` (was also `anthropic`,
+now dropped); `claude code` → `claude c`; `claude marketplace` →
+`claude m`; `claude plugin` → `claude p`; `claude skill` → `claude s`;
+`claude user-system-prompt` → `claude usp`; `claude
 vs-code-extension` → `claude v`; `exportable` → `x`; `list-affordance`
 → `lsa`; `list-variant` → `lsv`; `glossary` → `g`.
 
