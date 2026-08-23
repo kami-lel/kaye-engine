@@ -108,6 +108,7 @@ def register_abbr_glossary(
         uses_numbered_list,
         is_sorted,
         disable_remark,
+        register_as_dynamic_substitution,
     )
     abbr_glossary_registry[name] = reg
 

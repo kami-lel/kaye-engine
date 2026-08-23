@@ -23,6 +23,7 @@ from .render_profile import RenderProfile
 
 __all__ = (
     "REPLACEMENT_NEWLINE_SYMBOL",
+    "apply_sparseness",
     "render_blueprint_tree",
     "render_comment",
     "render_prompt_lines",
@@ -151,7 +152,7 @@ def _splice_conditional_sidecars(
     return working_bp
 
 
-def _apply_sparseness(lines, sparseness):
+def apply_sparseness(lines, sparseness):
     """
     apply the ``sparseness`` blank-line policy to a list of prompt lines
 
@@ -331,7 +332,7 @@ def render_prompt_lines(  # ====================================================
     if profile.show_comment:
         lines.append("<!-- " + render_comment(profile.display_name) + " -->")
 
-    return _apply_sparseness(lines, profile.sparseness)
+    return apply_sparseness(lines, profile.sparseness)
 
 
 def render_comment(display_name=""):  # ========================================
