@@ -3,7 +3,6 @@
 [^format]
 
 <!--
-Bug make sure glossary are NOT user invocable
 Todo allow sensitive info not part of prompt, dynamic subs
 todo todo CLI to import/export w/ OpenWebUI
 todo todo utilize personalities, allow multi agent conversation
@@ -55,6 +54,11 @@ todo todo utilize personalities, allow multi agent conversation
   superseded by the affordance-level `Fallback` sidecar
 
 ### Fixed
+
+- `register_abbr_glossary`'s `user_invokable` (optional kwarg,
+  defaults to `True`) now actually controls whether that glossary's
+  exportable group registers as `user_invokable`; previously every
+  glossary group hardcoded `user_invokable=True` regardless of intent
 
 ### Security
 

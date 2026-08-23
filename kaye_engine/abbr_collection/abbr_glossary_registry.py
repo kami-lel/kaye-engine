@@ -32,6 +32,11 @@ class AbbrGlossaryRegistry:
     :param is_exportable: whether this glossary is registered into the
             exportable registry
     :type is_exportable: bool
+    :param user_invokable: whether a human may deliberately invoke this
+            glossary's exportable group directly, e.g. as a skill;
+            defaults to True, unlike the engine's fixed tag/wrap/
+            starts-with abbr groups, which are always llm-only
+    :type user_invokable: bool, optional
     :param uses_numbered_list: render entries with numbered markers
             (``"1. ..."``) instead of bullets (``"- ..."``) by default;
             defaults to False
@@ -47,6 +52,7 @@ class AbbrGlossaryRegistry:
 
     name: str
     is_exportable: bool
+    user_invokable: bool = True
     uses_numbered_list: bool = False
     is_sorted: bool = False
     disable_remark: bool = False
@@ -60,6 +66,7 @@ abbr_glossary_registry = {}
 def register_abbr_glossary(
     name,
     is_exportable,
+    user_invokable=True,
     uses_numbered_list=False,
     is_sorted=False,
     disable_remark=False,
@@ -76,6 +83,9 @@ def register_abbr_glossary(
     :param is_exportable: whether this glossary is registered into the
             exportable registry
     :type is_exportable: bool
+    :param user_invokable: whether a human may deliberately invoke this
+            glossary's exportable group directly; defaults to True
+    :type user_invokable: bool, optional
     :raise ValueError: ``name`` is already registered
     :return: the created registry entry
     :rtype: AbbrGlossaryRegistry
@@ -86,7 +96,12 @@ def register_abbr_glossary(
         )
 
     reg = AbbrGlossaryRegistry(
-        name, is_exportable, uses_numbered_list, is_sorted, disable_remark
+        name,
+        is_exportable,
+        user_invokable,
+        uses_numbered_list,
+        is_sorted,
+        disable_remark,
     )
     abbr_glossary_registry[name] = reg
 
