@@ -110,6 +110,11 @@ def apply_dynamic_substitutions(text, **kwargs):
     def _replace(match):
         name = match.group(1).strip()
         if name not in cache:
+            if name in dynamic_substitution_registry:
+                cache[name] = dynamic_substitution_registry[name].generate(
+                    **kwargs
+                )
+                return cache[name]
             try:
                 factory = resolve_dynamic_node_factory(name)
                 node = factory(parent=None)
