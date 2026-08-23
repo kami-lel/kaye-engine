@@ -48,6 +48,10 @@ class AbbrGlossaryRegistry:
     :param disable_remark: render entries without the ``(...)`` remark
             suffix by default; defaults to False
     :type disable_remark: bool, optional
+    :param register_as_dynamic_substitution: whether this glossary is
+            reachable via a ``(((name)))`` dynamic substitution
+            placeholder; defaults to False
+    :type register_as_dynamic_substitution: bool, optional
     """
 
     name: str
@@ -56,6 +60,7 @@ class AbbrGlossaryRegistry:
     uses_numbered_list: bool = False
     is_sorted: bool = False
     disable_remark: bool = False
+    register_as_dynamic_substitution: bool = False
 
 
 # Main Entry Point  ############################################################
@@ -70,6 +75,7 @@ def register_abbr_glossary(
     uses_numbered_list=False,
     is_sorted=False,
     disable_remark=False,
+    register_as_dynamic_substitution=False,
 ):
     """
     create an `AbbrGlossaryRegistry` and insert it into
@@ -102,6 +108,7 @@ def register_abbr_glossary(
         uses_numbered_list,
         is_sorted,
         disable_remark,
+        register_as_dynamic_substitution,
     )
     abbr_glossary_registry[name] = reg
 

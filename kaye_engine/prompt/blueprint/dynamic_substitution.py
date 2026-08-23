@@ -4,15 +4,24 @@ dynamic_substitution.py
 define ``apply_dynamic_substitutions`` -- a render-time
 search-and-replace pass resolving inline ``(((name)))`` placeholders
 against the same canonical dynamic node universe as the tree
-mechanism, independent of checkmarking
+mechanism, independent of checkmarking; also define
+``DynamicSubstitution`` / ``StringDynamicSubstitution`` -- a lighter,
+directly-registered substitution path
 """
 
 import re
+from abc import ABC, abstractmethod
 
 from kaye_engine import LOGGER_NAME, kamilog
 from kaye_engine.prompt.dynamic_nodes import resolve_dynamic_node_factory
 
-__all__ = ("apply_dynamic_substitutions",)
+__all__ = (
+    "DynamicSubstitution",
+    "StringDynamicSubstitution",
+    "apply_dynamic_substitutions",
+    "dynamic_substitution_registry",
+    "register_dynamic_substitution",
+)
 
 # logger  ######################################################################
 logger = kamilog.getLogger(LOGGER_NAME)
@@ -22,6 +31,64 @@ PLACEHOLDER_PATTERN = re.compile(r"\(\(\(([^()]+)\)\)\)")
 
 
 # Public API  ##################################################################
+class DynamicSubstitution(ABC):
+    """
+    a directly-registered ``(((name)))`` substitution source, lighter
+    than the tree/glossary mechanism
+    """
+
+    @abstractmethod
+    def generate(self, **kwargs):
+        """
+        :param kwargs: forwarded from :func:`apply_dynamic_substitutions`
+        :return: the text to substitute in place of the placeholder
+        :rtype: str
+        """
+        raise NotImplementedError
+
+
+class StringDynamicSubstitution(DynamicSubstitution):
+    """
+    a :class:`DynamicSubstitution` wrapping a single fixed string,
+    given at construction
+
+    :param content: the fixed string returned by :meth:`generate`
+    :type content: str
+    """
+
+    def __init__(self, content):
+        self.content = content
+
+    def generate(self, **kwargs):
+        return self.content
+
+
+# Public API  ##################################################################
+dynamic_substitution_registry = {}
+
+
+def register_dynamic_substitution(name, substitution):
+    """
+    insert ``substitution`` into ``dynamic_substitution_registry``
+    under ``name``
+
+    :param name: canonical ``NAME`` slug the substitution resolves to
+            as a ``(((name)))`` placeholder
+    :type name: str
+    :param substitution: the substitution source to register
+    :type substitution: DynamicSubstitution
+    :raise TypeError: ``substitution`` is not a ``DynamicSubstitution``
+    """
+    if not isinstance(substitution, DynamicSubstitution):
+        raise TypeError(
+            "substitution must be a DynamicSubstitution, got: {}".format(
+                type(substitution)
+            )
+        )
+
+    dynamic_substitution_registry[name] = substitution
+
+
 def apply_dynamic_substitutions(text, **kwargs):
     """
     replace every ``(((name)))`` placeholder in ``text`` with the
@@ -43,8 +110,15 @@ def apply_dynamic_substitutions(text, **kwargs):
     def _replace(match):
         name = match.group(1).strip()
         if name not in cache:
+            if name in dynamic_substitution_registry:
+                cache[name] = dynamic_substitution_registry[name].generate(
+                    **kwargs
+                )
+                return cache[name]
             try:
-                factory = resolve_dynamic_node_factory(name)
+                factory = resolve_dynamic_node_factory(
+                    name, require_substitution_flag=True
+                )
                 node = factory(parent=None)
                 cache[name] = "\n".join(node.content_lines(**kwargs))
             except ValueError:

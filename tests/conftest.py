@@ -16,8 +16,11 @@ for _glossary_name in (
     "unity-engine-abbr",
     "plan-step-by-step-abbr",
     "code-documentation-field-abbr",
-    "some-glossary",
     "other-glossary",
     "g",
 ):
     register_abbr_glossary(_glossary_name, True)
+
+register_abbr_glossary(
+    "some-glossary", True, register_as_dynamic_substitution=True
+)

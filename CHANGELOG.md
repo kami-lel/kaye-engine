@@ -3,7 +3,8 @@
 [^format]
 
 <!--
-Todo allow sensitive info not part of prompt, dynamic subs
+Bug sparseness should not change lines b/t codeblock
+Bug code block aware parsing of heading
 todo todo CLI to import/export w/ OpenWebUI
 todo todo utilize personalities, allow multi agent conversation
 -->
@@ -34,9 +35,27 @@ todo todo utilize personalities, allow multi agent conversation
   affordance has ≥1 registered variant)
 - `list-variant`/`lsv` CLI subcommand, listing every registered
   variant canonical name
+- `DynamicSubstitution`/`StringDynamicSubstitution` classes and
+  `register_dynamic_substitution`, a directly-registered `(((name)))`
+  substitution path lighter than the tree/glossary mechanism
+- `dynamic-substitution`/`ds` CLI subcommand, printing a registered
+  dynamic substitution's content or listing every registered name
+- `register_as_dynamic_substitution` opt-in flag on
+  `register_abbr_glossary`, gating whether a glossary is reachable
+  via a `(((name)))` placeholder
 
 ### Changed
 
+- `PromptBlueprint.render` now renders the full tree unsparse,
+  applies dynamic substitutions, then re-applies the `sparseness`
+  policy, so a substituted value can no longer be split apart by a
+  blank-line pass that ran before it existed
+- `resolve_dynamic_node_factory` gains a `require_substitution_flag`
+  parameter; `(((name)))` placeholder resolution now passes
+  `require_substitution_flag=True`, so a glossary only resolves as a
+  substitution when registered with
+  `register_as_dynamic_substitution=True`, while tree rendering keeps
+  resolving glossaries unconditionally
 - `RenderProfile.affordances` renamed `variants`; `merge_affordances`
   renamed `merge_variants`; `--affordance`/`-a` CLI flag renamed
   `--variant` (long-flag only, no short form)
