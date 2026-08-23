@@ -5,6 +5,7 @@ define ``PromptCorpusNode``
 """
 
 from .base_prompt_node import BasePromptNode
+from .md_fence import compute_fenced_line_mask
 
 # section heading prefix used for parsing .md file of prompt corpus
 HEADING_PREFIX_ELEMENT = "#"
@@ -20,10 +21,12 @@ def _split_sections(text_lines, parent):
     prefix_element_cnt = 1 if parent is None else parent.depth + 2
     heading_prefix = HEADING_PREFIX_ELEMENT * prefix_element_cnt + " "
 
+    fenced_mask = compute_fenced_line_mask(text_lines)
+
     heading_lines_idx = [
         idx
         for idx, line in enumerate(text_lines)
-        if line.startswith(heading_prefix)
+        if line.startswith(heading_prefix) and not fenced_mask[idx]
     ]
 
     if not heading_lines_idx:
