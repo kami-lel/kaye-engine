@@ -3,8 +3,8 @@
 [^format]
 
 <!--
-Bug sparseness should not change lines b/t codeblock
-Bug code block aware parsing of heading
+BUG sparseness should not change lines b/t codeblock
+BUG code block aware parsing of heading
 todo todo CLI to import/export w/ OpenWebUI
 todo todo utilize personalities, allow multi agent conversation
 -->
