@@ -19,6 +19,8 @@ __all__ = (
     "DynamicSubstitution",
     "StringDynamicSubstitution",
     "apply_dynamic_substitutions",
+    "dynamic_substitution_registry",
+    "register_dynamic_substitution",
 )
 
 # logger  ######################################################################
@@ -62,6 +64,31 @@ class StringDynamicSubstitution(DynamicSubstitution):
 
 
 # Public API  ##################################################################
+dynamic_substitution_registry = {}
+
+
+def register_dynamic_substitution(name, substitution):
+    """
+    insert ``substitution`` into ``dynamic_substitution_registry``
+    under ``name``
+
+    :param name: canonical ``NAME`` slug the substitution resolves to
+            as a ``(((name)))`` placeholder
+    :type name: str
+    :param substitution: the substitution source to register
+    :type substitution: DynamicSubstitution
+    :raise TypeError: ``substitution`` is not a ``DynamicSubstitution``
+    """
+    if not isinstance(substitution, DynamicSubstitution):
+        raise TypeError(
+            "substitution must be a DynamicSubstitution, got: {}".format(
+                type(substitution)
+            )
+        )
+
+    dynamic_substitution_registry[name] = substitution
+
+
 def apply_dynamic_substitutions(text, **kwargs):
     """
     replace every ``(((name)))`` placeholder in ``text`` with the
