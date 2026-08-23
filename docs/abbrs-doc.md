@@ -93,10 +93,12 @@ Q.v. [abbreviation entries `json` file](#abbreviation-entries-json-file) below f
 
 
 
-#### `register_abbr_glossary(name, uses_numbered_list=False, is_sorted=False, disable_remark=False)`
+#### `register_abbr_glossary(name, is_exportable, user_invokable=True, uses_numbered_list=False, is_sorted=False, disable_remark=False)`
 
 Register a glossary name so entries may reference it via `tags` (v.i.), and set that glossary's default rendering behavior for its `GlossaryNode`:
 
+- `is_exportable`: whether this glossary's group is inserted into `exportable_registry` (q.v. [`exportable-registry-doc.md`](exportable-registry-doc.md))
+- `user_invokable`: whether a human may deliberately invoke this glossary's exportable group directly, e.g. as a skill; unlike the engine's fixed tag/wrap/starts-with abbr groups, which are always llm-only, this is configurable per glossary
 - `uses_numbered_list`: render entries with numbered markers (`"1. ..."`) instead of bullets (`"- ..."`)
 - `is_sorted`: render entries ordered by ascending `priority` instead of insertion order
 - `disable_remark`: omit the `(...)` remark suffix (v.i.) from every entry in this glossary by default
@@ -104,8 +106,10 @@ Register a glossary name so entries may reference it via `tags` (v.i.), and set 
 ```python
 from kaye_engine.abbr_collection import register_abbr_glossary
 
-register_abbr_glossary("coding-terms")
-register_abbr_glossary("plan-step-by-step-abbr", uses_numbered_list=True, is_sorted=True)
+register_abbr_glossary("coding-terms", True)
+register_abbr_glossary(
+    "plan-step-by-step-abbr", True, uses_numbered_list=True, is_sorted=True
+)
 ```
 
 Raises `ValueError` if `name` is already registered. Both flags are also render-time overrides — q.v. [`GlossaryNode`](#abbreviations-related-dynamic-nodes) below.

@@ -154,7 +154,7 @@ def _get_abbrs_by_glossaries(abbr_data):
                 e for e in abbr_data.abbrs if glossary_name in e.glossaries
             ),
             canonical_name="abbr-glossary-" + glossary_name,
-            user_invokable=True,
+            user_invokable=abbr_glossary_registry[glossary_name].user_invokable,
         )
         for glossary_name in sorted(abbr_glossary_registry)
         if abbr_glossary_registry[glossary_name].is_exportable
