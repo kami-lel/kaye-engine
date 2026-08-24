@@ -17,6 +17,7 @@ from anytree import PreOrderIter, RenderTree
 
 from kaye_engine import PACKAGE_NAME
 
+from ..md_fence import compute_fenced_line_mask
 from ..prompt_corpus_node import HEADING_PREFIX_ELEMENT
 from ..sidecar_node import get_sidecar_name
 from .render_profile import RenderProfile
@@ -169,21 +170,24 @@ def apply_sparseness(lines, sparseness):
     if sparseness == NO_TRIM_SPARSENESS:
         return lines
 
-    # trim leading/trailing empty lines unconditionally
+    fenced_mask = compute_fenced_line_mask(lines)
+
+    # trim leading/trailing empty lines that are not part of a code block
     start, end = 0, len(lines)
-    while start < end and lines[start] == "":
+    while start < end and lines[start] == "" and not fenced_mask[start]:
         start += 1
-    while end > start and lines[end - 1] == "":
+    while end > start and lines[end - 1] == "" and not fenced_mask[end - 1]:
         end -= 1
     trimmed = lines[start:end]
+    trimmed_fenced_mask = fenced_mask[start:end]
 
     if sparseness == -1:
         return [REPLACEMENT_NEWLINE_SYMBOL.join(trimmed)]
 
     result = []
     empty_run = 0
-    for line in trimmed:
-        if line == "":
+    for line, is_fenced in zip(trimmed, trimmed_fenced_mask):
+        if line == "" and not is_fenced:
             empty_run += 1
             continue
         result.extend([""] * min(empty_run, sparseness))
