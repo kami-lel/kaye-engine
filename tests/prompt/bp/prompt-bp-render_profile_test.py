@@ -69,7 +69,7 @@ class TestAsKwargs:  ###########################################################
             sparseness=0,
             glossary_priority_threshold=2,
             is_sorted=True,
-            uses_numbered_list=False,
+            is_numbered_list=False,
         )
         assert profile.as_kwargs() == {
             "show_comment": True,
@@ -80,5 +80,5 @@ class TestAsKwargs:  ###########################################################
             "sparseness": 0,
             "glossary_priority_threshold": 2,
             "is_sorted": True,
-            "uses_numbered_list": False,
+            "is_numbered_list": False,
         }

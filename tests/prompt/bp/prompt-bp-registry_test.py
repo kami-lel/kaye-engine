@@ -43,7 +43,7 @@ class TestRegisterBlueprint:  ##################################################
         assert reg.display_name == "Test Registry Dft"
         assert reg.blueprint is bp
         assert reg.is_exportable is True
-        assert reg.user_invokable is True
+        assert reg.is_user_invokable is True
         assert reg.llm_invokable is True
         assert reg.render_profile == RenderProfile()
         assert blueprint_registry["test-registry-dft"] is reg
@@ -58,13 +58,13 @@ class TestRegisterBlueprint:  ##################################################
             "test-registry-flags",
             "Test Registry Flags",
             bp,
-            user_invokable=False,
+            is_user_invokable=False,
             llm_invokable=False,
         )
         registered_names.append(reg.canonical_name)
 
         assert reg.is_exportable is True
-        assert reg.user_invokable is False
+        assert reg.is_user_invokable is False
         assert reg.llm_invokable is False
         assert exportable_registry["test-registry-flags"] is reg
 
