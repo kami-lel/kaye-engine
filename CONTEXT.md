@@ -139,7 +139,7 @@ canonical names anywhere inside rendered prompt text at
 `resolve_dynamic_node_factory(name, require_substitution_flag=True)`,
 the same dynamic-node universe the tree mechanism draws on but with
 glossary names admitted only when `register_abbr_glossary(name, ...,
-register_as_dynamic_substitution=True)` opted in — the tree mechanism
+is_dyn_substitution=True)` opted in — the tree mechanism
 itself resolves glossary names unconditionally, since the opt-in gate
 applies to placeholder substitution only. Q.v. [dynamic node
 documentation](docs/dynamic-content-doc.md) and [abbreviation

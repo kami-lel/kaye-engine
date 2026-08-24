@@ -72,14 +72,14 @@ Usage:
 
 Abbreviation Group by Tag:
 
-| canonical name | display name | user_invokable | llm_invokable |
+| canonical name | display name | is_user_invokable | llm_invokable |
 | --- | --- | --- | --- |
 | `abbr-single-character` | Abbr Single Character | ❌ | ✔️ |
 | `abbr-emoji` | Abbr Emoji | ❌ | ✔️ |
 
 Abbreviation Group by Wrap:
 
-| canonical name | display name | user_invokable | llm_invokable |
+| canonical name | display name | is_user_invokable | llm_invokable |
 | --- | --- | --- | --- |
 | `abbr-prefixes` | Abbr Prefixes | ❌ | ✔️ |
 | `abbr-suffixes` | Abbr Suffixes | ❌ | ✔️ |
@@ -87,7 +87,7 @@ Abbreviation Group by Wrap:
 
 Abbreviation *Starts-With*:
 
-| canonical name | display name | user_invokable | llm_invokable |
+| canonical name | display name | is_user_invokable | llm_invokable |
 | --- | --- | --- | --- |
 | `abbr-starts-with-digits-0-9` | Abbr Starts with Digits 0~9 | ❌ | ✔️ |
 | `abbr-starts-with-a` | Abbr Starts with A | ❌ | ✔️ |
