@@ -42,6 +42,11 @@
 The file is plain Markdown. Each section heading becomes a node in the prompt
 tree; the text between headings is that node's content.
 
+A heading-shaped line inside a fenced code block (` ``` `/`~~~`, with or
+without a language tag such as ` ```cpp `) is not treated as a real
+heading — it stays part of the surrounding node's content, so a code
+sample can safely contain lines that start with `#`.
+
 Heading depth maps directly to tree depth:
 
 ```md
