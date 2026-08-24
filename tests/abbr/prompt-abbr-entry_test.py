@@ -261,14 +261,14 @@ class TestAsMdListEntry:  # ====================================================
 
     def test_disable_remark_no_remark(_):
         entry = AbbrEntry(AbbrMeaning("for example"), "e.g.", ABBR_OBJ)
-        assert entry.as_md_list_entry(disable_remark=True) == (
+        assert entry.as_md_list_entry(is_remark_disabled=True) == (
             "- e.g.:for example"
         )
 
     def test_disable_remark_mean_remark_only(_):
         mean = AbbrMeaning("for example", remark="Latin exempli gratia")
         entry = AbbrEntry(mean, "e.g.", ABBR_OBJ)
-        assert entry.as_md_list_entry(disable_remark=True) == (
+        assert entry.as_md_list_entry(is_remark_disabled=True) == (
             "- e.g.:for example"
         )
 
@@ -276,7 +276,7 @@ class TestAsMdListEntry:  # ====================================================
         abbr_obj = ABBR_OBJ.copy()
         abbr_obj["remark"] = "casual usage only"
         entry = AbbrEntry(AbbrMeaning("for example"), "e.g.", abbr_obj)
-        assert entry.as_md_list_entry(disable_remark=True) == (
+        assert entry.as_md_list_entry(is_remark_disabled=True) == (
             "- e.g.:for example"
         )
 
@@ -285,7 +285,7 @@ class TestAsMdListEntry:  # ====================================================
         abbr_obj["remark"] = "casual usage only"
         mean = AbbrMeaning("for example", remark="Latin exempli gratia")
         entry = AbbrEntry(mean, "e.g.", abbr_obj)
-        assert entry.as_md_list_entry(disable_remark=True) == (
+        assert entry.as_md_list_entry(is_remark_disabled=True) == (
             "- e.g.:for example"
         )
 
@@ -329,7 +329,7 @@ class TestAsMdListEntryTermDefinition:  # ======================================
         abbr_obj = TERM_DEFINITION_OBJ.copy()
         abbr_obj["remark"] = "casual usage only"
         entry = AbbrEntry(AbbrMeaning("for example"), "e.g.", abbr_obj)
-        assert entry.as_md_list_entry(disable_remark=True) == (
+        assert entry.as_md_list_entry(is_remark_disabled=True) == (
             "- for example"
         )
 

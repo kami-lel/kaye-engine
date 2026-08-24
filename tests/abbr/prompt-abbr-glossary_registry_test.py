@@ -39,7 +39,7 @@ class TestRegisterAbbrGlossary:  ###############################################
         assert isinstance(reg, AbbrGlossaryRegistry)
         assert reg.name == "test-glossary-dft"
         assert reg.is_exportable is True
-        assert reg.uses_numbered_list is False
+        assert reg.is_numbered_list is False
         assert reg.is_sorted is False
         assert abbr_glossary_registry["test-glossary-dft"] is reg
 
@@ -47,12 +47,12 @@ class TestRegisterAbbrGlossary:  ###############################################
         reg = register_abbr_glossary(
             "test-glossary-flags",
             True,
-            uses_numbered_list=True,
+            is_numbered_list=True,
             is_sorted=True,
         )
         registered_names.append(reg.name)
 
-        assert reg.uses_numbered_list is True
+        assert reg.is_numbered_list is True
         assert reg.is_sorted is True
 
     def test_duplicate_name(_, registered_names):
@@ -106,7 +106,7 @@ class TestRenderingDefaults:  ##################################################
 
     def test_uses_numbered_list_default(_, registered_names):
         reg = register_abbr_glossary(
-            "test-glossary-numbered", True, uses_numbered_list=True
+            "test-glossary-numbered", True, is_numbered_list=True
         )
         registered_names.append(reg.name)
 
@@ -173,7 +173,7 @@ class TestRenderingDefaults:  ##################################################
 
     def test_explicit_override_wins(_, registered_names):
         reg = register_abbr_glossary(
-            "test-glossary-override", True, uses_numbered_list=True
+            "test-glossary-override", True, is_numbered_list=True
         )
         registered_names.append(reg.name)
 
@@ -195,7 +195,7 @@ class TestRenderingDefaults:  ##################################################
                 "kaye_engine.prompt.dynamic_nodes.glossary_node.get_abbr_data",
                 lambda: data,
             )
-            opt = testee.content_lines(uses_numbered_list=False)
+            opt = testee.content_lines(is_numbered_list=False)
 
         print(opt)
         assert opt == ["- e.g.:for example"]
@@ -242,7 +242,7 @@ class TestRenderingDefaults:  ##################################################
 
     def test_disable_remark_default(_, registered_names):
         reg = register_abbr_glossary(
-            "test-glossary-disable-remark", True, disable_remark=True
+            "test-glossary-disable-remark", True, is_remark_disabled=True
         )
         registered_names.append(reg.name)
 
@@ -275,7 +275,7 @@ class TestRenderingDefaults:  ##################################################
         reg = register_abbr_glossary(
             "test-glossary-disable-remark-override",
             True,
-            disable_remark=True,
+            is_remark_disabled=True,
         )
         registered_names.append(reg.name)
 
@@ -299,7 +299,7 @@ class TestRenderingDefaults:  ##################################################
                 "kaye_engine.prompt.dynamic_nodes.glossary_node.get_abbr_data",
                 lambda: data,
             )
-            opt = testee.content_lines(disable_remark=False)
+            opt = testee.content_lines(is_remark_disabled=False)
 
         print(opt)
         assert opt == ["- e.g.:for example (Latin exempli gratia)"]

@@ -119,7 +119,7 @@ class TestGlossaryNodeSorting:  # =============================================
             "kaye_engine.prompt.dynamic_nodes.glossary_node.get_abbr_data",
             return_value=populated_abbr_data,
         ):
-            opt = testee.content_lines(is_sorted=True, uses_numbered_list=True)
+            opt = testee.content_lines(is_sorted=True, is_numbered_list=True)
 
         print(opt)
         assert opt == [
