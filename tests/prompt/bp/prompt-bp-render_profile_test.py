@@ -22,25 +22,25 @@ class TestMergeConditionalSidecars:  ###########################################
         assert merged.conditional_sidecars == ()
 
 
-class TestMergeAffordances:  ####################################################
+class TestMergeVariants:  #######################################################
 
     def test_all_none_returns_none(_):
-        merged = RenderProfile(affordances=None).merge(
-            RenderProfile(affordances=None)
+        merged = RenderProfile(variants=None).merge(
+            RenderProfile(variants=None)
         )
-        assert merged.affordances is None
+        assert merged.variants is None
 
     def test_one_none_one_tuple(_):
-        merged = RenderProfile(affordances=None).merge(
-            RenderProfile(affordances=("a", "b"))
+        merged = RenderProfile(variants=None).merge(
+            RenderProfile(variants=("a", "b"))
         )
-        assert merged.affordances == ("a", "b")
+        assert merged.variants == ("a", "b")
 
     def test_dedup_across_groups(_):
-        merged = RenderProfile(affordances=("a", "b")).merge(
-            RenderProfile(affordances=("b", "c"))
+        merged = RenderProfile(variants=("a", "b")).merge(
+            RenderProfile(variants=("b", "c"))
         )
-        assert merged.affordances == ("a", "b", "c")
+        assert merged.variants == ("a", "b", "c")
 
 
 class TestMergeScalarOverride:  #################################################
@@ -64,7 +64,7 @@ class TestAsKwargs:  ###########################################################
             show_comment=True,
             disable_first_heading=True,
             conditional_sidecars=("a",),
-            affordances=("b",),
+            variants=("b",),
             display_name="Chat",
             sparseness=0,
             glossary_priority_threshold=2,
@@ -75,7 +75,7 @@ class TestAsKwargs:  ###########################################################
             "show_comment": True,
             "disable_first_heading": True,
             "conditional_sidecars": ("a",),
-            "affordances": ("b",),
+            "variants": ("b",),
             "display_name": "Chat",
             "sparseness": 0,
             "glossary_priority_threshold": 2,

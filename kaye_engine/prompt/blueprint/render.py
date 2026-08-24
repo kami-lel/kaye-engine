@@ -17,12 +17,14 @@ from anytree import PreOrderIter, RenderTree
 
 from kaye_engine import PACKAGE_NAME
 
+from ..md_fence import compute_fenced_line_mask
 from ..prompt_corpus_node import HEADING_PREFIX_ELEMENT
 from ..sidecar_node import get_sidecar_name
 from .render_profile import RenderProfile
 
 __all__ = (
     "REPLACEMENT_NEWLINE_SYMBOL",
+    "apply_sparseness",
     "render_blueprint_tree",
     "render_comment",
     "render_prompt_lines",
@@ -67,39 +69,55 @@ def _create_pruned_tree_for_preview_recursively(blueprint, node):
     return new_node
 
 
-def _build_affordance_sidecar_map(affordances):
+def _build_variant_sidecar_map(variants):
     """
-    build a sidecar-name -> should-checkmark lookup from every entry in
-    ``affordance_registry``, given which affordances are available
+    build a sidecar-name -> should-checkmark lookup: one ``Usage``
+    entry per ``variant_registry`` entry, and one ``Fallback`` entry
+    per ``affordance_registry`` entry with ≥1 registered variant, all
+    of them absent from ``variants``
 
     (helper function used in ``_splice_conditional_sidecars()``)
 
 
-    :param affordances: canonical names of affordances available on the
+    :param variants: canonical names of variants available on the
             target surface
-    :type affordances: collections.abc.Iterable[str]
+    :type variants: collections.abc.Iterable[str]
     :return: sidecar name -> whether it should be auto-checkmarked
     :rtype: dict[str, bool]
     """
-    from ..affordance_registry import affordance_registry
+    from ..affordance_registry import affordance_registry, variant_registry
 
-    available = set(affordances)
+    available = set(variants)
     sidecar_map = {}
-    for entry in affordance_registry.values():
+
+    variants_by_affordance = {}
+    for entry in variant_registry.values():
         is_available = entry.canonical_name in available
         sidecar_map[entry.usage_sidecar_name] = is_available
-        sidecar_map[entry.lack_sidecar_name] = not is_available
+        variants_by_affordance.setdefault(entry.affordance_name, []).append(
+            is_available
+        )
+
+    for affordance in affordance_registry.values():
+        member_availabilities = variants_by_affordance.get(
+            affordance.canonical_name, ()
+        )
+        all_missing = bool(member_availabilities) and not any(
+            member_availabilities
+        )
+        sidecar_map[affordance.fallback_sidecar_name] = all_missing
+
     return sidecar_map
 
 
 def _splice_conditional_sidecars(
-    blueprint, *, conditional_sidecars, affordances
+    blueprint, *, conditional_sidecars, variants
 ):
     """
     auto-checkmark conditional sidecar nodes ahead of rendering -- both
-    plain ``conditional_sidecars`` name matches and, when ``affordances``
-    is given, the ``Usage``/``Lack`` sidecar pair for every entry in
-    ``affordance_registry``
+    plain ``conditional_sidecars`` name matches and, when ``variants``
+    is given, the ``Usage``/``Fallback`` sidecars derived from
+    ``variant_registry``/``affordance_registry``
 
     (helper function used in ``render_prompt_lines()``)
 
@@ -108,19 +126,17 @@ def _splice_conditional_sidecars(
     :type blueprint: PromptBlueprint
     :param conditional_sidecars: see ``render_prompt_lines()``
     :type conditional_sidecars: collections.abc.Iterable[str]
-    :param affordances: see ``render_prompt_lines()``
-    :type affordances: collections.abc.Iterable[str] or None
+    :param variants: see ``render_prompt_lines()``
+    :type variants: collections.abc.Iterable[str] or None
     :return: ``blueprint``, or a checkmark-spliced copy of it when either
             mechanism has anything to apply
     :rtype: PromptBlueprint
     """
-    affordance_sidecar_names = (
-        _build_affordance_sidecar_map(affordances)
-        if affordances is not None
-        else None
+    variant_sidecar_names = (
+        _build_variant_sidecar_map(variants) if variants is not None else None
     )
 
-    if not conditional_sidecars and affordance_sidecar_names is None:
+    if not conditional_sidecars and variant_sidecar_names is None:
         return blueprint
 
     working_bp = copy.copy(blueprint)
@@ -129,15 +145,15 @@ def _splice_conditional_sidecars(
         if sidecar_name is None or not working_bp.is_checkmarked(node.parent):
             continue
         if sidecar_name in conditional_sidecars or (
-            affordance_sidecar_names is not None
-            and affordance_sidecar_names.get(sidecar_name)
+            variant_sidecar_names is not None
+            and variant_sidecar_names.get(sidecar_name)
         ):
             working_bp.checkmark(node)
 
     return working_bp
 
 
-def _apply_sparseness(lines, sparseness):
+def apply_sparseness(lines, sparseness):
     """
     apply the ``sparseness`` blank-line policy to a list of prompt lines
 
@@ -154,21 +170,24 @@ def _apply_sparseness(lines, sparseness):
     if sparseness == NO_TRIM_SPARSENESS:
         return lines
 
-    # trim leading/trailing empty lines unconditionally
+    fenced_mask = compute_fenced_line_mask(lines)
+
+    # trim leading/trailing empty lines that are not part of a code block
     start, end = 0, len(lines)
-    while start < end and lines[start] == "":
+    while start < end and lines[start] == "" and not fenced_mask[start]:
         start += 1
-    while end > start and lines[end - 1] == "":
+    while end > start and lines[end - 1] == "" and not fenced_mask[end - 1]:
         end -= 1
     trimmed = lines[start:end]
+    trimmed_fenced_mask = fenced_mask[start:end]
 
     if sparseness == -1:
         return [REPLACEMENT_NEWLINE_SYMBOL.join(trimmed)]
 
     result = []
     empty_run = 0
-    for line in trimmed:
-        if line == "":
+    for line, is_fenced in zip(trimmed, trimmed_fenced_mask):
+        if line == "" and not is_fenced:
             empty_run += 1
             continue
         result.extend([""] * min(empty_run, sparseness))
@@ -277,7 +296,7 @@ def render_prompt_lines(  # ====================================================
     :param profile: bundled render settings -- see `RenderProfile` for
             the full field list (``show_comment``,
             ``disable_first_heading``, ``conditional_sidecars``,
-            ``affordances``, ``display_name``, ``sparseness``, plus the
+            ``variants``, ``display_name``, ``sparseness``, plus the
             glossary-related fields); defaults to a plain
             `RenderProfile()`
     :type profile: RenderProfile, optional
@@ -289,7 +308,7 @@ def render_prompt_lines(  # ====================================================
     working_bp = _splice_conditional_sidecars(
         blueprint,
         conditional_sidecars=profile.conditional_sidecars,
-        affordances=profile.affordances,
+        variants=profile.variants,
     )
 
     lines = []
@@ -317,7 +336,7 @@ def render_prompt_lines(  # ====================================================
     if profile.show_comment:
         lines.append("<!-- " + render_comment(profile.display_name) + " -->")
 
-    return _apply_sparseness(lines, profile.sparseness)
+    return apply_sparseness(lines, profile.sparseness)
 
 
 def render_comment(display_name=""):  # ========================================

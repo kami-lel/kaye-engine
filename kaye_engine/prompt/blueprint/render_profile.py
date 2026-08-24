@@ -28,15 +28,15 @@ def merge_conditional_sidecars(*groups):
     return tuple(merged)
 
 
-def merge_affordances(*selections):
+def merge_variants(*selections):
     """
-    union of affordance selections across ``selections``, deduped,
+    union of variant selections across ``selections``, deduped,
     first-seen order; ``None`` means "off" and contributes nothing
 
 
-    :param selections: affordance selections to merge
+    :param selections: variant selections to merge
     :type selections: Iterable[str] or None
-    :return: merged, deduped affordance selection; ``None`` only when
+    :return: merged, deduped variant selection; ``None`` only when
             every selection is ``None``
     :rtype: tuple or None
     """
@@ -75,12 +75,11 @@ class RenderProfile:
             whose name is in this collection and whose parent is
             checkmarked; defaults to ``()`` (disabled)
     :type conditional_sidecars: Iterable[str], optional
-    :param affordances: per ``affordance_registry`` entry, checkmarks
-            ``Usage`` node if entry's ``canonical_name`` in this
-            collection, else ``Lack`` node; either way, only if parent
-            already checkmarked. ``None``: pass off (default). ``()``:
-            pass on, every affordance unavailable.
-    :type affordances: Iterable[str] or None, optional
+    :param variants: canonical names present here checkmark their
+            ``Usage`` node; an affordance whose variants are all
+            absent checkmarks its ``Fallback`` node instead. ``None``:
+            off (default). ``()``: on, everything absent.
+    :type variants: Iterable[str] or None, optional
     :param display_name: blueprint's human-readable name, included in
             the comment when ``show_comment`` is set; defaults to ""
     :type display_name: str, optional
@@ -101,7 +100,7 @@ class RenderProfile:
     show_comment: bool = False
     disable_first_heading: bool = False
     conditional_sidecars: tuple = ()
-    affordances: object = None
+    variants: object = None
     display_name: str = ""
     sparseness: int = 1
     glossary_priority_threshold: int = None
@@ -119,7 +118,7 @@ class RenderProfile:
         """
         combine ``self`` with ``other`` into a new instance -- ``other``
         wins for every scalar field; ``conditional_sidecars`` and
-        ``affordances`` union instead of override
+        ``variants`` union instead of override
 
 
         :param other: profile to merge with
@@ -131,7 +130,5 @@ class RenderProfile:
         merged.conditional_sidecars = merge_conditional_sidecars(
             self.conditional_sidecars, other.conditional_sidecars
         )
-        merged.affordances = merge_affordances(
-            self.affordances, other.affordances
-        )
+        merged.variants = merge_variants(self.variants, other.variants)
         return merged
