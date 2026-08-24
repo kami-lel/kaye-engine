@@ -473,6 +473,6 @@ canonical_name = registry.canonical_name  # kebab-case slug, e.g. "chat"
 Each `BlueprintRegistry` carries the underlying `PromptBlueprint` as
 `.blueprint`, its `.canonical_name`/`.display_name`, whether it is
 `.is_exportable` (whether it is exported as a Claude Agent Skill), and the
-export-policy flags `user_invokable` and `llm_invokable`. Iterate
+export-policy flags `is_user_invokable` and `llm_invokable`. Iterate
 `blueprint_registry` directly to enumerate every registered blueprint.
 

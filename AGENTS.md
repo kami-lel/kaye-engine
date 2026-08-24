@@ -217,7 +217,7 @@ constant:
 | flag | default | effect |
 |---|---|---|
 | `is_exportable` | `True` | `False` excludes it from `exportable_registry` entirely — never export as a Claude Agent Skill |
-| `user_invokable` | `True` | a human may invoke it by name |
+| `is_user_invokable` | `True` | a human may invoke it by name |
 | `llm_invokable` | `True` | the assistant may surface it unprompted |
 
 `render_profile` (a `RenderProfile`, default `RenderProfile()`) sets
