@@ -5,7 +5,6 @@
 <!--
 Bug empty line in code block is still compressed
 todo todo CLI to import/export w/ OpenWebUI
-todo todo utilize personalities, allow multi agent conversation
 -->
 
 
