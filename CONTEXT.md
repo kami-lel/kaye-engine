@@ -1,6 +1,6 @@
 # kaye-engine CONTEXT
 
-**Last updated:** 2026-08-18
+**Last updated:** 2026-08-24
 
 System knowledge for the **kaye-engine** repository — architecture,
 entities, and boundaries. Read this alongside `AGENTS.md` before making
@@ -18,7 +18,7 @@ through a Python API and a CLI.
 | distribution / import name | `kaye-engine` / `kaye_engine` |
 | dependencies | `anytree`, `json5`, `pyahocorasick`, `pyyaml` |
 | entry point | `kaye-engine` console script → `kaye_engine.__main__:main` |
-| CLI subcommands | `blueprint`, `claude`, `dynamic-node`, `exportable`, `affordance`, `glossary` |
+| CLI subcommands | `blueprint`, `claude`, `dynamic-node`, `dynamic-substitution`, `exportable`, `list-affordance`, `list-variant`, `glossary` |
 
 ## Personalization Boundary
 
@@ -45,8 +45,10 @@ not a gap to fill.
 | **Role** | a task-specific behavior profile held inside the corpus |
 | **Sidecar Node** | a `{name}` subnode; metadata or conditional content |
 | **Dynamic Node** | a `(name)` node (canonical kebab-case `NAME`) whose content is generated at render |
-| **Affordance** | a named platform capability, tracked in `affordance_registry` |
-| **RenderProfile** | a `kw_only` dataclass bundling render settings (`conditional_sidecars`, `affordances`, `sparseness`, ...); `.merge()` overrides scalar fields and unions the collection fields |
+| **Dynamic Substitution** | a directly-registered `DynamicSubstitution` held in `dynamic_substitution_registry`, resolved by a `(((name)))` placeholder ahead of the dynamic-node/glossary universe |
+| **Affordance** | a conceptual capability family, tracked in `affordance_registry`; auto-created on first `register_variant()` call naming it |
+| **Variant** | one concrete implementation of an affordance, tracked in `variant_registry` via `register_variant(canonical_name, affordance_name)` |
+| **RenderProfile** | a `kw_only` dataclass bundling render settings (`conditional_sidecars`, `variants`, `sparseness`, ...); `.merge()` overrides scalar fields and unions the collection fields |
 
 Heading syntax carries node type: plain text is an ordinary corpus node,
 `{braces}` a sidecar, `(parentheses)` a dynamic node.
@@ -60,62 +62,86 @@ blueprint text ──PromptBlueprint.parse()───────┘
 Rendering takes a `sparseness` parameter governing how runs of blank lines
 collapse in the output, from `-1` (whole output joined onto one line) through
 `99` (no trimming); descriptor sidecar rendering always renders at `-1` so a
-multi-line description or when-to-use collapses to one string.
+multi-line description or when-to-use collapses to one string. Blank lines
+inside a fenced code block are exempt from collapsing at every sparseness
+level, via the shared `compute_fenced_line_mask` (`kaye_engine/prompt/
+md_fence.py`) that both `apply_sparseness` and the corpus-tree heading
+parser (`_split_sections` in `prompt_corpus_node.py`) rely on to stay out
+of fenced regions.
+`PromptBlueprint.generate_prompt()` applies `sparseness` last: it renders
+the tree unsparse, then `apply_dynamic_substitutions()`, then applies the
+caller's `sparseness` to the substituted result, so a substitution's own
+blank lines are shaped by the same policy.
 
 Sidecars split by usage rather than by class. *Descriptor* sidecars
 (`{description}`, `{when_to_use}`, `{globs}`) are consumed as blueprint
 metadata and never rendered; every other name is a *conditional* sidecar,
 real content spliced in only when its name is on a `RenderProfile`'s
-`conditional_sidecars`, or matched via that same profile's `affordances`
-field against `affordance_registry`. Q.v. [sidecar node
+`conditional_sidecars`, or matched via that same profile's `variants`
+field against `variant_registry`. Q.v. [sidecar node
 documentation](docs/sidecar-node-doc.md).
 
-`affordance_registry` tracks platform capabilities as `Affordance` entries
-and derives each one's Usage/Lack sidecar names; a Kaye-specific,
-consumer-supplied `surface_profiles` dict (`dict[str, RenderProfile]`,
-passed to `setup_claude_cli(...)` — kaye-vault owns the actual Claude
-surface data, q.v. `kaye_vault/claude_render_profiles.py`) maps a surface
-name to the `RenderProfile` carrying that surface's affordances/
-conditional-sidecars. Every **rendering command** — any CLI subcommand
-that reaches `PromptBlueprint.generate_prompt(...)`, directly or via
+`affordance_registry`/`variant_registry` form a two-level model: an
+`Affordance` is a conceptual capability family, a `Variant` one concrete
+implementation of it, registered via the single `register_variant
+(canonical_name, affordance_name)` entry point (auto-creating its
+affordance on first use). Each affordance derives its own `Usage`
+sidecar name per variant plus one affordance-level `[{name}] Fallback`
+sidecar, checkmarked when every variant registered under that affordance
+is absent (and the affordance has ≥1 registered variant). A Kaye-specific,
+consumer-supplied
+`surface_profiles` dict (`dict[str, RenderProfile]`, passed to
+`setup_claude_cli(...)` — kaye-vault owns the actual Claude surface data,
+q.v. `kaye_vault/claude_render_profiles.py`) maps a surface name to the
+`RenderProfile` carrying that surface's variants/conditional-sidecars.
+Every **rendering command** — any CLI subcommand that reaches
+`PromptBlueprint.generate_prompt(...)`, directly or via
 `Exportable.content()` — exposes the same 5 options (`--surface`,
-`--comment`/`--no-comment`, `--conditional-sidecar`, `--affordance`,
+`--comment`/`--no-comment`, `--conditional-sidecar`, `--variant`,
 `--sparseness`) via one shared parent parser and one aux function,
 `build_render_profile_parent_parser`/`resolve_render_profile`
-(`kaye_engine/cli/render_profile_parser.py`); `resolve_render_profile`
-returns a single `RenderProfile` (not a kwargs dict), built by merging
-each selected surface's profile with one built from the explicit
-`--affordance`/`--conditional-sidecar`/`--sparseness`/`--comment` flags
-via `RenderProfile.merge()` -- `--affordance`/`--conditional-sidecar`
-union additively with whatever `--surface` derives, so rendered prompts
+(`kaye_engine/cli/render_profile_parser.py`). `resolve_render_profile`
+returns a single `RenderProfile`, built by merging each selected
+surface's profile with one built from the explicit
+`--variant`/`--conditional-sidecar`/`--sparseness`/`--comment` flags via
+`RenderProfile.merge()` — `--variant`/`--conditional-sidecar` union
+additively with whatever `--surface` derives, so rendered prompts
 auto-checkmark the sidecars real on that surface plus any named
 explicitly. `--surface` itself is omitted entirely from the parser when
 no consumer project configures `surface_profiles`. Each subcommand keeps
-its own pre-existing default for `--comment`/`--no-comment` and
-`--sparseness` when the flags are omitted (via
-`build_sparseness_parent_parser(default=...)`, a per-call builder). The
-resolved `RenderProfile` is carried as a single `profile=` object from
-parser down through every `claude` export chain (skill/plugin/
-marketplace/vs-code/code/user-prompt), instead of threading
-`surface`/`sparseness`/`show_comment` as separate params at each layer.
-A `RenderProfile()` default (no explicit `--surface`/`--affordance`/
-`--conditional-sidecar`) carries `affordances=None`/
-`conditional_sidecars=()`, which `RenderProfile.merge()` treats as a
-no-op contribution, so a `register_blueprint()` entry's own
-`render_profile` defaults still apply -- `BlueprintRegistry.content()`
-merges them in via `self.render_profile.merge(profile)` whenever the
-caller (`blueprint generate`, `Skill.from_exportable()`) passes a
-`profile=`. Q.v. [Claude documentation](docs/claude-doc.md) and
-[sidecar node documentation](docs/sidecar-node-doc.md).
+its own default for `--comment`/`--no-comment` and `--sparseness` when
+the flags are omitted (via `build_sparseness_parent_parser(default=...)`,
+a per-call builder). The resolved `RenderProfile` is carried as a single
+`profile=` object from parser down through every `claude` export chain
+(skill/plugin/marketplace/vs-code/code/user-prompt). A `RenderProfile()`
+default (no explicit `--surface`/`--variant`/`--conditional-sidecar`)
+carries `variants=None`/`conditional_sidecars=()`, which
+`RenderProfile.merge()` treats as a no-op contribution, so a
+`register_blueprint()` entry's own `render_profile` defaults still
+apply — `BlueprintRegistry.content()` merges them in via
+`self.render_profile.merge(profile)` whenever the caller (`blueprint
+generate`, `Skill.from_exportable()`) passes a `profile=`. Q.v. [Claude
+documentation](docs/claude-doc.md) and [sidecar node
+documentation](docs/sidecar-node-doc.md).
 
 Dynamic nodes auto-attach to every tree at load time — no authored
 heading required for existence — and cover today's date plus the
 abbreviation glossaries; an authored `(name)` heading, at any depth,
 fixes the node's preface and tree location in place of the heading
 itself, else it falls back to a direct child of root. A second,
-independent mechanism, inline `(((name)))` substitution, resolves the
-same canonical names anywhere inside rendered prompt text at
-`generate_prompt()` time. Q.v. [dynamic node
+independent mechanism, inline `(((name)))` substitution, resolves
+canonical names anywhere inside rendered prompt text at
+`generate_prompt()` time, against two sources in order: first
+`dynamic_substitution_registry` (populated via
+`register_dynamic_substitution(name, substitution)`, where
+`substitution` is a `DynamicSubstitution` — commonly
+`StringDynamicSubstitution` wrapping a fixed string), then
+`resolve_dynamic_node_factory(name, require_substitution_flag=True)`,
+the same dynamic-node universe the tree mechanism draws on but with
+glossary names admitted only when `register_abbr_glossary(name, ...,
+register_as_dynamic_substitution=True)` opted in — the tree mechanism
+itself resolves glossary names unconditionally, since the opt-in gate
+applies to placeholder substitution only. Q.v. [dynamic node
 documentation](docs/dynamic-content-doc.md) and [abbreviation
 collection documentation](docs/abbrs-doc.md).
 
@@ -126,8 +152,10 @@ from kaye_engine import (
     PACKAGE_NAME, LOGGER_NAME,
     load_corpus_tree, get_default_corpus_tree,
     AbbrData,
+    DynamicSubstitution, StringDynamicSubstitution,
     register_abbr_glossary,
     register_blueprint,
+    register_dynamic_substitution,
     setup_claude_cli,
 )
 ```
@@ -144,9 +172,9 @@ process default, which is what a blueprint resolves against when given no
 explicit tree. A consumer that exports through `claude` subcommands must also
 call `setup_claude_cli(plugin_name, display_name, marketplace_name,
 chat_exportable_name, chat_coder_exportable_name, version,
-marketplace_folder_name)` — none of the seven has a default; `display_name` replaces the former hardcoded
-`DISPLAY_NAME` constant, letting each consumer stamp its own
-`plugin.json` `display_name`. Q.v. [Kaye Engine: `prompt` module
+marketplace_folder_name)` — none of the seven has a default;
+`display_name` lets each consumer stamp its own `plugin.json`
+`display_name`. Q.v. [Kaye Engine: `prompt` module
 Documentation](docs/prompt-doc.md).
 
 Every CLI subcommand entrypoint calls a setup guard
@@ -172,19 +200,24 @@ kaye_engine/
 │   ├── blueprint/       PromptBlueprint, registry, rendering
 │   │   └── render_profile.py   RenderProfile: layerable render-kwargs bundle
 │   ├── dynamic_nodes/   render-time generated node types
-│   └── affordance_registry.py  Affordance entries, Usage/Lack sidecar names
+│   └── affordance_registry.py  Affordance/Variant two-level registry,
+│                                Usage/Fallback sidecar names
 ├── abbr_collection/     abbreviation entries, store, JSON loader
 ├── exportable/           Exportable base, exportable_registry
 ├── cli/
 │   ├── blueprint/       `blueprint`/`bp` subcommand: ls, show, generate
 │   ├── claude/          skills, plugins, marketplaces, CLAUDE.md
 │   │   ├── setup.py               setup_claude_cli(...); registers
-│   │   │                          consumer-supplied affordance_names,
+│   │   │                          consumer-supplied affordance_groups,
 │   │   │                          stores surface_profiles
 │   │   └── surface_parser.py      shared `--surface` parent parser --
 │   │                              choices from consumer's surface_profiles
 │   ├── dynamic_node/    `dynamic-node`/`dn` subcommand: multi-node render
-│   ├── affordance_parser.py  `affordance` subcommand (no alias): list affordance_registry
+│   ├── dynamic_substitution_parser.py  `dynamic-substitution`/`ds`
+│   │                                    subcommand: print/list
+│   │                                    dynamic_substitution_registry
+│   ├── list_affordance_parser.py  `list-affordance`/`lsa` subcommand: list affordance_registry
+│   ├── list_variant_parser.py     `list-variant`/`lsv` subcommand: list variant_registry
 │   ├── glossary_parser.py    `glossary`/`g` subcommand: print/list glossaries
 │   ├── comment_parser.py     shared `--comment`/`--no-comment` parent parser
 │   ├── render_profile_parser.py  shared 5-option parent parser + aux fn
@@ -200,7 +233,7 @@ the same `blueprint_registry` rather than holding its own list.
 
 ## Testing Strategy
 
-`pytest`, 690 tests, run **serially by design** — cases are cheap in-process
+`pytest`, 772 tests, run **serially by design** — cases are cheap in-process
 assertions, so worker startup costs more than a split saves, and shared
 fixtures carry run-order assumptions. `pytest-xdist` is deliberately absent
 from the `dev` extra.
@@ -210,8 +243,7 @@ for the abbreviation collection. `tests/cli/` stays deliberately thin — it
 holds only the corpus-independent pieces (setup guard, exportable-abbr
 registration, `dynamic-node` parsing, `SKILL.md` rendering), because the
 exporters need a corpus to produce output and the consumer package covers
-those. `exportable`, `affordance`, and `glossary` parser tests are now
-covered; the `blueprint` subcommand parser still has no dedicated tests.
+those. The `blueprint` subcommand parser still has no dedicated tests.
 
 ## Maintaining This File
 

@@ -3,7 +3,6 @@
 [^format]
 
 <!--
-fixme affordance vs toolset: affordance = toolsets + fallback
 todo todo CLI to import/export w/ OpenWebUI
 todo todo utilize personalities, allow multi agent conversation
 -->
@@ -34,7 +33,58 @@ todo todo utilize personalities, allow multi agent conversation
 
 ### Security
 
-[unreleased]: https://github.com/kami-lel/kaye-engine/compare/v7.3.0...dev
+[unreleased]: https://github.com/kami-lel/kaye-engine/compare/v7.4.0...dev
+
+## [7.4.0] - 2026-08-24
+
+### Added
+
+- `Affordance`/`Variant` two-level capability model, replacing the
+  single-level affordance, with a `Fallback` sidecar checkmarked when
+  every variant under an affordance is absent
+- `list-variant`/`lsv` CLI subcommand, listing registered variant names
+- `DynamicSubstitution` registry: a lighter-weight `(((name)))`
+  substitution path alongside the tree/glossary mechanism, with a new
+  `dynamic-substitution`/`ds` CLI subcommand
+- opt-in flag on `register_abbr_glossary` gating whether a glossary is
+  reachable as a dynamic substitution
+
+### Changed
+
+- prompt rendering now applies dynamic substitutions before
+  re-applying blank-line sparseness, so a substituted value can no
+  longer be split apart by trimming that ran before it existed
+- `RenderProfile.affordances`/`merge_affordances` renamed to
+  `variants`/`merge_variants`; `--affordance`/`-a` CLI flag renamed
+  `--variant` (long-flag only); `setup_claude_cli`'s
+  `affordance_names` parameter renamed `affordance_groups`; the
+  `affordance` CLI subcommand renamed `list-affordance`/`lsa` and now
+  lists affordance names only
+
+> [!WARNING]
+> `--affordance`/`-a` and `RenderProfile.affordances` no longer exist;
+> use `--variant` and `RenderProfile.variants`. The `affordance` CLI
+> subcommand now lists affordances only — use `list-variant` for
+> variant names.
+
+### Deprecated
+
+### Removed
+
+- per-variant `Lack` sidecar, superseded by the affordance-level
+  `Fallback` sidecar
+
+### Fixed
+
+- `register_abbr_glossary`'s `user_invokable` kwarg now actually
+  controls its exportable group's `user_invokable` flag, instead of
+  every glossary group hardcoding it `True`
+- corpus/markdown parsing (heading detection and blank-line
+  sparseness) now ignores lines inside fenced code blocks, so
+  heading-shaped or blank lines fenced in a code sample no longer get
+  misparsed or stripped
+
+[7.4.0]: https://github.com/kami-lel/kaye-engine/compare/v7.3.0...v7.4.0
 
 
 

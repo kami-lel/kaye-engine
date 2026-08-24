@@ -5,6 +5,7 @@ define `PromptBlueprint`
 """
 
 import copy
+import dataclasses
 
 from anytree import PreOrderIter
 
@@ -246,10 +247,17 @@ class PromptBlueprint(dict):
         """
         profile = profile or RenderProfile()
         merged_kwargs = {**profile.as_kwargs(), **kwargs}
-        text = "\n".join(
-            render.render_prompt_lines(self, profile=profile, **kwargs)
+
+        unsparse_profile = dataclasses.replace(
+            profile, sparseness=render.NO_TRIM_SPARSENESS
         )
-        return apply_dynamic_substitutions(text, **merged_kwargs)
+        text = "\n".join(
+            render.render_prompt_lines(self, profile=unsparse_profile, **kwargs)
+        )
+        substituted = apply_dynamic_substitutions(text, **merged_kwargs)
+        return "\n".join(
+            render.apply_sparseness(substituted.split("\n"), profile.sparseness)
+        )
 
     # Blueprint operation  *****************************************************
 

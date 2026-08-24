@@ -91,3 +91,95 @@ class TestGetExportableAbbrsFiltersByIsExportable:
         assert (
             "abbr-glossary-test-glossary-non-exportable" not in canonical_names
         )
+
+
+class TestGetExportableAbbrsGlossaryUserInvokable:
+
+    def test_defaults_to_user_invokable(_, registered_names):
+        reg = register_abbr_glossary("test-glossary-default-invokable", True)
+        registered_names.append(reg.name)
+
+        data = AbbrData()
+        with data:
+            data.add_entry(
+                AbbrMeaning("dummy"),
+                "dmy",
+                {
+                    "priority": 0,
+                    "tags": ["test-glossary-default-invokable"],
+                    "wrap": "word",
+                },
+            )
+
+        with patch(
+            "kaye_engine.cli.exportable_abbr.get_abbr_data",
+            return_value=data,
+        ):
+            opt = get_exportable_abbrs()
+
+        group = next(
+            g
+            for g in opt
+            if g.canonical_name
+            == "abbr-glossary-test-glossary-default-invokable"
+        )
+        assert group.user_invokable is True
+        assert group.llm_invokable is True
+
+    def test_honors_user_invokable_false(_, registered_names):
+        reg = register_abbr_glossary(
+            "test-glossary-llm-only", True, user_invokable=False
+        )
+        registered_names.append(reg.name)
+
+        data = AbbrData()
+        with data:
+            data.add_entry(
+                AbbrMeaning("dummy"),
+                "dmy",
+                {
+                    "priority": 0,
+                    "tags": ["test-glossary-llm-only"],
+                    "wrap": "word",
+                },
+            )
+
+        with patch(
+            "kaye_engine.cli.exportable_abbr.get_abbr_data",
+            return_value=data,
+        ):
+            opt = get_exportable_abbrs()
+
+        group = next(
+            g
+            for g in opt
+            if g.canonical_name == "abbr-glossary-test-glossary-llm-only"
+        )
+        assert group.user_invokable is False
+        assert group.llm_invokable is True
+
+    def test_tag_wrap_starts_with_groups_are_always_llm_only(
+        _, registered_names
+    ):
+        data = AbbrData()
+        with data:
+            data.add_entry(
+                AbbrMeaning("dummy"),
+                "dmy",
+                {"priority": 0, "tags": [], "wrap": "word"},
+            )
+
+        with patch(
+            "kaye_engine.cli.exportable_abbr.get_abbr_data",
+            return_value=data,
+        ):
+            opt = get_exportable_abbrs()
+
+        non_glossary_groups = [
+            g
+            for g in opt
+            if not g.canonical_name.startswith("abbr-glossary-")
+        ]
+        assert non_glossary_groups
+        assert all(g.user_invokable is False for g in non_glossary_groups)
+        assert all(g.llm_invokable is True for g in non_glossary_groups)
