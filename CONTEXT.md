@@ -62,7 +62,12 @@ blueprint text ──PromptBlueprint.parse()───────┘
 Rendering takes a `sparseness` parameter governing how runs of blank lines
 collapse in the output, from `-1` (whole output joined onto one line) through
 `99` (no trimming); descriptor sidecar rendering always renders at `-1` so a
-multi-line description or when-to-use collapses to one string.
+multi-line description or when-to-use collapses to one string. Blank lines
+inside a fenced code block are exempt from collapsing at every sparseness
+level, via the shared `compute_fenced_line_mask` (`kaye_engine/prompt/
+md_fence.py`) that both `apply_sparseness` and the corpus-tree heading
+parser (`_split_sections` in `prompt_corpus_node.py`) rely on to stay out
+of fenced regions.
 `PromptBlueprint.generate_prompt()` applies `sparseness` last: it renders
 the tree unsparse, then `apply_dynamic_substitutions()`, then applies the
 caller's `sparseness` to the substituted result — so a substitution's own

@@ -392,3 +392,102 @@ Second line."""
         assert opt == REPLACEMENT_NEWLINE_SYMBOL.join(
             ["First line.", "", "", "", "Second line."]
         )
+
+
+class TestSparsenessRespectsCodeFence:  # sparseness vs fenced blank lines  ####
+    """
+    uses a dedicated one-node corpus whose content mixes an ordinary blank
+    line (outside a fence) with an interior blank-line run inside a fenced
+    ` ```cpp ` code block, so fence-preservation can be checked at several
+    sparseness levels.
+    """
+
+    def _bp(_):
+        corpus = PromptCorpusNode("○", None, [])
+        PromptCorpusNode(
+            "Section",
+            corpus,
+            [
+                "Text.",
+                "",
+                "```cpp",
+                "line1",
+                "",
+                "",
+                "line2",
+                "```",
+                "",
+                "More.",
+            ],
+        )
+
+        bp_text = """    ○
+[x] └── Section"""
+        return PromptBlueprint.parse(
+            bp_text, disable_prune=True, corpus_tree=corpus
+        )
+
+    def test_zero(_):
+        bp = _._bp()
+
+        opt = bp.generate_prompt(
+            profile=RenderProfile(
+                show_comment=False, disable_first_heading=True, sparseness=0
+            )
+        )
+
+        print(repr(opt))
+        assert opt == """Text.
+```cpp
+line1
+
+
+line2
+```
+More."""
+
+    def test_default(_):
+        bp = _._bp()
+
+        opt = bp.generate_prompt(
+            profile=RenderProfile(
+                show_comment=False, disable_first_heading=True
+            )
+        )
+
+        print(repr(opt))
+        assert opt == """Text.
+
+```cpp
+line1
+
+
+line2
+```
+
+More."""
+
+    def test_minus_one(_):
+        bp = _._bp()
+
+        opt = bp.generate_prompt(
+            profile=RenderProfile(
+                show_comment=False, disable_first_heading=True, sparseness=-1
+            )
+        )
+
+        print(repr(opt))
+        assert opt == REPLACEMENT_NEWLINE_SYMBOL.join(
+            [
+                "Text.",
+                "",
+                "```cpp",
+                "line1",
+                "",
+                "",
+                "line2",
+                "```",
+                "",
+                "More.",
+            ]
+        )
