@@ -3,8 +3,6 @@
 [^format]
 
 <!--
-BUG sparseness should not change lines b/t codeblock
-BUG code block aware parsing of heading
 todo todo CLI to import/export w/ OpenWebUI
 todo todo utilize personalities, allow multi agent conversation
 -->
@@ -78,6 +76,14 @@ todo todo utilize personalities, allow multi agent conversation
   defaults to `True`) now actually controls whether that glossary's
   exportable group registers as `user_invokable`; previously every
   glossary group hardcoded `user_invokable=True` regardless of intent
+- corpus-tree heading parsing now ignores heading-shaped lines inside a
+  fenced code block (` ``` `/`~~~`, with or without a language tag), via
+  the shared `compute_fenced_line_mask` in the new `md_fence.py`; such
+  lines previously got misparsed as real section headings
+- `apply_sparseness` no longer collapses or strips blank lines that sit
+  inside a fenced code block, at any sparseness level; `-1` (single-line
+  join) now emits one `REPLACEMENT_NEWLINE_SYMBOL` per fenced blank line
+  instead of losing them
 
 ### Security
 
