@@ -1,6 +1,6 @@
 # kaye-engine CONTEXT
 
-**Last updated:** 2026-08-21
+**Last updated:** 2026-08-24
 
 System knowledge for the **kaye-engine** repository — architecture,
 entities, and boundaries. Read this alongside `AGENTS.md` before making
@@ -70,9 +70,8 @@ parser (`_split_sections` in `prompt_corpus_node.py`) rely on to stay out
 of fenced regions.
 `PromptBlueprint.generate_prompt()` applies `sparseness` last: it renders
 the tree unsparse, then `apply_dynamic_substitutions()`, then applies the
-caller's `sparseness` to the substituted result — so a substitution's own
-blank lines are shaped by the same policy instead of being collapsed
-before the substitution exists.
+caller's `sparseness` to the substituted result, so a substitution's own
+blank lines are shaped by the same policy.
 
 Sidecars split by usage rather than by class. *Descriptor* sidecars
 (`{description}`, `{when_to_use}`, `{globs}`) are consumed as blueprint
@@ -89,8 +88,8 @@ implementation of it, registered via the single `register_variant
 affordance on first use). Each affordance derives its own `Usage`
 sidecar name per variant plus one affordance-level `[{name}] Fallback`
 sidecar, checkmarked when every variant registered under that affordance
-is absent (and the affordance has ≥1 registered variant) — this replaces
-the former per-variant `Lack` sidecar. A Kaye-specific, consumer-supplied
+is absent (and the affordance has ≥1 registered variant). A Kaye-specific,
+consumer-supplied
 `surface_profiles` dict (`dict[str, RenderProfile]`, passed to
 `setup_claude_cli(...)` — kaye-vault owns the actual Claude surface data,
 q.v. `kaye_vault/claude_render_profiles.py`) maps a surface name to the
@@ -101,31 +100,29 @@ Every **rendering command** — any CLI subcommand that reaches
 `--comment`/`--no-comment`, `--conditional-sidecar`, `--variant`,
 `--sparseness`) via one shared parent parser and one aux function,
 `build_render_profile_parent_parser`/`resolve_render_profile`
-(`kaye_engine/cli/render_profile_parser.py`); `resolve_render_profile`
-returns a single `RenderProfile` (not a kwargs dict), built by merging
-each selected surface's profile with one built from the explicit
-`--variant`/`--conditional-sidecar`/`--sparseness`/`--comment` flags
-via `RenderProfile.merge()` -- `--variant`/`--conditional-sidecar`
-union additively with whatever `--surface` derives, so rendered prompts
+(`kaye_engine/cli/render_profile_parser.py`). `resolve_render_profile`
+returns a single `RenderProfile`, built by merging each selected
+surface's profile with one built from the explicit
+`--variant`/`--conditional-sidecar`/`--sparseness`/`--comment` flags via
+`RenderProfile.merge()` — `--variant`/`--conditional-sidecar` union
+additively with whatever `--surface` derives, so rendered prompts
 auto-checkmark the sidecars real on that surface plus any named
 explicitly. `--surface` itself is omitted entirely from the parser when
 no consumer project configures `surface_profiles`. Each subcommand keeps
-its own pre-existing default for `--comment`/`--no-comment` and
-`--sparseness` when the flags are omitted (via
-`build_sparseness_parent_parser(default=...)`, a per-call builder). The
-resolved `RenderProfile` is carried as a single `profile=` object from
-parser down through every `claude` export chain (skill/plugin/
-marketplace/vs-code/code/user-prompt), instead of threading
-`surface`/`sparseness`/`show_comment` as separate params at each layer.
-A `RenderProfile()` default (no explicit `--surface`/`--variant`/
-`--conditional-sidecar`) carries `variants=None`/
-`conditional_sidecars=()`, which `RenderProfile.merge()` treats as a
-no-op contribution, so a `register_blueprint()` entry's own
-`render_profile` defaults still apply -- `BlueprintRegistry.content()`
-merges them in via `self.render_profile.merge(profile)` whenever the
-caller (`blueprint generate`, `Skill.from_exportable()`) passes a
-`profile=`. Q.v. [Claude documentation](docs/claude-doc.md) and
-[sidecar node documentation](docs/sidecar-node-doc.md).
+its own default for `--comment`/`--no-comment` and `--sparseness` when
+the flags are omitted (via `build_sparseness_parent_parser(default=...)`,
+a per-call builder). The resolved `RenderProfile` is carried as a single
+`profile=` object from parser down through every `claude` export chain
+(skill/plugin/marketplace/vs-code/code/user-prompt). A `RenderProfile()`
+default (no explicit `--surface`/`--variant`/`--conditional-sidecar`)
+carries `variants=None`/`conditional_sidecars=()`, which
+`RenderProfile.merge()` treats as a no-op contribution, so a
+`register_blueprint()` entry's own `render_profile` defaults still
+apply — `BlueprintRegistry.content()` merges them in via
+`self.render_profile.merge(profile)` whenever the caller (`blueprint
+generate`, `Skill.from_exportable()`) passes a `profile=`. Q.v. [Claude
+documentation](docs/claude-doc.md) and [sidecar node
+documentation](docs/sidecar-node-doc.md).
 
 Dynamic nodes auto-attach to every tree at load time — no authored
 heading required for existence — and cover today's date plus the
@@ -175,9 +172,9 @@ process default, which is what a blueprint resolves against when given no
 explicit tree. A consumer that exports through `claude` subcommands must also
 call `setup_claude_cli(plugin_name, display_name, marketplace_name,
 chat_exportable_name, chat_coder_exportable_name, version,
-marketplace_folder_name)` — none of the seven has a default; `display_name` replaces the former hardcoded
-`DISPLAY_NAME` constant, letting each consumer stamp its own
-`plugin.json` `display_name`. Q.v. [Kaye Engine: `prompt` module
+marketplace_folder_name)` — none of the seven has a default;
+`display_name` lets each consumer stamp its own `plugin.json`
+`display_name`. Q.v. [Kaye Engine: `prompt` module
 Documentation](docs/prompt-doc.md).
 
 Every CLI subcommand entrypoint calls a setup guard
@@ -236,7 +233,7 @@ the same `blueprint_registry` rather than holding its own list.
 
 ## Testing Strategy
 
-`pytest`, 751 tests, run **serially by design** — cases are cheap in-process
+`pytest`, 772 tests, run **serially by design** — cases are cheap in-process
 assertions, so worker startup costs more than a split saves, and shared
 fixtures carry run-order assumptions. `pytest-xdist` is deliberately absent
 from the `dev` extra.
@@ -246,9 +243,7 @@ for the abbreviation collection. `tests/cli/` stays deliberately thin — it
 holds only the corpus-independent pieces (setup guard, exportable-abbr
 registration, `dynamic-node` parsing, `SKILL.md` rendering), because the
 exporters need a corpus to produce output and the consumer package covers
-those. `exportable`, `list-affordance`, `list-variant`, and `glossary`
-parser tests are now covered; the `blueprint` subcommand parser still has
-no dedicated tests.
+those. The `blueprint` subcommand parser still has no dedicated tests.
 
 ## Maintaining This File
 

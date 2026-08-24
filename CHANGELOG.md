@@ -23,71 +23,68 @@ todo todo utilize personalities, allow multi agent conversation
 
 ### Added
 
-- `Affordance`/`Variant` two-level model: an affordance is a
-  conceptual capability family, a variant is one concrete
-  implementation of it, registered via the single `register_variant
-  (canonical_name, affordance_name)` entry point (auto-creating its
-  affordance on first use)
-- `{[affordance canonical_name] Fallback}` sidecar, checkmarked when
-  every variant registered under an affordance is absent (and the
-  affordance has ≥1 registered variant)
-- `list-variant`/`lsv` CLI subcommand, listing every registered
-  variant canonical name
-- `DynamicSubstitution`/`StringDynamicSubstitution` classes and
-  `register_dynamic_substitution`, a directly-registered `(((name)))`
-  substitution path lighter than the tree/glossary mechanism
-- `dynamic-substitution`/`ds` CLI subcommand, printing a registered
-  dynamic substitution's content or listing every registered name
-- `register_as_dynamic_substitution` opt-in flag on
-  `register_abbr_glossary`, gating whether a glossary is reachable
-  via a `(((name)))` placeholder
-
 ### Changed
-
-- `PromptBlueprint.render` now renders the full tree unsparse,
-  applies dynamic substitutions, then re-applies the `sparseness`
-  policy, so a substituted value can no longer be split apart by a
-  blank-line pass that ran before it existed
-- `resolve_dynamic_node_factory` gains a `require_substitution_flag`
-  parameter; `(((name)))` placeholder resolution now passes
-  `require_substitution_flag=True`, so a glossary only resolves as a
-  substitution when registered with
-  `register_as_dynamic_substitution=True`, while tree rendering keeps
-  resolving glossaries unconditionally
-- `RenderProfile.affordances` renamed `variants`; `merge_affordances`
-  renamed `merge_variants`; `--affordance`/`-a` CLI flag renamed
-  `--variant` (long-flag only, no short form)
-- `setup_claude_cli`'s `affordance_names` parameter renamed
-  `affordance_groups` (affordance canonical name -> its variant
-  canonical names); a singleton affordance is simply a 1-tuple entry
-- `affordance` CLI subcommand renamed `list-affordance`/`lsa`, now
-  listing only affordance names (variants moved to `list-variant`)
 
 ### Deprecated
 
 ### Removed
 
-- per-variant `Lack` sidecar and `Affordance.lack_sidecar_name`,
-  superseded by the affordance-level `Fallback` sidecar
-
 ### Fixed
-
-- `register_abbr_glossary`'s `user_invokable` (optional kwarg,
-  defaults to `True`) now actually controls whether that glossary's
-  exportable group registers as `user_invokable`; previously every
-  glossary group hardcoded `user_invokable=True` regardless of intent
-- corpus-tree heading parsing now ignores heading-shaped lines inside a
-  fenced code block (` ``` `/`~~~`, with or without a language tag), via
-  the shared `compute_fenced_line_mask` in the new `md_fence.py`; such
-  lines previously got misparsed as real section headings
-- `apply_sparseness` no longer collapses or strips blank lines that sit
-  inside a fenced code block, at any sparseness level; `-1` (single-line
-  join) now emits one `REPLACEMENT_NEWLINE_SYMBOL` per fenced blank line
-  instead of losing them
 
 ### Security
 
-[unreleased]: https://github.com/kami-lel/kaye-engine/compare/v7.3.0...dev
+[unreleased]: https://github.com/kami-lel/kaye-engine/compare/v7.4.0...dev
+
+## [7.4.0] - 2026-08-24
+
+### Added
+
+- `Affordance`/`Variant` two-level capability model, replacing the
+  single-level affordance, with a `Fallback` sidecar checkmarked when
+  every variant under an affordance is absent
+- `list-variant`/`lsv` CLI subcommand, listing registered variant names
+- `DynamicSubstitution` registry: a lighter-weight `(((name)))`
+  substitution path alongside the tree/glossary mechanism, with a new
+  `dynamic-substitution`/`ds` CLI subcommand
+- opt-in flag on `register_abbr_glossary` gating whether a glossary is
+  reachable as a dynamic substitution
+
+### Changed
+
+- prompt rendering now applies dynamic substitutions before
+  re-applying blank-line sparseness, so a substituted value can no
+  longer be split apart by trimming that ran before it existed
+- `RenderProfile.affordances`/`merge_affordances` renamed to
+  `variants`/`merge_variants`; `--affordance`/`-a` CLI flag renamed
+  `--variant` (long-flag only); `setup_claude_cli`'s
+  `affordance_names` parameter renamed `affordance_groups`; the
+  `affordance` CLI subcommand renamed `list-affordance`/`lsa` and now
+  lists affordance names only
+
+> [!WARNING]
+> `--affordance`/`-a` and `RenderProfile.affordances` no longer exist;
+> use `--variant` and `RenderProfile.variants`. The `affordance` CLI
+> subcommand now lists affordances only — use `list-variant` for
+> variant names.
+
+### Deprecated
+
+### Removed
+
+- per-variant `Lack` sidecar, superseded by the affordance-level
+  `Fallback` sidecar
+
+### Fixed
+
+- `register_abbr_glossary`'s `user_invokable` kwarg now actually
+  controls its exportable group's `user_invokable` flag, instead of
+  every glossary group hardcoding it `True`
+- corpus/markdown parsing (heading detection and blank-line
+  sparseness) now ignores lines inside fenced code blocks, so
+  heading-shaped or blank lines fenced in a code sample no longer get
+  misparsed or stripped
+
+[7.4.0]: https://github.com/kami-lel/kaye-engine/compare/v7.3.0...v7.4.0
 
 
 
