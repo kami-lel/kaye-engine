@@ -25,7 +25,7 @@ def resolve_dynamic_node_factory(name, require_substitution_flag=False):
     :type name: str
     :param require_substitution_flag: when True, a glossary name only
             resolves if registered with
-            ``register_as_dynamic_substitution=True``; defaults to
+            ``is_dyn_substitution=True``; defaults to
             False
     :type require_substitution_flag: bool, optional
     :raises ValueError: ``name`` matches none of the above
@@ -46,7 +46,7 @@ def resolve_dynamic_node_factory(name, require_substitution_flag=False):
 
     if name in abbr_glossary_registry and (
         not require_substitution_flag
-        or abbr_glossary_registry[name].register_as_dynamic_substitution
+        or abbr_glossary_registry[name].is_dyn_substitution
     ):
         return functools.partial(GlossaryNode, glossary_name=name)
 
