@@ -3,7 +3,6 @@
 [^format]
 
 <!--
-Todo glossary render set as term def
 todo todo CLI to import/export w/ OpenWebUI
 -->
 
@@ -22,10 +21,6 @@ todo todo CLI to import/export w/ OpenWebUI
 ## [Unreleased]
 
 ### Added
-
-- `AbbrWrap.TERM_DEF` wrap rule, for abbr entries that should never be
-  matched when scanning query text; its wrap check always fails,
-  regardless of surrounding characters
 
 ### Changed
 
