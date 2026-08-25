@@ -151,11 +151,14 @@ class AbbrEntry:
         :type char_after: str
         :return: whether ``found`` satisfies additional rules of:
 
+        - not tagged ``term_definition``
         - case sensitivity
         - wrapping
 
         :rtype: bool
         """
+        if AbbrTags.term_definition in self.tags:
+            return False
         return (
             self.abbr.islower() or found == self.abbr  # verify case sensitivity
         ) and self.wrap.is_satisfied_wrap_rule(char_before, char_after)
