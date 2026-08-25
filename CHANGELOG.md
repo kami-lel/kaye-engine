@@ -3,7 +3,6 @@
 [^format]
 
 <!--
-BUG empty line in code block is still compressed
 todo todo CLI to import/export w/ OpenWebUI
 -->
 
