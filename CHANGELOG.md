@@ -3,7 +3,6 @@
 [^format]
 
 <!--
-Bug empty line in code block is still compressed
 todo todo CLI to import/export w/ OpenWebUI
 -->
 
@@ -30,6 +29,10 @@ todo todo CLI to import/export w/ OpenWebUI
 ### Removed
 
 ### Fixed
+
+- corpus load-time blank-line collapsing now skips fenced code blocks,
+  so blank lines inside a fence survive verbatim instead of being
+  compressed regardless of render-time `sparseness`
 
 ### Security
 
