@@ -23,6 +23,7 @@ from .dynamic_nodes import (
     GlossaryNode,
     resolve_dynamic_node_factory,
 )
+from .md_fence import compute_fenced_line_mask
 from .prompt_corpus_node import PromptCorpusNode
 
 __all__ = (
@@ -46,6 +47,42 @@ def _is_parenthesized_heading(heading):
     :rtype: bool
     """
     return heading.startswith("(") and heading.endswith(")")
+
+
+def _collapse_unfenced_blank_runs(text_lines):
+    """
+    reduce 3+ consecutive newlines to a single blank line within each
+    maximal run of lines outside a fenced code block, leaving every
+    line inside a fenced code block (blank or not) untouched -- each
+    unfenced run is collapsed independently, via the same regex
+    previously applied to the whole text, so unfenced behavior is
+    unchanged and a fence boundary acts like a text boundary for its
+    neighboring run
+
+    (helper function used in ``load_corpus_tree()``)
+
+
+    :param text_lines:
+    :type text_lines: list[str]
+    :return: ``text_lines`` with unfenced blank-line runs collapsed
+    :rtype: list[str]
+    """
+    fenced_mask = compute_fenced_line_mask(text_lines)
+
+    result = []
+    segment_start = 0
+    for idx in range(1, len(text_lines) + 1):
+        at_end = idx == len(text_lines)
+        if at_end or fenced_mask[idx] != fenced_mask[segment_start]:
+            segment = text_lines[segment_start:idx]
+            if fenced_mask[segment_start]:
+                result.extend(segment)
+            else:
+                cleaned = re.sub(r"\n{3,}", "\n\n", "\n".join(segment))
+                result.extend(cleaned.split("\n"))
+            segment_start = idx
+
+    return result
 
 
 def _resolve_dynamic_heading(heading):
@@ -134,10 +171,9 @@ def load_corpus_tree(  # =======================================================
         prompt_corpus_text = file.read()
 
     # text split & clean up  ---------------------------------------------------
-    # reduce 2+ empty lines into single empty line
-    text_cleanup = re.sub(r"\n{3,}", "\n\n", prompt_corpus_text)
-    # split to lines
-    text_lines = list(text_cleanup.split("\n"))
+    # split to lines, then reduce 2+ empty lines into single empty line,
+    # skipping lines inside a fenced code block
+    text_lines = _collapse_unfenced_blank_runs(prompt_corpus_text.split("\n"))
 
     # create prompt corpus nodes  ----------------------------------------------
     tree = PromptCorpusNode.parse(ROOT_NODE_NAME, None, text_lines)
