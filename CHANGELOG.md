@@ -30,6 +30,10 @@ todo todo CLI to import/export w/ OpenWebUI
 
 ### Fixed
 
+- corpus load-time blank-line collapsing now skips fenced code blocks,
+  so blank lines inside a fence survive verbatim instead of being
+  compressed regardless of render-time `sparseness`
+
 ### Security
 
 [unreleased]: https://github.com/kami-lel/kaye-engine/compare/v7.4.0...dev
