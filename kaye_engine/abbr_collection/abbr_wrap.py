@@ -30,7 +30,6 @@ class AbbrWrap(Enum):
     SYMBOL = "symbol"
     UNIT = "unit"
     CURRENCY = "currency"
-    TERM_DEF = "term-def"
 
     # instance methods  ========================================================
 
@@ -73,8 +72,5 @@ class AbbrWrap(Enum):
             return WORD_BOUNDARY_PATTERN.fullmatch(
                 char_before
             ) and NUMBER_OR_BOUNDARY_PATTERN.fullmatch(char_after)
-
-        elif self == AbbrWrap.TERM_DEF:
-            return False
 
         raise NotImplementedError

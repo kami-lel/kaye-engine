@@ -22,11 +22,10 @@ todo todo CLI to import/export w/ OpenWebUI
 
 ### Added
 
-- `AbbrWrap.TERM_DEF` wrap rule, for abbr entries that should never be
-  matched when scanning query text; its wrap check always fails,
-  regardless of surrounding characters
-
 ### Changed
+
+- `term_definition`-tagged abbr entries: also excluded from
+  `(decode-only-abbr)` query-scan matches, not just rendered differently
 
 ### Deprecated
 
