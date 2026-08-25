@@ -24,7 +24,7 @@ todo todo CLI to import/export w/ OpenWebUI
 
 ### Changed
 
-- `term_definition`-tagged abbr entries are now also excluded from
+- `term_definition`-tagged abbr entries: also excluded from
   `(decode-only-abbr)` query-scan matches, not just rendered differently
 
 ### Deprecated
