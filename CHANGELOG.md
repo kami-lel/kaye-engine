@@ -3,6 +3,7 @@
 [^format]
 
 <!--
+Todo glossary render set as term def
 todo todo CLI to import/export w/ OpenWebUI
 -->
 
