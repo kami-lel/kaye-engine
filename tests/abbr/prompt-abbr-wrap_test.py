@@ -129,6 +129,37 @@ class TestRuleSuffix:  # =======================================================
         assert not self.enum.is_satisfied_wrap_rule(*ipt)
 
 
+class TestRuleTermDef:  # ======================================================
+
+    enum = AbbrWrap.TERM_DEF
+
+    # false cases  *************************************************************
+    def test_false1(self):
+        ipt = (" ", " ")
+        print(ipt)
+        assert not self.enum.is_satisfied_wrap_rule(*ipt)
+
+    def test_false2(self):
+        ipt = ("", "")
+        print(ipt)
+        assert not self.enum.is_satisfied_wrap_rule(*ipt)
+
+    def test_false3(self):
+        ipt = (",", " ")
+        print(ipt)
+        assert not self.enum.is_satisfied_wrap_rule(*ipt)
+
+    def test_false4(self):
+        ipt = ("\t", " ")
+        print(ipt)
+        assert not self.enum.is_satisfied_wrap_rule(*ipt)
+
+    def test_false5(self):
+        ipt = ("a", "z")
+        print(ipt)
+        assert not self.enum.is_satisfied_wrap_rule(*ipt)
+
+
 class TestRuleSymbol:  # =======================================================
 
     enum = AbbrWrap.SYMBOL
