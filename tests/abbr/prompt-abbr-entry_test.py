@@ -461,3 +461,25 @@ class TestVerify4:  # ==========================================================
         print(found, wraps, sep="\n")
 
         assert not self.entry.verify_found(found, *wraps)
+
+
+class TestVerifyTermDefinition:  # =============================================
+
+    entry = AbbrEntry(MEAN, "e.g.", TERM_DEFINITION_OBJ)
+
+    # false cases  *************************************************************
+    def test_false1(self):
+        found = "e.g."
+        wraps = (" ", " ")  # satisfies the entry's own "word" wrap rule
+
+        print(found, wraps, sep="\n")
+
+        assert not self.entry.verify_found(found, *wraps)
+
+    def test_false2(self):
+        found = "e.g."
+        wraps = ("", "")  # start/end of text, also satisfies "word"
+
+        print(found, wraps, sep="\n")
+
+        assert not self.entry.verify_found(found, *wraps)
