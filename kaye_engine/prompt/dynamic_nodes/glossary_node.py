@@ -25,6 +25,7 @@ def gen_glossary_content_lines(
     is_numbered_list=None,
     glossary_priority_threshold=None,
     is_remark_disabled=None,
+    is_term_definition_forced=None,
 ):
     """
     :param is_sorted: sort by ascending priority instead of insertion
@@ -41,6 +42,11 @@ def gen_glossary_content_lines(
     :param is_remark_disabled: omit the ``(...)`` remark suffix; defaults to
             the glossary's registered ``is_remark_disabled``
     :type is_remark_disabled: bool, optional
+    :param is_term_definition_forced: render every entry as a term
+            definition, regardless of its own ``term_definition`` tag;
+            defaults to the glossary's registered
+            ``is_term_definition_forced``
+    :type is_term_definition_forced: bool, optional
     :return: markdown list items for ``glossary_name``'s entries;
             empty when the abbr data singleton is empty
     :rtype: list[str]
@@ -57,6 +63,8 @@ def gen_glossary_content_lines(
         is_numbered_list = reg.is_numbered_list
     if is_remark_disabled is None:
         is_remark_disabled = reg.is_remark_disabled
+    if is_term_definition_forced is None:
+        is_term_definition_forced = reg.is_term_definition_forced
 
     entries = tuple(
         entry
@@ -74,12 +82,19 @@ def gen_glossary_content_lines(
 
     if is_numbered_list:
         return [
-            entry.as_md_list_entry(number=i, is_remark_disabled=is_remark_disabled)
+            entry.as_md_list_entry(
+                number=i,
+                is_remark_disabled=is_remark_disabled,
+                force_term_definition=is_term_definition_forced,
+            )
             for i, entry in enumerate(entries, start=1)
         ]
 
     return [
-        entry.as_md_list_entry(is_remark_disabled=is_remark_disabled)
+        entry.as_md_list_entry(
+            is_remark_disabled=is_remark_disabled,
+            force_term_definition=is_term_definition_forced,
+        )
         for entry in entries
     ]
 
@@ -106,6 +121,7 @@ class GlossaryNode(DynamicNode):  ##############################################
         is_numbered_list=None,
         glossary_priority_threshold=None,
         is_remark_disabled=None,
+        is_term_definition_forced=None,
         **kwargs
     ):
         return self._preface + gen_glossary_content_lines(
@@ -114,6 +130,7 @@ class GlossaryNode(DynamicNode):  ##############################################
             is_numbered_list=is_numbered_list,
             glossary_priority_threshold=glossary_priority_threshold,
             is_remark_disabled=is_remark_disabled,
+            is_term_definition_forced=is_term_definition_forced,
         )
 
     def __copy__(self):
