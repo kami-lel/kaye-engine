@@ -48,6 +48,11 @@ class AbbrGlossaryRegistry:
     :param is_remark_disabled: whether entries render without the
             ``(...)`` remark suffix; defaults to False
     :type is_remark_disabled: bool, optional
+    :param is_term_definition_forced: whether every entry renders as a
+            term definition (``- {mean}``, no ``{abbr}:`` prefix),
+            regardless of whether it carries the ``term_definition``
+            tag; defaults to False
+    :type is_term_definition_forced: bool, optional
     :param is_dyn_substitution: whether this glossary is
             reachable via a ``(((name)))`` dynamic substitution
             placeholder; defaults to False
@@ -60,6 +65,7 @@ class AbbrGlossaryRegistry:
     is_numbered_list: bool = False
     is_sorted: bool = False
     is_remark_disabled: bool = False
+    is_term_definition_forced: bool = False
     is_dyn_substitution: bool = False
 
 
@@ -75,6 +81,7 @@ def register_abbr_glossary(
     is_numbered_list=False,
     is_sorted=False,
     is_remark_disabled=False,
+    is_term_definition_forced=False,
     is_dyn_substitution=False,
 ):
     """
@@ -92,6 +99,10 @@ def register_abbr_glossary(
     :param is_user_invokable: whether a human may deliberately invoke this
             glossary's exportable group directly; defaults to True
     :type is_user_invokable: bool, optional
+    :param is_term_definition_forced: whether every entry renders as a
+            term definition, regardless of its own ``term_definition``
+            tag; defaults to False
+    :type is_term_definition_forced: bool, optional
     :raise ValueError: ``name`` is already registered
     :return: the created registry entry
     :rtype: AbbrGlossaryRegistry
@@ -108,6 +119,7 @@ def register_abbr_glossary(
         is_numbered_list,
         is_sorted,
         is_remark_disabled,
+        is_term_definition_forced,
         is_dyn_substitution,
     )
     abbr_glossary_registry[name] = reg

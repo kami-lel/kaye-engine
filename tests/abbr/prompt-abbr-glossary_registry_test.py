@@ -41,6 +41,7 @@ class TestRegisterAbbrGlossary:  ###############################################
         assert reg.is_exportable is True
         assert reg.is_numbered_list is False
         assert reg.is_sorted is False
+        assert reg.is_term_definition_forced is False
         assert abbr_glossary_registry["test-glossary-dft"] is reg
 
     def test_flags(_, registered_names):
@@ -49,11 +50,13 @@ class TestRegisterAbbrGlossary:  ###############################################
             True,
             is_numbered_list=True,
             is_sorted=True,
+            is_term_definition_forced=True,
         )
         registered_names.append(reg.name)
 
         assert reg.is_numbered_list is True
         assert reg.is_sorted is True
+        assert reg.is_term_definition_forced is True
 
     def test_duplicate_name(_, registered_names):
         reg = register_abbr_glossary("test-glossary-dup", True)
@@ -303,6 +306,77 @@ class TestRenderingDefaults:  ##################################################
 
         print(opt)
         assert opt == ["- e.g.:for example (Latin exempli gratia)"]
+
+    def test_term_definition_forced_default(_, registered_names):
+        reg = register_abbr_glossary(
+            "test-glossary-term-definition-forced",
+            True,
+            is_term_definition_forced=True,
+        )
+        registered_names.append(reg.name)
+
+        data = AbbrData()
+        with data:
+            data.add_entry(
+                AbbrMeaning("for example"),
+                "e.g.",
+                {
+                    "priority": 5,
+                    "tags": ["test-glossary-term-definition-forced"],
+                    "wrap": "word",
+                },
+            )
+
+        testee = GlossaryNode(
+            None, glossary_name="test-glossary-term-definition-forced"
+        )
+        with pytest.MonkeyPatch.context() as mp:
+            mp.setattr(
+                "kaye_engine.prompt.dynamic_nodes.glossary_node.get_abbr_data",
+                lambda: data,
+            )
+            opt = testee.content_lines()
+
+        print(opt)
+        assert opt == ["- for example"]
+
+    def test_term_definition_forced_explicit_override_wins(
+        _, registered_names
+    ):
+        reg = register_abbr_glossary(
+            "test-glossary-term-definition-forced-override",
+            True,
+            is_term_definition_forced=True,
+        )
+        registered_names.append(reg.name)
+
+        data = AbbrData()
+        with data:
+            data.add_entry(
+                AbbrMeaning("for example"),
+                "e.g.",
+                {
+                    "priority": 5,
+                    "tags": [
+                        "test-glossary-term-definition-forced-override"
+                    ],
+                    "wrap": "word",
+                },
+            )
+
+        testee = GlossaryNode(
+            None,
+            glossary_name="test-glossary-term-definition-forced-override",
+        )
+        with pytest.MonkeyPatch.context() as mp:
+            mp.setattr(
+                "kaye_engine.prompt.dynamic_nodes.glossary_node.get_abbr_data",
+                lambda: data,
+            )
+            opt = testee.content_lines(is_term_definition_forced=False)
+
+        print(opt)
+        assert opt == ["- e.g.:for example"]
 
     def test_glossary_priority_threshold_filters(_, registered_names):
         reg = register_abbr_glossary(

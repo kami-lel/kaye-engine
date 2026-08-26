@@ -110,7 +110,9 @@ class AbbrEntry:
 
     # instance methods  ********************************************************
 
-    def as_md_list_entry(self, number=None, is_remark_disabled=False):
+    def as_md_list_entry(
+        self, number=None, is_remark_disabled=False, force_term_definition=False
+    ):
         """
         render this entry as a markdown list item
 
@@ -119,11 +121,18 @@ class AbbrEntry:
         :param is_remark_disabled: omit the ``(...)`` remark suffix, even if
                 `mean.remark` or `remark` are set; defaults to False
         :type is_remark_disabled: bool, optional
+        :param force_term_definition: render as a term definition
+                (``{mean}``, no ``{abbr}:`` prefix) even if this entry
+                does not carry the ``term_definition`` tag; defaults to
+                False
+        :type force_term_definition: bool, optional
         :return: a single markdown list item
         :rtype: str
         """
         marker = "-" if number is None else "{}.".format(number)
-        is_term_definition = AbbrTags.term_definition in self.tags
+        is_term_definition = (
+            force_term_definition or AbbrTags.term_definition in self.tags
+        )
 
         if not is_remark_disabled:
             remarks = [r for r in (self.mean.remark, self.remark) if r]
