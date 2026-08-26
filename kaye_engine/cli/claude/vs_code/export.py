@@ -10,13 +10,14 @@ from kaye_engine import kamilog
 from kaye_engine.cli.claude import LOGGER_CLAUDE_NAME
 from kaye_engine.cli.claude.marketplace.export import export_marketplace
 from kaye_engine.cli.claude.setup import get_marketplace_folder_name
-from kaye_engine.cli.claude.user_prompt.parser import (
-    find_user_system_prompt_file,
-)
 from kaye_engine.cli.claude.user_prompt.export import (
     export_user_system_prompt_file,
 )
-from .settings import update_settings_json
+from kaye_engine.cli.claude.user_prompt.parser import (
+    find_user_system_prompt_file,
+)
+
+# from .settings import update_settings_json
 
 # logger  ######################################################################
 logger = kamilog.getLogger(LOGGER_CLAUDE_NAME)
@@ -58,10 +59,11 @@ def export_vs_code_extension(claude_folder, *, render_profile=None):
     )
     logger.succ("export marketplace:\t" + str(marketplace_folder))
 
-    logger.debug("update settings for git command permissions")
-    settings_path = update_settings_json(claude_folder)
-    logger.succ(
-        "update settings for git command permissions:\t" + str(settings_path)
-    )
+    # hack disabled permission override, reverted to system default
+    # logger.debug("update settings for git command permissions")
+    # settings_path = update_settings_json(claude_folder)
+    # logger.succ(
+    #     "update settings for git command permissions:\t" + str(settings_path)
+    # )
 
     return marketplace_path
