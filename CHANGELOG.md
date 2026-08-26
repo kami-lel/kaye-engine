@@ -22,6 +22,11 @@ todo todo CLI to import/export w/ OpenWebUI
 
 ### Added
 
+- `is_term_definition_forced` param: registry, glossary node, & entry
+  render level, forces every glossary entry as a term definition
+  (`- {mean}`, no `{abbr}:` prefix) regardless of its own
+  `term_definition` tag
+
 ### Changed
 
 - `term_definition`-tagged abbr entries: also excluded from
