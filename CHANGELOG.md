@@ -3,6 +3,7 @@
 [^format]
 
 <!--
+todo allow multiple corpus files to be loaded as single tree, including secrete file
 todo todo CLI to import/export w/ OpenWebUI
 -->
 
