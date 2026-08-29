@@ -63,7 +63,7 @@ class BlueprintRegistry(Exportable):
         ``self`` and ``other``: the underlying blueprints are merged
         via ``|``, `render_profile` is merged via
         `RenderProfile.merge`; every other field (``canonical_name``,
-        ``display_name``, ``is_exportable``, ``user_invokable``,
+        ``display_name``, ``is_exportable``, ``is_user_invokable``,
         ``llm_invokable``) is taken from ``self``
 
 
@@ -83,7 +83,7 @@ class BlueprintRegistry(Exportable):
             display_name=self.display_name,
             blueprint=self.blueprint | other.blueprint,
             is_exportable=self.is_exportable,
-            user_invokable=self.user_invokable,
+            is_user_invokable=self.is_user_invokable,
             llm_invokable=self.llm_invokable,
             render_profile=self.render_profile.merge(other.render_profile),
         )
@@ -100,7 +100,7 @@ def register_blueprint(
     blueprint,
     *,
     is_exportable=True,
-    user_invokable=True,
+    is_user_invokable=True,
     llm_invokable=True,
     render_profile=RenderProfile(),
 ):
@@ -120,10 +120,10 @@ def register_blueprint(
     :param is_exportable: whether this blueprint is exported as a Claude
             Agent Skill; defaults to True
     :type is_exportable: bool, optional
-    :param user_invokable: whether a human may deliberately invoke this
+    :param is_user_invokable: whether a human may deliberately invoke this
             entry by name, rather than it only ever surfacing on its
             own; defaults to True
-    :type user_invokable: bool, optional
+    :type is_user_invokable: bool, optional
     :param llm_invokable: whether the assistant may bring this entry
             into play on its own judgment, without being explicitly
             named; defaults to True
@@ -150,7 +150,7 @@ def register_blueprint(
         display_name=display_name,
         blueprint=blueprint,
         is_exportable=is_exportable,
-        user_invokable=user_invokable,
+        is_user_invokable=is_user_invokable,
         llm_invokable=llm_invokable,
         render_profile=render_profile,
     )

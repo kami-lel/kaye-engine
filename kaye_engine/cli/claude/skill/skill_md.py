@@ -165,7 +165,7 @@ class Skill(FrontmatterDoc):
                 description=sidecars.description,
                 when_to_use=sidecars.when_to_use,
                 paths=list(sidecars.globs) if sidecars.globs else [],
-                user_invocable=exportable.user_invokable,
+                user_invocable=exportable.is_user_invokable,
                 body=exportable.content(profile=render_profile),
                 version=version,
             )
@@ -174,7 +174,7 @@ class Skill(FrontmatterDoc):
         return cls(
             name=exportable.canonical_name,
             description=exportable.display_name,
-            user_invocable=exportable.user_invokable,
+            user_invocable=exportable.is_user_invokable,
             body=exportable.as_md_list(),
             version=version,
         )

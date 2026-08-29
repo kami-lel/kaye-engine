@@ -32,35 +32,41 @@ class AbbrGlossaryRegistry:
     :param is_exportable: whether this glossary is registered into the
             exportable registry
     :type is_exportable: bool
-    :param user_invokable: whether a human may deliberately invoke this
+    :param is_user_invokable: whether a human may deliberately invoke this
             glossary's exportable group directly, e.g. as a skill;
             defaults to True, unlike the engine's fixed tag/wrap/
             starts-with abbr groups, which are always llm-only
-    :type user_invokable: bool, optional
-    :param uses_numbered_list: render entries with numbered markers
-            (``"1. ..."``) instead of bullets (``"- ..."``) by default;
+    :type is_user_invokable: bool, optional
+    :param is_numbered_list: whether entries render with numbered
+            markers (``"1. ..."``) instead of bullets (``"- ..."``);
             defaults to False
-    :type uses_numbered_list: bool, optional
-    :param is_sorted: render entries ordered by ascending
-            :attr:`AbbrEntry.priority` instead of insertion order by
-            default; defaults to False
+    :type is_numbered_list: bool, optional
+    :param is_sorted: whether entries render ordered by ascending
+            :attr:`AbbrEntry.priority` instead of insertion order;
+            defaults to False
     :type is_sorted: bool, optional
-    :param disable_remark: render entries without the ``(...)`` remark
-            suffix by default; defaults to False
-    :type disable_remark: bool, optional
-    :param register_as_dynamic_substitution: whether this glossary is
+    :param is_remark_disabled: whether entries render without the
+            ``(...)`` remark suffix; defaults to False
+    :type is_remark_disabled: bool, optional
+    :param is_term_definition_forced: whether every entry renders as a
+            term definition (``- {mean}``, no ``{abbr}:`` prefix),
+            regardless of whether it carries the ``term_definition``
+            tag; defaults to False
+    :type is_term_definition_forced: bool, optional
+    :param is_dyn_substitution: whether this glossary is
             reachable via a ``(((name)))`` dynamic substitution
             placeholder; defaults to False
-    :type register_as_dynamic_substitution: bool, optional
+    :type is_dyn_substitution: bool, optional
     """
 
     name: str
     is_exportable: bool
-    user_invokable: bool = True
-    uses_numbered_list: bool = False
+    is_user_invokable: bool = True
+    is_numbered_list: bool = False
     is_sorted: bool = False
-    disable_remark: bool = False
-    register_as_dynamic_substitution: bool = False
+    is_remark_disabled: bool = False
+    is_term_definition_forced: bool = False
+    is_dyn_substitution: bool = False
 
 
 # Main Entry Point  ############################################################
@@ -71,11 +77,12 @@ abbr_glossary_registry = {}
 def register_abbr_glossary(
     name,
     is_exportable,
-    user_invokable=True,
-    uses_numbered_list=False,
+    is_user_invokable=True,
+    is_numbered_list=False,
     is_sorted=False,
-    disable_remark=False,
-    register_as_dynamic_substitution=False,
+    is_remark_disabled=False,
+    is_term_definition_forced=False,
+    is_dyn_substitution=False,
 ):
     """
     create an `AbbrGlossaryRegistry` and insert it into
@@ -89,9 +96,13 @@ def register_abbr_glossary(
     :param is_exportable: whether this glossary is registered into the
             exportable registry
     :type is_exportable: bool
-    :param user_invokable: whether a human may deliberately invoke this
+    :param is_user_invokable: whether a human may deliberately invoke this
             glossary's exportable group directly; defaults to True
-    :type user_invokable: bool, optional
+    :type is_user_invokable: bool, optional
+    :param is_term_definition_forced: whether every entry renders as a
+            term definition, regardless of its own ``term_definition``
+            tag; defaults to False
+    :type is_term_definition_forced: bool, optional
     :raise ValueError: ``name`` is already registered
     :return: the created registry entry
     :rtype: AbbrGlossaryRegistry
@@ -104,11 +115,12 @@ def register_abbr_glossary(
     reg = AbbrGlossaryRegistry(
         name,
         is_exportable,
-        user_invokable,
-        uses_numbered_list,
+        is_user_invokable,
+        is_numbered_list,
         is_sorted,
-        disable_remark,
-        register_as_dynamic_substitution,
+        is_remark_disabled,
+        is_term_definition_forced,
+        is_dyn_substitution,
     )
     abbr_glossary_registry[name] = reg
 

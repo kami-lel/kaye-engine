@@ -22,25 +22,31 @@ logger = kamilog.getLogger(LOGGER_NAME)
 def gen_glossary_content_lines(
     glossary_name,
     is_sorted=None,
-    uses_numbered_list=None,
+    is_numbered_list=None,
     glossary_priority_threshold=None,
-    disable_remark=None,
+    is_remark_disabled=None,
+    is_term_definition_forced=None,
 ):
     """
     :param is_sorted: sort by ascending priority instead of insertion
             order; defaults to the glossary's registered ``is_sorted``
     :type is_sorted: bool, optional
-    :param uses_numbered_list: render numbered markers instead of
+    :param is_numbered_list: render numbered markers instead of
             bullets; defaults to the glossary's registered
-            ``uses_numbered_list``
-    :type uses_numbered_list: bool, optional
+            ``is_numbered_list``
+    :type is_numbered_list: bool, optional
     :param glossary_priority_threshold: exclude entries whose priority
             is greater than this value from rendering; ``None`` (the
             default) disables this filtering
     :type glossary_priority_threshold: int, optional
-    :param disable_remark: omit the ``(...)`` remark suffix; defaults to
-            the glossary's registered ``disable_remark``
-    :type disable_remark: bool, optional
+    :param is_remark_disabled: omit the ``(...)`` remark suffix; defaults to
+            the glossary's registered ``is_remark_disabled``
+    :type is_remark_disabled: bool, optional
+    :param is_term_definition_forced: render every entry as a term
+            definition, regardless of its own ``term_definition`` tag;
+            defaults to the glossary's registered
+            ``is_term_definition_forced``
+    :type is_term_definition_forced: bool, optional
     :return: markdown list items for ``glossary_name``'s entries;
             empty when the abbr data singleton is empty
     :rtype: list[str]
@@ -53,10 +59,12 @@ def gen_glossary_content_lines(
     reg = get_abbr_glossary(glossary_name)
     if is_sorted is None:
         is_sorted = reg.is_sorted
-    if uses_numbered_list is None:
-        uses_numbered_list = reg.uses_numbered_list
-    if disable_remark is None:
-        disable_remark = reg.disable_remark
+    if is_numbered_list is None:
+        is_numbered_list = reg.is_numbered_list
+    if is_remark_disabled is None:
+        is_remark_disabled = reg.is_remark_disabled
+    if is_term_definition_forced is None:
+        is_term_definition_forced = reg.is_term_definition_forced
 
     entries = tuple(
         entry
@@ -72,14 +80,21 @@ def gen_glossary_content_lines(
     if is_sorted:
         entries = sorted(entries, key=lambda entry: entry.priority)
 
-    if uses_numbered_list:
+    if is_numbered_list:
         return [
-            entry.as_md_list_entry(number=i, disable_remark=disable_remark)
+            entry.as_md_list_entry(
+                number=i,
+                is_remark_disabled=is_remark_disabled,
+                force_term_definition=is_term_definition_forced,
+            )
             for i, entry in enumerate(entries, start=1)
         ]
 
     return [
-        entry.as_md_list_entry(disable_remark=disable_remark)
+        entry.as_md_list_entry(
+            is_remark_disabled=is_remark_disabled,
+            force_term_definition=is_term_definition_forced,
+        )
         for entry in entries
     ]
 
@@ -103,17 +118,19 @@ class GlossaryNode(DynamicNode):  ##############################################
     def content_lines(
         self,
         is_sorted=None,
-        uses_numbered_list=None,
+        is_numbered_list=None,
         glossary_priority_threshold=None,
-        disable_remark=None,
+        is_remark_disabled=None,
+        is_term_definition_forced=None,
         **kwargs
     ):
         return self._preface + gen_glossary_content_lines(
             self.glossary_name,
             is_sorted=is_sorted,
-            uses_numbered_list=uses_numbered_list,
+            is_numbered_list=is_numbered_list,
             glossary_priority_threshold=glossary_priority_threshold,
-            disable_remark=disable_remark,
+            is_remark_disabled=is_remark_disabled,
+            is_term_definition_forced=is_term_definition_forced,
         )
 
     def __copy__(self):

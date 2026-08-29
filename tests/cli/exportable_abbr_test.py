@@ -123,12 +123,12 @@ class TestGetExportableAbbrsGlossaryUserInvokable:
             if g.canonical_name
             == "abbr-glossary-test-glossary-default-invokable"
         )
-        assert group.user_invokable is True
+        assert group.is_user_invokable is True
         assert group.llm_invokable is True
 
     def test_honors_user_invokable_false(_, registered_names):
         reg = register_abbr_glossary(
-            "test-glossary-llm-only", True, user_invokable=False
+            "test-glossary-llm-only", True, is_user_invokable=False
         )
         registered_names.append(reg.name)
 
@@ -155,7 +155,7 @@ class TestGetExportableAbbrsGlossaryUserInvokable:
             for g in opt
             if g.canonical_name == "abbr-glossary-test-glossary-llm-only"
         )
-        assert group.user_invokable is False
+        assert group.is_user_invokable is False
         assert group.llm_invokable is True
 
     def test_tag_wrap_starts_with_groups_are_always_llm_only(
@@ -181,5 +181,5 @@ class TestGetExportableAbbrsGlossaryUserInvokable:
             if not g.canonical_name.startswith("abbr-glossary-")
         ]
         assert non_glossary_groups
-        assert all(g.user_invokable is False for g in non_glossary_groups)
+        assert all(g.is_user_invokable is False for g in non_glossary_groups)
         assert all(g.llm_invokable is True for g in non_glossary_groups)
