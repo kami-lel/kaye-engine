@@ -23,15 +23,7 @@ todo todo CLI to import/export w/ OpenWebUI
 
 ### Added
 
-- `is_term_definition_forced` param: registry, glossary node, & entry
-  render level, forces every glossary entry as a term definition
-  (`- {mean}`, no `{abbr}:` prefix) regardless of its own
-  `term_definition` tag
-
 ### Changed
-
-- `term_definition`-tagged abbr entries: also excluded from
-  `(decode-only-abbr)` query-scan matches, not just rendered differently
 
 ### Deprecated
 
@@ -39,13 +31,30 @@ todo todo CLI to import/export w/ OpenWebUI
 
 ### Fixed
 
+### Security
+
+[unreleased]: https://github.com/kami-lel/kaye-engine/compare/v7.5.0...dev
+
+## [7.5.0] - 2026-08-29
+
+### Added
+
+- `is_term_definition_forced` option on `register_abbr_glossary` and
+  `GlossaryNode` rendering, forcing every entry in a glossary to render
+  as a term definition regardless of its own `term_definition` tag
+
+### Changed
+
+- `term_definition`-tagged abbr entries no longer match
+  `(decode-only-abbr)` query scans
+
+### Fixed
+
 - corpus load-time blank-line collapsing now skips fenced code blocks,
   so blank lines inside a fence survive verbatim instead of being
   compressed regardless of render-time `sparseness`
 
-### Security
-
-[unreleased]: https://github.com/kami-lel/kaye-engine/compare/v7.4.0...dev
+[7.5.0]: https://github.com/kami-lel/kaye-engine/compare/v7.4.0...v7.5.0
 
 ## [7.4.0] - 2026-08-24
 
