@@ -35,6 +35,18 @@ todo todo CLI to import/export w/ OpenWebUI
 
 [unreleased]: https://github.com/kami-lel/kaye-engine/compare/v7.5.0...dev
 
+
+
+
+
+
+
+
+
+
+
+
+
 ## [7.5.0] - 2026-08-29
 
 ### Added
@@ -87,8 +99,6 @@ todo todo CLI to import/export w/ OpenWebUI
 > use `--variant` and `RenderProfile.variants`. The `affordance` CLI
 > subcommand now lists affordances only — use `list-variant` for
 > variant names.
-
-### Deprecated
 
 ### Removed
 
