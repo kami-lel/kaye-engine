@@ -93,7 +93,7 @@ Q.v. [abbreviation entries `json` file](#abbreviation-entries-json-file) below f
 
 
 
-#### `register_abbr_glossary(name, is_exportable, is_user_invokable=True, is_numbered_list=False, is_sorted=False, is_remark_disabled=False)`
+#### `register_abbr_glossary(name, is_exportable, is_user_invokable=True, is_numbered_list=False, is_sorted=False, is_remark_disabled=False, is_term_definition_forced=False)`
 
 Register a glossary name so entries may reference it via `tags` (v.i.), and set that glossary's default rendering behavior for its `GlossaryNode`:
 
@@ -102,6 +102,7 @@ Register a glossary name so entries may reference it via `tags` (v.i.), and set 
 - `is_numbered_list`: render entries with numbered markers (`"1. ..."`) instead of bullets (`"- ..."`)
 - `is_sorted`: render entries ordered by ascending `priority` instead of insertion order
 - `is_remark_disabled`: omit the `(...)` remark suffix (v.i.) from every entry in this glossary by default
+- `is_term_definition_forced`: render every entry as a term definition (`{mean}` alone, no `{abbr}:` prefix), regardless of whether it carries the `term_definition` tag; overridable per render via `GlossaryNode`'s own `is_term_definition_forced=` kwarg
 
 ```python
 from kaye_engine.abbr_collection import register_abbr_glossary
@@ -161,7 +162,7 @@ Every abbreviation-related [dynamic node](dynamic-content-doc.md) lives in `kaye
 | `DecodeOnlyAbbrNode` | `(decode-only-abbr)` | `decode_only_abbr_node.py` | scans a `query=` string against `get_abbr_data().automaton`, verifying each raw match with `AbbrEntry.verify_found` before including it; falls back to every `always_understand`-tagged entry when `query` is omitted |
 | `GlossaryNode` | `(glossary-name)` | `glossary_node.py` | every entry whose `glossaries` array contains `glossary-name` |
 
-Unlike `DecodeOnlyAbbrNode`, `GlossaryNode` is not a fixed engine type — one instance is created per glossary name a consumer registered via `register_abbr_glossary` (v.s.) and referenced on `AbbrEntry.glossaries` (q.v. [`tags`](#tags) below), never enumerated in `kaye-engine` code itself. Its rendering — bullets vs. numbered markers, insertion order vs. sorted by `priority`, and whether the `(...)` remark suffix appears — defaults to that glossary's registered flags, and all three may be overridden per render via `content_lines(is_sorted=..., is_numbered_list=..., is_remark_disabled=...)`. Whether high-priority-number entries are hidden is a generation-time-only concern, not a registration default: pass `content_lines(glossary_priority_threshold=...)` (or the matching `generate_prompt(glossary_priority_threshold=...)` kwarg, since it flows through to every checkmarked node's `content_lines()`) — `None` (default) disables the filter. Q.v. [dynamic-content-doc.md](dynamic-content-doc.md) for the heading resolution order.
+Unlike `DecodeOnlyAbbrNode`, `GlossaryNode` is not a fixed engine type — one instance is created per glossary name a consumer registered via `register_abbr_glossary` (v.s.) and referenced on `AbbrEntry.glossaries` (q.v. [`tags`](#tags) below), never enumerated in `kaye-engine` code itself. Its rendering — bullets vs. numbered markers, insertion order vs. sorted by `priority`, whether the `(...)` remark suffix appears, and whether every entry is forced into term-definition form — defaults to that glossary's registered flags, and all four may be overridden per render via `content_lines(is_sorted=..., is_numbered_list=..., is_remark_disabled=..., is_term_definition_forced=...)`. Whether high-priority-number entries are hidden is a generation-time-only concern, not a registration default: pass `content_lines(glossary_priority_threshold=...)` (or the matching `generate_prompt(glossary_priority_threshold=...)` kwarg, since it flows through to every checkmarked node's `content_lines()`) — `None` (default) disables the filter. Q.v. [dynamic-content-doc.md](dynamic-content-doc.md) for the heading resolution order.
 
 
 
