@@ -22,5 +22,5 @@ for _glossary_name in (
     register_abbr_glossary(_glossary_name, True)
 
 register_abbr_glossary(
-    "some-glossary", True, register_as_dynamic_substitution=True
+    "some-glossary", True, is_dyn_substitution=True
 )

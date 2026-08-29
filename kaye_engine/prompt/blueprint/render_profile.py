@@ -92,9 +92,9 @@ class RenderProfile:
     :param is_sorted: forwarded to ``GlossaryNode.content_lines()``;
             defaults to None
     :type is_sorted: bool, optional
-    :param uses_numbered_list: forwarded to
+    :param is_numbered_list: forwarded to
             ``GlossaryNode.content_lines()``; defaults to None
-    :type uses_numbered_list: bool, optional
+    :type is_numbered_list: bool, optional
     """
 
     show_comment: bool = False
@@ -105,7 +105,7 @@ class RenderProfile:
     sparseness: int = 1
     glossary_priority_threshold: int = None
     is_sorted: bool = None
-    uses_numbered_list: bool = None
+    is_numbered_list: bool = None
 
     def as_kwargs(self):
         """

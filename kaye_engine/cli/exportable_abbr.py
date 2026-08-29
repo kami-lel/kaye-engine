@@ -85,7 +85,7 @@ class ExportableAbbr(list, Exportable):  #######################################
         *,
         canonical_name="",
         display_name="",
-        user_invokable=False,
+        is_user_invokable=False,
         llm_invokable=True,
     ):
         list.__init__(self, entries)
@@ -93,7 +93,7 @@ class ExportableAbbr(list, Exportable):  #######################################
             self,
             canonical_name=canonical_name,
             display_name=display_name,
-            user_invokable=user_invokable,
+            is_user_invokable=is_user_invokable,
             llm_invokable=llm_invokable,
         )
 
@@ -126,13 +126,13 @@ def _sort_entries(entries):
 
 
 def _make_group(
-    display_name, entries, canonical_name=None, user_invokable=False
+    display_name, entries, canonical_name=None, is_user_invokable=False
 ):
     return ExportableAbbr(
         entries,
         canonical_name=canonical_name or _to_skill_name(display_name),
         display_name=display_name,
-        user_invokable=user_invokable,
+        is_user_invokable=is_user_invokable,
     )
 
 
@@ -154,7 +154,7 @@ def _get_abbrs_by_glossaries(abbr_data):
                 e for e in abbr_data.abbrs if glossary_name in e.glossaries
             ),
             canonical_name="abbr-glossary-" + glossary_name,
-            user_invokable=abbr_glossary_registry[glossary_name].user_invokable,
+            is_user_invokable=abbr_glossary_registry[glossary_name].is_user_invokable,
         )
         for glossary_name in sorted(abbr_glossary_registry)
         if abbr_glossary_registry[glossary_name].is_exportable

@@ -3,8 +3,8 @@
 [^format]
 
 <!--
+todo allow multiple corpus files to be loaded as single tree, including secrete file
 todo todo CLI to import/export w/ OpenWebUI
-todo todo utilize personalities, allow multi agent conversation
 -->
 
 
@@ -33,7 +33,40 @@ todo todo utilize personalities, allow multi agent conversation
 
 ### Security
 
-[unreleased]: https://github.com/kami-lel/kaye-engine/compare/v7.4.0...dev
+[unreleased]: https://github.com/kami-lel/kaye-engine/compare/v7.5.0...dev
+
+
+
+
+
+
+
+
+
+
+
+
+
+## [7.5.0] - 2026-08-29
+
+### Added
+
+- `is_term_definition_forced` option on `register_abbr_glossary` and
+  `GlossaryNode` rendering, forcing every entry in a glossary to render
+  as a term definition regardless of its own `term_definition` tag
+
+### Changed
+
+- `term_definition`-tagged abbr entries no longer match
+  `(decode-only-abbr)` query scans
+
+### Fixed
+
+- corpus load-time blank-line collapsing now skips fenced code blocks,
+  so blank lines inside a fence survive verbatim instead of being
+  compressed regardless of render-time `sparseness`
+
+[7.5.0]: https://github.com/kami-lel/kaye-engine/compare/v7.4.0...v7.5.0
 
 ## [7.4.0] - 2026-08-24
 
@@ -66,8 +99,6 @@ todo todo utilize personalities, allow multi agent conversation
 > use `--variant` and `RenderProfile.variants`. The `affordance` CLI
 > subcommand now lists affordances only — use `list-variant` for
 > variant names.
-
-### Deprecated
 
 ### Removed
 

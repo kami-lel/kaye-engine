@@ -133,23 +133,14 @@ the latter returning a `RenderProfile` rather than a kwargs dict:
 | `--variant` | none | variant name(s), unioned with `--surface` |
 | `--sparseness` | `-s` | blank-line policy, v.i. |
 
-`--variant`/`--conditional-sidecar` are additive: on surface-aware
-(`claude ...`) subcommands they union with whatever `--surface` derives;
-on surface-less subcommands (`blueprint generate`, `dynamic-node`,
-`exportable`) they work standalone. When neither the corresponding flag
-nor `--surface` is passed, `resolve_render_profile`'s returned
-`RenderProfile` keeps `variants=None`/`conditional_sidecars=()` --
-its own defaults -- rather than an explicit override; `RenderProfile.
-merge()` treats those as a no-op contribution, so on `blueprint generate`
-and `claude skill`, a `register_blueprint(render_profile=RenderProfile(
-conditional_sidecars=..., variants=...))` entry's own defaults apply
-instead of being clobbered by an empty value. `--comment`/`--no-comment` and
-`--sparseness` each keep their own pre-existing per-subcommand default
-when the flags are omitted. `claude user-system-prompt` already owns
-`-c` for `--coder`, so on that subcommand `--comment`/`--no-comment`
-are long-form only (no `-c`/`-C`). `kaye-engine blueprint show` is not
-a rendering command but shares the `--comment`/`--no-comment` toggle
-(`-c`/`-C` included there).
+`--variant`/`--conditional-sidecar` union additively with whatever
+`--surface` derives; omitting a flag keeps that subcommand's own default
+rather than clobbering a `register_blueprint()` entry's own
+`render_profile`. Merge semantics live in `CONTEXT.md`. `claude
+user-system-prompt` already owns `-c` for `--coder`, so
+`--comment`/`--no-comment` are long-form only there. `kaye-engine
+blueprint show` is not a rendering command but shares the
+`--comment`/`--no-comment` toggle (`-c`/`-C` included there).
 
 `--sparseness SPARSENESS` controls blank-line collapsing in the
 rendered output: `-1` joins everything into one line, `0` strips all
@@ -171,29 +162,18 @@ invoke it, or add it back without being asked.
 Every `claude` subcommand needs a consumer to call
 `setup_claude_cli(plugin_name, display_name, marketplace_name,
 chat_exportable_name, chat_coder_exportable_name, version,
-marketplace_folder_name)` before invoking the CLI —
-there is no default for any of the seven. `display_name` is stamped into
-`plugin.json`'s `display_name` field by `claude plugin export`; it replaces
-the former hardcoded `DISPLAY_NAME` constant in `kaye_engine/__init__.py`. On
-a bare checkout, or when `setup_claude_cli(...)` was never called,
-`get_plugin_name()`, `get_claude_cli_display_name()`,
-`get_marketplace_name()`, `get_claude_chat_exportable()`,
-`get_claude_chat_coder_exportable()`, `get_claude_cli_consumer_version()`, and
-`get_marketplace_folder_name()` each log `logger.critical` and raise
-`SystemExit(1)`; the blueprint getters do the same when the configured name
-is not a registered blueprint — expected, not a bug.
+marketplace_folder_name)` before invoking the CLI — no default exists for
+any of the seven. On a bare checkout, or when it was never called, the
+getters log `logger.critical` and raise `SystemExit(1)` — expected, not a
+bug. Full getter list and rationale in `CONTEXT.md`.
 
 `kaye-engine --version` reports the installed distribution's version via
 `importlib.metadata.version(PACKAGE_NAME)` — run against an installed
 package, not a bare checkout.
 
 `--surface` takes combinable names keyed into the consumer-supplied
-`surface_profiles` dict (a `dict[str, RenderProfile]` passed to
-`setup_claude_cli(...)`) — each name's `RenderProfile` is merged in,
-checkmarking the variants/conditional sidecars that surface
-carries. `--surface` is omitted entirely when no consumer project
-configures `surface_profiles`. Each subcommand defines its own
-default surface set when the flag is present but omitted.
+`surface_profiles` dict, and is omitted entirely from the parser when no
+consumer project configures it. Mechanics in `CONTEXT.md`.
 
 ## Code Conventions
 
@@ -217,7 +197,7 @@ constant:
 | flag | default | effect |
 |---|---|---|
 | `is_exportable` | `True` | `False` excludes it from `exportable_registry` entirely — never export as a Claude Agent Skill |
-| `user_invokable` | `True` | a human may invoke it by name |
+| `is_user_invokable` | `True` | a human may invoke it by name |
 | `llm_invokable` | `True` | the assistant may surface it unprompted |
 
 `render_profile` (a `RenderProfile`, default `RenderProfile()`) sets

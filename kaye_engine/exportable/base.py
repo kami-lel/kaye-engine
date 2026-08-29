@@ -29,10 +29,10 @@ class Exportable(ABC):
     :type canonical_name: str
     :param display_name: human-readable name
     :type display_name: str
-    :param user_invokable: whether a human may deliberately invoke this
+    :param is_user_invokable: whether a human may deliberately invoke this
             entry by name, rather than it only ever surfacing on its
             own; defaults to True
-    :type user_invokable: bool, optional
+    :type is_user_invokable: bool, optional
     :param llm_invokable: whether the assistant may bring this entry
             into play on its own judgment, without being explicitly
             named; defaults to True
@@ -45,7 +45,7 @@ class Exportable(ABC):
 
     canonical_name: str
     display_name: str
-    user_invokable: bool = True
+    is_user_invokable: bool = True
     llm_invokable: bool = True
 
     render_profile: RenderProfile = field(default_factory=RenderProfile)
