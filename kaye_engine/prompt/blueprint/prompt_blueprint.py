@@ -249,10 +249,10 @@ class PromptBlueprint(dict):
         """
         return self._checkmark_or_uncheckmark_generic(node, recursively, False)
 
-    def generate_blueprint(self, **kwargs):
+    def generate_blueprint_without_dependencies(self, **kwargs):
         """
-        generate **preview tree** of the blueprint,
-        an human-readable representation
+        generate **preview tree** of the blueprint's own content only,
+        ignoring ``dependencies``, an human-readable representation
 
         (see ``render.render_blueprint_tree()`` for parameters)
 
@@ -261,6 +261,22 @@ class PromptBlueprint(dict):
         :rtype: str
         """
         return render.render_blueprint_tree(self, **kwargs)
+
+    def render_blueprint(self, **kwargs):
+        """
+        generate **preview tree** of the blueprint's node checkmarking
+        status merged with the full transitive closure of its
+        ``dependencies``
+
+        (see ``.generate_blueprint_without_dependencies()`` for parameters)
+
+
+        :raise ValueError: a dependency cycle is detected
+        :return: the preview tree
+        :rtype: str
+        """
+        resolved = self._resolve_with_dependencies()
+        return resolved.generate_blueprint_without_dependencies(**kwargs)
 
     def generate_prompt_without_dependencies(self, *, profile=None, **kwargs):
         """
@@ -565,10 +581,11 @@ class PromptBlueprint(dict):
 
     def __repr__(self):
         """
-        :return: equivalent to ``self.generate_blueprint()``
+        :return: equivalent to
+                ``self.generate_blueprint_without_dependencies()``
         :rtype: str
         """
-        return self.generate_blueprint()
+        return self.generate_blueprint_without_dependencies()
 
 
 # helpers  #####################################################################
