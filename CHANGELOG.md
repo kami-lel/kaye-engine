@@ -31,6 +31,9 @@ todo todo CLI to import/export w/ OpenWebUI
   every construction classmethod (`parse`, `create_from_node`,
   `create_empty_blueprint`, `create_full_blueprint`), and preserved
   across `.prune()`, `.merge()`/`|`, and `.__copy__()`
+- `dependencies` entries may now be a registered blueprint's canonical
+  name (`str`), resolved via `get_blueprint(name).blueprint` alongside
+  `PromptBlueprint` objects, through a new `_resolve_dependency()`
 
 ### Changed
 
