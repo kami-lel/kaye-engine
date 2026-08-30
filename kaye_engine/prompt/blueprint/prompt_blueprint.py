@@ -305,6 +305,7 @@ class PromptBlueprint(dict):
         """
         # create bp w/ nothing
         pruned_bp = PromptBlueprint(corpus_tree=self.corpus_tree)
+        pruned_bp.dependencies = list(self.dependencies)
 
         _add_all_unprunable_nodes_recursively(self, pruned_bp, self.corpus)
 
@@ -330,6 +331,11 @@ class PromptBlueprint(dict):
         merged = PromptBlueprint(corpus_tree=self.corpus_tree)
 
         merged.sidecars = self.sidecars | other.sidecars
+
+        merged.dependencies = list(self.dependencies)
+        for dep in other.dependencies:
+            if not any(dep is d for d in merged.dependencies):
+                merged.dependencies.append(dep)
 
         for k in keys:
             merged[k] = self.is_checkmarked(k) or other.is_checkmarked(k)
@@ -483,6 +489,8 @@ class PromptBlueprint(dict):
 
         for k, v in self.items():
             copied[k] = v
+
+        copied.dependencies = list(self.dependencies)
 
         return copied
 
