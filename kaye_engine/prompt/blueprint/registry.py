@@ -48,14 +48,14 @@ class BlueprintRegistry(Exportable):
                 entry's own `render_profile`, not replaced by it
         :type profile: RenderProfile, optional
         :param kwargs: further render options (e.g. ``query``)
-                forwarded to ``PromptBlueprint.generate_prompt(...)``
+                forwarded to ``PromptBlueprint.render_prompt(...)``
         :return: this blueprint's rendered prompt
         :rtype: str
         """
         merged = self.render_profile
         if profile is not None:
             merged = merged.merge(profile)
-        return self.blueprint.generate_prompt(profile=merged, **kwargs)
+        return self.blueprint.render_prompt(profile=merged, **kwargs)
 
     def merge(self, other):
         """
