@@ -132,7 +132,7 @@ class TestBlueprintRegistryContent:  ###########################################
         captured = {}
         monkeypatch.setattr(
             bp,
-            "generate_prompt",
+            "render_prompt",
             lambda **kwargs: captured.update(kwargs),
         )
 
@@ -158,7 +158,7 @@ class TestBlueprintRegistryContent:  ###########################################
         captured = {}
         monkeypatch.setattr(
             bp,
-            "generate_prompt",
+            "render_prompt",
             lambda **kwargs: captured.update(kwargs),
         )
 
