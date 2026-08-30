@@ -24,7 +24,10 @@ class TestFull1:  # ============================================================
         bp = PromptBlueprint.create_full_blueprint(
             corpus_tree=corpus_testee1
         )
-        opt = bp.generate_blueprint(content_preview_lines=0, show_comment=False)
+        opt = bp.generate_blueprint_without_dependencies(
+            content_preview_lines=0,
+            show_comment=False,
+        )
 
         print(opt)
         assert opt == BLUEPRINT_1_FULL
@@ -36,7 +39,10 @@ class TestFull2:  # ============================================================
         bp = PromptBlueprint.create_full_blueprint(
             corpus_tree=corpus_testee2
         )
-        opt = bp.generate_blueprint(content_preview_lines=0, show_comment=False)
+        opt = bp.generate_blueprint_without_dependencies(
+            content_preview_lines=0,
+            show_comment=False,
+        )
 
         print(opt)
         assert opt == BLUEPRINT_2_FULL
@@ -49,7 +55,10 @@ class TestEmpty1:  # ===========================================================
         bp = PromptBlueprint.create_empty_blueprint(
             corpus_tree=corpus_testee1
         )
-        opt = bp.generate_blueprint(content_preview_lines=0, show_comment=False)
+        opt = bp.generate_blueprint_without_dependencies(
+            content_preview_lines=0,
+            show_comment=False,
+        )
 
         print(opt)
         assert opt == BLUEPRINT_1_EMPTY
@@ -61,7 +70,10 @@ class TestEmpty2:  # ===========================================================
         bp = PromptBlueprint.create_empty_blueprint(
             corpus_tree=corpus_testee2
         )
-        opt = bp.generate_blueprint(content_preview_lines=0, show_comment=False)
+        opt = bp.generate_blueprint_without_dependencies(
+            content_preview_lines=0,
+            show_comment=False,
+        )
 
         print(opt)
         assert opt == BLUEPRINT_2_EMPTY

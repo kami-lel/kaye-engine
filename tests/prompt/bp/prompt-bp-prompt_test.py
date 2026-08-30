@@ -1,7 +1,8 @@
 """
 prompt-bp-prompt_test.py
 
-Unit Tests (using pytest) for: PromptBlueprint.generate_prompt()
+Unit Tests (using pytest) for:
+PromptBlueprint.generate_prompt_without_dependencies()
 """
 
 import re
@@ -33,7 +34,9 @@ class Test1:  # with PROMPT1  ##################################################
         bp_text = BLUEPRINT_1_FULL
         bp = PromptBlueprint.parse(bp_text, corpus_tree=corpus_testee1)
 
-        opt = bp.generate_prompt(profile=RenderProfile(show_comment=True))
+        opt = bp.generate_prompt_without_dependencies(
+            profile=RenderProfile(show_comment=True)
+        )
 
         print(opt)
         content, comment = _split_content_and_comment(opt)
@@ -55,7 +58,9 @@ Licensed under the MIT License."""
         bp_text = BLUEPRINT_1_PARTIAL_1
         bp = PromptBlueprint.parse(bp_text, corpus_tree=corpus_testee1)
 
-        opt = bp.generate_prompt(profile=RenderProfile(show_comment=False))
+        opt = bp.generate_prompt_without_dependencies(
+            profile=RenderProfile(show_comment=False)
+        )
 
         print(opt)
         assert opt == """## Description
@@ -71,7 +76,9 @@ Licensed under the MIT License."""
         bp_text = BLUEPRINT_1_PARTIAL_2
         bp = PromptBlueprint.parse(bp_text, corpus_tree=corpus_testee1)
 
-        opt = bp.generate_prompt(profile=RenderProfile(show_comment=False))
+        opt = bp.generate_prompt_without_dependencies(
+            profile=RenderProfile(show_comment=False)
+        )
 
         print(opt)
         assert opt == """# Project Title
@@ -85,7 +92,9 @@ Licensed under the MIT License."""
         bp_text = BLUEPRINT_1_EMPTY
         bp = PromptBlueprint.parse(bp_text, corpus_tree=corpus_testee1)
 
-        opt = bp.generate_prompt(profile=RenderProfile(show_comment=False))
+        opt = bp.generate_prompt_without_dependencies(
+            profile=RenderProfile(show_comment=False)
+        )
 
         print(opt)
         assert opt == ""
@@ -97,7 +106,9 @@ class Test2:  # with PROMPT2  ##################################################
         bp_text = BLUEPRINT_2_FULL
         bp = PromptBlueprint.parse(bp_text, corpus_tree=corpus_testee2)
 
-        opt = bp.generate_prompt(profile=RenderProfile(show_comment=False))
+        opt = bp.generate_prompt_without_dependencies(
+            profile=RenderProfile(show_comment=False)
+        )
 
         print(opt)
         assert opt == """# Project Title
@@ -126,7 +137,9 @@ This project is licensed under the MIT License."""
     def test_part1(_, bp_testee2pa1):
         bp = bp_testee2pa1
 
-        opt = bp.generate_prompt(profile=RenderProfile(show_comment=False))
+        opt = bp.generate_prompt_without_dependencies(
+            profile=RenderProfile(show_comment=False)
+        )
 
         print(opt)
         assert opt == """# Project Title
@@ -144,7 +157,9 @@ This project is licensed under the MIT License."""
         bp_text = BLUEPRINT_2_EMPTY
         bp = PromptBlueprint.parse(bp_text, corpus_tree=corpus_testee2)
 
-        opt = bp.generate_prompt(profile=RenderProfile(show_comment=False))
+        opt = bp.generate_prompt_without_dependencies(
+            profile=RenderProfile(show_comment=False)
+        )
 
         print(opt)
         assert opt == ""
@@ -156,7 +171,9 @@ class Test3:  # with PROMPT3  ##################################################
         bp_text = BLUEPRINT_3_FULL
         bp = PromptBlueprint.parse(bp_text, corpus_tree=corpus_testee3)
 
-        opt = bp.generate_prompt(profile=RenderProfile(show_comment=False))
+        opt = bp.generate_prompt_without_dependencies(
+            profile=RenderProfile(show_comment=False)
+        )
 
         print(opt)
         assert opt == """# Main Title
@@ -191,7 +208,9 @@ Summarizing the findings and implications."""
         bp_text = BLUEPRINT_3_PARTIAL_1
         bp = PromptBlueprint.parse(bp_text, corpus_tree=corpus_testee3)
 
-        opt = bp.generate_prompt(profile=RenderProfile(show_comment=False))
+        opt = bp.generate_prompt_without_dependencies(
+            profile=RenderProfile(show_comment=False)
+        )
 
         print(opt)
         assert opt == """# Main Title
@@ -214,7 +233,9 @@ Summarizing the findings and implications."""
         bp_text = BLUEPRINT_3_PARTIAL_2
         bp = PromptBlueprint.parse(bp_text, corpus_tree=corpus_testee3)
 
-        opt = bp.generate_prompt(profile=RenderProfile(show_comment=False))
+        opt = bp.generate_prompt_without_dependencies(
+            profile=RenderProfile(show_comment=False)
+        )
 
         print(opt)
         assert opt == """# Main Title
@@ -234,7 +255,9 @@ Suggestions for future research or tasks."""
         bp_text = BLUEPRINT_3_EMPTY
         bp = PromptBlueprint.parse(bp_text, corpus_tree=corpus_testee3)
 
-        opt = bp.generate_prompt(profile=RenderProfile(show_comment=False))
+        opt = bp.generate_prompt_without_dependencies(
+            profile=RenderProfile(show_comment=False)
+        )
 
         print(opt)
         assert opt == ""
@@ -243,7 +266,7 @@ Suggestions for future research or tasks."""
         bp_text = BLUEPRINT_3_PARTIAL_2
         bp = PromptBlueprint.parse(bp_text, corpus_tree=corpus_testee3)
 
-        opt = bp.generate_prompt(
+        opt = bp.generate_prompt_without_dependencies(
             profile=RenderProfile(
                 show_comment=False, disable_first_heading=True
             )
@@ -281,12 +304,12 @@ class TestInlineSubstitution:  # (((name))) placeholder in authored body  #####
         unchecked = _._bp(checkmark_today_node=False)
         checked = _._bp(checkmark_today_node=True)
 
-        opt_unchecked = unchecked.generate_prompt(
+        opt_unchecked = unchecked.generate_prompt_without_dependencies(
             profile=RenderProfile(
                 show_comment=False, disable_first_heading=True
             )
         )
-        opt_checked = checked.generate_prompt(
+        opt_checked = checked.generate_prompt_without_dependencies(
             profile=RenderProfile(
                 show_comment=False, disable_first_heading=True
             )
@@ -322,7 +345,7 @@ class TestSparseness:  # sparseness param of generate_prompt  #################
     def test_default(_):
         bp = _._bp()
 
-        opt = bp.generate_prompt(
+        opt = bp.generate_prompt_without_dependencies(
             profile=RenderProfile(
                 show_comment=False, disable_first_heading=True
             )
@@ -336,7 +359,7 @@ Second line."""
     def test_no_trim(_):
         bp = _._bp()
 
-        opt = bp.generate_prompt(
+        opt = bp.generate_prompt_without_dependencies(
             profile=RenderProfile(
                 show_comment=False, disable_first_heading=True, sparseness=99
             )
@@ -354,7 +377,7 @@ Second line.
     def test_zero(_):
         bp = _._bp()
 
-        opt = bp.generate_prompt(
+        opt = bp.generate_prompt_without_dependencies(
             profile=RenderProfile(
                 show_comment=False, disable_first_heading=True, sparseness=0
             )
@@ -367,7 +390,7 @@ Second line."""
     def test_two(_):
         bp = _._bp()
 
-        opt = bp.generate_prompt(
+        opt = bp.generate_prompt_without_dependencies(
             profile=RenderProfile(
                 show_comment=False, disable_first_heading=True, sparseness=2
             )
@@ -382,7 +405,7 @@ Second line."""
     def test_minus_one(_):
         bp = _._bp()
 
-        opt = bp.generate_prompt(
+        opt = bp.generate_prompt_without_dependencies(
             profile=RenderProfile(
                 show_comment=False, disable_first_heading=True, sparseness=-1
             )
@@ -430,7 +453,7 @@ class TestSparsenessRespectsCodeFence:  # sparseness vs fenced blank lines  ####
     def test_zero(_):
         bp = _._bp()
 
-        opt = bp.generate_prompt(
+        opt = bp.generate_prompt_without_dependencies(
             profile=RenderProfile(
                 show_comment=False, disable_first_heading=True, sparseness=0
             )
@@ -449,7 +472,7 @@ More."""
     def test_default(_):
         bp = _._bp()
 
-        opt = bp.generate_prompt(
+        opt = bp.generate_prompt_without_dependencies(
             profile=RenderProfile(
                 show_comment=False, disable_first_heading=True
             )
@@ -470,7 +493,7 @@ More."""
     def test_minus_one(_):
         bp = _._bp()
 
-        opt = bp.generate_prompt(
+        opt = bp.generate_prompt_without_dependencies(
             profile=RenderProfile(
                 show_comment=False, disable_first_heading=True, sparseness=-1
             )

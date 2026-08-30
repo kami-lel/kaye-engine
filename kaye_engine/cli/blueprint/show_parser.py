@@ -62,7 +62,7 @@ def _show_main(args):
     if args.preview_line_width is not None:
         render_kwargs["content_preview_width"] = args.preview_line_width
 
-    preview_tree = blueprint.generate_blueprint(**render_kwargs)
+    preview_tree = blueprint.render_blueprint(**render_kwargs)
 
     print(preview_tree)
 

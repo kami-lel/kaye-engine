@@ -60,9 +60,9 @@ def merge_variants(*selections):
 class RenderProfile:
     """
     named, layerable bundle of render kwargs threaded through
-    ``render_prompt_lines`` / ``generate_prompt`` / ``BlueprintRegistry.
-    content`` -- ``.merge()`` overrides scalar fields and unions the
-    collection fields
+    ``render_prompt_lines`` / ``generate_prompt_without_dependencies`` /
+    ``BlueprintRegistry.content`` -- ``.merge()`` overrides scalar fields
+    and unions the collection fields
 
 
     :param show_comment: show comment part after last line;

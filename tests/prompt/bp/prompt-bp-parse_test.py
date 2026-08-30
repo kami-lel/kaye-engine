@@ -92,7 +92,10 @@ class TestDft1:  # use PROMPT1  ================================================
         assert len(opt) == 4
         assert opt.corpus == corpus_testee1
         assert (
-            opt.generate_blueprint(content_preview_lines=0, show_comment=False)
+            opt.generate_blueprint_without_dependencies(
+                content_preview_lines=0,
+                show_comment=False,
+            )
             == bp_text
         )
 
@@ -104,7 +107,10 @@ class TestDft1:  # use PROMPT1  ================================================
         print(repr(opt))
         assert len(opt) == 4
         assert (
-            opt.generate_blueprint(content_preview_lines=0, show_comment=False)
+            opt.generate_blueprint_without_dependencies(
+                content_preview_lines=0,
+                show_comment=False,
+            )
             == bp_text
         )
 
@@ -113,7 +119,10 @@ class TestDft1:  # use PROMPT1  ================================================
 
         bp = PromptBlueprint.parse(bp_text, corpus_tree=corpus_testee1)
 
-        opt = bp.generate_blueprint(content_preview_lines=0, show_comment=False)
+        opt = bp.generate_blueprint_without_dependencies(
+            content_preview_lines=0,
+            show_comment=False,
+        )
         print(opt)
 
         assert len(bp) == 3
@@ -127,7 +136,10 @@ class TestDft1:  # use PROMPT1  ================================================
         print(repr(opt))
         assert len(opt) == 0
         assert (
-            opt.generate_blueprint(content_preview_lines=0, show_comment=False)
+            opt.generate_blueprint_without_dependencies(
+                content_preview_lines=0,
+                show_comment=False,
+            )
             == BLUEPRINT_EMPTY_PRUNED
         )
 
@@ -144,7 +156,10 @@ class TestDft2:  # use PROMPT2  ================================================
         assert len(opt) == 7
         assert opt.corpus == corpus_testee2
         assert (
-            opt.generate_blueprint(content_preview_lines=0, show_comment=False)
+            opt.generate_blueprint_without_dependencies(
+                content_preview_lines=0,
+                show_comment=False,
+            )
             == bp_text
         )
 
@@ -158,7 +173,10 @@ class TestDft2:  # use PROMPT2  ================================================
         print(repr(bp))
         assert len(bp) == 3
         assert (
-            bp.generate_blueprint(content_preview_lines=0, show_comment=False)
+            bp.generate_blueprint_without_dependencies(
+                content_preview_lines=0,
+                show_comment=False,
+            )
             == BLUEPRINT_2_PARTIAL_1_PRUNED
         )
 
@@ -170,7 +188,10 @@ class TestDft2:  # use PROMPT2  ================================================
         print(repr(opt))
         assert len(opt) == 0
         assert (
-            opt.generate_blueprint(content_preview_lines=0, show_comment=False)
+            opt.generate_blueprint_without_dependencies(
+                content_preview_lines=0,
+                show_comment=False,
+            )
             == BLUEPRINT_EMPTY_PRUNED
         )
 
@@ -187,7 +208,10 @@ class TestDft3:  # use PROMPT3  ================================================
         assert len(opt) == 10
         assert opt.corpus == corpus_testee3
         assert (
-            opt.generate_blueprint(content_preview_lines=0, show_comment=False)
+            opt.generate_blueprint_without_dependencies(
+                content_preview_lines=0,
+                show_comment=False,
+            )
             == bp_text
         )
 
@@ -199,7 +223,10 @@ class TestDft3:  # use PROMPT3  ================================================
         print(repr(opt))
         assert len(opt) == 6
         assert (
-            opt.generate_blueprint(content_preview_lines=0, show_comment=False)
+            opt.generate_blueprint_without_dependencies(
+                content_preview_lines=0,
+                show_comment=False,
+            )
             == BLUEPRINT_3_PARTIAL_1_PRUNED
         )
 
@@ -210,7 +237,10 @@ class TestDft3:  # use PROMPT3  ================================================
         print(repr(opt))
         assert len(opt) == 9
         assert (
-            opt.generate_blueprint(content_preview_lines=0, show_comment=False)
+            opt.generate_blueprint_without_dependencies(
+                content_preview_lines=0,
+                show_comment=False,
+            )
             == BLUEPRINT_3_PARTIAL_2_PRUNED
         )
 
@@ -221,7 +251,10 @@ class TestDft3:  # use PROMPT3  ================================================
         print(repr(opt))
         assert len(opt) == 0
         assert (
-            opt.generate_blueprint(content_preview_lines=0, show_comment=False)
+            opt.generate_blueprint_without_dependencies(
+                content_preview_lines=0,
+                show_comment=False,
+            )
             == BLUEPRINT_EMPTY_PRUNED
         )
 
@@ -236,7 +269,10 @@ class TestContentPreview1:  # use PROMPT1  =====================================
 
         print(repr(opt))
         assert (
-            opt.generate_blueprint(content_preview_lines=0, show_comment=False)
+            opt.generate_blueprint_without_dependencies(
+                content_preview_lines=0,
+                show_comment=False,
+            )
             == BLUEPRINT_1_FULL
         )
 
@@ -247,7 +283,10 @@ class TestContentPreview1:  # use PROMPT1  =====================================
 
         print(repr(opt))
         assert (
-            opt.generate_blueprint(content_preview_lines=0, show_comment=False)
+            opt.generate_blueprint_without_dependencies(
+                content_preview_lines=0,
+                show_comment=False,
+            )
             == BLUEPRINT_1_PARTIAL_1
         )
 
@@ -258,7 +297,10 @@ class TestContentPreview1:  # use PROMPT1  =====================================
 
         print(repr(opt))
         assert (
-            opt.generate_blueprint(content_preview_lines=0, show_comment=False)
+            opt.generate_blueprint_without_dependencies(
+                content_preview_lines=0,
+                show_comment=False,
+            )
             == BLUEPRINT_1_PARTIAL_2_PRUNED
         )
 
@@ -272,7 +314,10 @@ class TestContentPreview2:  # use PROMPT2  =====================================
 
         print(repr(opt))
         assert (
-            opt.generate_blueprint(content_preview_lines=0, show_comment=False)
+            opt.generate_blueprint_without_dependencies(
+                content_preview_lines=0,
+                show_comment=False,
+            )
             == BLUEPRINT_2_FULL
         )
 
@@ -283,7 +328,10 @@ class TestContentPreview2:  # use PROMPT2  =====================================
 
         print(repr(opt))
         assert (
-            opt.generate_blueprint(content_preview_lines=0, show_comment=False)
+            opt.generate_blueprint_without_dependencies(
+                content_preview_lines=0,
+                show_comment=False,
+            )
             == BLUEPRINT_2_PARTIAL_1_PRUNED
         )
 
@@ -297,7 +345,10 @@ class TestContentPreview3:  # use PROMPT2  =====================================
 
         print(repr(opt))
         assert (
-            opt.generate_blueprint(content_preview_lines=0, show_comment=False)
+            opt.generate_blueprint_without_dependencies(
+                content_preview_lines=0,
+                show_comment=False,
+            )
             == BLUEPRINT_3_FULL
         )
 
@@ -308,7 +359,10 @@ class TestContentPreview3:  # use PROMPT2  =====================================
 
         print(repr(opt))
         assert (
-            opt.generate_blueprint(content_preview_lines=0, show_comment=False)
+            opt.generate_blueprint_without_dependencies(
+                content_preview_lines=0,
+                show_comment=False,
+            )
             == BLUEPRINT_3_PARTIAL_1_PRUNED
         )
 
@@ -319,7 +373,10 @@ class TestContentPreview3:  # use PROMPT2  =====================================
 
         print(repr(opt))
         assert (
-            opt.generate_blueprint(content_preview_lines=0, show_comment=False)
+            opt.generate_blueprint_without_dependencies(
+                content_preview_lines=0,
+                show_comment=False,
+            )
             == BLUEPRINT_3_PARTIAL_2_PRUNED
         )
 
@@ -334,7 +391,10 @@ class TestPrunedText:
 
         print(repr(opt))
         assert (
-            opt.generate_blueprint(content_preview_lines=0, show_comment=False)
+            opt.generate_blueprint_without_dependencies(
+                content_preview_lines=0,
+                show_comment=False,
+            )
             == bp_text
         )
 
@@ -345,7 +405,10 @@ class TestPrunedText:
 
         print(repr(opt))
         assert (
-            opt.generate_blueprint(content_preview_lines=0, show_comment=False)
+            opt.generate_blueprint_without_dependencies(
+                content_preview_lines=0,
+                show_comment=False,
+            )
             == bp_text
         )
 
@@ -356,7 +419,10 @@ class TestPrunedText:
 
         print(repr(opt))
         assert (
-            opt.generate_blueprint(content_preview_lines=0, show_comment=False)
+            opt.generate_blueprint_without_dependencies(
+                content_preview_lines=0,
+                show_comment=False,
+            )
             == bp_text
         )
 
@@ -367,7 +433,10 @@ class TestPrunedText:
 
         print(repr(opt))
         assert (
-            opt.generate_blueprint(content_preview_lines=0, show_comment=False)
+            opt.generate_blueprint_without_dependencies(
+                content_preview_lines=0,
+                show_comment=False,
+            )
             == bp_text
         )
 
@@ -389,7 +458,10 @@ class TestPrunedText:
 
         print(repr(opt))
         assert (
-            opt.generate_blueprint(content_preview_lines=0, show_comment=False)
+            opt.generate_blueprint_without_dependencies(
+                content_preview_lines=0,
+                show_comment=False,
+            )
             == BLUEPRINT_3_PARTIAL_1_PRUNED
         )
 

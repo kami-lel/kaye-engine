@@ -152,7 +152,7 @@ def _dynamic_node_main(args):
     query = sys.stdin.read() if not sys.stdin.isatty() else ""
 
     try:
-        prompt = blueprint.generate_prompt(
+        prompt = blueprint.render_prompt(
             query=query,
             glossary_priority_threshold=args.priority_threshold,
             profile=resolve_render_profile(

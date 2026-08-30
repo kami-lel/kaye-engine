@@ -3,7 +3,7 @@ sparseness_parser.py
 
 define ``build_sparseness_parent_parser`` and ``SPARSENESS_DESCRIPTION``
 -- the ``-s/--sparseness`` argument shared by any subcommand that calls
-``PromptBlueprint.generate_prompt(sparseness=...)``
+``PromptBlueprint.generate_prompt_without_dependencies(sparseness=...)``
 """
 
 from argparse import ArgumentParser, ArgumentTypeError
