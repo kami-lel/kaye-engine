@@ -397,6 +397,36 @@ class PromptBlueprint(dict):
 
         return self
 
+    def _resolve_with_dependencies(self, *, _visited=None):
+        """
+        recursively merge ``self`` with the full transitive closure of its
+        ``dependencies`` (union of checkmarked nodes via ``.merge()``)
+
+
+        :param _visited: internal cycle guard, tracking ``id(self)`` of
+                blueprints already visited on the current recursion path;
+                never pass explicitly
+        :type _visited: set[int] or None, optional
+        :raise ValueError: a dependency cycle is detected
+        :return: ``self`` merged with every transitive dependency
+        :rtype: PromptBlueprint
+        """
+        visited = _visited if _visited is not None else set()
+
+        if id(self) in visited:
+            raise ValueError(
+                "dependency cycle detected at blueprint: {}".format(self)
+            )
+        visited = visited | {id(self)}
+
+        resolved = self
+        for dep in self.dependencies:
+            resolved = resolved.merge(
+                dep._resolve_with_dependencies(_visited=visited)
+            )
+
+        return resolved
+
     # magic methods  ===========================================================
 
     def __contains__(self, key):
