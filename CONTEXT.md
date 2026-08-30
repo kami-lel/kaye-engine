@@ -55,9 +55,16 @@ Heading syntax carries node type: plain text is an ordinary corpus node,
 
 ```
 corpus.md ──load_corpus_tree()──> Prompt Tree ─┐
-                                               ├─generate_prompt()─> text
+                                               ├─render_prompt()─> text
 blueprint text ──PromptBlueprint.parse()───────┘
 ```
+
+`render_prompt()`/`render_blueprint()` are the dependency-resolving
+entry points: each first merges the blueprint with the full transitive
+closure of its `.dependencies` (via `.merge()`, so a diamond dependency
+converges without duplicating shared content), then delegates to the
+own-content-only `generate_prompt_without_dependencies()`/
+`generate_blueprint_without_dependencies()` below.
 
 Rendering takes a `sparseness` parameter governing how runs of blank lines
 collapse in the output, from `-1` (whole output joined onto one line) through
@@ -70,7 +77,7 @@ heading parser (`_split_sections` in `prompt_corpus_node.py`), and the
 load-time blank-line cleanup in `load_corpus_tree`
 (`_collapse_unfenced_blank_runs` in `prompt_corpus_loader.py`) all rely on
 to stay out of fenced regions.
-`PromptBlueprint.generate_prompt()` applies `sparseness` last: it renders
+`PromptBlueprint.generate_prompt_without_dependencies()` applies `sparseness` last: it renders
 the tree unsparse, then `apply_dynamic_substitutions()`, then applies the
 caller's `sparseness` to the substituted result, so a substitution's own
 blank lines are shaped by the same policy.
@@ -97,7 +104,7 @@ consumer-supplied
 q.v. `kaye_vault/claude_render_profiles.py`) maps a surface name to the
 `RenderProfile` carrying that surface's variants/conditional-sidecars.
 Every **rendering command** — any CLI subcommand that reaches
-`PromptBlueprint.generate_prompt(...)`, directly or via
+`PromptBlueprint.render_prompt(...)`, directly or via
 `Exportable.content()` — exposes the same 5 options (`--surface`,
 `--comment`/`--no-comment`, `--conditional-sidecar`, `--variant`,
 `--sparseness`) via one shared parent parser and one aux function,
@@ -133,7 +140,8 @@ fixes the node's preface and tree location in place of the heading
 itself, else it falls back to a direct child of root. A second,
 independent mechanism, inline `(((name)))` substitution, resolves
 canonical names anywhere inside rendered prompt text at
-`generate_prompt()` time, against two sources in order: first
+`generate_prompt_without_dependencies()` (and, transitively,
+`render_prompt()`) time, against two sources in order: first
 `dynamic_substitution_registry` (populated via
 `register_dynamic_substitution(name, substitution)`, where
 `substitution` is a `DynamicSubstitution` — commonly
