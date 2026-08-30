@@ -34,19 +34,25 @@ todo todo CLI to import/export w/ OpenWebUI
 
 ### Changed
 
-- **Breaking:** `PromptBlueprint.generate_prompt()` renamed to
-  `generate_prompt_without_dependencies()`; likewise
-  `generate_blueprint()` renamed to
-  `generate_blueprint_without_dependencies()`. External callers should
-  switch to the new `render_prompt()` / `render_blueprint()` for
-  final, LLM-facing output (dependency-aware), or use the renamed
-  own-content-only methods directly if the old, dependency-blind
-  behavior is what they actually want
-- **Breaking:** `BlueprintRegistry.merge()` removed; compose blueprints
-  via `dependencies=[...]` instead
+- `PromptBlueprint.generate_prompt()`/`generate_blueprint()` renamed to
+  `generate_prompt_without_dependencies()`/
+  `generate_blueprint_without_dependencies()`; new `render_prompt()`/
+  `render_blueprint()` are the dependency-aware replacements for
+  final, LLM-facing output
+- `BlueprintRegistry.merge()` removed; compose blueprints via
+  `dependencies=[...]` instead
 - `BlueprintRegistry.content()` now renders through `render_prompt()`,
   so every registered, exported blueprint's content is
   dependency-aware by default
+
+> [!WARNING]
+> `PromptBlueprint.generate_prompt()`/`generate_blueprint()` no longer
+> exist; for the old, dependency-blind own-content-only output use
+> `generate_prompt_without_dependencies()`/
+> `generate_blueprint_without_dependencies()`, or switch to the new
+> dependency-aware `render_prompt()`/`render_blueprint()`.
+> `BlueprintRegistry.merge()` no longer exists; use `dependencies=[...]`
+> on `PromptBlueprint`.
 
 ### Deprecated
 
