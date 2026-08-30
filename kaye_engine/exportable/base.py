@@ -60,7 +60,7 @@ class Exportable(ABC):
 
 
         :param kwargs: render options forwarded to
-                ``PromptBlueprint.generate_prompt(...)`` by
+                ``PromptBlueprint.generate_prompt_without_dependencies(...)`` by
                 implementers that render a blueprint; ignored by
                 implementers that don't
         :return: this exportable's content
