@@ -66,7 +66,7 @@ def _generate_main(args):  ####################################################
     if registry is not None:
         prompt = registry.content(profile=render_profile)
     else:
-        prompt = blueprint.generate_prompt(profile=render_profile)
+        prompt = blueprint.render_prompt(profile=render_profile)
 
     print(prompt)
 

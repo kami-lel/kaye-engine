@@ -90,7 +90,7 @@ def resolve_render_profile(
     """
     resolve a parsed ``Namespace`` carrying the 5 render options into a
     `RenderProfile`, directly ``**``-splattable via ``as_kwargs()`` or
-    passable as ``profile=`` into ``generate_prompt(...)``/
+    passable as ``profile=`` into ``generate_prompt_without_dependencies(...)``/
     ``BlueprintRegistry.content(...)``
 
 

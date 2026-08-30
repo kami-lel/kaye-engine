@@ -35,7 +35,9 @@ class TestMerge:  # .merge()  ##################################################
         bp_right = bp_testee1pa2
 
         merged = bp_left.merge(bp_right)
-        opt = merged.generate_blueprint(content_preview_lines=0)
+        opt = merged.generate_blueprint_without_dependencies(
+            content_preview_lines=0,
+        )
 
         print(opt)
         assert opt == BLUEPRINT_1_FULL
@@ -45,7 +47,9 @@ class TestMerge:  # .merge()  ##################################################
         bp_right = bp_testee1pa1
 
         merged = bp_left.merge(bp_right)
-        opt = merged.generate_blueprint(content_preview_lines=0)
+        opt = merged.generate_blueprint_without_dependencies(
+            content_preview_lines=0,
+        )
 
         print(opt)
         assert opt == BLUEPRINT_1_FULL
@@ -57,7 +61,9 @@ class TestMerge:  # .merge()  ##################################################
         bp_right = bp_testee3pa2
 
         merged = bp_left.merge(bp_right)
-        opt = merged.generate_blueprint(content_preview_lines=0)
+        opt = merged.generate_blueprint_without_dependencies(
+            content_preview_lines=0,
+        )
 
         print(opt)
         assert opt == MERGED_BLUEPRINT3
@@ -67,7 +73,9 @@ class TestMerge:  # .merge()  ##################################################
         bp_right = bp_testee3pa1
 
         merged = bp_left.merge(bp_right)
-        opt = merged.generate_blueprint(content_preview_lines=0)
+        opt = merged.generate_blueprint_without_dependencies(
+            content_preview_lines=0,
+        )
 
         print(opt)
         assert opt == MERGED_BLUEPRINT3
@@ -94,7 +102,9 @@ class TestOrErr:  # __or__  ####################################################
         bp_right = bp_testee1pa2
 
         merged = bp_left | bp_right
-        opt = merged.generate_blueprint(content_preview_lines=0)
+        opt = merged.generate_blueprint_without_dependencies(
+            content_preview_lines=0,
+        )
 
         print(opt)
         assert opt == BLUEPRINT_1_FULL
@@ -104,7 +114,9 @@ class TestOrErr:  # __or__  ####################################################
         bp_right = bp_testee1pa1
 
         merged = bp_left | bp_right
-        opt = merged.generate_blueprint(content_preview_lines=0)
+        opt = merged.generate_blueprint_without_dependencies(
+            content_preview_lines=0,
+        )
 
         print(opt)
         assert opt == BLUEPRINT_1_FULL
@@ -116,7 +128,9 @@ class TestOrErr:  # __or__  ####################################################
         bp_right = bp_testee3pa2
 
         merged = bp_left | bp_right
-        opt = merged.generate_blueprint(content_preview_lines=0)
+        opt = merged.generate_blueprint_without_dependencies(
+            content_preview_lines=0,
+        )
 
         print(opt)
         assert opt == MERGED_BLUEPRINT3
@@ -126,7 +140,9 @@ class TestOrErr:  # __or__  ####################################################
         bp_right = bp_testee3pa1
 
         merged = bp_left | bp_right
-        opt = merged.generate_blueprint(content_preview_lines=0)
+        opt = merged.generate_blueprint_without_dependencies(
+            content_preview_lines=0,
+        )
 
         print(opt)
         assert opt == MERGED_BLUEPRINT3

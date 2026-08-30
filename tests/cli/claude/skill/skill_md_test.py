@@ -44,7 +44,7 @@ class TestVersionInjection:
         blueprint.sidecars.description = "d"
         blueprint.sidecars.when_to_use = "w"
         blueprint.sidecars.globs = []
-        blueprint.generate_prompt.return_value = "body"
+        blueprint.render_prompt.return_value = "body"
 
         registry = _dummy_registry(blueprint)
 
@@ -57,7 +57,7 @@ class TestVersionInjection:
         blueprint.sidecars.description = "d"
         blueprint.sidecars.when_to_use = "w"
         blueprint.sidecars.globs = []
-        blueprint.generate_prompt.return_value = "body"
+        blueprint.render_prompt.return_value = "body"
 
         registry = _dummy_registry(blueprint)
         render_profile = RenderProfile(
@@ -69,7 +69,7 @@ class TestVersionInjection:
 
         Skill.from_exportable(registry, render_profile=render_profile)
 
-        blueprint.generate_prompt.assert_called_once_with(
+        blueprint.render_prompt.assert_called_once_with(
             profile=registry.render_profile.merge(render_profile)
         )
 
@@ -80,12 +80,12 @@ class TestVersionInjection:
         blueprint.sidecars.description = "d"
         blueprint.sidecars.when_to_use = "w"
         blueprint.sidecars.globs = []
-        blueprint.generate_prompt.return_value = "body"
+        blueprint.render_prompt.return_value = "body"
 
         registry = _dummy_registry(blueprint)
 
         Skill.from_exportable(registry)
 
-        blueprint.generate_prompt.assert_called_once_with(
+        blueprint.render_prompt.assert_called_once_with(
             profile=registry.render_profile
         )

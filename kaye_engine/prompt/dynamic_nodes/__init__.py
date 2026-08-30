@@ -2,8 +2,8 @@
 dynamic_nodes
 
 node types whose content has no fixed value and is generated during
-``.generate_prompt()`` (e.g. today's date/time, shorthand present in a
-query)
+``.generate_prompt_without_dependencies()`` (e.g. today's date/time,
+shorthand present in a query)
 """
 
 from .abbr_tag_node import ABBR_TAG_NODE_MEMBERS, AbbrTagNode, slug_for_abbr_tag

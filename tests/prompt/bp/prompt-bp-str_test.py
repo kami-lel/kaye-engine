@@ -20,4 +20,4 @@ class TestEmpty:
         # str() has no dedicated override; falls back to __repr__(), the
         # tree-preview dump
         assert opt == repr(bp)
-        assert opt == bp.generate_blueprint()
+        assert opt == bp.generate_blueprint_without_dependencies()

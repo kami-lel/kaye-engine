@@ -88,7 +88,10 @@ class Test11:  # ===============================================================
         print(repr(bp))
 
         assert (
-            bp.generate_blueprint(content_preview_lines=0, show_comment=False)
+            bp.generate_blueprint_without_dependencies(
+                content_preview_lines=0,
+                show_comment=False,
+            )
             == answer
         )
 
@@ -105,7 +108,10 @@ class Test11:  # ===============================================================
         print(repr(bp))
 
         assert (
-            bp.generate_blueprint(content_preview_lines=0, show_comment=False)
+            bp.generate_blueprint_without_dependencies(
+                content_preview_lines=0,
+                show_comment=False,
+            )
             == answer
         )
 
@@ -120,7 +126,10 @@ class Test11:  # ===============================================================
         print(repr(bp))
 
         assert (
-            bp.generate_blueprint(content_preview_lines=0, show_comment=False)
+            bp.generate_blueprint_without_dependencies(
+                content_preview_lines=0,
+                show_comment=False,
+            )
             == answer
         )
 
@@ -138,7 +147,10 @@ class Test11:  # ===============================================================
         print(repr(bp))
 
         assert (
-            bp.generate_blueprint(content_preview_lines=0, show_comment=False)
+            bp.generate_blueprint_without_dependencies(
+                content_preview_lines=0,
+                show_comment=False,
+            )
             == answer
         )
 
@@ -155,7 +167,10 @@ class Test11:  # ===============================================================
         print(repr(bp))
 
         assert (
-            bp.generate_blueprint(content_preview_lines=0, show_comment=False)
+            bp.generate_blueprint_without_dependencies(
+                content_preview_lines=0,
+                show_comment=False,
+            )
             == answer
         )
 
@@ -170,7 +185,10 @@ class Test11:  # ===============================================================
         print(repr(bp))
 
         assert (
-            bp.generate_blueprint(content_preview_lines=0, show_comment=False)
+            bp.generate_blueprint_without_dependencies(
+                content_preview_lines=0,
+                show_comment=False,
+            )
             == answer
         )
 
@@ -253,7 +271,10 @@ class Test12:  # ===============================================================
         print(bp)
 
         assert (
-            bp.generate_blueprint(content_preview_lines=0, show_comment=False)
+            bp.generate_blueprint_without_dependencies(
+                content_preview_lines=0,
+                show_comment=False,
+            )
             == answer
         )
 
@@ -270,7 +291,10 @@ class Test12:  # ===============================================================
         print(bp)
 
         assert (
-            bp.generate_blueprint(content_preview_lines=0, show_comment=False)
+            bp.generate_blueprint_without_dependencies(
+                content_preview_lines=0,
+                show_comment=False,
+            )
             == answer
         )
 
@@ -307,7 +331,10 @@ class Test2:  # tests on prompt 2  ############################################
         print(bp)
 
         assert (
-            bp.generate_blueprint(content_preview_lines=0, show_comment=False)
+            bp.generate_blueprint_without_dependencies(
+                content_preview_lines=0,
+                show_comment=False,
+            )
             == answer
         )
 
@@ -326,7 +353,10 @@ class Test2:  # tests on prompt 2  ############################################
         print(bp)
 
         assert (
-            bp.generate_blueprint(content_preview_lines=0, show_comment=False)
+            bp.generate_blueprint_without_dependencies(
+                content_preview_lines=0,
+                show_comment=False,
+            )
             == answer
         )
 
@@ -351,7 +381,10 @@ class Test31:  # ===============================================================
         print(opt)
 
         assert (
-            opt.generate_blueprint(content_preview_lines=0, show_comment=False)
+            opt.generate_blueprint_without_dependencies(
+                content_preview_lines=0,
+                show_comment=False,
+            )
             == answer
         )
 
@@ -372,7 +405,10 @@ class Test31:  # ===============================================================
         print(opt)
 
         assert (
-            opt.generate_blueprint(content_preview_lines=0, show_comment=False)
+            opt.generate_blueprint_without_dependencies(
+                content_preview_lines=0,
+                show_comment=False,
+            )
             == answer
         )
 
@@ -400,7 +436,10 @@ class Test32:  # ===============================================================
         print(opt)
 
         assert (
-            opt.generate_blueprint(content_preview_lines=0, show_comment=False)
+            opt.generate_blueprint_without_dependencies(
+                content_preview_lines=0,
+                show_comment=False,
+            )
             == answer
         )
 
@@ -424,7 +463,10 @@ class Test32:  # ===============================================================
         print(opt)
 
         assert (
-            opt.generate_blueprint(content_preview_lines=0, show_comment=False)
+            opt.generate_blueprint_without_dependencies(
+                content_preview_lines=0,
+                show_comment=False,
+            )
             == answer
         )
 
@@ -450,7 +492,10 @@ class Test3Recursive:  # ======================================================
         bp.uncheckmark("Background", recursively=True)
 
         assert (
-            bp.generate_blueprint(content_preview_lines=0, show_comment=False)
+            bp.generate_blueprint_without_dependencies(
+                content_preview_lines=0,
+                show_comment=False,
+            )
             == answer
         )
 
@@ -473,7 +518,10 @@ class Test3Recursive:  # ======================================================
         bp.uncheckmark("Methods", recursively=True)
 
         assert (
-            bp.generate_blueprint(content_preview_lines=0, show_comment=False)
+            bp.generate_blueprint_without_dependencies(
+                content_preview_lines=0,
+                show_comment=False,
+            )
             == answer
         )
 
@@ -583,7 +631,10 @@ class TestDynamicNodes:
 
         print(repr(bp))
         assert (
-            bp.generate_blueprint(content_preview_lines=0, show_comment=False)
+            bp.generate_blueprint_without_dependencies(
+                content_preview_lines=0,
+                show_comment=False,
+            )
             == answer
         )
 
@@ -610,6 +661,9 @@ class TestDynamicNodes:
 
         print(repr(bp))
         assert (
-            bp.generate_blueprint(content_preview_lines=0, show_comment=False)
+            bp.generate_blueprint_without_dependencies(
+                content_preview_lines=0,
+                show_comment=False,
+            )
             == answer
         )

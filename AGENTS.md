@@ -116,7 +116,7 @@ vs-code-extension` → `claude v`; `exportable` → `x`; `list-affordance`
 → `lsa`; `list-variant` → `lsv`; `glossary` → `g`.
 
 **Rendering commands** — any subcommand that reaches
-`PromptBlueprint.generate_prompt(...)`, directly or via
+`PromptBlueprint.render_prompt(...)`, directly or via
 `Exportable.content()` (`blueprint generate`, `dynamic-node`,
 `exportable`, `claude skill`, `claude plugin`, `claude marketplace`,
 `claude user-system-prompt`, `claude vs-code-extension`, `claude
