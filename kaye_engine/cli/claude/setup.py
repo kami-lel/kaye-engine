@@ -35,7 +35,7 @@ def setup_claude_cli(
     display_name,
     marketplace_name,
     chat_exportable_name,
-    chat_coder_exportable_name,
+    merged_coder_exportable_name,
     version,
     marketplace_folder_name,
     affordance_groups=None,
@@ -47,7 +47,7 @@ def setup_claude_cli(
 
     Prerequisite: :func:`register_exportable_entry` (or
     :func:`register_blueprint`) for ``chat_exportable_name`` and
-    ``chat_coder_exportable_name``
+    ``merged_coder_exportable_name``
 
 
     :param plugin_name: name written into ``plugin.json``, and used as the
@@ -61,11 +61,12 @@ def setup_claude_cli(
     :param chat_exportable_name: registered name, in
             `exportable_registry`, of the Chat exportable
     :type chat_exportable_name: str
-    :param chat_coder_exportable_name: registered name, in
-            `exportable_registry`, of the precomputed Chat+Coder
-            exportable, used to build the final ``-c`` prompt
-            (``usp -c``, ``claude code``, ``claude vs-code-extension``)
-    :type chat_coder_exportable_name: str
+    :param merged_coder_exportable_name: registered name, in
+            `exportable_registry`, of the Coder exportable carrying
+            Chat as a dependency, used to build the final ``-c``
+            prompt (``usp -c``, ``claude code``, ``claude
+            vs-code-extension``)
+    :type merged_coder_exportable_name: str
     :param version: version string stamped into ``plugin.json``,
             ``marketplace.json``, and every exported ``SKILL.md``
     :type version: str
@@ -87,7 +88,7 @@ def setup_claude_cli(
     claude._display_name = display_name
     claude._marketplace_name = marketplace_name
     claude._chat_exportable_name = chat_exportable_name
-    claude._chat_coder_exportable_name = chat_coder_exportable_name
+    claude._merged_coder_exportable_name = merged_coder_exportable_name
     claude._version = version
     claude._marketplace_folder_name = marketplace_folder_name
     claude._affordance_groups = affordance_groups or {}

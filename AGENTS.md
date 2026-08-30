@@ -161,7 +161,7 @@ invoke it, or add it back without being asked.
 
 Every `claude` subcommand needs a consumer to call
 `setup_claude_cli(plugin_name, display_name, marketplace_name,
-chat_exportable_name, chat_coder_exportable_name, version,
+chat_exportable_name, merged_coder_exportable_name, version,
 marketplace_folder_name)` before invoking the CLI — no default exists for
 any of the seven. On a bare checkout, or when it was never called, the
 getters log `logger.critical` and raise `SystemExit(1)` — expected, not a
