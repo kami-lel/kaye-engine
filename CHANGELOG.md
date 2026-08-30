@@ -44,6 +44,12 @@ todo todo CLI to import/export w/ OpenWebUI
 - `BlueprintRegistry.content()` now renders through `render_prompt()`,
   so every registered, exported blueprint's content is
   dependency-aware by default
+- `setup_claude_cli(...)`'s `chat_coder_exportable_name` parameter,
+  `claude._chat_coder_exportable_name`, and
+  `get_claude_chat_coder_exportable()` renamed to
+  `merged_coder_exportable_name`, `claude._merged_coder_exportable_name`,
+  and `get_claude_merged_coder_exportable()` respectively, since a
+  consumer's merged Coder exportable need not be named "chat-coder"
 
 > [!WARNING]
 > `PromptBlueprint.generate_prompt()`/`generate_blueprint()` no longer
@@ -53,6 +59,11 @@ todo todo CLI to import/export w/ OpenWebUI
 > dependency-aware `render_prompt()`/`render_blueprint()`.
 > `BlueprintRegistry.merge()` no longer exists; use `dependencies=[...]`
 > on `PromptBlueprint`.
+> `setup_claude_cli(...)`'s `chat_coder_exportable_name` parameter is
+> renamed `merged_coder_exportable_name`; `_chat_coder_exportable_name`
+> and `get_claude_chat_coder_exportable()` are renamed
+> `_merged_coder_exportable_name` and
+> `get_claude_merged_coder_exportable()`.
 
 ### Deprecated
 

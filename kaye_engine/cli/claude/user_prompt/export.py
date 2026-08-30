@@ -9,8 +9,8 @@ from pathlib import Path
 from kaye_engine import kamilog
 from kaye_engine.cli.claude import LOGGER_CLAUDE_NAME
 from kaye_engine.cli.claude.exportable_name import (
-    get_claude_chat_coder_exportable,
     get_claude_chat_exportable,
+    get_claude_merged_coder_exportable,
 )
 
 # logger  ######################################################################
@@ -23,11 +23,11 @@ def generate_user_system_prompt(*, use_coder=False, render_profile=None):
     render the Chat exportable as the Claude user/system prompt
 
     renders the configured Chat exportable; when ``use_coder``, renders
-    the configured Chat Coder exportable instead -- the precomputed
-    merge of Chat and Coder
+    the configured merged Coder exportable instead -- the Coder
+    exportable carrying Chat as a dependency
 
-    :param use_coder: render the precomputed Chat+Coder exportable
-            instead of the plain Chat exportable
+    :param use_coder: render the merged Coder exportable instead of
+            the plain Chat exportable
     :type use_coder: bool
     :param render_profile: render profile forwarded to
             ``exportable.content(...)``, v.s. ``resolve_render_profile()``;
@@ -37,7 +37,7 @@ def generate_user_system_prompt(*, use_coder=False, render_profile=None):
     :rtype: str
     """
     exportable = (
-        get_claude_chat_coder_exportable()
+        get_claude_merged_coder_exportable()
         if use_coder
         else get_claude_chat_exportable()
     )
@@ -54,14 +54,14 @@ def export_user_system_prompt_file(
     """
     export the Chat exportable as Claude user/system prompt to CLAUDE.md
 
-    renders the configured Chat (or Chat Coder) exportable via
+    renders the configured Chat (or merged Coder) exportable via
     :func:`generate_user_system_prompt` and writes the prompt to the given
     file path
 
     :param file_path: destination file path for CLAUDE.md
     :type file_path: Path-like
-    :param use_coder: render the precomputed Chat+Coder exportable
-            instead of the plain Chat exportable
+    :param use_coder: render the merged Coder exportable instead of
+            the plain Chat exportable
     :type use_coder: bool
     :param render_profile: render profile forwarded to
             ``exportable.content(...)``, v.s. ``resolve_render_profile()``;

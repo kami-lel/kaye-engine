@@ -181,7 +181,7 @@ A caller loads and caches a corpus by name; one tree may be flagged the
 process default, which is what a blueprint resolves against when given no
 explicit tree. A consumer that exports through `claude` subcommands must also
 call `setup_claude_cli(plugin_name, display_name, marketplace_name,
-chat_exportable_name, chat_coder_exportable_name, version,
+chat_exportable_name, merged_coder_exportable_name, version,
 marketplace_folder_name)` — none of the seven has a default;
 `display_name` lets each consumer stamp its own `plugin.json`
 `display_name`. Q.v. [Kaye Engine: `prompt` module
@@ -196,7 +196,7 @@ plugin name, display name, marketplace name, Chat/Coder blueprint names,
 version, and marketplace folder name are enforced separately, each by its own
 getter (`get_plugin_name()`, `get_claude_cli_display_name()`,
 `get_marketplace_name()`, `get_claude_chat_exportable()`,
-`get_claude_chat_coder_exportable()`, `get_claude_cli_consumer_version()`,
+`get_claude_merged_coder_exportable()`, `get_claude_cli_consumer_version()`,
 `get_marketplace_folder_name()`), which logs `logger.critical` and raises
 `SystemExit(1)` when unset — or, for the blueprint getters, when the
 configured name is not in `blueprint_registry` — rather than letting `None`
