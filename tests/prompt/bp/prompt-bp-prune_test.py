@@ -35,7 +35,7 @@ class Test1:  # use PROMPT1  ###################################################
 
         pruned_bp = old.prune()
 
-        pruned_bp_text = pruned_bp.generate_blueprint(
+        pruned_bp_text = pruned_bp.generate_blueprint_without_dependencies(
             content_preview_lines=0, show_full_tree=False
         )
         print(pruned_bp_text)
@@ -51,7 +51,7 @@ class Test1:  # use PROMPT1  ###################################################
 
         pruned_bp = old.prune()
 
-        pruned_bp_text = pruned_bp.generate_blueprint(
+        pruned_bp_text = pruned_bp.generate_blueprint_without_dependencies(
             content_preview_lines=0, show_full_tree=False
         )
         print(pruned_bp_text)
@@ -68,7 +68,7 @@ class Test1:  # use PROMPT1  ###################################################
 
         pruned_bp = old.prune()
 
-        pruned_bp_text = pruned_bp.generate_blueprint(
+        pruned_bp_text = pruned_bp.generate_blueprint_without_dependencies(
             content_preview_lines=0, show_full_tree=False
         )
         print(pruned_bp_text)
@@ -84,7 +84,7 @@ class Test1:  # use PROMPT1  ###################################################
 
         pruned_bp = old.prune()
 
-        pruned_bp_text = pruned_bp.generate_blueprint(
+        pruned_bp_text = pruned_bp.generate_blueprint_without_dependencies(
             content_preview_lines=0, show_full_tree=False
         )
         print(pruned_bp_text)
@@ -103,7 +103,7 @@ class Test2:  # use PROMPT2  ###################################################
         print(pruned_bp)
         assert len(pruned_bp) == 3
         assert (
-            pruned_bp.generate_blueprint(
+            pruned_bp.generate_blueprint_without_dependencies(
                 content_preview_lines=0,
                 show_comment=False,
                 show_full_tree=False,
@@ -122,7 +122,7 @@ class Test2:  # use PROMPT2  ###################################################
         print(pruned_bp)
         assert len(pruned_bp) == len(old)
         assert (
-            pruned_bp.generate_blueprint(
+            pruned_bp.generate_blueprint_without_dependencies(
                 content_preview_lines=0,
                 show_comment=False,
                 show_full_tree=False,
@@ -141,7 +141,7 @@ class Test2:  # use PROMPT2  ###################################################
         print(pruned_bp)
         assert len(pruned_bp) == 0
         assert (
-            pruned_bp.generate_blueprint(
+            pruned_bp.generate_blueprint_without_dependencies(
                 content_preview_lines=0,
                 show_comment=False,
                 show_full_tree=False,
@@ -163,7 +163,7 @@ class Test3:  # use PROMPT3  ###################################################
         print(pruned_bp)
         assert len(pruned_bp) == 6
         assert (
-            pruned_bp.generate_blueprint(
+            pruned_bp.generate_blueprint_without_dependencies(
                 content_preview_lines=0,
                 show_comment=False,
                 show_full_tree=False,
@@ -182,7 +182,7 @@ class Test3:  # use PROMPT3  ###################################################
         print(pruned_bp)
         assert len(pruned_bp) == 9
         assert (
-            pruned_bp.generate_blueprint(
+            pruned_bp.generate_blueprint_without_dependencies(
                 content_preview_lines=0,
                 show_comment=False,
                 show_full_tree=False,
@@ -201,7 +201,7 @@ class Test3:  # use PROMPT3  ###################################################
         print(pruned_bp)
         assert len(pruned_bp) == len(old)
         assert (
-            pruned_bp.generate_blueprint(
+            pruned_bp.generate_blueprint_without_dependencies(
                 content_preview_lines=0,
                 show_comment=False,
                 show_full_tree=False,
@@ -220,7 +220,7 @@ class Test3:  # use PROMPT3  ###################################################
         print(pruned_bp)
         assert len(pruned_bp) == 0
         assert (
-            pruned_bp.generate_blueprint(
+            pruned_bp.generate_blueprint_without_dependencies(
                 content_preview_lines=0,
                 show_comment=False,
                 show_full_tree=False,
@@ -234,7 +234,9 @@ class TestDynamicNodes:  #######################################################
     def test_abbr(_, dynamic_bp_testee1):
         pruned = dynamic_bp_testee1.prune()
 
-        opt = pruned.generate_blueprint(content_preview_lines=0)
+        opt = pruned.generate_blueprint_without_dependencies(
+            content_preview_lines=0,
+        )
         print(opt)
 
         assert opt == """    ○

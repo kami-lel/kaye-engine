@@ -3,7 +3,7 @@ prompt-bp-gen_test.py
 
 Unit Tests (using pytest) for: PromptBlueprint
 
-- .generate_blueprint()
+- .generate_blueprint_without_dependencies()
 """
 
 import re
@@ -48,7 +48,7 @@ class TestAllArgs1:  # =========================================================
         bp = PromptBlueprint.parse(
             bp_text, disable_prune=True, corpus_tree=corpus
         )
-        opt = bp.generate_blueprint(
+        opt = bp.generate_blueprint_without_dependencies(
             content_preview_lines=3,
             content_preview_width=64,
             show_full_tree=False,
@@ -70,7 +70,7 @@ class TestAllArgs1:  # =========================================================
         bp = PromptBlueprint.parse(
             bp_text, disable_prune=True, corpus_tree=corpus
         )
-        opt = bp.generate_blueprint(
+        opt = bp.generate_blueprint_without_dependencies(
             content_preview_lines=3,
             content_preview_width=64,
             show_full_tree=False,
@@ -89,7 +89,7 @@ class TestAllArgs1:  # =========================================================
         bp = PromptBlueprint.parse(
             bp_text, disable_prune=True, corpus_tree=corpus
         )
-        opt = bp.generate_blueprint(
+        opt = bp.generate_blueprint_without_dependencies(
             content_preview_lines=3,
             content_preview_width=64,
             show_full_tree=False,
@@ -108,7 +108,7 @@ class TestAllArgs1:  # =========================================================
         bp = PromptBlueprint.parse(
             bp_text, disable_prune=True, corpus_tree=corpus
         )
-        opt = bp.generate_blueprint(
+        opt = bp.generate_blueprint_without_dependencies(
             content_preview_lines=3,
             content_preview_width=64,
             show_full_tree=False,
@@ -137,7 +137,7 @@ class TestAllArgs2:  # =========================================================
         bp = PromptBlueprint.parse(
             bp_text, disable_prune=True, corpus_tree=corpus
         )
-        opt = bp.generate_blueprint(
+        opt = bp.generate_blueprint_without_dependencies(
             content_preview_lines=3,
             content_preview_width=64,
             show_full_tree=False,
@@ -159,7 +159,7 @@ class TestAllArgs2:  # =========================================================
         bp = PromptBlueprint.parse(
             bp_text, disable_prune=True, corpus_tree=corpus
         )
-        opt = bp.generate_blueprint(
+        opt = bp.generate_blueprint_without_dependencies(
             content_preview_lines=3,
             content_preview_width=64,
             show_full_tree=False,
@@ -178,7 +178,7 @@ class TestAllArgs2:  # =========================================================
         bp = PromptBlueprint.parse(
             bp_text, disable_prune=True, corpus_tree=corpus
         )
-        opt = bp.generate_blueprint(
+        opt = bp.generate_blueprint_without_dependencies(
             content_preview_lines=3,
             content_preview_width=64,
             show_full_tree=False,
@@ -217,7 +217,7 @@ class TestAllArgs3:  # =========================================================
         bp = PromptBlueprint.parse(
             bp_text, disable_prune=True, corpus_tree=corpus
         )
-        opt = bp.generate_blueprint(
+        opt = bp.generate_blueprint_without_dependencies(
             content_preview_lines=3,
             content_preview_width=64,
             show_full_tree=False,
@@ -238,7 +238,7 @@ class TestAllArgs3:  # =========================================================
         bp = PromptBlueprint.parse(
             bp_text, disable_prune=True, corpus_tree=corpus
         )
-        opt = bp.generate_blueprint(
+        opt = bp.generate_blueprint_without_dependencies(
             content_preview_lines=3,
             content_preview_width=64,
             show_full_tree=False,
@@ -257,7 +257,7 @@ class TestAllArgs3:  # =========================================================
         bp = PromptBlueprint.parse(
             bp_text, disable_prune=True, corpus_tree=corpus
         )
-        opt = bp.generate_blueprint(
+        opt = bp.generate_blueprint_without_dependencies(
             content_preview_lines=3,
             content_preview_width=64,
             show_full_tree=False,
@@ -276,7 +276,7 @@ class TestAllArgs3:  # =========================================================
         bp = PromptBlueprint.parse(
             bp_text, disable_prune=True, corpus_tree=corpus
         )
-        opt = bp.generate_blueprint(
+        opt = bp.generate_blueprint_without_dependencies(
             content_preview_lines=3,
             content_preview_width=64,
             show_full_tree=False,
@@ -319,7 +319,7 @@ class TestNoContent1:  # =======================================================
         bp = PromptBlueprint.parse(
             bp_text, disable_prune=True, corpus_tree=corpus
         )
-        opt = bp.generate_blueprint(
+        opt = bp.generate_blueprint_without_dependencies(
             content_preview_lines=0,
             show_full_tree=False,
             show_comment=True,
@@ -344,7 +344,7 @@ class TestNoContent1:  # =======================================================
         bp = PromptBlueprint.parse(
             bp_text, disable_prune=True, corpus_tree=corpus
         )
-        opt = bp.generate_blueprint(
+        opt = bp.generate_blueprint_without_dependencies(
             content_preview_lines=0,
             show_full_tree=False,
             show_comment=True,
@@ -366,7 +366,7 @@ class TestNoContent1:  # =======================================================
         bp = PromptBlueprint.parse(
             bp_text, disable_prune=True, corpus_tree=corpus
         )
-        opt = bp.generate_blueprint(
+        opt = bp.generate_blueprint_without_dependencies(
             content_preview_lines=0,
             show_full_tree=False,
             show_comment=True,
@@ -388,7 +388,7 @@ class TestNoContent1:  # =======================================================
         bp = PromptBlueprint.parse(
             bp_text, disable_prune=True, corpus_tree=corpus
         )
-        opt = bp.generate_blueprint(
+        opt = bp.generate_blueprint_without_dependencies(
             content_preview_lines=0,
             show_full_tree=False,
             show_comment=True,
@@ -413,7 +413,7 @@ class TestNoContent3:  # =======================================================
         bp = PromptBlueprint.parse(
             bp_text, disable_prune=True, corpus_tree=corpus
         )
-        opt = bp.generate_blueprint(
+        opt = bp.generate_blueprint_without_dependencies(
             content_preview_lines=0,
             show_full_tree=False,
             show_comment=True,
@@ -444,7 +444,7 @@ class TestNoContent3:  # =======================================================
         bp = PromptBlueprint.parse(
             bp_text, disable_prune=True, corpus_tree=corpus
         )
-        opt = bp.generate_blueprint(
+        opt = bp.generate_blueprint_without_dependencies(
             content_preview_lines=0,
             show_full_tree=False,
             show_comment=True,
@@ -472,7 +472,7 @@ class TestNoContent3:  # =======================================================
         bp = PromptBlueprint.parse(
             bp_text, disable_prune=True, corpus_tree=corpus
         )
-        opt = bp.generate_blueprint(
+        opt = bp.generate_blueprint_without_dependencies(
             content_preview_lines=0,
             show_full_tree=False,
             show_comment=True,
@@ -500,7 +500,7 @@ class TestNoContent3:  # =======================================================
         bp = PromptBlueprint.parse(
             bp_text, disable_prune=True, corpus_tree=corpus
         )
-        opt = bp.generate_blueprint(
+        opt = bp.generate_blueprint_without_dependencies(
             content_preview_lines=0,
             show_full_tree=False,
             show_comment=True,
@@ -533,7 +533,7 @@ class TestNoComment:  # =======================================================
         bp = PromptBlueprint.parse(
             bp_text, disable_prune=True, corpus_tree=corpus
         )
-        opt = bp.generate_blueprint(
+        opt = bp.generate_blueprint_without_dependencies(
             content_preview_lines=0,
             show_full_tree=False,
             show_comment=False,
@@ -553,7 +553,7 @@ class TestNoComment:  # =======================================================
         bp = PromptBlueprint.parse(
             bp_text, disable_prune=True, corpus_tree=corpus
         )
-        opt = bp.generate_blueprint(
+        opt = bp.generate_blueprint_without_dependencies(
             content_preview_lines=0,
             show_full_tree=False,
             show_comment=False,
@@ -580,7 +580,7 @@ class TestFullTree:
     def test1(_, bp_testee1pa2pruned):
         bp = bp_testee1pa2pruned
 
-        opt = bp.generate_blueprint(
+        opt = bp.generate_blueprint_without_dependencies(
             content_preview_lines=0,
             show_full_tree=True,
             show_comment=False,
@@ -594,7 +594,7 @@ class TestFullTree:
         bp_text = BLUEPRINT_2_PARTIAL_1_PRUNED
         bp = PromptBlueprint.parse(bp_text, corpus_tree=corpus_testee2)
 
-        opt = bp.generate_blueprint(
+        opt = bp.generate_blueprint_without_dependencies(
             content_preview_lines=0,
             show_full_tree=True,
             show_comment=False,
@@ -608,7 +608,7 @@ class TestFullTree:
         bp_text = BLUEPRINT_3_PARTIAL_1_PRUNED
         bp = PromptBlueprint.parse(bp_text, corpus_tree=corpus_testee3)
 
-        opt = bp.generate_blueprint(
+        opt = bp.generate_blueprint_without_dependencies(
             content_preview_lines=0,
             show_full_tree=True,
             show_comment=False,
@@ -622,7 +622,7 @@ class TestFullTree:
         bp_text = BLUEPRINT_3_PARTIAL_2_PRUNED
         bp = PromptBlueprint.parse(bp_text, corpus_tree=corpus_testee3)
 
-        opt = bp.generate_blueprint(
+        opt = bp.generate_blueprint_without_dependencies(
             content_preview_lines=0,
             show_full_tree=True,
             show_comment=False,
@@ -643,7 +643,7 @@ class TestDft:
         bp = PromptBlueprint.parse(
             bp_text, disable_prune=True, corpus_tree=corpus
         )
-        opt = bp.generate_blueprint()
+        opt = bp.generate_blueprint_without_dependencies()
 
         print(opt)
 
@@ -656,7 +656,7 @@ class TestDft:
         bp = PromptBlueprint.parse(
             bp_text, disable_prune=True, corpus_tree=corpus
         )
-        opt = bp.generate_blueprint()
+        opt = bp.generate_blueprint_without_dependencies()
 
         print(opt)
 
@@ -669,7 +669,7 @@ class TestDft:
         bp = PromptBlueprint.parse(
             bp_text, disable_prune=True, corpus_tree=corpus
         )
-        opt = bp.generate_blueprint()
+        opt = bp.generate_blueprint_without_dependencies()
 
         print(opt)
 
@@ -679,7 +679,9 @@ class TestDft:
 class TestDynamicNodes:  #######################################################
 
     def test_abbr(_, dynamic_bp_testee1):
-        opt = dynamic_bp_testee1.generate_blueprint(content_preview_lines=0)
+        opt = dynamic_bp_testee1.generate_blueprint_without_dependencies(
+            content_preview_lines=0,
+        )
 
         print(opt)
 
