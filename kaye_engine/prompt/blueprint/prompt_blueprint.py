@@ -58,11 +58,22 @@ class PromptBlueprint(dict):
             tree was registered under via ``load_corpus_tree``; or
             ``None`` (the default) to use the default corpus tree
     :type corpus_tree: BasePromptNode or str or None, optional
+    :param dependencies: other blueprints this blueprint directly depends
+            on; resolved recursively by ``render_prompt()`` /
+            ``render_blueprint()``; defaults to an empty list
+    :type dependencies: list[PromptBlueprint] or None, optional
     """
 
     # classmethods  ============================================================
     @classmethod
-    def parse(cls, blueprint_text, *, corpus_tree=None, disable_prune=False):
+    def parse(
+        cls,
+        blueprint_text,
+        *,
+        corpus_tree=None,
+        disable_prune=False,
+        dependencies=None,
+    ):
         """
         parse ``blueprint_text`` into a blueprint object
 
@@ -80,12 +91,15 @@ class PromptBlueprint(dict):
                 when ``disable_prune``, the parsed tree contains the full
                 prompt corpus tree
         :type disable_prune: bool, optional
+        :param dependencies: other blueprints this blueprint directly
+                depends on; defaults to an empty list
+        :type dependencies: list[PromptBlueprint] or None, optional
         :raise ValueError:
         :return: a blueprint parsed from ``blueprint_text``
         :rtype: PromptBlueprint
         """
         # create bp w/ nothing, to be filled during this function
-        bp = PromptBlueprint(corpus_tree=corpus_tree)
+        bp = PromptBlueprint(corpus_tree=corpus_tree, dependencies=dependencies)
 
         bp.update(parser.parse_blueprint_text(blueprint_text, bp.corpus))
 
@@ -93,35 +107,47 @@ class PromptBlueprint(dict):
         return bp if disable_prune else bp.prune()
 
     @classmethod
-    def create_full_blueprint(cls, *, corpus_tree=None):
+    def create_full_blueprint(cls, *, corpus_tree=None, dependencies=None):
         """
         :param corpus_tree: root node of a corpus tree; the name a
                 corpus tree was registered under via ``load_corpus_tree``;
                 or ``None`` (the default) to use the default corpus tree
         :type corpus_tree: BasePromptNode or str or None, optional
+        :param dependencies: other blueprints this blueprint directly
+                depends on; defaults to an empty list
+        :type dependencies: list[PromptBlueprint] or None, optional
         :return: a blueprint
                 with all nodes from `prompt_corpus`, including every
                 auto-attached dynamic node, and checkmarking all nodes
         :rtype: PromptBlueprint
         """
-        return cls._create_full_or_empty_blueprint_generic(corpus_tree, True)
+        return cls._create_full_or_empty_blueprint_generic(
+            corpus_tree, True, dependencies
+        )
 
     @classmethod
-    def create_empty_blueprint(cls, *, corpus_tree=None):
+    def create_empty_blueprint(cls, *, corpus_tree=None, dependencies=None):
         """
         :param corpus_tree: root node of a corpus tree; the name a
                 corpus tree was registered under via ``load_corpus_tree``;
                 or ``None`` (the default) to use the default corpus tree
         :type corpus_tree: BasePromptNode or str or None, optional
+        :param dependencies: other blueprints this blueprint directly
+                depends on; defaults to an empty list
+        :type dependencies: list[PromptBlueprint] or None, optional
         :return: a blueprint
                 with all nodes from `prompt_corpus`, including every
                 auto-attached dynamic node, but uncheckmarking all nodes
         :rtype: PromptBlueprint
         """
-        return cls._create_full_or_empty_blueprint_generic(corpus_tree, False)
+        return cls._create_full_or_empty_blueprint_generic(
+            corpus_tree, False, dependencies
+        )
 
     @classmethod
-    def create_from_node(cls, node, *, corpus_tree=None, recursively=False):
+    def create_from_node(
+        cls, node, *, corpus_tree=None, recursively=False, dependencies=None
+    ):
         """
         create a **blueprint** from a specific node and its content
 
@@ -142,10 +168,15 @@ class PromptBlueprint(dict):
         :param recursively: allow checkmarks on node's descendants,
                 defaults to False
         :type recursively: bool, optional
+        :param dependencies: other blueprints this blueprint directly
+                depends on; defaults to an empty list
+        :type dependencies: list[PromptBlueprint] or None, optional
         :raise TypeError:
         :raise ValueError:
         """
-        bp = cls.create_empty_blueprint(corpus_tree=corpus_tree)
+        bp = cls.create_empty_blueprint(
+            corpus_tree=corpus_tree, dependencies=dependencies
+        )
         node_obj, _ = resolve_node(bp.corpus, node)
         bp.checkmark(node_obj, recursively=recursively)
 
@@ -155,13 +186,17 @@ class PromptBlueprint(dict):
         return pruned_bp
 
     # instance methods  ========================================================
-    def __init__(self, *, corpus_tree=None):
+    def __init__(self, *, corpus_tree=None, dependencies=None):
         super().__init__()  # init as empty dict
 
         self.corpus_tree = corpus_tree
         self.corpus = copy.deepcopy(_resolve_corpus_tree(corpus_tree))
 
         self.sidecars = BlueprintDescriptorSidecars()
+
+        self.dependencies = (
+            list(dependencies) if dependencies is not None else []
+        )
 
     # node operations  *********************************************************
     def is_checkmarked(self, node):
@@ -304,13 +339,15 @@ class PromptBlueprint(dict):
     # helpers  =================================================================
 
     @classmethod
-    def _create_full_or_empty_blueprint_generic(cls, corpus_tree, is_full):
+    def _create_full_or_empty_blueprint_generic(
+        cls, corpus_tree, is_full, dependencies=None
+    ):
         """
         helper method used
         in ``.create_full_blueprint()`` & in ``.create_empty_blueprint()``,
         i.e. a generic version of the 2 functions
         """
-        bp = PromptBlueprint(corpus_tree=corpus_tree)
+        bp = PromptBlueprint(corpus_tree=corpus_tree, dependencies=dependencies)
 
         # include all nodes; sidecar nodes are never auto-checkmarked
         for node in PreOrderIter(bp.corpus):
