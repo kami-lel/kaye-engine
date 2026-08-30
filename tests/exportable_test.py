@@ -102,7 +102,7 @@ class TestContent:  ############################################################
 
         assert reg.content(
             profile=RenderProfile(sparseness=0)
-        ) == reg.blueprint.generate_prompt(sparseness=0)
+        ) == reg.blueprint.generate_prompt_without_dependencies(sparseness=0)
 
     def test_blueprint_registry_content_forwards_render_kwargs(
         _, empty_corpus
@@ -111,7 +111,7 @@ class TestContent:  ############################################################
 
         assert reg.content(
             profile=RenderProfile(sparseness=-1)
-        ) == reg.blueprint.generate_prompt(sparseness=-1)
+        ) == reg.blueprint.generate_prompt_without_dependencies(sparseness=-1)
 
     def test_exportable_abbr_content(_):
         entry = AbbrEntry(

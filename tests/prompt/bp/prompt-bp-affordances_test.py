@@ -57,7 +57,7 @@ class TestVariantPresent:
     def test_usage_checkmarked_fallback_not(
         _, checkmarked_bp, registered_test_variant
     ):
-        opt = checkmarked_bp.generate_prompt(
+        opt = checkmarked_bp.generate_prompt_without_dependencies(
             profile=RenderProfile(variants=("Claude Tool:TestVariant",))
         )
 
@@ -71,7 +71,9 @@ class TestVariantAbsent:
     def test_fallback_checkmarked_usage_not(
         _, checkmarked_bp, registered_test_variant
     ):
-        opt = checkmarked_bp.generate_prompt(profile=RenderProfile(variants=()))
+        opt = checkmarked_bp.generate_prompt_without_dependencies(
+            profile=RenderProfile(variants=())
+        )
 
         print(opt)
         assert "fallback content" in opt
@@ -82,7 +84,9 @@ class TestAffordanceWithoutVariants:
 
     def test_fallback_never_checkmarked(_, checkmarked_bp):
         # no variant registered under "Claude Tool:TestFamily" at all
-        opt = checkmarked_bp.generate_prompt(profile=RenderProfile(variants=()))
+        opt = checkmarked_bp.generate_prompt_without_dependencies(
+            profile=RenderProfile(variants=())
+        )
 
         print(opt)
         assert "fallback content" not in opt
@@ -93,7 +97,7 @@ class TestVariantsDisabled:
     def test_neither_checkmarked_when_none(
         _, checkmarked_bp, registered_test_variant
     ):
-        opt = checkmarked_bp.generate_prompt(
+        opt = checkmarked_bp.generate_prompt_without_dependencies(
             profile=RenderProfile(variants=None)
         )
 
@@ -104,7 +108,7 @@ class TestVariantsDisabled:
     def test_neither_checkmarked_by_default(
         _, checkmarked_bp, registered_test_variant
     ):
-        opt = checkmarked_bp.generate_prompt()
+        opt = checkmarked_bp.generate_prompt_without_dependencies()
 
         print(opt)
         assert "usage content" not in opt
@@ -114,7 +118,7 @@ class TestVariantsDisabled:
 class TestParentNotCheckmarked:
 
     def test_neither_spliced_in(_, unchecked_bp, registered_test_variant):
-        opt = unchecked_bp.generate_prompt(
+        opt = unchecked_bp.generate_prompt_without_dependencies(
             profile=RenderProfile(variants=("Claude Tool:TestVariant",))
         )
 
