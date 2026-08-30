@@ -49,6 +49,32 @@ def _resolve_corpus_tree(corpus_tree):
     return corpus_tree
 
 
+def _resolve_dependency(dependency):
+    """
+    resolve a ``PromptBlueprint`` to itself, or a ``str`` to the
+    blueprint registered under that name in the blueprint registry
+
+    (``get_blueprint`` is imported locally to avoid a circular import,
+    since ``registry.py`` imports ``PromptBlueprint`` from this module)
+
+
+    :return: the resolved dependency
+    :rtype: PromptBlueprint
+    """
+    if isinstance(dependency, PromptBlueprint):
+        return dependency
+
+    if isinstance(dependency, str):
+        from .registry import get_blueprint
+
+        return get_blueprint(dependency).blueprint
+
+    raise TypeError(
+        "dependency must be a PromptBlueprint or a registered "
+        "blueprint name: {}".format(dependency)
+    )
+
+
 class PromptBlueprint(dict):
     """
     `PromptBlueprint` represents a configurable subset of *prompt corpus tree*
@@ -59,9 +85,11 @@ class PromptBlueprint(dict):
             ``None`` (the default) to use the default corpus tree
     :type corpus_tree: BasePromptNode or str or None, optional
     :param dependencies: other blueprints this blueprint directly depends
-            on; resolved recursively by ``render_prompt()`` /
-            ``render_blueprint()``; defaults to an empty list
-    :type dependencies: list[PromptBlueprint] or None, optional
+            on; a ``str`` entry is resolved to the blueprint registered
+            under that name via ``register_blueprint``; resolved
+            recursively by ``render_prompt()`` / ``render_blueprint()``;
+            defaults to an empty list
+    :type dependencies: list[PromptBlueprint or str] or None, optional
     """
 
     # classmethods  ============================================================
@@ -92,8 +120,10 @@ class PromptBlueprint(dict):
                 prompt corpus tree
         :type disable_prune: bool, optional
         :param dependencies: other blueprints this blueprint directly
-                depends on; defaults to an empty list
-        :type dependencies: list[PromptBlueprint] or None, optional
+                depends on; a ``str`` entry is resolved to the
+                blueprint registered under that name via
+                ``register_blueprint``; defaults to an empty list
+        :type dependencies: list[PromptBlueprint or str] or None, optional
         :raise ValueError:
         :return: a blueprint parsed from ``blueprint_text``
         :rtype: PromptBlueprint
@@ -114,8 +144,10 @@ class PromptBlueprint(dict):
                 or ``None`` (the default) to use the default corpus tree
         :type corpus_tree: BasePromptNode or str or None, optional
         :param dependencies: other blueprints this blueprint directly
-                depends on; defaults to an empty list
-        :type dependencies: list[PromptBlueprint] or None, optional
+                depends on; a ``str`` entry is resolved to the
+                blueprint registered under that name via
+                ``register_blueprint``; defaults to an empty list
+        :type dependencies: list[PromptBlueprint or str] or None, optional
         :return: a blueprint
                 with all nodes from `prompt_corpus`, including every
                 auto-attached dynamic node, and checkmarking all nodes
@@ -133,8 +165,10 @@ class PromptBlueprint(dict):
                 or ``None`` (the default) to use the default corpus tree
         :type corpus_tree: BasePromptNode or str or None, optional
         :param dependencies: other blueprints this blueprint directly
-                depends on; defaults to an empty list
-        :type dependencies: list[PromptBlueprint] or None, optional
+                depends on; a ``str`` entry is resolved to the
+                blueprint registered under that name via
+                ``register_blueprint``; defaults to an empty list
+        :type dependencies: list[PromptBlueprint or str] or None, optional
         :return: a blueprint
                 with all nodes from `prompt_corpus`, including every
                 auto-attached dynamic node, but uncheckmarking all nodes
@@ -169,8 +203,10 @@ class PromptBlueprint(dict):
                 defaults to False
         :type recursively: bool, optional
         :param dependencies: other blueprints this blueprint directly
-                depends on; defaults to an empty list
-        :type dependencies: list[PromptBlueprint] or None, optional
+                depends on; a ``str`` entry is resolved to the
+                blueprint registered under that name via
+                ``register_blueprint``; defaults to an empty list
+        :type dependencies: list[PromptBlueprint or str] or None, optional
         :raise TypeError:
         :raise ValueError:
         """
@@ -195,7 +231,9 @@ class PromptBlueprint(dict):
         self.sidecars = BlueprintDescriptorSidecars()
 
         self.dependencies = (
-            list(dependencies) if dependencies is not None else []
+            [_resolve_dependency(d) for d in dependencies]
+            if dependencies is not None
+            else []
         )
 
     # node operations  *********************************************************
