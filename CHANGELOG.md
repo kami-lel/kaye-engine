@@ -3,7 +3,6 @@
 [^format]
 
 <!--
-todo allow multiple corpus files to be loaded as single tree, including secrete file
 todo todo CLI to import/export w/ OpenWebUI
 -->
 
@@ -53,6 +52,10 @@ todo todo CLI to import/export w/ OpenWebUI
   `merged_coder_exportable_name`, `claude._merged_coder_exportable_name`,
   and `get_claude_merged_coder_exportable()` respectively, since a
   consumer's merged Coder exportable need not be named "chat-coder"
+- `load_corpus_tree()`'s second parameter renamed `file_path` ->
+  `sources`, now an ordered `list[str or Path]` concatenated into one
+  logical document before parsing; a `str` entry is literal content,
+  a `Path` entry is a markdown file read from disk
 
 > [!WARNING]
 > `PromptBlueprint.generate_prompt()`/`generate_blueprint()` no longer
@@ -67,6 +70,8 @@ todo todo CLI to import/export w/ OpenWebUI
 > and `get_claude_chat_coder_exportable()` are renamed
 > `_merged_coder_exportable_name` and
 > `get_claude_merged_coder_exportable()`.
+> `load_corpus_tree()` no longer accepts a single `file_path`; pass a
+> `sources` list instead, e.g. `[Path("path/to/corpus.md")]`.
 
 ### Deprecated
 

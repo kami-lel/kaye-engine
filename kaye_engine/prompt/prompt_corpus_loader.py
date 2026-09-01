@@ -11,6 +11,7 @@ any depth, fixes its location and preface -- else it falls back to root.
 
 import functools
 import re
+from pathlib import Path
 
 from anytree import PreOrderIter
 
@@ -85,6 +86,25 @@ def _collapse_unfenced_blank_runs(text_lines):
     return result
 
 
+def _read_content_source(source):
+    """
+    resolve one entry of ``load_corpus_tree``'s ``sources`` list --
+    ``source`` a :class:`Path` is opened and read as a file; ``source``
+    a ``str`` is used directly, as literal content
+
+
+    :param source: file to read, or literal content
+    :type source: str or Path
+    :return: the source's text content
+    :rtype: str
+    """
+    if isinstance(source, Path):
+        with open(source, "r", encoding="utf-8", newline="") as file:
+            return file.read()
+
+    return source
+
+
 def _resolve_dynamic_heading(heading):
     """
     resolve a parenthesized ``heading`` via
@@ -117,27 +137,30 @@ _default_tree_name = None
 
 
 def load_corpus_tree(  # =======================================================
-    tree_name, file_path, *, is_default_tree=False
+    tree_name, sources, *, is_default_tree=False
 ):
     """
-    parse ``file_path`` into a **prompt corpus tree** and cache it under
-    ``tree_name`` -- every dynamic node (each ``DYNAMIC_NODE_TYPES``
-    member, each ``ABBR_TAG_NODE_MEMBERS`` tag, and every registered
-    glossary) auto-attaches unconditionally; an authored ``(name)``
-    heading, at any depth in ``file_path``, fixes its preface and tree
-    location in place of the heading -- else it falls back to a direct
-    child of root
+    concatenate ``sources``, in order, into one logical document, parse
+    it into a **prompt corpus tree**, and cache it under ``tree_name``
+    -- every dynamic node (each ``DYNAMIC_NODE_TYPES`` member, each
+    ``ABBR_TAG_NODE_MEMBERS`` tag, and every registered glossary)
+    auto-attaches unconditionally; an authored ``(name)`` heading, at
+    any depth in ``sources``, fixes its preface and tree location in
+    place of the heading -- else it falls back to a direct child of
+    root
 
     Prerequisite: :func:`register_abbr_glossary` for every glossary
-    named in a ``(name)`` heading of ``file_path``
+    named in a ``(name)`` heading of ``sources``
 
 
     :param tree_name: key this tree is cached under; every subsequent
             :func:`get_corpus_tree` call with this name returns the
             same tree object
     :type tree_name: str
-    :param file_path: path of the markdown file to parse
-    :type file_path: Path or str
+    :param sources: ordered sources to concatenate into one logical
+            document -- each ``str`` entry is literal content, each
+            ``Path`` entry is a markdown file to read
+    :type sources: list[str or Path]
     :param is_default_tree: flag this tree as the **default** corpus
             tree, retrievable via :func:`get_default_corpus_tree`
             without knowing ``tree_name``; only one tree may ever be
@@ -145,7 +168,7 @@ def load_corpus_tree(  # =======================================================
     :type is_default_tree: bool, optional
     :raises ValueError: ``tree_name`` is already registered,
             ``is_default_tree`` is set while a default tree already
-            exists, ``file_path`` contains a heading wrapped in
+            exists, ``sources`` contain a heading wrapped in
             parentheses -- reserved for dynamic nodes -- that resolves
             to no known dynamic node, or two headings resolve to the
             same dynamic node
@@ -166,9 +189,10 @@ def load_corpus_tree(  # =======================================================
             )
         )
 
-    # read corpus content from file
-    with open(file_path, "r", encoding="utf-8", newline="") as file:
-        prompt_corpus_text = file.read()
+    # read corpus content from sources, concatenated as if one file
+    prompt_corpus_text = "\n\n".join(
+        _read_content_source(source) for source in sources
+    )
 
     # text split & clean up  ---------------------------------------------------
     # split to lines, then reduce 2+ empty lines into single empty line,

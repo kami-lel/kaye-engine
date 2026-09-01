@@ -37,7 +37,7 @@ not a gap to fill.
 
 | entity | what it is |
 |---|---|
-| **Prompt Corpus** | a Markdown file; the authoritative source of truth |
+| **Prompt Corpus** | a structured Markdown document (one file, or several sources concatenated by `load_corpus_tree`); the authoritative source of truth |
 | **Prompt Tree** | the parsed corpus; every heading a `BasePromptNode` |
 | **Blueprint** | a selection spec marking which tree nodes render |
 | **Blueprint Registry** | name → blueprint plus its export policy |
@@ -54,9 +54,9 @@ Heading syntax carries node type: plain text is an ordinary corpus node,
 `{braces}` a sidecar, `(parentheses)` a dynamic node.
 
 ```
-corpus.md ──load_corpus_tree()──> Prompt Tree ─┐
-                                               ├─render_prompt()─> text
-blueprint text ──PromptBlueprint.parse()───────┘
+sources ────load_corpus_tree()──> Prompt Tree ─┐
+                                                 ├─render_prompt()─> text
+blueprint text ──PromptBlueprint.parse()─────────┘
 ```
 
 `render_prompt()`/`render_blueprint()` are the dependency-resolving
