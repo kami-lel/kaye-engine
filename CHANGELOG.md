@@ -3,7 +3,6 @@
 [^format]
 
 <!--
-TODO allow multiple corpus files to be loaded as single tree, including secrete file
 todo todo CLI to import/export w/ OpenWebUI
 -->
 
@@ -44,6 +43,10 @@ todo todo CLI to import/export w/ OpenWebUI
 - `BlueprintRegistry.content()` now renders through `render_prompt()`,
   so every registered, exported blueprint's content is
   dependency-aware by default
+- `load_corpus_tree()`'s second parameter renamed `file_path` ->
+  `sources`, now an ordered `list[str or Path]` concatenated into one
+  logical document before parsing; a `str` entry is literal content,
+  a `Path` entry is a markdown file read from disk
 
 > [!WARNING]
 > `PromptBlueprint.generate_prompt()`/`generate_blueprint()` no longer
@@ -53,6 +56,8 @@ todo todo CLI to import/export w/ OpenWebUI
 > dependency-aware `render_prompt()`/`render_blueprint()`.
 > `BlueprintRegistry.merge()` no longer exists; use `dependencies=[...]`
 > on `PromptBlueprint`.
+> `load_corpus_tree()` no longer accepts a single `file_path`; pass a
+> `sources` list instead, e.g. `[Path("path/to/corpus.md")]`.
 
 ### Deprecated
 
