@@ -6,6 +6,7 @@ Unit Tests (using pytest) for:
 load_corpus_tree
 """
 
+from pathlib import Path
 from unittest.mock import mock_open, patch
 
 import pytest
@@ -29,7 +30,9 @@ Licensed under the MIT License.
 """)
 
     with patch("builtins.open", m):
-        return load_corpus_tree("prompt-tree-test-1", "dummy-path-1.md")
+        return load_corpus_tree(
+            "prompt-tree-test-1", [Path("dummy-path-1.md")]
+        )
 
 
 @pytest.fixture(scope="session")
@@ -57,7 +60,9 @@ This project is licensed under the MIT License.
 """)
 
     with patch("builtins.open", m):
-        return load_corpus_tree("prompt-tree-test-2", "dummy-path-2.md")
+        return load_corpus_tree(
+            "prompt-tree-test-2", [Path("dummy-path-2.md")]
+        )
 
 
 @pytest.fixture(scope="session")
@@ -94,7 +99,9 @@ Summarizing the findings and implications.
 """)
 
     with patch("builtins.open", m):
-        return load_corpus_tree("prompt-tree-test-3", "dummy-path-3.md")
+        return load_corpus_tree(
+            "prompt-tree-test-3", [Path("dummy-path-3.md")]
+        )
 
 
 # pytest #######################################################################
