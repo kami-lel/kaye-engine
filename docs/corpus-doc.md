@@ -1,8 +1,8 @@
 # Kaye Engine: `prompt_corpus.md` Format Documentation
 
-`prompt_corpus.md` is the authoritative Source of Truth for an agent's identity, roles, rules, styles, and references. It is a single continuous Markdown file parsed at runtime into a **prompt tree**.
+`prompt_corpus.md` is the authoritative Source of Truth for an agent's identity, roles, rules, styles, and references. It describes the logical document format parsed at runtime into a **prompt tree** — `load_corpus_tree` may assemble that logical document from a single file or from an ordered list of sources; either way the parsed result reads as one continuous Markdown document.
 
-`kaye-engine` bundles no corpus of its own — a consumer package supplies and loads the real file.
+`kaye-engine` bundles no corpus of its own — a consumer package supplies and loads the real content.
 
 
 

@@ -190,17 +190,23 @@ Use `copy.deepcopy(root)` to copy a prompt tree.
 #### tree creation
 
 It is rare for end users to create individual instances, but to **create**
-an entire prompt tree, use `load_corpus_tree(tree_name, file_path)`.
+an entire prompt tree, use `load_corpus_tree(tree_name, sources)`.
 `kaye_engine` bundles no corpus markdown file of its own — the caller
-supplies the file and a name to cache it under. It parses the file and
-attaches the runtime dynamic nodes once; q.v.
+supplies an ordered list of `sources` and a name to cache the tree under.
+Each `str` entry in `sources` is literal content; each `Path` entry is a
+markdown file read from disk. Every entry's text is concatenated, in list
+order, into one logical document before parsing — list order is document
+order. It parses the combined document and attaches the runtime dynamic
+nodes once; q.v.
 [`Dynamic Node Documentation`](dynamic-content-doc.md#using-a-dynamic-node)
 for details:
 
 ```python
+from pathlib import Path
+
 from kaye_engine.prompt import load_corpus_tree, get_corpus_tree
 
-tree_root = load_corpus_tree("my-tree", "path/to/corpus.md")
+tree_root = load_corpus_tree("my-tree", [Path("path/to/corpus.md")])
 
 # subsequent lookups by the same name return the same cached tree
 tree_root is get_corpus_tree("my-tree")  # True
