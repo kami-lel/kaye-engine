@@ -48,45 +48,14 @@ class BlueprintRegistry(Exportable):
                 entry's own `render_profile`, not replaced by it
         :type profile: RenderProfile, optional
         :param kwargs: further render options (e.g. ``query``)
-                forwarded to ``PromptBlueprint.generate_prompt(...)``
+                forwarded to ``PromptBlueprint.render_prompt(...)``
         :return: this blueprint's rendered prompt
         :rtype: str
         """
         merged = self.render_profile
         if profile is not None:
             merged = merged.merge(profile)
-        return self.blueprint.generate_prompt(profile=merged, **kwargs)
-
-    def merge(self, other):
-        """
-        create a new, unregistered `BlueprintRegistry` combining
-        ``self`` and ``other``: the underlying blueprints are merged
-        via ``|``, `render_profile` is merged via
-        `RenderProfile.merge`; every other field (``canonical_name``,
-        ``display_name``, ``is_exportable``, ``is_user_invokable``,
-        ``llm_invokable``) is taken from ``self``
-
-
-        :param other: registry entry to merge with
-        :type other: BlueprintRegistry
-        :raises TypeError: ``other`` is not a `BlueprintRegistry`
-        :return: newly created, unregistered merged entry
-        :rtype: BlueprintRegistry
-        """
-        if not isinstance(other, BlueprintRegistry):
-            raise TypeError(
-                "cannot merge BlueprintRegistry with {}".format(type(other))
-            )
-
-        return BlueprintRegistry(
-            canonical_name=self.canonical_name,
-            display_name=self.display_name,
-            blueprint=self.blueprint | other.blueprint,
-            is_exportable=self.is_exportable,
-            is_user_invokable=self.is_user_invokable,
-            llm_invokable=self.llm_invokable,
-            render_profile=self.render_profile.merge(other.render_profile),
-        )
+        return self.blueprint.render_prompt(profile=merged, **kwargs)
 
 
 # Entry Point  #################################################################

@@ -25,7 +25,7 @@ class TestCopy:
 
         copied = copy.copy(src_bp)
 
-        print(copied.generate_blueprint())
+        print(copied.generate_blueprint_without_dependencies())
 
         assert copied.corpus == src_bp.corpus
         # test per entries
@@ -40,7 +40,7 @@ class TestCopy:
 
         copied = copy.deepcopy(src_bp)
 
-        print(copied.generate_blueprint())
+        print(copied.generate_blueprint_without_dependencies())
 
         assert copied.corpus == src_bp.corpus
         # test per entries

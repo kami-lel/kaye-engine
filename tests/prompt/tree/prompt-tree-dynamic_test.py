@@ -6,10 +6,10 @@ Unit Tests (using pytest) for:
 load_corpus_tree adding dynamic nodes
 """
 
+from pathlib import Path
 from unittest.mock import mock_open, patch
 
 import pytest
-
 
 from kaye_engine.abbr_collection.abbr_data import _abbr_data
 from kaye_engine.abbr_collection.abbr_meaning import AbbrMeaning
@@ -23,7 +23,7 @@ def prompt_corpus_tree_preview():
     m = mock_open(read_data="# Title\n")
 
     with patch("builtins.open", m):
-        tree = load_corpus_tree("dynamic-nodes-test", "dummy-path.md")
+        tree = load_corpus_tree("dynamic-nodes-test", [Path("dummy-path.md")])
 
     return tree.generate_prompt_tree_preview(content_preview_lines=0)
 
@@ -73,7 +73,9 @@ class TestDynamic:
         m = mock_open(read_data="# Title\n")
 
         with patch("builtins.open", m):
-            tree = load_corpus_tree("dynamic-nodes-glossary-auto-test", "d.md")
+            tree = load_corpus_tree(
+                "dynamic-nodes-glossary-auto-test", [Path("d.md")]
+            )
 
         node = tree["(some-glossary)"]
         assert isinstance(node, GlossaryNode)
@@ -100,7 +102,9 @@ class TestGlossaryHeading:
         )
 
         with patch("builtins.open", m):
-            tree = load_corpus_tree("dynamic-nodes-glossary-test", "d.md")
+            tree = load_corpus_tree(
+                "dynamic-nodes-glossary-test", [Path("d.md")]
+            )
 
         node = tree["(some-glossary)"]
         assert isinstance(node, GlossaryNode)
@@ -113,7 +117,9 @@ class TestGlossaryHeading:
             ValueError, match="unrecognized dynamic node name"
         ):
             with patch("builtins.open", m):
-                load_corpus_tree("dynamic-nodes-glossary-reject-test", "d.md")
+                load_corpus_tree(
+                    "dynamic-nodes-glossary-reject-test", [Path("d.md")]
+                )
 
 
 class TestPreface:
@@ -124,7 +130,9 @@ class TestPreface:
         )
 
         with patch("builtins.open", m):
-            tree = load_corpus_tree("dynamic-nodes-preface-test", "d.md")
+            tree = load_corpus_tree(
+                "dynamic-nodes-preface-test", [Path("d.md")]
+            )
 
         today_node = tree["(today)"]
         assert "The current date, for reference." in today_node.content_lines()
@@ -138,7 +146,9 @@ class TestPreface:
         )
 
         with patch("builtins.open", m):
-            tree = load_corpus_tree("dynamic-nodes-abbr-tag-preface-test", "d.md")
+            tree = load_corpus_tree(
+                "dynamic-nodes-abbr-tag-preface-test", [Path("d.md")]
+            )
 
         emoji_node = tree["(emoji)"]
         assert "Every abbr tagged emoji." in emoji_node.content_lines()
@@ -151,7 +161,9 @@ class TestPreface:
 
         with pytest.raises(ValueError, match="unrecognized dynamic node name"):
             with patch("builtins.open", m):
-                load_corpus_tree("dynamic-nodes-reject-test", "d.md")
+                load_corpus_tree(
+                    "dynamic-nodes-reject-test", [Path("d.md")]
+                )
 
 
 class TestNestedParenHeading:
@@ -165,7 +177,9 @@ class TestNestedParenHeading:
         m = mock_open(read_data="# Intro\n\n## (today)\nSome content.\n")
 
         with patch("builtins.open", m):
-            tree = load_corpus_tree("dynamic-nodes-nested-today-test", "d.md")
+            tree = load_corpus_tree(
+                "dynamic-nodes-nested-today-test", [Path("d.md")]
+            )
 
         today_node = tree["Intro"]["(today)"]
         assert isinstance(today_node, TodayNode)
@@ -183,7 +197,9 @@ class TestNestedParenHeading:
             ValueError, match="unrecognized dynamic node name"
         ):
             with patch("builtins.open", m):
-                load_corpus_tree("dynamic-nodes-nested-reject-test", "d.md")
+                load_corpus_tree(
+                    "dynamic-nodes-nested-reject-test", [Path("d.md")]
+                )
 
     def test_duplicate_heading_for_same_node_raises(_):
         m = mock_open(
@@ -195,7 +211,9 @@ class TestNestedParenHeading:
             ValueError, match="duplicate heading for dynamic node"
         ):
             with patch("builtins.open", m):
-                load_corpus_tree("dynamic-nodes-duplicate-heading-test", "d.md")
+                load_corpus_tree(
+                    "dynamic-nodes-duplicate-heading-test", [Path("d.md")]
+                )
 
 
 class TestLocationOrdering:
@@ -208,6 +226,6 @@ class TestLocationOrdering:
         m = mock_open(read_data="# A\n\n# (today)\nPreface.\n\n# B\n")
 
         with patch("builtins.open", m):
-            tree = load_corpus_tree("dynamic-nodes-order-test", "d.md")
+            tree = load_corpus_tree("dynamic-nodes-order-test", [Path("d.md")])
 
         assert [c.name for c in tree.children][:3] == ["A", "(today)", "B"]

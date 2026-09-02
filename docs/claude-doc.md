@@ -90,10 +90,49 @@ To load the marketplace in VS Code:
 
 ## Consumer Requirement
 
-A corpus must register a Chat exportable and a Chat Coder exportable under whatever names it passes to `setup_claude_cli(...)` as `chat_exportable_name`/`chat_coder_exportable_name`; `user_prompt/export.py` resolves them via `get_claude_chat_exportable()`/`get_claude_chat_coder_exportable()` in `exportable_name.py`.
+A corpus must register a Chat exportable and a merged Coder exportable under whatever names it passes to `setup_claude_cli(...)` as `chat_exportable_name`/`merged_coder_exportable_name`; `user_prompt/export.py` resolves them via `get_claude_chat_exportable()`/`get_claude_merged_coder_exportable()` in `exportable_name.py`.
 
-The Chat Coder exportable (`chat_coder_exportable_name`) is the precomputed merge (via `BlueprintRegistry.merge()`, q.v. [`exportable-registry-doc.md`](exportable-registry-doc.md)) of the Chat exportable and the Coder exportable, built once at registration time rather than merged live at export time; it is what builds the final `-c` prompt used by `usp -c`, `claude code`, and `claude vs-code-extension`. Both Chat and Chat Coder may also double as their own standalone exportable Skills (e.g. a consumer package may register the merge under `"chat"` and `"chat-coder"` names of its own choosing).
+The merged Coder exportable (`merged_coder_exportable_name`) is expected to carry the Chat exportable as a `dependencies=[...]` entry, so its render carries the Chat persona alongside the coder content; it is what builds the final `-c` prompt used by `usp -c`, `claude code`, and `claude vs-code-extension`. Both Chat and the merged Coder may also double as their own standalone exportable Skills (e.g. a consumer package may register the same exportable under `"chat"` and `"coder"` names of its own choosing).
 
 ----
 
 A `claude`-exporting consumer must call `setup_claude_cli(~~)` before invoking the CLI. The version passed here is the consumer's own, stamped into every `plugin.json`, `marketplace.json`, and `SKILL.md` the CLI writes.
+
+
+
+
+
+
+
+
+
+
+
+
+
+## Surfaces
+
+A **surface** is a named target Kaye Engine renders for — `chat`, `code`, the VS Code extension, and so on. Different surfaces support different tools, so the same corpus should render differently for each: a Bash-capable surface gets the Bash usage sidecar, a surface without file access does not.
+
+A consumer defines its surfaces as a `dict[str, RenderProfile]` and passes it to `setup_claude_cli(surface_profiles=...)`. Each `RenderProfile` bundles the `variants` (which registered affordance variants that surface supports) and `conditional_sidecars` (which named sidecars it checkmarks) for one surface:
+
+```python
+from kaye_engine.prompt.blueprint.render_profile import RenderProfile
+
+SURFACE_PROFILES = {
+    "chat": RenderProfile(
+        variants=("ClaudeChat:ask_user_input_v0", ...),
+        conditional_sidecars=("[ClaudeChat]", "[Claude]"),
+    ),
+    "code": RenderProfile(
+        variants=("ClaudeCode:AskUserQuestion", ...),
+        conditional_sidecars=("[ClaudeCode]", "[Claude]"),
+    ),
+}
+
+setup_claude_cli(..., surface_profiles=SURFACE_PROFILES)
+```
+
+Every rendering command (`blueprint generate`, `claude skill`, `claude plugin`, `claude user-system-prompt`, ...) then accepts `--surface NAME` (`-u`), combinable, to render for one or more of those surfaces at once — `--surface chat --surface code` merges both profiles via `RenderProfile.merge()`. `--surface` is left out of the CLI entirely for a consumer that never configures `surface_profiles`.
+
+`--variant` and `--conditional-sidecar` (q.v. [`sidecar-node-doc.md`](sidecar-node-doc.md)) union additively on top of whatever `--surface` derives, so a render can name extra variants or sidecars beyond a surface's defaults without losing them. Full flag table and merge semantics: `AGENTS.md` and `CONTEXT.md`.

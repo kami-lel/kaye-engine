@@ -3,7 +3,6 @@
 [^format]
 
 <!--
-todo allow multiple corpus files to be loaded as single tree, including secrete file
 todo todo CLI to import/export w/ OpenWebUI
 -->
 
@@ -33,7 +32,46 @@ todo todo CLI to import/export w/ OpenWebUI
 
 ### Security
 
-[unreleased]: https://github.com/kami-lel/kaye-engine/compare/v7.5.0...dev
+[unreleased]: https://github.com/kami-lel/kaye-engine/compare/v8.0.0...dev
+
+
+
+
+
+
+
+
+
+
+
+
+
+## [8.0.0] - 2026-09-02
+
+### Added
+
+- `dependencies` field on `PromptBlueprint`: declares other blueprints it directly depends on, resolved recursively and merged as a checkmark union (diamond-safe, cycle-guarded) by new `render_prompt()`/`render_blueprint()`; an entry may be a `PromptBlueprint` or a registered blueprint's canonical name (`str`)
+
+### Changed
+
+- `PromptBlueprint.generate_prompt()`/`generate_blueprint()` renamed `generate_prompt_without_dependencies()`/`generate_blueprint_without_dependencies()`; new `render_prompt()`/`render_blueprint()` are the dependency-aware replacements for final, LLM-facing output — every registered, exported blueprint's content is dependency-aware by default
+- `BlueprintRegistry.merge()` removed; compose blueprints via `dependencies=[...]` instead
+- `setup_claude_cli(...)`'s `chat_coder_exportable_name` parameter (and its matching attribute/getter) renamed `merged_coder_exportable_name`, since a consumer's merged Coder exportable need not be named "chat-coder"
+- `load_corpus_tree()`'s second parameter renamed `file_path` → `sources`, now an ordered `list[str or Path]` concatenated into one logical document before parsing
+
+> [!WARNING]
+> `PromptBlueprint.generate_prompt()`/`generate_blueprint()` no longer exist; for the old, dependency-blind own-content-only output use `generate_prompt_without_dependencies()`/`generate_blueprint_without_dependencies()`, or switch to the new dependency-aware `render_prompt()`/`render_blueprint()`.
+
+> [!WARNING]
+> `BlueprintRegistry.merge()` no longer exists; use `dependencies=[...]` on `PromptBlueprint`.
+
+> [!WARNING]
+> `setup_claude_cli(...)`'s `chat_coder_exportable_name` parameter is renamed `merged_coder_exportable_name`; `_chat_coder_exportable_name` and `get_claude_chat_coder_exportable()` are renamed `_merged_coder_exportable_name` and `get_claude_merged_coder_exportable()`.
+
+> [!WARNING]
+> `load_corpus_tree()` no longer accepts a single `file_path`; pass a `sources` list instead, e.g. `[Path("path/to/corpus.md")]`.
+
+[8.0.0]: https://github.com/kami-lel/kaye-engine/compare/v7.5.0...v8.0.0
 
 
 
