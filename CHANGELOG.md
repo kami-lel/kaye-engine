@@ -22,56 +22,7 @@ todo todo CLI to import/export w/ OpenWebUI
 
 ### Added
 
-- `dependencies` field on `PromptBlueprint`, declaring other blueprints
-  it directly depends on; resolved recursively (and merged as a
-  checkmark union, converging a diamond dependency without duplicating
-  content) by new `render_prompt()` / `render_blueprint()`, with a
-  cycle guard raising `ValueError`; threaded through `__init__` and
-  every construction classmethod (`parse`, `create_from_node`,
-  `create_empty_blueprint`, `create_full_blueprint`), and preserved
-  across `.prune()`, `.merge()`/`|`, and `.__copy__()`
-- `dependencies` entries may now be a registered blueprint's canonical
-  name (`str`), resolved via `get_blueprint(name).blueprint` alongside
-  `PromptBlueprint` objects, through a new `_resolve_dependency()`
-
 ### Changed
-
-- `PromptBlueprint.generate_prompt()`/`generate_blueprint()` renamed to
-  `generate_prompt_without_dependencies()`/
-  `generate_blueprint_without_dependencies()`; new `render_prompt()`/
-  `render_blueprint()` are the dependency-aware replacements for
-  final, LLM-facing output
-- `BlueprintRegistry.merge()` removed; compose blueprints via
-  `dependencies=[...]` instead
-- `BlueprintRegistry.content()` now renders through `render_prompt()`,
-  so every registered, exported blueprint's content is
-  dependency-aware by default
-- `setup_claude_cli(...)`'s `chat_coder_exportable_name` parameter,
-  `claude._chat_coder_exportable_name`, and
-  `get_claude_chat_coder_exportable()` renamed to
-  `merged_coder_exportable_name`, `claude._merged_coder_exportable_name`,
-  and `get_claude_merged_coder_exportable()` respectively, since a
-  consumer's merged Coder exportable need not be named "chat-coder"
-- `load_corpus_tree()`'s second parameter renamed `file_path` ->
-  `sources`, now an ordered `list[str or Path]` concatenated into one
-  logical document before parsing; a `str` entry is literal content,
-  a `Path` entry is a markdown file read from disk
-
-> [!WARNING]
-> `PromptBlueprint.generate_prompt()`/`generate_blueprint()` no longer
-> exist; for the old, dependency-blind own-content-only output use
-> `generate_prompt_without_dependencies()`/
-> `generate_blueprint_without_dependencies()`, or switch to the new
-> dependency-aware `render_prompt()`/`render_blueprint()`.
-> `BlueprintRegistry.merge()` no longer exists; use `dependencies=[...]`
-> on `PromptBlueprint`.
-> `setup_claude_cli(...)`'s `chat_coder_exportable_name` parameter is
-> renamed `merged_coder_exportable_name`; `_chat_coder_exportable_name`
-> and `get_claude_chat_coder_exportable()` are renamed
-> `_merged_coder_exportable_name` and
-> `get_claude_merged_coder_exportable()`.
-> `load_corpus_tree()` no longer accepts a single `file_path`; pass a
-> `sources` list instead, e.g. `[Path("path/to/corpus.md")]`.
 
 ### Deprecated
 
@@ -81,7 +32,46 @@ todo todo CLI to import/export w/ OpenWebUI
 
 ### Security
 
-[unreleased]: https://github.com/kami-lel/kaye-engine/compare/v7.5.0...dev
+[unreleased]: https://github.com/kami-lel/kaye-engine/compare/v8.0.0...dev
+
+
+
+
+
+
+
+
+
+
+
+
+
+## [8.0.0] - 2026-09-02
+
+### Added
+
+- `dependencies` field on `PromptBlueprint`: declares other blueprints it directly depends on, resolved recursively and merged as a checkmark union (diamond-safe, cycle-guarded) by new `render_prompt()`/`render_blueprint()`; an entry may be a `PromptBlueprint` or a registered blueprint's canonical name (`str`)
+
+### Changed
+
+- `PromptBlueprint.generate_prompt()`/`generate_blueprint()` renamed `generate_prompt_without_dependencies()`/`generate_blueprint_without_dependencies()`; new `render_prompt()`/`render_blueprint()` are the dependency-aware replacements for final, LLM-facing output — every registered, exported blueprint's content is dependency-aware by default
+- `BlueprintRegistry.merge()` removed; compose blueprints via `dependencies=[...]` instead
+- `setup_claude_cli(...)`'s `chat_coder_exportable_name` parameter (and its matching attribute/getter) renamed `merged_coder_exportable_name`, since a consumer's merged Coder exportable need not be named "chat-coder"
+- `load_corpus_tree()`'s second parameter renamed `file_path` → `sources`, now an ordered `list[str or Path]` concatenated into one logical document before parsing
+
+> [!WARNING]
+> `PromptBlueprint.generate_prompt()`/`generate_blueprint()` no longer exist; for the old, dependency-blind own-content-only output use `generate_prompt_without_dependencies()`/`generate_blueprint_without_dependencies()`, or switch to the new dependency-aware `render_prompt()`/`render_blueprint()`.
+
+> [!WARNING]
+> `BlueprintRegistry.merge()` no longer exists; use `dependencies=[...]` on `PromptBlueprint`.
+
+> [!WARNING]
+> `setup_claude_cli(...)`'s `chat_coder_exportable_name` parameter is renamed `merged_coder_exportable_name`; `_chat_coder_exportable_name` and `get_claude_chat_coder_exportable()` are renamed `_merged_coder_exportable_name` and `get_claude_merged_coder_exportable()`.
+
+> [!WARNING]
+> `load_corpus_tree()` no longer accepts a single `file_path`; pass a `sources` list instead, e.g. `[Path("path/to/corpus.md")]`.
+
+[8.0.0]: https://github.com/kami-lel/kaye-engine/compare/v7.5.0...v8.0.0
 
 
 
