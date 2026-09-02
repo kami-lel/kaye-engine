@@ -49,6 +49,8 @@ def _resolve_corpus_tree(corpus_tree):
     return corpus_tree
 
 
+# TODO no test covers str-name resolution, registry lookup, or the
+# TypeError branch below (q.v. gap review, tests category)
 def _resolve_dependency(dependency):
     """
     resolve a ``PromptBlueprint`` to itself, or a ``str`` to the
