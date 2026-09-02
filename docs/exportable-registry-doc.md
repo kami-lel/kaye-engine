@@ -20,7 +20,7 @@
 
 `register_blueprint` creates a `BlueprintRegistry` (adding `blueprint` and `is_exportable`) and inserts it into `blueprint_registry`, plus `exportable_registry` when `is_exportable`; `get_blueprint` looks it back up. `register_exportable_abbrs` recomputes every abbr/glossary group fresh and (re-)inserts each into `exportable_registry` — unlike blueprints, these must be re-run whenever `AbbrData` changes.
 
-Concrete `Exportable` kinds each define their own `.merge(other)` — combining two compatible exportables into a new, unregistered instance; `Exportable` itself declares no shared `merge`/`|` contract, since a merge's meaning is kind-specific. `BlueprintRegistry.merge()` unions both blueprints' checkmarked nodes (via `PromptBlueprint.merge()`/`|`) and merges `render_profile` (via `RenderProfile.merge`), keeping every other field (name, invokability, ...) from `self`; it raises `TypeError` when merged against a different `Exportable` kind. A concrete kind with no sensible merge, e.g. `ExportableAbbr`, raises `NotImplementedError` instead.
+`Exportable` declares no `merge`/`|` contract, and none of its kinds define one — `BlueprintRegistry.merge()` was removed; a `PromptBlueprint`'s own `.merge()`/`|` (q.v. [`prompt-doc.md`](prompt-doc.md)) is what `.render_prompt()`/`.render_blueprint()` use internally to resolve `.dependencies`, not something the registry entry itself exposes.
 
 
 
