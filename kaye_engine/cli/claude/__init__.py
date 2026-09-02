@@ -20,7 +20,7 @@ _marketplace_name = None
 
 # registered exportable names used for Claude user/system prompt export
 _chat_exportable_name = None
-_chat_coder_exportable_name = None
+_merged_coder_exportable_name = None
 
 # affordance name -> its variant names for register_claude_affordances()
 _affordance_groups = {}

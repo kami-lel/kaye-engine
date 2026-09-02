@@ -1,7 +1,7 @@
 """
 exportable_name.py
 
-define ``get_claude_chat_exportable``, ``get_claude_chat_coder_exportable``
+define ``get_claude_chat_exportable``, ``get_claude_merged_coder_exportable``
 """
 
 # pylint: disable=protected-access
@@ -12,7 +12,7 @@ from kaye_engine.exportable import get_exportable
 
 __all__ = (
     "get_claude_chat_exportable",
-    "get_claude_chat_coder_exportable",
+    "get_claude_merged_coder_exportable",
 )
 
 # logger  ######################################################################
@@ -48,24 +48,24 @@ def get_claude_chat_exportable():
     return _get_registered_exportable(claude._chat_exportable_name)
 
 
-def get_claude_chat_coder_exportable():
+def get_claude_merged_coder_exportable():
     """
-    the returned exportable is the precomputed merge of Chat and Coder,
-    used to build the final ``-c`` prompt; see
-    ``chat_coder_exportable_name`` on
+    the returned exportable is the Coder exportable carrying Chat as a
+    dependency, used to build the final ``-c`` prompt; see
+    ``merged_coder_exportable_name`` on
     :func:`kaye_engine.cli.claude.setup.setup_claude_cli`
 
     :raises SystemExit: exit code 1, when no consumer project has called
             ``setup_claude_cli(...)``, or the configured name is not a
             registered exportable
-    :return: the configured Chat Coder exportable
+    :return: the configured merged Coder exportable
     :rtype: Exportable
     """
-    if claude._chat_coder_exportable_name is None:
+    if claude._merged_coder_exportable_name is None:
         logger.critical(
-            "no Chat Coder exportable name set\n"
+            "no merged Coder exportable name set\n"
             "a consumer project should call "
             "setup_claude_cli(...) before invoking this CLI"
         )
         raise SystemExit(1)
-    return _get_registered_exportable(claude._chat_coder_exportable_name)
+    return _get_registered_exportable(claude._merged_coder_exportable_name)

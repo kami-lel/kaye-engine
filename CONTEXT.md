@@ -1,6 +1,6 @@
 # kaye-engine CONTEXT
 
-**Last updated:** 2026-08-29
+**Last updated:** 2026-09-02
 
 System knowledge for the **kaye-engine** repository — architecture,
 entities, and boundaries. Read this alongside `AGENTS.md` before making
@@ -37,7 +37,7 @@ not a gap to fill.
 
 | entity | what it is |
 |---|---|
-| **Prompt Corpus** | a Markdown file; the authoritative source of truth |
+| **Prompt Corpus** | a structured Markdown document (one file, or several sources concatenated by `load_corpus_tree`); the authoritative source of truth |
 | **Prompt Tree** | the parsed corpus; every heading a `BasePromptNode` |
 | **Blueprint** | a selection spec marking which tree nodes render |
 | **Blueprint Registry** | name → blueprint plus its export policy |
@@ -54,10 +54,20 @@ Heading syntax carries node type: plain text is an ordinary corpus node,
 `{braces}` a sidecar, `(parentheses)` a dynamic node.
 
 ```
-corpus.md ──load_corpus_tree()──> Prompt Tree ─┐
-                                               ├─generate_prompt()─> text
-blueprint text ──PromptBlueprint.parse()───────┘
+sources ────load_corpus_tree()──> Prompt Tree ─┐
+                                                 ├─render_prompt()─> text
+blueprint text ──PromptBlueprint.parse()─────────┘
 ```
+
+`render_prompt()`/`render_blueprint()` are the dependency-resolving
+entry points: each first merges the blueprint with the full transitive
+closure of its `.dependencies` (via `.merge()`, so a diamond dependency
+converges without duplicating shared content), then delegates to the
+own-content-only `generate_prompt_without_dependencies()`/
+`generate_blueprint_without_dependencies()` below. A `dependencies` entry
+may be a `PromptBlueprint` or a `str`; `_resolve_dependency()` resolves
+each `str` to the blueprint registered under that name via
+`register_blueprint()`, at `PromptBlueprint.__init__` time.
 
 Rendering takes a `sparseness` parameter governing how runs of blank lines
 collapse in the output, from `-1` (whole output joined onto one line) through
@@ -70,7 +80,7 @@ heading parser (`_split_sections` in `prompt_corpus_node.py`), and the
 load-time blank-line cleanup in `load_corpus_tree`
 (`_collapse_unfenced_blank_runs` in `prompt_corpus_loader.py`) all rely on
 to stay out of fenced regions.
-`PromptBlueprint.generate_prompt()` applies `sparseness` last: it renders
+`PromptBlueprint.generate_prompt_without_dependencies()` applies `sparseness` last: it renders
 the tree unsparse, then `apply_dynamic_substitutions()`, then applies the
 caller's `sparseness` to the substituted result, so a substitution's own
 blank lines are shaped by the same policy.
@@ -97,7 +107,7 @@ consumer-supplied
 q.v. `kaye_vault/claude_render_profiles.py`) maps a surface name to the
 `RenderProfile` carrying that surface's variants/conditional-sidecars.
 Every **rendering command** — any CLI subcommand that reaches
-`PromptBlueprint.generate_prompt(...)`, directly or via
+`PromptBlueprint.render_prompt(...)`, directly or via
 `Exportable.content()` — exposes the same 5 options (`--surface`,
 `--comment`/`--no-comment`, `--conditional-sidecar`, `--variant`,
 `--sparseness`) via one shared parent parser and one aux function,
@@ -133,7 +143,8 @@ fixes the node's preface and tree location in place of the heading
 itself, else it falls back to a direct child of root. A second,
 independent mechanism, inline `(((name)))` substitution, resolves
 canonical names anywhere inside rendered prompt text at
-`generate_prompt()` time, against two sources in order: first
+`generate_prompt_without_dependencies()` (and, transitively,
+`render_prompt()`) time, against two sources in order: first
 `dynamic_substitution_registry` (populated via
 `register_dynamic_substitution(name, substitution)`, where
 `substitution` is a `DynamicSubstitution` — commonly
@@ -173,7 +184,7 @@ A caller loads and caches a corpus by name; one tree may be flagged the
 process default, which is what a blueprint resolves against when given no
 explicit tree. A consumer that exports through `claude` subcommands must also
 call `setup_claude_cli(plugin_name, display_name, marketplace_name,
-chat_exportable_name, chat_coder_exportable_name, version,
+chat_exportable_name, merged_coder_exportable_name, version,
 marketplace_folder_name)` — none of the seven has a default;
 `display_name` lets each consumer stamp its own `plugin.json`
 `display_name`. Q.v. [Kaye Engine: `prompt` module
@@ -188,7 +199,7 @@ plugin name, display name, marketplace name, Chat/Coder blueprint names,
 version, and marketplace folder name are enforced separately, each by its own
 getter (`get_plugin_name()`, `get_claude_cli_display_name()`,
 `get_marketplace_name()`, `get_claude_chat_exportable()`,
-`get_claude_chat_coder_exportable()`, `get_claude_cli_consumer_version()`,
+`get_claude_merged_coder_exportable()`, `get_claude_cli_consumer_version()`,
 `get_marketplace_folder_name()`), which logs `logger.critical` and raises
 `SystemExit(1)` when unset — or, for the blueprint getters, when the
 configured name is not in `blueprint_registry` — rather than letting `None`
@@ -235,7 +246,7 @@ the same `blueprint_registry` rather than holding its own list.
 
 ## Testing Strategy
 
-`pytest`, 772 tests, run **serially by design** — cases are cheap in-process
+`pytest`, 804 tests, run **serially by design** — cases are cheap in-process
 assertions, so worker startup costs more than a split saves, and shared
 fixtures carry run-order assumptions. `pytest-xdist` is deliberately absent
 from the `dev` extra.

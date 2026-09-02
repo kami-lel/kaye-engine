@@ -1,4 +1,5 @@
 from copy import deepcopy
+from pathlib import Path
 from unittest.mock import mock_open, patch
 
 import pytest
@@ -168,5 +169,7 @@ Licensed under the MIT License.
 
     with patch("builtins.open", m):
         return load_corpus_tree(
-            "prompt-conftest-default", "dummy-path.md", is_default_tree=True
+            "prompt-conftest-default",
+            [Path("dummy-path.md")],
+            is_default_tree=True,
         )

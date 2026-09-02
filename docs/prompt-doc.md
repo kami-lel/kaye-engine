@@ -190,17 +190,23 @@ Use `copy.deepcopy(root)` to copy a prompt tree.
 #### tree creation
 
 It is rare for end users to create individual instances, but to **create**
-an entire prompt tree, use `load_corpus_tree(tree_name, file_path)`.
+an entire prompt tree, use `load_corpus_tree(tree_name, sources)`.
 `kaye_engine` bundles no corpus markdown file of its own — the caller
-supplies the file and a name to cache it under. It parses the file and
-attaches the runtime dynamic nodes once; q.v.
+supplies an ordered list of `sources` and a name to cache the tree under.
+Each `str` entry in `sources` is literal content; each `Path` entry is a
+markdown file read from disk. Every entry's text is concatenated, in list
+order, into one logical document before parsing — list order is document
+order. It parses the combined document and attaches the runtime dynamic
+nodes once; q.v.
 [`Dynamic Node Documentation`](dynamic-content-doc.md#using-a-dynamic-node)
 for details:
 
 ```python
+from pathlib import Path
+
 from kaye_engine.prompt import load_corpus_tree, get_corpus_tree
 
-tree_root = load_corpus_tree("my-tree", "path/to/corpus.md")
+tree_root = load_corpus_tree("my-tree", [Path("path/to/corpus.md")])
 
 # subsequent lookups by the same name return the same cached tree
 tree_root is get_corpus_tree("my-tree")  # True
@@ -271,13 +277,14 @@ These return blueprint objects that contain all nodes of the corpus tree, with a
 
 `PromptBlueprint` is a data structured based on Python `dict`.
 
-A `PromptBlueprint` has 3 additional attributes:
+A `PromptBlueprint` has 4 additional attributes:
 
 - `.corpus_tree`: the `corpus_tree` argument it was constructed with — a root node, a registered tree name, or `None`
 - `.corpus`: corresponding prompt corpus tree root (typed `BasePromptNode`)
 - `.sidecars`: blueprint metadata (description, when_to_use, globs) derived from sidecar nodes; see [`sidecar-node-doc.md`](sidecar-node-doc.md) for details
+- `.dependencies`: other `PromptBlueprint` instances this blueprint directly depends on (typed `list[PromptBlueprint]`, defaulting to an empty list); resolved recursively — and merged as a checkmark union — by `.render_prompt()` / `.render_blueprint()` (v.i.). The constructor's `dependencies` argument also accepts `str` entries (typed `list[PromptBlueprint | str]`), each resolved at construction time to the blueprint registered under that name via `register_blueprint()`
 
-There is no `.display_name` attribute on the instance itself — a blueprint's display name is a render-time argument to `.generate_prompt()` / `.generate_blueprint()` (v.i.), or lives on its `BlueprintRegistry` entry once registered (v.i., "blueprint registry").
+There is no `.display_name` attribute on the instance itself — a blueprint's display name is a render-time argument to `.generate_prompt_without_dependencies()` / `.generate_blueprint_without_dependencies()` (v.i.), or lives on its `BlueprintRegistry` entry once registered (v.i., "blueprint registry").
 
 Each entry in `PromptBlueprint` represents a node, with key being node `hash()` (typed `int`,) and value being if the node is *checkmarked*, (typed `bool`.) The *root node* is never included in blueprint, because one will assume root node is always enabled/checkmarked.
 
@@ -363,7 +370,9 @@ bp_left | bp_right
 
 ##### generate prompt
 
-Use `.generate_prompt()` to render the concrete prompt as a single string.
+Use `.generate_prompt_without_dependencies()` to render the concrete
+prompt as a single string, from this blueprint's own checkmarking
+status only, ignoring `.dependencies`.
 Use `render.render_prompt_lines()` (`kaye_engine.prompt.blueprint.render`) when you
 want the rendered prompt as a list of lines instead.
 
@@ -386,7 +395,7 @@ E.g.
  '',
  '## Conclusion',
  'Summarizing the findings and implications.']
->>> tree.generate_prompt(show_comment=True)
+>>> tree.generate_prompt_without_dependencies(show_comment=True)
 # Main Title
 Overview of the methodologies used.
 ### Data Collection
@@ -396,11 +405,23 @@ Summarizing the findings and implications.
 <!-- blueprint: conversation; Kaye Engine v1.2.3 -->
 ```
 
+Use `.render_prompt()` instead to render the concrete prompt from this
+blueprint merged with the full transitive closure of `.dependencies`
+(each resolved recursively, then unioned in via `.merge()` — so a
+diamond dependency converges without duplicating shared content); it
+takes the same `profile=`/keyword arguments and delegates to
+`.generate_prompt_without_dependencies()` on the merged result. A
+dependency cycle raises `ValueError`. Every consumer that renders
+*final*, LLM-facing content should call `.render_prompt()`, not the
+own-only method.
+
 
 
 ##### generate blueprint text
 
-User may use `.generate_blueprint()` to show a human-readable presentation of `PromptBlueprint`; the tree contains:
+User may use `.generate_blueprint_without_dependencies()` to show a
+human-readable presentation of `PromptBlueprint`'s own content only,
+ignoring `.dependencies`; the tree contains:
 
 - tree structure of corresponding *prompt corpus tree*
 - node name, i.e. section heading
@@ -415,7 +436,7 @@ E.g.
 
 ```python
 >>> tree = PromptBlueprint.parse(...)
->>> tree.generate_blueprint()
+>>> tree.generate_blueprint_without_dependencies()
     ○
 [x] └── Project Title
 [ ]     ├── Description
@@ -433,7 +454,7 @@ E.g.
 [x]     └── License
             This project is licensed under the MIT License.
 (blueprint: conversation; Kaye Engine v1.2.3)
->>> tree.generate_blueprint(content_preview_lines=0, show_comment=True)
+>>> tree.generate_blueprint_without_dependencies(content_preview_lines=0, show_comment=True)
     ○
 [x] └── Project Title
 [ ]     ├── Description
@@ -444,9 +465,14 @@ E.g.
 <!-- blueprint: conversation; Kaye Engine v1.2.3 -->
 ```
 
+Use `.render_blueprint()` instead to show the same human-readable
+presentation of this blueprint merged with the full transitive closure
+of `.dependencies` — same resolution behavior (recursive, diamond-safe,
+cycle-raising) as `.render_prompt()`.
+
 ----
 
-`repr(blueprint)` is equivalent to `blueprint.generate_blueprint()`
+`repr(blueprint)` is equivalent to `blueprint.generate_blueprint_without_dependencies()`
 
 
 

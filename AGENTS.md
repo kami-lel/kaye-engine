@@ -116,7 +116,7 @@ vs-code-extension` → `claude v`; `exportable` → `x`; `list-affordance`
 → `lsa`; `list-variant` → `lsv`; `glossary` → `g`.
 
 **Rendering commands** — any subcommand that reaches
-`PromptBlueprint.generate_prompt(...)`, directly or via
+`PromptBlueprint.render_prompt(...)`, directly or via
 `Exportable.content()` (`blueprint generate`, `dynamic-node`,
 `exportable`, `claude skill`, `claude plugin`, `claude marketplace`,
 `claude user-system-prompt`, `claude vs-code-extension`, `claude
@@ -161,7 +161,7 @@ invoke it, or add it back without being asked.
 
 Every `claude` subcommand needs a consumer to call
 `setup_claude_cli(plugin_name, display_name, marketplace_name,
-chat_exportable_name, chat_coder_exportable_name, version,
+chat_exportable_name, merged_coder_exportable_name, version,
 marketplace_folder_name)` before invoking the CLI — no default exists for
 any of the seven. On a bare checkout, or when it was never called, the
 getters log `logger.critical` and raise `SystemExit(1)` — expected, not a
@@ -234,7 +234,7 @@ After meaningful changes, keep these in sync:
 
 - `README.md` — human-facing overview and quick start
 - `docs/` — programmatic API, corpus format, sidecar and dynamic nodes,
-  abbreviations, Claude and Dify integration
+  abbreviations, exportable registry, Claude integration
 - `CONTEXT.md` — architecture, entities, boundaries
 - `CHANGELOG.md` — record notable changes per release
 - this `AGENTS.md` — update agent-specific rules as structure evolves
