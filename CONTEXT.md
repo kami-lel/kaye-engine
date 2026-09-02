@@ -1,6 +1,6 @@
 # kaye-engine CONTEXT
 
-**Last updated:** 2026-08-29
+**Last updated:** 2026-09-02
 
 System knowledge for the **kaye-engine** repository — architecture,
 entities, and boundaries. Read this alongside `AGENTS.md` before making
@@ -64,7 +64,10 @@ entry points: each first merges the blueprint with the full transitive
 closure of its `.dependencies` (via `.merge()`, so a diamond dependency
 converges without duplicating shared content), then delegates to the
 own-content-only `generate_prompt_without_dependencies()`/
-`generate_blueprint_without_dependencies()` below.
+`generate_blueprint_without_dependencies()` below. A `dependencies` entry
+may be a `PromptBlueprint` or a `str`; `_resolve_dependency()` resolves
+each `str` to the blueprint registered under that name via
+`register_blueprint()`, at `PromptBlueprint.__init__` time.
 
 Rendering takes a `sparseness` parameter governing how runs of blank lines
 collapse in the output, from `-1` (whole output joined onto one line) through
@@ -243,7 +246,7 @@ the same `blueprint_registry` rather than holding its own list.
 
 ## Testing Strategy
 
-`pytest`, 772 tests, run **serially by design** — cases are cheap in-process
+`pytest`, 800 tests, run **serially by design** — cases are cheap in-process
 assertions, so worker startup costs more than a split saves, and shared
 fixtures carry run-order assumptions. `pytest-xdist` is deliberately absent
 from the `dev` extra.
