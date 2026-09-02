@@ -8,13 +8,29 @@ Unit Tests (using pytest) for: PromptBlueprint
 - ``render_blueprint()``
 - ``_resolve_with_dependencies()`` cycle guard
 - ``dependencies`` preserved across ``.prune()``, ``.merge()``, ``.__copy__()``
+- ``_resolve_dependency()`` str-name resolution, registry lookup, and
+  its ``TypeError`` branch
 """
 
 import copy
 
 import pytest
 
+from kaye_engine.exportable import exportable_registry
 from kaye_engine.prompt import PromptBlueprint
+from kaye_engine.prompt.blueprint.registry import (
+    blueprint_registry,
+    register_blueprint,
+)
+
+
+@pytest.fixture
+def registered_names():
+    names = []
+    yield names
+    for name in names:
+        blueprint_registry.pop(name, None)
+        exportable_registry.pop(name, None)
 
 
 class TestDefaultDependencies:  #################################################
@@ -86,6 +102,54 @@ class TestDependenciesThreadedThroughConstruction:  ############################
         )
 
         assert bp.dependencies == [dep]
+
+
+class TestResolveDependencyStrName:  ############################################
+
+    def test_str_entry_resolves_via_registry(
+        _, corpus_testee1, registered_names
+    ):
+        dep = PromptBlueprint.create_from_node(
+            "License", corpus_tree=corpus_testee1
+        )
+        reg = register_blueprint("test-dep-str", "Test Dep Str", dep)
+        registered_names.append(reg.canonical_name)
+
+        bp = PromptBlueprint(
+            corpus_tree=corpus_testee1, dependencies=["test-dep-str"]
+        )
+
+        assert bp.dependencies == [dep]
+
+    def test_str_entry_render_includes_dependency_content(
+        _, corpus_testee1, registered_names
+    ):
+        dep = PromptBlueprint.create_from_node(
+            "License", corpus_tree=corpus_testee1
+        )
+        reg = register_blueprint("test-dep-str-render", "Test Dep Str", dep)
+        registered_names.append(reg.canonical_name)
+
+        bp = PromptBlueprint.create_from_node(
+            "Description",
+            corpus_tree=corpus_testee1,
+            dependencies=["test-dep-str-render"],
+        )
+
+        assert "Licensed under the MIT License." in bp.render_prompt()
+
+    def test_str_entry_unregistered_name_raises_key_error(
+        _, corpus_testee1
+    ):
+        with pytest.raises(KeyError):
+            PromptBlueprint(
+                corpus_tree=corpus_testee1,
+                dependencies=["test-dep-str-unregistered"],
+            )
+
+    def test_invalid_entry_type_raises_type_error(_, corpus_testee1):
+        with pytest.raises(TypeError):
+            PromptBlueprint(corpus_tree=corpus_testee1, dependencies=[123])
 
 
 class TestRenderWithoutDependencies:  ###########################################
