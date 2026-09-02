@@ -179,7 +179,7 @@ Sidecar nodes follow the standard Markdown heading format in `prompt_corpus.md`:
 **Checkmarking behavior:**
 - Sidecar nodes are **never auto-checkmarked** by `create_full_blueprint()` or by `.checkmark()` with `recursively=True`
 - Descriptor sidecars are generally not checkmarked at all — their content is accessed via the `.sidecars` blueprint attribute
-- Conditional sidecar nodes can be auto-checkmarked only when you explicitly pass their name in the `conditional_sidecars` collection to `generate_prompt()` or `render.render_prompt_lines()`
+- Conditional sidecar nodes can be auto-checkmarked only when you explicitly pass their name in the `conditional_sidecars` collection to `render_prompt()` or `render.render_prompt_lines()`
 - To explicitly checkmark a sidecar node: `bp.checkmark(sidecar_node)`
 
 
@@ -382,7 +382,7 @@ merged_bp = bp1 | bp2
 Conditional rendering with conditional sidecar nodes:
 ```python
 # Include arbitrary named sidecar content
-prompt = bp.generate_prompt(
+prompt = bp.render_prompt(
     profile=RenderProfile(conditional_sidecars=("[ClaudeCode:TodoWrite]",))
 )
 ```
@@ -428,7 +428,7 @@ The mechanism is two-level. An **affordance** is a conceptual capability family 
 
 In the corpus, author a `{[variant canonical_name] Usage}` sidecar under a checkmarked node per variant, describing what to do when using it, and a `{[affordance canonical_name] Fallback}` sidecar per affordance, describing what to do when every one of its variants is absent.
 
-Programmatically, register a variant via `register_variant(canonical_name, affordance_name)` — it looks `affordance_name` up in `affordance_registry`, registering a new affordance under that name first when it isn't found, then links the variant. There is no separate call for registering an affordance on its own; `register_variant` is the sole entry point. Then pass `profile=RenderProfile(variants=(...))` to `generate_prompt()` / `render_prompt_lines()`, `variants` being a collection of variant canonical names available for this invocation, alongside `conditional_sidecars` on the same `RenderProfile`. Each registered variant's `Usage` sidecar is checkmarked when its `canonical_name` is present in `variants`. Each registered affordance's `Fallback` sidecar is checkmarked when it has at least one registered variant and every one of them is absent from `variants` — an affordance with no variants registered under it never fires its `Fallback`. Either way, only under an already-checkmarked parent. `variants=None` is the default, keeping the render as-is; `variants=()` marks every variant absent.
+Programmatically, register a variant via `register_variant(canonical_name, affordance_name)` — it looks `affordance_name` up in `affordance_registry`, registering a new affordance under that name first when it isn't found, then links the variant. There is no separate call for registering an affordance on its own; `register_variant` is the sole entry point. Then pass `profile=RenderProfile(variants=(...))` to `render_prompt()` / `render_prompt_lines()`, `variants` being a collection of variant canonical names available for this invocation, alongside `conditional_sidecars` on the same `RenderProfile`. Each registered variant's `Usage` sidecar is checkmarked when its `canonical_name` is present in `variants`. Each registered affordance's `Fallback` sidecar is checkmarked when it has at least one registered variant and every one of them is absent from `variants` — an affordance with no variants registered under it never fires its `Fallback`. Either way, only under an already-checkmarked parent. `variants=None` is the default, keeping the render as-is; `variants=()` marks every variant absent.
 
 How a consumer's own CLI determines what to pass as `variants` for a given invocation is entirely up to that consumer — the engine has no concept of "surface" or "which variants apply where."
 
@@ -442,7 +442,7 @@ register_variant("ask_user_input_v0", "ask-user-question")
 register_variant("AskUserQuestion", "ask-user-question")
 
 # Usage/Fallback checkmarking for every registered affordance/variant
-prompt = bp.generate_prompt(
+prompt = bp.render_prompt(
     profile=RenderProfile(variants=("ClaudeCode:TodoWrite",))
 )
 ```

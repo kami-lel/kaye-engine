@@ -282,7 +282,7 @@ A `PromptBlueprint` has 4 additional attributes:
 - `.corpus_tree`: the `corpus_tree` argument it was constructed with — a root node, a registered tree name, or `None`
 - `.corpus`: corresponding prompt corpus tree root (typed `BasePromptNode`)
 - `.sidecars`: blueprint metadata (description, when_to_use, globs) derived from sidecar nodes; see [`sidecar-node-doc.md`](sidecar-node-doc.md) for details
-- `.dependencies`: other `PromptBlueprint` instances this blueprint directly depends on (typed `list[PromptBlueprint]`, defaulting to an empty list); resolved recursively — and merged as a checkmark union — by `.render_prompt()` / `.render_blueprint()` (v.i.)
+- `.dependencies`: other `PromptBlueprint` instances this blueprint directly depends on (typed `list[PromptBlueprint]`, defaulting to an empty list); resolved recursively — and merged as a checkmark union — by `.render_prompt()` / `.render_blueprint()` (v.i.). The constructor's `dependencies` argument also accepts `str` entries (typed `list[PromptBlueprint | str]`), each resolved at construction time to the blueprint registered under that name via `register_blueprint()`
 
 There is no `.display_name` attribute on the instance itself — a blueprint's display name is a render-time argument to `.generate_prompt_without_dependencies()` / `.generate_blueprint_without_dependencies()` (v.i.), or lives on its `BlueprintRegistry` entry once registered (v.i., "blueprint registry").
 
