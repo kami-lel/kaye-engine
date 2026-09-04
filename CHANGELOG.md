@@ -31,6 +31,7 @@ todo todo CLI to import/export w/ OpenWebUI
 ### Changed
 
 - exported-glossary canonical-name prefix shortened `abbr-glossary-` → `glossary-`
+- affordance/variant mechanism documentation split out of `sidecar-node-doc.md` into its own `docs/affordance-doc.md`, cross-linked from `claude-doc.md`, `CONTEXT.md`, `AGENTS.md`, & `README.md`
 
 ### Deprecated
 
