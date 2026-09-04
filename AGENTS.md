@@ -234,7 +234,7 @@ After meaningful changes, keep these in sync:
 
 - `README.md` — human-facing overview and quick start
 - `docs/` — programmatic API, corpus format, sidecar and dynamic nodes,
-  abbreviations, exportable registry, Claude integration
+  affordances, abbreviations, exportable registry, Claude integration
 - `CONTEXT.md` — architecture, entities, boundaries
 - `CHANGELOG.md` — record notable changes per release
 - this `AGENTS.md` — update agent-specific rules as structure evolves
