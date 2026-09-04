@@ -103,7 +103,8 @@ sidecar (checkmarked when that variant is present) plus a mirror
 derives its own `[{name}] Usage` sidecar (checkmarked when at least one
 of its registered variants is present) plus a `[{name}] Fallback`
 sidecar, checkmarked when every variant registered under that affordance
-is absent (and the affordance has ≥1 registered variant). A Kaye-specific,
+is absent (and the affordance has ≥1 registered variant). Q.v.
+[affordance documentation](docs/affordance-doc.md). A Kaye-specific,
 consumer-supplied
 `surface_profiles` dict (`dict[str, RenderProfile]`, passed to
 `setup_claude_cli(...)` — kaye-vault owns the actual Claude surface data,
