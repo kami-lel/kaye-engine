@@ -3,7 +3,7 @@
 [^format]
 
 <!--
-todo support affordance Usage (in addition to variant Usage)
+Todo support affordance Usage (in addition to variant Usage)
 todo todo CLI to import/export w/ OpenWebUI
 -->
 
@@ -24,6 +24,8 @@ todo todo CLI to import/export w/ OpenWebUI
 ### Added
 
 ### Changed
+
+- exported-glossary canonical-name prefix shortened `abbr-glossary-` → `glossary-`
 
 ### Deprecated
 
