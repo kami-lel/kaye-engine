@@ -135,4 +135,4 @@ setup_claude_cli(..., surface_profiles=SURFACE_PROFILES)
 
 Every rendering command (`blueprint generate`, `claude skill`, `claude plugin`, `claude user-system-prompt`, ...) then accepts `--surface NAME` (`-u`), combinable, to render for one or more of those surfaces at once — `--surface chat --surface code` merges both profiles via `RenderProfile.merge()`. `--surface` is left out of the CLI entirely for a consumer that never configures `surface_profiles`.
 
-`--variant` and `--conditional-sidecar` (q.v. [`sidecar-node-doc.md`](sidecar-node-doc.md)) union additively on top of whatever `--surface` derives, so a render can name extra variants or sidecars beyond a surface's defaults without losing them. Full flag table and merge semantics: `AGENTS.md` and `CONTEXT.md`.
+`--variant` (q.v. [`affordance-doc.md`](affordance-doc.md)) and `--conditional-sidecar` (q.v. [`sidecar-node-doc.md`](sidecar-node-doc.md)) union additively on top of whatever `--surface` derives, so a render can name extra variants or sidecars beyond a surface's defaults without losing them. Full flag table and merge semantics: `AGENTS.md` and `CONTEXT.md`.

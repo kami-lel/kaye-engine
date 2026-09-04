@@ -71,10 +71,11 @@ def _create_pruned_tree_for_preview_recursively(blueprint, node):
 
 def _build_variant_sidecar_map(variants):
     """
-    build a sidecar-name -> should-checkmark lookup: one ``Usage``
-    entry per ``variant_registry`` entry, and one ``Fallback`` entry
-    per ``affordance_registry`` entry with ≥1 registered variant, all
-    of them absent from ``variants``
+    build a sidecar-name -> should-checkmark lookup: one ``Usage``/
+    ``Lack`` entry pair per ``variant_registry`` entry, checkmarked on
+    presence/absence in ``variants``, and one ``Usage``/``Fallback``
+    entry pair per ``affordance_registry`` entry, checkmarked when
+    any/none of its registered variants are present in ``variants``
 
     (helper function used in ``_splice_conditional_sidecars()``)
 
@@ -94,6 +95,7 @@ def _build_variant_sidecar_map(variants):
     for entry in variant_registry.values():
         is_available = entry.canonical_name in available
         sidecar_map[entry.usage_sidecar_name] = is_available
+        sidecar_map[entry.lack_sidecar_name] = not is_available
         variants_by_affordance.setdefault(entry.affordance_name, []).append(
             is_available
         )
@@ -102,6 +104,7 @@ def _build_variant_sidecar_map(variants):
         member_availabilities = variants_by_affordance.get(
             affordance.canonical_name, ()
         )
+        sidecar_map[affordance.usage_sidecar_name] = any(member_availabilities)
         all_missing = bool(member_availabilities) and not any(
             member_availabilities
         )
@@ -116,8 +119,8 @@ def _splice_conditional_sidecars(
     """
     auto-checkmark conditional sidecar nodes ahead of rendering -- both
     plain ``conditional_sidecars`` name matches and, when ``variants``
-    is given, the ``Usage``/``Fallback`` sidecars derived from
-    ``variant_registry``/``affordance_registry``
+    is given, the ``Usage``/``Lack``/``Fallback`` sidecars derived
+    from ``variant_registry``/``affordance_registry``
 
     (helper function used in ``render_prompt_lines()``)
 

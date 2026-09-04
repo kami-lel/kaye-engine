@@ -76,9 +76,11 @@ class RenderProfile:
             checkmarked; defaults to ``()`` (disabled)
     :type conditional_sidecars: Iterable[str], optional
     :param variants: canonical names present here checkmark their
-            ``Usage`` node; an affordance whose variants are all
-            absent checkmarks its ``Fallback`` node instead. ``None``:
-            off (default). ``()``: on, everything absent.
+            ``Usage`` node and leave their ``Lack`` node unmarked (and
+            vice versa when absent); an affordance with ≥1 present
+            variant checkmarks its ``Usage`` node, one whose variants
+            are all absent checkmarks its ``Fallback`` node instead.
+            ``None``: off (default). ``()``: on, everything absent.
     :type variants: Iterable[str] or None, optional
     :param display_name: blueprint's human-readable name, included in
             the comment when ``show_comment`` is set; defaults to ""
