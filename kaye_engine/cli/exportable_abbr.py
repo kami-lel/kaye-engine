@@ -153,7 +153,7 @@ def _get_abbrs_by_glossaries(abbr_data):
             _sort_entries(
                 e for e in abbr_data.abbrs if glossary_name in e.glossaries
             ),
-            canonical_name="abbr-glossary-" + glossary_name,
+            canonical_name="glossary-" + glossary_name,
             is_user_invokable=abbr_glossary_registry[glossary_name].is_user_invokable,
         )
         for glossary_name in sorted(abbr_glossary_registry)
