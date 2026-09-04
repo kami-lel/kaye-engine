@@ -2,9 +2,9 @@
 prompt-bp-affordances_test.py
 
 Unit Tests (using pytest) for: render_prompt_lines()'s ``variants``
-kwarg, auto-checkmarking {variant Usage} sidecars per ``variant_
-registry`` entry and {affordance Fallback} sidecars per ``affordance_
-registry`` entry
+kwarg, auto-checkmarking {variant Usage}/{variant Lack} sidecars per
+``variant_registry`` entry and {affordance Usage}/{affordance
+Fallback} sidecars per ``affordance_registry`` entry
 """
 
 import pytest
@@ -24,6 +24,14 @@ def corpus_with_affordance_sidecars():
     section = PromptCorpusNode("Section", root, ["intro"])
     PromptCorpusNode(
         "{[Claude Tool:TestVariant] Usage}", section, ["usage content"]
+    )
+    PromptCorpusNode(
+        "{[Claude Tool:TestVariant] Lack}", section, ["lack content"]
+    )
+    PromptCorpusNode(
+        "{[Claude Tool:TestFamily] Usage}",
+        section,
+        ["affordance usage content"],
     )
     PromptCorpusNode(
         "{[Claude Tool:TestFamily] Fallback}", section, ["fallback content"]
@@ -63,6 +71,8 @@ class TestVariantPresent:
 
         print(opt)
         assert "usage content" in opt
+        assert "lack content" not in opt
+        assert "affordance usage content" in opt
         assert "fallback content" not in opt
 
 
@@ -78,6 +88,7 @@ class TestVariantAbsent:
         print(opt)
         assert "fallback content" in opt
         assert "usage content" not in opt
+        assert "lack content" in opt
 
 
 class TestAffordanceWithoutVariants:
@@ -91,6 +102,15 @@ class TestAffordanceWithoutVariants:
         print(opt)
         assert "fallback content" not in opt
 
+    def test_usage_never_checkmarked(_, checkmarked_bp):
+        # no variant registered under "Claude Tool:TestFamily" at all
+        opt = checkmarked_bp.generate_prompt_without_dependencies(
+            profile=RenderProfile(variants=())
+        )
+
+        print(opt)
+        assert "affordance usage content" not in opt
+
 
 class TestVariantsDisabled:
 
@@ -103,6 +123,7 @@ class TestVariantsDisabled:
 
         print(opt)
         assert "usage content" not in opt
+        assert "lack content" not in opt
         assert "fallback content" not in opt
 
     def test_neither_checkmarked_by_default(
@@ -112,6 +133,7 @@ class TestVariantsDisabled:
 
         print(opt)
         assert "usage content" not in opt
+        assert "lack content" not in opt
         assert "fallback content" not in opt
 
 
@@ -124,4 +146,5 @@ class TestParentNotCheckmarked:
 
         print(opt)
         assert "usage content" not in opt
+        assert "lack content" not in opt
         assert "fallback content" not in opt
