@@ -41,6 +41,7 @@ Other core concepts:
 - 📦 exportable: **Registry Entry** unifying blueprints and abbreviation/glossary groups under one exportable name — Q.v. [`Exportable` registry documentation](docs/exportable-registry-doc.md)
 - 🔀 dynamic node: corpus node whose content is **Generated** at render time — Q.v. [Dynamic Node documentation](docs/dynamic-content-doc.md)
 - 🗂️ sidecar node: corpus node holding structured **Metadata** about its parent — Q.v. [Sidecar Node documentation](docs/sidecar-node-doc.md)
+- 🧰 affordance / variant: capability **Family** (affordance) w/ concrete **Implementation** (variant), auto-checkmarked present/absent per render — Q.v. [Affordance documentation](docs/affordance-doc.md)
 
 The `(decode-only-abbr)` dynamic node reads its meanings from an `abbrs.json` file loaded via `populate_abbr_data_with_json_file`/`get_abbr_data` — kaye-engine bundles no copy of its own; a separate consumer package supplies and loads the real file. Q.v. [`abbr_collection` documentation](docs/abbrs-doc.md) for its schema, top-level functions, and where abbreviations are used.
 
