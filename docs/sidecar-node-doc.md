@@ -37,7 +37,7 @@
 
 ## Concepts
 
-Sidecar nodes enable two complementary patterns:
+Sidecar nodes enable two complementary patterns, plus affordances, a third mechanism that checkmarks sidecars naming a platform capability, covered in [`affordance-doc.md`](affordance-doc.md):
 
 
 
@@ -384,67 +384,5 @@ Conditional rendering with conditional sidecar nodes:
 # Include arbitrary named sidecar content
 prompt = bp.render_prompt(
     profile=RenderProfile(conditional_sidecars=("[ClaudeCode:TodoWrite]",))
-)
-```
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-## Affordances
-
-A second, independent auto-checkmark mechanism for a common case: acknowledging whether a platform capability is available at all, rather than splicing in arbitrary named content.
-
-The mechanism is two-level. An **affordance** is a conceptual capability family (e.g. "ask-user-question"); a **variant** is one concrete implementation of that family (e.g. `ask_user_input_v0`, `AskUserQuestion`). A family may hold a single variant, standing in for a one-off capability with no siblings.
-
-In the corpus, author a `{[variant canonical_name] Usage}` sidecar under a checkmarked node per variant, describing what to do when using it, and a `{[variant canonical_name] Lack}` sidecar per variant, describing what to do when that specific variant is absent. At the affordance level, author a `{[affordance canonical_name] Usage}` sidecar per affordance, describing what to do when at least one of its variants is present, and a `{[affordance canonical_name] Fallback}` sidecar per affordance, describing what to do when every one of its variants is absent.
-
-Programmatically, register a variant via `register_variant(canonical_name, affordance_name)` — it looks `affordance_name` up in `affordance_registry`, registering a new affordance under that name first when it isn't found, then links the variant. There is no separate call for registering an affordance on its own; `register_variant` is the sole entry point. Then pass `profile=RenderProfile(variants=(...))` to `render_prompt()` / `render_prompt_lines()`, `variants` being a collection of variant canonical names available for this invocation, alongside `conditional_sidecars` on the same `RenderProfile`. Each registered variant's `Usage` sidecar is checkmarked when its `canonical_name` is present in `variants`, and its `Lack` sidecar when absent. Each registered affordance's `Usage` sidecar is checkmarked when it has at least one registered variant present in `variants`; its `Fallback` sidecar is checkmarked when it has at least one registered variant and every one of them is absent from `variants` — an affordance with no variants registered under it never fires either `Usage` or `Fallback`. Either way, only under an already-checkmarked parent. `variants=None` is the default, keeping the render as-is; `variants=()` marks every variant absent.
-
-Naming caveat: because both levels use the literal suffix `Usage`, an affordance and a variant sharing the exact same `canonical_name` string collide on one sidecar-map key — keep affordance and variant `canonical_name`s unique across both registries.
-
-How a consumer's own CLI determines what to pass as `variants` for a given invocation is entirely up to that consumer — the engine has no concept of "surface" or "which variants apply where."
-
-Q.v. [`claude-doc.md`](claude-doc.md) for how to uses this mechanism for Claude platform tools specifically.
-
-**Example:**
-```python
-# register a single-variant affordance and a two-variant affordance
-register_variant("ClaudeCode:TodoWrite", "ClaudeCode:TodoWrite")
-register_variant("ask_user_input_v0", "ask-user-question")
-register_variant("AskUserQuestion", "ask-user-question")
-
-# Usage/Fallback checkmarking for every registered affordance/variant
-prompt = bp.render_prompt(
-    profile=RenderProfile(variants=("ClaudeCode:TodoWrite",))
 )
 ```
