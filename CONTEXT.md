@@ -97,10 +97,14 @@ documentation](docs/sidecar-node-doc.md).
 `Affordance` is a conceptual capability family, a `Variant` one concrete
 implementation of it, registered via the single `register_variant
 (canonical_name, affordance_name)` entry point (auto-creating its
-affordance on first use). Each affordance derives its own `Usage`
-sidecar name per variant plus one affordance-level `[{name}] Fallback`
+affordance on first use). Each variant derives its own `[{name}] Usage`
+sidecar (checkmarked when that variant is present) plus a mirror
+`[{name}] Lack` sidecar (checkmarked when it is absent); each affordance
+derives its own `[{name}] Usage` sidecar (checkmarked when at least one
+of its registered variants is present) plus a `[{name}] Fallback`
 sidecar, checkmarked when every variant registered under that affordance
-is absent (and the affordance has ≥1 registered variant). A Kaye-specific,
+is absent (and the affordance has ≥1 registered variant). Q.v.
+[affordance documentation](docs/affordance-doc.md). A Kaye-specific,
 consumer-supplied
 `surface_profiles` dict (`dict[str, RenderProfile]`, passed to
 `setup_claude_cli(...)` — kaye-vault owns the actual Claude surface data,
@@ -214,7 +218,7 @@ kaye_engine/
 │   │   └── render_profile.py   RenderProfile: layerable render-kwargs bundle
 │   ├── dynamic_nodes/   render-time generated node types
 │   └── affordance_registry.py  Affordance/Variant two-level registry,
-│                                Usage/Fallback sidecar names
+│                                Usage/Lack/Fallback sidecar names
 ├── abbr_collection/     abbreviation entries, store, JSON loader
 ├── exportable/           Exportable base, exportable_registry
 ├── cli/

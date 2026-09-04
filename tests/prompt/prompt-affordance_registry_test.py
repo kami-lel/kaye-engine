@@ -4,8 +4,10 @@ prompt-affordance_registry_test.py
 Unit Tests (using pytest) for:
 
 - register_variant()
+- Affordance.usage_sidecar_name
 - Affordance.fallback_sidecar_name
 - Variant.usage_sidecar_name
+- Variant.lack_sidecar_name
 """
 
 import pytest
@@ -111,3 +113,29 @@ class TestSidecarNames:
             affordance.fallback_sidecar_name
             == "[Claude Tool:FamilyFallback] Fallback"
         )
+
+    def test_affordance_usage_sidecar_name(
+        _, registered_names, registered_affordance_names
+    ):
+        entry = register_variant(
+            "Claude Tool:TestAffUsage", "Claude Tool:FamilyAffUsage"
+        )
+        registered_names.append(entry.canonical_name)
+        registered_affordance_names.append(entry.affordance_name)
+
+        affordance = affordance_registry[entry.affordance_name]
+        assert (
+            affordance.usage_sidecar_name
+            == "[Claude Tool:FamilyAffUsage] Usage"
+        )
+
+    def test_variant_lack_sidecar_name(
+        _, registered_names, registered_affordance_names
+    ):
+        entry = register_variant(
+            "Claude Tool:TestLack", "Claude Tool:FamilyLack"
+        )
+        registered_names.append(entry.canonical_name)
+        registered_affordance_names.append(entry.affordance_name)
+
+        assert entry.lack_sidecar_name == "[Claude Tool:TestLack] Lack"

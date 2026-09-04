@@ -3,7 +3,6 @@
 [^format]
 
 <!--
-Todo support affordance Usage (in addition to variant Usage)
 todo todo CLI to import/export w/ OpenWebUI
 -->
 
@@ -23,9 +22,16 @@ todo todo CLI to import/export w/ OpenWebUI
 
 ### Added
 
+- `Affordance.usage_sidecar_name` (`[{name}] Usage`), checkmarked when at
+  least one variant registered under that affordance is present
+- `Variant.lack_sidecar_name` (`[{name}] Lack`), checkmarked when that
+  variant is absent; reinstates the per-variant absent case removed in
+  `7.4.0` in favor of the affordance-level `Fallback` sidecar
+
 ### Changed
 
 - exported-glossary canonical-name prefix shortened `abbr-glossary-` → `glossary-`
+- affordance/variant mechanism documentation split out of `sidecar-node-doc.md` into its own `docs/affordance-doc.md`, cross-linked from `claude-doc.md`, `CONTEXT.md`, `AGENTS.md`, & `README.md`
 
 ### Deprecated
 
