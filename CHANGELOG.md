@@ -3,7 +3,7 @@
 [^format]
 
 <!--
-Todo support affordance Usage (in addition to variant Usage)
+TODO support affordance Usage (in addition to variant Usage)
 todo todo CLI to import/export w/ OpenWebUI
 -->
 
