@@ -12,6 +12,9 @@ from kaye_engine.cli.dynamic_node.parser import register_dynamic_node_parser
 from kaye_engine.cli.dynamic_substitution_parser import (
     register_dynamic_substitution_parser,
 )
+from kaye_engine.cli.exportable_as_json_parser import (
+    register_exportable_as_json_parser,
+)
 from kaye_engine.cli.exportable_parser import register_exportable_parser
 from kaye_engine.cli.glossary_parser import register_glossary_parser
 from kaye_engine.cli.list_affordance_parser import (
@@ -31,8 +34,9 @@ def register_cli_subcommands(cli_subparser):
     """
     register every engine-owned subcommand (``blueprint``, ``claude``, the
     dynamic-node command, the dynamic-substitution command, the
-    exportable command, ``list-affordance``, ``list-variant``, and
-    ``glossary``) onto an existing subparsers
+    exportable command, the exportable-as-json command,
+    ``list-affordance``, ``list-variant``, and ``glossary``) onto an
+    existing subparsers
     action, so sibling packages can compose their own top-level parser
     with engine's subcommands mixed in, instead of only being able to
     add to the subparser :func:`register_cli_main_parser` hands back
@@ -44,6 +48,7 @@ def register_cli_subcommands(cli_subparser):
     register_cli_claude_parser(cli_subparser)
     register_dynamic_node_parser(cli_subparser)
     register_dynamic_substitution_parser(cli_subparser)
+    register_exportable_as_json_parser(cli_subparser)
     register_exportable_parser(cli_subparser)
     register_list_affordance_parser(cli_subparser)
     register_list_variant_parser(cli_subparser)
