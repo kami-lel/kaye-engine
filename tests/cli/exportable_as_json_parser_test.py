@@ -159,8 +159,11 @@ class TestExportableAsJsonMainComfyUiSubset:
 
         written = json.loads(output_file.read_text(encoding="utf-8"))
         assert written == {
-            "some-exportable": "fake exportable content for "
-            "some-exportable",
+            "some-exportable": {
+                "positive": "fake exportable content for "
+                "some-exportable",
+                "negative": "",
+            },
         }
 
     def test_y_alias_exports_exactly_the_subset(
@@ -180,6 +183,10 @@ class TestExportableAsJsonMainComfyUiSubset:
 
         written = json.loads(output_file.read_text(encoding="utf-8"))
         assert set(written) == {"other-exportable"}
+        assert written["other-exportable"]["positive"] == (
+            "fake exportable content for other-exportable"
+        )
+        assert written["other-exportable"]["negative"] == ""
 
     def test_flag_absent_still_exports_everything(
         self, _fake_registry, tmp_path
