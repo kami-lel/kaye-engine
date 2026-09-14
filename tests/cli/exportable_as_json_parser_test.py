@@ -133,3 +133,68 @@ class TestExportableAsJsonMainFullExport:
         args.func(args)
 
         assert output_file.is_file()
+
+
+class TestExportableAsJsonMainComfyUiSubset:
+
+    def test_flag_exports_exactly_the_subset(
+        self, _fake_registry, tmp_path
+    ):
+        output_file = tmp_path / "comfy.json"
+        with patch.object(
+            exportable_as_json_parser,
+            "comfy_ui_exportable_registry",
+            ["some-exportable"],
+        ):
+            parser = _build_exportable_as_json_parser()
+            args = parser.parse_args(
+                [
+                    "exportable-as-json",
+                    "--comfy-ui",
+                    "--output-file",
+                    str(output_file),
+                ]
+            )
+            args.func(args)
+
+        written = json.loads(output_file.read_text(encoding="utf-8"))
+        assert written == {
+            "some-exportable": "fake exportable content for "
+            "some-exportable",
+        }
+
+    def test_y_alias_exports_exactly_the_subset(
+        self, _fake_registry, tmp_path
+    ):
+        output_file = tmp_path / "comfy.json"
+        with patch.object(
+            exportable_as_json_parser,
+            "comfy_ui_exportable_registry",
+            ["other-exportable"],
+        ):
+            parser = _build_exportable_as_json_parser()
+            args = parser.parse_args(
+                ["exportable-as-json", "-y", "-f", str(output_file)]
+            )
+            args.func(args)
+
+        written = json.loads(output_file.read_text(encoding="utf-8"))
+        assert set(written) == {"other-exportable"}
+
+    def test_flag_absent_still_exports_everything(
+        self, _fake_registry, tmp_path
+    ):
+        output_file = tmp_path / "all.json"
+        with patch.object(
+            exportable_as_json_parser,
+            "comfy_ui_exportable_registry",
+            ["some-exportable"],
+        ):
+            parser = _build_exportable_as_json_parser()
+            args = parser.parse_args(
+                ["exportable-as-json", "-f", str(output_file)]
+            )
+            args.func(args)
+
+        written = json.loads(output_file.read_text(encoding="utf-8"))
+        assert set(written) == {"some-exportable", "other-exportable"}
