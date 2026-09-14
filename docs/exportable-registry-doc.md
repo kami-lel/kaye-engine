@@ -50,10 +50,17 @@ Two kinds of exportable registration feed `exportable_registry`:
     and settings into `abbr_glossary_registry`; `register_exportable_abbrs()`
     (re-run whenever `AbbrData` changes) is what actually inserts the
     glossary's group into `exportable_registry`
+  - ComfyUI subset: `register_comfy_ui_exportable(canonical_name)` marks
+    a name already sitting in `exportable_registry` as a member of the
+    ComfyUI export subset, appending it to `comfy_ui_exportable_registry`.
+    It never creates or registers an exportable itself: an unregistered
+    `canonical_name` raises `KeyError`, and a name already in the subset
+    raises `ValueError`.
 
 Usage:
 
 - `exportable` CLI (alias `x`): `kaye-engine exportable EXPORTABLE` prints that exportable's `content()`; `kaye-engine exportable ls` lists every registered exportable name, sorted alphabetically
+- `exportable-as-json` CLI (alias `j`): `kaye-engine exportable-as-json` writes every entry in `exportable_registry` to a flat `{canonical_name: content}` JSON object, each `content()` rendered with no profile override; `--output-file`/`-f` sets the output path, defaulting to `exportable-as-json.json` in the current directory. Passing `--comfy-ui`/`-y` narrows the export to just the names in `comfy_ui_exportable_registry`.
 - `claude` CLI: q.v. [`claude-doc.md`](claude-doc.md) for the full Claude CLI surface (`kaye-engine claude skill|plugin|marketplace|code|...`)
 
 
