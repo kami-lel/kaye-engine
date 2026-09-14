@@ -10,6 +10,7 @@ checkmarked
 import re
 
 __all__ = (
+    "AVOID_NAME",
     "get_sidecar_name",
     "BlueprintDescriptorSidecars",
 )
@@ -18,6 +19,9 @@ __all__ = (
 DESCRIPTION_NAME = "description"
 WHEN_TO_USE_NAME = "when_to_use"
 GLOBS_NAME = "globs"
+
+# reserved but not a descriptor -- never read via BlueprintDescriptorSidecars;
+# discovered directly by render.render_negative_prompt_lines() at any depth
 AVOID_NAME = "avoid"
 
 
@@ -56,7 +60,7 @@ def get_sidecar_name(node):
 class BlueprintDescriptorSidecars:  ############################################
     """
     blueprint description sidecar node lookups
-    (description, when_to_use, globs, avoid)
+    (description, when_to_use, globs)
 
 
     :param main_node: blueprint node that may contain descriptor sidecars
@@ -144,24 +148,6 @@ class BlueprintDescriptorSidecars:  ############################################
 
         return results
 
-    @property
-    def avoid(self):
-        """
-        retrieve the avoid (negative instruction/example) text
-
-        unlike ``description``/``when_to_use``, this keeps real
-        newlines rather than collapsing to a single ``↵``-joined line,
-        since it's exported standalone (e.g. as a ComfyUI negative
-        prompt) rather than spliced inline into a larger prompt
-
-        :return: avoid text, or rendered avoid node content
-        :rtype: str
-        """
-        lines = self._convert_node2content_lines(
-            self.avoid_node, sparseness=0
-        )
-        return "\n".join(lines)
-
     # constructor  ===============================================================
 
     def __init__(self, *, main_node=None):
@@ -169,7 +155,6 @@ class BlueprintDescriptorSidecars:  ############################################
         self.description_node = None
         self.when_to_use_node = None
         self.globs_node = None
-        self.avoid_node = None
 
         if main_node:
             try:
@@ -188,11 +173,6 @@ class BlueprintDescriptorSidecars:  ############################################
 
             try:
                 self.globs_node = main_node["{{{}}}".format(GLOBS_NAME)]
-            except KeyError:
-                pass
-
-            try:
-                self.avoid_node = main_node["{{{}}}".format(AVOID_NAME)]
             except KeyError:
                 pass
 
@@ -216,7 +196,6 @@ class BlueprintDescriptorSidecars:  ############################################
             self.when_to_use_node or other.when_to_use_node
         )
         merged.globs_node = self.globs_node or other.globs_node
-        merged.avoid_node = self.avoid_node or other.avoid_node
         return merged
 
     # helpers  =====================================================================
