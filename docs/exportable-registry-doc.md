@@ -62,7 +62,7 @@ Two kinds of exportable registration feed `exportable_registry`:
 Usage:
 
 - `exportable` CLI (alias `x`): `kaye-engine exportable EXPORTABLE` prints that exportable's `content()`; `kaye-engine exportable ls` lists every registered exportable name, sorted alphabetically
-- `exportable-as-json` CLI (alias `j`): `kaye-engine exportable-as-json` writes every entry in `exportable_registry` to a flat `{canonical_name: content}` JSON object, each `content()` rendered with `sparseness=1` (caps blank-line runs at 1) and no other profile override; `--output-file`/`-f` sets the output path, defaulting to `exportable-as-json.json` in the current directory. Passing `--comfy-ui`/`-y` narrows the export to just the names in `comfy_ui_exportable_registry`.
+- `exportable-as-json` CLI (alias `j`): `kaye-engine exportable-as-json` writes every entry in `exportable_registry` to a flat `{canonical_name: content}` JSON object, each `content()` rendered with `sparseness=1` (caps blank-line runs at 1) and no other profile override; `--output-file`/`-f` sets the output path, defaulting to `exportable-as-json.json` in the current directory.
 - `comfy-ui-export` CLI (alias `y`): `kaye-engine comfy-ui-export FOLDER` writes every entry in `comfy_ui_exportable_registry` to `FOLDER`, one `<canonical_name>.md` file per entry holding its `content()` (`sparseness=0`), plus a `<canonical_name>-AVOID.md` sibling wherever `negative_content()` renders real content — so ComfyUI's positive field never carries `{avoid}` content; that goes to the sibling file instead
 - `claude` CLI: q.v. [`claude-doc.md`](claude-doc.md) for the full Claude CLI surface (`kaye-engine claude skill|plugin|marketplace|code|...`)
 

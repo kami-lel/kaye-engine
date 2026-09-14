@@ -252,10 +252,12 @@ kaye_engine/
 │   ├── comment_parser.py     shared `--comment`/`--no-comment` parent parser
 │   ├── render_profile_parser.py  shared 5-option parent parser + aux fn
 │   ├── exportable_parser.py  `exportable`/`x` subcommand: print, list exportables
-│   └── exportable_as_json_parser.py  `exportable-as-json`/`j`
-│                                      subcommand: export
-│                                      exportable_registry (or the
-│                                      ComfyUI subset) as flat JSON
+│   ├── exportable_as_json_parser.py  `exportable-as-json`/`j`
+│   │                                  subcommand: export
+│   │                                  exportable_registry as flat JSON
+│   └── comfy_ui_export_parser.py  `comfy-ui-export`/`y` subcommand:
+│                                    write the ComfyUI subset as
+│                                    `<name>.md`/`<name>-AVOID.md` pairs
 └── kamilog.py           logging, shared across the package
 docs/                    per-topic reference, linked above
 tests/                   prompt/, abbr/, cli/ — mirrors the source

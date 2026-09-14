@@ -74,9 +74,10 @@ pytest
 
 The editable install registers a `kaye-engine` console script, so
 `kaye-engine ...` and `python -m kaye_engine ...` are equivalent — prefer
-the shorter form. **Nine** top-level subcommands exist: `blueprint`,
-`claude`, `dynamic-node`, `dynamic-substitution`, `exportable`,
-`exportable-as-json`, `list-affordance`, `list-variant`, and `glossary`:
+the shorter form. **Ten** top-level subcommands exist: `blueprint`,
+`claude`, `comfy-ui-export`, `dynamic-node`, `dynamic-substitution`,
+`exportable`, `exportable-as-json`, `list-affordance`, `list-variant`,
+and `glossary`:
 
 ```bash
 kaye-engine --help                          # show CLI usage
@@ -100,10 +101,10 @@ kaye-engine claude code                     # plugin + CLAUDE.md into ~/.claude
 kaye-engine claude user-system-prompt       # print Chat blueprint to stdout
 kaye-engine claude user-system-prompt -c    # append Coder blueprint content
 kaye-engine claude vs-code-extension        # CLAUDE.md + marketplace + settings
+kaye-engine comfy-ui-export FOLDER          # write every ComfyUI-subset exportable to FOLDER
 kaye-engine exportable EXPORTABLE           # print an exportable's content
 kaye-engine exportable ls                   # list every registered exportable name
 kaye-engine exportable-as-json              # export exportable_registry as flat JSON
-kaye-engine exportable-as-json --comfy-ui   # export only the ComfyUI subset
 kaye-engine exportable-as-json -f FILE      # write to FILE instead of the default
 kaye-engine list-affordance                 # list affordance_registry names, sorted
 kaye-engine list-variant                    # list variant_registry canonical names, sorted
@@ -112,14 +113,14 @@ kaye-engine glossary ls                     # list every registered glossary nam
 ```
 
 Aliases: `blueprint` → `bp`; `blueprint show` → `bp s`; `blueprint
-generate` → `bp gen`/`bp g`; `dynamic-node` → `dn`;
-`dynamic-substitution` → `ds`; `claude` → `a` (was also `anthropic`,
-now dropped); `claude code` → `claude c`; `claude marketplace` →
-`claude m`; `claude plugin` → `claude p`; `claude skill` → `claude s`;
-`claude user-system-prompt` → `claude usp`; `claude
-vs-code-extension` → `claude v`; `exportable` → `x`; `exportable-as-json`
-→ `j`; `list-affordance` → `lsa`; `list-variant` → `lsv`; `glossary` →
-`g`.
+generate` → `bp gen`/`bp g`; `comfy-ui-export` → `y`; `dynamic-node` →
+`dn`; `dynamic-substitution` → `ds`; `claude` → `a` (was also
+`anthropic`, now dropped); `claude code` → `claude c`; `claude
+marketplace` → `claude m`; `claude plugin` → `claude p`; `claude
+skill` → `claude s`; `claude user-system-prompt` → `claude usp`;
+`claude vs-code-extension` → `claude v`; `exportable` → `x`;
+`exportable-as-json` → `j`; `list-affordance` → `lsa`; `list-variant`
+→ `lsv`; `glossary` → `g`.
 
 **Rendering commands** — any subcommand that reaches
 `PromptBlueprint.render_prompt(...)`, directly or via
@@ -215,10 +216,10 @@ via `RenderProfile.merge()`.
 `register_comfy_ui_exportable(canonical_name)`
 (`kaye_engine/exportable/comfy_ui_export.py`) marks an already-registered
 `exportable_registry` entry as a member of the ComfyUI export subset
-(`comfy_ui_exportable_registry`) that `exportable-as-json --comfy-ui`
-reads. **Calls live in the consumer package**, same as
-`register_blueprint()`; it raises `KeyError` if `canonical_name` is not
-already registered, `ValueError` on a duplicate.
+(`comfy_ui_exportable_registry`) that `comfy-ui-export`/`y` reads.
+**Calls live in the consumer package**, same as `register_blueprint()`;
+it raises `KeyError` if `canonical_name` is not already registered,
+`ValueError` on a duplicate.
 
 ## Abbreviation Data
 
