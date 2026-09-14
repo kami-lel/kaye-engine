@@ -33,15 +33,7 @@ writes every exportable currently in the registry to a flat JSON object,
 keyed by canonical name:
 
     kaye-engine exportable-as-json
-
-write to a specific path instead of the default {default_output_file}:
-
-    kaye-engine exportable-as-json --output-file out.json
-
-restrict the export to the ComfyUI subset instead of every exportable:
-
-    kaye-engine exportable-as-json --comfy-ui
-""".format(default_output_file=_DEFAULT_OUTPUT_FILE)
+"""
 
 
 # auxiliaries  #################################################################
