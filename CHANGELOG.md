@@ -34,7 +34,10 @@ todo todo CLI to import/export w/ OpenWebUI
   default, or just the ComfyUI subset with `--comfy-ui`/`-y`
 - `BlueprintDescriptorSidecars.avoid`, a `{avoid}` sidecar carrying an
   exportable's negative-instruction/negative-example content, parallel
-  to `description`/`when_to_use`/`globs`
+  to `description`/`when_to_use`/`globs`; unlike those, it keeps real
+  newlines and exports as multiline text rather than collapsing to a
+  single `↵`-joined line, since it's exported standalone (e.g. as a
+  ComfyUI negative prompt) rather than spliced inline
 
 ### Changed
 

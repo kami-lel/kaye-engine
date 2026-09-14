@@ -41,6 +41,7 @@ merge.
 | `kaye_engine/prompt/` | `tests/prompt/` |
 | `kaye_engine/abbr_collection/` | `tests/abbr/` |
 | `kaye_engine/cli/` | `tests/cli/` |
+| `kaye_engine/exportable/` | `tests/exportable_test.py`, `tests/comfy_ui_export_test.py` |
 
 ```bash
 pytest tests/prompt/
@@ -53,10 +54,11 @@ pytest tests/prompt/bp/prompt-bp-merge_test.py::TestMerge::test1_1
 exportable-abbr registration, `dynamic-node` parsing, and `SKILL.md`
 rendering. The exporters themselves need a corpus to produce output, so the
 consumer package's suite covers those; do not scaffold corpus fixtures here
-to widen the directory. `exportable`, `list-affordance`, `list-variant`,
-and `glossary` are now covered by dedicated parser tests; the
-`blueprint` subcommand parser currently has no dedicated tests — a
-known gap, not an intentional exclusion like the exporters above.
+to widen the directory. `exportable`, `exportable-as-json`,
+`list-affordance`, `list-variant`, and `glossary` are now covered by
+dedicated parser tests; the `blueprint` subcommand parser currently has
+no dedicated tests — a known gap, not an intentional exclusion like the
+exporters above.
 
 **Do not parallelize** — no `pytest-xdist`, no `-n auto`. The suite is
 already fast, worker startup cancels out any gain, and splitting across
@@ -72,9 +74,9 @@ pytest
 
 The editable install registers a `kaye-engine` console script, so
 `kaye-engine ...` and `python -m kaye_engine ...` are equivalent — prefer
-the shorter form. **Eight** top-level subcommands exist: `blueprint`,
+the shorter form. **Nine** top-level subcommands exist: `blueprint`,
 `claude`, `dynamic-node`, `dynamic-substitution`, `exportable`,
-`list-affordance`, `list-variant`, and `glossary`:
+`exportable-as-json`, `list-affordance`, `list-variant`, and `glossary`:
 
 ```bash
 kaye-engine --help                          # show CLI usage
@@ -100,6 +102,9 @@ kaye-engine claude user-system-prompt -c    # append Coder blueprint content
 kaye-engine claude vs-code-extension        # CLAUDE.md + marketplace + settings
 kaye-engine exportable EXPORTABLE           # print an exportable's content
 kaye-engine exportable ls                   # list every registered exportable name
+kaye-engine exportable-as-json              # export exportable_registry as flat JSON
+kaye-engine exportable-as-json --comfy-ui   # export only the ComfyUI subset
+kaye-engine exportable-as-json -f FILE      # write to FILE instead of the default
 kaye-engine list-affordance                 # list affordance_registry names, sorted
 kaye-engine list-variant                    # list variant_registry canonical names, sorted
 kaye-engine glossary GLOSSARY               # print a glossary's content
@@ -112,8 +117,9 @@ generate` → `bp gen`/`bp g`; `dynamic-node` → `dn`;
 now dropped); `claude code` → `claude c`; `claude marketplace` →
 `claude m`; `claude plugin` → `claude p`; `claude skill` → `claude s`;
 `claude user-system-prompt` → `claude usp`; `claude
-vs-code-extension` → `claude v`; `exportable` → `x`; `list-affordance`
-→ `lsa`; `list-variant` → `lsv`; `glossary` → `g`.
+vs-code-extension` → `claude v`; `exportable` → `x`; `exportable-as-json`
+→ `j`; `list-affordance` → `lsa`; `list-variant` → `lsv`; `glossary` →
+`g`.
 
 **Rendering commands** — any subcommand that reaches
 `PromptBlueprint.render_prompt(...)`, directly or via
@@ -205,6 +211,14 @@ this entry's own default render settings — including
 `conditional_sidecars`/`variants` — merged (not clobbered) by
 `BlueprintRegistry.content()` with any caller-supplied `profile=`
 via `RenderProfile.merge()`.
+
+`register_comfy_ui_exportable(canonical_name)`
+(`kaye_engine/exportable/comfy_ui_export.py`) marks an already-registered
+`exportable_registry` entry as a member of the ComfyUI export subset
+(`comfy_ui_exportable_registry`) that `exportable-as-json --comfy-ui`
+reads. **Calls live in the consumer package**, same as
+`register_blueprint()`; it raises `KeyError` if `canonical_name` is not
+already registered, `ValueError` on a duplicate.
 
 ## Abbreviation Data
 
