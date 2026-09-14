@@ -92,14 +92,16 @@ metadata and never rendered; every other name is a *conditional* sidecar,
 real content spliced in only when its name is on a `RenderProfile`'s
 `conditional_sidecars`, or matched via that same profile's `variants`
 field against `variant_registry`. `{avoid}` (negative-instruction/example
-content) is parsed alongside the descriptor sidecars in
-`BlueprintDescriptorSidecars`, and readable directly as metadata via
-`.sidecars.avoid`, but is a *conditional* sidecar by usage — real content
-only when `"avoid"` is on `conditional_sidecars`. Unlike `description`/
-`when_to_use`, `.sidecars.avoid` keeps real newlines and returns multiline
-text rather than collapsing to one `↵`-joined line, since it's commonly
-exported standalone (e.g. as a ComfyUI negative prompt) rather than
-spliced inline into a larger prompt. Q.v. [sidecar node
+content) is neither: it carries no `.sidecars` accessor and is never
+manually spliced by name, but is discovered automatically, at any depth,
+by `render_negative_prompt()`/`render.render_negative_prompt_lines()`/
+`BlueprintRegistry.negative_content()` — the dependency-aware/own-only/
+registry-level counterparts to `render_prompt()` and friends. Every
+checkmarked node carrying an `{avoid}` child contributes that child's
+content under its own heading (never the literal `{avoid}` heading), and
+a branch with no `{avoid}` content anywhere in it is omitted entirely.
+`comfy-ui-export` calls `negative_content()` to build each
+`<canonical_name>-AVOID.md` sibling. Q.v. [sidecar node
 documentation](docs/sidecar-node-doc.md).
 
 `affordance_registry`/`variant_registry` form a two-level model: an
