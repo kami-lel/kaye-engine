@@ -416,6 +416,46 @@ dependency cycle raises `ValueError`. Every consumer that renders
 own-only method.
 
 
+##### generate negative prompt
+
+Use `.generate_negative_prompt_without_dependencies()` /
+`render.render_negative_prompt_lines()` the same way as their positive
+counterparts above, but for the **negative prompt**: every checkmarked
+node in the blueprint's tree that carries an `{avoid}` sidecar child
+contributes that child's content under its own heading — the literal
+`{avoid}` heading is never shown — and a node with no `{avoid}` child
+and no contributing descendant is omitted entirely. Q.v.
+[`sidecar-node-doc.md`](sidecar-node-doc.md#negative-instruction-sidecar)
+for how `{avoid}` differs from a descriptor or conditional sidecar.
+
+E.g., given a checkmarked tree shaped
+
+```
+## Some
+### Prompt
+#### {avoid}
+Don't do this.
+#### Content
+##### {avoid}
+Or this.
+```
+
+```python
+>>> render.render_negative_prompt_lines(tree)
+['## Some',
+ '### Prompt',
+ "Don't do this.",
+ '',
+ '#### Content',
+ 'Or this.']
+```
+
+Use `.render_negative_prompt()` instead to render the negative prompt
+from this blueprint merged with the full transitive closure of
+`.dependencies` — same resolution behavior (recursive, diamond-safe,
+cycle-raising) as `.render_prompt()`.
+
+
 
 ##### generate blueprint text
 
