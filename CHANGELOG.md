@@ -39,10 +39,12 @@ todo todo CLI to import/export w/ OpenWebUI
 ### Changed
 
 - exported-glossary canonical-name prefix shortened `abbr-glossary-` → `glossary-`
-- `exportable-as-json --comfy-ui`/`-y` now writes `{"positive": ...,
-  "negative": ...}` per entry instead of a flat string, splitting the
-  `{avoid}` sidecar content out into `negative`; the default export
-  keeps its flat-string shape and now folds `{avoid}` content in inline
+- `exportable-as-json --comfy-ui`/`-y` now writes an extra
+  `<canonical_name>-AVOID` key alongside each entry with real `{avoid}`
+  sidecar content, holding that content separately from the entry's
+  own flat-string value; entries without `{avoid}` content gain no
+  such key. The default export keeps its flat-string shape and now
+  folds `{avoid}` content in inline
 - affordance/variant mechanism documentation split out of `sidecar-node-doc.md` into its own `docs/affordance-doc.md`, cross-linked from `claude-doc.md`, `CONTEXT.md`, `AGENTS.md`, & `README.md`
 
 ### Deprecated
