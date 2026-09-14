@@ -40,17 +40,19 @@ sibling wherever that entry has real {avoid} content:
 # auxiliaries  #################################################################
 def _avoid_content(exportable):
     """
-    read an exportable's ``{avoid}`` sidecar content, if any
+    render an exportable's negative prompt -- every ``{avoid}``
+    sidecar anywhere in its blueprint tree, structure-preserving -- if
+    any
 
-    :param exportable: exportable to read the sidecar from
+    :param exportable: exportable to render the negative prompt from
     :type exportable: Exportable
-    :return: raw ``{avoid}`` content, or ``""`` when unavailable
+    :return: rendered negative prompt, or ``""`` when unavailable
     :rtype: str
     """
-    sidecars = getattr(
-        getattr(exportable, "blueprint", None), "sidecars", None
-    )
-    return getattr(sidecars, "avoid", "") or ""
+    negative_content = getattr(exportable, "negative_content", None)
+    if negative_content is None:
+        return ""
+    return negative_content(profile=_COMFY_UI_SPARSE_RENDER_PROFILE)
 
 
 def _comfy_ui_export_main(args):
