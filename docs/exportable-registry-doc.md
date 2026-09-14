@@ -60,7 +60,7 @@ Two kinds of exportable registration feed `exportable_registry`:
 Usage:
 
 - `exportable` CLI (alias `x`): `kaye-engine exportable EXPORTABLE` prints that exportable's `content()`; `kaye-engine exportable ls` lists every registered exportable name, sorted alphabetically
-- `exportable-as-json` CLI (alias `j`): `kaye-engine exportable-as-json` writes every entry in `exportable_registry` to a flat `{canonical_name: content}` JSON object, each `content()` rendered with no profile override; `--output-file`/`-f` sets the output path, defaulting to `exportable-as-json.json` in the current directory. Passing `--comfy-ui`/`-y` narrows the export to just the names in `comfy_ui_exportable_registry`.
+- `exportable-as-json` CLI (alias `j`): `kaye-engine exportable-as-json` writes every entry in `exportable_registry` to a flat `{canonical_name: content}` JSON object, each `content()` rendered with `sparseness=0` (strips every blank line) and no other profile override; `--output-file`/`-f` sets the output path, defaulting to `exportable-as-json.json` in the current directory. Passing `--comfy-ui`/`-y` narrows the export to just the names in `comfy_ui_exportable_registry`.
 - `claude` CLI: q.v. [`claude-doc.md`](claude-doc.md) for the full Claude CLI surface (`kaye-engine claude skill|plugin|marketplace|code|...`)
 
 
