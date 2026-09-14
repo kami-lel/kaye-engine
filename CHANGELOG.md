@@ -30,8 +30,11 @@ todo todo CLI to import/export w/ OpenWebUI
 - `register_comfy_ui_exportable()`/`comfy_ui_exportable_registry`, marking
   already-registered exportables as members of a ComfyUI export subset
 - `exportable-as-json` (alias `j`) CLI subcommand: exports every entry in
-  `exportable_registry` as flat `{canonical_name: content}` JSON by
-  default, or just the ComfyUI subset with `--comfy-ui`/`-y`
+  `exportable_registry` as flat `{canonical_name: content}` JSON
+- `comfy-ui-export` (alias `y`) CLI subcommand: writes every entry in
+  `comfy_ui_exportable_registry` to `FOLDER` as one `<canonical_name>.md`
+  file each, plus a `<canonical_name>-AVOID.md` sibling wherever that
+  entry has real `{avoid}` sidecar content
 - `BlueprintDescriptorSidecars.avoid`, a `{avoid}` sidecar carrying an
   exportable's negative-instruction/negative-example content, parallel
   to `description`/`when_to_use`/`globs`; unlike those, it keeps real
@@ -42,12 +45,8 @@ todo todo CLI to import/export w/ OpenWebUI
 ### Changed
 
 - exported-glossary canonical-name prefix shortened `abbr-glossary-` → `glossary-`
-- `exportable-as-json --comfy-ui`/`-y` now writes an extra
-  `<canonical_name>-AVOID` key alongside each entry with real `{avoid}`
-  sidecar content, holding that content separately from the entry's
-  own flat-string value; entries without `{avoid}` content gain no
-  such key. The default export keeps its flat-string shape and now
-  folds `{avoid}` content in inline
+- `exportable-as-json`'s default export now folds `{avoid}` content in
+  inline, same flat-string shape as before
 - affordance/variant mechanism documentation split out of `sidecar-node-doc.md` into its own `docs/affordance-doc.md`, cross-linked from `claude-doc.md`, `CONTEXT.md`, `AGENTS.md`, & `README.md`
 
 ### Deprecated
