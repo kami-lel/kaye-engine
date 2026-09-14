@@ -3,8 +3,6 @@
 [^format]
 
 <!--
-FIXME blueprint render w/ negative prompts
-TODO utilize negative prompt render in kaye j
 todo todo CLI to import/export w/ OpenWebUI
 -->
 
@@ -36,13 +34,20 @@ todo todo CLI to import/export w/ OpenWebUI
 - `comfy-ui-export` (alias `y`) CLI subcommand: writes every entry in
   `comfy_ui_exportable_registry` to `FOLDER` as one `<canonical_name>.md`
   file each, plus a `<canonical_name>-AVOID.md` sibling wherever that
-  entry has real `{avoid}` sidecar content
-- `BlueprintDescriptorSidecars.avoid`, a `{avoid}` sidecar carrying an
-  exportable's negative-instruction/negative-example content, parallel
-  to `description`/`when_to_use`/`globs`; unlike those, it keeps real
-  newlines and exports as multiline text rather than collapsing to a
-  single `↵`-joined line, since it's exported standalone (e.g. as a
-  ComfyUI negative prompt) rather than spliced inline
+  entry's blueprint carries real `{avoid}` sidecar content anywhere in
+  its tree
+- `render_negative_prompt()`/`generate_negative_prompt_without_dependencies()`
+  on `PromptBlueprint`, `render.render_negative_prompt_lines()`, and
+  `BlueprintRegistry.negative_content()` — the negative-prompt
+  counterparts to `render_prompt()` and friends. Walks every
+  checkmarked node in a blueprint's tree for an `{avoid}` sidecar
+  child at any depth and renders a structure-preserving negative
+  prompt from just those, showing only the headings needed to place
+  each `{avoid}` in context (never the literal `{avoid}` heading
+  itself) and omitting every branch without avoid content; unlike a
+  spliced-in `{avoid}`, it keeps real newlines rather than collapsing
+  to a single `↵`-joined line, since it's commonly exported standalone
+  (e.g. as a ComfyUI negative prompt)
 
 ### Changed
 
