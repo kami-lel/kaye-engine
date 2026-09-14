@@ -26,9 +26,10 @@ logger = kamilog.getLogger(LOGGER_NAME)
 # constants  ###################################################################
 _DEFAULT_OUTPUT_FILE = "exportable-as-json.json"
 
-# sparseness=0 strips every blank line; the registry entry's own profile
-# still governs everything else (surface, affordance, usage sidecars)
-_SPARSE_RENDER_PROFILE = RenderProfile(sparseness=0)
+# sparseness=1 caps blank-line runs at 1; the registry entry's own
+# profile still governs everything else (surface, affordance, usage
+# sidecars)
+_SPARSE_RENDER_PROFILE = RenderProfile(sparseness=1)
 
 _HELP = "export every registered exportable's content as flat JSON"
 
