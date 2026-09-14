@@ -3,6 +3,8 @@
 [^format]
 
 <!--
+FIXME blueprint render w/ negative prompts
+TODO utilize negative prompt render in kaye j
 todo todo CLI to import/export w/ OpenWebUI
 -->
 
