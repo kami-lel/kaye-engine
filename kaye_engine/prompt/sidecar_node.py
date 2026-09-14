@@ -10,6 +10,7 @@ checkmarked
 import re
 
 __all__ = (
+    "AVOID_NAME",
     "get_sidecar_name",
     "BlueprintDescriptorSidecars",
 )
@@ -18,6 +19,10 @@ __all__ = (
 DESCRIPTION_NAME = "description"
 WHEN_TO_USE_NAME = "when_to_use"
 GLOBS_NAME = "globs"
+
+# reserved but not a descriptor -- never read via BlueprintDescriptorSidecars;
+# discovered directly by render.render_negative_prompt_lines() at any depth
+AVOID_NAME = "avoid"
 
 
 # name detection  ##############################################################

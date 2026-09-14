@@ -1,6 +1,6 @@
 # kaye-engine CONTEXT
 
-**Last updated:** 2026-09-02
+**Last updated:** 2026-09-13
 
 System knowledge for the **kaye-engine** repository — architecture,
 entities, and boundaries. Read this alongside `AGENTS.md` before making
@@ -18,7 +18,7 @@ through a Python API and a CLI.
 | distribution / import name | `kaye-engine` / `kaye_engine` |
 | dependencies | `anytree`, `json5`, `pyahocorasick`, `pyyaml` |
 | entry point | `kaye-engine` console script → `kaye_engine.__main__:main` |
-| CLI subcommands | `blueprint`, `claude`, `dynamic-node`, `dynamic-substitution`, `exportable`, `list-affordance`, `list-variant`, `glossary` |
+| CLI subcommands | `blueprint`, `claude`, `dynamic-node`, `dynamic-substitution`, `exportable`, `exportable-as-json`, `list-affordance`, `list-variant`, `glossary` |
 
 ## Personalization Boundary
 
@@ -49,6 +49,7 @@ not a gap to fill.
 | **Affordance** | a conceptual capability family, tracked in `affordance_registry`; auto-created on first `register_variant()` call naming it |
 | **Variant** | one concrete implementation of an affordance, tracked in `variant_registry` via `register_variant(canonical_name, affordance_name)` |
 | **RenderProfile** | a `kw_only` dataclass bundling render settings (`conditional_sidecars`, `variants`, `sparseness`, ...); `.merge()` overrides scalar fields and unions the collection fields |
+| **ComfyUI Export Subset** | `comfy_ui_exportable_registry`, a list of `exportable_registry` canonical names opted into ComfyUI export via `register_comfy_ui_exportable(canonical_name)` |
 
 Heading syntax carries node type: plain text is an ordinary corpus node,
 `{braces}` a sidecar, `(parentheses)` a dynamic node.
@@ -90,7 +91,17 @@ Sidecars split by usage rather than by class. *Descriptor* sidecars
 metadata and never rendered; every other name is a *conditional* sidecar,
 real content spliced in only when its name is on a `RenderProfile`'s
 `conditional_sidecars`, or matched via that same profile's `variants`
-field against `variant_registry`. Q.v. [sidecar node
+field against `variant_registry`. `{avoid}` (negative-instruction/example
+content) is neither: it carries no `.sidecars` accessor and is never
+manually spliced by name, but is discovered automatically, at any depth,
+by `render_negative_prompt()`/`render.render_negative_prompt_lines()`/
+`BlueprintRegistry.negative_content()` — the dependency-aware/own-only/
+registry-level counterparts to `render_prompt()` and friends. Every
+checkmarked node carrying an `{avoid}` child contributes that child's
+content under its own heading (never the literal `{avoid}` heading), and
+a branch with no `{avoid}` content anywhere in it is omitted entirely.
+`comfy-ui-export` calls `negative_content()` to build each
+`<canonical_name>-AVOID.md` sibling. Q.v. [sidecar node
 documentation](docs/sidecar-node-doc.md).
 
 `affordance_registry`/`variant_registry` form a two-level model: an
@@ -221,6 +232,8 @@ kaye_engine/
 │                                Usage/Lack/Fallback sidecar names
 ├── abbr_collection/     abbreviation entries, store, JSON loader
 ├── exportable/           Exportable base, exportable_registry
+│   └── comfy_ui_export.py  comfy_ui_exportable_registry,
+│                            register_comfy_ui_exportable
 ├── cli/
 │   ├── blueprint/       `blueprint`/`bp` subcommand: ls, show, generate
 │   ├── claude/          skills, plugins, marketplaces, CLAUDE.md
@@ -238,7 +251,13 @@ kaye_engine/
 │   ├── glossary_parser.py    `glossary`/`g` subcommand: print/list glossaries
 │   ├── comment_parser.py     shared `--comment`/`--no-comment` parent parser
 │   ├── render_profile_parser.py  shared 5-option parent parser + aux fn
-│   └── exportable_parser.py  `exportable`/`x` subcommand: print, list exportables
+│   ├── exportable_parser.py  `exportable`/`x` subcommand: print, list exportables
+│   ├── exportable_as_json_parser.py  `exportable-as-json`/`j`
+│   │                                  subcommand: export
+│   │                                  exportable_registry as flat JSON
+│   └── comfy_ui_export_parser.py  `comfy-ui-export`/`y` subcommand:
+│                                    write the ComfyUI subset as
+│                                    `<name>.md`/`<name>-AVOID.md` pairs
 └── kamilog.py           logging, shared across the package
 docs/                    per-topic reference, linked above
 tests/                   prompt/, abbr/, cli/ — mirrors the source
@@ -250,7 +269,7 @@ the same `blueprint_registry` rather than holding its own list.
 
 ## Testing Strategy
 
-`pytest`, 804 tests, run **serially by design** — cases are cheap in-process
+`pytest`, 820 tests, run **serially by design** — cases are cheap in-process
 assertions, so worker startup costs more than a split saves, and shared
 fixtures carry run-order assumptions. `pytest-xdist` is deliberately absent
 from the `dev` extra.

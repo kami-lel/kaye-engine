@@ -19,7 +19,7 @@ from kaye_engine import PACKAGE_NAME
 
 from ..md_fence import compute_fenced_line_mask
 from ..prompt_corpus_node import HEADING_PREFIX_ELEMENT
-from ..sidecar_node import get_sidecar_name
+from ..sidecar_node import AVOID_NAME, get_sidecar_name
 from .render_profile import RenderProfile
 
 __all__ = (
@@ -27,6 +27,7 @@ __all__ = (
     "apply_sparseness",
     "render_blueprint_tree",
     "render_comment",
+    "render_negative_prompt_lines",
     "render_prompt_lines",
 )
 
@@ -154,6 +155,63 @@ def _splice_conditional_sidecars(
             working_bp.checkmark(node)
 
     return working_bp
+
+
+def _render_negative_prompt_node_recursively(blueprint, node, **kwargs):
+    """
+    recursively render one checkmarked node's contribution to a
+    negative prompt
+
+    a node contributes only when it, or one of its descendants,
+    carries an ``{avoid}`` sidecar child: its own heading is printed
+    (the ``{avoid}`` child's heading never is), followed by that
+    child's content, then any contributing descendants in the same
+    fashion; a node with neither is omitted entirely, and non-``avoid``
+    sidecar children (``{description}``, ``{when_to_use}``, ...) never
+    contribute
+
+    (helper function used in ``render_negative_prompt_lines()``)
+
+
+    :param blueprint:
+    :type blueprint: PromptBlueprint
+    :param node: node to render, never the corpus root
+    :type node: BasePromptNode
+    :param kwargs: further render options forwarded to the ``{avoid}``
+            node's ``content_lines(**kwargs)``
+    :return: rendered lines for ``node`` and its descendants, or an
+            empty list when nothing in this subtree contributes
+    :rtype: list[str]
+    """
+    if not blueprint.is_checkmarked(node):
+        return []
+
+    own_avoid_lines = []
+    child_blocks = []
+
+    for child in node.children:
+        sidecar_name = get_sidecar_name(child)
+        if sidecar_name == AVOID_NAME:
+            own_avoid_lines = child.content_lines(**kwargs)
+        elif sidecar_name is None:
+            block = _render_negative_prompt_node_recursively(
+                blueprint, child, **kwargs
+            )
+            if block:
+                child_blocks.append(block)
+
+    if not own_avoid_lines and not child_blocks:
+        return []
+
+    lines = [HEADING_PREFIX_ELEMENT * node.depth + " " + node.name]
+    lines.extend(own_avoid_lines)
+
+    for block in child_blocks:
+        if len(lines) > 1:
+            lines.append("")
+        lines.extend(block)
+
+    return lines
 
 
 def apply_sparseness(lines, sparseness):
@@ -335,6 +393,57 @@ def render_prompt_lines(  # ====================================================
                 lines.extend(content_lines)
                 if i != last_node_idx:
                     lines.append("")  # add an empty line
+
+    if profile.show_comment:
+        lines.append("<!-- " + render_comment(profile.display_name) + " -->")
+
+    return apply_sparseness(lines, profile.sparseness)
+
+
+def render_negative_prompt_lines(  # ===========================================
+    blueprint,
+    *,
+    profile=RenderProfile(),
+    **kwargs,
+):
+    """
+    generate **negative prompt** as a list of lines from ``blueprint``
+
+    walks every checkmarked node in ``blueprint``; a node's own
+    ``{avoid}`` sidecar child supplies its printed content (that
+    child's own heading is never shown), and a node is printed at all
+    only when it or some descendant carries ``{avoid}`` content --
+    branches with none are omitted entirely
+
+
+    :param blueprint:
+    :type blueprint: PromptBlueprint
+    :param profile: bundled render settings -- of `RenderProfile`'s
+            fields, only ``conditional_sidecars``, ``variants``,
+            ``show_comment``, ``display_name``, and ``sparseness``
+            apply here; defaults to a plain `RenderProfile()`
+    :type profile: RenderProfile, optional
+    :param kwargs: further render options forwarded to each ``{avoid}``
+            node's ``content_lines(**kwargs)``
+    :return: list of negative-prompt lines
+    :rtype: list[str]
+    """
+    working_bp = _splice_conditional_sidecars(
+        blueprint,
+        conditional_sidecars=profile.conditional_sidecars,
+        variants=profile.variants,
+    )
+
+    lines = []
+    for child in working_bp.corpus.children:
+        block = _render_negative_prompt_node_recursively(
+            working_bp, child, **kwargs
+        )
+        if not block:
+            continue
+        if lines:
+            lines.append("")
+        lines.extend(block)
 
     if profile.show_comment:
         lines.append("<!-- " + render_comment(profile.display_name) + " -->")

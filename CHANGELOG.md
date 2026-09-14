@@ -27,10 +27,33 @@ todo todo CLI to import/export w/ OpenWebUI
 - `Variant.lack_sidecar_name` (`[{name}] Lack`), checkmarked when that
   variant is absent; reinstates the per-variant absent case removed in
   `7.4.0` in favor of the affordance-level `Fallback` sidecar
+- `register_comfy_ui_exportable()`/`comfy_ui_exportable_registry`, marking
+  already-registered exportables as members of a ComfyUI export subset
+- `exportable-as-json` (alias `j`) CLI subcommand: exports every entry in
+  `exportable_registry` as flat `{canonical_name: content}` JSON
+- `comfy-ui-export` (alias `y`) CLI subcommand: writes every entry in
+  `comfy_ui_exportable_registry` to `FOLDER` as one `<canonical_name>.md`
+  file each, plus a `<canonical_name>-AVOID.md` sibling wherever that
+  entry's blueprint carries real `{avoid}` sidecar content anywhere in
+  its tree
+- `render_negative_prompt()`/`generate_negative_prompt_without_dependencies()`
+  on `PromptBlueprint`, `render.render_negative_prompt_lines()`, and
+  `BlueprintRegistry.negative_content()` — the negative-prompt
+  counterparts to `render_prompt()` and friends. Walks every
+  checkmarked node in a blueprint's tree for an `{avoid}` sidecar
+  child at any depth and renders a structure-preserving negative
+  prompt from just those, showing only the headings needed to place
+  each `{avoid}` in context (never the literal `{avoid}` heading
+  itself) and omitting every branch without avoid content; unlike a
+  spliced-in `{avoid}`, it keeps real newlines rather than collapsing
+  to a single `↵`-joined line, since it's commonly exported standalone
+  (e.g. as a ComfyUI negative prompt)
 
 ### Changed
 
 - exported-glossary canonical-name prefix shortened `abbr-glossary-` → `glossary-`
+- `exportable-as-json`'s default export now folds `{avoid}` content in
+  inline, same flat-string shape as before
 - affordance/variant mechanism documentation split out of `sidecar-node-doc.md` into its own `docs/affordance-doc.md`, cross-linked from `claude-doc.md`, `CONTEXT.md`, `AGENTS.md`, & `README.md`
 
 ### Deprecated
