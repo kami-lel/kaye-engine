@@ -28,6 +28,11 @@ todo todo CLI to import/export w/ OpenWebUI
 - `Variant.lack_sidecar_name` (`[{name}] Lack`), checkmarked when that
   variant is absent; reinstates the per-variant absent case removed in
   `7.4.0` in favor of the affordance-level `Fallback` sidecar
+- `register_comfy_ui_exportable()`/`comfy_ui_exportable_registry`, marking
+  already-registered exportables as members of a ComfyUI export subset
+- `exportable-as-json` (alias `j`) CLI subcommand: exports every entry in
+  `exportable_registry` as flat `{canonical_name: content}` JSON by
+  default, or just the ComfyUI subset with `--comfy-ui`/`-y`
 
 ### Changed
 
