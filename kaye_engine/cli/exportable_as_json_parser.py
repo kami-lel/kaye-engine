@@ -29,7 +29,12 @@ _DEFAULT_OUTPUT_FILE = "exportable-as-json.json"
 # sparseness=0 collapses every blank-line run to nothing; the registry
 # entry's own profile still governs everything else (surface,
 # affordance, usage sidecars)
-_SPARSE_RENDER_PROFILE = RenderProfile(sparseness=0)
+_SPARSE_RENDER_PROFILE = RenderProfile(
+    sparseness=0, conditional_sidecars=("avoid",)
+)
+# ComfyUI's positive field must never carry {avoid} content; that content
+# is exported separately as the negative field
+_COMFY_UI_SPARSE_RENDER_PROFILE = RenderProfile(sparseness=0)
 
 _HELP = "export every registered exportable's content as flat JSON"
 
@@ -43,21 +48,44 @@ keyed by canonical name:
 
 
 # auxiliaries  #################################################################
+def _avoid_content(exportable):
+    """
+    read an exportable's ``{avoid}`` sidecar content, if any
+
+    :param exportable: exportable to read the sidecar from
+    :type exportable: Exportable
+    :return: raw ``{avoid}`` content, or ``""`` when unavailable
+    :rtype: str
+    """
+    sidecars = getattr(
+        getattr(exportable, "blueprint", None), "sidecars", None
+    )
+    return getattr(sidecars, "avoid", "") or ""
+
+
 def _exportable_as_json_main(args):
     set_logging_level_by_namespace(args, logger=logger)
     check_corpus_setup_for_cli()
 
     if args.comfy_ui:
         canonical_names = sorted(comfy_ui_exportable_registry)
+        content_by_name = {
+            canonical_name: {
+                "positive": get_exportable(canonical_name).content(
+                    profile=_COMFY_UI_SPARSE_RENDER_PROFILE
+                ),
+                "negative": _avoid_content(get_exportable(canonical_name)),
+            }
+            for canonical_name in canonical_names
+        }
     else:
         canonical_names = sorted(exportable_registry)
-
-    content_by_name = {
-        canonical_name: get_exportable(canonical_name).content(
-            profile=_SPARSE_RENDER_PROFILE
-        )
-        for canonical_name in canonical_names
-    }
+        content_by_name = {
+            canonical_name: get_exportable(canonical_name).content(
+                profile=_SPARSE_RENDER_PROFILE
+            )
+            for canonical_name in canonical_names
+        }
 
     with open(args.output_file, "w", encoding="utf-8") as output_file:
         json.dump(content_by_name, output_file, indent=2, sort_keys=True)
