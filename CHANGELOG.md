@@ -3,8 +3,6 @@
 [^format]
 
 <!--
-TODO avoid (negative prompt) conditional
-TODO render profiles for the json export
 todo todo CLI to import/export w/ OpenWebUI
 -->
 
@@ -34,10 +32,17 @@ todo todo CLI to import/export w/ OpenWebUI
 - `exportable-as-json` (alias `j`) CLI subcommand: exports every entry in
   `exportable_registry` as flat `{canonical_name: content}` JSON by
   default, or just the ComfyUI subset with `--comfy-ui`/`-y`
+- `BlueprintDescriptorSidecars.avoid`, a `{avoid}` sidecar carrying an
+  exportable's negative-instruction/negative-example content, parallel
+  to `description`/`when_to_use`/`globs`
 
 ### Changed
 
 - exported-glossary canonical-name prefix shortened `abbr-glossary-` → `glossary-`
+- `exportable-as-json --comfy-ui`/`-y` now writes `{"positive": ...,
+  "negative": ...}` per entry instead of a flat string, splitting the
+  `{avoid}` sidecar content out into `negative`; the default export
+  keeps its flat-string shape and now folds `{avoid}` content in inline
 - affordance/variant mechanism documentation split out of `sidecar-node-doc.md` into its own `docs/affordance-doc.md`, cross-linked from `claude-doc.md`, `CONTEXT.md`, `AGENTS.md`, & `README.md`
 
 ### Deprecated
