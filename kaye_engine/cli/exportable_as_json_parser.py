@@ -18,12 +18,17 @@ from kaye_engine.kamilog import (
     add_verbose_arguments,
     set_logging_level_by_namespace,
 )
+from kaye_engine.prompt.blueprint.render_profile import RenderProfile
 
 # logger  ######################################################################
 logger = kamilog.getLogger(LOGGER_NAME)
 
 # constants  ###################################################################
 _DEFAULT_OUTPUT_FILE = "exportable-as-json.json"
+
+# sparseness=0 strips every blank line; the registry entry's own profile
+# still governs everything else (surface, affordance, usage sidecars)
+_SPARSE_RENDER_PROFILE = RenderProfile(sparseness=0)
 
 _HELP = "export every registered exportable's content as flat JSON"
 
@@ -47,7 +52,9 @@ def _exportable_as_json_main(args):
         canonical_names = sorted(exportable_registry)
 
     content_by_name = {
-        canonical_name: get_exportable(canonical_name).content()
+        canonical_name: get_exportable(canonical_name).content(
+            profile=_SPARSE_RENDER_PROFILE
+        )
         for canonical_name in canonical_names
     }
 
