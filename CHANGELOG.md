@@ -4,6 +4,7 @@
 
 <!--
 TODO avoid (negative prompt) conditional
+TODO render profiles for the json export
 todo todo CLI to import/export w/ OpenWebUI
 -->
 
