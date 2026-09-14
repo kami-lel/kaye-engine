@@ -149,13 +149,18 @@ class BlueprintDescriptorSidecars:  ############################################
         """
         retrieve the avoid (negative instruction/example) text
 
+        unlike ``description``/``when_to_use``, this keeps real
+        newlines rather than collapsing to a single ``↵``-joined line,
+        since it's exported standalone (e.g. as a ComfyUI negative
+        prompt) rather than spliced inline into a larger prompt
+
         :return: avoid text, or rendered avoid node content
         :rtype: str
         """
         lines = self._convert_node2content_lines(
-            self.avoid_node, sparseness=-1
+            self.avoid_node, sparseness=0
         )
-        return lines[0] if lines else ""
+        return "\n".join(lines)
 
     # constructor  ===============================================================
 
