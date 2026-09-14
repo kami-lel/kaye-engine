@@ -9,7 +9,11 @@ from argparse import RawDescriptionHelpFormatter
 
 from kaye_engine import LOGGER_NAME, kamilog
 from kaye_engine.cli.cli_setup_guard import check_corpus_setup_for_cli
-from kaye_engine.exportable import exportable_registry, get_exportable
+from kaye_engine.exportable import (
+    comfy_ui_exportable_registry,
+    exportable_registry,
+    get_exportable,
+)
 from kaye_engine.kamilog import (
     add_verbose_arguments,
     set_logging_level_by_namespace,
@@ -33,6 +37,10 @@ keyed by canonical name:
 write to a specific path instead of the default {default_output_file}:
 
     kaye-engine exportable-as-json --output-file out.json
+
+restrict the export to the ComfyUI subset instead of every exportable:
+
+    kaye-engine exportable-as-json --comfy-ui
 """.format(default_output_file=_DEFAULT_OUTPUT_FILE)
 
 
@@ -41,7 +49,10 @@ def _exportable_as_json_main(args):
     set_logging_level_by_namespace(args, logger=logger)
     check_corpus_setup_for_cli()
 
-    canonical_names = sorted(exportable_registry)
+    if args.comfy_ui:
+        canonical_names = sorted(comfy_ui_exportable_registry)
+    else:
+        canonical_names = sorted(exportable_registry)
 
     content_by_name = {
         canonical_name: get_exportable(canonical_name).content()
@@ -73,6 +84,12 @@ def register_exportable_as_json_parser(cli_subparser):
         help="path to write the JSON output to; default: {}".format(
             _DEFAULT_OUTPUT_FILE
         ),
+    )
+    export_json_parser.add_argument(
+        "--comfy-ui",
+        "-y",
+        action="store_true",
+        help="restrict export to the ComfyUI exportable subset",
     )
     add_verbose_arguments(export_json_parser)
 
