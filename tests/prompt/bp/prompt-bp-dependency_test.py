@@ -22,6 +22,20 @@ from kaye_engine.prompt.blueprint.registry import (
     blueprint_registry,
     register_blueprint,
 )
+from kaye_engine.prompt.prompt_corpus_node import PromptCorpusNode
+
+
+def _avoid_corpus():
+    lines = """
+# Some
+## Prompt
+### {avoid}
+AAAA
+""".strip(
+        "\n"
+    ).splitlines()
+
+    return PromptCorpusNode.parse("○", None, lines)
 
 
 @pytest.fixture
@@ -321,3 +335,47 @@ class TestDependenciesPreservedAcrossOps:  #####################################
         copied = copy.copy(bp)
 
         assert copied.dependencies == [dep]
+
+
+class TestNegativeDependency:  ##################################################
+
+    def test_render_negative_prompt_includes_dependency_avoid_content(_):
+        dep = PromptBlueprint.create_full_blueprint(
+            corpus_tree=_avoid_corpus()
+        )
+        bp = PromptBlueprint.create_empty_blueprint(
+            corpus_tree=_avoid_corpus(), dependencies=[dep]
+        )
+
+        opt = bp.render_negative_prompt()
+
+        assert "AAAA" in opt
+
+    def test_own_only_negative_render_excludes_dependency_avoid_content(_):
+        dep = PromptBlueprint.create_full_blueprint(
+            corpus_tree=_avoid_corpus()
+        )
+        bp = PromptBlueprint.create_empty_blueprint(
+            corpus_tree=_avoid_corpus(), dependencies=[dep]
+        )
+
+        opt = bp.generate_negative_prompt_without_dependencies()
+
+        assert "AAAA" not in opt
+
+    def test_diamond_does_not_duplicate_shared_avoid_content(_):
+        c = PromptBlueprint.create_full_blueprint(corpus_tree=_avoid_corpus())
+        b = PromptBlueprint(corpus_tree=_avoid_corpus(), dependencies=[c])
+        d = PromptBlueprint(corpus_tree=_avoid_corpus(), dependencies=[c])
+        a = PromptBlueprint(corpus_tree=_avoid_corpus(), dependencies=[b, d])
+
+        opt = a.render_negative_prompt()
+
+        assert opt.count("AAAA") == 1
+
+    def test_cycle_raises_from_negative_render(_):
+        bp = PromptBlueprint(corpus_tree=_avoid_corpus())
+        bp.dependencies.append(bp)
+
+        with pytest.raises(ValueError):
+            bp.render_negative_prompt()

@@ -371,6 +371,66 @@ class PromptBlueprint(dict):
             profile=profile, **kwargs
         )
 
+    def generate_negative_prompt_without_dependencies(
+        self, *, profile=None, **kwargs
+    ):
+        """
+        render the **negative prompt** built from this blueprint's own
+        node checkmarking status only, ignoring ``dependencies``, then
+        resolve every inline ``(((name)))`` placeholder against the
+        same render options
+
+        (see ``render.render_negative_prompt_lines()`` and
+        ``dynamic_substitution.apply_dynamic_substitutions()`` for
+        parameters)
+
+
+        :param profile: bundled render settings; defaults to a plain
+                `RenderProfile()`
+        :type profile: RenderProfile, optional
+        :param kwargs: further render options (e.g. ``query``)
+        :return: generated negative prompt
+        :rtype: str
+        """
+        profile = profile or RenderProfile()
+        merged_kwargs = {**profile.as_kwargs(), **kwargs}
+
+        unsparse_profile = dataclasses.replace(
+            profile, sparseness=render.NO_TRIM_SPARSENESS
+        )
+        text = "\n".join(
+            render.render_negative_prompt_lines(
+                self, profile=unsparse_profile, **kwargs
+            )
+        )
+        substituted = apply_dynamic_substitutions(text, **merged_kwargs)
+        return "\n".join(
+            render.apply_sparseness(substituted.split("\n"), profile.sparseness)
+        )
+
+    def render_negative_prompt(self, *, profile=None, **kwargs):
+        """
+        render the **negative prompt** built from this blueprint's
+        node checkmarking status merged with the full transitive
+        closure of its ``dependencies``
+
+        (see ``.generate_negative_prompt_without_dependencies()`` for
+        parameters)
+
+
+        :param profile: bundled render settings; defaults to a plain
+                `RenderProfile()`
+        :type profile: RenderProfile, optional
+        :param kwargs: further render options (e.g. ``query``)
+        :raise ValueError: a dependency cycle is detected
+        :return: generated negative prompt
+        :rtype: str
+        """
+        resolved = self._resolve_with_dependencies()
+        return resolved.generate_negative_prompt_without_dependencies(
+            profile=profile, **kwargs
+        )
+
     # Blueprint operation  *****************************************************
 
     def prune(self):
