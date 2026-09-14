@@ -33,8 +33,9 @@ _SPARSE_RENDER_PROFILE = RenderProfile(
     sparseness=0, conditional_sidecars=("avoid",)
 )
 # ComfyUI's positive field must never carry {avoid} content; that content
-# is exported separately as the negative field
+# is exported separately, under a "<name>-AVOID" key
 _COMFY_UI_SPARSE_RENDER_PROFILE = RenderProfile(sparseness=0)
+_AVOID_KEY_SUFFIX = "-AVOID"
 
 _HELP = "export every registered exportable's content as flat JSON"
 
@@ -69,15 +70,17 @@ def _exportable_as_json_main(args):
 
     if args.comfy_ui:
         canonical_names = sorted(comfy_ui_exportable_registry)
-        content_by_name = {
-            canonical_name: {
-                "positive": get_exportable(canonical_name).content(
-                    profile=_COMFY_UI_SPARSE_RENDER_PROFILE
-                ),
-                "negative": _avoid_content(get_exportable(canonical_name)),
-            }
-            for canonical_name in canonical_names
-        }
+        content_by_name = {}
+        for canonical_name in canonical_names:
+            exportable = get_exportable(canonical_name)
+            content_by_name[canonical_name] = exportable.content(
+                profile=_COMFY_UI_SPARSE_RENDER_PROFILE
+            )
+            avoid_content = _avoid_content(exportable)
+            if avoid_content:
+                content_by_name[
+                    canonical_name + _AVOID_KEY_SUFFIX
+                ] = avoid_content
     else:
         canonical_names = sorted(exportable_registry)
         content_by_name = {
