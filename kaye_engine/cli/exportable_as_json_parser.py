@@ -9,11 +9,7 @@ from argparse import RawDescriptionHelpFormatter
 
 from kaye_engine import LOGGER_NAME, kamilog
 from kaye_engine.cli.cli_setup_guard import check_corpus_setup_for_cli
-from kaye_engine.exportable import (
-    comfy_ui_exportable_registry,
-    exportable_registry,
-    get_exportable,
-)
+from kaye_engine.exportable import exportable_registry, get_exportable
 from kaye_engine.kamilog import (
     add_verbose_arguments,
     set_logging_level_by_namespace,
@@ -32,10 +28,6 @@ _DEFAULT_OUTPUT_FILE = "exportable-as-json.json"
 _SPARSE_RENDER_PROFILE = RenderProfile(
     sparseness=0, conditional_sidecars=("avoid",)
 )
-# ComfyUI's positive field must never carry {avoid} content; that content
-# is exported separately, under a "<name>-AVOID" key
-_COMFY_UI_SPARSE_RENDER_PROFILE = RenderProfile(sparseness=0)
-_AVOID_KEY_SUFFIX = "-AVOID"
 
 _HELP = "export every registered exportable's content as flat JSON"
 
@@ -49,46 +41,17 @@ keyed by canonical name:
 
 
 # auxiliaries  #################################################################
-def _avoid_content(exportable):
-    """
-    read an exportable's ``{avoid}`` sidecar content, if any
-
-    :param exportable: exportable to read the sidecar from
-    :type exportable: Exportable
-    :return: raw ``{avoid}`` content, or ``""`` when unavailable
-    :rtype: str
-    """
-    sidecars = getattr(
-        getattr(exportable, "blueprint", None), "sidecars", None
-    )
-    return getattr(sidecars, "avoid", "") or ""
-
-
 def _exportable_as_json_main(args):
     set_logging_level_by_namespace(args, logger=logger)
     check_corpus_setup_for_cli()
 
-    if args.comfy_ui:
-        canonical_names = sorted(comfy_ui_exportable_registry)
-        content_by_name = {}
-        for canonical_name in canonical_names:
-            exportable = get_exportable(canonical_name)
-            content_by_name[canonical_name] = exportable.content(
-                profile=_COMFY_UI_SPARSE_RENDER_PROFILE
-            )
-            avoid_content = _avoid_content(exportable)
-            if avoid_content:
-                content_by_name[
-                    canonical_name + _AVOID_KEY_SUFFIX
-                ] = avoid_content
-    else:
-        canonical_names = sorted(exportable_registry)
-        content_by_name = {
-            canonical_name: get_exportable(canonical_name).content(
-                profile=_SPARSE_RENDER_PROFILE
-            )
-            for canonical_name in canonical_names
-        }
+    canonical_names = sorted(exportable_registry)
+    content_by_name = {
+        canonical_name: get_exportable(canonical_name).content(
+            profile=_SPARSE_RENDER_PROFILE
+        )
+        for canonical_name in canonical_names
+    }
 
     with open(args.output_file, "w", encoding="utf-8") as output_file:
         json.dump(content_by_name, output_file, indent=2, sort_keys=True)
@@ -115,12 +78,6 @@ def register_exportable_as_json_parser(cli_subparser):
         help="path to write the JSON output to; default: {}".format(
             _DEFAULT_OUTPUT_FILE
         ),
-    )
-    export_json_parser.add_argument(
-        "--comfy-ui",
-        "-y",
-        action="store_true",
-        help="restrict export to the ComfyUI exportable subset",
     )
     add_verbose_arguments(export_json_parser)
 
