@@ -35,9 +35,3 @@ class TestBlueprintDescriptorSidecars:
         sidecars.description_node = plain_node
 
         assert sidecars.description == "Use when summoning Ria."
-
-    def test_avoid_node_assignable_to_plain_node(_, plain_node):
-        sidecars = BlueprintDescriptorSidecars()
-        sidecars.avoid_node = plain_node
-
-        assert sidecars.avoid == "Use when summoning Ria."

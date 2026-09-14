@@ -13,6 +13,9 @@ import pytest
 
 from kaye_engine.cli import comfy_ui_export_parser
 from kaye_engine.exportable import Exportable
+from kaye_engine.prompt.blueprint import PromptBlueprint
+from kaye_engine.prompt.blueprint.registry import BlueprintRegistry
+from kaye_engine.prompt.prompt_corpus_node import PromptCorpusNode
 
 
 # auxiliaries  ##################################################################
@@ -71,6 +74,47 @@ def _fake_registry():
 
 
 # pytest  ######################################################################
+class TestAvoidContent:
+
+    def test_blueprint_with_avoid_content_renders_negative_prompt(_):
+        root = PromptCorpusNode("○", None, [])
+        main = PromptCorpusNode("Main", root, ["Main content."])
+        PromptCorpusNode("{avoid}", main, ["Do not do this."])
+        blueprint = PromptBlueprint.create_full_blueprint(corpus_tree=root)
+        reg = BlueprintRegistry(
+            canonical_name="test-avoid-with-content",
+            display_name="Test",
+            blueprint=blueprint,
+        )
+
+        opt = comfy_ui_export_parser._avoid_content(reg)
+
+        assert opt == "# Main\nDo not do this."
+
+    def test_blueprint_without_avoid_content_returns_empty(_):
+        root = PromptCorpusNode("○", None, [])
+        PromptCorpusNode("Main", root, ["Main content."])
+        blueprint = PromptBlueprint.create_full_blueprint(corpus_tree=root)
+        reg = BlueprintRegistry(
+            canonical_name="test-avoid-without-content",
+            display_name="Test",
+            blueprint=blueprint,
+        )
+
+        opt = comfy_ui_export_parser._avoid_content(reg)
+
+        assert opt == ""
+
+    def test_exportable_without_negative_content_returns_empty(_):
+        exportable = _FakeExportable(
+            canonical_name="test-avoid-no-blueprint", display_name="Test"
+        )
+
+        opt = comfy_ui_export_parser._avoid_content(exportable)
+
+        assert opt == ""
+
+
 class TestRegisterComfyUiExportParser:
 
     def test_registers_comfy_ui_export_subcommand(self):
