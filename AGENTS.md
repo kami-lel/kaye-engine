@@ -127,7 +127,7 @@ skill` → `claude s`; `claude user-system-prompt` → `claude usp`;
 `Exportable.content()` (`blueprint generate`, `dynamic-node`,
 `exportable`, `claude skill`, `claude plugin`, `claude marketplace`,
 `claude user-system-prompt`, `claude vs-code-extension`, `claude
-code`) — all expose the same 5 options via one shared parent parser
+code`) — all expose the same 6 options via one shared parent parser
 and one aux function, `build_render_profile_parent_parser`/
 `resolve_render_profile` (`kaye_engine/cli/render_profile_parser.py`),
 the latter returning a `RenderProfile` rather than a kwargs dict:
@@ -139,6 +139,7 @@ the latter returning a `RenderProfile` rather than a kwargs dict:
 | `--conditional-sidecar` | `-i` | conditional-sidecar name(s), unioned with `--surface` |
 | `--variant` | none | variant name(s), unioned with `--surface` |
 | `--sparseness` | `-s` | blank-line policy, v.i. |
+| `--reverse-order` | none | reverse sibling order at every level of the tree walk |
 
 `--variant`/`--conditional-sidecar` union additively with whatever
 `--surface` derives; omitting a flag keeps that subcommand's own default
