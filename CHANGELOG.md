@@ -36,8 +36,8 @@ todo todo CLI to import/export w/ OpenWebUI
   file each, plus a `<canonical_name>-AVOID.md` sibling wherever that
   entry's blueprint carries real `{avoid}` sidecar content anywhere in
   its tree
-- `RenderMode` flag enum (`NORMAL`, `NEGATIVE`, `IMAGE`) and
-  `RenderProfile.mode`, unifying `PromptBlueprint.render_prompt()`/
+- `RenderMode` flag enum (`NORMAL`, `NEGATIVE`, `POST_ORDER`, `IMAGE`)
+  and `RenderProfile.mode`, unifying `PromptBlueprint.render_prompt()`/
   `generate_prompt_without_dependencies()` and
   `BlueprintRegistry.content()` into a single entry point for every
   rendering behavior: `RenderMode.NEGATIVE` renders the negative
@@ -48,10 +48,14 @@ todo todo CLI to import/export w/ OpenWebUI
   literal `{avoid}` heading itself) and omitting every branch without
   avoid content, keeping real newlines rather than collapsing to a
   single `↵`-joined line, since it's commonly exported standalone
-  (e.g. as a ComfyUI negative prompt) — and `RenderMode.IMAGE`
+  (e.g. as a ComfyUI negative prompt) — `RenderMode.POST_ORDER`
+  reorders every subtree to children-before-parent (each child's full
+  subtree first, siblings keeping their original relative order, then
+  the node's own heading and content last) — and `RenderMode.IMAGE`, a
+  composite of `POST_ORDER` plus a private flatten-heading flag,
   flattens every heading (`### title` → `title:`) and forces
   `sparseness=1`, regardless of nesting depth or the profile's own
-  `sparseness`
+  `sparseness`, on top of reordering to post-order
 - `Exportable.supports_negative_content` class attribute (`False` by
   default, `True` on `BlueprintRegistry`), the explicit capability
   flag `comfy-ui-export` checks in place of duck-typing

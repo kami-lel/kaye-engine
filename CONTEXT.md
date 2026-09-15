@@ -103,10 +103,19 @@ merged into a caller's profile) picks it in place of the positive
 Every checkmarked node carrying an `{avoid}` child contributes that
 child's content under its own heading (never the literal `{avoid}`
 heading), and a branch with no `{avoid}` content anywhere in it is
-omitted entirely. A 2nd `RenderMode` member, `IMAGE`, flattens every
-heading line to a bare `title:` (regardless of nesting depth) and forces
-`sparseness=1`; the 2 modes compose (`RenderMode.NEGATIVE |
-RenderMode.IMAGE`). `Exportable.supports_negative_content` (class
+omitted entirely. A 3rd `RenderMode` member, `POST_ORDER`, reorders every
+subtree to children-before-parent — each child's full subtree first
+(recursively, same rule), siblings kept in their original relative
+order, then the node's own heading and content last — with no other
+change (`sparseness` and heading markdown are untouched). `IMAGE` is a
+*composite* built from `POST_ORDER` plus a private flatten-heading flag
+(`IMAGE = POST_ORDER | _IMAGE`, mirroring the `WORD_CHARACTER`/`ASCII`
+composite pattern in `AbbrTags`): it flattens every heading line to a
+bare `title:` (regardless of nesting depth), forces `sparseness=1`, and
+(via the `POST_ORDER` bit it carries) also reorders to post-order. Every
+`RenderMode` member composes freely (`RenderMode.NEGATIVE |
+RenderMode.POST_ORDER`, `RenderMode.NEGATIVE | RenderMode.IMAGE`, ...).
+`Exportable.supports_negative_content` (class
 attribute, `False` by default, `True` on `BlueprintRegistry`) is the
 explicit capability flag `comfy-ui-export`'s `_avoid_content()` checks
 before calling `content(profile=... RenderMode.NEGATIVE)` to build each
