@@ -44,9 +44,12 @@ todo todo CLI to import/export w/ OpenWebUI
   rendering behavior: `RenderMode.NEGATIVE` renders the negative
   prompt — walking every checkmarked node in a blueprint's tree for
   an `{avoid}` sidecar child at any depth and rendering a
-  structure-preserving negative prompt from just those, showing only
-  the headings needed to place each `{avoid}` in context (never the
-  literal `{avoid}` heading itself) and omitting every branch without
+  structure-preserving negative prompt from just those, showing a
+  node's own heading only when that node carries `{avoid}` content of
+  its own (never the literal `{avoid}` heading itself; an ancestor
+  with no `{avoid}` content of its own is transparent, splicing its
+  contributing descendants' blocks in directly) and omitting every
+  branch without
   avoid content, keeping real newlines rather than collapsing to a
   single `↵`-joined line, since it's commonly exported standalone
   (e.g. as a ComfyUI negative prompt) — `RenderMode.POST_ORDER`
@@ -60,6 +63,12 @@ todo todo CLI to import/export w/ OpenWebUI
 - `Exportable.supports_negative_content` class attribute (`False` by
   default, `True` on `BlueprintRegistry`), the explicit capability
   flag `comfy-ui-export` checks in place of duck-typing
+- `RenderProfile.reverse_sibling_order` (`bool`, default `False`) and
+  its `--reverse-order` CLI flag, reversing sibling order at every
+  level of the tree walk across all 4 walk paths
+  `render_prompt_lines()`/`render_negative_prompt_lines()` can take
+  (plain pre-order and `POST_ORDER`, positive and negative) — nothing
+  is dropped, only reordered
 
 ### Changed
 
@@ -78,8 +87,14 @@ todo todo CLI to import/export w/ OpenWebUI
 - `RenderMode.NEGATIVE` (and `POST_ORDER`) no longer skip a checkmarked
   node's `{avoid}` content because an ancestor happens to be unchecked:
   the tree walk now always descends regardless of a node's own
-  checkmark, printing an unchecked ancestor's heading only to place a
-  contributing descendant in context
+  checkmark
+- `RenderMode.NEGATIVE`'s `POST_ORDER` path (used by `comfy-ui-export`'s
+  flattened `IMAGE` mode) no longer writes a bare, contentless heading
+  line (e.g. a trailing `Some Section:` with nothing under it) for an
+  ancestor with no `{avoid}` content of its own; such a node is now
+  transparent and its contributing descendants' content splices in
+  directly with no heading of its own — applies to the plain pre-order
+  negative path too
 
 ### Security
 

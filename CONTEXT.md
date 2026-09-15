@@ -150,18 +150,23 @@ q.v. `kaye_vault/claude_render_profiles.py`) maps a surface name to the
 `RenderProfile` carrying that surface's variants/conditional-sidecars.
 Every **rendering command** — any CLI subcommand that reaches
 `PromptBlueprint.render_prompt(...)`, directly or via
-`Exportable.content()` — exposes the same 5 options (`--surface`,
+`Exportable.content()` — exposes the same 6 options (`--surface`,
 `--comment`/`--no-comment`, `--conditional-sidecar`, `--variant`,
-`--sparseness`) via one shared parent parser and one aux function,
+`--sparseness`, `--reverse-order`) via one shared parent parser and one
+aux function,
 `build_render_profile_parent_parser`/`resolve_render_profile`
 (`kaye_engine/cli/render_profile_parser.py`). `resolve_render_profile`
 returns a single `RenderProfile`, built by merging each selected
 surface's profile with one built from the explicit
-`--variant`/`--conditional-sidecar`/`--sparseness`/`--comment` flags via
+`--variant`/`--conditional-sidecar`/`--sparseness`/`--comment`/
+`--reverse-order` flags via
 `RenderProfile.merge()` — `--variant`/`--conditional-sidecar` union
 additively with whatever `--surface` derives, so rendered prompts
 auto-checkmark the sidecars real on that surface plus any named
-explicitly. `--surface` itself is omitted entirely from the parser when
+explicitly; `--reverse-order` is a plain scalar override (`other` wins),
+same precedent as `--comment`/`--no-comment`, so an explicit CLI value
+always beats whatever a `--surface` profile set. `--surface` itself is
+omitted entirely from the parser when
 no consumer project configures `surface_profiles`. Each subcommand keeps
 its own default for `--comment`/`--no-comment` and `--sparseness` when
 the flags are omitted (via `build_sparseness_parent_parser(default=...)`,

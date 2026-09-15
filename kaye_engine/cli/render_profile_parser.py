@@ -3,9 +3,9 @@ render_profile_parser.py
 
 define ``build_render_profile_parent_parser`` and
 ``resolve_render_profile`` -- the shared parent parser and aux function
-behind the 5 render options (``--surface``, ``--comment``/
+behind the 6 render options (``--surface``, ``--comment``/
 ``--no-comment``, ``--conditional-sidecar``, ``--variant``,
-``--sparseness``) every rendering command exposes
+``--sparseness``, ``--reverse-order``) every rendering command exposes
 """
 
 from argparse import ArgumentParser
@@ -31,7 +31,7 @@ def build_render_profile_parent_parser(
     surface_profiles=None,
 ):
     """
-    build a fresh, help-suppressed ``ArgumentParser`` carrying all 5
+    build a fresh, help-suppressed ``ArgumentParser`` carrying all 6
     render options -- for use as a `parents=[...]` entry -- a fresh
     instance per call avoids `parents=` option-string conflicts across
     the several subcommands sharing this builder
@@ -81,6 +81,13 @@ def build_render_profile_parent_parser(
             "--surface"
         ),
     )
+    parent.add_argument(
+        "--reverse-order",
+        dest="reverse_sibling_order",
+        action="store_true",
+        default=False,
+        help="reverse sibling order at every level of the tree walk",
+    )
     return parent
 
 
@@ -88,7 +95,7 @@ def resolve_render_profile(
     args, *, surface_profiles=None, default_show_comment=False
 ):
     """
-    resolve a parsed ``Namespace`` carrying the 5 render options into a
+    resolve a parsed ``Namespace`` carrying the 6 render options into a
     `RenderProfile`, directly ``**``-splattable via ``as_kwargs()`` or
     passable as ``profile=`` into ``generate_prompt_without_dependencies(...)``/
     ``BlueprintRegistry.content(...)``
@@ -134,5 +141,9 @@ def resolve_render_profile(
         )
 
     return profile.merge(
-        RenderProfile(sparseness=args.sparseness, show_comment=show_comment)
+        RenderProfile(
+            sparseness=args.sparseness,
+            show_comment=show_comment,
+            reverse_sibling_order=args.reverse_sibling_order,
+        )
     )
