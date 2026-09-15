@@ -36,18 +36,25 @@ todo todo CLI to import/export w/ OpenWebUI
   file each, plus a `<canonical_name>-AVOID.md` sibling wherever that
   entry's blueprint carries real `{avoid}` sidecar content anywhere in
   its tree
-- `render_negative_prompt()`/`generate_negative_prompt_without_dependencies()`
-  on `PromptBlueprint`, `render.render_negative_prompt_lines()`, and
-  `BlueprintRegistry.negative_content()` — the negative-prompt
-  counterparts to `render_prompt()` and friends. Walks every
-  checkmarked node in a blueprint's tree for an `{avoid}` sidecar
-  child at any depth and renders a structure-preserving negative
-  prompt from just those, showing only the headings needed to place
-  each `{avoid}` in context (never the literal `{avoid}` heading
-  itself) and omitting every branch without avoid content; unlike a
-  spliced-in `{avoid}`, it keeps real newlines rather than collapsing
-  to a single `↵`-joined line, since it's commonly exported standalone
-  (e.g. as a ComfyUI negative prompt)
+- `RenderMode` flag enum (`NORMAL`, `NEGATIVE`, `IMAGE`) and
+  `RenderProfile.mode`, unifying `PromptBlueprint.render_prompt()`/
+  `generate_prompt_without_dependencies()` and
+  `BlueprintRegistry.content()` into a single entry point for every
+  rendering behavior: `RenderMode.NEGATIVE` renders the negative
+  prompt — walking every checkmarked node in a blueprint's tree for
+  an `{avoid}` sidecar child at any depth and rendering a
+  structure-preserving negative prompt from just those, showing only
+  the headings needed to place each `{avoid}` in context (never the
+  literal `{avoid}` heading itself) and omitting every branch without
+  avoid content, keeping real newlines rather than collapsing to a
+  single `↵`-joined line, since it's commonly exported standalone
+  (e.g. as a ComfyUI negative prompt) — and `RenderMode.IMAGE`
+  flattens every heading (`### title` → `title:`) and forces
+  `sparseness=1`, regardless of nesting depth or the profile's own
+  `sparseness`
+- `Exportable.supports_negative_content` class attribute (`False` by
+  default, `True` on `BlueprintRegistry`), the explicit capability
+  flag `comfy-ui-export` checks in place of duck-typing
 
 ### Changed
 
@@ -55,6 +62,7 @@ todo todo CLI to import/export w/ OpenWebUI
 - `exportable-as-json`'s default export now folds `{avoid}` content in
   inline, same flat-string shape as before
 - affordance/variant mechanism documentation split out of `sidecar-node-doc.md` into its own `docs/affordance-doc.md`, cross-linked from `claude-doc.md`, `CONTEXT.md`, `AGENTS.md`, & `README.md`
+- `kaye_engine/prompt/blueprint/render.py` split into a `render/` subpackage (`util.py`, `tree.py`, `sidecar_splice.py`, `lines.py`, `__init__.py` facade) by concern; every `render.X` call site keeps working unchanged
 
 ### Deprecated
 
