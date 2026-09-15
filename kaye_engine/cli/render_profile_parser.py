@@ -14,6 +14,7 @@ from kaye_engine.cli.comment_parser import build_comment_parent_parser
 from kaye_engine.cli.sparseness_parser import build_sparseness_parent_parser
 from kaye_engine.cli import DEFAULT_SPARSENESS
 from kaye_engine.cli.claude.surface_parser import build_surface_parent_parser
+from kaye_engine.prompt.blueprint.render_mode import RenderMode
 from kaye_engine.prompt.blueprint.render_profile import RenderProfile
 
 __all__ = (
@@ -140,10 +141,12 @@ def resolve_render_profile(
             )
         )
 
+    mode = profile.mode
+    if args.reverse_sibling_order:
+        mode |= RenderMode.REVERSE_ORDER
+
     return profile.merge(
         RenderProfile(
-            sparseness=args.sparseness,
-            show_comment=show_comment,
-            reverse_sibling_order=args.reverse_sibling_order,
+            sparseness=args.sparseness, show_comment=show_comment, mode=mode
         )
     )

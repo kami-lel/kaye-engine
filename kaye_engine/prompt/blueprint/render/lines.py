@@ -22,12 +22,7 @@ __all__ = (
 
 def _iter_children(node, reverse_sibling_order):
     """
-    :param node:
-    :type node: BasePromptNode
-    :param reverse_sibling_order: whether to walk ``node.children`` back
-            to front
-    :type reverse_sibling_order: bool
-    :return: ``node.children``, reversed when requested
+    :return: ``node.children``, reversed when ``reverse_sibling_order``
     :rtype: Iterable
     """
     return reversed(node.children) if reverse_sibling_order else node.children
@@ -35,20 +30,9 @@ def _iter_children(node, reverse_sibling_order):
 
 def _iter_nodes_pre_order(node, reverse_sibling_order):
     """
-    pre-order walk of ``node`` and its descendants, optionally visiting
-    each level's siblings back to front
-
-    (helper function used in ``render_prompt_lines()`` in place of
-    ``anytree.PreOrderIter``, which offers no sibling-reordering hook)
-
-
-    :param node:
-    :type node: BasePromptNode
-    :param reverse_sibling_order: whether to reverse sibling order at
-            every level
-    :type reverse_sibling_order: bool
-    :return: nodes in pre-order
-    :rtype: Iterator[BasePromptNode]
+    pre-order walk of ``node`` and its descendants, replacing
+    ``anytree.PreOrderIter`` to allow reversing sibling order at every
+    level
     """
     yield node
     for child in _iter_children(node, reverse_sibling_order):
@@ -57,8 +41,6 @@ def _iter_nodes_pre_order(node, reverse_sibling_order):
 
 def _join_blocks(blocks):
     """
-    :param blocks: rendered line-blocks to join
-    :type blocks: list[list[str]]
     :return: ``blocks`` concatenated, each separated by one blank line
     :rtype: list[str]
     """
@@ -323,9 +305,9 @@ def render_prompt_lines(
     :param profile: bundled render settings -- see `RenderProfile` for
             the full field list (``show_comment``,
             ``disable_first_heading``, ``conditional_sidecars``,
-            ``variants``, ``display_name``, ``sparseness``,
-            ``reverse_sibling_order``, plus the glossary-related
-            fields); defaults to a plain `RenderProfile()`
+            ``variants``, ``display_name``, ``sparseness``, ``mode``,
+            plus the glossary-related fields); defaults to a plain
+            `RenderProfile()`
     :type profile: RenderProfile, optional
     :param kwargs: further render options (e.g. ``query``) forwarded
             to each checkmarked node's ``content_lines(**kwargs)``
@@ -338,11 +320,13 @@ def render_prompt_lines(
         variants=profile.variants,
     )
 
+    reverse_sibling_order = RenderMode.REVERSE_ORDER in profile.mode
+
     if RenderMode.POST_ORDER in profile.mode:
         lines = _render_prompt_node_post_order_recursively(
             working_bp,
             working_bp.corpus,
-            reverse_sibling_order=profile.reverse_sibling_order,
+            reverse_sibling_order=reverse_sibling_order,
             **kwargs,
         )
         if profile.disable_first_heading:
@@ -353,9 +337,7 @@ def render_prompt_lines(
         should_skip_heading = profile.disable_first_heading
 
         last_node_idx = working_bp.corpus.size - 1
-        nodes = _iter_nodes_pre_order(
-            working_bp.corpus, profile.reverse_sibling_order
-        )
+        nodes = _iter_nodes_pre_order(working_bp.corpus, reverse_sibling_order)
         for i, node in enumerate(nodes):
             if working_bp.is_checkmarked(node):
                 if should_skip_heading:
@@ -405,8 +387,7 @@ def render_negative_prompt_lines(
     :param profile: bundled render settings -- of `RenderProfile`'s
             fields, only ``conditional_sidecars``, ``variants``,
             ``show_comment``, ``display_name``, ``sparseness``, and
-            ``reverse_sibling_order`` apply here; defaults to a plain
-            `RenderProfile()`
+            ``mode`` apply here; defaults to a plain `RenderProfile()`
     :type profile: RenderProfile, optional
     :param kwargs: further render options forwarded to each ``{avoid}``
             node's ``content_lines(**kwargs)``
@@ -419,6 +400,8 @@ def render_negative_prompt_lines(
         variants=profile.variants,
     )
 
+    reverse_sibling_order = RenderMode.REVERSE_ORDER in profile.mode
+
     recurse = (
         _render_negative_prompt_node_post_order_recursively
         if RenderMode.POST_ORDER in profile.mode
@@ -426,13 +409,11 @@ def render_negative_prompt_lines(
     )
 
     child_blocks = []
-    for child in _iter_children(
-        working_bp.corpus, profile.reverse_sibling_order
-    ):
+    for child in _iter_children(working_bp.corpus, reverse_sibling_order):
         block = recurse(
             working_bp,
             child,
-            reverse_sibling_order=profile.reverse_sibling_order,
+            reverse_sibling_order=reverse_sibling_order,
             **kwargs,
         )
         if block:
