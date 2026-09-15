@@ -3,6 +3,7 @@
 [^format]
 
 <!--
+TODO use kamilog
 todo todo CLI to import/export w/ OpenWebUI
 -->
 
@@ -97,6 +98,10 @@ todo todo CLI to import/export w/ OpenWebUI
   transparent and its contributing descendants' content splices in
   directly with no heading of its own — applies to the plain pre-order
   negative path too
+- `exportable-as-json`/`j` and `comfy-ui-export`/`y` now emit
+  `ENTER`/`SUCC`/`DONE` progress logging at `-vvvv`, matching every
+  other CLI subcommand; previously they set the logging level but
+  logged nothing
 
 ### Security
 
