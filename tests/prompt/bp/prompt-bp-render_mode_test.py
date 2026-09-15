@@ -37,6 +37,30 @@ Content of Content.
     )
 
 
+def _a_b_c_corpus():
+    return _build_corpus(
+        """
+# A
+## B
+## C
+"""
+    )
+
+
+def _a_b_c_avoid_corpus():
+    return _build_corpus(
+        """
+# A
+## B
+### {avoid}
+BBBB
+## C
+### {avoid}
+CCCC
+"""
+    )
+
+
 def _nested_avoid_corpus():
     return _build_corpus(
         """
@@ -99,7 +123,6 @@ class TestNegativeModeViaUnifiedEntryPoint:  ###################################
 
         assert via_mode == dedicated
         assert via_mode == [
-            "# Some",
             "## Prompt",
             "AAAA",
             "",
@@ -122,7 +145,7 @@ class TestNegativeAndImageModeCombined:  #######################################
         assert "AAAA" in opt
         assert "BBBB" in opt
         assert not any(line.startswith("#") for line in opt)
-        assert "Some:" in opt
+        assert "Some:" not in opt
         assert "Content:" in opt
 
 
@@ -187,8 +210,6 @@ class TestPostOrderNegativePath:  ##############################################
             "",
             "## Prompt",
             "AAAA",
-            "",
-            "# Some",
         ]
 
 
@@ -214,3 +235,59 @@ Content C.
 
         assert opt.index("B:") < opt.index("A:")
         assert opt.index("C:") < opt.index("A:")
+
+
+class TestReverseSiblingOrder:  ####################################################
+
+    def test_positive_pre_order_default_keeps_order(_):
+        bp = PromptBlueprint.create_full_blueprint(corpus_tree=_a_b_c_corpus())
+
+        opt = render.render_prompt_lines(bp)
+
+        assert opt.index("## B") < opt.index("## C")
+
+    def test_positive_pre_order_reverses_siblings(_):
+        bp = PromptBlueprint.create_full_blueprint(corpus_tree=_a_b_c_corpus())
+
+        opt = render.render_prompt_lines(
+            bp, profile=RenderProfile(reverse_sibling_order=True)
+        )
+
+        assert opt.index("## C") < opt.index("## B")
+
+    def test_positive_post_order_reverses_siblings(_):
+        bp = PromptBlueprint.create_full_blueprint(corpus_tree=_a_b_c_corpus())
+
+        opt = render.render_prompt_lines(
+            bp,
+            profile=RenderProfile(
+                mode=RenderMode.POST_ORDER, reverse_sibling_order=True
+            ),
+        )
+
+        assert opt.index("## C") < opt.index("## B")
+
+    def test_negative_pre_order_reverses_siblings(_):
+        bp = PromptBlueprint.create_full_blueprint(
+            corpus_tree=_a_b_c_avoid_corpus()
+        )
+
+        opt = render.render_negative_prompt_lines(
+            bp, profile=RenderProfile(reverse_sibling_order=True)
+        )
+
+        assert opt.index("## C") < opt.index("## B")
+
+    def test_negative_post_order_reverses_siblings(_):
+        bp = PromptBlueprint.create_full_blueprint(
+            corpus_tree=_a_b_c_avoid_corpus()
+        )
+
+        opt = render.render_negative_prompt_lines(
+            bp,
+            profile=RenderProfile(
+                mode=RenderMode.POST_ORDER, reverse_sibling_order=True
+            ),
+        )
+
+        assert opt.index("## C") < opt.index("## B")

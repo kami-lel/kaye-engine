@@ -7,8 +7,6 @@ define:
 - ``render_negative_prompt_lines``
 """
 
-from anytree import PreOrderIter
-
 from ...prompt_corpus_node import HEADING_PREFIX_ELEMENT
 from ...sidecar_node import AVOID_NAME, get_sidecar_name
 from ..render_mode import RenderMode
@@ -22,7 +20,59 @@ __all__ = (
 )
 
 
-def _render_negative_prompt_node_recursively(blueprint, node, **kwargs):
+def _iter_children(node, reverse_sibling_order):
+    """
+    :param node:
+    :type node: BasePromptNode
+    :param reverse_sibling_order: whether to walk ``node.children`` back
+            to front
+    :type reverse_sibling_order: bool
+    :return: ``node.children``, reversed when requested
+    :rtype: Iterable
+    """
+    return reversed(node.children) if reverse_sibling_order else node.children
+
+
+def _iter_nodes_pre_order(node, reverse_sibling_order):
+    """
+    pre-order walk of ``node`` and its descendants, optionally visiting
+    each level's siblings back to front
+
+    (helper function used in ``render_prompt_lines()`` in place of
+    ``anytree.PreOrderIter``, which offers no sibling-reordering hook)
+
+
+    :param node:
+    :type node: BasePromptNode
+    :param reverse_sibling_order: whether to reverse sibling order at
+            every level
+    :type reverse_sibling_order: bool
+    :return: nodes in pre-order
+    :rtype: Iterator[BasePromptNode]
+    """
+    yield node
+    for child in _iter_children(node, reverse_sibling_order):
+        yield from _iter_nodes_pre_order(child, reverse_sibling_order)
+
+
+def _join_blocks(blocks):
+    """
+    :param blocks: rendered line-blocks to join
+    :type blocks: list[list[str]]
+    :return: ``blocks`` concatenated, each separated by one blank line
+    :rtype: list[str]
+    """
+    lines = []
+    for block in blocks:
+        if lines:
+            lines.append("")
+        lines.extend(block)
+    return lines
+
+
+def _render_negative_prompt_node_recursively(
+    blueprint, node, *, reverse_sibling_order=False, **kwargs
+):
     """
     recursively render one node's contribution to a negative prompt
 
@@ -30,14 +80,13 @@ def _render_negative_prompt_node_recursively(blueprint, node, **kwargs):
     node itself is checkmarked; descendants are always walked
     regardless of this node's own checkmark, so a checkmarked
     descendant several levels below an unchecked ancestor still
-    contributes -- that ancestor's heading is then printed only to
-    place the descendant in context, never its own ``{avoid}``. A node
+    contributes. A node with no ``{avoid}`` content of its own is
+    transparent: its contributing descendants' blocks splice in
+    directly, with no heading of this node's own, even though the
+    node is checkmarked and the walk still visits it -- a node
     contributes at all only when it, or some descendant, carries
-    ``{avoid}`` content this way: its own heading is printed (the
-    ``{avoid}`` child's heading never is), followed by its own
-    ``{avoid}`` content when checkmarked, then any contributing
-    descendants in the same fashion; a node with neither is omitted
-    entirely, and non-``avoid`` sidecar children (``{description}``,
+    ``{avoid}`` content; a node with neither is omitted entirely, and
+    non-``avoid`` sidecar children (``{description}``,
     ``{when_to_use}``, ...) never contribute
 
     (helper function used in ``render_negative_prompt_lines()``)
@@ -47,6 +96,9 @@ def _render_negative_prompt_node_recursively(blueprint, node, **kwargs):
     :type blueprint: PromptBlueprint
     :param node: node to render, never the corpus root
     :type node: BasePromptNode
+    :param reverse_sibling_order: whether to reverse sibling order at
+            every level of the walk
+    :type reverse_sibling_order: bool
     :param kwargs: further render options forwarded to the ``{avoid}``
             node's ``content_lines(**kwargs)``
     :return: rendered lines for ``node`` and its descendants, or an
@@ -58,14 +110,17 @@ def _render_negative_prompt_node_recursively(blueprint, node, **kwargs):
     own_avoid_lines = []
     child_blocks = []
 
-    for child in node.children:
+    for child in _iter_children(node, reverse_sibling_order):
         sidecar_name = get_sidecar_name(child)
         if sidecar_name == AVOID_NAME:
             if is_checked:
                 own_avoid_lines = child.content_lines(**kwargs)
         elif sidecar_name is None:
             block = _render_negative_prompt_node_recursively(
-                blueprint, child, **kwargs
+                blueprint,
+                child,
+                reverse_sibling_order=reverse_sibling_order,
+                **kwargs,
             )
             if block:
                 child_blocks.append(block)
@@ -73,26 +128,27 @@ def _render_negative_prompt_node_recursively(blueprint, node, **kwargs):
     if not own_avoid_lines and not child_blocks:
         return []
 
-    lines = [HEADING_PREFIX_ELEMENT * node.depth + " " + node.name]
-    lines.extend(own_avoid_lines)
+    if not own_avoid_lines:
+        return _join_blocks(child_blocks)
 
-    for block in child_blocks:
-        if len(lines) > 1:
-            lines.append("")
-        lines.extend(block)
+    own_lines = [HEADING_PREFIX_ELEMENT * node.depth + " " + node.name]
+    own_lines.extend(own_avoid_lines)
 
-    return lines
+    return _join_blocks([own_lines] + child_blocks)
 
 
-def _render_prompt_node_post_order_recursively(blueprint, node, **kwargs):
+def _render_prompt_node_post_order_recursively(
+    blueprint, node, *, reverse_sibling_order=False, **kwargs
+):
     """
     recursively render one node's contribution for
     ``RenderMode.POST_ORDER``: every child's full subtree first (each
     following the same rule, siblings kept in original relative
-    order), then this node's own heading and content last, only when
-    this node itself is checkmarked -- checkmarking is evaluated
-    per-node, independent of any ancestor's, matching the flat
-    ``PreOrderIter`` walk this replaces
+    order, or reversed when ``reverse_sibling_order`` is set), then
+    this node's own heading and content last, only when this node
+    itself is checkmarked -- checkmarking is evaluated per-node,
+    independent of any ancestor's, matching the flat pre-order walk
+    this replaces
 
     (helper function used in ``render_prompt_lines()`` when
     ``RenderMode.POST_ORDER`` is set)
@@ -102,6 +158,9 @@ def _render_prompt_node_post_order_recursively(blueprint, node, **kwargs):
     :type blueprint: PromptBlueprint
     :param node:
     :type node: BasePromptNode
+    :param reverse_sibling_order: whether to reverse sibling order at
+            every level of the walk
+    :type reverse_sibling_order: bool
     :param kwargs: further render options forwarded to each
             checkmarked node's ``content_lines(**kwargs)``
     :return: rendered lines for ``node`` and its descendants, or an
@@ -109,9 +168,12 @@ def _render_prompt_node_post_order_recursively(blueprint, node, **kwargs):
     :rtype: list[str]
     """
     child_blocks = []
-    for child in node.children:
+    for child in _iter_children(node, reverse_sibling_order):
         block = _render_prompt_node_post_order_recursively(
-            blueprint, child, **kwargs
+            blueprint,
+            child,
+            reverse_sibling_order=reverse_sibling_order,
+            **kwargs,
         )
         if block:
             child_blocks.append(block)
@@ -126,36 +188,31 @@ def _render_prompt_node_post_order_recursively(blueprint, node, **kwargs):
     if not child_blocks and not own_lines:
         return []
 
-    lines = []
-    for block in child_blocks:
-        if lines:
-            lines.append("")
-        lines.extend(block)
-
+    blocks = list(child_blocks)
     if own_lines:
-        if lines:
-            lines.append("")
-        lines.extend(own_lines)
+        blocks.append(own_lines)
 
-    return lines
+    return _join_blocks(blocks)
 
 
 def _render_negative_prompt_node_post_order_recursively(
-    blueprint, node, **kwargs
+    blueprint, node, *, reverse_sibling_order=False, **kwargs
 ):
     """
     (``RenderMode.POST_ORDER`` counterpart of
     ``_render_negative_prompt_node_recursively``) recursively render
     one node's contribution to a negative prompt, with every
     contributing child's block first (children kept in original
-    relative order), then this node's own heading and ``{avoid}``
-    content last
+    relative order, or reversed when ``reverse_sibling_order`` is
+    set), then this node's own heading and ``{avoid}`` content last
 
     a node's own ``{avoid}`` sidecar child contributes only when the
     node itself is checkmarked; descendants are always walked
     regardless of this node's own checkmark, so a checkmarked
     descendant several levels below an unchecked ancestor still
-    contributes
+    contributes. A node with no ``{avoid}`` content of its own is
+    transparent: its contributing children's blocks propagate up
+    unchanged, with no heading of this node's own
 
     (helper function used in ``render_negative_prompt_lines()`` when
     ``RenderMode.POST_ORDER`` is set)
@@ -165,6 +222,9 @@ def _render_negative_prompt_node_post_order_recursively(
     :type blueprint: PromptBlueprint
     :param node: node to render, never the corpus root
     :type node: BasePromptNode
+    :param reverse_sibling_order: whether to reverse sibling order at
+            every level of the walk
+    :type reverse_sibling_order: bool
     :param kwargs: further render options forwarded to the ``{avoid}``
             node's ``content_lines(**kwargs)``
     :return: rendered lines for ``node`` and its descendants, or an
@@ -176,14 +236,17 @@ def _render_negative_prompt_node_post_order_recursively(
     own_avoid_lines = []
     child_blocks = []
 
-    for child in node.children:
+    for child in _iter_children(node, reverse_sibling_order):
         sidecar_name = get_sidecar_name(child)
         if sidecar_name == AVOID_NAME:
             if is_checked:
                 own_avoid_lines = child.content_lines(**kwargs)
         elif sidecar_name is None:
             block = _render_negative_prompt_node_post_order_recursively(
-                blueprint, child, **kwargs
+                blueprint,
+                child,
+                reverse_sibling_order=reverse_sibling_order,
+                **kwargs,
             )
             if block:
                 child_blocks.append(block)
@@ -191,20 +254,13 @@ def _render_negative_prompt_node_post_order_recursively(
     if not own_avoid_lines and not child_blocks:
         return []
 
-    lines = []
-    for block in child_blocks:
-        if lines:
-            lines.append("")
-        lines.extend(block)
+    if not own_avoid_lines:
+        return _join_blocks(child_blocks)
 
     own_lines = [HEADING_PREFIX_ELEMENT * node.depth + " " + node.name]
     own_lines.extend(own_avoid_lines)
 
-    if lines:
-        lines.append("")
-    lines.extend(own_lines)
-
-    return lines
+    return _join_blocks(child_blocks + [own_lines])
 
 
 def _remove_first_heading_line(lines):
@@ -267,9 +323,9 @@ def render_prompt_lines(
     :param profile: bundled render settings -- see `RenderProfile` for
             the full field list (``show_comment``,
             ``disable_first_heading``, ``conditional_sidecars``,
-            ``variants``, ``display_name``, ``sparseness``, plus the
-            glossary-related fields); defaults to a plain
-            `RenderProfile()`
+            ``variants``, ``display_name``, ``sparseness``,
+            ``reverse_sibling_order``, plus the glossary-related
+            fields); defaults to a plain `RenderProfile()`
     :type profile: RenderProfile, optional
     :param kwargs: further render options (e.g. ``query``) forwarded
             to each checkmarked node's ``content_lines(**kwargs)``
@@ -284,7 +340,10 @@ def render_prompt_lines(
 
     if RenderMode.POST_ORDER in profile.mode:
         lines = _render_prompt_node_post_order_recursively(
-            working_bp, working_bp.corpus, **kwargs
+            working_bp,
+            working_bp.corpus,
+            reverse_sibling_order=profile.reverse_sibling_order,
+            **kwargs,
         )
         if profile.disable_first_heading:
             lines = _remove_first_heading_line(lines)
@@ -294,7 +353,10 @@ def render_prompt_lines(
         should_skip_heading = profile.disable_first_heading
 
         last_node_idx = working_bp.corpus.size - 1
-        for i, node in enumerate(PreOrderIter(working_bp.corpus)):
+        nodes = _iter_nodes_pre_order(
+            working_bp.corpus, profile.reverse_sibling_order
+        )
+        for i, node in enumerate(nodes):
             if working_bp.is_checkmarked(node):
                 if should_skip_heading:
                     should_skip_heading = False
@@ -333,15 +395,18 @@ def render_negative_prompt_lines(
     ``{avoid}`` sidecar child supplies its printed content (that
     child's own heading is never shown), and a node is printed at all
     only when it or some descendant carries ``{avoid}`` content --
-    branches with none are omitted entirely
+    branches with none are omitted entirely. A node with no ``{avoid}``
+    content of its own, but a contributing descendant, is transparent:
+    its own heading is never printed either, only the descendant's
 
 
     :param blueprint:
     :type blueprint: PromptBlueprint
     :param profile: bundled render settings -- of `RenderProfile`'s
             fields, only ``conditional_sidecars``, ``variants``,
-            ``show_comment``, ``display_name``, and ``sparseness``
-            apply here; defaults to a plain `RenderProfile()`
+            ``show_comment``, ``display_name``, ``sparseness``, and
+            ``reverse_sibling_order`` apply here; defaults to a plain
+            `RenderProfile()`
     :type profile: RenderProfile, optional
     :param kwargs: further render options forwarded to each ``{avoid}``
             node's ``content_lines(**kwargs)``
@@ -360,14 +425,19 @@ def render_negative_prompt_lines(
         else _render_negative_prompt_node_recursively
     )
 
-    lines = []
-    for child in working_bp.corpus.children:
-        block = recurse(working_bp, child, **kwargs)
-        if not block:
-            continue
-        if lines:
-            lines.append("")
-        lines.extend(block)
+    child_blocks = []
+    for child in _iter_children(
+        working_bp.corpus, profile.reverse_sibling_order
+    ):
+        block = recurse(
+            working_bp,
+            child,
+            reverse_sibling_order=profile.reverse_sibling_order,
+            **kwargs,
+        )
+        if block:
+            child_blocks.append(block)
+    lines = _join_blocks(child_blocks)
 
     if profile.show_comment:
         lines.append("<!-- " + render_comment(profile.display_name) + " -->")
