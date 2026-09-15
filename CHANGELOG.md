@@ -35,19 +35,42 @@ todo todo CLI to import/export w/ OpenWebUI
   `comfy_ui_exportable_registry` to `FOLDER` as one `<canonical_name>.md`
   file each, plus a `<canonical_name>-AVOID.md` sibling wherever that
   entry's blueprint carries real `{avoid}` sidecar content anywhere in
-  its tree
-- `render_negative_prompt()`/`generate_negative_prompt_without_dependencies()`
-  on `PromptBlueprint`, `render.render_negative_prompt_lines()`, and
-  `BlueprintRegistry.negative_content()` — the negative-prompt
-  counterparts to `render_prompt()` and friends. Walks every
-  checkmarked node in a blueprint's tree for an `{avoid}` sidecar
-  child at any depth and renders a structure-preserving negative
-  prompt from just those, showing only the headings needed to place
-  each `{avoid}` in context (never the literal `{avoid}` heading
-  itself) and omitting every branch without avoid content; unlike a
-  spliced-in `{avoid}`, it keeps real newlines rather than collapsing
-  to a single `↵`-joined line, since it's commonly exported standalone
-  (e.g. as a ComfyUI negative prompt)
+  its tree; both files render with `RenderMode.IMAGE`, so headings are
+  flat `title:` lines rather than markdown `#`/`##`/`###`
+- `RenderMode` flag enum (`NORMAL`, `NEGATIVE`, `POST_ORDER`,
+  `REVERSE_ORDER`, `IMAGE`) and `RenderProfile.mode`, unifying
+  `PromptBlueprint.render_prompt()`/
+  `generate_prompt_without_dependencies()` and
+  `BlueprintRegistry.content()` into a single entry point for every
+  rendering behavior: `RenderMode.NEGATIVE` renders the negative
+  prompt — walking every checkmarked node in a blueprint's tree for
+  an `{avoid}` sidecar child at any depth and rendering a
+  structure-preserving negative prompt from just those, showing a
+  node's own heading only when that node carries `{avoid}` content of
+  its own (never the literal `{avoid}` heading itself; an ancestor
+  with no `{avoid}` content of its own is transparent, splicing its
+  contributing descendants' blocks in directly) and omitting every
+  branch without
+  avoid content, keeping real newlines rather than collapsing to a
+  single `↵`-joined line, since it's commonly exported standalone
+  (e.g. as a ComfyUI negative prompt) — `RenderMode.POST_ORDER`
+  reorders every subtree to children-before-parent (each child's full
+  subtree first, siblings keeping their original relative order, then
+  the node's own heading and content last) — `RenderMode.REVERSE_ORDER`
+  (also exposed as `--reverse-order` on the shared render-option CLI
+  parser) reverses sibling order at every level of the walk instead,
+  across all 4 walk paths `render_prompt_lines()`/
+  `render_negative_prompt_lines()` can take (plain pre-order and
+  `POST_ORDER`, positive and negative) — nothing is dropped, only
+  reordered — and `RenderMode.IMAGE`, a
+  composite of `POST_ORDER` | `REVERSE_ORDER` plus a private
+  flatten-heading flag, flattens every heading (`### title` → `title:`)
+  and forces `sparseness=1`, regardless of nesting depth or the
+  profile's own `sparseness`, on top of reordering to post-order with
+  reversed siblings
+- `Exportable.supports_negative_content` class attribute (`False` by
+  default, `True` on `BlueprintRegistry`), the explicit capability
+  flag `comfy-ui-export` checks in place of duck-typing
 
 ### Changed
 
@@ -55,12 +78,25 @@ todo todo CLI to import/export w/ OpenWebUI
 - `exportable-as-json`'s default export now folds `{avoid}` content in
   inline, same flat-string shape as before
 - affordance/variant mechanism documentation split out of `sidecar-node-doc.md` into its own `docs/affordance-doc.md`, cross-linked from `claude-doc.md`, `CONTEXT.md`, `AGENTS.md`, & `README.md`
+- `kaye_engine/prompt/blueprint/render.py` split into a `render/` subpackage (`util.py`, `tree.py`, `sidecar_splice.py`, `lines.py`, `__init__.py` facade) by concern; every `render.X` call site keeps working unchanged
 
 ### Deprecated
 
 ### Removed
 
 ### Fixed
+
+- `RenderMode.NEGATIVE` (and `POST_ORDER`) no longer skip a checkmarked
+  node's `{avoid}` content because an ancestor happens to be unchecked:
+  the tree walk now always descends regardless of a node's own
+  checkmark
+- `RenderMode.NEGATIVE`'s `POST_ORDER` path (used by `comfy-ui-export`'s
+  flattened `IMAGE` mode) no longer writes a bare, contentless heading
+  line (e.g. a trailing `Some Section:` with nothing under it) for an
+  ancestor with no `{avoid}` content of its own; such a node is now
+  transparent and its contributing descendants' content splices in
+  directly with no heading of its own — applies to the plain pre-order
+  negative path too
 
 ### Security
 

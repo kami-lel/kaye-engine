@@ -418,13 +418,17 @@ own-only method.
 
 ##### generate negative prompt
 
-Use `.generate_negative_prompt_without_dependencies()` /
-`render.render_negative_prompt_lines()` the same way as their positive
-counterparts above, but for the **negative prompt**: every checkmarked
-node in the blueprint's tree that carries an `{avoid}` sidecar child
-contributes that child's content under its own heading — the literal
-`{avoid}` heading is never shown — and a node with no `{avoid}` child
-and no contributing descendant is omitted entirely. Q.v.
+The negative prompt is not a separate method — it is the same
+`.generate_prompt_without_dependencies()` / `.render_prompt()` entry
+point above, switched via `RenderProfile.mode`:
+`profile=RenderProfile(mode=RenderMode.NEGATIVE)` contributes a
+node's own `{avoid}` sidecar child under that node's own heading only
+when the node itself is checkmarked — the literal `{avoid}` heading is
+never shown — while descendants are always walked regardless of an
+ancestor's own checkmark, so a checkmarked descendant below an
+unchecked ancestor still contributes, printing that ancestor's heading
+only for context. A node with no `{avoid}` child and no contributing
+descendant is omitted entirely. Q.v.
 [`sidecar-node-doc.md`](sidecar-node-doc.md#negative-instruction-sidecar)
 for how `{avoid}` differs from a descriptor or conditional sidecar.
 
@@ -450,10 +454,17 @@ Or this.
  'Or this.']
 ```
 
-Use `.render_negative_prompt()` instead to render the negative prompt
-from this blueprint merged with the full transitive closure of
-`.dependencies` — same resolution behavior (recursive, diamond-safe,
-cycle-raising) as `.render_prompt()`.
+`render.render_negative_prompt_lines()` is the module-level function
+`render_prompt_lines()` dispatches to internally when
+`RenderMode.NEGATIVE` is set; call it directly for the same output
+without going through a `PromptBlueprint`. `.render_prompt(profile=...)`
+resolves `.dependencies` first — same resolution behavior (recursive,
+diamond-safe, cycle-raising) regardless of `mode`.
+
+A 2nd `RenderMode` member, `IMAGE`, flattens every heading (`### title`
+→ `title:`, regardless of nesting depth) and forces `sparseness=1`; it
+composes with `NEGATIVE` (`RenderMode.NEGATIVE | RenderMode.IMAGE`)
+for a flattened negative prompt.
 
 
 

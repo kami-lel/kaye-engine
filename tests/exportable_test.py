@@ -20,6 +20,7 @@ from kaye_engine.exportable import (
     register_exportable_entry,
 )
 from kaye_engine.prompt.blueprint import BlueprintRegistry, PromptBlueprint
+from kaye_engine.prompt.blueprint.render_mode import RenderMode
 from kaye_engine.prompt.blueprint.render_profile import RenderProfile
 from kaye_engine.prompt.prompt_corpus_node import PromptCorpusNode
 
@@ -148,7 +149,10 @@ class TestNegativeContent:  ####################################################
             blueprint=blueprint,
         )
 
-        assert reg.negative_content() == "# Main\nDo not do this."
+        assert (
+            reg.content(profile=RenderProfile(mode=RenderMode.NEGATIVE))
+            == "# Main\nDo not do this."
+        )
 
     def test_blueprint_registry_negative_content_forwards_profile(_):
         blueprint = PromptBlueprint.create_full_blueprint(
@@ -159,11 +163,11 @@ class TestNegativeContent:  ####################################################
             display_name="Test Negative Content Kw",
             blueprint=blueprint,
         )
-        profile = RenderProfile(sparseness=0)
+        profile = RenderProfile(sparseness=0, mode=RenderMode.NEGATIVE)
 
-        assert reg.negative_content(
+        assert reg.content(
             profile=profile
-        ) == reg.blueprint.generate_negative_prompt_without_dependencies(
+        ) == reg.blueprint.generate_prompt_without_dependencies(
             profile=profile
         )
 

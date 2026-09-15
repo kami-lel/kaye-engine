@@ -42,6 +42,8 @@ class BlueprintRegistry(Exportable):
     blueprint: PromptBlueprint
     is_exportable: bool = True
 
+    supports_negative_content = True
+
     def content(self, *, profile=None, **kwargs):
         """
         :param profile: render profile merged with this registry
@@ -56,22 +58,6 @@ class BlueprintRegistry(Exportable):
         if profile is not None:
             merged = merged.merge(profile)
         return self.blueprint.render_prompt(profile=merged, **kwargs)
-
-    def negative_content(self, *, profile=None, **kwargs):
-        """
-        :param profile: render profile merged with this registry
-                entry's own `render_profile`, not replaced by it
-        :type profile: RenderProfile, optional
-        :param kwargs: further render options (e.g. ``query``)
-                forwarded to
-                ``PromptBlueprint.render_negative_prompt(...)``
-        :return: this blueprint's rendered negative prompt
-        :rtype: str
-        """
-        merged = self.render_profile
-        if profile is not None:
-            merged = merged.merge(profile)
-        return self.blueprint.render_negative_prompt(profile=merged, **kwargs)
 
 
 # Entry Point  #################################################################

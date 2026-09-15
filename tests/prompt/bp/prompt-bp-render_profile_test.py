@@ -6,6 +6,7 @@ Unit Tests (using pytest) for:
 - RenderProfile
 """
 
+from kaye_engine.prompt.blueprint.render_mode import RenderMode
 from kaye_engine.prompt.blueprint.render_profile import RenderProfile
 
 
@@ -70,6 +71,7 @@ class TestAsKwargs:  ###########################################################
             glossary_priority_threshold=2,
             is_sorted=True,
             is_numbered_list=False,
+            mode=RenderMode.REVERSE_ORDER,
         )
         assert profile.as_kwargs() == {
             "show_comment": True,
@@ -81,4 +83,5 @@ class TestAsKwargs:  ###########################################################
             "glossary_priority_threshold": 2,
             "is_sorted": True,
             "is_numbered_list": False,
+            "mode": RenderMode.REVERSE_ORDER,
         }

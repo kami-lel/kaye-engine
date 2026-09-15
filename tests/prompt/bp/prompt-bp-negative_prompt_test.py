@@ -11,6 +11,7 @@ import re
 
 from kaye_engine.prompt import PromptBlueprint
 from kaye_engine.prompt.blueprint import render
+from kaye_engine.prompt.blueprint.render_mode import RenderMode
 from kaye_engine.prompt.blueprint.render_profile import RenderProfile
 from kaye_engine.prompt.prompt_corpus_node import PromptCorpusNode
 
@@ -44,7 +45,7 @@ Content with no avoid anywhere below it.
 # pytest  ########################################################################
 class TestNestedAvoidStructure:  ################################################
 
-    def test_shows_surrounding_headings_never_the_avoid_heading(_):
+    def test_omits_contextless_ancestor_heading(_):
         bp = PromptBlueprint.create_full_blueprint(
             corpus_tree=_nested_avoid_corpus()
         )
@@ -53,7 +54,6 @@ class TestNestedAvoidStructure:  ###############################################
 
         print(opt)
         assert opt == [
-            "# Some",
             "## Prompt",
             "AAAA",
             "",
@@ -82,7 +82,7 @@ class TestUncheckmarkedNodeOmitted:  ###########################################
         opt = render.render_negative_prompt_lines(bp)
 
         print(opt)
-        assert opt == ["# Some", "## Prompt", "AAAA"]
+        assert opt == ["## Prompt", "AAAA"]
 
     def test_ancestor_still_checkmarked_keeps_its_own_avoid(_):
         bp = PromptBlueprint.create_full_blueprint(
@@ -94,6 +94,19 @@ class TestUncheckmarkedNodeOmitted:  ###########################################
 
         assert "AAAA" in opt
         assert "BBBB" not in opt
+
+
+class TestUncheckmarkedAncestorDoesNotBlockDescendant:  ##########################
+
+    def test_checkmarked_descendant_contributes_through_unchecked_ancestor(_):
+        bp = PromptBlueprint.create_from_node(
+            "Content", corpus_tree=_nested_avoid_corpus()
+        )
+
+        opt = render.render_negative_prompt_lines(bp)
+
+        assert opt == ["### Content", "BBBB"]
+        assert "AAAA" not in opt
 
 
 class TestMultipleSiblingsContribute:  ###########################################
@@ -118,7 +131,6 @@ CCCC
 
         print(opt)
         assert opt == [
-            "# Some",
             "## Prompt",
             "AAAA",
             "",
@@ -160,10 +172,12 @@ class TestGenerateNegativePromptWithoutDependencies:  ##########################
             corpus_tree=_nested_avoid_corpus()
         )
 
-        opt = bp.generate_negative_prompt_without_dependencies()
+        opt = bp.generate_prompt_without_dependencies(
+            profile=RenderProfile(mode=RenderMode.NEGATIVE)
+        )
 
         print(opt)
-        assert opt == "# Some\n## Prompt\nAAAA\n\n### Content\nBBBB"
+        assert opt == "## Prompt\nAAAA\n\n### Content\nBBBB"
 
     def test_no_avoid_anywhere_renders_empty(_):
         bp = PromptBlueprint.create_full_blueprint(
@@ -175,6 +189,8 @@ Nothing to avoid here.
             )
         )
 
-        opt = bp.generate_negative_prompt_without_dependencies()
+        opt = bp.generate_prompt_without_dependencies(
+            profile=RenderProfile(mode=RenderMode.NEGATIVE)
+        )
 
         assert opt == ""
