@@ -57,12 +57,6 @@ class TestMergeScalarOverride:  ################################################
         merged = RenderProfile(display_name="Chat").merge(RenderProfile())
         assert merged.display_name == ""
 
-    def test_reverse_sibling_order_other_wins(_):
-        merged = RenderProfile(reverse_sibling_order=True).merge(
-            RenderProfile(reverse_sibling_order=False)
-        )
-        assert merged.reverse_sibling_order is False
-
 
 class TestAsKwargs:  ############################################################
 
@@ -77,7 +71,7 @@ class TestAsKwargs:  ###########################################################
             glossary_priority_threshold=2,
             is_sorted=True,
             is_numbered_list=False,
-            reverse_sibling_order=True,
+            mode=RenderMode.REVERSE_ORDER,
         )
         assert profile.as_kwargs() == {
             "show_comment": True,
@@ -89,6 +83,5 @@ class TestAsKwargs:  ###########################################################
             "glossary_priority_threshold": 2,
             "is_sorted": True,
             "is_numbered_list": False,
-            "mode": RenderMode.NORMAL,
-            "reverse_sibling_order": True,
+            "mode": RenderMode.REVERSE_ORDER,
         }
