@@ -7,7 +7,7 @@ define ``register_comfy_ui_export_parser``
 import os
 from argparse import RawDescriptionHelpFormatter
 
-from kaye_engine import LOGGER_NAME, kamilog
+from kaye_engine import LOGGER_NAME, PACKAGE_NAME, kamilog
 from kaye_engine.cli.cli_setup_guard import check_corpus_setup_for_cli
 from kaye_engine.exportable import comfy_ui_exportable_registry, get_exportable
 from kaye_engine.kamilog import (
@@ -67,6 +67,7 @@ def _avoid_content(exportable):
 
 def _comfy_ui_export_main(args):
     set_logging_level_by_namespace(args, logger=logger)
+    logger.enter("{} comfy-ui-export".format(PACKAGE_NAME))
     check_corpus_setup_for_cli()
 
     os.makedirs(args.folder, exist_ok=True)
@@ -79,6 +80,7 @@ def _comfy_ui_export_main(args):
             positive_file.write(
                 exportable.content(profile=_COMFY_UI_SPARSE_RENDER_PROFILE)
             )
+        logger.succ("export exportable:\t" + positive_path)
 
         avoid_content = _avoid_content(exportable)
         if avoid_content:
@@ -89,6 +91,9 @@ def _comfy_ui_export_main(args):
                 negative_path, "w", encoding="utf-8"
             ) as negative_file:
                 negative_file.write(avoid_content)
+            logger.succ("export exportable avoid content:\t" + negative_path)
+
+    logger.done("export comfy-ui-export:\t" + str(args.folder))
 
 
 # Public API  ##################################################################
