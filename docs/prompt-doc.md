@@ -421,12 +421,14 @@ own-only method.
 The negative prompt is not a separate method — it is the same
 `.generate_prompt_without_dependencies()` / `.render_prompt()` entry
 point above, switched via `RenderProfile.mode`:
-`profile=RenderProfile(mode=RenderMode.NEGATIVE)` renders every
-checkmarked node in the blueprint's tree that carries an `{avoid}`
-sidecar child, contributing that child's content under its own
-heading — the literal `{avoid}` heading is never shown — and a node
-with no `{avoid}` child and no contributing descendant is omitted
-entirely. Q.v.
+`profile=RenderProfile(mode=RenderMode.NEGATIVE)` contributes a
+node's own `{avoid}` sidecar child under that node's own heading only
+when the node itself is checkmarked — the literal `{avoid}` heading is
+never shown — while descendants are always walked regardless of an
+ancestor's own checkmark, so a checkmarked descendant below an
+unchecked ancestor still contributes, printing that ancestor's heading
+only for context. A node with no `{avoid}` child and no contributing
+descendant is omitted entirely. Q.v.
 [`sidecar-node-doc.md`](sidecar-node-doc.md#negative-instruction-sidecar)
 for how `{avoid}` differs from a descriptor or conditional sidecar.
 

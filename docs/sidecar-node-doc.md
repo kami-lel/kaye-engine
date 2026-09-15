@@ -117,12 +117,15 @@ render.
 Carries negative-instruction/negative-example content for the parent
 node — what the parent's positive content should *not* produce.
 
-**Rendering behavior:** every checkmarked node in a blueprint's tree
-that carries an `{avoid}` child contributes that child's content to
-the negative prompt, under its own heading; the literal `{avoid}`
-heading itself is never shown, and a node with no `{avoid}` child and
-no contributing descendant is omitted entirely. It is never included
-in the *positive* prompt unless explicitly named via
+**Rendering behavior:** a node's own `{avoid}` child contributes to
+the negative prompt, under that node's own heading, only when the
+node itself is checkmarked; the literal `{avoid}` heading itself is
+never shown. Descendants are always walked regardless of an
+ancestor's own checkmark, so a checkmarked descendant below an
+unchecked ancestor still contributes, printing that ancestor's
+heading only to place it in context. A node with no `{avoid}` child
+and no contributing descendant is omitted entirely. It is never
+included in the *positive* prompt unless explicitly named via
 `conditional_sidecars`.
 
 **Access:** `RenderMode.NEGATIVE` only — there is no

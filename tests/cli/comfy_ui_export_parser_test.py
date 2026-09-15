@@ -89,7 +89,7 @@ class TestAvoidContent:
 
         opt = comfy_ui_export_parser._avoid_content(reg)
 
-        assert opt == "# Main\nDo not do this."
+        assert opt == "Main:\nDo not do this."
 
     def test_blueprint_without_avoid_content_returns_empty(_):
         root = PromptCorpusNode("○", None, [])
