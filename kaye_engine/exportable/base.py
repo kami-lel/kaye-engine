@@ -50,6 +50,10 @@ class Exportable(ABC):
 
     render_profile: RenderProfile = field(default_factory=RenderProfile)
 
+    # plain class attribute, not a dataclass field: an explicit
+    # capability flag `_avoid_content()` checks instead of duck-typing
+    supports_negative_content = False
+
     @abstractmethod
     def content(self, **kwargs):
         """
