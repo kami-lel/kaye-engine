@@ -100,10 +100,14 @@ passed to `render_prompt()`/`generate_prompt_without_dependencies()` (or
 merged into a caller's profile) picks it in place of the positive
 `render_prompt_lines()`, at every layer: `PromptBlueprint`,
 `BlueprintRegistry.content()`, and any other `Exportable.content()`.
-Every checkmarked node carrying an `{avoid}` child contributes that
-child's content under its own heading (never the literal `{avoid}`
-heading), and a branch with no `{avoid}` content anywhere in it is
-omitted entirely. A 3rd `RenderMode` member, `POST_ORDER`, reorders every
+A node's own `{avoid}` child contributes only when that node itself is
+checkmarked, under its own heading (never the literal `{avoid}`
+heading); descendants are always walked regardless of an ancestor's
+own checkmark, so a checkmarked descendant several levels below an
+unchecked ancestor still contributes, and that ancestor's heading is
+printed only to place it in context. A branch with no `{avoid}`
+content anywhere in it is omitted entirely. A 3rd `RenderMode` member,
+`POST_ORDER`, reorders every
 subtree to children-before-parent — each child's full subtree first
 (recursively, same rule), siblings kept in their original relative
 order, then the node's own heading and content last — with no other

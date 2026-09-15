@@ -35,7 +35,8 @@ todo todo CLI to import/export w/ OpenWebUI
   `comfy_ui_exportable_registry` to `FOLDER` as one `<canonical_name>.md`
   file each, plus a `<canonical_name>-AVOID.md` sibling wherever that
   entry's blueprint carries real `{avoid}` sidecar content anywhere in
-  its tree
+  its tree; both files render with `RenderMode.IMAGE`, so headings are
+  flat `title:` lines rather than markdown `#`/`##`/`###`
 - `RenderMode` flag enum (`NORMAL`, `NEGATIVE`, `POST_ORDER`, `IMAGE`)
   and `RenderProfile.mode`, unifying `PromptBlueprint.render_prompt()`/
   `generate_prompt_without_dependencies()` and
@@ -73,6 +74,12 @@ todo todo CLI to import/export w/ OpenWebUI
 ### Removed
 
 ### Fixed
+
+- `RenderMode.NEGATIVE` (and `POST_ORDER`) no longer skip a checkmarked
+  node's `{avoid}` content because an ancestor happens to be unchecked:
+  the tree walk now always descends regardless of a node's own
+  checkmark, printing an unchecked ancestor's heading only to place a
+  contributing descendant in context
 
 ### Security
 

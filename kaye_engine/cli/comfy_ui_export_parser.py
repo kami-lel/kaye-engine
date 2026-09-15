@@ -22,8 +22,11 @@ logger = kamilog.getLogger(LOGGER_NAME)
 
 # constants  ###################################################################
 # ComfyUI's positive field must never carry {avoid} content; that content
-# is written separately, to a sibling "<name>-AVOID.md" file
-_COMFY_UI_SPARSE_RENDER_PROFILE = RenderProfile(sparseness=0)
+# is written separately, to a sibling "<name>-AVOID.md" file. IMAGE also
+# forces sparseness=1, superseding the explicit sparseness=0 below.
+_COMFY_UI_SPARSE_RENDER_PROFILE = RenderProfile(
+    sparseness=0, mode=RenderMode.IMAGE
+)
 _AVOID_FILE_SUFFIX = "-AVOID"
 
 _HELP = "export the ComfyUI exportable subset as Markdown files"
@@ -54,7 +57,10 @@ def _avoid_content(exportable):
         return ""
     return exportable.content(
         profile=_COMFY_UI_SPARSE_RENDER_PROFILE.merge(
-            RenderProfile(mode=RenderMode.NEGATIVE)
+            # ``mode`` is a scalar field -- ``.merge()`` lets ``other``
+            # win outright rather than union bits, so NEGATIVE must be
+            # combined with IMAGE here explicitly to keep both
+            RenderProfile(mode=RenderMode.NEGATIVE | RenderMode.IMAGE)
         )
     )
 
