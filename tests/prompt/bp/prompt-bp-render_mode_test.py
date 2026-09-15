@@ -236,6 +236,15 @@ Content C.
         assert opt.index("B:") < opt.index("A:")
         assert opt.index("C:") < opt.index("A:")
 
+    def test_image_reverses_siblings(_):
+        bp = PromptBlueprint.create_full_blueprint(corpus_tree=_a_b_c_corpus())
+
+        opt = bp.generate_prompt_without_dependencies(
+            profile=RenderProfile(mode=RenderMode.IMAGE)
+        ).split("\n")
+
+        assert opt.index("C:") < opt.index("B:")
+
 
 class TestReverseSiblingOrder:  ####################################################
 
@@ -250,7 +259,7 @@ class TestReverseSiblingOrder:  ################################################
         bp = PromptBlueprint.create_full_blueprint(corpus_tree=_a_b_c_corpus())
 
         opt = render.render_prompt_lines(
-            bp, profile=RenderProfile(reverse_sibling_order=True)
+            bp, profile=RenderProfile(mode=RenderMode.REVERSE_ORDER)
         )
 
         assert opt.index("## C") < opt.index("## B")
@@ -261,7 +270,7 @@ class TestReverseSiblingOrder:  ################################################
         opt = render.render_prompt_lines(
             bp,
             profile=RenderProfile(
-                mode=RenderMode.POST_ORDER, reverse_sibling_order=True
+                mode=RenderMode.POST_ORDER | RenderMode.REVERSE_ORDER
             ),
         )
 
@@ -273,7 +282,7 @@ class TestReverseSiblingOrder:  ################################################
         )
 
         opt = render.render_negative_prompt_lines(
-            bp, profile=RenderProfile(reverse_sibling_order=True)
+            bp, profile=RenderProfile(mode=RenderMode.REVERSE_ORDER)
         )
 
         assert opt.index("## C") < opt.index("## B")
@@ -286,7 +295,7 @@ class TestReverseSiblingOrder:  ################################################
         opt = render.render_negative_prompt_lines(
             bp,
             profile=RenderProfile(
-                mode=RenderMode.POST_ORDER, reverse_sibling_order=True
+                mode=RenderMode.POST_ORDER | RenderMode.REVERSE_ORDER
             ),
         )
 
