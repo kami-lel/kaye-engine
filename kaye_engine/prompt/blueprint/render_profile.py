@@ -82,11 +82,6 @@ class RenderProfile:
     :param sparseness: controls how runs of blank lines collapse;
             defaults to 1
     :type sparseness: int, optional
-    :param reverse_sibling_order: reverse sibling order at every level of
-            the tree walk -- e.g. ``# A`` / ``## B`` / ``## C`` renders as
-            ``# A`` / ``## C`` / ``## B``; nothing is dropped, only
-            reordered; defaults to False
-    :type reverse_sibling_order: bool, optional
     :param glossary_priority_threshold: forwarded to
             ``GlossaryNode.content_lines()``; defaults to None
     :type glossary_priority_threshold: int, optional
@@ -101,11 +96,15 @@ class RenderProfile:
             negative prompt in place of the positive one,
             ``RenderMode.POST_ORDER`` reorders every subtree to
             children-before-parent (siblings keep their original
-            relative order), and ``RenderMode.IMAGE`` -- a composite of
-            ``POST_ORDER`` plus a private flatten-heading flag --
+            relative order), ``RenderMode.REVERSE_ORDER`` reverses
+            sibling order at every level of the walk instead (e.g.
+            ``# A`` / ``## B`` / ``## C`` renders as ``# A`` / ``## C``
+            / ``## B``; nothing is dropped, only reordered), and
+            ``RenderMode.IMAGE`` -- a composite of ``POST_ORDER`` |
+            ``REVERSE_ORDER`` plus a private flatten-heading flag --
             flattens headings to a ``title:`` line, forces
-            ``sparseness=1``, and reorders to post-order; defaults to
-            ``RenderMode.NORMAL``
+            ``sparseness=1``, and reorders to post-order with reversed
+            siblings; defaults to ``RenderMode.NORMAL``
     :type mode: RenderMode, optional
     """
 
@@ -115,7 +114,6 @@ class RenderProfile:
     variants: object = None
     display_name: str = ""
     sparseness: int = 1
-    reverse_sibling_order: bool = False
     glossary_priority_threshold: int = None
     is_sorted: bool = None
     is_numbered_list: bool = None

@@ -21,6 +21,7 @@ class RenderMode(Flag):
     NORMAL = 0
     NEGATIVE = auto()
     POST_ORDER = auto()
+    REVERSE_ORDER = auto()
     _IMAGE = auto()
 
-    IMAGE = POST_ORDER | _IMAGE
+    IMAGE = POST_ORDER | REVERSE_ORDER | _IMAGE
