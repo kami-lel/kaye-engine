@@ -20,6 +20,7 @@ from kaye_engine import PACKAGE_NAME
 from ..md_fence import compute_fenced_line_mask
 from ..prompt_corpus_node import HEADING_PREFIX_ELEMENT
 from ..sidecar_node import AVOID_NAME, get_sidecar_name
+from .render_mode import RenderMode
 from .render_profile import RenderProfile
 
 __all__ = (
@@ -214,6 +215,33 @@ def _render_negative_prompt_node_recursively(blueprint, node, **kwargs):
     return lines
 
 
+def _flatten_headings_for_image_mode(lines):
+    """
+    rewrite every markdown heading line (``### title``) to a bare
+    ``title:`` line, regardless of nesting depth; non-heading lines
+    pass through unchanged
+
+    (helper function used in ``render_prompt_lines()`` and
+    ``render_negative_prompt_lines()`` when ``RenderMode.IMAGE`` is set)
+
+
+    :param lines:
+    :type lines: list[str]
+    :return: lines with every heading flattened
+    :rtype: list[str]
+    """
+    prefix = HEADING_PREFIX_ELEMENT
+    result = []
+    for line in lines:
+        stripped = line.lstrip(prefix)
+        prefix_len = len(line) - len(stripped)
+        if prefix_len and stripped.startswith(" "):
+            result.append(stripped[1:] + ":")
+        else:
+            result.append(line)
+    return result
+
+
 def apply_sparseness(lines, sparseness):
     """
     apply the ``sparseness`` blank-line policy to a list of prompt lines
@@ -397,6 +425,9 @@ def render_prompt_lines(  # ====================================================
     if profile.show_comment:
         lines.append("<!-- " + render_comment(profile.display_name) + " -->")
 
+    if RenderMode.IMAGE in profile.mode:
+        lines = _flatten_headings_for_image_mode(lines)
+
     return apply_sparseness(lines, profile.sparseness)
 
 
@@ -447,6 +478,9 @@ def render_negative_prompt_lines(  # ===========================================
 
     if profile.show_comment:
         lines.append("<!-- " + render_comment(profile.display_name) + " -->")
+
+    if RenderMode.IMAGE in profile.mode:
+        lines = _flatten_headings_for_image_mode(lines)
 
     return apply_sparseness(lines, profile.sparseness)
 

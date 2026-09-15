@@ -7,17 +7,15 @@ define ``RenderProfile``
 import dataclasses
 from dataclasses import dataclass
 
+from .render_mode import RenderMode
+
 __all__ = ("RenderProfile",)
 
 
-def merge_conditional_sidecars(*groups):
+def _merge_conditional_sidecars(*groups):
     """
-    union of sidecar names across ``groups``, deduped, first-seen order
-
-
-    :param groups: conditional sidecar tuples to merge
-    :type groups: Iterable[str]
-    :return: merged, deduped sidecar names
+    :return: union of sidecar names across ``groups``, deduped,
+            first-seen order
     :rtype: tuple
     """
     merged = []
@@ -28,16 +26,12 @@ def merge_conditional_sidecars(*groups):
     return tuple(merged)
 
 
-def merge_variants(*selections):
+def _merge_variants(*selections):
     """
-    union of variant selections across ``selections``, deduped,
-    first-seen order; ``None`` means "off" and contributes nothing
-
-
-    :param selections: variant selections to merge
-    :type selections: Iterable[str] or None
-    :return: merged, deduped variant selection; ``None`` only when
-            every selection is ``None``
+    :return: union of variant selections across ``selections``, deduped,
+            first-seen order; ``None`` means "off" and contributes
+            nothing, and is returned only when every selection is
+            ``None``
     :rtype: tuple or None
     """
     merged = []
@@ -97,6 +91,12 @@ class RenderProfile:
     :param is_numbered_list: forwarded to
             ``GlossaryNode.content_lines()``; defaults to None
     :type is_numbered_list: bool, optional
+    :param mode: switches the unified prompt entry point between its
+            rendering behaviors -- ``RenderMode.NEGATIVE`` renders the
+            negative prompt in place of the positive one,
+            ``RenderMode.IMAGE`` flattens headings to a ``title:`` line
+            and forces ``sparseness=1``; defaults to ``RenderMode.NORMAL``
+    :type mode: RenderMode, optional
     """
 
     show_comment: bool = False
@@ -108,6 +108,7 @@ class RenderProfile:
     glossary_priority_threshold: int = None
     is_sorted: bool = None
     is_numbered_list: bool = None
+    mode: RenderMode = RenderMode.NORMAL
 
     def as_kwargs(self):
         """
@@ -129,8 +130,8 @@ class RenderProfile:
         :rtype: RenderProfile
         """
         merged = dataclasses.replace(other)
-        merged.conditional_sidecars = merge_conditional_sidecars(
+        merged.conditional_sidecars = _merge_conditional_sidecars(
             self.conditional_sidecars, other.conditional_sidecars
         )
-        merged.variants = merge_variants(self.variants, other.variants)
+        merged.variants = _merge_variants(self.variants, other.variants)
         return merged
