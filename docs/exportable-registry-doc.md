@@ -22,7 +22,7 @@
 
 `Exportable` declares no `merge`/`|` contract, and none of its kinds define one — `BlueprintRegistry.merge()` was removed; a `PromptBlueprint`'s own `.merge()`/`|` (q.v. [`prompt-doc.md`](prompt-doc.md)) is what `.render_prompt()`/`.render_blueprint()` use internally to resolve `.dependencies`, not something the registry entry itself exposes.
 
-`BlueprintRegistry` additionally exposes `negative_content(*, profile=None, **kwargs)`, the negative-prompt counterpart to `content()` — it merges `render_profile` the same way, then delegates to `blueprint.render_negative_prompt(...)` (q.v. [`prompt-doc.md`](prompt-doc.md#generate-negative-prompt) and [`sidecar-node-doc.md`](sidecar-node-doc.md#negative-instruction-sidecar)). It is not part of the `Exportable` interface — only a `BlueprintRegistry` carries a `.blueprint` to render one from — so a caller that wants to handle any `Exportable` uniformly reaches for it via `getattr(exportable, "negative_content", None)`, as `comfy-ui-export` does.
+The negative prompt is no longer a separate method: pass `profile=RenderProfile(mode=RenderMode.NEGATIVE)` to `content()` itself (q.v. [`prompt-doc.md`](prompt-doc.md#generate-negative-prompt) and [`sidecar-node-doc.md`](sidecar-node-doc.md#negative-instruction-sidecar)). Whether an `Exportable` kind can render one at all is the plain class attribute `supports_negative_content` (`False` by default, `True` on `BlueprintRegistry` — only it carries a `.blueprint` to render one from); a caller that wants to handle any `Exportable` uniformly checks that flag instead of duck-typing a method, as `comfy-ui-export` does.
 
 
 
@@ -63,7 +63,7 @@ Usage:
 
 - `exportable` CLI (alias `x`): `kaye-engine exportable EXPORTABLE` prints that exportable's `content()`; `kaye-engine exportable ls` lists every registered exportable name, sorted alphabetically
 - `exportable-as-json` CLI (alias `j`): `kaye-engine exportable-as-json` writes every entry in `exportable_registry` to a flat `{canonical_name: content}` JSON object, each `content()` rendered with `sparseness=1` (caps blank-line runs at 1) and no other profile override; `--output-file`/`-f` sets the output path, defaulting to `exportable-as-json.json` in the current directory.
-- `comfy-ui-export` CLI (alias `y`): `kaye-engine comfy-ui-export FOLDER` writes every entry in `comfy_ui_exportable_registry` to `FOLDER`, one `<canonical_name>.md` file per entry holding its `content()` (`sparseness=0`), plus a `<canonical_name>-AVOID.md` sibling wherever `negative_content()` renders real content — so ComfyUI's positive field never carries `{avoid}` content; that goes to the sibling file instead
+- `comfy-ui-export` CLI (alias `y`): `kaye-engine comfy-ui-export FOLDER` writes every entry in `comfy_ui_exportable_registry` to `FOLDER`, one `<canonical_name>.md` file per entry holding its `content()` (`sparseness=0`), plus a `<canonical_name>-AVOID.md` sibling wherever `content(profile=... RenderMode.NEGATIVE)` renders real content for an entry with `supports_negative_content` set — so ComfyUI's positive field never carries `{avoid}` content; that goes to the sibling file instead
 - `claude` CLI: q.v. [`claude-doc.md`](claude-doc.md) for the full Claude CLI surface (`kaye-engine claude skill|plugin|marketplace|code|...`)
 
 
