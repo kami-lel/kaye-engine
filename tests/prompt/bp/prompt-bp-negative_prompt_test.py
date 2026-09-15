@@ -97,6 +97,19 @@ class TestUncheckmarkedNodeOmitted:  ###########################################
         assert "BBBB" not in opt
 
 
+class TestUncheckmarkedAncestorDoesNotBlockDescendant:  ##########################
+
+    def test_checkmarked_descendant_contributes_through_unchecked_ancestor(_):
+        bp = PromptBlueprint.create_from_node(
+            "Content", corpus_tree=_nested_avoid_corpus()
+        )
+
+        opt = render.render_negative_prompt_lines(bp)
+
+        assert opt == ["# Some", "## Prompt", "### Content", "BBBB"]
+        assert "AAAA" not in opt
+
+
 class TestMultipleSiblingsContribute:  ###########################################
 
     def _corpus(_):

@@ -24,16 +24,21 @@ __all__ = (
 
 def _render_negative_prompt_node_recursively(blueprint, node, **kwargs):
     """
-    recursively render one checkmarked node's contribution to a
-    negative prompt
+    recursively render one node's contribution to a negative prompt
 
-    a node contributes only when it, or one of its descendants,
-    carries an ``{avoid}`` sidecar child: its own heading is printed
-    (the ``{avoid}`` child's heading never is), followed by that
-    child's content, then any contributing descendants in the same
-    fashion; a node with neither is omitted entirely, and non-``avoid``
-    sidecar children (``{description}``, ``{when_to_use}``, ...) never
-    contribute
+    a node's own ``{avoid}`` sidecar child contributes only when the
+    node itself is checkmarked; descendants are always walked
+    regardless of this node's own checkmark, so a checkmarked
+    descendant several levels below an unchecked ancestor still
+    contributes -- that ancestor's heading is then printed only to
+    place the descendant in context, never its own ``{avoid}``. A node
+    contributes at all only when it, or some descendant, carries
+    ``{avoid}`` content this way: its own heading is printed (the
+    ``{avoid}`` child's heading never is), followed by its own
+    ``{avoid}`` content when checkmarked, then any contributing
+    descendants in the same fashion; a node with neither is omitted
+    entirely, and non-``avoid`` sidecar children (``{description}``,
+    ``{when_to_use}``, ...) never contribute
 
     (helper function used in ``render_negative_prompt_lines()``)
 
@@ -48,8 +53,7 @@ def _render_negative_prompt_node_recursively(blueprint, node, **kwargs):
             empty list when nothing in this subtree contributes
     :rtype: list[str]
     """
-    if not blueprint.is_checkmarked(node):
-        return []
+    is_checked = blueprint.is_checkmarked(node)
 
     own_avoid_lines = []
     child_blocks = []
@@ -57,7 +61,8 @@ def _render_negative_prompt_node_recursively(blueprint, node, **kwargs):
     for child in node.children:
         sidecar_name = get_sidecar_name(child)
         if sidecar_name == AVOID_NAME:
-            own_avoid_lines = child.content_lines(**kwargs)
+            if is_checked:
+                own_avoid_lines = child.content_lines(**kwargs)
         elif sidecar_name is None:
             block = _render_negative_prompt_node_recursively(
                 blueprint, child, **kwargs
@@ -141,10 +146,16 @@ def _render_negative_prompt_node_post_order_recursively(
     """
     (``RenderMode.POST_ORDER`` counterpart of
     ``_render_negative_prompt_node_recursively``) recursively render
-    one checkmarked node's contribution to a negative prompt, with
-    every contributing child's block first (children kept in original
+    one node's contribution to a negative prompt, with every
+    contributing child's block first (children kept in original
     relative order), then this node's own heading and ``{avoid}``
     content last
+
+    a node's own ``{avoid}`` sidecar child contributes only when the
+    node itself is checkmarked; descendants are always walked
+    regardless of this node's own checkmark, so a checkmarked
+    descendant several levels below an unchecked ancestor still
+    contributes
 
     (helper function used in ``render_negative_prompt_lines()`` when
     ``RenderMode.POST_ORDER`` is set)
@@ -160,8 +171,7 @@ def _render_negative_prompt_node_post_order_recursively(
             empty list when nothing in this subtree contributes
     :rtype: list[str]
     """
-    if not blueprint.is_checkmarked(node):
-        return []
+    is_checked = blueprint.is_checkmarked(node)
 
     own_avoid_lines = []
     child_blocks = []
@@ -169,7 +179,8 @@ def _render_negative_prompt_node_post_order_recursively(
     for child in node.children:
         sidecar_name = get_sidecar_name(child)
         if sidecar_name == AVOID_NAME:
-            own_avoid_lines = child.content_lines(**kwargs)
+            if is_checked:
+                own_avoid_lines = child.content_lines(**kwargs)
         elif sidecar_name is None:
             block = _render_negative_prompt_node_post_order_recursively(
                 blueprint, child, **kwargs
