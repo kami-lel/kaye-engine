@@ -82,6 +82,11 @@ class RenderProfile:
     :param sparseness: controls how runs of blank lines collapse;
             defaults to 1
     :type sparseness: int, optional
+    :param reverse_sibling_order: reverse sibling order at every level of
+            the tree walk -- e.g. ``# A`` / ``## B`` / ``## C`` renders as
+            ``# A`` / ``## C`` / ``## B``; nothing is dropped, only
+            reordered; defaults to False
+    :type reverse_sibling_order: bool, optional
     :param glossary_priority_threshold: forwarded to
             ``GlossaryNode.content_lines()``; defaults to None
     :type glossary_priority_threshold: int, optional
@@ -110,6 +115,7 @@ class RenderProfile:
     variants: object = None
     display_name: str = ""
     sparseness: int = 1
+    reverse_sibling_order: bool = False
     glossary_priority_threshold: int = None
     is_sorted: bool = None
     is_numbered_list: bool = None
