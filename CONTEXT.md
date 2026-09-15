@@ -112,16 +112,19 @@ with no `{avoid}` content anywhere in it is omitted entirely. A 3rd
 `RenderMode` member, `POST_ORDER`, reorders every
 subtree to children-before-parent — each child's full subtree first
 (recursively, same rule), siblings kept in their original relative
-order (or reversed, at every level, when `RenderProfile.
-reverse_sibling_order` is set — a scalar field wired into all 4 walk
-paths `render_prompt_lines`/`render_negative_prompt_lines` can take),
-then the node's own heading and content last — with no other
-change (`sparseness` and heading markdown are untouched). `IMAGE` is a
-*composite* built from `POST_ORDER` plus a private flatten-heading flag
-(`IMAGE = POST_ORDER | _IMAGE`, mirroring the `WORD_CHARACTER`/`ASCII`
-composite pattern in `AbbrTags`): it flattens every heading line to a
+order, then the node's own heading and content last — with no other
+change (`sparseness` and heading markdown are untouched). A 4th member,
+`REVERSE_ORDER`, reverses sibling order at every level of the walk
+instead (independent of `POST_ORDER`; wired into all 4 walk paths
+`render_prompt_lines`/`render_negative_prompt_lines` can take — plain
+pre-order and `POST_ORDER`, positive and negative). `IMAGE` is a
+*composite* built from `POST_ORDER` | `REVERSE_ORDER` plus a private
+flatten-heading flag (`IMAGE = POST_ORDER | REVERSE_ORDER | _IMAGE`,
+mirroring the `WORD_CHARACTER`/`ASCII` composite pattern in
+`AbbrTags`): it flattens every heading line to a
 bare `title:` (regardless of nesting depth), forces `sparseness=1`, and
-(via the `POST_ORDER` bit it carries) also reorders to post-order. Every
+(via the bits it carries) also reorders to post-order with reversed
+siblings. Every
 `RenderMode` member composes freely (`RenderMode.NEGATIVE |
 RenderMode.POST_ORDER`, `RenderMode.NEGATIVE | RenderMode.IMAGE`, ...).
 `Exportable.supports_negative_content` (class
@@ -163,9 +166,13 @@ surface's profile with one built from the explicit
 `RenderProfile.merge()` — `--variant`/`--conditional-sidecar` union
 additively with whatever `--surface` derives, so rendered prompts
 auto-checkmark the sidecars real on that surface plus any named
-explicitly; `--reverse-order` is a plain scalar override (`other` wins),
-same precedent as `--comment`/`--no-comment`, so an explicit CLI value
-always beats whatever a `--surface` profile set. `--surface` itself is
+explicitly; `--reverse-order` ORs `RenderMode.REVERSE_ORDER` into
+whatever `mode` the profile already carries (`mode` is itself a scalar
+field, so `RenderProfile.merge()` would otherwise let it clobber rather
+than combine — `resolve_render_profile` computes the OR'd value itself
+before the final `.merge()` call, the same pattern
+`comfy_ui_export_parser.py`'s `_avoid_content()` uses for `NEGATIVE |
+IMAGE`). `--surface` itself is
 omitted entirely from the parser when
 no consumer project configures `surface_profiles`. Each subcommand keeps
 its own default for `--comment`/`--no-comment` and `--sparseness` when

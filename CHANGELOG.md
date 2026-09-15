@@ -37,8 +37,9 @@ todo todo CLI to import/export w/ OpenWebUI
   entry's blueprint carries real `{avoid}` sidecar content anywhere in
   its tree; both files render with `RenderMode.IMAGE`, so headings are
   flat `title:` lines rather than markdown `#`/`##`/`###`
-- `RenderMode` flag enum (`NORMAL`, `NEGATIVE`, `POST_ORDER`, `IMAGE`)
-  and `RenderProfile.mode`, unifying `PromptBlueprint.render_prompt()`/
+- `RenderMode` flag enum (`NORMAL`, `NEGATIVE`, `POST_ORDER`,
+  `REVERSE_ORDER`, `IMAGE`) and `RenderProfile.mode`, unifying
+  `PromptBlueprint.render_prompt()`/
   `generate_prompt_without_dependencies()` and
   `BlueprintRegistry.content()` into a single entry point for every
   rendering behavior: `RenderMode.NEGATIVE` renders the negative
@@ -55,20 +56,21 @@ todo todo CLI to import/export w/ OpenWebUI
   (e.g. as a ComfyUI negative prompt) — `RenderMode.POST_ORDER`
   reorders every subtree to children-before-parent (each child's full
   subtree first, siblings keeping their original relative order, then
-  the node's own heading and content last) — and `RenderMode.IMAGE`, a
-  composite of `POST_ORDER` plus a private flatten-heading flag,
-  flattens every heading (`### title` → `title:`) and forces
-  `sparseness=1`, regardless of nesting depth or the profile's own
-  `sparseness`, on top of reordering to post-order
+  the node's own heading and content last) — `RenderMode.REVERSE_ORDER`
+  (also exposed as `--reverse-order` on the shared render-option CLI
+  parser) reverses sibling order at every level of the walk instead,
+  across all 4 walk paths `render_prompt_lines()`/
+  `render_negative_prompt_lines()` can take (plain pre-order and
+  `POST_ORDER`, positive and negative) — nothing is dropped, only
+  reordered — and `RenderMode.IMAGE`, a
+  composite of `POST_ORDER` | `REVERSE_ORDER` plus a private
+  flatten-heading flag, flattens every heading (`### title` → `title:`)
+  and forces `sparseness=1`, regardless of nesting depth or the
+  profile's own `sparseness`, on top of reordering to post-order with
+  reversed siblings
 - `Exportable.supports_negative_content` class attribute (`False` by
   default, `True` on `BlueprintRegistry`), the explicit capability
   flag `comfy-ui-export` checks in place of duck-typing
-- `RenderProfile.reverse_sibling_order` (`bool`, default `False`) and
-  its `--reverse-order` CLI flag, reversing sibling order at every
-  level of the tree walk across all 4 walk paths
-  `render_prompt_lines()`/`render_negative_prompt_lines()` can take
-  (plain pre-order and `POST_ORDER`, positive and negative) — nothing
-  is dropped, only reordered
 
 ### Changed
 
