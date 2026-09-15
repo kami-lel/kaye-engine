@@ -94,13 +94,22 @@ real content spliced in only when its name is on a `RenderProfile`'s
 field against `variant_registry`. `{avoid}` (negative-instruction/example
 content) is neither: it carries no `.sidecars` accessor and is never
 manually spliced by name, but is discovered automatically, at any depth,
-by `render_negative_prompt()`/`render.render_negative_prompt_lines()`/
-`BlueprintRegistry.negative_content()` — the dependency-aware/own-only/
-registry-level counterparts to `render_prompt()` and friends. Every
-checkmarked node carrying an `{avoid}` child contributes that child's
-content under its own heading (never the literal `{avoid}` heading), and
-a branch with no `{avoid}` content anywhere in it is omitted entirely.
-`comfy-ui-export` calls `negative_content()` to build each
+by `render.render_negative_prompt_lines()`, reached via the single
+`RenderMode`-driven entry point — `RenderProfile(mode=RenderMode.NEGATIVE)`
+passed to `render_prompt()`/`generate_prompt_without_dependencies()` (or
+merged into a caller's profile) picks it in place of the positive
+`render_prompt_lines()`, at every layer: `PromptBlueprint`,
+`BlueprintRegistry.content()`, and any other `Exportable.content()`.
+Every checkmarked node carrying an `{avoid}` child contributes that
+child's content under its own heading (never the literal `{avoid}`
+heading), and a branch with no `{avoid}` content anywhere in it is
+omitted entirely. A 2nd `RenderMode` member, `IMAGE`, flattens every
+heading line to a bare `title:` (regardless of nesting depth) and forces
+`sparseness=1`; the 2 modes compose (`RenderMode.NEGATIVE |
+RenderMode.IMAGE`). `Exportable.supports_negative_content` (class
+attribute, `False` by default, `True` on `BlueprintRegistry`) is the
+explicit capability flag `comfy-ui-export`'s `_avoid_content()` checks
+before calling `content(profile=... RenderMode.NEGATIVE)` to build each
 `<canonical_name>-AVOID.md` sibling. Q.v. [sidecar node
 documentation](docs/sidecar-node-doc.md).
 
@@ -226,7 +235,10 @@ or an unresolved name reach path, manifest, or prompt building.
 kaye_engine/
 ├── prompt/              parse, model, select, render
 │   ├── blueprint/       PromptBlueprint, registry, rendering
-│   │   └── render_profile.py   RenderProfile: layerable render-kwargs bundle
+│   │   ├── render_mode.py      RenderMode: NORMAL/NEGATIVE/IMAGE flag enum
+│   │   ├── render_profile.py   RenderProfile: layerable render-kwargs bundle
+│   │   └── render/             render_*_lines()/render_blueprint_tree(),
+│   │       split by concern (tree/lines/sidecar_splice/util)
 │   ├── dynamic_nodes/   render-time generated node types
 │   └── affordance_registry.py  Affordance/Variant two-level registry,
 │                                Usage/Lack/Fallback sidecar names
