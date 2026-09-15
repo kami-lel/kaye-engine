@@ -19,6 +19,7 @@ from ..prompt_corpus_loader import get_corpus_tree, get_default_corpus_tree
 from . import parser, render
 from .dynamic_substitution import apply_dynamic_substitutions
 from .node_resolver import resolve_node
+from .render_mode import RenderMode
 from .render_profile import RenderProfile
 
 __all__ = ("PromptBlueprint",)
@@ -323,7 +324,16 @@ class PromptBlueprint(dict):
         ``dependencies``, then resolve every inline ``(((name)))``
         placeholder against the same render options
 
-        (see ``render.render_prompt_lines()`` and
+        ``profile.mode`` picks the rendering behavior:
+        ``RenderMode.NEGATIVE`` renders the negative prompt in place of
+        the positive one, ``RenderMode.POST_ORDER`` reorders every
+        subtree to children-before-parent (siblings keep their original
+        relative order), and ``RenderMode.IMAGE`` (which also implies
+        ``POST_ORDER``) forces ``sparseness=1`` regardless of what
+        ``profile.sparseness`` was set to
+
+        (see ``render.render_prompt_lines()``,
+        ``render.render_negative_prompt_lines()``, and
         ``dynamic_substitution.apply_dynamic_substitutions()`` for
         parameters)
 
@@ -336,13 +346,21 @@ class PromptBlueprint(dict):
         :rtype: str
         """
         profile = profile or RenderProfile()
+        if RenderMode._IMAGE in profile.mode:
+            profile = dataclasses.replace(profile, sparseness=1)
         merged_kwargs = {**profile.as_kwargs(), **kwargs}
+
+        render_lines = (
+            render.render_negative_prompt_lines
+            if RenderMode.NEGATIVE in profile.mode
+            else render.render_prompt_lines
+        )
 
         unsparse_profile = dataclasses.replace(
             profile, sparseness=render.NO_TRIM_SPARSENESS
         )
         text = "\n".join(
-            render.render_prompt_lines(self, profile=unsparse_profile, **kwargs)
+            render_lines(self, profile=unsparse_profile, **kwargs)
         )
         substituted = apply_dynamic_substitutions(text, **merged_kwargs)
         return "\n".join(
@@ -368,66 +386,6 @@ class PromptBlueprint(dict):
         """
         resolved = self._resolve_with_dependencies()
         return resolved.generate_prompt_without_dependencies(
-            profile=profile, **kwargs
-        )
-
-    def generate_negative_prompt_without_dependencies(
-        self, *, profile=None, **kwargs
-    ):
-        """
-        render the **negative prompt** built from this blueprint's own
-        node checkmarking status only, ignoring ``dependencies``, then
-        resolve every inline ``(((name)))`` placeholder against the
-        same render options
-
-        (see ``render.render_negative_prompt_lines()`` and
-        ``dynamic_substitution.apply_dynamic_substitutions()`` for
-        parameters)
-
-
-        :param profile: bundled render settings; defaults to a plain
-                `RenderProfile()`
-        :type profile: RenderProfile, optional
-        :param kwargs: further render options (e.g. ``query``)
-        :return: generated negative prompt
-        :rtype: str
-        """
-        profile = profile or RenderProfile()
-        merged_kwargs = {**profile.as_kwargs(), **kwargs}
-
-        unsparse_profile = dataclasses.replace(
-            profile, sparseness=render.NO_TRIM_SPARSENESS
-        )
-        text = "\n".join(
-            render.render_negative_prompt_lines(
-                self, profile=unsparse_profile, **kwargs
-            )
-        )
-        substituted = apply_dynamic_substitutions(text, **merged_kwargs)
-        return "\n".join(
-            render.apply_sparseness(substituted.split("\n"), profile.sparseness)
-        )
-
-    def render_negative_prompt(self, *, profile=None, **kwargs):
-        """
-        render the **negative prompt** built from this blueprint's
-        node checkmarking status merged with the full transitive
-        closure of its ``dependencies``
-
-        (see ``.generate_negative_prompt_without_dependencies()`` for
-        parameters)
-
-
-        :param profile: bundled render settings; defaults to a plain
-                `RenderProfile()`
-        :type profile: RenderProfile, optional
-        :param kwargs: further render options (e.g. ``query``)
-        :raise ValueError: a dependency cycle is detected
-        :return: generated negative prompt
-        :rtype: str
-        """
-        resolved = self._resolve_with_dependencies()
-        return resolved.generate_negative_prompt_without_dependencies(
             profile=profile, **kwargs
         )
 

@@ -94,13 +94,43 @@ real content spliced in only when its name is on a `RenderProfile`'s
 field against `variant_registry`. `{avoid}` (negative-instruction/example
 content) is neither: it carries no `.sidecars` accessor and is never
 manually spliced by name, but is discovered automatically, at any depth,
-by `render_negative_prompt()`/`render.render_negative_prompt_lines()`/
-`BlueprintRegistry.negative_content()` — the dependency-aware/own-only/
-registry-level counterparts to `render_prompt()` and friends. Every
-checkmarked node carrying an `{avoid}` child contributes that child's
-content under its own heading (never the literal `{avoid}` heading), and
-a branch with no `{avoid}` content anywhere in it is omitted entirely.
-`comfy-ui-export` calls `negative_content()` to build each
+by `render.render_negative_prompt_lines()`, reached via the single
+`RenderMode`-driven entry point — `RenderProfile(mode=RenderMode.NEGATIVE)`
+passed to `render_prompt()`/`generate_prompt_without_dependencies()` (or
+merged into a caller's profile) picks it in place of the positive
+`render_prompt_lines()`, at every layer: `PromptBlueprint`,
+`BlueprintRegistry.content()`, and any other `Exportable.content()`.
+A node's own `{avoid}` child contributes only when that node itself is
+checkmarked, under its own heading (never the literal `{avoid}`
+heading); descendants are always walked regardless of an ancestor's
+own checkmark, so a checkmarked descendant several levels below an
+unchecked ancestor still contributes. A node with no `{avoid}` content
+of its own is transparent: its contributing descendants' rendered
+blocks splice in directly, with no heading of this node's own, even
+though the node is checkmarked and the walk still visits it. A branch
+with no `{avoid}` content anywhere in it is omitted entirely. A 3rd
+`RenderMode` member, `POST_ORDER`, reorders every
+subtree to children-before-parent — each child's full subtree first
+(recursively, same rule), siblings kept in their original relative
+order, then the node's own heading and content last — with no other
+change (`sparseness` and heading markdown are untouched). A 4th member,
+`REVERSE_ORDER`, reverses sibling order at every level of the walk
+instead (independent of `POST_ORDER`; wired into all 4 walk paths
+`render_prompt_lines`/`render_negative_prompt_lines` can take — plain
+pre-order and `POST_ORDER`, positive and negative). `IMAGE` is a
+*composite* built from `POST_ORDER` | `REVERSE_ORDER` plus a private
+flatten-heading flag (`IMAGE = POST_ORDER | REVERSE_ORDER | _IMAGE`,
+mirroring the `WORD_CHARACTER`/`ASCII` composite pattern in
+`AbbrTags`): it flattens every heading line to a
+bare `title:` (regardless of nesting depth), forces `sparseness=1`, and
+(via the bits it carries) also reorders to post-order with reversed
+siblings. Every
+`RenderMode` member composes freely (`RenderMode.NEGATIVE |
+RenderMode.POST_ORDER`, `RenderMode.NEGATIVE | RenderMode.IMAGE`, ...).
+`Exportable.supports_negative_content` (class
+attribute, `False` by default, `True` on `BlueprintRegistry`) is the
+explicit capability flag `comfy-ui-export`'s `_avoid_content()` checks
+before calling `content(profile=... RenderMode.NEGATIVE)` to build each
 `<canonical_name>-AVOID.md` sibling. Q.v. [sidecar node
 documentation](docs/sidecar-node-doc.md).
 
@@ -123,18 +153,27 @@ q.v. `kaye_vault/claude_render_profiles.py`) maps a surface name to the
 `RenderProfile` carrying that surface's variants/conditional-sidecars.
 Every **rendering command** — any CLI subcommand that reaches
 `PromptBlueprint.render_prompt(...)`, directly or via
-`Exportable.content()` — exposes the same 5 options (`--surface`,
+`Exportable.content()` — exposes the same 6 options (`--surface`,
 `--comment`/`--no-comment`, `--conditional-sidecar`, `--variant`,
-`--sparseness`) via one shared parent parser and one aux function,
+`--sparseness`, `--reverse-order`) via one shared parent parser and one
+aux function,
 `build_render_profile_parent_parser`/`resolve_render_profile`
 (`kaye_engine/cli/render_profile_parser.py`). `resolve_render_profile`
 returns a single `RenderProfile`, built by merging each selected
 surface's profile with one built from the explicit
-`--variant`/`--conditional-sidecar`/`--sparseness`/`--comment` flags via
+`--variant`/`--conditional-sidecar`/`--sparseness`/`--comment`/
+`--reverse-order` flags via
 `RenderProfile.merge()` — `--variant`/`--conditional-sidecar` union
 additively with whatever `--surface` derives, so rendered prompts
 auto-checkmark the sidecars real on that surface plus any named
-explicitly. `--surface` itself is omitted entirely from the parser when
+explicitly; `--reverse-order` ORs `RenderMode.REVERSE_ORDER` into
+whatever `mode` the profile already carries (`mode` is itself a scalar
+field, so `RenderProfile.merge()` would otherwise let it clobber rather
+than combine — `resolve_render_profile` computes the OR'd value itself
+before the final `.merge()` call, the same pattern
+`comfy_ui_export_parser.py`'s `_avoid_content()` uses for `NEGATIVE |
+IMAGE`). `--surface` itself is
+omitted entirely from the parser when
 no consumer project configures `surface_profiles`. Each subcommand keeps
 its own default for `--comment`/`--no-comment` and `--sparseness` when
 the flags are omitted (via `build_sparseness_parent_parser(default=...)`,
@@ -226,7 +265,10 @@ or an unresolved name reach path, manifest, or prompt building.
 kaye_engine/
 ├── prompt/              parse, model, select, render
 │   ├── blueprint/       PromptBlueprint, registry, rendering
-│   │   └── render_profile.py   RenderProfile: layerable render-kwargs bundle
+│   │   ├── render_mode.py      RenderMode: NORMAL/NEGATIVE/IMAGE flag enum
+│   │   ├── render_profile.py   RenderProfile: layerable render-kwargs bundle
+│   │   └── render/             render_*_lines()/render_blueprint_tree(),
+│   │       split by concern (tree/lines/sidecar_splice/util)
 │   ├── dynamic_nodes/   render-time generated node types
 │   └── affordance_registry.py  Affordance/Variant two-level registry,
 │                                Usage/Lack/Fallback sidecar names

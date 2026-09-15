@@ -14,6 +14,7 @@ from kaye_engine.kamilog import (
     add_verbose_arguments,
     set_logging_level_by_namespace,
 )
+from kaye_engine.prompt.blueprint.render_mode import RenderMode
 from kaye_engine.prompt.blueprint.render_profile import RenderProfile
 
 # logger  ######################################################################
@@ -21,8 +22,11 @@ logger = kamilog.getLogger(LOGGER_NAME)
 
 # constants  ###################################################################
 # ComfyUI's positive field must never carry {avoid} content; that content
-# is written separately, to a sibling "<name>-AVOID.md" file
-_COMFY_UI_SPARSE_RENDER_PROFILE = RenderProfile(sparseness=0)
+# is written separately, to a sibling "<name>-AVOID.md" file. IMAGE also
+# forces sparseness=1, superseding the explicit sparseness=0 below.
+_COMFY_UI_SPARSE_RENDER_PROFILE = RenderProfile(
+    sparseness=0, mode=RenderMode.IMAGE
+)
 _AVOID_FILE_SUFFIX = "-AVOID"
 
 _HELP = "export the ComfyUI exportable subset as Markdown files"
@@ -49,10 +53,16 @@ def _avoid_content(exportable):
     :return: rendered negative prompt, or ``""`` when unavailable
     :rtype: str
     """
-    negative_content = getattr(exportable, "negative_content", None)
-    if negative_content is None:
+    if not exportable.supports_negative_content:
         return ""
-    return negative_content(profile=_COMFY_UI_SPARSE_RENDER_PROFILE)
+    return exportable.content(
+        profile=_COMFY_UI_SPARSE_RENDER_PROFILE.merge(
+            # ``mode`` is a scalar field -- ``.merge()`` lets ``other``
+            # win outright rather than union bits, so NEGATIVE must be
+            # combined with IMAGE here explicitly to keep both
+            RenderProfile(mode=RenderMode.NEGATIVE | RenderMode.IMAGE)
+        )
+    )
 
 
 def _comfy_ui_export_main(args):
