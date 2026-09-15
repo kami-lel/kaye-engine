@@ -14,6 +14,7 @@ from kaye_engine.kamilog import (
     add_verbose_arguments,
     set_logging_level_by_namespace,
 )
+from kaye_engine.prompt.blueprint.render_mode import RenderMode
 from kaye_engine.prompt.blueprint.render_profile import RenderProfile
 
 # logger  ######################################################################
@@ -49,10 +50,13 @@ def _avoid_content(exportable):
     :return: rendered negative prompt, or ``""`` when unavailable
     :rtype: str
     """
-    negative_content = getattr(exportable, "negative_content", None)
-    if negative_content is None:
+    if not exportable.supports_negative_content:
         return ""
-    return negative_content(profile=_COMFY_UI_SPARSE_RENDER_PROFILE)
+    return exportable.content(
+        profile=_COMFY_UI_SPARSE_RENDER_PROFILE.merge(
+            RenderProfile(mode=RenderMode.NEGATIVE)
+        )
+    )
 
 
 def _comfy_ui_export_main(args):
