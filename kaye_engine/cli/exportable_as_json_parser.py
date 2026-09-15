@@ -7,7 +7,7 @@ define ``register_exportable_as_json_parser``
 import json
 from argparse import RawDescriptionHelpFormatter
 
-from kaye_engine import LOGGER_NAME, kamilog
+from kaye_engine import LOGGER_NAME, PACKAGE_NAME, kamilog
 from kaye_engine.cli.cli_setup_guard import check_corpus_setup_for_cli
 from kaye_engine.exportable import exportable_registry, get_exportable
 from kaye_engine.kamilog import (
@@ -43,18 +43,21 @@ keyed by canonical name:
 # auxiliaries  #################################################################
 def _exportable_as_json_main(args):
     set_logging_level_by_namespace(args, logger=logger)
+    logger.enter("{} exportable-as-json".format(PACKAGE_NAME))
     check_corpus_setup_for_cli()
 
     canonical_names = sorted(exportable_registry)
-    content_by_name = {
-        canonical_name: get_exportable(canonical_name).content(
-            profile=_SPARSE_RENDER_PROFILE
-        )
-        for canonical_name in canonical_names
-    }
+    content_by_name = {}
+    for canonical_name in canonical_names:
+        content_by_name[canonical_name] = get_exportable(
+            canonical_name
+        ).content(profile=_SPARSE_RENDER_PROFILE)
+        logger.succ("render exportable:\t" + canonical_name)
 
     with open(args.output_file, "w", encoding="utf-8") as output_file:
         json.dump(content_by_name, output_file, indent=2, sort_keys=True)
+
+    logger.done("export exportable-as-json:\t" + str(args.output_file))
 
 
 # Public API  ##################################################################
