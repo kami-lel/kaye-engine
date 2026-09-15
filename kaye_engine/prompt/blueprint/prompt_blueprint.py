@@ -326,9 +326,11 @@ class PromptBlueprint(dict):
 
         ``profile.mode`` picks the rendering behavior:
         ``RenderMode.NEGATIVE`` renders the negative prompt in place of
-        the positive one, and ``RenderMode.IMAGE`` forces
-        ``sparseness=1`` regardless of what ``profile.sparseness`` was
-        set to
+        the positive one, ``RenderMode.POST_ORDER`` reorders every
+        subtree to children-before-parent (siblings keep their original
+        relative order), and ``RenderMode.IMAGE`` (which also implies
+        ``POST_ORDER``) forces ``sparseness=1`` regardless of what
+        ``profile.sparseness`` was set to
 
         (see ``render.render_prompt_lines()``,
         ``render.render_negative_prompt_lines()``, and
@@ -344,7 +346,7 @@ class PromptBlueprint(dict):
         :rtype: str
         """
         profile = profile or RenderProfile()
-        if RenderMode.IMAGE in profile.mode:
+        if RenderMode._IMAGE in profile.mode:
             profile = dataclasses.replace(profile, sparseness=1)
         merged_kwargs = {**profile.as_kwargs(), **kwargs}
 

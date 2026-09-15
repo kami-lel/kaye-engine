@@ -79,6 +79,138 @@ def _render_negative_prompt_node_recursively(blueprint, node, **kwargs):
     return lines
 
 
+def _render_prompt_node_post_order_recursively(blueprint, node, **kwargs):
+    """
+    recursively render one node's contribution for
+    ``RenderMode.POST_ORDER``: every child's full subtree first (each
+    following the same rule, siblings kept in original relative
+    order), then this node's own heading and content last, only when
+    this node itself is checkmarked -- checkmarking is evaluated
+    per-node, independent of any ancestor's, matching the flat
+    ``PreOrderIter`` walk this replaces
+
+    (helper function used in ``render_prompt_lines()`` when
+    ``RenderMode.POST_ORDER`` is set)
+
+
+    :param blueprint:
+    :type blueprint: PromptBlueprint
+    :param node:
+    :type node: BasePromptNode
+    :param kwargs: further render options forwarded to each
+            checkmarked node's ``content_lines(**kwargs)``
+    :return: rendered lines for ``node`` and its descendants, or an
+            empty list when nothing in this subtree contributes
+    :rtype: list[str]
+    """
+    child_blocks = []
+    for child in node.children:
+        block = _render_prompt_node_post_order_recursively(
+            blueprint, child, **kwargs
+        )
+        if block:
+            child_blocks.append(block)
+
+    own_lines = []
+    if blueprint.is_checkmarked(node):
+        own_lines.append(HEADING_PREFIX_ELEMENT * node.depth + " " + node.name)
+        content_lines = node.content_lines(**kwargs)
+        if content_lines:
+            own_lines.extend(content_lines)
+
+    if not child_blocks and not own_lines:
+        return []
+
+    lines = []
+    for block in child_blocks:
+        if lines:
+            lines.append("")
+        lines.extend(block)
+
+    if own_lines:
+        if lines:
+            lines.append("")
+        lines.extend(own_lines)
+
+    return lines
+
+
+def _render_negative_prompt_node_post_order_recursively(
+    blueprint, node, **kwargs
+):
+    """
+    (``RenderMode.POST_ORDER`` counterpart of
+    ``_render_negative_prompt_node_recursively``) recursively render
+    one checkmarked node's contribution to a negative prompt, with
+    every contributing child's block first (children kept in original
+    relative order), then this node's own heading and ``{avoid}``
+    content last
+
+    (helper function used in ``render_negative_prompt_lines()`` when
+    ``RenderMode.POST_ORDER`` is set)
+
+
+    :param blueprint:
+    :type blueprint: PromptBlueprint
+    :param node: node to render, never the corpus root
+    :type node: BasePromptNode
+    :param kwargs: further render options forwarded to the ``{avoid}``
+            node's ``content_lines(**kwargs)``
+    :return: rendered lines for ``node`` and its descendants, or an
+            empty list when nothing in this subtree contributes
+    :rtype: list[str]
+    """
+    if not blueprint.is_checkmarked(node):
+        return []
+
+    own_avoid_lines = []
+    child_blocks = []
+
+    for child in node.children:
+        sidecar_name = get_sidecar_name(child)
+        if sidecar_name == AVOID_NAME:
+            own_avoid_lines = child.content_lines(**kwargs)
+        elif sidecar_name is None:
+            block = _render_negative_prompt_node_post_order_recursively(
+                blueprint, child, **kwargs
+            )
+            if block:
+                child_blocks.append(block)
+
+    if not own_avoid_lines and not child_blocks:
+        return []
+
+    lines = []
+    for block in child_blocks:
+        if lines:
+            lines.append("")
+        lines.extend(block)
+
+    own_lines = [HEADING_PREFIX_ELEMENT * node.depth + " " + node.name]
+    own_lines.extend(own_avoid_lines)
+
+    if lines:
+        lines.append("")
+    lines.extend(own_lines)
+
+    return lines
+
+
+def _remove_first_heading_line(lines):
+    """
+    :return: ``lines`` with its first markdown heading line (if any)
+            removed
+    :rtype: list[str]
+    """
+    prefix = HEADING_PREFIX_ELEMENT
+    for i, line in enumerate(lines):
+        stripped = line.lstrip(prefix)
+        prefix_len = len(line) - len(stripped)
+        if prefix_len and stripped.startswith(" "):
+            return lines[:i] + lines[i + 1 :]
+    return lines
+
+
 def _flatten_headings_for_image_mode(lines):
     """
     rewrite every markdown heading line (``### title``) to a bare
@@ -139,32 +271,39 @@ def render_prompt_lines(
         variants=profile.variants,
     )
 
-    lines = []
+    if RenderMode.POST_ORDER in profile.mode:
+        lines = _render_prompt_node_post_order_recursively(
+            working_bp, working_bp.corpus, **kwargs
+        )
+        if profile.disable_first_heading:
+            lines = _remove_first_heading_line(lines)
+    else:
+        lines = []
 
-    should_skip_heading = profile.disable_first_heading
+        should_skip_heading = profile.disable_first_heading
 
-    last_node_idx = working_bp.corpus.size - 1
-    for i, node in enumerate(PreOrderIter(working_bp.corpus)):
-        if working_bp.is_checkmarked(node):
-            if should_skip_heading:
-                should_skip_heading = False
-            else:
-                # heading line
-                lines.append(
-                    HEADING_PREFIX_ELEMENT * node.depth + " " + node.name
-                )
+        last_node_idx = working_bp.corpus.size - 1
+        for i, node in enumerate(PreOrderIter(working_bp.corpus)):
+            if working_bp.is_checkmarked(node):
+                if should_skip_heading:
+                    should_skip_heading = False
+                else:
+                    # heading line
+                    lines.append(
+                        HEADING_PREFIX_ELEMENT * node.depth + " " + node.name
+                    )
 
-            # content lines
-            content_lines = node.content_lines(**kwargs)
-            if content_lines:
-                lines.extend(content_lines)
-                if i != last_node_idx:
-                    lines.append("")  # add an empty line
+                # content lines
+                content_lines = node.content_lines(**kwargs)
+                if content_lines:
+                    lines.extend(content_lines)
+                    if i != last_node_idx:
+                        lines.append("")  # add an empty line
 
     if profile.show_comment:
         lines.append("<!-- " + render_comment(profile.display_name) + " -->")
 
-    if RenderMode.IMAGE in profile.mode:
+    if RenderMode._IMAGE in profile.mode:
         lines = _flatten_headings_for_image_mode(lines)
 
     return apply_sparseness(lines, profile.sparseness)
@@ -204,11 +343,15 @@ def render_negative_prompt_lines(
         variants=profile.variants,
     )
 
+    recurse = (
+        _render_negative_prompt_node_post_order_recursively
+        if RenderMode.POST_ORDER in profile.mode
+        else _render_negative_prompt_node_recursively
+    )
+
     lines = []
     for child in working_bp.corpus.children:
-        block = _render_negative_prompt_node_recursively(
-            working_bp, child, **kwargs
-        )
+        block = recurse(working_bp, child, **kwargs)
         if not block:
             continue
         if lines:
@@ -218,7 +361,7 @@ def render_negative_prompt_lines(
     if profile.show_comment:
         lines.append("<!-- " + render_comment(profile.display_name) + " -->")
 
-    if RenderMode.IMAGE in profile.mode:
+    if RenderMode._IMAGE in profile.mode:
         lines = _flatten_headings_for_image_mode(lines)
 
     return apply_sparseness(lines, profile.sparseness)
