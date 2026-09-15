@@ -6,6 +6,8 @@ Unit Tests (using pytest) for:
 - RenderMode.IMAGE (heading flatten, forced sparseness)
 - RenderMode.NEGATIVE via the unified entry point
 - RenderMode.NEGATIVE | RenderMode.IMAGE combined
+- RenderMode.POST_ORDER (positive & negative paths)
+- RenderMode.IMAGE implying RenderMode.POST_ORDER
 """
 
 from kaye_engine.prompt import PromptBlueprint
@@ -122,3 +124,93 @@ class TestNegativeAndImageModeCombined:  #######################################
         assert not any(line.startswith("#") for line in opt)
         assert "Some:" in opt
         assert "Content:" in opt
+
+
+class TestPostOrderPositivePath:  #################################################
+
+    def test_children_before_parent_siblings_keep_order(_):
+        bp = PromptBlueprint.create_full_blueprint(
+            corpus_tree=_build_corpus(
+                """
+# A
+Content A.
+## B
+Content B.
+## C
+Content C.
+"""
+            )
+        )
+
+        opt = render.render_prompt_lines(
+            bp, profile=RenderProfile(mode=RenderMode.POST_ORDER)
+        )
+
+        assert opt == [
+            "## B",
+            "Content B.",
+            "",
+            "## C",
+            "Content C.",
+            "",
+            "# A",
+            "Content A.",
+        ]
+
+    def test_does_not_force_sparseness_or_flatten_headings(_):
+        bp = PromptBlueprint.create_full_blueprint(
+            corpus_tree=_nested_heading_corpus()
+        )
+
+        opt = bp.generate_prompt_without_dependencies(
+            profile=RenderProfile(mode=RenderMode.POST_ORDER, sparseness=99)
+        )
+
+        assert "### Content" in opt
+        assert "# Some" in opt
+
+
+class TestPostOrderNegativePath:  ##################################################
+
+    def test_children_before_parent(_):
+        bp = PromptBlueprint.create_full_blueprint(
+            corpus_tree=_nested_avoid_corpus()
+        )
+
+        opt = render.render_negative_prompt_lines(
+            bp, profile=RenderProfile(mode=RenderMode.POST_ORDER)
+        )
+
+        assert opt == [
+            "### Content",
+            "BBBB",
+            "",
+            "## Prompt",
+            "AAAA",
+            "",
+            "# Some",
+        ]
+
+
+class TestImageModeImpliesPostOrder:  ##############################################
+
+    def test_image_reorders_to_post_order(_):
+        bp = PromptBlueprint.create_full_blueprint(
+            corpus_tree=_build_corpus(
+                """
+# A
+Content A.
+## B
+Content B.
+## C
+Content C.
+"""
+            )
+        )
+
+        opt = bp.generate_prompt_without_dependencies(
+            profile=RenderProfile(mode=RenderMode.IMAGE)
+        ).split("\n")
+
+        assert opt.index("B:") < opt.index("A:")
+        assert opt.index("C:") < opt.index("A:")
