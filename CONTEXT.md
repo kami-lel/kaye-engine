@@ -104,13 +104,18 @@ A node's own `{avoid}` child contributes only when that node itself is
 checkmarked, under its own heading (never the literal `{avoid}`
 heading); descendants are always walked regardless of an ancestor's
 own checkmark, so a checkmarked descendant several levels below an
-unchecked ancestor still contributes, and that ancestor's heading is
-printed only to place it in context. A branch with no `{avoid}`
-content anywhere in it is omitted entirely. A 3rd `RenderMode` member,
-`POST_ORDER`, reorders every
+unchecked ancestor still contributes. A node with no `{avoid}` content
+of its own is transparent: its contributing descendants' rendered
+blocks splice in directly, with no heading of this node's own, even
+though the node is checkmarked and the walk still visits it. A branch
+with no `{avoid}` content anywhere in it is omitted entirely. A 3rd
+`RenderMode` member, `POST_ORDER`, reorders every
 subtree to children-before-parent — each child's full subtree first
 (recursively, same rule), siblings kept in their original relative
-order, then the node's own heading and content last — with no other
+order (or reversed, at every level, when `RenderProfile.
+reverse_sibling_order` is set — a scalar field wired into all 4 walk
+paths `render_prompt_lines`/`render_negative_prompt_lines` can take),
+then the node's own heading and content last — with no other
 change (`sparseness` and heading markdown are untouched). `IMAGE` is a
 *composite* built from `POST_ORDER` plus a private flatten-heading flag
 (`IMAGE = POST_ORDER | _IMAGE`, mirroring the `WORD_CHARACTER`/`ASCII`

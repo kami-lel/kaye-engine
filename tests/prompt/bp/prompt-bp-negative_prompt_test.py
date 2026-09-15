@@ -45,7 +45,7 @@ Content with no avoid anywhere below it.
 # pytest  ########################################################################
 class TestNestedAvoidStructure:  ################################################
 
-    def test_shows_surrounding_headings_never_the_avoid_heading(_):
+    def test_omits_contextless_ancestor_heading(_):
         bp = PromptBlueprint.create_full_blueprint(
             corpus_tree=_nested_avoid_corpus()
         )
@@ -54,7 +54,6 @@ class TestNestedAvoidStructure:  ###############################################
 
         print(opt)
         assert opt == [
-            "# Some",
             "## Prompt",
             "AAAA",
             "",
@@ -83,7 +82,7 @@ class TestUncheckmarkedNodeOmitted:  ###########################################
         opt = render.render_negative_prompt_lines(bp)
 
         print(opt)
-        assert opt == ["# Some", "## Prompt", "AAAA"]
+        assert opt == ["## Prompt", "AAAA"]
 
     def test_ancestor_still_checkmarked_keeps_its_own_avoid(_):
         bp = PromptBlueprint.create_full_blueprint(
@@ -106,7 +105,7 @@ class TestUncheckmarkedAncestorDoesNotBlockDescendant:  ########################
 
         opt = render.render_negative_prompt_lines(bp)
 
-        assert opt == ["# Some", "## Prompt", "### Content", "BBBB"]
+        assert opt == ["### Content", "BBBB"]
         assert "AAAA" not in opt
 
 
@@ -132,7 +131,6 @@ CCCC
 
         print(opt)
         assert opt == [
-            "# Some",
             "## Prompt",
             "AAAA",
             "",
@@ -179,7 +177,7 @@ class TestGenerateNegativePromptWithoutDependencies:  ##########################
         )
 
         print(opt)
-        assert opt == "# Some\n## Prompt\nAAAA\n\n### Content\nBBBB"
+        assert opt == "## Prompt\nAAAA\n\n### Content\nBBBB"
 
     def test_no_avoid_anywhere_renders_empty(_):
         bp = PromptBlueprint.create_full_blueprint(

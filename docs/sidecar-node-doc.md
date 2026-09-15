@@ -122,11 +122,12 @@ the negative prompt, under that node's own heading, only when the
 node itself is checkmarked; the literal `{avoid}` heading itself is
 never shown. Descendants are always walked regardless of an
 ancestor's own checkmark, so a checkmarked descendant below an
-unchecked ancestor still contributes, printing that ancestor's
-heading only to place it in context. A node with no `{avoid}` child
-and no contributing descendant is omitted entirely. It is never
-included in the *positive* prompt unless explicitly named via
-`conditional_sidecars`.
+unchecked ancestor still contributes. A node with no `{avoid}`
+content of its own is transparent: its contributing descendants'
+rendered blocks splice in directly, with no heading of this node's
+own. A node with no `{avoid}` child and no contributing descendant is
+omitted entirely. It is never included in the *positive* prompt unless
+explicitly named via `conditional_sidecars`.
 
 **Access:** `RenderMode.NEGATIVE` only — there is no
 `blueprint.sidecars.avoid` accessor.
