@@ -18,6 +18,8 @@ import pytest
 
 from kaye_engine.exportable import exportable_registry
 from kaye_engine.prompt import PromptBlueprint
+from kaye_engine.prompt.blueprint.render_mode import RenderMode
+from kaye_engine.prompt.blueprint.render_profile import RenderProfile
 from kaye_engine.prompt.blueprint.registry import (
     blueprint_registry,
     register_blueprint,
@@ -347,7 +349,7 @@ class TestNegativeDependency:  #################################################
             corpus_tree=_avoid_corpus(), dependencies=[dep]
         )
 
-        opt = bp.render_negative_prompt()
+        opt = bp.render_prompt(profile=RenderProfile(mode=RenderMode.NEGATIVE))
 
         assert "AAAA" in opt
 
@@ -359,7 +361,9 @@ class TestNegativeDependency:  #################################################
             corpus_tree=_avoid_corpus(), dependencies=[dep]
         )
 
-        opt = bp.generate_negative_prompt_without_dependencies()
+        opt = bp.generate_prompt_without_dependencies(
+            profile=RenderProfile(mode=RenderMode.NEGATIVE)
+        )
 
         assert "AAAA" not in opt
 
@@ -369,7 +373,7 @@ class TestNegativeDependency:  #################################################
         d = PromptBlueprint(corpus_tree=_avoid_corpus(), dependencies=[c])
         a = PromptBlueprint(corpus_tree=_avoid_corpus(), dependencies=[b, d])
 
-        opt = a.render_negative_prompt()
+        opt = a.render_prompt(profile=RenderProfile(mode=RenderMode.NEGATIVE))
 
         assert opt.count("AAAA") == 1
 
@@ -378,4 +382,4 @@ class TestNegativeDependency:  #################################################
         bp.dependencies.append(bp)
 
         with pytest.raises(ValueError):
-            bp.render_negative_prompt()
+            bp.render_prompt(profile=RenderProfile(mode=RenderMode.NEGATIVE))

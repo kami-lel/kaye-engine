@@ -11,6 +11,7 @@ import re
 
 from kaye_engine.prompt import PromptBlueprint
 from kaye_engine.prompt.blueprint import render
+from kaye_engine.prompt.blueprint.render_mode import RenderMode
 from kaye_engine.prompt.blueprint.render_profile import RenderProfile
 from kaye_engine.prompt.prompt_corpus_node import PromptCorpusNode
 
@@ -160,7 +161,9 @@ class TestGenerateNegativePromptWithoutDependencies:  ##########################
             corpus_tree=_nested_avoid_corpus()
         )
 
-        opt = bp.generate_negative_prompt_without_dependencies()
+        opt = bp.generate_prompt_without_dependencies(
+            profile=RenderProfile(mode=RenderMode.NEGATIVE)
+        )
 
         print(opt)
         assert opt == "# Some\n## Prompt\nAAAA\n\n### Content\nBBBB"
@@ -175,6 +178,8 @@ Nothing to avoid here.
             )
         )
 
-        opt = bp.generate_negative_prompt_without_dependencies()
+        opt = bp.generate_prompt_without_dependencies(
+            profile=RenderProfile(mode=RenderMode.NEGATIVE)
+        )
 
         assert opt == ""
