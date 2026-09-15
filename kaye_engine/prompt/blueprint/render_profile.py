@@ -94,8 +94,13 @@ class RenderProfile:
     :param mode: switches the unified prompt entry point between its
             rendering behaviors -- ``RenderMode.NEGATIVE`` renders the
             negative prompt in place of the positive one,
-            ``RenderMode.IMAGE`` flattens headings to a ``title:`` line
-            and forces ``sparseness=1``; defaults to ``RenderMode.NORMAL``
+            ``RenderMode.POST_ORDER`` reorders every subtree to
+            children-before-parent (siblings keep their original
+            relative order), and ``RenderMode.IMAGE`` -- a composite of
+            ``POST_ORDER`` plus a private flatten-heading flag --
+            flattens headings to a ``title:`` line, forces
+            ``sparseness=1``, and reorders to post-order; defaults to
+            ``RenderMode.NORMAL``
     :type mode: RenderMode, optional
     """
 

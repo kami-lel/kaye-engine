@@ -20,4 +20,7 @@ class RenderMode(Flag):
 
     NORMAL = 0
     NEGATIVE = auto()
-    IMAGE = auto()
+    POST_ORDER = auto()
+    _IMAGE = auto()
+
+    IMAGE = POST_ORDER | _IMAGE
