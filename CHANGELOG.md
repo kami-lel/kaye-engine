@@ -22,63 +22,7 @@ todo todo CLI to import/export w/ OpenWebUI
 
 ### Added
 
-- `Affordance.usage_sidecar_name` (`[{name}] Usage`), checkmarked when at
-  least one variant registered under that affordance is present
-- `Variant.lack_sidecar_name` (`[{name}] Lack`), checkmarked when that
-  variant is absent; reinstates the per-variant absent case removed in
-  `7.4.0` in favor of the affordance-level `Fallback` sidecar
-- `register_comfy_ui_exportable()`/`comfy_ui_exportable_registry`, marking
-  already-registered exportables as members of a ComfyUI export subset
-- `exportable-as-json` (alias `j`) CLI subcommand: exports every entry in
-  `exportable_registry` as flat `{canonical_name: content}` JSON
-- `comfy-ui-export` (alias `y`) CLI subcommand: writes every entry in
-  `comfy_ui_exportable_registry` to `FOLDER` as one `<canonical_name>.md`
-  file each, plus a `<canonical_name>-AVOID.md` sibling wherever that
-  entry's blueprint carries real `{avoid}` sidecar content anywhere in
-  its tree; both files render with `RenderMode.IMAGE`, so headings are
-  flat `title:` lines rather than markdown `#`/`##`/`###`
-- `RenderMode` flag enum (`NORMAL`, `NEGATIVE`, `POST_ORDER`,
-  `REVERSE_ORDER`, `IMAGE`) and `RenderProfile.mode`, unifying
-  `PromptBlueprint.render_prompt()`/
-  `generate_prompt_without_dependencies()` and
-  `BlueprintRegistry.content()` into a single entry point for every
-  rendering behavior: `RenderMode.NEGATIVE` renders the negative
-  prompt — walking every checkmarked node in a blueprint's tree for
-  an `{avoid}` sidecar child at any depth and rendering a
-  structure-preserving negative prompt from just those, showing a
-  node's own heading only when that node carries `{avoid}` content of
-  its own (never the literal `{avoid}` heading itself; an ancestor
-  with no `{avoid}` content of its own is transparent, splicing its
-  contributing descendants' blocks in directly) and omitting every
-  branch without
-  avoid content, keeping real newlines rather than collapsing to a
-  single `↵`-joined line, since it's commonly exported standalone
-  (e.g. as a ComfyUI negative prompt) — `RenderMode.POST_ORDER`
-  reorders every subtree to children-before-parent (each child's full
-  subtree first, siblings keeping their original relative order, then
-  the node's own heading and content last) — `RenderMode.REVERSE_ORDER`
-  (also exposed as `--reverse-order` on the shared render-option CLI
-  parser) reverses sibling order at every level of the walk instead,
-  across all 4 walk paths `render_prompt_lines()`/
-  `render_negative_prompt_lines()` can take (plain pre-order and
-  `POST_ORDER`, positive and negative) — nothing is dropped, only
-  reordered — and `RenderMode.IMAGE`, a
-  composite of `POST_ORDER` | `REVERSE_ORDER` plus a private
-  flatten-heading flag, flattens every heading (`### title` → `title:`)
-  and forces `sparseness=1`, regardless of nesting depth or the
-  profile's own `sparseness`, on top of reordering to post-order with
-  reversed siblings
-- `Exportable.supports_negative_content` class attribute (`False` by
-  default, `True` on `BlueprintRegistry`), the explicit capability
-  flag `comfy-ui-export` checks in place of duck-typing
-
 ### Changed
-
-- exported-glossary canonical-name prefix shortened `abbr-glossary-` → `glossary-`
-- `exportable-as-json`'s default export now folds `{avoid}` content in
-  inline, same flat-string shape as before
-- affordance/variant mechanism documentation split out of `sidecar-node-doc.md` into its own `docs/affordance-doc.md`, cross-linked from `claude-doc.md`, `CONTEXT.md`, `AGENTS.md`, & `README.md`
-- `kaye_engine/prompt/blueprint/render.py` split into a `render/` subpackage (`util.py`, `tree.py`, `sidecar_splice.py`, `lines.py`, `__init__.py` facade) by concern; every `render.X` call site keeps working unchanged
 
 ### Deprecated
 
@@ -86,25 +30,71 @@ todo todo CLI to import/export w/ OpenWebUI
 
 ### Fixed
 
-- `RenderMode.NEGATIVE` (and `POST_ORDER`) no longer skip a checkmarked
-  node's `{avoid}` content because an ancestor happens to be unchecked:
-  the tree walk now always descends regardless of a node's own
-  checkmark
-- `RenderMode.NEGATIVE`'s `POST_ORDER` path (used by `comfy-ui-export`'s
-  flattened `IMAGE` mode) no longer writes a bare, contentless heading
-  line (e.g. a trailing `Some Section:` with nothing under it) for an
-  ancestor with no `{avoid}` content of its own; such a node is now
-  transparent and its contributing descendants' content splices in
-  directly with no heading of its own — applies to the plain pre-order
-  negative path too
-- `exportable-as-json`/`j` and `comfy-ui-export`/`y` now emit
-  `ENTER`/`SUCC`/`DONE` progress logging at `-vvvv`, matching every
-  other CLI subcommand; previously they set the logging level but
-  logged nothing
-
 ### Security
 
-[unreleased]: https://github.com/kami-lel/kaye-engine/compare/v8.0.0...dev
+[unreleased]: https://github.com/kami-lel/kaye-engine/compare/v8.1.0...dev
+
+
+
+
+
+
+
+
+
+
+
+
+
+## [8.1.0] - 2026-09-17
+
+### Added
+
+- `RenderMode` flag enum (`NORMAL`, `NEGATIVE`, `POST_ORDER`,
+  `REVERSE_ORDER`, `IMAGE`) and `RenderProfile.mode`, unifying negative-prompt,
+  post-order, reverse-sibling, and flattened-heading rendering behind one
+  entry point on `PromptBlueprint` and `BlueprintRegistry`; `--reverse-order`
+  exposes the new sibling-reversal mode on the shared render-option CLI
+  parser
+- `Exportable.supports_negative_content`, the capability flag marking which
+  exportable kinds can render a negative prompt
+- `register_comfy_ui_exportable()`/`comfy_ui_exportable_registry`, opting
+  already-registered exportables into a ComfyUI export subset
+- `comfy-ui-export` (alias `y`) CLI subcommand: writes the ComfyUI subset to
+  `FOLDER` as one Markdown file per entry, plus an `-AVOID` sibling wherever
+  negative-prompt content exists
+- `exportable-as-json` (alias `j`) CLI subcommand: exports the full
+  exportable registry as flat JSON
+- `Affordance.usage_sidecar_name`/`Variant.lack_sidecar_name`, reinstating
+  per-variant absence tracking (removed in `7.4.0`) alongside the
+  affordance-level presence/fallback sidecars
+
+### Changed
+
+- exported-glossary canonical-name prefix shortened `abbr-glossary-` →
+  `glossary-`
+
+- `exportable-as-json`'s default export now folds `{avoid}` content inline,
+  same flat-string shape as before
+- affordance/variant mechanism documentation split out of
+  `sidecar-node-doc.md` into its own `docs/affordance-doc.md`
+- render internals split from a single `render.py` into a `render/`
+  subpackage by concern; every call site keeps working unchanged
+
+> [!WARNING]
+> Renames every exported glossary's canonical name; any consumer
+> referencing the old `abbr-glossary-*` form must update to `glossary-*`
+
+### Fixed
+
+- negative-prompt rendering (`RenderMode.NEGATIVE`/`POST_ORDER`) no longer
+  skips a checkmarked node's `{avoid}` content under an unchecked ancestor,
+  and no longer prints a bare, contentless heading for an ancestor with no
+  `{avoid}` content of its own
+- `exportable-as-json`/`comfy-ui-export` now emit progress logging at
+  `-vvvv`, matching every other CLI subcommand
+
+[8.1.0]: https://github.com/kami-lel/kaye-engine/compare/v8.0.0...v8.1.0
 
 
 
