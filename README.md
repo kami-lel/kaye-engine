@@ -10,6 +10,7 @@ Kaye Engine parses a plain Markdown file, as the structured single source of tru
 - ⚙️ generate scenario-ready prompts from blueprints and templates
 - 🐍 programmatic Python API for listing, previewing, and generating prompts
 - 💻 CLI for quick local generation and inspection
+- 🎨 ComfyUI export: write a marked exportable subset to per-entry Markdown files, each with an `-AVOID` negative-prompt sibling where relevant
 - 🔌 pluggable mechanism, ready for a consumer package to plug in its own corpus, abbreviations, and blueprints — including a Flask/HTTP surface, if the consumer chooses to build one
 
 

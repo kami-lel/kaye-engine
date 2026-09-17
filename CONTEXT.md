@@ -1,6 +1,6 @@
 # kaye-engine CONTEXT
 
-**Last updated:** 2026-09-13
+**Last updated:** 2026-09-17
 
 System knowledge for the **kaye-engine** repository — architecture,
 entities, and boundaries. Read this alongside `AGENTS.md` before making
@@ -18,7 +18,7 @@ through a Python API and a CLI.
 | distribution / import name | `kaye-engine` / `kaye_engine` |
 | dependencies | `anytree`, `json5`, `pyahocorasick`, `pyyaml` |
 | entry point | `kaye-engine` console script → `kaye_engine.__main__:main` |
-| CLI subcommands | `blueprint`, `claude`, `dynamic-node`, `dynamic-substitution`, `exportable`, `exportable-as-json`, `list-affordance`, `list-variant`, `glossary` |
+| CLI subcommands | `blueprint`, `claude`, `comfy-ui-export`, `dynamic-node`, `dynamic-substitution`, `exportable`, `exportable-as-json`, `list-affordance`, `list-variant`, `glossary` |
 
 ## Personalization Boundary
 
@@ -265,7 +265,8 @@ or an unresolved name reach path, manifest, or prompt building.
 kaye_engine/
 ├── prompt/              parse, model, select, render
 │   ├── blueprint/       PromptBlueprint, registry, rendering
-│   │   ├── render_mode.py      RenderMode: NORMAL/NEGATIVE/IMAGE flag enum
+│   │   ├── render_mode.py      RenderMode: NORMAL/NEGATIVE/POST_ORDER/
+│   │   │                        REVERSE_ORDER/IMAGE flag enum
 │   │   ├── render_profile.py   RenderProfile: layerable render-kwargs bundle
 │   │   └── render/             render_*_lines()/render_blueprint_tree(),
 │   │       split by concern (tree/lines/sidecar_splice/util)
@@ -311,7 +312,7 @@ the same `blueprint_registry` rather than holding its own list.
 
 ## Testing Strategy
 
-`pytest`, 820 tests, run **serially by design** — cases are cheap in-process
+`pytest`, 856 tests, run **serially by design** — cases are cheap in-process
 assertions, so worker startup costs more than a split saves, and shared
 fixtures carry run-order assumptions. `pytest-xdist` is deliberately absent
 from the `dev` extra.
