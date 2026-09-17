@@ -133,7 +133,7 @@ The `kaye-engine list-affordance`/`list-variant` CLI subcommands (q.v. [CLI Inte
 
 ### Checkmark Evaluation
 
-`_build_variant_sidecar_map(variants)` (private helper, `kaye_engine/prompt/blueprint/render.py`) turns a collection of available variant `canonical_name`s into a `dict[str, bool]` of every derived sidecar name:
+`_build_variant_sidecar_map(variants)` (private helper, `kaye_engine/prompt/blueprint/render/sidecar_splice.py`) turns a collection of available variant `canonical_name`s into a `dict[str, bool]` of every derived sidecar name:
 
 - for each `variant_registry` entry: `usage_sidecar_name` is `True` iff its `canonical_name` is in `variants`; `lack_sidecar_name` is the negation
 - for each `affordance_registry` entry: `usage_sidecar_name` is `True` iff *any* of its registered variants are present in `variants`; `fallback_sidecar_name` is `True` iff it has at least one registered variant and *all* of them are absent
