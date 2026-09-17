@@ -37,7 +37,7 @@
 
 ## Concepts
 
-Sidecar nodes enable two complementary patterns:
+Sidecar nodes enable two complementary patterns, plus affordances, a third mechanism that checkmarks sidecars naming a platform capability, covered in [`affordance-doc.md`](affordance-doc.md):
 
 
 
@@ -90,6 +90,47 @@ Lists file glob patterns indicating which file types or paths make the parent no
 **Rendering behavior:** `globs` requires **fence-block parsing** (e.g., code blocks with ` ```glob ` delimiters). The patterns are extracted and stored in `blueprint.sidecars.globs`.
 
 **Access:** `blueprint.sidecars.globs` (returns list of glob patterns)
+
+
+
+
+### Negative-Instruction Sidecar
+
+`{avoid}` is neither a descriptor sidecar nor a conditional one — it is
+never exposed via `.sidecars`, and it is never spliced into a rendered
+prompt by naming it in `conditional_sidecars` (though that splice
+mechanism still works structurally on it like on any other name,
+independent of the render below). Instead, `{avoid}` content is
+discovered automatically, at any depth, by
+`kaye_engine.prompt.blueprint.render.render_negative_prompt_lines()`,
+reached via the unified `RenderMode`-driven entry point:
+`profile=RenderProfile(mode=RenderMode.NEGATIVE)` passed to
+`PromptBlueprint.render_prompt()`/`generate_prompt_without_dependencies()`
+or `BlueprintRegistry.content()` picks it in place of the positive
+render.
+
+
+
+
+#### `{avoid}`
+
+Carries negative-instruction/negative-example content for the parent
+node — what the parent's positive content should *not* produce.
+
+**Rendering behavior:** a node's own `{avoid}` child contributes to
+the negative prompt, under that node's own heading, only when the
+node itself is checkmarked; the literal `{avoid}` heading itself is
+never shown. Descendants are always walked regardless of an
+ancestor's own checkmark, so a checkmarked descendant below an
+unchecked ancestor still contributes. A node with no `{avoid}`
+content of its own is transparent: its contributing descendants'
+rendered blocks splice in directly, with no heading of this node's
+own. A node with no `{avoid}` child and no contributing descendant is
+omitted entirely. It is never included in the *positive* prompt unless
+explicitly named via `conditional_sidecars`.
+
+**Access:** `RenderMode.NEGATIVE` only — there is no
+`blueprint.sidecars.avoid` accessor.
 
 
 
@@ -174,7 +215,7 @@ Sidecar nodes follow the standard Markdown heading format in `prompt_corpus.md`:
 - The heading level of a sidecar node (e.g., `##`, `###`) determines its depth in the tree
 - A sidecar node must be **one level deeper than its parent node**
 - Sidecar nodes are identified by the pattern `^\{.+\}$` (any name in curly braces) — there is no fixed vocabulary; any name is a valid sidecar
-- `description`, `when_to_use`, and `globs` are reserved names consumed as metadata by `BlueprintDescriptorSidecars`; every other name is available for conditional content inclusion
+- `description`, `when_to_use`, and `globs` are reserved names consumed as metadata by `BlueprintDescriptorSidecars`; `avoid` is reserved too, but discovered directly by `render.render_negative_prompt_lines()` (via `RenderMode.NEGATIVE`) instead (q.v. [Negative-Instruction Sidecar](#negative-instruction-sidecar)); every other name is available for conditional content inclusion
 
 **Checkmarking behavior:**
 - Sidecar nodes are **never auto-checkmarked** by `create_full_blueprint()` or by `.checkmark()` with `recursively=True`
@@ -384,65 +425,5 @@ Conditional rendering with conditional sidecar nodes:
 # Include arbitrary named sidecar content
 prompt = bp.render_prompt(
     profile=RenderProfile(conditional_sidecars=("[ClaudeCode:TodoWrite]",))
-)
-```
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-## Affordances
-
-A second, independent auto-checkmark mechanism for a common case: acknowledging whether a platform capability is available at all, rather than splicing in arbitrary named content.
-
-The mechanism is two-level. An **affordance** is a conceptual capability family (e.g. "ask-user-question"); a **variant** is one concrete implementation of that family (e.g. `ask_user_input_v0`, `AskUserQuestion`). A family may hold a single variant, standing in for a one-off capability with no siblings.
-
-In the corpus, author a `{[variant canonical_name] Usage}` sidecar under a checkmarked node per variant, describing what to do when using it, and a `{[affordance canonical_name] Fallback}` sidecar per affordance, describing what to do when every one of its variants is absent.
-
-Programmatically, register a variant via `register_variant(canonical_name, affordance_name)` — it looks `affordance_name` up in `affordance_registry`, registering a new affordance under that name first when it isn't found, then links the variant. There is no separate call for registering an affordance on its own; `register_variant` is the sole entry point. Then pass `profile=RenderProfile(variants=(...))` to `render_prompt()` / `render_prompt_lines()`, `variants` being a collection of variant canonical names available for this invocation, alongside `conditional_sidecars` on the same `RenderProfile`. Each registered variant's `Usage` sidecar is checkmarked when its `canonical_name` is present in `variants`. Each registered affordance's `Fallback` sidecar is checkmarked when it has at least one registered variant and every one of them is absent from `variants` — an affordance with no variants registered under it never fires its `Fallback`. Either way, only under an already-checkmarked parent. `variants=None` is the default, keeping the render as-is; `variants=()` marks every variant absent.
-
-How a consumer's own CLI determines what to pass as `variants` for a given invocation is entirely up to that consumer — the engine has no concept of "surface" or "which variants apply where."
-
-Q.v. [`claude-doc.md`](claude-doc.md) for how to uses this mechanism for Claude platform tools specifically.
-
-**Example:**
-```python
-# register a single-variant affordance and a two-variant affordance
-register_variant("ClaudeCode:TodoWrite", "ClaudeCode:TodoWrite")
-register_variant("ask_user_input_v0", "ask-user-question")
-register_variant("AskUserQuestion", "ask-user-question")
-
-# Usage/Fallback checkmarking for every registered affordance/variant
-prompt = bp.render_prompt(
-    profile=RenderProfile(variants=("ClaudeCode:TodoWrite",))
 )
 ```

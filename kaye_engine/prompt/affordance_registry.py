@@ -9,10 +9,11 @@ can conditionally acknowledge
 an ``Affordance`` is a conceptual capability family (e.g.
 "ask-user-question"); a ``Variant`` is one concrete implementation of
 that family (e.g. ``ask_user_input_v0``), linked to it via
-``affordance_name``. A corpus authors a ``{[variant canonical_name]
-Usage}`` sidecar per variant, and a ``{[affordance canonical_name]
-Fallback}`` sidecar per family, checkmarked when every variant
-registered under that family is unavailable
+``affordance_name``. A corpus authors ``{[variant canonical_name]
+Usage}``/``Lack`` sidecars per variant, checkmarked when that variant
+is present/absent, and ``{[affordance canonical_name] Usage}``/
+``Fallback`` sidecars per family, checkmarked when any/none of its
+variants are present
 """
 
 from dataclasses import dataclass
@@ -29,9 +30,8 @@ __all__ = (
 @dataclass(kw_only=True)
 class Affordance:
     """
-    a registered capability family, and the sidecar name derived from
-    its ``canonical_name`` a corpus may author to describe the case
-    where every variant of it is unavailable
+    a registered capability family, and the ``Usage``/``Fallback``
+    sidecar names derived from its ``canonical_name``
 
 
     :param canonical_name: unique identifier for this affordance
@@ -41,11 +41,19 @@ class Affordance:
     canonical_name: str
 
     @property
+    def usage_sidecar_name(self):
+        """
+        :return: the sidecar name checkmarked when any variant of
+                this affordance is present
+        :rtype: str
+        """
+        return "[{}] Usage".format(self.canonical_name)
+
+    @property
     def fallback_sidecar_name(self):
         """
-        :return: the sidecar name a corpus author checkmarks content
-                under to describe the absence of every variant of this
-                affordance
+        :return: the sidecar name checkmarked when every variant of
+                this affordance is absent
         :rtype: str
         """
         return "[{}] Fallback".format(self.canonical_name)
@@ -55,8 +63,8 @@ class Affordance:
 class Variant:
     """
     a single registered concrete implementation of an ``Affordance``,
-    and the sidecar name derived from its ``canonical_name`` a corpus
-    may author to describe using it
+    and the ``Usage``/``Lack`` sidecar names derived from its
+    ``canonical_name``
 
 
     :param canonical_name: unique identifier for this variant
@@ -72,11 +80,20 @@ class Variant:
     @property
     def usage_sidecar_name(self):
         """
-        :return: the sidecar name a corpus author checkmarks content
-                under to describe using this variant
+        :return: the sidecar name checkmarked when this variant is
+                present
         :rtype: str
         """
         return "[{}] Usage".format(self.canonical_name)
+
+    @property
+    def lack_sidecar_name(self):
+        """
+        :return: the sidecar name checkmarked when this variant is
+                absent
+        :rtype: str
+        """
+        return "[{}] Lack".format(self.canonical_name)
 
 
 affordance_registry = {}

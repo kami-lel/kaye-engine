@@ -416,6 +416,70 @@ dependency cycle raises `ValueError`. Every consumer that renders
 own-only method.
 
 
+##### generate negative prompt
+
+The negative prompt is not a separate method — it is the same
+`.generate_prompt_without_dependencies()` / `.render_prompt()` entry
+point above, switched via `RenderProfile.mode`:
+`profile=RenderProfile(mode=RenderMode.NEGATIVE)` contributes a
+node's own `{avoid}` sidecar child under that node's own heading only
+when the node itself is checkmarked — the literal `{avoid}` heading is
+never shown — while descendants are always walked regardless of an
+ancestor's own checkmark, so a checkmarked descendant below an
+unchecked ancestor still contributes, printing that ancestor's heading
+only for context. A node with no `{avoid}` child and no contributing
+descendant is omitted entirely. Q.v.
+[`sidecar-node-doc.md`](sidecar-node-doc.md#negative-instruction-sidecar)
+for how `{avoid}` differs from a descriptor or conditional sidecar.
+
+E.g., given a checkmarked tree shaped
+
+```
+## Some
+### Prompt
+#### {avoid}
+Don't do this.
+#### Content
+##### {avoid}
+Or this.
+```
+
+```python
+>>> render.render_negative_prompt_lines(tree)
+['## Some',
+ '### Prompt',
+ "Don't do this.",
+ '',
+ '#### Content',
+ 'Or this.']
+```
+
+`render.render_negative_prompt_lines()` is the module-level function
+`render_prompt_lines()` dispatches to internally when
+`RenderMode.NEGATIVE` is set; call it directly for the same output
+without going through a `PromptBlueprint`. `.render_prompt(profile=...)`
+resolves `.dependencies` first — same resolution behavior (recursive,
+diamond-safe, cycle-raising) regardless of `mode`.
+
+A 2nd `RenderMode` member, `POST_ORDER`, reorders every subtree to
+children-before-parent — each child's full subtree first (recursively,
+same rule), siblings kept in their original relative order, then the
+node's own heading and content last — with no other change
+(`sparseness` and heading markdown are untouched), and wired into all
+4 walk paths `render_prompt_lines()`/`render_negative_prompt_lines()`
+can take (plain pre-order and `POST_ORDER`, positive and negative). A
+3rd member, `REVERSE_ORDER` (also exposed as `--reverse-order` on the
+shared render-option CLI parser), reverses sibling order at every
+level of the walk instead, independent of `POST_ORDER`, across the
+same 4 walk paths — nothing is dropped, only reordered. `IMAGE` is a
+composite built from `POST_ORDER` | `REVERSE_ORDER` plus a private
+flatten-heading flag: it flattens every heading (`### title` →
+`title:`, regardless of nesting depth) and forces `sparseness=1`, on
+top of reordering to post-order with reversed siblings. Every
+`RenderMode` member composes freely (`RenderMode.NEGATIVE |
+RenderMode.POST_ORDER`, `RenderMode.NEGATIVE | RenderMode.IMAGE`, ...).
+
+
 
 ##### generate blueprint text
 

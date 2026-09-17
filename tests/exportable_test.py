@@ -6,7 +6,7 @@ Unit Tests (using pytest) for:
 - Exportable
 - register_exportable_entry()
 - get_exportable()
-- content() on BlueprintRegistry and ExportableAbbr
+- content() / negative_content() on BlueprintRegistry and ExportableAbbr
 """
 
 import pytest
@@ -20,6 +20,7 @@ from kaye_engine.exportable import (
     register_exportable_entry,
 )
 from kaye_engine.prompt.blueprint import BlueprintRegistry, PromptBlueprint
+from kaye_engine.prompt.blueprint.render_mode import RenderMode
 from kaye_engine.prompt.blueprint.render_profile import RenderProfile
 from kaye_engine.prompt.prompt_corpus_node import PromptCorpusNode
 
@@ -127,6 +128,47 @@ class TestContent:  ############################################################
         assert group.content() == entry.as_md_list_entry()
         assert group.content(sparseness=0, show_comment=True) == (
             group.as_md_list()
+        )
+
+
+class TestNegativeContent:  #####################################################
+
+    def _avoid_corpus(_):
+        root = PromptCorpusNode("○", None, [])
+        main = PromptCorpusNode("Main", root, ["Main content."])
+        PromptCorpusNode("{avoid}", main, ["Do not do this."])
+        return root
+
+    def test_blueprint_registry_negative_content(_):
+        blueprint = PromptBlueprint.create_full_blueprint(
+            corpus_tree=_._avoid_corpus()
+        )
+        reg = BlueprintRegistry(
+            canonical_name="test-exp-negative-content",
+            display_name="Test Negative Content",
+            blueprint=blueprint,
+        )
+
+        assert (
+            reg.content(profile=RenderProfile(mode=RenderMode.NEGATIVE))
+            == "# Main\nDo not do this."
+        )
+
+    def test_blueprint_registry_negative_content_forwards_profile(_):
+        blueprint = PromptBlueprint.create_full_blueprint(
+            corpus_tree=_._avoid_corpus()
+        )
+        reg = BlueprintRegistry(
+            canonical_name="test-exp-negative-content-kw",
+            display_name="Test Negative Content Kw",
+            blueprint=blueprint,
+        )
+        profile = RenderProfile(sparseness=0, mode=RenderMode.NEGATIVE)
+
+        assert reg.content(
+            profile=profile
+        ) == reg.blueprint.generate_prompt_without_dependencies(
+            profile=profile
         )
 
 

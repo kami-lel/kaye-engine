@@ -32,7 +32,69 @@ todo todo CLI to import/export w/ OpenWebUI
 
 ### Security
 
-[unreleased]: https://github.com/kami-lel/kaye-engine/compare/v8.0.0...dev
+[unreleased]: https://github.com/kami-lel/kaye-engine/compare/v8.1.0...dev
+
+
+
+
+
+
+
+
+
+
+
+
+
+## [8.1.0] - 2026-09-17
+
+### Added
+
+- `RenderMode` flag enum (`NORMAL`, `NEGATIVE`, `POST_ORDER`,
+  `REVERSE_ORDER`, `IMAGE`) and `RenderProfile.mode`, unifying negative-prompt,
+  post-order, reverse-sibling, and flattened-heading rendering behind one
+  entry point on `PromptBlueprint` and `BlueprintRegistry`; `--reverse-order`
+  exposes the new sibling-reversal mode on the shared render-option CLI
+  parser
+- `Exportable.supports_negative_content`, the capability flag marking which
+  exportable kinds can render a negative prompt
+- `register_comfy_ui_exportable()`/`comfy_ui_exportable_registry`, opting
+  already-registered exportables into a ComfyUI export subset
+- `comfy-ui-export` (alias `y`) CLI subcommand: writes the ComfyUI subset to
+  `FOLDER` as one Markdown file per entry, plus an `-AVOID` sibling wherever
+  negative-prompt content exists
+- `exportable-as-json` (alias `j`) CLI subcommand: exports the full
+  exportable registry as flat JSON
+- `Affordance.usage_sidecar_name`/`Variant.lack_sidecar_name`, reinstating
+  per-variant absence tracking (removed in `7.4.0`) alongside the
+  affordance-level presence/fallback sidecars
+
+### Changed
+
+- exported-glossary canonical-name prefix shortened `abbr-glossary-` →
+  `glossary-`
+
+- `exportable-as-json`'s default export now folds `{avoid}` content inline,
+  same flat-string shape as before
+- affordance/variant mechanism documentation split out of
+  `sidecar-node-doc.md` into its own `docs/affordance-doc.md`
+- render internals split from a single `render.py` into a `render/`
+  subpackage by concern; every call site keeps working unchanged
+
+> [!WARNING]
+> Renames every exported glossary's canonical name; any consumer
+> referencing the old `abbr-glossary-*` form must update to `glossary-*`
+
+### Fixed
+
+- negative-prompt rendering (`RenderMode.NEGATIVE`/`POST_ORDER`) no longer
+  skips a checkmarked node's `{avoid}` content under an unchecked ancestor,
+  and no longer prints a bare, contentless heading for an ancestor with no
+  `{avoid}` content of its own
+- `exportable-as-json`/`comfy-ui-export` now emit progress logging at
+  `-vvvv`, matching every other CLI subcommand
+
+[8.1.0]: https://github.com/kami-lel/kaye-engine/compare/v8.0.0...v8.1.0
 
 
 

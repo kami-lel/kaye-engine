@@ -1,6 +1,6 @@
 # kaye-engine CONTEXT
 
-**Last updated:** 2026-09-02
+**Last updated:** 2026-09-17
 
 System knowledge for the **kaye-engine** repository — architecture,
 entities, and boundaries. Read this alongside `AGENTS.md` before making
@@ -18,7 +18,7 @@ through a Python API and a CLI.
 | distribution / import name | `kaye-engine` / `kaye_engine` |
 | dependencies | `anytree`, `json5`, `pyahocorasick`, `pyyaml` |
 | entry point | `kaye-engine` console script → `kaye_engine.__main__:main` |
-| CLI subcommands | `blueprint`, `claude`, `dynamic-node`, `dynamic-substitution`, `exportable`, `list-affordance`, `list-variant`, `glossary` |
+| CLI subcommands | `blueprint`, `claude`, `comfy-ui-export`, `dynamic-node`, `dynamic-substitution`, `exportable`, `exportable-as-json`, `list-affordance`, `list-variant`, `glossary` |
 
 ## Personalization Boundary
 
@@ -49,6 +49,7 @@ not a gap to fill.
 | **Affordance** | a conceptual capability family, tracked in `affordance_registry`; auto-created on first `register_variant()` call naming it |
 | **Variant** | one concrete implementation of an affordance, tracked in `variant_registry` via `register_variant(canonical_name, affordance_name)` |
 | **RenderProfile** | a `kw_only` dataclass bundling render settings (`conditional_sidecars`, `variants`, `sparseness`, ...); `.merge()` overrides scalar fields and unions the collection fields |
+| **ComfyUI Export Subset** | `comfy_ui_exportable_registry`, a list of `exportable_registry` canonical names opted into ComfyUI export via `register_comfy_ui_exportable(canonical_name)` |
 
 Heading syntax carries node type: plain text is an ordinary corpus node,
 `{braces}` a sidecar, `(parentheses)` a dynamic node.
@@ -90,17 +91,61 @@ Sidecars split by usage rather than by class. *Descriptor* sidecars
 metadata and never rendered; every other name is a *conditional* sidecar,
 real content spliced in only when its name is on a `RenderProfile`'s
 `conditional_sidecars`, or matched via that same profile's `variants`
-field against `variant_registry`. Q.v. [sidecar node
+field against `variant_registry`. `{avoid}` (negative-instruction/example
+content) is neither: it carries no `.sidecars` accessor and is never
+manually spliced by name, but is discovered automatically, at any depth,
+by `render.render_negative_prompt_lines()`, reached via the single
+`RenderMode`-driven entry point — `RenderProfile(mode=RenderMode.NEGATIVE)`
+passed to `render_prompt()`/`generate_prompt_without_dependencies()` (or
+merged into a caller's profile) picks it in place of the positive
+`render_prompt_lines()`, at every layer: `PromptBlueprint`,
+`BlueprintRegistry.content()`, and any other `Exportable.content()`.
+A node's own `{avoid}` child contributes only when that node itself is
+checkmarked, under its own heading (never the literal `{avoid}`
+heading); descendants are always walked regardless of an ancestor's
+own checkmark, so a checkmarked descendant several levels below an
+unchecked ancestor still contributes. A node with no `{avoid}` content
+of its own is transparent: its contributing descendants' rendered
+blocks splice in directly, with no heading of this node's own, even
+though the node is checkmarked and the walk still visits it. A branch
+with no `{avoid}` content anywhere in it is omitted entirely. A 3rd
+`RenderMode` member, `POST_ORDER`, reorders every
+subtree to children-before-parent — each child's full subtree first
+(recursively, same rule), siblings kept in their original relative
+order, then the node's own heading and content last — with no other
+change (`sparseness` and heading markdown are untouched). A 4th member,
+`REVERSE_ORDER`, reverses sibling order at every level of the walk
+instead (independent of `POST_ORDER`; wired into all 4 walk paths
+`render_prompt_lines`/`render_negative_prompt_lines` can take — plain
+pre-order and `POST_ORDER`, positive and negative). `IMAGE` is a
+*composite* built from `POST_ORDER` | `REVERSE_ORDER` plus a private
+flatten-heading flag (`IMAGE = POST_ORDER | REVERSE_ORDER | _IMAGE`,
+mirroring the `WORD_CHARACTER`/`ASCII` composite pattern in
+`AbbrTags`): it flattens every heading line to a
+bare `title:` (regardless of nesting depth), forces `sparseness=1`, and
+(via the bits it carries) also reorders to post-order with reversed
+siblings. Every
+`RenderMode` member composes freely (`RenderMode.NEGATIVE |
+RenderMode.POST_ORDER`, `RenderMode.NEGATIVE | RenderMode.IMAGE`, ...).
+`Exportable.supports_negative_content` (class
+attribute, `False` by default, `True` on `BlueprintRegistry`) is the
+explicit capability flag `comfy-ui-export`'s `_avoid_content()` checks
+before calling `content(profile=... RenderMode.NEGATIVE)` to build each
+`<canonical_name>-AVOID.md` sibling. Q.v. [sidecar node
 documentation](docs/sidecar-node-doc.md).
 
 `affordance_registry`/`variant_registry` form a two-level model: an
 `Affordance` is a conceptual capability family, a `Variant` one concrete
 implementation of it, registered via the single `register_variant
 (canonical_name, affordance_name)` entry point (auto-creating its
-affordance on first use). Each affordance derives its own `Usage`
-sidecar name per variant plus one affordance-level `[{name}] Fallback`
+affordance on first use). Each variant derives its own `[{name}] Usage`
+sidecar (checkmarked when that variant is present) plus a mirror
+`[{name}] Lack` sidecar (checkmarked when it is absent); each affordance
+derives its own `[{name}] Usage` sidecar (checkmarked when at least one
+of its registered variants is present) plus a `[{name}] Fallback`
 sidecar, checkmarked when every variant registered under that affordance
-is absent (and the affordance has ≥1 registered variant). A Kaye-specific,
+is absent (and the affordance has ≥1 registered variant). Q.v.
+[affordance documentation](docs/affordance-doc.md). A Kaye-specific,
 consumer-supplied
 `surface_profiles` dict (`dict[str, RenderProfile]`, passed to
 `setup_claude_cli(...)` — kaye-vault owns the actual Claude surface data,
@@ -108,18 +153,27 @@ q.v. `kaye_vault/claude_render_profiles.py`) maps a surface name to the
 `RenderProfile` carrying that surface's variants/conditional-sidecars.
 Every **rendering command** — any CLI subcommand that reaches
 `PromptBlueprint.render_prompt(...)`, directly or via
-`Exportable.content()` — exposes the same 5 options (`--surface`,
+`Exportable.content()` — exposes the same 6 options (`--surface`,
 `--comment`/`--no-comment`, `--conditional-sidecar`, `--variant`,
-`--sparseness`) via one shared parent parser and one aux function,
+`--sparseness`, `--reverse-order`) via one shared parent parser and one
+aux function,
 `build_render_profile_parent_parser`/`resolve_render_profile`
 (`kaye_engine/cli/render_profile_parser.py`). `resolve_render_profile`
 returns a single `RenderProfile`, built by merging each selected
 surface's profile with one built from the explicit
-`--variant`/`--conditional-sidecar`/`--sparseness`/`--comment` flags via
+`--variant`/`--conditional-sidecar`/`--sparseness`/`--comment`/
+`--reverse-order` flags via
 `RenderProfile.merge()` — `--variant`/`--conditional-sidecar` union
 additively with whatever `--surface` derives, so rendered prompts
 auto-checkmark the sidecars real on that surface plus any named
-explicitly. `--surface` itself is omitted entirely from the parser when
+explicitly; `--reverse-order` ORs `RenderMode.REVERSE_ORDER` into
+whatever `mode` the profile already carries (`mode` is itself a scalar
+field, so `RenderProfile.merge()` would otherwise let it clobber rather
+than combine — `resolve_render_profile` computes the OR'd value itself
+before the final `.merge()` call, the same pattern
+`comfy_ui_export_parser.py`'s `_avoid_content()` uses for `NEGATIVE |
+IMAGE`). `--surface` itself is
+omitted entirely from the parser when
 no consumer project configures `surface_profiles`. Each subcommand keeps
 its own default for `--comment`/`--no-comment` and `--sparseness` when
 the flags are omitted (via `build_sparseness_parent_parser(default=...)`,
@@ -211,12 +265,18 @@ or an unresolved name reach path, manifest, or prompt building.
 kaye_engine/
 ├── prompt/              parse, model, select, render
 │   ├── blueprint/       PromptBlueprint, registry, rendering
-│   │   └── render_profile.py   RenderProfile: layerable render-kwargs bundle
+│   │   ├── render_mode.py      RenderMode: NORMAL/NEGATIVE/POST_ORDER/
+│   │   │                        REVERSE_ORDER/IMAGE flag enum
+│   │   ├── render_profile.py   RenderProfile: layerable render-kwargs bundle
+│   │   └── render/             render_*_lines()/render_blueprint_tree(),
+│   │       split by concern (tree/lines/sidecar_splice/util)
 │   ├── dynamic_nodes/   render-time generated node types
 │   └── affordance_registry.py  Affordance/Variant two-level registry,
-│                                Usage/Fallback sidecar names
+│                                Usage/Lack/Fallback sidecar names
 ├── abbr_collection/     abbreviation entries, store, JSON loader
 ├── exportable/           Exportable base, exportable_registry
+│   └── comfy_ui_export.py  comfy_ui_exportable_registry,
+│                            register_comfy_ui_exportable
 ├── cli/
 │   ├── blueprint/       `blueprint`/`bp` subcommand: ls, show, generate
 │   ├── claude/          skills, plugins, marketplaces, CLAUDE.md
@@ -234,7 +294,13 @@ kaye_engine/
 │   ├── glossary_parser.py    `glossary`/`g` subcommand: print/list glossaries
 │   ├── comment_parser.py     shared `--comment`/`--no-comment` parent parser
 │   ├── render_profile_parser.py  shared 5-option parent parser + aux fn
-│   └── exportable_parser.py  `exportable`/`x` subcommand: print, list exportables
+│   ├── exportable_parser.py  `exportable`/`x` subcommand: print, list exportables
+│   ├── exportable_as_json_parser.py  `exportable-as-json`/`j`
+│   │                                  subcommand: export
+│   │                                  exportable_registry as flat JSON
+│   └── comfy_ui_export_parser.py  `comfy-ui-export`/`y` subcommand:
+│                                    write the ComfyUI subset as
+│                                    `<name>.md`/`<name>-AVOID.md` pairs
 └── kamilog.py           logging, shared across the package
 docs/                    per-topic reference, linked above
 tests/                   prompt/, abbr/, cli/ — mirrors the source
@@ -246,7 +312,7 @@ the same `blueprint_registry` rather than holding its own list.
 
 ## Testing Strategy
 
-`pytest`, 804 tests, run **serially by design** — cases are cheap in-process
+`pytest`, 856 tests, run **serially by design** — cases are cheap in-process
 assertions, so worker startup costs more than a split saves, and shared
 fixtures carry run-order assumptions. `pytest-xdist` is deliberately absent
 from the `dev` extra.
