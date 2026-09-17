@@ -461,10 +461,23 @@ without going through a `PromptBlueprint`. `.render_prompt(profile=...)`
 resolves `.dependencies` first — same resolution behavior (recursive,
 diamond-safe, cycle-raising) regardless of `mode`.
 
-A 2nd `RenderMode` member, `IMAGE`, flattens every heading (`### title`
-→ `title:`, regardless of nesting depth) and forces `sparseness=1`; it
-composes with `NEGATIVE` (`RenderMode.NEGATIVE | RenderMode.IMAGE`)
-for a flattened negative prompt.
+A 2nd `RenderMode` member, `POST_ORDER`, reorders every subtree to
+children-before-parent — each child's full subtree first (recursively,
+same rule), siblings kept in their original relative order, then the
+node's own heading and content last — with no other change
+(`sparseness` and heading markdown are untouched), and wired into all
+4 walk paths `render_prompt_lines()`/`render_negative_prompt_lines()`
+can take (plain pre-order and `POST_ORDER`, positive and negative). A
+3rd member, `REVERSE_ORDER` (also exposed as `--reverse-order` on the
+shared render-option CLI parser), reverses sibling order at every
+level of the walk instead, independent of `POST_ORDER`, across the
+same 4 walk paths — nothing is dropped, only reordered. `IMAGE` is a
+composite built from `POST_ORDER` | `REVERSE_ORDER` plus a private
+flatten-heading flag: it flattens every heading (`### title` →
+`title:`, regardless of nesting depth) and forces `sparseness=1`, on
+top of reordering to post-order with reversed siblings. Every
+`RenderMode` member composes freely (`RenderMode.NEGATIVE |
+RenderMode.POST_ORDER`, `RenderMode.NEGATIVE | RenderMode.IMAGE`, ...).
 
 
 
