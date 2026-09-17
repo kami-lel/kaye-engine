@@ -42,6 +42,8 @@ class BlueprintRegistry(Exportable):
     blueprint: PromptBlueprint
     is_exportable: bool = True
 
+    supports_negative_content = True
+
     def content(self, *, profile=None, **kwargs):
         """
         :param profile: render profile merged with this registry

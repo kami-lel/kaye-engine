@@ -87,9 +87,9 @@ class TestGetExportableAbbrsFiltersByIsExportable:
             opt = get_exportable_abbrs()
 
         canonical_names = [group.canonical_name for group in opt]
-        assert "abbr-glossary-test-glossary-exportable" in canonical_names
+        assert "glossary-test-glossary-exportable" in canonical_names
         assert (
-            "abbr-glossary-test-glossary-non-exportable" not in canonical_names
+            "glossary-test-glossary-non-exportable" not in canonical_names
         )
 
 
@@ -121,7 +121,7 @@ class TestGetExportableAbbrsGlossaryUserInvokable:
             g
             for g in opt
             if g.canonical_name
-            == "abbr-glossary-test-glossary-default-invokable"
+            == "glossary-test-glossary-default-invokable"
         )
         assert group.is_user_invokable is True
         assert group.llm_invokable is True
@@ -153,7 +153,7 @@ class TestGetExportableAbbrsGlossaryUserInvokable:
         group = next(
             g
             for g in opt
-            if g.canonical_name == "abbr-glossary-test-glossary-llm-only"
+            if g.canonical_name == "glossary-test-glossary-llm-only"
         )
         assert group.is_user_invokable is False
         assert group.llm_invokable is True
@@ -178,7 +178,7 @@ class TestGetExportableAbbrsGlossaryUserInvokable:
         non_glossary_groups = [
             g
             for g in opt
-            if not g.canonical_name.startswith("abbr-glossary-")
+            if not g.canonical_name.startswith("glossary-")
         ]
         assert non_glossary_groups
         assert all(g.is_user_invokable is False for g in non_glossary_groups)
