@@ -3,7 +3,6 @@
 [^format]
 
 <!--
-TODO blueprint comment allow include client project version
 todo todo CLI to import/export w/ OpenWebUI
 -->
 
@@ -23,8 +22,14 @@ todo todo CLI to import/export w/ OpenWebUI
 
 ### Added
 
+- `register_comment_line()` appends a client project's own line to the
+  generated prompt comment
+
 ### Changed
 
+- the generated prompt comment is a multi-line block, one line per fact,
+  and joins into one `↵`-separated line only at `sparseness=-1`
+- `render.render_comment` is replaced by `render.render_comment_lines`
 - `comfy-ui-export`'s `-AVOID` files no longer start each block with a
   `Name:` title line, only the `{avoid}` content remains
 
