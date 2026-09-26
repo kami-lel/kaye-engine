@@ -127,6 +127,10 @@ bare `title:` (regardless of nesting depth), forces `sparseness=1`, and
 siblings. Every
 `RenderMode` member composes freely (`RenderMode.NEGATIVE |
 RenderMode.POST_ORDER`, `RenderMode.NEGATIVE | RenderMode.IMAGE`, ...).
+`NEGATIVE | IMAGE` alone prints no title at any depth — only `{avoid}`
+content remains, blocks still blank-line separated
+(`render_negative_prompt_lines()` passes `is_title_shown=False` to its
+recursive helpers).
 `Exportable.supports_negative_content` (class
 attribute, `False` by default, `True` on `BlueprintRegistry`) is the
 explicit capability flag `comfy-ui-export`'s `_avoid_content()` checks
