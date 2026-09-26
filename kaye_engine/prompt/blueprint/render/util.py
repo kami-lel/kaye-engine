@@ -9,11 +9,6 @@ define:
 - ``render_comment``
 """
 
-import importlib.metadata
-from datetime import datetime
-
-from kaye_engine import PACKAGE_NAME
-
 from ...md_fence import compute_fenced_line_mask
 
 __all__ = (
@@ -76,22 +71,16 @@ def apply_sparseness(lines, sparseness):
 
 def render_comment(display_name=""):
     """
+    (shim, superseded by ``render_comment_lines()``)
+
+
     :param display_name: blueprint's human-readable name, omitted from the
             comment when empty; defaults to ""
     :type display_name: str, optional
     :return: prompt comment containing blueprint name and Kaye Engine version
     :rtype: str
-
-    :example:
-    >>> print(render_comment("Chat"))
-    'blueprint: Chat; Kaye Engine v1.2.3'
     """
-    kaye_version = importlib.metadata.version(PACKAGE_NAME)
+    # deferred to avoid a circular import with ``comment``
+    from .comment import get_default_comment_lines
 
-    # append render date-time in version for alpha releases
-    if "a" in kaye_version:
-        kaye_version += datetime.now().strftime(".0%Y%m%d%H%M%S")
-
-    name_part = "blueprint: {}; ".format(display_name) if display_name else ""
-
-    return "{}Kaye Engine v{}".format(name_part, kaye_version)
+    return "; ".join(get_default_comment_lines(display_name))
