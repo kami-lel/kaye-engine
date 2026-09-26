@@ -2,6 +2,8 @@
 
 `kaye-engine upsert-open-webui-skills` (alias `o`) pushes every entry of `exportable_registry` into a running [Open WebUI](https://docs.openwebui.com) through its Skills REST API. A skill absent from the server is created, one whose fields differ is updated, and an identical one is left alone.
 
+New to Open WebUI Desktop? Start with the [setup guide](cli/open-webui-setup-doc.md).
+
 ## Usage
 
 ```bash
