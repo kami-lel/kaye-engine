@@ -3,7 +3,7 @@
 [^format]
 
 <!--
-todo todo CLI to import/export w/ OpenWebUI
+TODO CLI to create skill .json for OpenWebUI
 -->
 
 
