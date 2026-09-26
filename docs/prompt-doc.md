@@ -376,9 +376,9 @@ status only, ignoring `.dependencies`.
 Use `render.render_prompt_lines()` (`kaye_engine.prompt.blueprint.render`) when you
 want the rendered prompt as a list of lines instead.
 
-Both take a `profile=` `RenderProfile` (fields include `disable_first_heading`,
-`show_comment`, and `conditional_sidecars`) to conditionally include conditional sidecar nodes during rendering.
-For details on sidecar node types and conditional inclusion patterns, see [`sidecar-node-doc.md`](sidecar-node-doc.md#conditional-sidecar-nodes).
+Both take a `profile=` `RenderProfile` carrying every render setting; see
+[`render-profile-doc.md`](render-profile-doc.md) for its fields, merging, render
+modes, and CLI options.
 Any extra keyword arguments are passed through to node `content_lines()`
 implementations, which is how dynamic nodes receive values such as `query=`;
 q.v. [`Dynamic Node Documentation`](dynamic-content-doc.md#feeding-render-time-input).
@@ -387,15 +387,20 @@ E.g.
 
 ```python
 >>> from kaye_engine.prompt.blueprint import render
+>>> from kaye_engine.prompt.blueprint.render_profile import RenderProfile
 >>> tree = PromptBlueprint.parse(...)
->>> render.render_prompt_lines(tree, disable_first_heading=True)
+>>> render.render_prompt_lines(
+...     tree, profile=RenderProfile(disable_first_heading=True)
+... )
 ['Overview of the methodologies used.',
  '### Data Collection',
  'How data was gathered for analysis.',
  '',
  '## Conclusion',
  'Summarizing the findings and implications.']
->>> tree.generate_prompt_without_dependencies(show_comment=True)
+>>> tree.generate_prompt_without_dependencies(
+...     profile=RenderProfile(show_comment=True)
+... )
 # Main Title
 Overview of the methodologies used.
 ### Data Collection
@@ -461,38 +466,9 @@ without going through a `PromptBlueprint`. `.render_prompt(profile=...)`
 resolves `.dependencies` first — same resolution behavior (recursive,
 diamond-safe, cycle-raising) regardless of `mode`.
 
-A 2nd `RenderMode` member, `POST_ORDER`, reorders every subtree to
-children-before-parent — each child's full subtree first (recursively,
-same rule), siblings kept in their original relative order, then the
-node's own heading and content last — with no other change
-(`sparseness` and heading markdown are untouched), and wired into all
-4 walk paths `render_prompt_lines()`/`render_negative_prompt_lines()`
-can take (plain pre-order and `POST_ORDER`, positive and negative). A
-3rd member, `REVERSE_ORDER` (also exposed as `--reverse-order` on the
-shared render-option CLI parser), reverses sibling order at every
-level of the walk instead, independent of `POST_ORDER`, across the
-same 4 walk paths — nothing is dropped, only reordered. `IMAGE` is a
-composite built from `POST_ORDER` | `REVERSE_ORDER` plus a private
-flatten-heading flag: it flattens every heading (`### title` →
-`title:`, regardless of nesting depth) and forces `sparseness=1`, on
-top of reordering to post-order with reversed siblings. Every
-`RenderMode` member composes freely (`RenderMode.NEGATIVE |
-RenderMode.POST_ORDER`, `RenderMode.NEGATIVE | RenderMode.IMAGE`, ...).
-
-`RenderMode.NEGATIVE | RenderMode.IMAGE` prints **no title at all**:
-every node's own heading, flattened or not, is omitted at every depth,
-so only the `{avoid}` content remains, its blocks still separated by
-one blank line. E.g., for the tree in the example above:
-
-```python
->>> render.render_negative_prompt_lines(
-...     tree, profile=RenderProfile(mode=RenderMode.NEGATIVE | RenderMode.IMAGE)
-... )
-['Or this.', '', "Don't do this."]
-```
-
-Any other combination (`NEGATIVE` alone, `NEGATIVE | POST_ORDER`, ...)
-keeps its headings.
+The remaining `RenderMode` members (`POST_ORDER`, `REVERSE_ORDER`, `IMAGE`) and
+how they combine with `NEGATIVE` are covered in
+[`render-profile-doc.md`](render-profile-doc.md#render-modes).
 
 
 
