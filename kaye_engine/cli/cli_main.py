@@ -8,6 +8,7 @@ from importlib.metadata import version
 from kaye_engine import PACKAGE_NAME
 from kaye_engine.cli.blueprint.main_parser import register_cli_blueprint_parser
 from kaye_engine.cli.claude.main import register_cli_claude_parser
+from kaye_engine.cli.continue_ai.parser import register_continue_parser
 from kaye_engine.cli.comfy_ui_export_parser import (
     register_comfy_ui_export_parser,
 )
@@ -35,7 +36,8 @@ PROGRAM_NAME = "kaye-engine"
 # Public API  ##################################################################
 def register_cli_subcommands(cli_subparser):
     """
-    register every engine-owned subcommand (``blueprint``, ``claude``, the
+    register every engine-owned subcommand (``blueprint``, ``claude``,
+    ``continue``, the
     comfy-ui-export command, the dynamic-node command, the
     dynamic-substitution command, the exportable command, the
     exportable-as-json command, ``list-affordance``, ``list-variant``, and
@@ -49,6 +51,7 @@ def register_cli_subcommands(cli_subparser):
     """
     register_cli_blueprint_parser(cli_subparser)
     register_cli_claude_parser(cli_subparser)
+    register_continue_parser(cli_subparser)
     register_comfy_ui_export_parser(cli_subparser)
     register_dynamic_node_parser(cli_subparser)
     register_dynamic_substitution_parser(cli_subparser)

@@ -24,7 +24,12 @@ class TestRegisterCliSubcommands:
 
         register_cli_subcommands(subparser)
 
-        for argv in (["blueprint"], ["claude"], ["dynamic-node", "decode-only-abbr"]):
+        for argv in (
+            ["blueprint"],
+            ["claude"],
+            ["continue"],
+            ["dynamic-node", "decode-only-abbr"],
+        ):
             args = parser.parse_args(argv)
             assert callable(args.func)
 
@@ -44,6 +49,11 @@ class TestRegisterCliMainParser:
     def test_subcommands_still_registered(_):
         parser, _subparser = register_cli_main_parser()
 
-        for argv in (["blueprint"], ["claude"], ["dynamic-node", "decode-only-abbr"]):
+        for argv in (
+            ["blueprint"],
+            ["claude"],
+            ["continue"],
+            ["dynamic-node", "decode-only-abbr"],
+        ):
             args = parser.parse_args(argv)
             assert callable(args.func)

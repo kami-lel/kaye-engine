@@ -76,6 +76,7 @@ def register_blueprint(
     is_exportable=True,
     is_user_invokable=True,
     llm_invokable=True,
+    always_apply=False,
     render_profile=RenderProfile(),
 ):
     """
@@ -102,6 +103,10 @@ def register_blueprint(
             into play on its own judgment, without being explicitly
             named; defaults to True
     :type llm_invokable: bool, optional
+    :param always_apply: whether the entry is unconditionally relevant
+            and always applied, rather than surfaced only when judged
+            relevant; defaults to False
+    :type always_apply: bool, optional
     :param render_profile: default render settings for this entry,
             merged with any caller-supplied profile unless the caller
             passes its own value explicitly; defaults to a plain
@@ -126,6 +131,7 @@ def register_blueprint(
         is_exportable=is_exportable,
         is_user_invokable=is_user_invokable,
         llm_invokable=llm_invokable,
+        always_apply=always_apply,
         render_profile=render_profile,
     )
     blueprint_registry[canonical_name] = reg
