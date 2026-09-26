@@ -48,7 +48,7 @@ Any field left out keeps its default, so `RenderProfile()` is the plain render: 
 | `variants` | `None` | affordance variants available on the target, see [Variants](#variants) |
 | `mode` | `RenderMode.NORMAL` | how the tree is walked and printed, see [Render Modes](#render-modes) |
 | `sparseness` | `1` | how many blank lines to keep, see [Sparseness](#sparseness) |
-| `show_comment` | `False` | add a trailing `<!-- blueprint: NAME; Kaye Engine vX -->` line |
+| `show_comment` | `False` | add a trailing generated-by comment, see [Comment](#comment) |
 | `display_name` | `""` | the `NAME` in that comment, left out when empty |
 | `disable_first_heading` | `False` | drop the first heading line but keep its content |
 | `glossary_priority_threshold` | `None` | glossary filter, see [Glossary Fields](#glossary-fields) |
@@ -218,6 +218,7 @@ Good to know:
 - blank lines inside a fenced code block are never touched, at any level
 - the dataclass default is `1`, while the CLI default is `DEFAULT_SPARSENESS` (`0`), see [CLI Options](#cli-options)
 - `IMAGE` mode overrides any `sparseness` with `1`
+- the trailing comment follows `sparseness`: a block by default, one line at `-1`, see [Comment](#comment)
 - `{description}` and `{when_to_use}` always render at `-1`, so a multi-line value becomes one string
 - inline `(((name)))` substitutions are applied first, and `sparseness` is applied afterward to the whole result, so a substitution's blank lines follow the same rule
 
@@ -232,6 +233,33 @@ Good to know:
 
 
 
+
+## Comment
+
+With `show_comment`, the text ends with a generated-by comment, one line per fact:
+
+```
+<!--
+blueprint: NAME
+Kaye Engine v1.2.3
+-->
+```
+
+- the `blueprint:` line is left out when `display_name` is empty
+- at `sparseness=-1` the whole comment joins into the single line, `<!-- blueprint: NAME↵Kaye Engine v1.2.3 -->`
+- the comment is added after `IMAGE` mode's heading rewrite, so a line starting with `#` is never rewritten
+
+A client project appends its own lines with `register_comment_line(line)`:
+
+```python
+from kaye_engine import register_comment_line
+
+register_comment_line("My Project v0.1.0")
+```
+
+- registered lines follow the default lines, in registration order
+- registering the same line again is ignored
+- a non-`str` line raises `TypeError`; a line with a newline or `-->` raises `ValueError`
 
 ## Where Profiles Come From
 

@@ -226,6 +226,7 @@ from kaye_engine import (
     DynamicSubstitution, StringDynamicSubstitution,
     register_abbr_glossary,
     register_blueprint,
+    register_comment_line,
     register_dynamic_substitution,
     setup_claude_cli,
 )
