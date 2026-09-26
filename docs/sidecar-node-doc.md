@@ -103,11 +103,9 @@ mechanism still works structurally on it like on any other name,
 independent of the render below). Instead, `{avoid}` content is
 discovered automatically, at any depth, by
 `kaye_engine.prompt.blueprint.render.render_negative_prompt_lines()`,
-reached via the unified `RenderMode`-driven entry point:
-`profile=RenderProfile(mode=RenderMode.NEGATIVE)` passed to
-`PromptBlueprint.render_prompt()`/`generate_prompt_without_dependencies()`
-or `BlueprintRegistry.content()` picks it in place of the positive
-render.
+reached by setting `RenderMode.NEGATIVE` on a render profile, which
+picks it in place of the positive render; q.v.
+[`render-profile-doc.md`](render-profile-doc.md#negative-prompt).
 
 
 
@@ -146,9 +144,9 @@ explicitly named via `conditional_sidecars`.
 
 ### Conditional Sidecar Nodes
 
-Conditional sidecar nodes are real prompt content (e.g., instructions, rules) that are conditionally spliced into the rendered prompt based on explicit requests via `RenderProfile`'s `conditional_sidecars` field, a plain collection of sidecar names. Unlike descriptor sidecars, there is no fixed set of conditional names — any `{name}` heading can be requested this way, including reserved descriptor names.
+Conditional sidecar nodes are real prompt content (e.g., instructions, rules) that are conditionally spliced into the rendered prompt based on explicit requests via a render profile's `conditional_sidecars` field, a plain collection of sidecar names. Unlike descriptor sidecars, there is no fixed set of conditional names — any `{name}` heading can be requested this way, including reserved descriptor names.
 
-**Rendering behavior:** Pass `profile=RenderProfile(conditional_sidecars=(...))` to auto-include sidecars of the given name(s) during rendering.
+**Rendering behavior:** name the sidecars in a render profile's `conditional_sidecars` to auto-include them during rendering, q.v. [`render-profile-doc.md`](render-profile-doc.md#conditional-sidecars).
 
 Q.v. [`claude-doc.md`](claude-doc.md) for the list of `{[ClaudeCode:...]}`/`{[ClaudeChat:...]}` sidecars, which Claude export surface includes each of these, and the underlying API.
 
@@ -220,7 +218,7 @@ Sidecar nodes follow the standard Markdown heading format in `prompt_corpus.md`:
 **Checkmarking behavior:**
 - Sidecar nodes are **never auto-checkmarked** by `create_full_blueprint()` or by `.checkmark()` with `recursively=True`
 - Descriptor sidecars are generally not checkmarked at all — their content is accessed via the `.sidecars` blueprint attribute
-- Conditional sidecar nodes can be auto-checkmarked only when you explicitly pass their name in the `conditional_sidecars` collection to `render_prompt()` or `render.render_prompt_lines()`
+- Conditional sidecar nodes can be auto-checkmarked only when you explicitly list their name in a render profile's `conditional_sidecars`, q.v. [`render-profile-doc.md`](render-profile-doc.md#conditional-sidecars)
 - To explicitly checkmark a sidecar node: `bp.checkmark(sidecar_node)`
 
 
@@ -420,10 +418,4 @@ merged_bp = bp1 | bp2
 # merged_bp.sidecars combines metadata from both
 ```
 
-Conditional rendering with conditional sidecar nodes:
-```python
-# Include arbitrary named sidecar content
-prompt = bp.render_prompt(
-    profile=RenderProfile(conditional_sidecars=("[ClaudeCode:TodoWrite]",))
-)
-```
+Conditional rendering with conditional sidecar nodes: q.v. [`render-profile-doc.md`](render-profile-doc.md#conditional-sidecars).

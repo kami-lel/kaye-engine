@@ -52,7 +52,7 @@ Clone the repo and install dependencies.
 Licensed under the MIT License."""
 
         # test comment structure
-        assert re.fullmatch("<!-- Kaye Engine v.+ -->", comment)
+        assert re.fullmatch("<!--\nKaye Engine v.+\n-->", comment)
 
     def test_part1(_, corpus_testee1):
         bp_text = BLUEPRINT_1_PARTIAL_1
@@ -514,3 +514,25 @@ More."""
                 "More.",
             ]
         )
+
+
+class TestCommentCompaction:  # via generate path  #############################
+
+    def test_sparseness_minus_one_gives_single_line_comment(_, corpus_testee1):
+        bp = PromptBlueprint.parse(BLUEPRINT_1_FULL, corpus_tree=corpus_testee1)
+
+        opt = bp.generate_prompt_without_dependencies(
+            profile=RenderProfile(show_comment=True, sparseness=-1)
+        )
+
+        assert "\n" not in opt
+        assert re.search("↵<!-- Kaye Engine v.+ -->$", opt)
+
+    def test_default_sparseness_gives_block_comment(_, corpus_testee1):
+        bp = PromptBlueprint.parse(BLUEPRINT_1_FULL, corpus_tree=corpus_testee1)
+
+        opt = bp.generate_prompt_without_dependencies(
+            profile=RenderProfile(show_comment=True)
+        )
+
+        assert re.search("\n<!--\nKaye Engine v.+\n-->$", opt)

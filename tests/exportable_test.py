@@ -114,6 +114,25 @@ class TestContent:  ############################################################
             profile=RenderProfile(sparseness=-1)
         ) == reg.blueprint.generate_prompt_without_dependencies(sparseness=-1)
 
+    def test_blueprint_registry_content_comment_names_entry(_, empty_corpus):
+        reg = _dummy_blueprint_registry("test-exp-name", empty_corpus)
+
+        opt = reg.content(profile=RenderProfile(show_comment=True))
+
+        assert "blueprint: Test test-exp-name\n" in opt
+
+    def test_blueprint_registry_content_keeps_explicit_display_name(
+        _, empty_corpus
+    ):
+        reg = _dummy_blueprint_registry("test-exp-keep", empty_corpus)
+
+        opt = reg.content(
+            profile=RenderProfile(show_comment=True, display_name="Mine")
+        )
+
+        assert "blueprint: Mine\n" in opt
+        assert "Test test-exp-keep" not in opt
+
     def test_exportable_abbr_content(_):
         entry = AbbrEntry(
             AbbrMeaning("for example", remark=None),
