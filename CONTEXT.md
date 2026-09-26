@@ -327,6 +327,7 @@ kaye_engine/
 │                                    `<name>.md`/`<name>-AVOID.md` pairs
 └── kamilog.py           logging, shared across the package
 docs/                    per-topic reference, linked above
+docs/cli/                end-user guides for CLI subcommands
 tests/                   prompt/, abbr/, cli/ — mirrors the source
 ```
 
