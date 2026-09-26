@@ -13,6 +13,7 @@ __all__ = (
     "populate_abbr_data_with_json_file",
     "register_abbr_glossary",
     "register_blueprint",
+    "register_comment_line",
     "register_comfy_ui_exportable",
     "register_dynamic_substitution",
     "setup_claude_cli",
@@ -38,5 +39,6 @@ from kaye_engine.prompt import (
     get_default_corpus_tree,
     load_corpus_tree,
     register_blueprint,
+    register_comment_line,
     register_dynamic_substitution,
 )

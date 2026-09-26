@@ -46,3 +46,10 @@ class TestRegisterCommentLine:
         with pytest.raises(ValueError):
             register_comment_line(line)
         assert line not in comment_line_registry
+
+
+class TestPublicExport:
+    def test_top_level_import(_):
+        from kaye_engine import register_comment_line as exported
+
+        assert exported is register_comment_line
