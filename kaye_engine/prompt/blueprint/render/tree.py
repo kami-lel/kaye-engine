@@ -8,7 +8,7 @@ import copy
 
 from anytree import RenderTree
 
-from .util import render_comment
+from .comment import render_comment_lines
 
 __all__ = ("render_blueprint_tree",)
 
@@ -121,7 +121,6 @@ def render_blueprint_tree(
 
     # append comment line  -----------------------------------------------------
     if show_comment:
-        comment_line = "<!-- " + render_comment(display_name) + " -->"
-        lines.append(comment_line)
+        lines.extend(render_comment_lines(display_name))
 
     return "\n".join(lines)

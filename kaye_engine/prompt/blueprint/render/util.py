@@ -6,7 +6,6 @@ define:
 - ``REPLACEMENT_NEWLINE_SYMBOL``
 - ``NO_TRIM_SPARSENESS``
 - ``apply_sparseness``
-- ``render_comment``
 """
 
 from ...md_fence import compute_fenced_line_mask
@@ -15,7 +14,6 @@ __all__ = (
     "REPLACEMENT_NEWLINE_SYMBOL",
     "NO_TRIM_SPARSENESS",
     "apply_sparseness",
-    "render_comment",
 )
 
 
@@ -68,19 +66,3 @@ def apply_sparseness(lines, sparseness):
 
     return result
 
-
-def render_comment(display_name=""):
-    """
-    (shim, superseded by ``render_comment_lines()``)
-
-
-    :param display_name: blueprint's human-readable name, omitted from the
-            comment when empty; defaults to ""
-    :type display_name: str, optional
-    :return: prompt comment containing blueprint name and Kaye Engine version
-    :rtype: str
-    """
-    # deferred to avoid a circular import with ``comment``
-    from .comment import get_default_comment_lines
-
-    return "; ".join(get_default_comment_lines(display_name))

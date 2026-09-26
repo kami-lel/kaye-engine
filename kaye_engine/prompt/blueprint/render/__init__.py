@@ -6,7 +6,6 @@ facade re-exporting the render subpackage's public API:
 - ``render_blueprint_tree``
 - ``render_prompt_lines``
 - ``render_negative_prompt_lines``
-- ``render_comment``
 - ``render_comment_lines``
 - ``register_comment_line``
 - ``apply_sparseness``
@@ -25,7 +24,6 @@ from .util import (
     NO_TRIM_SPARSENESS,
     REPLACEMENT_NEWLINE_SYMBOL,
     apply_sparseness,
-    render_comment,
 )
 
 __all__ = (
@@ -33,7 +31,6 @@ __all__ = (
     "apply_sparseness",
     "render_blueprint_tree",
     "register_comment_line",
-    "render_comment",
     "render_comment_lines",
     "render_negative_prompt_lines",
     "render_prompt_lines",
