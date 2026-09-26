@@ -104,7 +104,10 @@ class RenderProfile:
             ``REVERSE_ORDER`` plus a private flatten-heading flag --
             flattens headings to a ``title:`` line, forces
             ``sparseness=1``, and reorders to post-order with reversed
-            siblings; defaults to ``RenderMode.NORMAL``
+            siblings; combined as ``RenderMode.NEGATIVE |
+            RenderMode.IMAGE``, the negative prompt prints no title at
+            all, only the ``{avoid}`` content; defaults to
+            ``RenderMode.NORMAL``
     :type mode: RenderMode, optional
     """
 
