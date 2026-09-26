@@ -4,6 +4,8 @@
 
 <!--
 TODO CLI to create skill .json for OpenWebUI
+Todo add back support for Continue
+Fixme rm mention of ComfyUI, rename the CLI too
 -->
 
 
