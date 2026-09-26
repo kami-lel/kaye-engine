@@ -343,7 +343,7 @@ has no default there.
 
 ## Testing Strategy
 
-`pytest`, 914 tests, run **serially by design** — cases are cheap in-process
+`pytest`, 950 tests, run **serially by design** — cases are cheap in-process
 assertions, so worker startup costs more than a split saves, and shared
 fixtures carry run-order assumptions. `pytest-xdist` is deliberately absent
 from the `dev` extra.
@@ -351,7 +351,8 @@ from the `dev` extra.
 Tests mirror the source tree: `tests/prompt/` for the engine, `tests/abbr/`
 for the abbreviation collection. `tests/cli/` stays deliberately thin — it
 holds only the corpus-independent pieces (setup guard, exportable-abbr
-registration, `dynamic-node` parsing, `SKILL.md` rendering), because the
+registration, `dynamic-node` parsing, `SKILL.md` rendering, the Open WebUI sync with a
+fake client), because the
 exporters need a corpus to produce output and the consumer package covers
 those. The `blueprint` subcommand parser still has no dedicated tests.
 
