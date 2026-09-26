@@ -4,7 +4,7 @@ registry.py
 define `BlueprintRegistry`, `register_blueprint`, `blueprint_registry`
 """
 
-from dataclasses import dataclass
+from dataclasses import dataclass, replace
 
 from kaye_engine.exportable import Exportable, register_exportable_entry
 
@@ -57,6 +57,9 @@ class BlueprintRegistry(Exportable):
         merged = self.render_profile
         if profile is not None:
             merged = merged.merge(profile)
+        # name the comment after this entry unless the caller chose a name
+        if not merged.display_name:
+            merged = replace(merged, display_name=self.display_name)
         return self.blueprint.render_prompt(profile=merged, **kwargs)
 
 
