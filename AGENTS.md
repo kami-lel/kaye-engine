@@ -42,6 +42,7 @@ merge.
 | `kaye_engine/prompt/blueprint/render/` | `tests/prompt/`, plus `tests/cli/comfy_ui_export_parser_test.py` (asserts rendered negative-prompt text) |
 | `kaye_engine/abbr_collection/` | `tests/abbr/` |
 | `kaye_engine/cli/` | `tests/cli/` |
+| `kaye_engine/cli/continue_ai/` | `tests/cli/continue_ai/` |
 | `kaye_engine/exportable/` | `tests/exportable_test.py`, `tests/comfy_ui_export_test.py` |
 
 ```bash
@@ -75,8 +76,8 @@ pytest
 
 The editable install registers a `kaye-engine` console script, so
 `kaye-engine ...` and `python -m kaye_engine ...` are equivalent — prefer
-the shorter form. **Ten** top-level subcommands exist: `blueprint`,
-`claude`, `comfy-ui-export`, `dynamic-node`, `dynamic-substitution`,
+the shorter form. **Eleven** top-level subcommands exist: `blueprint`,
+`claude`, `continue`, `comfy-ui-export`, `dynamic-node`, `dynamic-substitution`,
 `exportable`, `exportable-as-json`, `list-affordance`, `list-variant`,
 and `glossary`:
 
@@ -102,6 +103,8 @@ kaye-engine claude code                     # plugin + CLAUDE.md into ~/.claude
 kaye-engine claude user-system-prompt       # print Chat blueprint to stdout
 kaye-engine claude user-system-prompt -c    # append Coder blueprint content
 kaye-engine claude vs-code-extension        # CLAUDE.md + marketplace + settings
+kaye-engine continue                        # export rules + prompts to ~/.continue
+kaye-engine continue FOLDER                 # export to a custom Continue folder
 kaye-engine comfy-ui-export FOLDER          # write every ComfyUI-subset exportable to FOLDER
 kaye-engine exportable EXPORTABLE           # print an exportable's content
 kaye-engine exportable ls                   # list every registered exportable name
@@ -114,7 +117,7 @@ kaye-engine glossary ls                     # list every registered glossary nam
 ```
 
 Aliases: `blueprint` → `bp`; `blueprint show` → `bp s`; `blueprint
-generate` → `bp gen`/`bp g`; `comfy-ui-export` → `y`; `dynamic-node` →
+generate` → `bp gen`/`bp g`; `continue` → `c`; `comfy-ui-export` → `y`; `dynamic-node` →
 `dn`; `dynamic-substitution` → `ds`; `claude` → `a` (was also
 `anthropic`, now dropped); `claude code` → `claude c`; `claude
 marketplace` → `claude m`; `claude plugin` → `claude p`; `claude
@@ -164,10 +167,6 @@ Bash command patterns) into `settings.json`, sourced from
 `kaye_engine/cli/claude/permission_cmds.jsonc` (parsed with `json5`, so
 comments are allowed).
 
-The Continue AI integration (formerly `kaye_engine/cli/cli_continue/`) has
-been removed entirely; no `continue` subcommand exists. Do not document it,
-invoke it, or add it back without being asked.
-
 Every `claude` subcommand needs a consumer to call
 `setup_claude_cli(plugin_name, display_name, marketplace_name,
 chat_exportable_name, merged_coder_exportable_name, version,
@@ -200,7 +199,7 @@ consumer project configures it. Mechanics in `CONTEXT.md`.
 only gate — every exporter reads `blueprint_registry` directly. **Calls
 live in the consumer package**, not here.
 
-Export policy — one gate plus two independent flags, no allow-list
+Export policy — one gate plus three independent flags, no allow-list
 constant:
 
 | flag | default | effect |
@@ -208,6 +207,7 @@ constant:
 | `is_exportable` | `True` | `False` excludes it from `exportable_registry` entirely — never export as a Claude Agent Skill |
 | `is_user_invokable` | `True` | a human may invoke it by name |
 | `llm_invokable` | `True` | the assistant may surface it unprompted |
+| `always_apply` | `False` | unconditionally relevant; `continue` exports it as an always-apply rule, the Claude skill exporter ignores it |
 
 `render_profile` (a `RenderProfile`, default `RenderProfile()`) sets
 this entry's own default render settings — including
