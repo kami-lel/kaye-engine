@@ -53,7 +53,12 @@ def _join_blocks(blocks):
 
 
 def _render_negative_prompt_node_recursively(
-    blueprint, node, *, reverse_sibling_order=False, **kwargs
+    blueprint,
+    node,
+    *,
+    reverse_sibling_order=False,
+    is_title_shown=True,
+    **kwargs,
 ):
     """
     recursively render one node's contribution to a negative prompt
@@ -81,6 +86,9 @@ def _render_negative_prompt_node_recursively(
     :param reverse_sibling_order: whether to reverse sibling order at
             every level of the walk
     :type reverse_sibling_order: bool
+    :param is_title_shown: whether to print each contributing node's own
+            heading above its ``{avoid}`` content
+    :type is_title_shown: bool
     :param kwargs: further render options forwarded to the ``{avoid}``
             node's ``content_lines(**kwargs)``
     :return: rendered lines for ``node`` and its descendants, or an
@@ -102,6 +110,7 @@ def _render_negative_prompt_node_recursively(
                 blueprint,
                 child,
                 reverse_sibling_order=reverse_sibling_order,
+                is_title_shown=is_title_shown,
                 **kwargs,
             )
             if block:
@@ -113,7 +122,9 @@ def _render_negative_prompt_node_recursively(
     if not own_avoid_lines:
         return _join_blocks(child_blocks)
 
-    own_lines = [HEADING_PREFIX_ELEMENT * node.depth + " " + node.name]
+    own_lines = []
+    if is_title_shown:
+        own_lines.append(HEADING_PREFIX_ELEMENT * node.depth + " " + node.name)
     own_lines.extend(own_avoid_lines)
 
     return _join_blocks([own_lines] + child_blocks)
@@ -178,7 +189,12 @@ def _render_prompt_node_post_order_recursively(
 
 
 def _render_negative_prompt_node_post_order_recursively(
-    blueprint, node, *, reverse_sibling_order=False, **kwargs
+    blueprint,
+    node,
+    *,
+    reverse_sibling_order=False,
+    is_title_shown=True,
+    **kwargs,
 ):
     """
     (``RenderMode.POST_ORDER`` counterpart of
@@ -207,6 +223,9 @@ def _render_negative_prompt_node_post_order_recursively(
     :param reverse_sibling_order: whether to reverse sibling order at
             every level of the walk
     :type reverse_sibling_order: bool
+    :param is_title_shown: whether to print each contributing node's own
+            heading above its ``{avoid}`` content
+    :type is_title_shown: bool
     :param kwargs: further render options forwarded to the ``{avoid}``
             node's ``content_lines(**kwargs)``
     :return: rendered lines for ``node`` and its descendants, or an
@@ -228,6 +247,7 @@ def _render_negative_prompt_node_post_order_recursively(
                 blueprint,
                 child,
                 reverse_sibling_order=reverse_sibling_order,
+                is_title_shown=is_title_shown,
                 **kwargs,
             )
             if block:
@@ -239,7 +259,9 @@ def _render_negative_prompt_node_post_order_recursively(
     if not own_avoid_lines:
         return _join_blocks(child_blocks)
 
-    own_lines = [HEADING_PREFIX_ELEMENT * node.depth + " " + node.name]
+    own_lines = []
+    if is_title_shown:
+        own_lines.append(HEADING_PREFIX_ELEMENT * node.depth + " " + node.name)
     own_lines.extend(own_avoid_lines)
 
     return _join_blocks(child_blocks + [own_lines])
@@ -381,6 +403,11 @@ def render_negative_prompt_lines(
     content of its own, but a contributing descendant, is transparent:
     its own heading is never printed either, only the descendant's
 
+    when ``profile.mode`` contains both ``RenderMode.NEGATIVE`` and
+    ``RenderMode.IMAGE``, no node's own heading is printed at all, at
+    any depth -- only the ``{avoid}`` content itself remains, its
+    blocks still separated by one blank line
+
 
     :param blueprint:
     :type blueprint: PromptBlueprint
@@ -408,12 +435,19 @@ def render_negative_prompt_lines(
         else _render_negative_prompt_node_recursively
     )
 
+    # image-mode negative prompt carries bare content, no titles
+    mode = profile.mode
+    is_title_shown = not (
+        RenderMode.NEGATIVE in mode and RenderMode._IMAGE in mode
+    )
+
     child_blocks = []
     for child in _iter_children(working_bp.corpus, reverse_sibling_order):
         block = recurse(
             working_bp,
             child,
             reverse_sibling_order=reverse_sibling_order,
+            is_title_shown=is_title_shown,
             **kwargs,
         )
         if block:

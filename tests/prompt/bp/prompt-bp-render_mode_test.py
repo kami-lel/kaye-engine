@@ -133,7 +133,7 @@ class TestNegativeModeViaUnifiedEntryPoint:  ###################################
 
 class TestNegativeAndImageModeCombined:  ##########################################
 
-    def test_negative_content_with_flattened_headings(_):
+    def test_negative_content_without_any_title(_):
         bp = PromptBlueprint.create_full_blueprint(
             corpus_tree=_nested_avoid_corpus()
         )
@@ -146,7 +146,71 @@ class TestNegativeAndImageModeCombined:  #######################################
         assert "BBBB" in opt
         assert not any(line.startswith("#") for line in opt)
         assert "Some:" not in opt
-        assert "Content:" in opt
+        assert "Prompt:" not in opt
+        assert "Content:" not in opt
+
+    def test_nested_blocks_are_post_order_and_blank_line_separated(_):
+        bp = PromptBlueprint.create_full_blueprint(
+            corpus_tree=_nested_avoid_corpus()
+        )
+
+        profile = RenderProfile(mode=RenderMode.NEGATIVE | RenderMode.IMAGE)
+
+        opt = render.render_negative_prompt_lines(bp, profile=profile)
+
+        assert opt == ["BBBB", "", "AAAA"]
+
+    def test_siblings_are_reversed(_):
+        bp = PromptBlueprint.create_full_blueprint(
+            corpus_tree=_a_b_c_avoid_corpus()
+        )
+
+        profile = RenderProfile(mode=RenderMode.NEGATIVE | RenderMode.IMAGE)
+
+        opt = render.render_negative_prompt_lines(bp, profile=profile)
+
+        assert opt == ["CCCC", "", "BBBB"]
+
+    def test_unified_entry_point_agrees_with_dedicated_function(_):
+        bp = PromptBlueprint.create_full_blueprint(
+            corpus_tree=_a_b_c_avoid_corpus()
+        )
+        profile = RenderProfile(mode=RenderMode.NEGATIVE | RenderMode.IMAGE)
+
+        via_mode = bp.generate_prompt_without_dependencies(
+            profile=profile
+        ).split("\n")
+
+        assert via_mode == render.render_negative_prompt_lines(
+            bp, profile=profile
+        )
+
+
+class TestTitlesKeptOutsideNegativeImageCombo:  ###################################
+
+    def test_image_alone_on_negative_function_flattens_titles(_):
+        bp = PromptBlueprint.create_full_blueprint(
+            corpus_tree=_nested_avoid_corpus()
+        )
+
+        opt = render.render_negative_prompt_lines(
+            bp, profile=RenderProfile(mode=RenderMode.IMAGE)
+        )
+
+        assert opt == ["Content:", "BBBB", "", "Prompt:", "AAAA"]
+
+    def test_negative_post_order_keeps_markdown_headings(_):
+        bp = PromptBlueprint.create_full_blueprint(
+            corpus_tree=_nested_avoid_corpus()
+        )
+
+        mode = RenderMode.NEGATIVE | RenderMode.POST_ORDER
+
+        opt = render.render_negative_prompt_lines(
+            bp, profile=RenderProfile(mode=mode)
+        )
+
+        assert opt == ["### Content", "BBBB", "", "## Prompt", "AAAA"]
 
 
 class TestPostOrderPositivePath:  #################################################
