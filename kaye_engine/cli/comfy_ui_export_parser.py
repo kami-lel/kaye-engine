@@ -22,8 +22,9 @@ logger = kamilog.getLogger(LOGGER_NAME)
 
 # constants  ###################################################################
 # ComfyUI's positive field must never carry {avoid} content; that content
-# is written separately, to a sibling "<name>-AVOID.md" file. IMAGE also
-# forces sparseness=1, superseding the explicit sparseness=0 below.
+# is written separately, to a sibling "<name>-AVOID.md" file, holding bare
+# {avoid} content with no titles (NEGATIVE | IMAGE). IMAGE also forces
+# sparseness=1, superseding the explicit sparseness=0 below.
 _COMFY_UI_SPARSE_RENDER_PROFILE = RenderProfile(
     sparseness=0, mode=RenderMode.IMAGE
 )
