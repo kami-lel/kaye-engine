@@ -362,7 +362,13 @@ class PromptBlueprint(dict):
             profile, sparseness=render.NO_TRIM_SPARSENESS
         )
         text = "\n".join(
-            render_lines(self, profile=unsparse_profile, **kwargs)
+            render_lines(
+                self,
+                profile=unsparse_profile,
+                # render at NO_TRIM_SPARSENESS hides the real sparseness
+                is_comment_compact=(profile.sparseness == -1),
+                **kwargs,
+            )
         )
         substituted = apply_dynamic_substitutions(text, **merged_kwargs)
         return "\n".join(
