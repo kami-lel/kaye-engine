@@ -1,5 +1,5 @@
 """
-parser_test.py
+open_webui_parser_test.py
 
 Unit Tests (using pytest) for:
 
