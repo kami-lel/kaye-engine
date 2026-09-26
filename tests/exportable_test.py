@@ -56,6 +56,28 @@ class TestExportableIsAbstract:  ###############################################
             Exportable(canonical_name="x", display_name="X")
 
 
+class TestAlwaysApply:  #########################################################
+
+    def test_dft_false(_, empty_corpus):
+        reg = _dummy_blueprint_registry("test-exp-aa-dft", empty_corpus)
+
+        assert reg.always_apply is False
+
+    def test_set_true(_, empty_corpus):
+        reg = _dummy_blueprint_registry(
+            "test-exp-aa-set", empty_corpus, always_apply=True
+        )
+
+        assert reg.always_apply is True
+
+    def test_abbr_group_dft_false(_):
+        group = ExportableAbbr(
+            canonical_name="test-exp-aa-abbr", display_name="Test Abbr"
+        )
+
+        assert group.always_apply is False
+
+
 class TestRegisterExportableEntry:  #############################################
 
     def test_dft(_, empty_corpus, registered_names):

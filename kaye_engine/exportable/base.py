@@ -37,6 +37,10 @@ class Exportable(ABC):
             into play on its own judgment, without being explicitly
             named; defaults to True
     :type llm_invokable: bool, optional
+    :param always_apply: whether the entry is unconditionally relevant
+            and always applied, rather than surfaced only when judged
+            relevant; defaults to False
+    :type always_apply: bool, optional
     :param render_profile: default render settings for this entry,
             merged with any caller-supplied profile rather than
             replaced by it; defaults to a plain `RenderProfile()`
@@ -47,6 +51,7 @@ class Exportable(ABC):
     display_name: str
     is_user_invokable: bool = True
     llm_invokable: bool = True
+    always_apply: bool = False
 
     render_profile: RenderProfile = field(default_factory=RenderProfile)
 
