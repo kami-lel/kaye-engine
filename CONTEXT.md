@@ -84,7 +84,15 @@ to stay out of fenced regions.
 `PromptBlueprint.generate_prompt_without_dependencies()` applies `sparseness` last: it renders
 the tree unsparse, then `apply_dynamic_substitutions()`, then applies the
 caller's `sparseness` to the substituted result, so a substitution's own
-blank lines are shaped by the same policy.
+blank lines are shaped by the same policy. Because that unsparse render
+hides the real `sparseness`, the generated-by comment's compact form
+(one `↵`-joined line iff `sparseness == -1`) travels as an explicit
+`is_comment_compact` keyword to the line renderers. The comment
+(`render/comment.py`) is default lines (`blueprint: NAME` when
+`display_name` is set, then `Kaye Engine vX`) plus client lines from
+`register_comment_line()`, and is appended after image-mode heading
+flattening. `BlueprintRegistry.content()` fills an empty `display_name`
+from the entry's own.
 
 Sidecars split by usage rather than by class. *Descriptor* sidecars
 (`{description}`, `{when_to_use}`, `{globs}`) are consumed as blueprint
@@ -226,6 +234,7 @@ from kaye_engine import (
     DynamicSubstitution, StringDynamicSubstitution,
     register_abbr_glossary,
     register_blueprint,
+    register_comment_line,
     register_dynamic_substitution,
     setup_claude_cli,
 )
