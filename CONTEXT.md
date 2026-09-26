@@ -1,6 +1,6 @@
 # kaye-engine CONTEXT
 
-**Last updated:** 2026-09-17
+**Last updated:** 2026-09-26
 
 System knowledge for the **kaye-engine** repository — architecture,
 entities, and boundaries. Read this alongside `AGENTS.md` before making
@@ -18,7 +18,7 @@ through a Python API and a CLI.
 | distribution / import name | `kaye-engine` / `kaye_engine` |
 | dependencies | `anytree`, `json5`, `pyahocorasick`, `pyyaml` |
 | entry point | `kaye-engine` console script → `kaye_engine.__main__:main` |
-| CLI subcommands | `blueprint`, `claude`, `comfy-ui-export`, `dynamic-node`, `dynamic-substitution`, `exportable`, `exportable-as-json`, `list-affordance`, `list-variant`, `glossary` |
+| CLI subcommands | `blueprint`, `claude`, `continue`, `comfy-ui-export`, `dynamic-node`, `dynamic-substitution`, `exportable`, `exportable-as-json`, `list-affordance`, `list-variant`, `glossary` |
 
 ## Personalization Boundary
 
@@ -298,6 +298,10 @@ kaye_engine/
 │   │   │                          stores surface_profiles
 │   │   └── surface_parser.py      shared `--surface` parent parser --
 │   │                              choices from consumer's surface_profiles
+│   ├── continue_ai/    `continue`/`c` subcommand: rules/ + prompts/ for Continue
+│   │   ├── rule_md.py       ContinueRule frontmatter doc + factory
+│   │   ├── export_rules.py  classify_exportable, export_continue_folder
+│   │   └── parser.py        parser + handler
 │   ├── dynamic_node/    `dynamic-node`/`dn` subcommand: multi-node render
 │   ├── dynamic_substitution_parser.py  `dynamic-substitution`/`ds`
 │   │                                    subcommand: print/list
@@ -323,9 +327,16 @@ The `prompt` layer is pure: it knows nothing of Claude or any export
 target. Every export target is a leaf under `cli/`, and each reads
 the same `blueprint_registry` rather than holding its own list.
 
+`continue` reads `exportable_registry` and classifies each entry by its
+export-policy flags: `always_apply` forces a rule (`alwaysApply: true`),
+otherwise `llm_invokable` gives a rule, `is_user_invokable` alone gives an
+invokable prompt, and an entry with neither is skipped. Files are named
+`<canonical_name>.md` under `rules/` or `prompts/`. The `--surface` flag
+has no default there.
+
 ## Testing Strategy
 
-`pytest`, 856 tests, run **serially by design** — cases are cheap in-process
+`pytest`, 914 tests, run **serially by design** — cases are cheap in-process
 assertions, so worker startup costs more than a split saves, and shared
 fixtures carry run-order assumptions. `pytest-xdist` is deliberately absent
 from the `dev` extra.
