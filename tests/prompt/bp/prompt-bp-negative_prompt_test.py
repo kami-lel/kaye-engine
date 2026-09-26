@@ -151,7 +151,9 @@ class TestShowCommentAndSparseness:  ###########################################
         )
 
         print(opt)
-        assert re.fullmatch("<!-- Kaye Engine v.+ -->", opt[-1])
+        assert opt[-3] == "<!--"
+        assert re.fullmatch("Kaye Engine v.+", opt[-2])
+        assert opt[-1] == "-->"
 
     def test_sparseness_minus_one_collapses_to_one_line(_):
         bp = PromptBlueprint.create_full_blueprint(

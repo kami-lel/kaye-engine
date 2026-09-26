@@ -281,7 +281,12 @@ BLUEPRINT_EMPTY_PRUNED = """    ○"""
 
 
 def _split_content_and_comment(preview_tree):
+    """
+    :return: content and comment, split at the last line opening a comment
+    :rtype: tuple[str, str]
+    """
     lines = preview_tree.splitlines()
-    tree = "\n".join(lines[:-1])
-    comment = lines[-1]
+    idx = max(i for i, line in enumerate(lines) if line.startswith("<!--"))
+    tree = "\n".join(lines[:idx])
+    comment = "\n".join(lines[idx:])
     return tree, comment
