@@ -39,6 +39,8 @@ todo todo CLI to import/export w/ OpenWebUI
 
 ### Fixed
 
+- generated prompt comment lacked the `blueprint: NAME` line when rendered
+  through `BlueprintRegistry.content()` (`exportable`, skill export, ~)
 - negative-prompt rendering (`RenderMode.NEGATIVE | RenderMode.IMAGE`)
   no longer prints title lines at any depth, only `{avoid}` content
 
