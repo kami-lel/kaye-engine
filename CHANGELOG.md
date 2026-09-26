@@ -4,6 +4,7 @@
 
 <!--
 Fixme rm mention of ComfyUI, rename the CLI too
+Fixme upd docs/ & CLI command name
 Fixme whitelist / blacklist in exporting
 -->
 
