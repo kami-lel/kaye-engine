@@ -133,7 +133,7 @@ class TestNegativeModeViaUnifiedEntryPoint:  ###################################
 
 class TestNegativeAndImageModeCombined:  ##########################################
 
-    def test_negative_content_with_flattened_headings(_):
+    def test_negative_content_without_any_title(_):
         bp = PromptBlueprint.create_full_blueprint(
             corpus_tree=_nested_avoid_corpus()
         )
@@ -146,7 +146,8 @@ class TestNegativeAndImageModeCombined:  #######################################
         assert "BBBB" in opt
         assert not any(line.startswith("#") for line in opt)
         assert "Some:" not in opt
-        assert "Content:" in opt
+        assert "Prompt:" not in opt
+        assert "Content:" not in opt
 
 
 class TestPostOrderPositivePath:  #################################################
