@@ -336,7 +336,7 @@ has no default there.
 
 ## Testing Strategy
 
-`pytest`, 856 tests, run **serially by design** — cases are cheap in-process
+`pytest`, 914 tests, run **serially by design** — cases are cheap in-process
 assertions, so worker startup costs more than a split saves, and shared
 fixtures carry run-order assumptions. `pytest-xdist` is deliberately absent
 from the `dev` extra.
