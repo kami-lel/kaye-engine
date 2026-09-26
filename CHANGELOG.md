@@ -23,6 +23,11 @@ Fixme rm mention of ComfyUI, rename the CLI too
 
 ### Added
 
+- `continue` CLI (alias `c`): export every exportable into a Continue
+  folder as a rule under `rules/` or a prompt under `prompts/`
+- `always_apply` export-policy flag on `Exportable`, accepted by
+  `register_blueprint()`; `continue` writes it as an always-apply rule,
+  the Claude skill export ignores it
 - `register_comment_line()` appends a client project's own line to the
   generated prompt comment
 
