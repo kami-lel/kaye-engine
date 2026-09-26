@@ -3,7 +3,8 @@
 [^format]
 
 <!--
-todo todo CLI to import/export w/ OpenWebUI
+Fixme rm mention of ComfyUI, rename the CLI too
+Fixme whitelist / blacklist in exporting
 -->
 
 
@@ -22,6 +23,10 @@ todo todo CLI to import/export w/ OpenWebUI
 
 ### Added
 
+- `upsert-open-webui-skills` CLI (alias `o`): push every exportable into a
+  running Open WebUI through its Skills API, creating new skills and
+  updating changed ones; `--base-url` (default `http://localhost:8080`),
+  `--api-key` (or `OWU_API_KEY`), `--dry-run`, `--prune`
 - `continue` CLI (alias `c`): export every exportable into a Continue
   folder as a rule under `rules/` or a prompt under `prompts/`
 - `always_apply` export-policy flag on `Exportable`, accepted by

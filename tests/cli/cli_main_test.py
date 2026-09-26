@@ -28,6 +28,8 @@ class TestRegisterCliSubcommands:
             ["blueprint"],
             ["claude"],
             ["continue"],
+            ["upsert-open-webui-skills"],
+            ["o"],
             ["dynamic-node", "decode-only-abbr"],
         ):
             args = parser.parse_args(argv)
@@ -53,6 +55,8 @@ class TestRegisterCliMainParser:
             ["blueprint"],
             ["claude"],
             ["continue"],
+            ["upsert-open-webui-skills"],
+            ["o"],
             ["dynamic-node", "decode-only-abbr"],
         ):
             args = parser.parse_args(argv)

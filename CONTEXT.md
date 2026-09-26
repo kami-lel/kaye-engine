@@ -18,7 +18,7 @@ through a Python API and a CLI.
 | distribution / import name | `kaye-engine` / `kaye_engine` |
 | dependencies | `anytree`, `json5`, `pyahocorasick`, `pyyaml` |
 | entry point | `kaye-engine` console script → `kaye_engine.__main__:main` |
-| CLI subcommands | `blueprint`, `claude`, `continue`, `comfy-ui-export`, `dynamic-node`, `dynamic-substitution`, `exportable`, `exportable-as-json`, `list-affordance`, `list-variant`, `glossary` |
+| CLI subcommands | `blueprint`, `claude`, `continue`, `comfy-ui-export`, `dynamic-node`, `dynamic-substitution`, `exportable`, `exportable-as-json`, `list-affordance`, `list-variant`, `glossary`, `upsert-open-webui-skills` |
 
 ## Personalization Boundary
 
@@ -302,6 +302,13 @@ kaye_engine/
 │   │   ├── rule_md.py       ContinueRule frontmatter doc + factory
 │   │   ├── export_rules.py  classify_exportable, export_continue_folder
 │   │   └── parser.py        parser + handler
+│   ├── open_webui/      `upsert-open-webui-skills`/`o` subcommand: push
+│   │   │                exportables into Open WebUI as skills
+│   │   ├── skill_form.py  build_skill_form: Exportable -> SkillForm dict
+│   │   ├── client.py      urllib client + OpenWebUIError
+│   │   ├── plan.py        plan_skill_sync: create/update/skip/prune
+│   │   ├── sync.py        sync_skills executor + SyncSummary
+│   │   └── parser.py      parser + handler
 │   ├── dynamic_node/    `dynamic-node`/`dn` subcommand: multi-node render
 │   ├── dynamic_substitution_parser.py  `dynamic-substitution`/`ds`
 │   │                                    subcommand: print/list
@@ -320,6 +327,7 @@ kaye_engine/
 │                                    `<name>.md`/`<name>-AVOID.md` pairs
 └── kamilog.py           logging, shared across the package
 docs/                    per-topic reference, linked above
+docs/cli/                end-user guides for CLI subcommands
 tests/                   prompt/, abbr/, cli/ — mirrors the source
 ```
 
@@ -336,7 +344,7 @@ has no default there.
 
 ## Testing Strategy
 
-`pytest`, 914 tests, run **serially by design** — cases are cheap in-process
+`pytest`, 950 tests, run **serially by design** — cases are cheap in-process
 assertions, so worker startup costs more than a split saves, and shared
 fixtures carry run-order assumptions. `pytest-xdist` is deliberately absent
 from the `dev` extra.
@@ -344,7 +352,8 @@ from the `dev` extra.
 Tests mirror the source tree: `tests/prompt/` for the engine, `tests/abbr/`
 for the abbreviation collection. `tests/cli/` stays deliberately thin — it
 holds only the corpus-independent pieces (setup guard, exportable-abbr
-registration, `dynamic-node` parsing, `SKILL.md` rendering), because the
+registration, `dynamic-node` parsing, `SKILL.md` rendering, the Open WebUI sync with a
+fake client), because the
 exporters need a corpus to produce output and the consumer package covers
 those. The `blueprint` subcommand parser still has no dedicated tests.
 
