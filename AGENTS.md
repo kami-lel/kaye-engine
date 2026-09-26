@@ -43,6 +43,7 @@ merge.
 | `kaye_engine/abbr_collection/` | `tests/abbr/` |
 | `kaye_engine/cli/` | `tests/cli/` |
 | `kaye_engine/cli/continue_ai/` | `tests/cli/continue_ai/` |
+| `kaye_engine/cli/open_webui/` | `tests/cli/open_webui/` |
 | `kaye_engine/exportable/` | `tests/exportable_test.py`, `tests/comfy_ui_export_test.py` |
 
 ```bash
@@ -76,10 +77,10 @@ pytest
 
 The editable install registers a `kaye-engine` console script, so
 `kaye-engine ...` and `python -m kaye_engine ...` are equivalent — prefer
-the shorter form. **Eleven** top-level subcommands exist: `blueprint`,
+the shorter form. **Twelve** top-level subcommands exist: `blueprint`,
 `claude`, `continue`, `comfy-ui-export`, `dynamic-node`, `dynamic-substitution`,
 `exportable`, `exportable-as-json`, `list-affordance`, `list-variant`,
-and `glossary`:
+`glossary`, and `upsert-open-webui-skills`:
 
 ```bash
 kaye-engine --help                          # show CLI usage
@@ -114,6 +115,9 @@ kaye-engine list-affordance                 # list affordance_registry names, so
 kaye-engine list-variant                    # list variant_registry canonical names, sorted
 kaye-engine glossary GLOSSARY               # print a glossary's content
 kaye-engine glossary ls                     # list every registered glossary name
+OWU_API_KEY=sk-... kaye-engine upsert-open-webui-skills  # push every exportable into Open WebUI as a skill
+kaye-engine o --dry-run                     # report create/update/skip without writing
+kaye-engine o --prune --base-url URL        # also delete remote-only skills; custom server
 ```
 
 Aliases: `blueprint` → `bp`; `blueprint show` → `bp s`; `blueprint
@@ -124,7 +128,7 @@ marketplace` → `claude m`; `claude plugin` → `claude p`; `claude
 skill` → `claude s`; `claude user-system-prompt` → `claude usp`;
 `claude vs-code-extension` → `claude v`; `exportable` → `x`;
 `exportable-as-json` → `j`; `list-affordance` → `lsa`; `list-variant`
-→ `lsv`; `glossary` → `g`.
+→ `lsv`; `glossary` → `g`; `upsert-open-webui-skills` → `o`.
 
 **Rendering commands** — any subcommand that reaches
 `PromptBlueprint.render_prompt(...)`, directly or via

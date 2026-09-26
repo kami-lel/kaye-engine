@@ -18,7 +18,7 @@ through a Python API and a CLI.
 | distribution / import name | `kaye-engine` / `kaye_engine` |
 | dependencies | `anytree`, `json5`, `pyahocorasick`, `pyyaml` |
 | entry point | `kaye-engine` console script → `kaye_engine.__main__:main` |
-| CLI subcommands | `blueprint`, `claude`, `continue`, `comfy-ui-export`, `dynamic-node`, `dynamic-substitution`, `exportable`, `exportable-as-json`, `list-affordance`, `list-variant`, `glossary` |
+| CLI subcommands | `blueprint`, `claude`, `continue`, `comfy-ui-export`, `dynamic-node`, `dynamic-substitution`, `exportable`, `exportable-as-json`, `list-affordance`, `list-variant`, `glossary`, `upsert-open-webui-skills` |
 
 ## Personalization Boundary
 
@@ -302,6 +302,13 @@ kaye_engine/
 │   │   ├── rule_md.py       ContinueRule frontmatter doc + factory
 │   │   ├── export_rules.py  classify_exportable, export_continue_folder
 │   │   └── parser.py        parser + handler
+│   ├── open_webui/      `upsert-open-webui-skills`/`o` subcommand: push
+│   │   │                exportables into Open WebUI as skills
+│   │   ├── skill_form.py  build_skill_form: Exportable -> SkillForm dict
+│   │   ├── client.py      urllib client + OpenWebUIError
+│   │   ├── plan.py        plan_skill_sync: create/update/skip/prune
+│   │   ├── sync.py        sync_skills executor + SyncSummary
+│   │   └── parser.py      parser + handler
 │   ├── dynamic_node/    `dynamic-node`/`dn` subcommand: multi-node render
 │   ├── dynamic_substitution_parser.py  `dynamic-substitution`/`ds`
 │   │                                    subcommand: print/list
