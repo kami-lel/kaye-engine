@@ -3,7 +3,8 @@
 [^format]
 
 <!--
-Todo blueprint comment allow include client project version
+FIXME render profile doc
+TODO blueprint comment allow include client project version
 todo todo CLI to import/export w/ OpenWebUI
 -->
 
