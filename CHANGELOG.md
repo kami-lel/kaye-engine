@@ -3,6 +3,7 @@
 [^format]
 
 <!--
+BUG negative prompt should not contains title
 Todo blueprint comment allow include client project version
 todo todo CLI to import/export w/ OpenWebUI
 -->
