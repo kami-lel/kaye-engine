@@ -12,7 +12,8 @@ from ...sidecar_node import AVOID_NAME, get_sidecar_name
 from ..render_mode import RenderMode
 from ..render_profile import RenderProfile
 from .sidecar_splice import _splice_conditional_sidecars
-from .util import apply_sparseness, render_comment
+from .comment import render_comment_lines
+from .util import apply_sparseness
 
 __all__ = (
     "render_negative_prompt_lines",
@@ -309,10 +310,22 @@ def _flatten_headings_for_image_mode(lines):
     return result
 
 
+def _resolve_is_comment_compact(profile, is_comment_compact):
+    """
+    :return: ``is_comment_compact``, or ``profile.sparseness == -1`` when
+            ``None``
+    :rtype: bool
+    """
+    if is_comment_compact is None:
+        return profile.sparseness == -1
+    return is_comment_compact
+
+
 def render_prompt_lines(
     blueprint,
     *,
     profile=RenderProfile(),
+    is_comment_compact=None,
     **kwargs,
 ):
     """
@@ -331,6 +344,9 @@ def render_prompt_lines(
             plus the glossary-related fields); defaults to a plain
             `RenderProfile()`
     :type profile: RenderProfile, optional
+    :param is_comment_compact: whether to render the comment as one line;
+            ``None`` derives it from ``profile.sparseness == -1``
+    :type is_comment_compact: bool, optional
     :param kwargs: further render options (e.g. ``query``) forwarded
             to each checkmarked node's ``content_lines(**kwargs)``
     :return: list of prompt lines
@@ -377,11 +393,19 @@ def render_prompt_lines(
                     if i != last_node_idx:
                         lines.append("")  # add an empty line
 
-    if profile.show_comment:
-        lines.append("<!-- " + render_comment(profile.display_name) + " -->")
-
     if RenderMode._IMAGE in profile.mode:
         lines = _flatten_headings_for_image_mode(lines)
+
+    # appended last, so a registered line starting with "#" stays untouched
+    if profile.show_comment:
+        lines.extend(
+            render_comment_lines(
+                profile.display_name,
+                is_compact=_resolve_is_comment_compact(
+                    profile, is_comment_compact
+                ),
+            )
+        )
 
     return apply_sparseness(lines, profile.sparseness)
 
@@ -390,6 +414,7 @@ def render_negative_prompt_lines(
     blueprint,
     *,
     profile=RenderProfile(),
+    is_comment_compact=None,
     **kwargs,
 ):
     """
@@ -416,6 +441,9 @@ def render_negative_prompt_lines(
             ``show_comment``, ``display_name``, ``sparseness``, and
             ``mode`` apply here; defaults to a plain `RenderProfile()`
     :type profile: RenderProfile, optional
+    :param is_comment_compact: whether to render the comment as one line;
+            ``None`` derives it from ``profile.sparseness == -1``
+    :type is_comment_compact: bool, optional
     :param kwargs: further render options forwarded to each ``{avoid}``
             node's ``content_lines(**kwargs)``
     :return: list of negative-prompt lines
@@ -454,10 +482,18 @@ def render_negative_prompt_lines(
             child_blocks.append(block)
     lines = _join_blocks(child_blocks)
 
-    if profile.show_comment:
-        lines.append("<!-- " + render_comment(profile.display_name) + " -->")
-
     if RenderMode._IMAGE in profile.mode:
         lines = _flatten_headings_for_image_mode(lines)
+
+    # appended last, so a registered line starting with "#" stays untouched
+    if profile.show_comment:
+        lines.extend(
+            render_comment_lines(
+                profile.display_name,
+                is_compact=_resolve_is_comment_compact(
+                    profile, is_comment_compact
+                ),
+            )
+        )
 
     return apply_sparseness(lines, profile.sparseness)
