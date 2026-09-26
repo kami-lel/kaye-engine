@@ -25,11 +25,17 @@ todo todo CLI to import/export w/ OpenWebUI
 
 ### Changed
 
+- `comfy-ui-export`'s `-AVOID` files no longer start each block with a
+  `Name:` title line, only the `{avoid}` content remains
+
 ### Deprecated
 
 ### Removed
 
 ### Fixed
+
+- negative-prompt rendering (`RenderMode.NEGATIVE | RenderMode.IMAGE`)
+  no longer prints title lines at any depth, only `{avoid}` content
 
 ### Security
 

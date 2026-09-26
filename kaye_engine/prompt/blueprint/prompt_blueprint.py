@@ -330,7 +330,9 @@ class PromptBlueprint(dict):
         subtree to children-before-parent (siblings keep their original
         relative order), and ``RenderMode.IMAGE`` (which also implies
         ``POST_ORDER``) forces ``sparseness=1`` regardless of what
-        ``profile.sparseness`` was set to
+        ``profile.sparseness`` was set to. Combined as
+        ``RenderMode.NEGATIVE | RenderMode.IMAGE``, the negative prompt
+        prints no title at all, only the ``{avoid}`` content
 
         (see ``render.render_prompt_lines()``,
         ``render.render_negative_prompt_lines()``, and

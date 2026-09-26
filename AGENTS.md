@@ -39,6 +39,7 @@ merge.
 | changed source | test scope |
 |---|---|
 | `kaye_engine/prompt/` | `tests/prompt/` |
+| `kaye_engine/prompt/blueprint/render/` | `tests/prompt/`, plus `tests/cli/comfy_ui_export_parser_test.py` (asserts rendered negative-prompt text) |
 | `kaye_engine/abbr_collection/` | `tests/abbr/` |
 | `kaye_engine/cli/` | `tests/cli/` |
 | `kaye_engine/exportable/` | `tests/exportable_test.py`, `tests/comfy_ui_export_test.py` |

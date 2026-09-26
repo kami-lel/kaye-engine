@@ -479,6 +479,21 @@ top of reordering to post-order with reversed siblings. Every
 `RenderMode` member composes freely (`RenderMode.NEGATIVE |
 RenderMode.POST_ORDER`, `RenderMode.NEGATIVE | RenderMode.IMAGE`, ...).
 
+`RenderMode.NEGATIVE | RenderMode.IMAGE` prints **no title at all**:
+every node's own heading, flattened or not, is omitted at every depth,
+so only the `{avoid}` content remains, its blocks still separated by
+one blank line. E.g., for the tree in the example above:
+
+```python
+>>> render.render_negative_prompt_lines(
+...     tree, profile=RenderProfile(mode=RenderMode.NEGATIVE | RenderMode.IMAGE)
+... )
+['Or this.', '', "Don't do this."]
+```
+
+Any other combination (`NEGATIVE` alone, `NEGATIVE | POST_ORDER`, ...)
+keeps its headings.
+
 
 
 ##### generate blueprint text
