@@ -245,7 +245,7 @@ Kaye Engine v1.2.3
 -->
 ```
 
-- the `blueprint:` line is left out when `display_name` is empty
+- the `blueprint:` line is left out when `display_name` is empty; `BlueprintRegistry.content()` fills an empty one from the registry entry's own name
 - at `sparseness=-1` the whole comment joins into the single line, `<!-- blueprint: NAME↵Kaye Engine v1.2.3 -->`
 - the comment is added after `IMAGE` mode's heading rewrite, so a line starting with `#` is never rewritten
 
