@@ -18,7 +18,7 @@ through a Python API and a CLI.
 | distribution / import name | `kaye-engine` / `kaye_engine` |
 | dependencies | `anytree`, `json5`, `pyahocorasick`, `pyyaml` |
 | entry point | `kaye-engine` console script → `kaye_engine.__main__:main` |
-| CLI subcommands | `blueprint`, `claude`, `continue`, `export-image-prompt`, `dynamic-node`, `dynamic-substitution`, `exportable`, `export-json`, `affordance`, `variant`, `glossary`, `sync-open-webui-skills` |
+| CLI subcommands | `blueprint`, `claude`, `continue`, `export-image-prompt`, `dynamic-node`, `dynamic-substitution`, `exportable`, `export-json`, `affordance`, `variant`, `glossary`, `skill`, `sync-open-webui-skills` |
 
 ## Personalization Boundary
 
@@ -191,7 +191,7 @@ its own default for `--comment`/`--no-comment` and `--sparseness` when
 the flags are omitted (via `build_sparseness_parent_parser(default=...)`,
 a per-call builder). The resolved `RenderProfile` is carried as a single
 `profile=` object from parser down through every `claude` export chain
-(skill/plugin/marketplace/vs-code/code/user-prompt). A `RenderProfile()`
+(plugin/marketplace/vs-code/code/user-prompt, plus the top-level `skill`). A `RenderProfile()`
 default (no explicit `--surface`/`--variant`/`--conditional-sidecar`)
 carries `variants=None`/`conditional_sidecars=()`, which
 `RenderProfile.merge()` treats as a no-op contribution, so a
@@ -292,12 +292,13 @@ kaye_engine/
 │                            register_image_prompt_exportable
 ├── cli/
 │   ├── blueprint/       `blueprint`/`bp` subcommand: ls, show, generate
-│   ├── claude/          skills, plugins, marketplaces, CLAUDE.md
+│   ├── claude/          plugins, marketplaces, CLAUDE.md
 │   │   ├── setup.py               setup_claude_cli(...); registers
 │   │   │                          consumer-supplied affordance_groups,
 │   │   │                          stores surface_profiles
 │   │   └── surface_parser.py      shared `--surface` parent parser --
 │   │                              choices from consumer's surface_profiles
+│   ├── skill/           `skill`/`s` subcommand: Agent Skill folders/.zips
 │   ├── continue_ai/    `continue`/`c` subcommand: rules/ + prompts/ for Continue
 │   │   ├── rule_md.py       ContinueRule frontmatter doc + factory
 │   │   ├── export_rules.py  classify_exportable, export_continue_folder

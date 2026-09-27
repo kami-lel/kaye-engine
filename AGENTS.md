@@ -77,10 +77,10 @@ pytest
 
 The editable install registers a `kaye-engine` console script, so
 `kaye-engine ...` and `python -m kaye_engine ...` are equivalent — prefer
-the shorter form. **Twelve** top-level subcommands exist: `blueprint`,
+the shorter form. **Thirteen** top-level subcommands exist: `blueprint`,
 `claude`, `continue`, `export-image-prompt`, `dynamic-node`, `dynamic-substitution`,
 `exportable`, `export-json`, `affordance`, `variant`,
-`glossary`, and `sync-open-webui-skills`:
+`glossary`, `skill`, and `sync-open-webui-skills`:
 
 ```bash
 kaye-engine --help                          # show CLI usage
@@ -94,8 +94,8 @@ kaye-engine dynamic-node NODE -t THRESHOLD  # for a glossary NODE, hide entries 
 kaye-engine dynamic-node ls                 # list every available NODE value: today, decode-only-abbr, every AbbrTags-derived name, then glossary names alphabetically
 kaye-engine dynamic-substitution NAME       # print a registered dynamic substitution's content
 kaye-engine dynamic-substitution ls         # list every registered dynamic substitution name
-kaye-engine claude skill SKILLS_FOLDER      # export blueprints as Skill folders
-kaye-engine claude skill -z ZIPS_FOLDER     # create .zip Skill packages
+kaye-engine skill SKILLS_FOLDER             # export blueprints as Agent Skill folders
+kaye-engine skill -z ZIPS_FOLDER            # create .zip Agent Skill packages
 kaye-engine claude plugin PLUGINS_FOLDER    # export blueprints as plugin folder
 kaye-engine claude plugin -z PLUGINS_FOLDER # .zip package (-n drops version)
 kaye-engine claude marketplace              # to ~/.claude/<marketplace folder>
@@ -124,8 +124,8 @@ Aliases: `blueprint` → `bp`; `blueprint show` → `bp s`; `blueprint
 generate` → `bp gen`/`bp g`; `continue` → `c`; `export-image-prompt` → `img`; `dynamic-node` →
 `dn`; `dynamic-substitution` → `ds`; `claude` → `a` (was also
 `anthropic`, now dropped); `claude code` → `claude c`; `claude
-marketplace` → `claude m`; `claude plugin` → `claude p`; `claude
-skill` → `claude s`; `claude user-system-prompt` → `claude usp`;
+marketplace` → `claude m`; `claude plugin` → `claude p`; `skill`
+→ `s`; `claude user-system-prompt` → `claude usp`;
 `claude vs-code-extension` → `claude v`; `exportable` → `x`;
 `export-json` → `json`; `affordance` → `afd`; `variant`
 → `var`; `glossary` → `g`; `sync-open-webui-skills` → `o`.
@@ -133,7 +133,7 @@ skill` → `claude s`; `claude user-system-prompt` → `claude usp`;
 **Rendering commands** — any subcommand that reaches
 `PromptBlueprint.render_prompt(...)`, directly or via
 `Exportable.content()` (`blueprint generate`, `dynamic-node`,
-`exportable`, `claude skill`, `claude plugin`, `claude marketplace`,
+`exportable`, `skill`, `claude plugin`, `claude marketplace`,
 `claude user-system-prompt`, `claude vs-code-extension`, `claude
 code`) — all expose the same 6 options via one shared parent parser
 and one aux function, `build_render_profile_parent_parser`/
@@ -208,10 +208,10 @@ constant:
 
 | flag | default | effect |
 |---|---|---|
-| `is_exportable` | `True` | `False` excludes it from `exportable_registry` entirely — never export as a Claude Agent Skill |
+| `is_exportable` | `True` | `False` excludes it from `exportable_registry` entirely — never export as an Agent Skill |
 | `is_user_invokable` | `True` | a human may invoke it by name |
 | `llm_invokable` | `True` | the assistant may surface it unprompted |
-| `always_apply` | `False` | unconditionally relevant; `continue` exports it as an always-apply rule, the Claude skill exporter ignores it |
+| `always_apply` | `False` | unconditionally relevant; `continue` exports it as an always-apply rule, the Agent Skill exporter ignores it |
 
 `render_profile` (a `RenderProfile`, default `RenderProfile()`) sets
 this entry's own default render settings — including
