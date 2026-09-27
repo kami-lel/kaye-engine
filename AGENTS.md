@@ -58,11 +58,7 @@ pytest tests/prompt/bp/prompt-bp-merge_test.py::TestMerge::test1_1
 exportable-abbr registration, `dynamic-node` parsing, and `SKILL.md`
 rendering. The exporters themselves need a corpus to produce output, so the
 consumer package's suite covers those; do not scaffold corpus fixtures here
-to widen the directory. `exportable`, `export-json`,
-`affordance`, `variant`, and `glossary` are now covered by
-dedicated parser tests; the `blueprint` subcommand parser currently has
-no dedicated tests — a known gap, not an intentional exclusion like the
-exporters above.
+to widen the directory. Known test gaps are tracked in `CONTEXT.md`.
 
 **Do not parallelize** — no `pytest-xdist`, no `-n auto`. The suite is
 already fast, worker startup cancels out any gain, and splitting across
@@ -123,8 +119,8 @@ kaye-engine o --prune --base-url URL        # also delete remote-only skills; cu
 
 Aliases: `blueprint` → `bp`; `blueprint show` → `bp s`; `blueprint
 generate` → `bp gen`/`bp g`; `continue` → `c`; `export-image-prompt` → `img`; `dynamic-node` →
-`dn`; `dynamic-substitution` → `ds`; `claude` → `a` (was also
-`anthropic`, now dropped); `claude code` → `claude c`; `claude
+`dn`; `dynamic-substitution` → `ds`; `claude` → `a`; `claude code`
+→ `claude c`; `claude
 marketplace` → `claude m`; `claude plugin` → `claude p`; `skill`
 → `s`; `claude user-system-prompt` → `claude usp`;
 `claude vs-code-extension` → `claude v`; `exportable` → `x`;

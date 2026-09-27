@@ -28,39 +28,65 @@ todo support hermes
 
 ### Added
 
-- `sync-open-webui-skills` CLI (alias `o`): push every exportable into a
-  running Open WebUI through its Skills API, creating new skills and
-  updating changed ones; `--base-url` (default `http://localhost:8080`),
-  `--api-key` (or `OWU_API_KEY`), `--dry-run`, `--prune`
+### Changed
+
+### Deprecated
+
+### Removed
+
+### Fixed
+
+### Security
+
+[unreleased]: https://github.com/kami-lel/kaye-engine/compare/v9.0.0...dev
+
+
+
+
+
+
+
+
+
+
+
+
+
+## [9.0.0] - 2026-09-27
+
+### Added
+
+- `sync-open-webui-skills` CLI (alias `o`): sync every exportable into a
+  running Open WebUI server as an Agent Skill, creating, updating, and
+  (with `--prune`) removing to match; configure via `--base-url`,
+  `--api-key`/`OWU_API_KEY`, preview with `--dry-run`
 - `continue` CLI (alias `c`): export every exportable into a Continue
-  folder as a rule under `rules/` or a prompt under `prompts/`
-- `always_apply` export-policy flag on `Exportable`, accepted by
-  `register_blueprint()`; `continue` writes it as an always-apply rule,
-  the Agent Skill export ignores it
-- `register_comment_line()` appends a client project's own line to the
+  folder as a rule or an invokable prompt
+- `always_apply` export-policy flag: marks an entry unconditionally
+  relevant; `continue` exports it as an always-apply rule, the Agent
+  Skill exporter ignores it
+- `register_comment_line()`: appends a project's own line to the
   generated prompt comment
 - task-oriented CLI guides under `docs/cli/` for `claude`, `continue`,
   `export-json`, and `sync-open-webui-skills`
 
 ### Changed
 
-- the generated prompt comment is a multi-line block, one line per fact,
-  and joins into one `↵`-separated line only at `sparseness=-1`
-- `render.render_comment` is replaced by `render.render_comment_lines`
-- `export-image-prompt`'s `-AVOID` files no longer start each block with a
-  `Name:` title line, only the `{avoid}` content remains
-- CLI subcommands renamed, and their aliases changed with them:
-  `comfy-ui-export` (`y`) is now `export-image-prompt` (`img`),
-  `exportable-as-json` (`j`) is now `export-json` (`json`),
-  `upsert-open-webui-skills` is now `sync-open-webui-skills` (alias `o`
-  kept), `list-affordance` (`lsa`) is now `affordance` (`afd`),
-  `list-variant` (`lsv`) is now `variant` (`var`)
-- `register_comfy_ui_exportable()`/`comfy_ui_exportable_registry` are renamed
-  `register_image_prompt_exportable()`/`image_prompt_exportable_registry`,
-  and the image-prompt export no longer names ComfyUI anywhere
+- generated prompt comment is now a multi-line block, one line per fact,
+  joining into one line only at `sparseness=-1`
+- `export-image-prompt`'s `-AVOID` files drop the `Name:` title line,
+  keeping only `{avoid}` content
+- CLI subcommands renamed: `comfy-ui-export` (`y`) → `export-image-prompt`
+  (`img`), `exportable-as-json` (`j`) → `export-json` (`json`),
+  `upsert-open-webui-skills` → `sync-open-webui-skills` (alias `o`
+  kept), `list-affordance` (`lsa`) → `affordance` (`afd`),
+  `list-variant` (`lsv`) → `variant` (`var`)
+- `register_comfy_ui_exportable()`/`comfy_ui_exportable_registry` renamed
+  to `register_image_prompt_exportable()`/`image_prompt_exportable_registry`;
+  the image-prompt export no longer names ComfyUI anywhere
 - `claude skill` (`claude s`) moves up to the top-level `skill` (`s`)
-  command; help and docs now call its output Agent Skills, an open
-  standard, rather than Claude skills
+  command; its output is now called Agent Skills, an open standard,
+  rather than Claude skills
 
 > [!WARNING]
 > The old subcommand names and aliases are removed outright, with no
@@ -80,20 +106,14 @@ todo support hermes
 > longer exist; use `image_prompt_exportable_registry` and
 > `register_image_prompt_exportable()`.
 
-### Deprecated
-
-### Removed
-
 ### Fixed
 
-- generated prompt comment lacked the `blueprint: NAME` line when rendered
-  through `BlueprintRegistry.content()` (`exportable`, skill export, ~)
-- negative-prompt rendering (`RenderMode.NEGATIVE | RenderMode.IMAGE`)
-  no longer prints title lines at any depth, only `{avoid}` content
+- generated prompt comment could be missing its `blueprint: NAME` line
+  (`exportable`, skill export, ~)
+- negative-prompt image rendering no longer prints stray title lines,
+  only `{avoid}` content
 
-### Security
-
-[unreleased]: https://github.com/kami-lel/kaye-engine/compare/v8.1.0...dev
+[9.0.0]: https://github.com/kami-lel/kaye-engine/compare/v8.1.0...v9.0.0
 
 
 
