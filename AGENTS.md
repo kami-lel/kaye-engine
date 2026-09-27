@@ -44,6 +44,7 @@ merge.
 | `kaye_engine/cli/` | `tests/cli/` |
 | `kaye_engine/cli/continue_ai/` | `tests/cli/continue_ai/` |
 | `kaye_engine/cli/open_webui/` | `tests/cli/open_webui/` |
+| `kaye_engine/cli/skill/` | `tests/cli/skill/` |
 | `kaye_engine/exportable/` | `tests/exportable_test.py`, `tests/image_prompt_export_test.py` |
 
 ```bash

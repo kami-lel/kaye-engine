@@ -34,6 +34,8 @@ Fixme whitelist / blacklist in exporting
   the Agent Skill export ignores it
 - `register_comment_line()` appends a client project's own line to the
   generated prompt comment
+- task-oriented CLI guides under `docs/cli/` for `claude`, `continue`,
+  `export-json`, and `sync-open-webui-skills`
 
 ### Changed
 
