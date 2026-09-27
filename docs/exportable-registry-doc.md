@@ -24,7 +24,7 @@ Every `Exportable` carries three export-policy flags: `is_user_invokable` (defau
 
 `Exportable` declares no `merge`/`|` contract, and none of its kinds define one — `BlueprintRegistry.merge()` was removed; a `PromptBlueprint`'s own `.merge()`/`|` (q.v. [`prompt-doc.md`](prompt-doc.md)) is what `.render_prompt()`/`.render_blueprint()` use internally to resolve `.dependencies`, not something the registry entry itself exposes.
 
-The negative prompt is no longer a separate method: pass a render profile with `RenderMode.NEGATIVE` to `content()` itself (q.v. [`render-profile-doc.md`](render-profile-doc.md#negative-prompt), [`prompt-doc.md`](prompt-doc.md#generate-negative-prompt) and [`sidecar-node-doc.md`](sidecar-node-doc.md#negative-instruction-sidecar)). Whether an `Exportable` kind can render one at all is the plain class attribute `supports_negative_content` (`False` by default, `True` on `BlueprintRegistry` — only it carries a `.blueprint` to render one from); a caller that wants to handle any `Exportable` uniformly checks that flag instead of duck-typing a method, as `comfy-ui-export` does.
+The negative prompt is no longer a separate method: pass a render profile with `RenderMode.NEGATIVE` to `content()` itself (q.v. [`render-profile-doc.md`](render-profile-doc.md#negative-prompt), [`prompt-doc.md`](prompt-doc.md#generate-negative-prompt) and [`sidecar-node-doc.md`](sidecar-node-doc.md#negative-instruction-sidecar)). Whether an `Exportable` kind can render one at all is the plain class attribute `supports_negative_content` (`False` by default, `True` on `BlueprintRegistry` — only it carries a `.blueprint` to render one from); a caller that wants to handle any `Exportable` uniformly checks that flag instead of duck-typing a method, as `export-image-prompt` does.
 
 
 
@@ -54,9 +54,9 @@ Two kinds of exportable registration feed `exportable_registry`:
     and settings into `abbr_glossary_registry`; `register_exportable_abbrs()`
     (re-run whenever `AbbrData` changes) is what actually inserts the
     glossary's group into `exportable_registry`
-  - ComfyUI subset: `register_comfy_ui_exportable(canonical_name)` marks
+  - image-prompt subset: `register_image_prompt_exportable(canonical_name)` marks
     a name already sitting in `exportable_registry` as a member of the
-    ComfyUI export subset, appending it to `comfy_ui_exportable_registry`.
+    image-prompt export subset, appending it to `image_prompt_exportable_registry`.
     It never creates or registers an exportable itself: an unregistered
     `canonical_name` raises `KeyError`, and a name already in the subset
     raises `ValueError`.
@@ -65,7 +65,7 @@ Usage:
 
 - `exportable` CLI (alias `x`): `kaye-engine exportable EXPORTABLE` prints that exportable's `content()`; `kaye-engine exportable ls` lists every registered exportable name, sorted alphabetically
 - `exportable-as-json` CLI (alias `j`): `kaye-engine exportable-as-json` writes every entry in `exportable_registry` to a flat `{canonical_name: content}` JSON object, each `content()` rendered with `RenderProfile(sparseness=0, conditional_sidecars=("avoid",))` merged on top of the entry's own `render_profile` (q.v. [`render-profile-doc.md`](render-profile-doc.md)); `--output-file`/`-f` sets the output path, defaulting to `exportable-as-json.json` in the current directory.
-- `comfy-ui-export` CLI (alias `y`): `kaye-engine comfy-ui-export FOLDER` writes every entry in `comfy_ui_exportable_registry` to `FOLDER`, one `<canonical_name>.md` file per entry holding its `content()` (`RenderProfile(sparseness=0, mode=RenderMode.IMAGE)`, where `IMAGE` itself forces `sparseness=1`; q.v. [`render-profile-doc.md`](render-profile-doc.md#render-modes)), plus a `<canonical_name>-AVOID.md` sibling wherever `content(profile=... RenderMode.NEGATIVE)` renders real content for an entry with `supports_negative_content` set — so ComfyUI's positive field never carries `{avoid}` content; that goes to the sibling file instead, rendered as `NEGATIVE | IMAGE`, i.e. bare `{avoid}` content with no title lines
+- `export-image-prompt` CLI (alias `img`): `kaye-engine export-image-prompt FOLDER` writes every entry in `image_prompt_exportable_registry` to `FOLDER`, one `<canonical_name>.md` file per entry holding its `content()` (`RenderProfile(sparseness=0, mode=RenderMode.IMAGE)`, where `IMAGE` itself forces `sparseness=1`; q.v. [`render-profile-doc.md`](render-profile-doc.md#render-modes)), plus a `<canonical_name>-AVOID.md` sibling wherever `content(profile=... RenderMode.NEGATIVE)` renders real content for an entry with `supports_negative_content` set — so the positive field never carries `{avoid}` content; that goes to the sibling file instead, rendered as `NEGATIVE | IMAGE`, i.e. bare `{avoid}` content with no title lines
 - `continue` CLI (alias `c`): `kaye-engine continue [FOLDER]` writes every entry as a Continue rule or prompt; q.v. [`continue-doc.md`](continue-doc.md)
 - `claude` CLI: q.v. [`claude-doc.md`](claude-doc.md) for the full Claude CLI surface (`kaye-engine claude skill|plugin|marketplace|code|...`)
 
