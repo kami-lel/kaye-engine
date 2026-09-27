@@ -3,8 +3,6 @@
 [^format]
 
 <!--
-FIXME rm mention of ComfyUI, rename the CLI too
-FIXME upd docs/ & CLI command name
 Fixme whitelist / blacklist in exporting
 -->
 
@@ -24,7 +22,7 @@ Fixme whitelist / blacklist in exporting
 
 ### Added
 
-- `upsert-open-webui-skills` CLI (alias `o`): push every exportable into a
+- `sync-open-webui-skills` CLI (alias `o`): push every exportable into a
   running Open WebUI through its Skills API, creating new skills and
   updating changed ones; `--base-url` (default `http://localhost:8080`),
   `--api-key` (or `OWU_API_KEY`), `--dry-run`, `--prune`
@@ -41,8 +39,30 @@ Fixme whitelist / blacklist in exporting
 - the generated prompt comment is a multi-line block, one line per fact,
   and joins into one `↵`-separated line only at `sparseness=-1`
 - `render.render_comment` is replaced by `render.render_comment_lines`
-- `comfy-ui-export`'s `-AVOID` files no longer start each block with a
+- `export-image-prompt`'s `-AVOID` files no longer start each block with a
   `Name:` title line, only the `{avoid}` content remains
+- CLI subcommands renamed, and their aliases changed with them:
+  `comfy-ui-export` (`y`) is now `export-image-prompt` (`img`),
+  `exportable-as-json` (`j`) is now `export-json` (`json`),
+  `upsert-open-webui-skills` is now `sync-open-webui-skills` (alias `o`
+  kept), `list-affordance` (`lsa`) is now `affordance` (`afd`),
+  `list-variant` (`lsv`) is now `variant` (`var`)
+- `register_comfy_ui_exportable()`/`comfy_ui_exportable_registry` are renamed
+  `register_image_prompt_exportable()`/`image_prompt_exportable_registry`,
+  and the image-prompt export no longer names ComfyUI anywhere
+
+> [!WARNING]
+> The old subcommand names and aliases are removed outright, with no
+> deprecated shims: `comfy-ui-export`/`y` → `export-image-prompt`/`img`,
+> `exportable-as-json`/`j` → `export-json`/`json`,
+> `upsert-open-webui-skills` → `sync-open-webui-skills`,
+> `list-affordance`/`lsa` → `affordance`/`afd`,
+> `list-variant`/`lsv` → `variant`/`var`. Update any script that calls them.
+
+> [!WARNING]
+> `comfy_ui_exportable_registry` and `register_comfy_ui_exportable()` no
+> longer exist; use `image_prompt_exportable_registry` and
+> `register_image_prompt_exportable()`.
 
 ### Deprecated
 
