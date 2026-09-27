@@ -65,15 +65,22 @@ class TestRegisterExportableAsJsonParser:
 
     def test_registers_exportable_as_json_subcommand(self):
         parser = _build_exportable_as_json_parser()
-        args = parser.parse_args(["exportable-as-json"])
+        args = parser.parse_args(["export-json"])
 
         assert args.func is (
             exportable_as_json_parser._exportable_as_json_main
         )
 
-    def test_registers_j_alias(self):
+    def test_rejects_old_names(self):
         parser = _build_exportable_as_json_parser()
-        args = parser.parse_args(["j"])
+
+        for old_name in ("exportable-as-json", "j"):
+            with pytest.raises(SystemExit):
+                parser.parse_args([old_name])
+
+    def test_registers_json_alias(self):
+        parser = _build_exportable_as_json_parser()
+        args = parser.parse_args(["json"])
 
         assert args.func is (
             exportable_as_json_parser._exportable_as_json_main
@@ -88,7 +95,7 @@ class TestExportableAsJsonMainFullExport:
         output_file = tmp_path / "out.json"
         parser = _build_exportable_as_json_parser()
         args = parser.parse_args(
-            ["exportable-as-json", "--output-file", str(output_file)]
+            ["export-json", "--output-file", str(output_file)]
         )
         args.func(args)
 
@@ -100,10 +107,10 @@ class TestExportableAsJsonMainFullExport:
             "other-exportable",
         }
 
-    def test_j_alias_writes_same_output(self, _fake_registry, tmp_path):
+    def test_json_alias_writes_same_output(self, _fake_registry, tmp_path):
         output_file = tmp_path / "out.json"
         parser = _build_exportable_as_json_parser()
-        args = parser.parse_args(["j", "-f", str(output_file)])
+        args = parser.parse_args(["json", "-f", str(output_file)])
         args.func(args)
 
         written = json.loads(output_file.read_text(encoding="utf-8"))
@@ -114,7 +121,7 @@ class TestExportableAsJsonMainFullExport:
     ):
         monkeypatch.chdir(tmp_path)
         parser = _build_exportable_as_json_parser()
-        args = parser.parse_args(["exportable-as-json"])
+        args = parser.parse_args(["export-json"])
         args.func(args)
 
         default_output = tmp_path / "exportable-as-json.json"
@@ -128,7 +135,7 @@ class TestExportableAsJsonMainFullExport:
         output_file = tmp_path / "custom.json"
         parser = _build_exportable_as_json_parser()
         args = parser.parse_args(
-            ["exportable-as-json", "--output-file", str(output_file)]
+            ["export-json", "--output-file", str(output_file)]
         )
         args.func(args)
 

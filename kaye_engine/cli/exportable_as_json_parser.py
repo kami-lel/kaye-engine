@@ -36,14 +36,14 @@ _DESCRIPTION = _HELP + """
 writes every exportable currently in the registry to a flat JSON object,
 keyed by canonical name:
 
-    kaye-engine exportable-as-json
+    kaye-engine export-json
 """
 
 
 # auxiliaries  #################################################################
 def _exportable_as_json_main(args):
     set_logging_level_by_namespace(args, logger=logger)
-    logger.enter("{} exportable-as-json".format(PACKAGE_NAME))
+    logger.enter("{} export-json".format(PACKAGE_NAME))
     check_corpus_setup_for_cli()
 
     canonical_names = sorted(exportable_registry)
@@ -57,20 +57,20 @@ def _exportable_as_json_main(args):
     with open(args.output_file, "w", encoding="utf-8") as output_file:
         json.dump(content_by_name, output_file, indent=2, sort_keys=True)
 
-    logger.done("export exportable-as-json:\t" + str(args.output_file))
+    logger.done("export export-json:\t" + str(args.output_file))
 
 
 # Public API  ##################################################################
 def register_exportable_as_json_parser(cli_subparser):
     """
-    register the ``kaye-engine exportable-as-json`` subcommand parser
+    register the ``kaye-engine export-json`` subcommand parser
     """
     export_json_parser = cli_subparser.add_parser(
-        "exportable-as-json",
+        "export-json",
         help=_HELP,
         description=_DESCRIPTION,
         formatter_class=RawDescriptionHelpFormatter,
-        aliases=["j"],
+        aliases=["json"],
     )
 
     # add arguments  -----------------------------------------------------------
