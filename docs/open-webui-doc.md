@@ -8,7 +8,7 @@ New to Open WebUI Desktop? Start with the [setup guide](cli/open-webui-setup-doc
 
 ```bash
 OWU_API_KEY=sk-... kaye-engine sync-open-webui-skills
-kaye-engine o --dry-run                 # report only, write nothing
+kaye-engine o -n                        # report only, write nothing
 kaye-engine o --prune                   # also delete remote-only skills
 kaye-engine o --base-url http://host:3000 --api-key sk-...
 ```
@@ -17,7 +17,7 @@ kaye-engine o --base-url http://host:3000 --api-key sk-...
 | --- | --- |
 | `--base-url` | server root; default `http://localhost:8080`, no environment variable involved |
 | `--api-key` | API key; overrides `OWU_API_KEY`; no default, a missing key is an error |
-| `--dry-run` | plan and report, send no write request |
+| `-n`, `--dry-run` | plan and report, send no write request |
 | `--prune` | delete remote skills whose id is not a local `canonical_name`; off by default |
 
 The command also takes the shared verbosity flags. It exits non-zero when any request failed, or when the remote export cannot be fetched.

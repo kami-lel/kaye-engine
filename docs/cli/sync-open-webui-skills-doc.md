@@ -26,10 +26,10 @@ kaye-engine o --base-url http://host:3000
 
 ## The Workflow
 
-1. Preview with `--dry-run`; it reports what would be created, updated, or skipped, and sends no write request
+1. Preview with `-n`/`--dry-run`; it reports what would be created, updated, or skipped, and sends no write request
 
    ```bash
-   kaye-engine o --dry-run
+   kaye-engine o -n
    ```
 
 2. Run for real; new skills are created, changed ones updated, identical ones left alone
@@ -41,12 +41,12 @@ kaye-engine o --base-url http://host:3000
 3. Optionally add `--prune` to delete remote skills whose id is not a local `canonical_name`
 
    ```bash
-   kaye-engine o --dry-run --prune    # see what would be deleted first
+   kaye-engine o -n --prune    # see what would be deleted first
    kaye-engine o --prune
    ```
 
 > [!WARNING]
-> `--prune` deletes every remote skill absent locally, including ones you made by hand in Open WebUI. Always preview it with `--dry-run` first.
+> `--prune` deletes every remote skill absent locally, including ones you made by hand in Open WebUI. Always preview it with `-n`/`--dry-run` first.
 
 ## Read the Result
 
