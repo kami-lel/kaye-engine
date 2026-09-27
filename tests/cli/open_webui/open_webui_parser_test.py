@@ -113,6 +113,14 @@ class TestFlagWiring:
             client_cls.return_value, is_dry_run=False, should_prune=False
         )
 
+    def test_dry_run_short_flag_reaches_executor(_, _fakes):
+        client_cls, sync_mock = _fakes
+        _run(["o", "--api-key", "k", "-n"])
+
+        sync_mock.assert_called_once_with(
+            client_cls.return_value, is_dry_run=True, should_prune=False
+        )
+
 
 class TestExitStatus:
 
