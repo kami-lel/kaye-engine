@@ -117,7 +117,7 @@ kaye-engine variant                    # list variant_registry canonical names, 
 kaye-engine glossary GLOSSARY               # print a glossary's content
 kaye-engine glossary ls                     # list every registered glossary name
 OWU_API_KEY=sk-... kaye-engine sync-open-webui-skills  # push every exportable into Open WebUI as a skill
-kaye-engine o --dry-run                     # report create/update/skip without writing
+kaye-engine o -n                            # report create/update/skip without writing
 kaye-engine o --prune --base-url URL        # also delete remote-only skills; custom server
 ```
 

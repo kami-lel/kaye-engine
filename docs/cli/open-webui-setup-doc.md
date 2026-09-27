@@ -46,7 +46,7 @@ export OWU_API_KEY=sk-...
 Preview first, then push:
 
 ```bash
-kaye-engine o --dry-run     # report what would be created or updated
+kaye-engine o -n            # report what would be created or updated
 kaye-engine o               # push for real
 kaye-engine o               # again: every skill reports as skipped
 ```
