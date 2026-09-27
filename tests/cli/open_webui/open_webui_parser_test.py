@@ -3,7 +3,7 @@ open_webui_parser_test.py
 
 Unit Tests (using pytest) for:
 
-register_upsert_open_webui_skills_parser
+register_sync_open_webui_skills_parser
 """
 
 from argparse import ArgumentParser
@@ -19,7 +19,7 @@ from kaye_engine.cli.open_webui.sync import SyncSummary
 def _build_root_parser():
     root_parser = ArgumentParser()
     subparser = root_parser.add_subparsers()
-    owu_parser.register_upsert_open_webui_skills_parser(subparser)
+    owu_parser.register_sync_open_webui_skills_parser(subparser)
     return root_parser
 
 
@@ -46,9 +46,13 @@ def _fakes():
 class TestRegistration:
 
     def test_registers_full_name_and_alias(_):
-        for name in ("upsert-open-webui-skills", "o"):
+        for name in ("sync-open-webui-skills", "o"):
             args = _build_root_parser().parse_args([name])
             assert callable(args.func)
+
+    def test_rejects_old_name(_):
+        with pytest.raises(SystemExit):
+            _build_root_parser().parse_args(["upsert-open-webui-skills"])
 
 
 class TestBaseUrl:

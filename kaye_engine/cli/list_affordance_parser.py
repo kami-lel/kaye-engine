@@ -27,12 +27,12 @@ def _list_affordance_main(_):
 # Public API  ##################################################################
 def register_list_affordance_parser(cli_subparser):
     """
-    register the ``kaye-engine list-affordance``/``lsa`` subcommand
+    register the ``kaye-engine affordance``/``afd`` subcommand
     parser
     """
     list_affordance_parser = cli_subparser.add_parser(
-        "list-affordance",
-        aliases=["lsa"],
+        "affordance",
+        aliases=["afd"],
         help=_HELP,
         description=_DESCRIPTION,
     )

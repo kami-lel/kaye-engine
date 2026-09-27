@@ -4,7 +4,7 @@ skill_form.py
 define ``build_skill_form``
 """
 
-from kaye_engine.cli.claude.skill.skill_md import Skill
+from kaye_engine.cli.skill.skill_md import Skill
 
 __all__ = ("SKILL_FORM_FIELDS", "build_skill_form")
 
@@ -27,7 +27,7 @@ def build_skill_form(exportable, render_profile=None):
     turn an exportable into the Open WebUI ``SkillForm`` payload
 
     reuses :meth:`Skill.from_exportable`, so the description, when-to-use,
-    and body match the Claude skill export; no network involved
+    and body match the Agent Skill export; no network involved
 
 
     :param exportable: entry to convert, blueprint or abbr group alike

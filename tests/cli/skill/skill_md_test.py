@@ -11,7 +11,7 @@ from unittest.mock import MagicMock, patch
 
 import yaml
 
-from kaye_engine.cli.claude.skill.skill_md import Skill
+from kaye_engine.cli.skill.skill_md import Skill
 from kaye_engine.prompt.blueprint import BlueprintRegistry
 from kaye_engine.prompt.blueprint.render_profile import RenderProfile
 

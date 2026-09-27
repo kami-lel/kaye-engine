@@ -1,6 +1,6 @@
 # Push Skills to Open WebUI Desktop
 
-This guide takes you from a fresh machine to `kaye-engine upsert-open-webui-skills` (alias `o`) filling your Open WebUI with skills. For the command's flags and payload, q.v. [`open-webui-doc.md`](../open-webui-doc.md).
+This guide takes you from a fresh machine to `kaye-engine sync-open-webui-skills` (alias `o`) filling your Open WebUI with skills. For the command's flags and payload, q.v. [`open-webui-doc.md`](../open-webui-doc.md).
 
 ## 1. Install Open WebUI Desktop
 

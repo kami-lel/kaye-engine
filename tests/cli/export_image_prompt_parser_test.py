@@ -1,9 +1,9 @@
 """
-comfy_ui_export_parser_test.py
+export_image_prompt_parser_test.py
 
 Unit Tests (using pytest) for:
 
-_comfy_ui_export_main, register_comfy_ui_export_parser
+_export_image_prompt_main, register_export_image_prompt_parser
 """
 
 from argparse import ArgumentParser
@@ -11,7 +11,7 @@ from unittest.mock import patch
 
 import pytest
 
-from kaye_engine.cli import comfy_ui_export_parser
+from kaye_engine.cli import export_image_prompt_parser
 from kaye_engine.exportable import Exportable
 from kaye_engine.prompt.blueprint import PromptBlueprint
 from kaye_engine.prompt.blueprint.registry import BlueprintRegistry
@@ -31,17 +31,17 @@ class _FakeExportable(Exportable):
 _AVOID_CONTENT_BY_NAME = {"some-exportable": "don't do this"}
 
 
-def _build_comfy_ui_export_parser():
+def _build_export_image_prompt_parser():
     root_parser = ArgumentParser()
     subparser = root_parser.add_subparsers()
-    comfy_ui_export_parser.register_comfy_ui_export_parser(subparser)
+    export_image_prompt_parser.register_export_image_prompt_parser(subparser)
     return root_parser
 
 
 @pytest.fixture(autouse=True)
 def _no_corpus_setup_guard():
     with patch.object(
-        comfy_ui_export_parser, "check_corpus_setup_for_cli", lambda: None
+        export_image_prompt_parser, "check_corpus_setup_for_cli", lambda: None
     ):
         yield
 
@@ -58,13 +58,13 @@ def _fake_registry():
         ),
     }
     with patch.object(
-        comfy_ui_export_parser, "get_exportable", registry.__getitem__
+        export_image_prompt_parser, "get_exportable", registry.__getitem__
     ), patch.object(
-        comfy_ui_export_parser,
-        "comfy_ui_exportable_registry",
+        export_image_prompt_parser,
+        "image_prompt_exportable_registry",
         list(registry),
     ), patch.object(
-        comfy_ui_export_parser,
+        export_image_prompt_parser,
         "_avoid_content",
         lambda exportable: _AVOID_CONTENT_BY_NAME.get(
             exportable.canonical_name, ""
@@ -87,7 +87,7 @@ class TestAvoidContent:
             blueprint=blueprint,
         )
 
-        opt = comfy_ui_export_parser._avoid_content(reg)
+        opt = export_image_prompt_parser._avoid_content(reg)
 
         assert opt == "Do not do this."
 
@@ -101,7 +101,7 @@ class TestAvoidContent:
             blueprint=blueprint,
         )
 
-        opt = comfy_ui_export_parser._avoid_content(reg)
+        opt = export_image_prompt_parser._avoid_content(reg)
 
         assert opt == ""
 
@@ -110,35 +110,45 @@ class TestAvoidContent:
             canonical_name="test-avoid-no-blueprint", display_name="Test"
         )
 
-        opt = comfy_ui_export_parser._avoid_content(exportable)
+        opt = export_image_prompt_parser._avoid_content(exportable)
 
         assert opt == ""
 
 
-class TestRegisterComfyUiExportParser:
+class TestRegisterExportImagePromptParser:
 
-    def test_registers_comfy_ui_export_subcommand(self):
-        parser = _build_comfy_ui_export_parser()
-        args = parser.parse_args(["comfy-ui-export", "some-dir"])
+    def test_registers_export_image_prompt_subcommand(self):
+        parser = _build_export_image_prompt_parser()
+        args = parser.parse_args(["export-image-prompt", "some-dir"])
 
-        assert args.func is comfy_ui_export_parser._comfy_ui_export_main
+        assert (
+            args.func is export_image_prompt_parser._export_image_prompt_main
+        )
 
-    def test_registers_y_alias(self):
-        parser = _build_comfy_ui_export_parser()
-        args = parser.parse_args(["y", "some-dir"])
+    def test_registers_img_alias(self):
+        parser = _build_export_image_prompt_parser()
+        args = parser.parse_args(["img", "some-dir"])
 
-        assert args.func is comfy_ui_export_parser._comfy_ui_export_main
+        assert (
+            args.func is export_image_prompt_parser._export_image_prompt_main
+        )
         assert args.folder == "some-dir"
 
+    def test_rejects_old_y_alias(self):
+        parser = _build_export_image_prompt_parser()
 
-class TestComfyUiExportMain:
+        with pytest.raises(SystemExit):
+            parser.parse_args(["y", "some-dir"])
+
+
+class TestExportImagePromptMain:
 
     def test_writes_one_md_per_registered_name(
         self, _fake_registry, tmp_path
     ):
         folder = tmp_path / "out"
-        parser = _build_comfy_ui_export_parser()
-        args = parser.parse_args(["comfy-ui-export", str(folder)])
+        parser = _build_export_image_prompt_parser()
+        args = parser.parse_args(["export-image-prompt", str(folder)])
         args.func(args)
 
         assert (folder / "some-exportable.md").read_text(
@@ -152,8 +162,8 @@ class TestComfyUiExportMain:
         self, _fake_registry, tmp_path
     ):
         folder = tmp_path / "out"
-        parser = _build_comfy_ui_export_parser()
-        args = parser.parse_args(["comfy-ui-export", str(folder)])
+        parser = _build_export_image_prompt_parser()
+        args = parser.parse_args(["export-image-prompt", str(folder)])
         args.func(args)
 
         assert (folder / "some-exportable-AVOID.md").read_text(
@@ -163,8 +173,8 @@ class TestComfyUiExportMain:
 
     def test_y_alias_writes_same_output(self, _fake_registry, tmp_path):
         folder = tmp_path / "out"
-        parser = _build_comfy_ui_export_parser()
-        args = parser.parse_args(["y", str(folder)])
+        parser = _build_export_image_prompt_parser()
+        args = parser.parse_args(["img", str(folder)])
         args.func(args)
 
         assert (folder / "some-exportable.md").is_file()
@@ -172,8 +182,8 @@ class TestComfyUiExportMain:
 
     def test_creates_folder_when_missing(self, _fake_registry, tmp_path):
         folder = tmp_path / "does" / "not" / "exist"
-        parser = _build_comfy_ui_export_parser()
-        args = parser.parse_args(["comfy-ui-export", str(folder)])
+        parser = _build_export_image_prompt_parser()
+        args = parser.parse_args(["export-image-prompt", str(folder)])
         args.func(args)
 
         assert folder.is_dir()
@@ -183,12 +193,12 @@ class TestComfyUiExportMain:
     ):
         folder = tmp_path / "out"
         with patch.object(
-            comfy_ui_export_parser,
-            "comfy_ui_exportable_registry",
+            export_image_prompt_parser,
+            "image_prompt_exportable_registry",
             ["some-exportable"],
         ):
-            parser = _build_comfy_ui_export_parser()
-            args = parser.parse_args(["comfy-ui-export", str(folder)])
+            parser = _build_export_image_prompt_parser()
+            args = parser.parse_args(["export-image-prompt", str(folder)])
             args.func(args)
 
         assert (folder / "some-exportable.md").is_file()

@@ -2,6 +2,8 @@
 
 `kaye-engine continue` (alias `c`) writes every entry of `exportable_registry` into a [Continue](https://docs.continue.dev) config folder, as a **rule** or as a **prompt**. Selection reuses `is_exportable` — an entry kept out of `exportable_registry` is never exported — so no Continue-specific flag exists.
 
+For a task-oriented walkthrough, q.v. [`cli/continue-doc.md`](cli/continue-doc.md).
+
 ## Usage
 
 ```bash

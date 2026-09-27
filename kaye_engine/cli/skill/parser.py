@@ -1,4 +1,4 @@
-"""export each exportable as an individual Claude skill"""
+"""export each exportable as an individual Agent Skill"""
 
 from argparse import RawDescriptionHelpFormatter
 from pathlib import Path
@@ -78,7 +78,7 @@ def register_skill_parser(cli_subparser):  #####################################
 
     def _skill_main(args):
         kamilog.set_logging_level_by_namespace(args, logger=logger)
-        logger.enter("{} claude skill".format(PACKAGE_NAME))
+        logger.enter("{} skill".format(PACKAGE_NAME))
         check_corpus_setup_for_cli()
 
         folder = args.folder
