@@ -1,5 +1,5 @@
 """
-CLI subcommand for Anthropic Claude Skill & Plugin integration.
+CLI subcommand for Anthropic Claude plugin & marketplace integration.
 """
 
 from kaye_engine import LOGGER_NAME

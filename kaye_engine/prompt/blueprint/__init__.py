@@ -8,3 +8,4 @@ the blueprint registry mechanism
 from .dynamic_substitution import *
 from .prompt_blueprint import *
 from .registry import *
+from .render import register_comment_line

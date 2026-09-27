@@ -40,15 +40,22 @@ def _fake_registry():
 # pytest  ######################################################################
 class TestRegisterListAffordanceParser:
 
-    def test_registers_list_affordance_subcommand(self):
+    def test_registers_affordance_subcommand(self):
         parser = _build_list_affordance_parser()
-        args = parser.parse_args(["list-affordance"])
+        args = parser.parse_args(["affordance"])
 
         assert args.func is list_affordance_parser._list_affordance_main
 
-    def test_registers_lsa_alias(self):
+    def test_rejects_old_names(self):
         parser = _build_list_affordance_parser()
-        args = parser.parse_args(["lsa"])
+
+        for old_name in ("list-affordance", "lsa"):
+            with pytest.raises(SystemExit):
+                parser.parse_args([old_name])
+
+    def test_registers_afd_alias(self):
+        parser = _build_list_affordance_parser()
+        args = parser.parse_args(["afd"])
 
         assert args.func is list_affordance_parser._list_affordance_main
 
@@ -57,7 +64,7 @@ class TestListAffordanceMain:
 
     def test_lists_registered_affordances_sorted(self, _fake_registry, capsys):
         parser = _build_list_affordance_parser()
-        args = parser.parse_args(["list-affordance"])
+        args = parser.parse_args(["affordance"])
         args.func(args)
 
         out = capsys.readouterr().out
@@ -66,7 +73,7 @@ class TestListAffordanceMain:
     def test_lists_nothing_when_registry_empty(self, capsys):
         with patch.object(list_affordance_parser, "affordance_registry", {}):
             parser = _build_list_affordance_parser()
-            args = parser.parse_args(["list-affordance"])
+            args = parser.parse_args(["affordance"])
             args.func(args)
 
         out = capsys.readouterr().out

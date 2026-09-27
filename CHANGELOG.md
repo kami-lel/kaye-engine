@@ -3,7 +3,13 @@
 [^format]
 
 <!--
-todo todo CLI to import/export w/ OpenWebUI
+bug continue exporting missing some skills
+fixme mpv & reorganize docs/
+todo organize exportable registry,
+such that not all calling export all exportable
+fixme always apply is unique to continue:
+manually add chat & coder, instead by data structure
+todo support hermes
 -->
 
 
@@ -32,7 +38,82 @@ todo todo CLI to import/export w/ OpenWebUI
 
 ### Security
 
-[unreleased]: https://github.com/kami-lel/kaye-engine/compare/v8.1.0...dev
+[unreleased]: https://github.com/kami-lel/kaye-engine/compare/v9.0.0...dev
+
+
+
+
+
+
+
+
+
+
+
+
+
+## [9.0.0] - 2026-09-27
+
+### Added
+
+- `sync-open-webui-skills` CLI (alias `o`): sync every exportable into a
+  running Open WebUI server as an Agent Skill, creating, updating, and
+  (with `--prune`) removing to match; configure via `--base-url`,
+  `--api-key`/`OWU_API_KEY`, preview with `--dry-run`
+- `continue` CLI (alias `c`): export every exportable into a Continue
+  folder as a rule or an invokable prompt
+- `always_apply` export-policy flag: marks an entry unconditionally
+  relevant; `continue` exports it as an always-apply rule, the Agent
+  Skill exporter ignores it
+- `register_comment_line()`: appends a project's own line to the
+  generated prompt comment
+- task-oriented CLI guides under `docs/cli/` for `claude`, `continue`,
+  `export-json`, and `sync-open-webui-skills`
+
+### Changed
+
+- generated prompt comment is now a multi-line block, one line per fact,
+  joining into one line only at `sparseness=-1`
+- `export-image-prompt`'s `-AVOID` files drop the `Name:` title line,
+  keeping only `{avoid}` content
+- CLI subcommands renamed: `comfy-ui-export` (`y`) → `export-image-prompt`
+  (`img`), `exportable-as-json` (`j`) → `export-json` (`json`),
+  `upsert-open-webui-skills` → `sync-open-webui-skills` (alias `o`
+  kept), `list-affordance` (`lsa`) → `affordance` (`afd`),
+  `list-variant` (`lsv`) → `variant` (`var`)
+- `register_comfy_ui_exportable()`/`comfy_ui_exportable_registry` renamed
+  to `register_image_prompt_exportable()`/`image_prompt_exportable_registry`;
+  the image-prompt export no longer names ComfyUI anywhere
+- `claude skill` (`claude s`) moves up to the top-level `skill` (`s`)
+  command; its output is now called Agent Skills, an open standard,
+  rather than Claude skills
+
+> [!WARNING]
+> The old subcommand names and aliases are removed outright, with no
+> deprecated shims: `comfy-ui-export`/`y` → `export-image-prompt`/`img`,
+> `exportable-as-json`/`j` → `export-json`/`json`,
+> `upsert-open-webui-skills` → `sync-open-webui-skills`,
+> `list-affordance`/`lsa` → `affordance`/`afd`,
+> `list-variant`/`lsv` → `variant`/`var`. Update any script that calls them.
+
+> [!WARNING]
+> `kaye-engine claude skill`/`claude s` no longer exist; use
+> `kaye-engine skill`/`s`. The Python modules moved from
+> `kaye_engine.cli.claude.skill` to `kaye_engine.cli.skill`.
+
+> [!WARNING]
+> `comfy_ui_exportable_registry` and `register_comfy_ui_exportable()` no
+> longer exist; use `image_prompt_exportable_registry` and
+> `register_image_prompt_exportable()`.
+
+### Fixed
+
+- generated prompt comment could be missing its `blueprint: NAME` line
+  (`exportable`, skill export, ~)
+- negative-prompt image rendering no longer prints stray title lines,
+  only `{avoid}` content
+
+[9.0.0]: https://github.com/kami-lel/kaye-engine/compare/v8.1.0...v9.0.0
 
 
 

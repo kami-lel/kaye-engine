@@ -12,7 +12,8 @@ from ...sidecar_node import AVOID_NAME, get_sidecar_name
 from ..render_mode import RenderMode
 from ..render_profile import RenderProfile
 from .sidecar_splice import _splice_conditional_sidecars
-from .util import apply_sparseness, render_comment
+from .comment import render_comment_lines
+from .util import apply_sparseness
 
 __all__ = (
     "render_negative_prompt_lines",
@@ -53,7 +54,12 @@ def _join_blocks(blocks):
 
 
 def _render_negative_prompt_node_recursively(
-    blueprint, node, *, reverse_sibling_order=False, **kwargs
+    blueprint,
+    node,
+    *,
+    reverse_sibling_order=False,
+    is_title_shown=True,
+    **kwargs,
 ):
     """
     recursively render one node's contribution to a negative prompt
@@ -81,6 +87,9 @@ def _render_negative_prompt_node_recursively(
     :param reverse_sibling_order: whether to reverse sibling order at
             every level of the walk
     :type reverse_sibling_order: bool
+    :param is_title_shown: whether to print each contributing node's own
+            heading above its ``{avoid}`` content
+    :type is_title_shown: bool
     :param kwargs: further render options forwarded to the ``{avoid}``
             node's ``content_lines(**kwargs)``
     :return: rendered lines for ``node`` and its descendants, or an
@@ -102,6 +111,7 @@ def _render_negative_prompt_node_recursively(
                 blueprint,
                 child,
                 reverse_sibling_order=reverse_sibling_order,
+                is_title_shown=is_title_shown,
                 **kwargs,
             )
             if block:
@@ -113,7 +123,9 @@ def _render_negative_prompt_node_recursively(
     if not own_avoid_lines:
         return _join_blocks(child_blocks)
 
-    own_lines = [HEADING_PREFIX_ELEMENT * node.depth + " " + node.name]
+    own_lines = []
+    if is_title_shown:
+        own_lines.append(HEADING_PREFIX_ELEMENT * node.depth + " " + node.name)
     own_lines.extend(own_avoid_lines)
 
     return _join_blocks([own_lines] + child_blocks)
@@ -178,7 +190,12 @@ def _render_prompt_node_post_order_recursively(
 
 
 def _render_negative_prompt_node_post_order_recursively(
-    blueprint, node, *, reverse_sibling_order=False, **kwargs
+    blueprint,
+    node,
+    *,
+    reverse_sibling_order=False,
+    is_title_shown=True,
+    **kwargs,
 ):
     """
     (``RenderMode.POST_ORDER`` counterpart of
@@ -207,6 +224,9 @@ def _render_negative_prompt_node_post_order_recursively(
     :param reverse_sibling_order: whether to reverse sibling order at
             every level of the walk
     :type reverse_sibling_order: bool
+    :param is_title_shown: whether to print each contributing node's own
+            heading above its ``{avoid}`` content
+    :type is_title_shown: bool
     :param kwargs: further render options forwarded to the ``{avoid}``
             node's ``content_lines(**kwargs)``
     :return: rendered lines for ``node`` and its descendants, or an
@@ -228,6 +248,7 @@ def _render_negative_prompt_node_post_order_recursively(
                 blueprint,
                 child,
                 reverse_sibling_order=reverse_sibling_order,
+                is_title_shown=is_title_shown,
                 **kwargs,
             )
             if block:
@@ -239,7 +260,9 @@ def _render_negative_prompt_node_post_order_recursively(
     if not own_avoid_lines:
         return _join_blocks(child_blocks)
 
-    own_lines = [HEADING_PREFIX_ELEMENT * node.depth + " " + node.name]
+    own_lines = []
+    if is_title_shown:
+        own_lines.append(HEADING_PREFIX_ELEMENT * node.depth + " " + node.name)
     own_lines.extend(own_avoid_lines)
 
     return _join_blocks(child_blocks + [own_lines])
@@ -287,10 +310,22 @@ def _flatten_headings_for_image_mode(lines):
     return result
 
 
+def _resolve_is_comment_compact(profile, is_comment_compact):
+    """
+    :return: ``is_comment_compact``, or ``profile.sparseness == -1`` when
+            ``None``
+    :rtype: bool
+    """
+    if is_comment_compact is None:
+        return profile.sparseness == -1
+    return is_comment_compact
+
+
 def render_prompt_lines(
     blueprint,
     *,
     profile=RenderProfile(),
+    is_comment_compact=None,
     **kwargs,
 ):
     """
@@ -309,6 +344,9 @@ def render_prompt_lines(
             plus the glossary-related fields); defaults to a plain
             `RenderProfile()`
     :type profile: RenderProfile, optional
+    :param is_comment_compact: whether to render the comment as one line;
+            ``None`` derives it from ``profile.sparseness == -1``
+    :type is_comment_compact: bool, optional
     :param kwargs: further render options (e.g. ``query``) forwarded
             to each checkmarked node's ``content_lines(**kwargs)``
     :return: list of prompt lines
@@ -355,11 +393,19 @@ def render_prompt_lines(
                     if i != last_node_idx:
                         lines.append("")  # add an empty line
 
-    if profile.show_comment:
-        lines.append("<!-- " + render_comment(profile.display_name) + " -->")
-
     if RenderMode._IMAGE in profile.mode:
         lines = _flatten_headings_for_image_mode(lines)
+
+    # appended last, so a registered line starting with "#" stays untouched
+    if profile.show_comment:
+        lines.extend(
+            render_comment_lines(
+                profile.display_name,
+                is_compact=_resolve_is_comment_compact(
+                    profile, is_comment_compact
+                ),
+            )
+        )
 
     return apply_sparseness(lines, profile.sparseness)
 
@@ -368,6 +414,7 @@ def render_negative_prompt_lines(
     blueprint,
     *,
     profile=RenderProfile(),
+    is_comment_compact=None,
     **kwargs,
 ):
     """
@@ -381,6 +428,11 @@ def render_negative_prompt_lines(
     content of its own, but a contributing descendant, is transparent:
     its own heading is never printed either, only the descendant's
 
+    when ``profile.mode`` contains both ``RenderMode.NEGATIVE`` and
+    ``RenderMode.IMAGE``, no node's own heading is printed at all, at
+    any depth -- only the ``{avoid}`` content itself remains, its
+    blocks still separated by one blank line
+
 
     :param blueprint:
     :type blueprint: PromptBlueprint
@@ -389,6 +441,9 @@ def render_negative_prompt_lines(
             ``show_comment``, ``display_name``, ``sparseness``, and
             ``mode`` apply here; defaults to a plain `RenderProfile()`
     :type profile: RenderProfile, optional
+    :param is_comment_compact: whether to render the comment as one line;
+            ``None`` derives it from ``profile.sparseness == -1``
+    :type is_comment_compact: bool, optional
     :param kwargs: further render options forwarded to each ``{avoid}``
             node's ``content_lines(**kwargs)``
     :return: list of negative-prompt lines
@@ -408,22 +463,37 @@ def render_negative_prompt_lines(
         else _render_negative_prompt_node_recursively
     )
 
+    # image-mode negative prompt carries bare content, no titles
+    mode = profile.mode
+    is_title_shown = not (
+        RenderMode.NEGATIVE in mode and RenderMode._IMAGE in mode
+    )
+
     child_blocks = []
     for child in _iter_children(working_bp.corpus, reverse_sibling_order):
         block = recurse(
             working_bp,
             child,
             reverse_sibling_order=reverse_sibling_order,
+            is_title_shown=is_title_shown,
             **kwargs,
         )
         if block:
             child_blocks.append(block)
     lines = _join_blocks(child_blocks)
 
-    if profile.show_comment:
-        lines.append("<!-- " + render_comment(profile.display_name) + " -->")
-
     if RenderMode._IMAGE in profile.mode:
         lines = _flatten_headings_for_image_mode(lines)
+
+    # appended last, so a registered line starting with "#" stays untouched
+    if profile.show_comment:
+        lines.extend(
+            render_comment_lines(
+                profile.display_name,
+                is_compact=_resolve_is_comment_compact(
+                    profile, is_comment_compact
+                ),
+            )
+        )
 
     return apply_sparseness(lines, profile.sparseness)

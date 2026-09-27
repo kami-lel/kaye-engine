@@ -118,7 +118,7 @@ register_variant("ClaudeCode:TodoWrite", "ClaudeCode:TodoWrite")
 
 Module-level `dict[str, Affordance]` / `dict[str, Variant]`, keyed by `canonical_name`. Both start empty and are populated only as a side effect of `register_variant()` calls — there is no direct-insert API.
 
-The `kaye-engine list-affordance`/`list-variant` CLI subcommands (q.v. [CLI Integration](#cli-integration) below) print these registries' sorted keys.
+The `kaye-engine affordance`/`variant` CLI subcommands (q.v. [CLI Integration](#cli-integration) below) print these registries' sorted keys.
 
 
 
@@ -140,10 +140,7 @@ The `kaye-engine list-affordance`/`list-variant` CLI subcommands (q.v. [CLI Inte
 
 `_splice_conditional_sidecars()` feeds this map alongside the plain `conditional_sidecars` name set — a sidecar node only checkmarks when its name matches one or the other, and only when its parent is already checkmarked.
 
-This whole mechanism is opt-in per render call, via `RenderProfile.variants`:
-
-- `variants=None` (the default) skips affordance checkmarking entirely, leaving any prior checkmarks as-is
-- `variants=()` runs it against an empty available set — every `Lack` sidecar fires, and every `Fallback` sidecar whose affordance has ≥1 registered variant fires too
+This whole mechanism is opt-in per render call, via a render profile's `variants` field, q.v. [`render-profile-doc.md`](render-profile-doc.md#variants).
 
 
 
@@ -158,16 +155,16 @@ This whole mechanism is opt-in per render call, via `RenderProfile.variants`:
 
 ## CLI Integration
 
-Every rendering command (any CLI subcommand reaching `render_prompt()`/`render_prompt_lines()`) inherits a `--variant VARIANT [VARIANT ...]` flag from `build_render_profile_parent_parser()` (`kaye_engine/cli/render_profile_parser.py`), alongside `--surface`, `--conditional-sidecar`, `--comment`/`--no-comment`, and `--sparseness`. `--variant` takes one or more variant canonical names and unions additively with whatever `--surface` derives — it has no short flag. Full flag table and merge semantics: `AGENTS.md` and `CONTEXT.md`.
+Every rendering command inherits a `--variant VARIANT [VARIANT ...]` flag, q.v. [`render-profile-doc.md`](render-profile-doc.md#cli-options) for the full option set and how it merges with `--surface`.
 
 Two read-only subcommands inspect the registries directly:
 
 | command | alias | prints |
 | --- | --- | --- |
-| `kaye-engine list-affordance` | `lsa` | `affordance_registry` canonical names, sorted |
-| `kaye-engine list-variant` | `lsv` | `variant_registry` canonical names, sorted |
+| `kaye-engine affordance` | `afd` | `affordance_registry` canonical names, sorted |
+| `kaye-engine variant` | `var` | `variant_registry` canonical names, sorted |
 
-How a consumer's own CLI determines what to pass as `variants` for a given invocation — typically by mapping a `--surface` name to a fixed variant list — is entirely up to that consumer; the engine has no concept of "surface" or "which variants apply where." Q.v. [`claude-doc.md`](claude-doc.md) for how kaye-engine's own `setup_claude_cli()` wires `--surface` to per-surface `RenderProfile.variants` for Claude platform tools specifically.
+Which variants apply to a given invocation is decided by the consumer's surface profiles, q.v. [`render-profile-doc.md`](render-profile-doc.md#surfaces).
 
 
 

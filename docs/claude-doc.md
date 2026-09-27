@@ -1,6 +1,6 @@
 # Kaye Engine support for Anthropic Claude
 
-Kaye Engine's integration with Anthropic Claude: exporting corpus blueprints as Claude plugins, skills, and system prompts.
+Kaye Engine's integration with Anthropic Claude: exporting corpus blueprints as Claude plugins and system prompts (Agent Skills export lives in the top-level `kaye-engine skill` command).
 
 
 
@@ -19,7 +19,6 @@ Kaye Engine's integration with Anthropic Claude: exporting corpus blueprints as 
 `kaye-engine claude` exposes one subcommand per Claude export target:
 
 ```bash
-kaye-engine claude skill                # export exportables as Skill folders or .zip packages
 kaye-engine claude plugin               # export exportables as a plugin folder or .zip package
 kaye-engine claude marketplace          # export a marketplace folder for the Claude sidebar
 kaye-engine claude code                 # export a plugin plus CLAUDE.md into ~/.claude
@@ -30,6 +29,8 @@ kaye-engine claude vs-code-extension    # export CLAUDE.md, marketplace, and set
 
 > [!TIP]
 > Run `kaye-engine claude [SUBCOMMAND] -h` to see full documentation.
+
+For a task-oriented walkthrough, q.v. [`cli/claude-doc.md`](cli/claude-doc.md).
 
 > [!NOTE]
 >  All (non-internal) exportables in  `exportable_registry` will be rendered
@@ -114,25 +115,4 @@ A `claude`-exporting consumer must call `setup_claude_cli(~~)` before invoking t
 
 A **surface** is a named target Kaye Engine renders for — `chat`, `code`, the VS Code extension, and so on. Different surfaces support different tools, so the same corpus should render differently for each: a Bash-capable surface gets the Bash usage sidecar, a surface without file access does not.
 
-A consumer defines its surfaces as a `dict[str, RenderProfile]` and passes it to `setup_claude_cli(surface_profiles=...)`. Each `RenderProfile` bundles the `variants` (which registered affordance variants that surface supports) and `conditional_sidecars` (which named sidecars it checkmarks) for one surface:
-
-```python
-from kaye_engine.prompt.blueprint.render_profile import RenderProfile
-
-SURFACE_PROFILES = {
-    "chat": RenderProfile(
-        variants=("ClaudeChat:ask_user_input_v0", ...),
-        conditional_sidecars=("[ClaudeChat]", "[Claude]"),
-    ),
-    "code": RenderProfile(
-        variants=("ClaudeCode:AskUserQuestion", ...),
-        conditional_sidecars=("[ClaudeCode]", "[Claude]"),
-    ),
-}
-
-setup_claude_cli(..., surface_profiles=SURFACE_PROFILES)
-```
-
-Every rendering command (`blueprint generate`, `claude skill`, `claude plugin`, `claude user-system-prompt`, ...) then accepts `--surface NAME` (`-u`), combinable, to render for one or more of those surfaces at once — `--surface chat --surface code` merges both profiles via `RenderProfile.merge()`. `--surface` is left out of the CLI entirely for a consumer that never configures `surface_profiles`.
-
-`--variant` (q.v. [`affordance-doc.md`](affordance-doc.md)) and `--conditional-sidecar` (q.v. [`sidecar-node-doc.md`](sidecar-node-doc.md)) union additively on top of whatever `--surface` derives, so a render can name extra variants or sidecars beyond a surface's defaults without losing them. Full flag table and merge semantics: `AGENTS.md` and `CONTEXT.md`.
+A consumer defines its surfaces as a `dict[str, RenderProfile]` and passes it to `setup_claude_cli(surface_profiles=...)`; every rendering command then accepts `--surface NAME` (`-u`) to render for one or more of them. How surfaces are configured, selected, and merged with `--variant` and `--conditional-sidecar` is documented in [`render-profile-doc.md`](render-profile-doc.md#surfaces).
