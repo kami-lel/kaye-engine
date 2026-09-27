@@ -3,7 +3,7 @@
 [^format]
 
 <!--
-Fixme mpv & reorganize docs
+fixme mpv & reorganize docs/
 todo organize exportable registry,
 such that not all calling export all exportable
 -->
