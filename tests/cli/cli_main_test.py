@@ -28,7 +28,7 @@ class TestRegisterCliSubcommands:
             ["blueprint"],
             ["claude"],
             ["continue"],
-            ["upsert-open-webui-skills"],
+            ["sync-open-webui-skills"],
             ["o"],
             ["dynamic-node", "decode-only-abbr"],
         ):
@@ -55,7 +55,7 @@ class TestRegisterCliMainParser:
             ["blueprint"],
             ["claude"],
             ["continue"],
-            ["upsert-open-webui-skills"],
+            ["sync-open-webui-skills"],
             ["o"],
             ["dynamic-node", "decode-only-abbr"],
         ):
