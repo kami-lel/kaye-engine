@@ -1,6 +1,6 @@
 # kaye-engine CONTEXT
 
-**Last updated:** 2026-09-26
+**Last updated:** 2026-09-27
 
 System knowledge for the **kaye-engine** repository — architecture,
 entities, and boundaries. Read this alongside `AGENTS.md` before making
@@ -345,7 +345,7 @@ has no default there.
 
 ## Testing Strategy
 
-`pytest`, 950 tests, run **serially by design** — cases are cheap in-process
+`pytest`, run **serially by design** — cases are cheap in-process
 assertions, so worker startup costs more than a split saves, and shared
 fixtures carry run-order assumptions. `pytest-xdist` is deliberately absent
 from the `dev` extra.
