@@ -34,7 +34,7 @@ creates new skills and updates changed ones through the Open WebUI
 Skills REST API; unchanged skills are left alone:
 
     OWU_API_KEY=sk-... kaye-engine sync-open-webui-skills
-    kaye-engine o --dry-run
+    kaye-engine o -n
 """
 
 
@@ -107,6 +107,7 @@ def register_sync_open_webui_skills_parser(cli_subparser):
         ),
     )
     owu_parser.add_argument(
+        "-n",
         "--dry-run",
         action="store_true",
         help="report what would change without writing",
