@@ -1,4 +1,4 @@
-"""export each exportable as an individual Claude skill"""
+"""export each exportable as an individual Agent Skill"""
 
 from argparse import RawDescriptionHelpFormatter
 from pathlib import Path

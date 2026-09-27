@@ -1,4 +1,4 @@
-"""install Kaye into Claude as skills, plugins, or marketplaces"""
+"""install Kaye into Claude as plugins or marketplaces"""
 
 from kaye_engine.cli.claude.code.parser import register_code_parser
 from kaye_engine.cli.claude.marketplace.parser import (

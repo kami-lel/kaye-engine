@@ -13,7 +13,7 @@ from kaye_engine.prompt.blueprint import BlueprintRegistry
 
 class Skill(FrontmatterDoc):
     """
-    a Claude agent skill document, written as ``SKILL.md`` inside the
+    an Agent Skill document, written as ``SKILL.md`` inside the
     skill's own folder
 
     only frontmatter fields that differ from their default are emitted, so
