@@ -26,7 +26,7 @@ from kaye_engine.cli.list_affordance_parser import (
 )
 from kaye_engine.cli.list_variant_parser import register_list_variant_parser
 from kaye_engine.cli.open_webui.parser import (
-    register_upsert_open_webui_skills_parser,
+    register_sync_open_webui_skills_parser,
 )
 
 __all__ = ("register_cli_main_parser", "register_cli_subcommands")
@@ -44,8 +44,8 @@ def register_cli_subcommands(cli_subparser):
     export-image-prompt command, the dynamic-node command, the
     dynamic-substitution command, the exportable command, the
     export-json command, ``list-affordance``, ``list-variant``,
-    ``glossary``, and the upsert-open-webui-skills command) onto an existing subparsers
-    action, so sibling packages can compose their own top-level parser
+    ``glossary``, and the sync-open-webui-skills command) onto an existing
+    subparsers action, so sibling packages can compose their own top-level parser
     with engine's subcommands mixed in, instead of only being able to
     add to the subparser :func:`register_cli_main_parser` hands back
 
@@ -63,7 +63,7 @@ def register_cli_subcommands(cli_subparser):
     register_list_affordance_parser(cli_subparser)
     register_list_variant_parser(cli_subparser)
     register_glossary_parser(cli_subparser)
-    register_upsert_open_webui_skills_parser(cli_subparser)
+    register_sync_open_webui_skills_parser(cli_subparser)
 
 
 # Main Entry Point  ############################################################

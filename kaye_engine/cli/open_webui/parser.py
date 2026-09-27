@@ -1,7 +1,7 @@
 """
 parser.py
 
-define ``register_upsert_open_webui_skills_parser``
+define ``register_sync_open_webui_skills_parser``
 """
 
 import os
@@ -18,7 +18,7 @@ from kaye_engine.cli.open_webui.client import (
 )
 from kaye_engine.cli.open_webui.sync import sync_skills
 
-__all__ = ("register_upsert_open_webui_skills_parser",)
+__all__ = ("register_sync_open_webui_skills_parser",)
 
 # logger  ######################################################################
 logger = kamilog.getLogger(LOGGER_OPEN_WEBUI_NAME)
@@ -33,7 +33,7 @@ _DESCRIPTION = _HELP + """
 creates new skills and updates changed ones through the Open WebUI
 Skills REST API; unchanged skills are left alone:
 
-    OWU_API_KEY=sk-... kaye-engine upsert-open-webui-skills
+    OWU_API_KEY=sk-... kaye-engine sync-open-webui-skills
     kaye-engine o --dry-run
 """
 
@@ -45,9 +45,9 @@ def _resolve_api_key(args):
 
 def _build_main(parser):
 
-    def _upsert_open_webui_skills_main(args):
+    def _sync_open_webui_skills_main(args):
         kamilog.set_logging_level_by_namespace(args, logger=logger)
-        logger.enter("{} upsert-open-webui-skills".format(PACKAGE_NAME))
+        logger.enter("{} sync-open-webui-skills".format(PACKAGE_NAME))
         check_corpus_setup_for_cli()
 
         api_key = _resolve_api_key(args)
@@ -77,16 +77,16 @@ def _build_main(parser):
         if summary.failed:
             sys.exit(1)
 
-    return _upsert_open_webui_skills_main
+    return _sync_open_webui_skills_main
 
 
 # Public API  ##################################################################
-def register_upsert_open_webui_skills_parser(cli_subparser):
+def register_sync_open_webui_skills_parser(cli_subparser):
     """
-    register the ``kaye-engine upsert-open-webui-skills`` subcommand parser
+    register the ``kaye-engine sync-open-webui-skills`` subcommand parser
     """
     owu_parser = cli_subparser.add_parser(
-        "upsert-open-webui-skills",
+        "sync-open-webui-skills",
         help=_HELP,
         description=_DESCRIPTION,
         formatter_class=RawDescriptionHelpFormatter,
