@@ -3,12 +3,12 @@
 [^format]
 
 <!--
+bug continue exporting missing some skills
 fixme mpv & reorganize docs/
 todo organize exportable registry,
 such that not all calling export all exportable
 fixme always apply is unique to continue:
 manually add chat & coder, instead by data structure
-fixme continue exporting missing some skills
 todo support hermes
 -->
 
