@@ -4,7 +4,8 @@
 
 <!--
 Fixme mpv & reorganize docs
-Fixme whitelist / blacklist in exporting
+todo organize exportable registry,
+such that not all calling export all exportable
 -->
 
 
