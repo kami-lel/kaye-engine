@@ -57,8 +57,8 @@ pytest tests/prompt/bp/prompt-bp-merge_test.py::TestMerge::test1_1
 exportable-abbr registration, `dynamic-node` parsing, and `SKILL.md`
 rendering. The exporters themselves need a corpus to produce output, so the
 consumer package's suite covers those; do not scaffold corpus fixtures here
-to widen the directory. `exportable`, `exportable-as-json`,
-`list-affordance`, `list-variant`, and `glossary` are now covered by
+to widen the directory. `exportable`, `export-json`,
+`affordance`, `variant`, and `glossary` are now covered by
 dedicated parser tests; the `blueprint` subcommand parser currently has
 no dedicated tests — a known gap, not an intentional exclusion like the
 exporters above.
@@ -79,8 +79,8 @@ The editable install registers a `kaye-engine` console script, so
 `kaye-engine ...` and `python -m kaye_engine ...` are equivalent — prefer
 the shorter form. **Twelve** top-level subcommands exist: `blueprint`,
 `claude`, `continue`, `export-image-prompt`, `dynamic-node`, `dynamic-substitution`,
-`exportable`, `exportable-as-json`, `list-affordance`, `list-variant`,
-`glossary`, and `upsert-open-webui-skills`:
+`exportable`, `export-json`, `affordance`, `variant`,
+`glossary`, and `sync-open-webui-skills`:
 
 ```bash
 kaye-engine --help                          # show CLI usage
@@ -109,13 +109,13 @@ kaye-engine continue FOLDER                 # export to a custom Continue folder
 kaye-engine export-image-prompt FOLDER          # write every image-prompt-subset exportable to FOLDER
 kaye-engine exportable EXPORTABLE           # print an exportable's content
 kaye-engine exportable ls                   # list every registered exportable name
-kaye-engine exportable-as-json              # export exportable_registry as flat JSON
-kaye-engine exportable-as-json -f FILE      # write to FILE instead of the default
-kaye-engine list-affordance                 # list affordance_registry names, sorted
-kaye-engine list-variant                    # list variant_registry canonical names, sorted
+kaye-engine export-json              # export exportable_registry as flat JSON
+kaye-engine export-json -f FILE      # write to FILE instead of the default
+kaye-engine affordance                 # list affordance_registry names, sorted
+kaye-engine variant                    # list variant_registry canonical names, sorted
 kaye-engine glossary GLOSSARY               # print a glossary's content
 kaye-engine glossary ls                     # list every registered glossary name
-OWU_API_KEY=sk-... kaye-engine upsert-open-webui-skills  # push every exportable into Open WebUI as a skill
+OWU_API_KEY=sk-... kaye-engine sync-open-webui-skills  # push every exportable into Open WebUI as a skill
 kaye-engine o --dry-run                     # report create/update/skip without writing
 kaye-engine o --prune --base-url URL        # also delete remote-only skills; custom server
 ```
@@ -127,8 +127,8 @@ generate` → `bp gen`/`bp g`; `continue` → `c`; `export-image-prompt` → `im
 marketplace` → `claude m`; `claude plugin` → `claude p`; `claude
 skill` → `claude s`; `claude user-system-prompt` → `claude usp`;
 `claude vs-code-extension` → `claude v`; `exportable` → `x`;
-`exportable-as-json` → `j`; `list-affordance` → `lsa`; `list-variant`
-→ `lsv`; `glossary` → `g`; `upsert-open-webui-skills` → `o`.
+`export-json` → `json`; `affordance` → `afd`; `variant`
+→ `var`; `glossary` → `g`; `sync-open-webui-skills` → `o`.
 
 **Rendering commands** — any subcommand that reaches
 `PromptBlueprint.render_prompt(...)`, directly or via
