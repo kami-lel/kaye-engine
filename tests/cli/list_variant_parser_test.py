@@ -40,15 +40,22 @@ def _fake_registry():
 # pytest  ######################################################################
 class TestRegisterListVariantParser:
 
-    def test_registers_list_variant_subcommand(self):
+    def test_registers_variant_subcommand(self):
         parser = _build_list_variant_parser()
-        args = parser.parse_args(["list-variant"])
+        args = parser.parse_args(["variant"])
 
         assert args.func is list_variant_parser._list_variant_main
 
-    def test_registers_lsv_alias(self):
+    def test_rejects_old_names(self):
         parser = _build_list_variant_parser()
-        args = parser.parse_args(["lsv"])
+
+        for old_name in ("list-variant", "lsv"):
+            with pytest.raises(SystemExit):
+                parser.parse_args([old_name])
+
+    def test_registers_var_alias(self):
+        parser = _build_list_variant_parser()
+        args = parser.parse_args(["var"])
 
         assert args.func is list_variant_parser._list_variant_main
 
@@ -57,7 +64,7 @@ class TestListVariantMain:
 
     def test_lists_registered_variants_sorted(self, _fake_registry, capsys):
         parser = _build_list_variant_parser()
-        args = parser.parse_args(["list-variant"])
+        args = parser.parse_args(["variant"])
         args.func(args)
 
         out = capsys.readouterr().out
@@ -66,7 +73,7 @@ class TestListVariantMain:
     def test_lists_nothing_when_registry_empty(self, capsys):
         with patch.object(list_variant_parser, "variant_registry", {}):
             parser = _build_list_variant_parser()
-            args = parser.parse_args(["list-variant"])
+            args = parser.parse_args(["variant"])
             args.func(args)
 
         out = capsys.readouterr().out
