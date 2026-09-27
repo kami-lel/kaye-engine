@@ -344,7 +344,7 @@ Every **rendering command** takes the same six options. A rendering command is a
 - `blueprint generate`
 - `dynamic-node`
 - `exportable`
-- `claude skill`, `claude plugin`, `claude marketplace`, `claude code`
+- `skill`, `claude plugin`, `claude marketplace`, `claude code`
 - `claude user-system-prompt`, `claude vs-code-extension`
 
 | Flag | Short | Effect |
@@ -384,7 +384,7 @@ A command supplies its own fallback when a flag is omitted:
 | `blueprint generate` | on | none |
 | `dynamic-node` | off | none |
 | `exportable` | off | none |
-| `claude skill` | off | `chat` |
+| `skill` | off | `chat` |
 | `claude plugin` | off | `chat`, `cowork` |
 | `claude marketplace` | off | `vsc` |
 | `claude code` | off | `code` |

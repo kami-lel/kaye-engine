@@ -1,7 +1,7 @@
 """
-comfy_ui_export_parser.py
+export_image_prompt_parser.py
 
-define ``register_comfy_ui_export_parser``
+define ``register_export_image_prompt_parser``
 """
 
 import os
@@ -9,7 +9,10 @@ from argparse import RawDescriptionHelpFormatter
 
 from kaye_engine import LOGGER_NAME, PACKAGE_NAME, kamilog
 from kaye_engine.cli.cli_setup_guard import check_corpus_setup_for_cli
-from kaye_engine.exportable import comfy_ui_exportable_registry, get_exportable
+from kaye_engine.exportable import (
+    get_exportable,
+    image_prompt_exportable_registry,
+)
 from kaye_engine.kamilog import (
     add_verbose_arguments,
     set_logging_level_by_namespace,
@@ -21,24 +24,24 @@ from kaye_engine.prompt.blueprint.render_profile import RenderProfile
 logger = kamilog.getLogger(LOGGER_NAME)
 
 # constants  ###################################################################
-# ComfyUI's positive field must never carry {avoid} content; that content
+# image-prompt positive field must never carry {avoid} content; that content
 # is written separately, to a sibling "<name>-AVOID.md" file, holding bare
 # {avoid} content with no titles (NEGATIVE | IMAGE). IMAGE also forces
 # sparseness=1, superseding the explicit sparseness=0 below.
-_COMFY_UI_SPARSE_RENDER_PROFILE = RenderProfile(
+_IMAGE_PROMPT_SPARSE_RENDER_PROFILE = RenderProfile(
     sparseness=0, mode=RenderMode.IMAGE
 )
 _AVOID_FILE_SUFFIX = "-AVOID"
 
-_HELP = "export the ComfyUI exportable subset as Markdown files"
+_HELP = "export the image-prompt exportable subset as Markdown files"
 
 _DESCRIPTION = _HELP + """
 
-writes every exportable in the ComfyUI export subset to FOLDER, one
+writes every exportable in the image-prompt export subset to FOLDER, one
 Markdown file per canonical name, plus a "<canonical_name>-AVOID.md"
 sibling wherever that entry has real {avoid} content:
 
-    kaye-engine comfy-ui-export FOLDER
+    kaye-engine export-image-prompt FOLDER
 """
 
 
@@ -57,7 +60,7 @@ def _avoid_content(exportable):
     if not exportable.supports_negative_content:
         return ""
     return exportable.content(
-        profile=_COMFY_UI_SPARSE_RENDER_PROFILE.merge(
+        profile=_IMAGE_PROMPT_SPARSE_RENDER_PROFILE.merge(
             # ``mode`` is a scalar field -- ``.merge()`` lets ``other``
             # win outright rather than union bits, so NEGATIVE must be
             # combined with IMAGE here explicitly to keep both
@@ -66,20 +69,20 @@ def _avoid_content(exportable):
     )
 
 
-def _comfy_ui_export_main(args):
+def _export_image_prompt_main(args):
     set_logging_level_by_namespace(args, logger=logger)
-    logger.enter("{} comfy-ui-export".format(PACKAGE_NAME))
+    logger.enter("{} export-image-prompt".format(PACKAGE_NAME))
     check_corpus_setup_for_cli()
 
     os.makedirs(args.folder, exist_ok=True)
 
-    for canonical_name in sorted(comfy_ui_exportable_registry):
+    for canonical_name in sorted(image_prompt_exportable_registry):
         exportable = get_exportable(canonical_name)
 
         positive_path = os.path.join(args.folder, canonical_name + ".md")
         with open(positive_path, "w", encoding="utf-8") as positive_file:
             positive_file.write(
-                exportable.content(profile=_COMFY_UI_SPARSE_RENDER_PROFILE)
+                exportable.content(profile=_IMAGE_PROMPT_SPARSE_RENDER_PROFILE)
             )
         logger.succ("export exportable:\t" + positive_path)
 
@@ -94,29 +97,29 @@ def _comfy_ui_export_main(args):
                 negative_file.write(avoid_content)
             logger.succ("export exportable avoid content:\t" + negative_path)
 
-    logger.done("export comfy-ui-export:\t" + str(args.folder))
+    logger.done("export export-image-prompt:\t" + str(args.folder))
 
 
 # Public API  ##################################################################
-def register_comfy_ui_export_parser(cli_subparser):
+def register_export_image_prompt_parser(cli_subparser):
     """
-    register the ``kaye-engine comfy-ui-export`` subcommand parser
+    register the ``kaye-engine export-image-prompt`` subcommand parser
     """
-    comfy_ui_export_parser = cli_subparser.add_parser(
-        "comfy-ui-export",
+    export_image_prompt_parser = cli_subparser.add_parser(
+        "export-image-prompt",
         help=_HELP,
         description=_DESCRIPTION,
         formatter_class=RawDescriptionHelpFormatter,
-        aliases=["y"],
+        aliases=["img"],
     )
 
     # add arguments  -----------------------------------------------------------
-    comfy_ui_export_parser.add_argument(
+    export_image_prompt_parser.add_argument(
         "folder",
         metavar="FOLDER",
         help="directory to write the Markdown files into; created if"
         " missing",
     )
-    add_verbose_arguments(comfy_ui_export_parser)
+    add_verbose_arguments(export_image_prompt_parser)
 
-    comfy_ui_export_parser.set_defaults(func=_comfy_ui_export_main)
+    export_image_prompt_parser.set_defaults(func=_export_image_prompt_main)

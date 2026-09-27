@@ -8,6 +8,8 @@ register_cli_subcommands, register_cli_main_parser
 
 from argparse import ArgumentParser
 
+import pytest
+
 from kaye_engine.cli.cli_main import (
     PROGRAM_NAME,
     register_cli_main_parser,
@@ -28,12 +30,24 @@ class TestRegisterCliSubcommands:
             ["blueprint"],
             ["claude"],
             ["continue"],
-            ["upsert-open-webui-skills"],
+            ["sync-open-webui-skills"],
             ["o"],
+            ["skill"],
+            ["s"],
             ["dynamic-node", "decode-only-abbr"],
         ):
             args = parser.parse_args(argv)
             assert callable(args.func)
+
+
+    def test_skill_is_top_level_not_under_claude(_):
+        parser = ArgumentParser()
+        subparser = parser.add_subparsers()
+        register_cli_subcommands(subparser)
+
+        for argv in (["claude", "skill"], ["claude", "s"]):
+            with pytest.raises(SystemExit):
+                parser.parse_args(argv)
 
 
 class TestRegisterCliMainParser:
@@ -55,8 +69,10 @@ class TestRegisterCliMainParser:
             ["blueprint"],
             ["claude"],
             ["continue"],
-            ["upsert-open-webui-skills"],
+            ["sync-open-webui-skills"],
             ["o"],
+            ["skill"],
+            ["s"],
             ["dynamic-node", "decode-only-abbr"],
         ):
             args = parser.parse_args(argv)

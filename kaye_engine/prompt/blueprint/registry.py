@@ -27,7 +27,7 @@ class BlueprintRegistry(Exportable):
     instances are created via `register_blueprint` and collected in
     `blueprint_registry`, keyed by their `canonical_name`; this is the
     single source of truth for a blueprint's identity and where it
-    should be exported (Claude skills) and how -- it implements
+    should be exported (Agent Skills) and how -- it implements
     `Exportable` directly, so a registered, exportable instance is also
     the entry stored in `exportable_registry` under the same key
 

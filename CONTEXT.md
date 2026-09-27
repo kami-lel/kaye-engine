@@ -18,7 +18,7 @@ through a Python API and a CLI.
 | distribution / import name | `kaye-engine` / `kaye_engine` |
 | dependencies | `anytree`, `json5`, `pyahocorasick`, `pyyaml` |
 | entry point | `kaye-engine` console script → `kaye_engine.__main__:main` |
-| CLI subcommands | `blueprint`, `claude`, `continue`, `comfy-ui-export`, `dynamic-node`, `dynamic-substitution`, `exportable`, `exportable-as-json`, `list-affordance`, `list-variant`, `glossary`, `upsert-open-webui-skills` |
+| CLI subcommands | `blueprint`, `claude`, `continue`, `export-image-prompt`, `dynamic-node`, `dynamic-substitution`, `exportable`, `export-json`, `affordance`, `variant`, `glossary`, `skill`, `sync-open-webui-skills` |
 
 ## Personalization Boundary
 
@@ -49,7 +49,7 @@ not a gap to fill.
 | **Affordance** | a conceptual capability family, tracked in `affordance_registry`; auto-created on first `register_variant()` call naming it |
 | **Variant** | one concrete implementation of an affordance, tracked in `variant_registry` via `register_variant(canonical_name, affordance_name)` |
 | **RenderProfile** | a `kw_only` dataclass bundling render settings (`conditional_sidecars`, `variants`, `sparseness`, ...); `.merge()` overrides scalar fields and unions the collection fields |
-| **ComfyUI Export Subset** | `comfy_ui_exportable_registry`, a list of `exportable_registry` canonical names opted into ComfyUI export via `register_comfy_ui_exportable(canonical_name)` |
+| **Image-Prompt Export Subset** | `image_prompt_exportable_registry`, a list of `exportable_registry` canonical names opted into image-prompt export via `register_image_prompt_exportable(canonical_name)` |
 
 Heading syntax carries node type: plain text is an ordinary corpus node,
 `{braces}` a sidecar, `(parentheses)` a dynamic node.
@@ -141,7 +141,7 @@ content remains, blocks still blank-line separated
 recursive helpers).
 `Exportable.supports_negative_content` (class
 attribute, `False` by default, `True` on `BlueprintRegistry`) is the
-explicit capability flag `comfy-ui-export`'s `_avoid_content()` checks
+explicit capability flag `export-image-prompt`'s `_avoid_content()` checks
 before calling `content(profile=... RenderMode.NEGATIVE)` to build each
 `<canonical_name>-AVOID.md` sibling. Q.v. [sidecar node
 documentation](docs/sidecar-node-doc.md).
@@ -183,7 +183,7 @@ whatever `mode` the profile already carries (`mode` is itself a scalar
 field, so `RenderProfile.merge()` would otherwise let it clobber rather
 than combine — `resolve_render_profile` computes the OR'd value itself
 before the final `.merge()` call, the same pattern
-`comfy_ui_export_parser.py`'s `_avoid_content()` uses for `NEGATIVE |
+`export_image_prompt_parser.py`'s `_avoid_content()` uses for `NEGATIVE |
 IMAGE`). `--surface` itself is
 omitted entirely from the parser when
 no consumer project configures `surface_profiles`. Each subcommand keeps
@@ -191,7 +191,7 @@ its own default for `--comment`/`--no-comment` and `--sparseness` when
 the flags are omitted (via `build_sparseness_parent_parser(default=...)`,
 a per-call builder). The resolved `RenderProfile` is carried as a single
 `profile=` object from parser down through every `claude` export chain
-(skill/plugin/marketplace/vs-code/code/user-prompt). A `RenderProfile()`
+(plugin/marketplace/vs-code/code/user-prompt, plus the top-level `skill`). A `RenderProfile()`
 default (no explicit `--surface`/`--variant`/`--conditional-sidecar`)
 carries `variants=None`/`conditional_sidecars=()`, which
 `RenderProfile.merge()` treats as a no-op contribution, so a
@@ -288,21 +288,22 @@ kaye_engine/
 │                                Usage/Lack/Fallback sidecar names
 ├── abbr_collection/     abbreviation entries, store, JSON loader
 ├── exportable/           Exportable base, exportable_registry
-│   └── comfy_ui_export.py  comfy_ui_exportable_registry,
-│                            register_comfy_ui_exportable
+│   └── image_prompt_export.py  image_prompt_exportable_registry,
+│                            register_image_prompt_exportable
 ├── cli/
 │   ├── blueprint/       `blueprint`/`bp` subcommand: ls, show, generate
-│   ├── claude/          skills, plugins, marketplaces, CLAUDE.md
+│   ├── claude/          plugins, marketplaces, CLAUDE.md
 │   │   ├── setup.py               setup_claude_cli(...); registers
 │   │   │                          consumer-supplied affordance_groups,
 │   │   │                          stores surface_profiles
 │   │   └── surface_parser.py      shared `--surface` parent parser --
 │   │                              choices from consumer's surface_profiles
+│   ├── skill/           `skill`/`s` subcommand: Agent Skill folders/.zips
 │   ├── continue_ai/    `continue`/`c` subcommand: rules/ + prompts/ for Continue
 │   │   ├── rule_md.py       ContinueRule frontmatter doc + factory
 │   │   ├── export_rules.py  classify_exportable, export_continue_folder
 │   │   └── parser.py        parser + handler
-│   ├── open_webui/      `upsert-open-webui-skills`/`o` subcommand: push
+│   ├── open_webui/      `sync-open-webui-skills`/`o` subcommand: push
 │   │   │                exportables into Open WebUI as skills
 │   │   ├── skill_form.py  build_skill_form: Exportable -> SkillForm dict
 │   │   ├── client.py      urllib client + OpenWebUIError
@@ -313,17 +314,17 @@ kaye_engine/
 │   ├── dynamic_substitution_parser.py  `dynamic-substitution`/`ds`
 │   │                                    subcommand: print/list
 │   │                                    dynamic_substitution_registry
-│   ├── list_affordance_parser.py  `list-affordance`/`lsa` subcommand: list affordance_registry
-│   ├── list_variant_parser.py     `list-variant`/`lsv` subcommand: list variant_registry
+│   ├── list_affordance_parser.py  `affordance`/`afd` subcommand: list affordance_registry
+│   ├── list_variant_parser.py     `variant`/`var` subcommand: list variant_registry
 │   ├── glossary_parser.py    `glossary`/`g` subcommand: print/list glossaries
 │   ├── comment_parser.py     shared `--comment`/`--no-comment` parent parser
 │   ├── render_profile_parser.py  shared 5-option parent parser + aux fn
 │   ├── exportable_parser.py  `exportable`/`x` subcommand: print, list exportables
-│   ├── exportable_as_json_parser.py  `exportable-as-json`/`j`
+│   ├── exportable_as_json_parser.py  `export-json`/`json`
 │   │                                  subcommand: export
 │   │                                  exportable_registry as flat JSON
-│   └── comfy_ui_export_parser.py  `comfy-ui-export`/`y` subcommand:
-│                                    write the ComfyUI subset as
+│   └── export_image_prompt_parser.py  `export-image-prompt`/`img` subcommand:
+│                                    write the image-prompt subset as
 │                                    `<name>.md`/`<name>-AVOID.md` pairs
 └── kamilog.py           logging, shared across the package
 docs/                    per-topic reference, linked above

@@ -1,13 +1,13 @@
 # Kaye Engine: Open WebUI export
 
-`kaye-engine upsert-open-webui-skills` (alias `o`) pushes every entry of `exportable_registry` into a running [Open WebUI](https://docs.openwebui.com) through its Skills REST API. A skill absent from the server is created, one whose fields differ is updated, and an identical one is left alone.
+`kaye-engine sync-open-webui-skills` (alias `o`) pushes every entry of `exportable_registry` into a running [Open WebUI](https://docs.openwebui.com) through its Skills REST API. A skill absent from the server is created, one whose fields differ is updated, and an identical one is left alone.
 
-New to Open WebUI Desktop? Start with the [setup guide](cli/open-webui-setup-doc.md).
+New to Open WebUI Desktop? Start with the [setup guide](cli/open-webui-setup-doc.md). For a step-by-step workflow, q.v. the [sync guide](cli/sync-open-webui-skills-doc.md).
 
 ## Usage
 
 ```bash
-OWU_API_KEY=sk-... kaye-engine upsert-open-webui-skills
+OWU_API_KEY=sk-... kaye-engine sync-open-webui-skills
 kaye-engine o --dry-run                 # report only, write nothing
 kaye-engine o --prune                   # also delete remote-only skills
 kaye-engine o --base-url http://host:3000 --api-key sk-...
