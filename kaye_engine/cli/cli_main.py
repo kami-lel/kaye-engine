@@ -43,7 +43,7 @@ def register_cli_subcommands(cli_subparser):
     ``continue``, the
     export-image-prompt command, the dynamic-node command, the
     dynamic-substitution command, the exportable command, the
-    export-json command, ``list-affordance``, ``list-variant``,
+    export-json command, ``affordance``, ``list-variant``,
     ``glossary``, and the sync-open-webui-skills command) onto an existing
     subparsers action, so sibling packages can compose their own top-level parser
     with engine's subcommands mixed in, instead of only being able to
