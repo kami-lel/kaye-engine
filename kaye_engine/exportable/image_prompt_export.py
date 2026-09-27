@@ -1,22 +1,23 @@
 """
-comfy_ui_export.py
+image_prompt_export.py
 
-define ``comfy_ui_exportable_registry``, ``register_comfy_ui_exportable``
+define ``image_prompt_exportable_registry``,
+``register_image_prompt_exportable``
 """
 
 from .registry import get_exportable
 
 __all__ = (
-    "comfy_ui_exportable_registry",
-    "register_comfy_ui_exportable",
+    "image_prompt_exportable_registry",
+    "register_image_prompt_exportable",
 )
 
-comfy_ui_exportable_registry = []
+image_prompt_exportable_registry = []
 
 
-def register_comfy_ui_exportable(canonical_name):
+def register_image_prompt_exportable(canonical_name):
     """
-    mark ``canonical_name`` as a member of the ComfyUI export subset
+    mark ``canonical_name`` as a member of the image-prompt export subset
 
     ``canonical_name`` must already be registered in `exportable_registry`;
     this call never creates or registers an exportable itself
@@ -30,17 +31,17 @@ def register_comfy_ui_exportable(canonical_name):
     :return: ``canonical_name``, unchanged
     :rtype: str
     :example:
-    >>> register_comfy_ui_exportable("redact-photo-for-privacy")
+    >>> register_image_prompt_exportable("redact-photo-for-privacy")
     """
     get_exportable(canonical_name)
 
-    if canonical_name in comfy_ui_exportable_registry:
+    if canonical_name in image_prompt_exportable_registry:
         raise ValueError(
-            "duplicate comfy-ui exportable registry name: {}".format(
+            "duplicate image-prompt exportable registry name: {}".format(
                 canonical_name
             )
         )
 
-    comfy_ui_exportable_registry.append(canonical_name)
+    image_prompt_exportable_registry.append(canonical_name)
 
     return canonical_name
