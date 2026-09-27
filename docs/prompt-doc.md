@@ -469,7 +469,7 @@ Each entry carries:
 
 - `.blueprint`: the underlying `PromptBlueprint`
 - `.canonical_name` and `.display_name`
-- `.is_exportable`: whether it is exported as a Claude Agent Skill
+- `.is_exportable`: whether it is exported as an Agent Skill
 - `is_user_invokable` and `llm_invokable`: the export-policy flags
 
 Iterate `blueprint_registry` directly to list every registered blueprint.

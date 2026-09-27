@@ -1,6 +1,6 @@
 # Kaye Engine support for Anthropic Claude
 
-Kaye Engine's integration with Anthropic Claude: exporting corpus blueprints as Claude plugins, skills, and system prompts.
+Kaye Engine's integration with Anthropic Claude: exporting corpus blueprints as Claude plugins and system prompts (Agent Skills export lives in the top-level `kaye-engine skill` command).
 
 
 
@@ -19,7 +19,6 @@ Kaye Engine's integration with Anthropic Claude: exporting corpus blueprints as 
 `kaye-engine claude` exposes one subcommand per Claude export target:
 
 ```bash
-kaye-engine claude skill                # export exportables as Skill folders or .zip packages
 kaye-engine claude plugin               # export exportables as a plugin folder or .zip package
 kaye-engine claude marketplace          # export a marketplace folder for the Claude sidebar
 kaye-engine claude code                 # export a plugin plus CLAUDE.md into ~/.claude
