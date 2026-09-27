@@ -118,7 +118,7 @@ register_variant("ClaudeCode:TodoWrite", "ClaudeCode:TodoWrite")
 
 Module-level `dict[str, Affordance]` / `dict[str, Variant]`, keyed by `canonical_name`. Both start empty and are populated only as a side effect of `register_variant()` calls — there is no direct-insert API.
 
-The `kaye-engine list-affordance`/`list-variant` CLI subcommands (q.v. [CLI Integration](#cli-integration) below) print these registries' sorted keys.
+The `kaye-engine affordance`/`variant` CLI subcommands (q.v. [CLI Integration](#cli-integration) below) print these registries' sorted keys.
 
 
 
@@ -161,8 +161,8 @@ Two read-only subcommands inspect the registries directly:
 
 | command | alias | prints |
 | --- | --- | --- |
-| `kaye-engine list-affordance` | `lsa` | `affordance_registry` canonical names, sorted |
-| `kaye-engine list-variant` | `lsv` | `variant_registry` canonical names, sorted |
+| `kaye-engine affordance` | `afd` | `affordance_registry` canonical names, sorted |
+| `kaye-engine variant` | `var` | `variant_registry` canonical names, sorted |
 
 Which variants apply to a given invocation is decided by the consumer's surface profiles, q.v. [`render-profile-doc.md`](render-profile-doc.md#surfaces).
 

@@ -18,7 +18,7 @@ through a Python API and a CLI.
 | distribution / import name | `kaye-engine` / `kaye_engine` |
 | dependencies | `anytree`, `json5`, `pyahocorasick`, `pyyaml` |
 | entry point | `kaye-engine` console script → `kaye_engine.__main__:main` |
-| CLI subcommands | `blueprint`, `claude`, `continue`, `export-image-prompt`, `dynamic-node`, `dynamic-substitution`, `exportable`, `exportable-as-json`, `list-affordance`, `list-variant`, `glossary`, `upsert-open-webui-skills` |
+| CLI subcommands | `blueprint`, `claude`, `continue`, `export-image-prompt`, `dynamic-node`, `dynamic-substitution`, `exportable`, `export-json`, `affordance`, `variant`, `glossary`, `sync-open-webui-skills` |
 
 ## Personalization Boundary
 
@@ -302,7 +302,7 @@ kaye_engine/
 │   │   ├── rule_md.py       ContinueRule frontmatter doc + factory
 │   │   ├── export_rules.py  classify_exportable, export_continue_folder
 │   │   └── parser.py        parser + handler
-│   ├── open_webui/      `upsert-open-webui-skills`/`o` subcommand: push
+│   ├── open_webui/      `sync-open-webui-skills`/`o` subcommand: push
 │   │   │                exportables into Open WebUI as skills
 │   │   ├── skill_form.py  build_skill_form: Exportable -> SkillForm dict
 │   │   ├── client.py      urllib client + OpenWebUIError
@@ -313,13 +313,13 @@ kaye_engine/
 │   ├── dynamic_substitution_parser.py  `dynamic-substitution`/`ds`
 │   │                                    subcommand: print/list
 │   │                                    dynamic_substitution_registry
-│   ├── list_affordance_parser.py  `list-affordance`/`lsa` subcommand: list affordance_registry
-│   ├── list_variant_parser.py     `list-variant`/`lsv` subcommand: list variant_registry
+│   ├── list_affordance_parser.py  `affordance`/`afd` subcommand: list affordance_registry
+│   ├── list_variant_parser.py     `variant`/`var` subcommand: list variant_registry
 │   ├── glossary_parser.py    `glossary`/`g` subcommand: print/list glossaries
 │   ├── comment_parser.py     shared `--comment`/`--no-comment` parent parser
 │   ├── render_profile_parser.py  shared 5-option parent parser + aux fn
 │   ├── exportable_parser.py  `exportable`/`x` subcommand: print, list exportables
-│   ├── exportable_as_json_parser.py  `exportable-as-json`/`j`
+│   ├── exportable_as_json_parser.py  `export-json`/`json`
 │   │                                  subcommand: export
 │   │                                  exportable_registry as flat JSON
 │   └── export_image_prompt_parser.py  `export-image-prompt`/`img` subcommand:
