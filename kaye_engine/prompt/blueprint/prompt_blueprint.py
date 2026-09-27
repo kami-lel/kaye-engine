@@ -330,7 +330,9 @@ class PromptBlueprint(dict):
         subtree to children-before-parent (siblings keep their original
         relative order), and ``RenderMode.IMAGE`` (which also implies
         ``POST_ORDER``) forces ``sparseness=1`` regardless of what
-        ``profile.sparseness`` was set to
+        ``profile.sparseness`` was set to. Combined as
+        ``RenderMode.NEGATIVE | RenderMode.IMAGE``, the negative prompt
+        prints no title at all, only the ``{avoid}`` content
 
         (see ``render.render_prompt_lines()``,
         ``render.render_negative_prompt_lines()``, and
@@ -360,7 +362,13 @@ class PromptBlueprint(dict):
             profile, sparseness=render.NO_TRIM_SPARSENESS
         )
         text = "\n".join(
-            render_lines(self, profile=unsparse_profile, **kwargs)
+            render_lines(
+                self,
+                profile=unsparse_profile,
+                # render at NO_TRIM_SPARSENESS hides the real sparseness
+                is_comment_compact=(profile.sparseness == -1),
+                **kwargs,
+            )
         )
         substituted = apply_dynamic_substitutions(text, **merged_kwargs)
         return "\n".join(

@@ -6,11 +6,12 @@ Unit Tests (using pytest) for:
 Skill version injection
 """
 
+import dataclasses
 from unittest.mock import MagicMock, patch
 
 import yaml
 
-from kaye_engine.cli.claude.skill.skill_md import Skill
+from kaye_engine.cli.skill.skill_md import Skill
 from kaye_engine.prompt.blueprint import BlueprintRegistry
 from kaye_engine.prompt.blueprint.render_profile import RenderProfile
 
@@ -70,7 +71,10 @@ class TestVersionInjection:
         Skill.from_exportable(registry, render_profile=render_profile)
 
         blueprint.render_prompt.assert_called_once_with(
-            profile=registry.render_profile.merge(render_profile)
+            profile=dataclasses.replace(
+                registry.render_profile.merge(render_profile),
+                display_name=registry.display_name,
+            )
         )
 
     def test_from_exportable_without_render_profile_uses_registry_defaults(
@@ -87,5 +91,7 @@ class TestVersionInjection:
         Skill.from_exportable(registry)
 
         blueprint.render_prompt.assert_called_once_with(
-            profile=registry.render_profile
+            profile=dataclasses.replace(
+                registry.render_profile, display_name=registry.display_name
+            )
         )

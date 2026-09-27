@@ -27,11 +27,11 @@ def _list_variant_main(_):
 # Public API  ##################################################################
 def register_list_variant_parser(cli_subparser):
     """
-    register the ``kaye-engine list-variant``/``lsv`` subcommand parser
+    register the ``kaye-engine variant``/``var`` subcommand parser
     """
     list_variant_parser = cli_subparser.add_parser(
-        "list-variant",
-        aliases=["lsv"],
+        "variant",
+        aliases=["var"],
         help=_HELP,
         description=_DESCRIPTION,
     )

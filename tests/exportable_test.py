@@ -56,6 +56,28 @@ class TestExportableIsAbstract:  ###############################################
             Exportable(canonical_name="x", display_name="X")
 
 
+class TestAlwaysApply:  #########################################################
+
+    def test_dft_false(_, empty_corpus):
+        reg = _dummy_blueprint_registry("test-exp-aa-dft", empty_corpus)
+
+        assert reg.always_apply is False
+
+    def test_set_true(_, empty_corpus):
+        reg = _dummy_blueprint_registry(
+            "test-exp-aa-set", empty_corpus, always_apply=True
+        )
+
+        assert reg.always_apply is True
+
+    def test_abbr_group_dft_false(_):
+        group = ExportableAbbr(
+            canonical_name="test-exp-aa-abbr", display_name="Test Abbr"
+        )
+
+        assert group.always_apply is False
+
+
 class TestRegisterExportableEntry:  #############################################
 
     def test_dft(_, empty_corpus, registered_names):
@@ -113,6 +135,25 @@ class TestContent:  ############################################################
         assert reg.content(
             profile=RenderProfile(sparseness=-1)
         ) == reg.blueprint.generate_prompt_without_dependencies(sparseness=-1)
+
+    def test_blueprint_registry_content_comment_names_entry(_, empty_corpus):
+        reg = _dummy_blueprint_registry("test-exp-name", empty_corpus)
+
+        opt = reg.content(profile=RenderProfile(show_comment=True))
+
+        assert "blueprint: Test test-exp-name\n" in opt
+
+    def test_blueprint_registry_content_keeps_explicit_display_name(
+        _, empty_corpus
+    ):
+        reg = _dummy_blueprint_registry("test-exp-keep", empty_corpus)
+
+        opt = reg.content(
+            profile=RenderProfile(show_comment=True, display_name="Mine")
+        )
+
+        assert "blueprint: Mine\n" in opt
+        assert "Test test-exp-keep" not in opt
 
     def test_exportable_abbr_content(_):
         entry = AbbrEntry(

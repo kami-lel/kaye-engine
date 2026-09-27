@@ -10,7 +10,9 @@ Kaye Engine parses a plain Markdown file, as the structured single source of tru
 - ⚙️ generate scenario-ready prompts from blueprints and templates
 - 🐍 programmatic Python API for listing, previewing, and generating prompts
 - 💻 CLI for quick local generation and inspection
-- 🎨 ComfyUI export: write a marked exportable subset to per-entry Markdown files, each with an `-AVOID` negative-prompt sibling where relevant
+- 🎨 Image-prompt export: write a marked exportable subset to per-entry Markdown files, each with an `-AVOID` negative-prompt sibling where relevant
+- 🧭 Continue export: write every exportable into a `~/.continue` folder as an always-apply/conditional rule or an invokable prompt
+- 🔄 Open WebUI sync: push every exportable into a running Open WebUI server as an Agent Skill, creating, updating, and (optionally) pruning to match
 - 🔌 pluggable mechanism, ready for a consumer package to plug in its own corpus, abbreviations, and blueprints — including a Flask/HTTP surface, if the consumer chooses to build one
 
 
@@ -43,6 +45,7 @@ Other core concepts:
 - 🔀 dynamic node: corpus node whose content is **Generated** at render time — Q.v. [Dynamic Node documentation](docs/dynamic-content-doc.md)
 - 🗂️ sidecar node: corpus node holding structured **Metadata** about its parent — Q.v. [Sidecar Node documentation](docs/sidecar-node-doc.md)
 - 🧰 affordance / variant: capability **Family** (affordance) w/ concrete **Implementation** (variant), auto-checkmarked present/absent per render — Q.v. [Affordance documentation](docs/affordance-doc.md)
+- 🎚️ render profile: layerable bundle of **Render Settings** (sidecars, variants, mode, sparseness, comment) shared by the API and every rendering CLI command — Q.v. [Render Profile documentation](docs/render-profile-doc.md)
 
 The `(decode-only-abbr)` dynamic node reads its meanings from an `abbrs.json` file loaded via `populate_abbr_data_with_json_file`/`get_abbr_data` — kaye-engine bundles no copy of its own; a separate consumer package supplies and loads the real file. Q.v. [`abbr_collection` documentation](docs/abbrs-doc.md) for its schema, top-level functions, and where abbreviations are used.
 
@@ -108,6 +111,16 @@ once installed (or run as `python -m kaye_engine`):
 ```bash
 kaye-engine --help
 ```
+
+Task-oriented walkthroughs for the exporters live under `docs/cli/`: the
+[`claude` command guide](docs/cli/claude-doc.md), the
+[`continue` command guide](docs/cli/continue-doc.md), the
+[`export-json` command guide](docs/cli/export-json-doc.md), the
+[Open WebUI Desktop setup guide](docs/cli/open-webui-setup-doc.md), and the
+[`sync-open-webui-skills` command guide](docs/cli/sync-open-webui-skills-doc.md).
+The flat command references sit alongside them at
+[`docs/continue-doc.md`](docs/continue-doc.md) and
+[`docs/open-webui-doc.md`](docs/open-webui-doc.md).
 
 
 
