@@ -30,6 +30,8 @@ kaye-engine claude vs-code-extension    # export CLAUDE.md, marketplace, and set
 > [!TIP]
 > Run `kaye-engine claude [SUBCOMMAND] -h` to see full documentation.
 
+For a task-oriented walkthrough, q.v. [`cli/claude-doc.md`](cli/claude-doc.md).
+
 > [!NOTE]
 >  All (non-internal) exportables in  `exportable_registry` will be rendered
 
