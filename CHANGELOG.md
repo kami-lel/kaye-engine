@@ -3,10 +3,11 @@
 [^format]
 
 <!--
-Fixme mpv & reorganize docs/ for CLI
-Bug -u & --variant fail get displayed in all
-Todo consider add link to github
-Fixme CLI provide none and all
+FIXME CLI provide none and all
+FIXME mpv & reorganize docs/ for CLI
+BUG -u & --variant fail get displayed in all docstring
+TODO consider add link to github
+
 Todo support hermes
 
 bug continue exporting missing some skills
