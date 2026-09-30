@@ -6,7 +6,6 @@
 FIXME CLI provide none and all
 FIXME mpv & reorganize docs/ for CLI
 BUG -u & --variant fail get displayed in all docstring
-TODO consider add link to github
 
 Todo add build command to optimize
 

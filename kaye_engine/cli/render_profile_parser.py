@@ -18,9 +18,22 @@ from kaye_engine.prompt.blueprint.render_mode import RenderMode
 from kaye_engine.prompt.blueprint.render_profile import RenderProfile
 
 __all__ = (
+    "RENDER_PROFILE_DESCRIPTION",
     "build_render_profile_parent_parser",
     "resolve_render_profile",
 )
+
+
+# constants  ###################################################################
+RENDER_PROFILE_DESCRIPTION = """
+
+RENDER PROFILE OPTIONS:
+
+--surface, --comment/--no-comment, --conditional-sidecar, --variant,
+--sparseness, and --reverse-order are shared by every rendering command,
+see the render profile documentation on GitHub:
+
+    https://github.com/kami-lel/kaye-engine/blob/main/docs/render-profile-doc.md"""
 
 
 # Main Entry Point  ############################################################
