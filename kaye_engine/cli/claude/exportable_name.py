@@ -6,7 +6,7 @@ define ``get_claude_chat_exportable``, ``get_claude_merged_coder_exportable``
 
 # pylint: disable=protected-access
 
-from kaye_engine import kamilog
+import kamilog
 from kaye_engine.cli import claude
 from kaye_engine.exportable import get_exportable
 

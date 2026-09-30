@@ -36,11 +36,26 @@ manually add chat & coder, instead by data structure
 
 ### Added
 
+- file and directory actions in every export log as fixed-wording kamilog
+  deeds (`create`, `overwrite`, `pack`, `move`, `save`, `load`), with a
+  `fail to ...` line and traceback on error
+- dry-run lines of `sync-open-webui-skills` carry the `dry` badge
+
 ### Changed
+
+- `kamilog` is now a package dependency instead of a vendored copy;
+  modules import it as `import kamilog`
+- export commands report each write once, through its deed; duplicate
+  per-file success lines are gone
 
 ### Deprecated
 
 ### Removed
+
+- vendored `kaye_engine/kamilog.py`; `from kaye_engine import kamilog` no
+  longer works
+- the `(dry run)` suffix on `sync-open-webui-skills` lines, replaced by the
+  `dry` badge
 
 ### Fixed
 

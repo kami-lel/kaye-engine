@@ -8,7 +8,8 @@ from email.utils import parseaddr
 from importlib.metadata import PackageNotFoundError, metadata
 from pathlib import Path
 
-from kaye_engine import PACKAGE_NAME, kamilog
+import kamilog
+from kaye_engine import PACKAGE_NAME
 from kaye_engine.cli.claude import LOGGER_CLAUDE_NAME
 from kaye_engine.cli.claude.plugin.export_folder import (
     export_plugin_as_folder,
@@ -95,7 +96,5 @@ def export_marketplace(marketplace_folder, *, render_profile=None):
         market.plugin_repository = pkg_repository
         market.plugin_keywords = plugin_keywords
         market.plugin_category = _PLUGIN_CATEGORY
-
-    logger.succ("write marketplace manifest:\t" + str(market.path))
 
     return market.path.resolve()

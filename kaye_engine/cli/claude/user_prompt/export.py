@@ -6,7 +6,7 @@ define ``generate_user_system_prompt``, ``export_user_system_prompt_file``
 
 from pathlib import Path
 
-from kaye_engine import kamilog
+import kamilog
 from kaye_engine.cli.claude import LOGGER_CLAUDE_NAME
 from kaye_engine.cli.claude.exportable_name import (
     get_claude_chat_exportable,
@@ -69,12 +69,18 @@ def export_user_system_prompt_file(
     :type render_profile: RenderProfile, optional
     """
     file_path = Path(file_path).resolve()
-    file_path.parent.mkdir(parents=True, exist_ok=True)
-
-    file_path.write_text(
-        generate_user_system_prompt(
-            use_coder=use_coder,
-            render_profile=render_profile,
-        ),
-        encoding="utf-8",
+    content = generate_user_system_prompt(
+        use_coder=use_coder,
+        render_profile=render_profile,
     )
+
+    if not file_path.parent.is_dir():
+        with logger.track.create_dir(file_path.parent):
+            file_path.parent.mkdir(parents=True, exist_ok=True)
+
+    deed = (
+        logger.track.owr_file if file_path.exists()
+        else logger.track.create_file
+    )
+    with deed(file_path):
+        file_path.write_text(content, encoding="utf-8")

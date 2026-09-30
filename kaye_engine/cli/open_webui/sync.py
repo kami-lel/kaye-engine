@@ -7,7 +7,7 @@ define ``SyncSummary``, ``sync_skills``
 from dataclasses import dataclass, field
 from functools import partial
 
-from kaye_engine import kamilog
+import kamilog
 from kaye_engine.cli.open_webui import LOGGER_OPEN_WEBUI_NAME
 from kaye_engine.cli.open_webui.client import OpenWebUIError
 from kaye_engine.cli.open_webui.plan import plan_skill_sync
@@ -96,7 +96,7 @@ def sync_skills(client, is_dry_run=False, should_prune=False):
 
 # auxiliaries  #################################################################
 def _apply(bucket, summary, verb, skill_id, is_dry_run, request):
-    label = verb + (" (dry run)" if is_dry_run else "")
+    badges = "dry" if is_dry_run else None
     if not is_dry_run:
         try:
             request()
@@ -105,4 +105,4 @@ def _apply(bucket, summary, verb, skill_id, is_dry_run, request):
             logger.caution("{} failed:\t{}\t{}".format(verb, skill_id, err))
             return
     bucket.append(skill_id)
-    logger.succ("{}:\t{}".format(label, skill_id))
+    logger.succ("{}:\t{}".format(verb, skill_id), badges=badges)

@@ -4,7 +4,8 @@ decode_only_abbr_node.py
 define the decode-only abbr node type
 """
 
-from kaye_engine import LOGGER_NAME, kamilog
+import kamilog
+from kaye_engine import LOGGER_NAME
 from kaye_engine.abbr_collection import AbbrTags, get_abbr_data
 from kaye_engine.prompt.dynamic_nodes.shorthand_tag_nodes import (
     gen_shorthand_content_lines,

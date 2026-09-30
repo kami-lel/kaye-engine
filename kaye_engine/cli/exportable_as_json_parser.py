@@ -5,12 +5,14 @@ define ``register_exportable_as_json_parser``
 """
 
 import json
+import os
 from argparse import RawDescriptionHelpFormatter
 
-from kaye_engine import LOGGER_NAME, PACKAGE_NAME, kamilog
+import kamilog
+from kaye_engine import LOGGER_NAME, PACKAGE_NAME
 from kaye_engine.cli.cli_setup_guard import check_corpus_setup_for_cli
 from kaye_engine.exportable import exportable_registry, get_exportable
-from kaye_engine.kamilog import (
+from kamilog import (
     add_verbose_arguments,
     set_logging_level_by_namespace,
 )
@@ -54,8 +56,14 @@ def _exportable_as_json_main(args):
         ).content(profile=_SPARSE_RENDER_PROFILE)
         logger.succ("render exportable:\t" + canonical_name)
 
-    with open(args.output_file, "w", encoding="utf-8") as output_file:
-        json.dump(content_by_name, output_file, indent=2, sort_keys=True)
+    deed = (
+        logger.track.owr_file
+        if os.path.exists(args.output_file)
+        else logger.track.create_file
+    )
+    with deed(args.output_file):
+        with open(args.output_file, "w", encoding="utf-8") as output_file:
+            json.dump(content_by_name, output_file, indent=2, sort_keys=True)
 
     logger.done("export export-json:\t" + str(args.output_file))
 

@@ -193,6 +193,11 @@ consumer project configures it. Mechanics in `CONTEXT.md`.
 - test files end with `_test.py` and mirror the source tree under `tests/`
 - test classes are grouped as `TestStructure`, `TestHeader`, `TestContent`
 - use comment section headings (`#`, `=`, `*`, `+`, `-`) only for long files
+- log through the `kamilog` package (`import kamilog`; a dependency, not
+  vendored): report every file or directory action as a deed
+  (`with logger.track.create_file(path)`, `pack_files`, `mv_file`,
+  `save_config`, ...) rather than a hand-built string, and mark a run mode
+  with a badge (`badges="dry"`); keep `done` for a whole-export summary
 
 ## Registering a Blueprint
 
