@@ -97,6 +97,4 @@ def export_marketplace(marketplace_folder, *, render_profile=None):
         market.plugin_keywords = plugin_keywords
         market.plugin_category = _PLUGIN_CATEGORY
 
-    logger.succ("write marketplace manifest:\t" + str(market.path))
-
     return market.path.resolve()

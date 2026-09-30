@@ -50,7 +50,6 @@ def export_vs_code_extension(claude_folder, *, render_profile=None):
         use_coder=True,
         render_profile=render_profile,
     )
-    logger.succ("export user system prompt file:\t" + str(prompt_file))
 
     logger.debug("export marketplace")
     marketplace_folder = claude_folder / get_marketplace_folder_name()
