@@ -74,11 +74,13 @@ class ManifestPluginJson:  #####################################################
         }
 
         try:
-            self._manifest_dir.mkdir(parents=True, exist_ok=True)
-            self.path.write_text(
-                json.dumps(manifest_data, indent=2) + "\n",
-                encoding="utf-8",
-            )
+            if not self._manifest_dir.is_dir():
+                with logger.track.create_dir(self._manifest_dir):
+                    self._manifest_dir.mkdir(parents=True, exist_ok=True)
+            with logger.track.save_config(self.path):
+                self.path.write_text(
+                    json.dumps(manifest_data, indent=2) + "\n",
+                    encoding="utf-8",
+                )
         except OSError as err:
-            logger.critical("cannot write plugin manifest:\t" + str(self.path))
             raise SystemExit(1) from err
