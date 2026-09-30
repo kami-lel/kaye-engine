@@ -1,6 +1,6 @@
 # kaye-engine CONTEXT
 
-**Last updated:** 2026-09-27
+**Last updated:** 2026-09-29
 
 System knowledge for the **kaye-engine** repository — architecture,
 entities, and boundaries. Read this alongside `AGENTS.md` before making
@@ -201,6 +201,36 @@ apply — `BlueprintRegistry.content()` merges them in via
 generate`, `Skill.from_exportable()`) passes a `profile=`. Q.v. [Claude
 documentation](docs/claude-doc.md) and [sidecar node
 documentation](docs/sidecar-node-doc.md).
+
+### CLI Flag Surface
+
+Beyond AGENTS.md's 9-command rendering-command table, several other
+leaf subcommands print rendered or registry content but were never
+wired to `build_render_profile_parent_parser`, so they expose no
+`--surface`/`--variant`/`--conditional-sidecar`/`--sparseness`/
+`--reverse-order`/`--comment` options at all: `export-json` and
+`export-image-prompt` call `.content()`/`render_prompt()` with a
+hardcoded `RenderProfile` rather than a parsed one; `dynamic-
+substitution` and `glossary` print raw registry content with no
+render step to configure; `sync-open-webui-skills` renders internally
+per skill with no exposed profile either. `affordance`/`variant` are
+list-only, so the absence there is expected.
+
+`blueprint show` is the one asymmetric case inside the rendering set:
+it pulls only `build_comment_parent_parser()` out of the bundle (its
+own `-c`/`--comment`, `-C`/`--no-comment`), plus its own
+`-l/--preview-line-count`, `-w/--preview-line-width`,
+`-t/--show-full-tree` — no `--surface`/`--variant`/`--sparseness`,
+since it renders a preview tree, not a prompt.
+
+`-z/--zip` is genuinely shared behavior (`claude plugin`, `skill`) but
+is hand-duplicated per parser rather than pulled into its own builder,
+unlike the render-profile options. `-n` is bound to two unrelated
+meanings across sibling subparsers — `claude plugin -n` is
+`--no-version` (`store_false`), `sync-open-webui-skills -n` is
+`--dry-run` (`store_true`) — harmless (argparse subparsers do not
+share an option namespace) but worth knowing before skimming `--help`
+output across commands as if `-n` meant one thing everywhere.
 
 Dynamic nodes auto-attach to every tree at load time — no authored
 heading required for existence — and cover today's date plus the
