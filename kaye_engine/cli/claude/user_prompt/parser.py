@@ -8,6 +8,7 @@ from kaye_engine.cli import DEFAULT_SPARSENESS
 from kaye_engine.cli.claude import LOGGER_CLAUDE_NAME
 from kaye_engine.cli.cli_setup_guard import check_corpus_setup_for_cli
 from kaye_engine.cli.claude.setup import get_surface_profiles
+from kaye_engine.cli.claude import CLAUDE_DOC_DESCRIPTION
 from kaye_engine.cli.render_profile_parser import (
     RENDER_PROFILE_DESCRIPTION,
     build_render_profile_parent_parser,
@@ -67,7 +68,8 @@ def register_user_prompt_parser(cli_subparser):  ###############################
     user_prompt_parser = cli_subparser.add_parser(
         "user-system-prompt",
         help=__doc__,
-        description=__doc__ + _DESCRIPTION + RENDER_PROFILE_DESCRIPTION,
+        description=__doc__ + _DESCRIPTION + CLAUDE_DOC_DESCRIPTION
+        + RENDER_PROFILE_DESCRIPTION,
         formatter_class=RawDescriptionHelpFormatter,
         aliases=["usp"],
         parents=[

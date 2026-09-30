@@ -1,5 +1,7 @@
 # Guide: The continue Command
 
+<!-- FIXME continue doc -->
+
 This guide shows how to export your exportables into [Continue](https://docs.continue.dev) with `kaye-engine continue` (alias `c`). For the flat reference, q.v. [`continue-doc.md`](../continue-doc.md).
 
 ## Run It

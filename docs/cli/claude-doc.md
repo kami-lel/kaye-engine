@@ -1,5 +1,7 @@
 # Guide: The claude Command
 
+<!-- FIXME claude doc -->
+
 This guide walks through the `kaye-engine claude` subcommands (alias `a`): what each one writes, where, and which one to pick. For the flat reference, q.v. [`claude-doc.md`](../claude-doc.md).
 
 > [!NOTE]
