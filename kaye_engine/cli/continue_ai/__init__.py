@@ -16,4 +16,4 @@ CONTINUE DOCUMENTATION:
 
 see the continue command documentation on GitHub:
 
-    https://github.com/kami-lel/kaye-engine/blob/main/docs/cli/continue-doc.md"""
+    https://github.com/kami-lel/kaye-engine/blob/main/docs/continue-doc.md"""

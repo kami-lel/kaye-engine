@@ -113,8 +113,7 @@ kaye-engine --help
 ```
 
 Task-oriented walkthroughs for the exporters live under `docs/cli/`: the
-[`continue` command guide](docs/cli/continue-doc.md), the
-[`export-json` command guide](docs/cli/export-json-doc.md), and the
+[`export-json` command guide](docs/cli/export-json-doc.md) and the
 [`sync-open-webui-skills` command guide](docs/cli/open-webui-doc.md).
 The flat command references sit alongside them at
 [`docs/claude-doc.md`](docs/claude-doc.md),
