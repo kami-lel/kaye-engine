@@ -14,6 +14,10 @@ from kaye_engine.cli.claude.setup import (
     get_marketplace_folder_name,
     get_surface_profiles,
 )
+from kaye_engine.cli.dry_run import (
+    apply_dry_run_arg,
+    build_dry_run_parent_parser,
+)
 from kaye_engine.cli.render_profile_parser import (
     build_render_profile_parent_parser,
     resolve_render_profile,
@@ -58,7 +62,8 @@ def register_marketplace_parser(cli_subparser):  ###############################
                 default_surface=("vsc",),
                 default_sparseness=DEFAULT_SPARSENESS,
                 surface_profiles=get_surface_profiles(),
-            )
+            ),
+            build_dry_run_parent_parser(),
         ],
     )
 
@@ -75,6 +80,7 @@ def register_marketplace_parser(cli_subparser):  ###############################
 
     def _marketplace_main(args):
         kamilog.set_logging_level_by_namespace(args, logger=logger)
+        apply_dry_run_arg(args)
         logger.enter("{} claude marketplace".format(PACKAGE_NAME))
         check_setup_for_claude_cli()
 
