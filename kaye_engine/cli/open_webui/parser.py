@@ -73,7 +73,8 @@ def _build_main(parser):
                 len(summary.skipped),
                 len(summary.pruned),
                 len(summary.failed),
-            )
+            ),
+            badges="dry" if args.dry_run else None,
         )
         if summary.failed:
             sys.exit(1)
