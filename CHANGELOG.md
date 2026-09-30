@@ -3,9 +3,6 @@
 [^format]
 
 <!--
-FIXME CLI provide none and all
-BUG -u & --variant fail get displayed in all docstring
-
 Fixme review all docs/
 
 Todo add build command to optimize
