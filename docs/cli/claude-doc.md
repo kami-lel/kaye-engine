@@ -129,4 +129,5 @@ Every subcommand except `user-system-prompt` writes files, and all of them take 
 - `-i`, `--conditional-sidecar`: conditional-sidecar names to include
 - `--reverse-order`: reverse sibling order at every level
 - `--surface`, `-u`: present only when the consumer configured surfaces; each subcommand preselects its own surface when omitted
+- `--dry-run`: report every file, directory, and archive step with the `dry` badge and write nothing; long form only, since `-n` means `--no-version` on `plugin`
 - `-v`, `-q`, `-V`, `-Q`: verbosity

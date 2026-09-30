@@ -10,6 +10,7 @@ kaye-engine json -f FILE                # write to FILE instead
 ```
 
 - `-f`, `--output-file`: path to write to; default `exportable-as-json.json` in the current directory
+- `--dry-run`: render every entry and report the file with the `dry` badge, write nothing
 - `-v`, `-q`, `-V`, `-Q`: verbosity
 
 The command overwrites an existing output file.

@@ -42,6 +42,10 @@ Each exportable lands in one place, decided by its export-policy flags:
 
 The command takes the shared render flags: `--comment`/`--no-comment`, `--sparseness`, `--variant`, `--conditional-sidecar`, `--reverse-order`, and `--surface` where the consumer configured surfaces. Q.v. [`render-profile-doc.md`](../render-profile-doc.md). Comments are hidden by default.
 
+## Dry Run
+
+`--dry-run` lists every folder and file the export would create or overwrite, each line carrying the `dry` badge, and writes nothing.
+
 ## Check the Result
 
 Open one file from each subfolder. A rule's frontmatter carries `name`, and where present `description`, `alwaysApply` and `globs`; a prompt's carries `invokable: true`. The body is the entry's rendered content.
