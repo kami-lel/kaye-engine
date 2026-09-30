@@ -232,6 +232,14 @@ meanings across sibling subparsers — `claude plugin -n` is
 share an option namespace) but worth knowing before skimming `--help`
 output across commands as if `-n` meant one thing everywhere.
 
+`--dry-run` on the write commands comes from `cli/dry_run.py`: a shared
+long-only parent parser, plus a run-wide switch (`enable_dry_run()`,
+`is_dry_run()`) that also stamps the `dry` badge on the four engine
+loggers. Writers keep their deed lines and skip only the filesystem call
+under `is_dry_run()`; the zip exports skip the temporary build and log
+the pack and move deeds directly. `sync-open-webui-skills` keeps its own
+`-n`/`--dry-run` and threads `is_dry_run` as a parameter instead.
+
 Dynamic nodes auto-attach to every tree at load time — no authored
 heading required for existence — and cover today's date plus the
 abbreviation glossaries; an authored `(name)` heading, at any depth,
