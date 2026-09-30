@@ -39,17 +39,23 @@ manually add chat & coder, instead by data structure
   deeds (`create`, `overwrite`, `pack`, `move`, `save`, `load`), with a
   `fail to ...` line and traceback on error
 - dry-run lines of `sync-open-webui-skills` carry the `dry` badge
-- `--dry-run` on `skill`, `continue`, `export-image-prompt`, `export-json`,
+- `-n`/`--dry-run` on `skill`, `continue`, `export-image-prompt`, `export-json`,
   and `claude plugin`/`marketplace`/`code`/`vs-code-extension`: reports
   every file, directory, and archive step with the `dry` badge, writes
   nothing
 
 ### Changed
 
+- `claude plugin --no-version` short flag `-n` → `-N`, freeing `-n` for
+  `--dry-run`
 - `kamilog` is now a package dependency instead of a vendored copy;
   modules import it as `import kamilog`
 - export commands report each write once, through its deed; duplicate
   per-file success lines are gone
+
+> [!WARNING]
+> `kaye-engine claude plugin -n` no longer means `--no-version`; use `-N`.
+> `-n` now means `--dry-run`.
 
 ### Deprecated
 

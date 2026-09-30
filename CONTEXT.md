@@ -225,15 +225,11 @@ since it renders a preview tree, not a prompt.
 
 `-z/--zip` is genuinely shared behavior (`claude plugin`, `skill`) but
 is hand-duplicated per parser rather than pulled into its own builder,
-unlike the render-profile options. `-n` is bound to two unrelated
-meanings across sibling subparsers — `claude plugin -n` is
-`--no-version` (`store_false`), `sync-open-webui-skills -n` is
-`--dry-run` (`store_true`) — harmless (argparse subparsers do not
-share an option namespace) but worth knowing before skimming `--help`
-output across commands as if `-n` meant one thing everywhere.
+unlike the render-profile options. `-n` means `--dry-run` on every
+write command; `claude plugin` spells `--no-version` as `-N`.
 
 `--dry-run` on the write commands comes from `cli/dry_run.py`: a shared
-long-only parent parser, plus a run-wide switch (`enable_dry_run()`,
+`-n/--dry-run` parent parser, plus a run-wide switch (`enable_dry_run()`,
 `is_dry_run()`) that also stamps the `dry` badge on the four engine
 loggers. Writers keep their deed lines and skip only the filesystem call
 under `is_dry_run()`; the zip exports skip the temporary build and log

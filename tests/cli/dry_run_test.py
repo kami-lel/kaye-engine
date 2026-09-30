@@ -47,9 +47,8 @@ class TestParser:
     def test_flag_sets_true(_):
         assert TestParser._parse(["--dry-run"]).dry_run is True
 
-    def test_has_no_short_flag(_):
-        with pytest.raises(SystemExit):
-            TestParser._parse(["-n"])
+    def test_short_flag_sets_true(_):
+        assert TestParser._parse(["-n"]).dry_run is True
 
     def test_builds_fresh_parser_per_call(_):
         assert build_dry_run_parent_parser() is not build_dry_run_parent_parser()

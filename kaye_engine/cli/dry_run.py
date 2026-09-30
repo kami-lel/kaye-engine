@@ -43,15 +43,14 @@ _is_dry_run_enabled = False
 def build_dry_run_parent_parser():
     """
     build a fresh, help-suppressed ``ArgumentParser`` carrying only the
-    long-only ``--dry-run`` flag, for use as a `parents=[...]` entry --
-    no short flag, since ``claude plugin -n`` already means
-    ``--no-version``
+    ``-n/--dry-run`` flag, for use as a `parents=[...]` entry
 
     :return: the parent parser
     :rtype: ArgumentParser
     """
     parent = ArgumentParser(add_help=False)
     parent.add_argument(
+        "-n",
         "--dry-run",
         action="store_true",
         help="plan and report every write with the dry badge, change"
