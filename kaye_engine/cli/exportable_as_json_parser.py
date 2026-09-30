@@ -5,6 +5,7 @@ define ``register_exportable_as_json_parser``
 """
 
 import json
+import os
 from argparse import RawDescriptionHelpFormatter
 
 import kamilog
@@ -55,8 +56,14 @@ def _exportable_as_json_main(args):
         ).content(profile=_SPARSE_RENDER_PROFILE)
         logger.succ("render exportable:\t" + canonical_name)
 
-    with open(args.output_file, "w", encoding="utf-8") as output_file:
-        json.dump(content_by_name, output_file, indent=2, sort_keys=True)
+    deed = (
+        logger.track.owr_file
+        if os.path.exists(args.output_file)
+        else logger.track.create_file
+    )
+    with deed(args.output_file):
+        with open(args.output_file, "w", encoding="utf-8") as output_file:
+            json.dump(content_by_name, output_file, indent=2, sort_keys=True)
 
     logger.done("export export-json:\t" + str(args.output_file))
 
