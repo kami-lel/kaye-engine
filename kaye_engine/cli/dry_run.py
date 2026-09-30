@@ -19,6 +19,7 @@ __all__ = (
     "DRY_BADGE",
     "build_dry_run_parent_parser",
     "enable_dry_run",
+    "apply_dry_run_arg",
     "disable_dry_run",
     "is_dry_run",
 )
@@ -79,6 +80,20 @@ def disable_dry_run():
     _is_dry_run_enabled = False
     for name in _LOGGER_NAMES:
         kamilog.getLogger(name).clear_badges()
+
+
+def apply_dry_run_arg(args):
+    """
+    set the run-wide switch from a parsed namespace, so a command's main
+    starts every run in a known mode
+
+    :param args: parsed namespace carrying ``dry_run``
+    :type args: argparse.Namespace
+    """
+    if getattr(args, "dry_run", False):
+        enable_dry_run()
+    else:
+        disable_dry_run()
 
 
 def is_dry_run():
