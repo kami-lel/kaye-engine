@@ -16,4 +16,4 @@ OPEN WEBUI DOCUMENTATION:
 
 see the sync-open-webui-skills command documentation on GitHub:
 
-    https://github.com/kami-lel/kaye-engine/blob/main/docs/cli/open-webui-doc.md"""
+    https://github.com/kami-lel/kaye-engine/blob/main/docs/open-webui-doc.md"""
