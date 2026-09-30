@@ -6,6 +6,7 @@ Unit Tests (using pytest) for:
 sync_skills
 """
 
+import logging
 from unittest.mock import patch
 
 import pytest
@@ -112,6 +113,24 @@ class TestSyncSkills:
         assert summary.created == ["alpha", "beta"]
         assert summary.pruned == ["gone"]
         assert client.calls == []
+
+    def test_dry_run_lines_carry_dry_badge(_, caplog):
+        with caplog.at_level(
+            logging.DEBUG, logger=sync.LOGGER_OPEN_WEBUI_NAME
+        ):
+            sync.sync_skills(_FakeClient(), is_dry_run=True)
+
+        assert caplog.records
+        assert all(rec.badges == ("dry",) for rec in caplog.records)
+
+    def test_real_run_lines_carry_no_badge(_, caplog):
+        with caplog.at_level(
+            logging.DEBUG, logger=sync.LOGGER_OPEN_WEBUI_NAME
+        ):
+            sync.sync_skills(_FakeClient())
+
+        assert caplog.records
+        assert all(rec.badges == () for rec in caplog.records)
 
     def test_prune_off_keeps_remote_only_skill(_):
         client = _FakeClient(remote=[_build_form_of("gone")])

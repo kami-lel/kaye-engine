@@ -3,7 +3,8 @@
 from argparse import RawDescriptionHelpFormatter
 from pathlib import Path
 
-from kaye_engine import PACKAGE_NAME, kamilog
+import kamilog
+from kaye_engine import PACKAGE_NAME
 from kaye_engine.cli import DEFAULT_SPARSENESS
 from kaye_engine.cli.claude import LOGGER_CLAUDE_NAME
 from kaye_engine.cli.claude.plugin.export_folder import export_plugin_as_folder
@@ -94,7 +95,6 @@ def register_code_parser(cli_subparser):  ######################################
         export_user_system_prompt_file(
             prompt_file, use_coder=True, render_profile=render_profile
         )
-        logger.succ("export user system prompt file:\t" + str(prompt_file))
 
         logger.done("export Claude Code folder:" + "\t" + str(folder))
 

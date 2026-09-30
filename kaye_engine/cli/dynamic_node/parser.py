@@ -8,7 +8,8 @@ import functools
 import sys
 from argparse import RawDescriptionHelpFormatter
 
-from kaye_engine import LOGGER_NAME, kamilog
+import kamilog
+from kaye_engine import LOGGER_NAME
 from kaye_engine.cli import DEFAULT_SPARSENESS
 from kaye_engine.cli.claude.setup import get_surface_profiles
 from kaye_engine.cli.dynamic_node.node_type_choices import (
@@ -19,7 +20,7 @@ from kaye_engine.cli.render_profile_parser import (
     resolve_render_profile,
 )
 from kaye_engine.cli.sparseness_parser import SPARSENESS_DESCRIPTION
-from kaye_engine.kamilog import (
+from kamilog import (
     add_verbose_arguments,
     set_logging_level_by_namespace,
 )
