@@ -7,6 +7,9 @@ FIXME CLI provide none and all
 FIXME mpv & reorganize docs/ for CLI
 BUG -u & --variant fail get displayed in all docstring
 TODO consider add link to github
+TODO dry run for most commands
+
+Todo add build command to optimize
 
 Todo support hermes
 
