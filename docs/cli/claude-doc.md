@@ -30,7 +30,7 @@ Writes one plugin, with one `SKILL.md` per exportable.
 kaye-engine claude plugin              # ~/.claude/plugins/PLUGIN_NAME/
 kaye-engine claude plugin FOLDER       # FOLDER/PLUGIN_NAME/
 kaye-engine claude plugin -z           # upload-ready .zip in the current directory
-kaye-engine claude plugin -z -n ZIPS   # ZIPS/, filename without the version
+kaye-engine claude plugin -z -N ZIPS   # ZIPS/, filename without the version
 ```
 
 ```text
@@ -44,7 +44,7 @@ FOLDER/                      (default: ~/.claude/plugins/)
 ```
 
 - `-z`, `--zip`: create an upload-ready `.zip` for Claude Desktop instead of a folder; FOLDER then defaults to the current directory
-- `-n`, `--no-version`: leave the version out of the `.zip` filename, `.zip` only
+- `-N`, `--no-version`: leave the version out of the `.zip` filename, `.zip` only
 
 Upload the `.zip` in Claude Desktop under *Plugins*.
 
@@ -129,5 +129,5 @@ Every subcommand except `user-system-prompt` writes files, and all of them take 
 - `-i`, `--conditional-sidecar`: conditional-sidecar names to include
 - `--reverse-order`: reverse sibling order at every level
 - `--surface`, `-u`: present only when the consumer configured surfaces; each subcommand preselects its own surface when omitted
-- `--dry-run`: report every file, directory, and archive step with the `dry` badge and write nothing; long form only, since `-n` means `--no-version` on `plugin`
+- `-n`, `--dry-run`: report every file, directory, and archive step with the `dry` badge and write nothing
 - `-v`, `-q`, `-V`, `-Q`: verbosity

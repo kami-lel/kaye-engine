@@ -94,7 +94,7 @@ kaye-engine dynamic-substitution ls         # list every registered dynamic subs
 kaye-engine skill SKILLS_FOLDER             # export blueprints as Agent Skill folders
 kaye-engine skill -z ZIPS_FOLDER            # create .zip Agent Skill packages
 kaye-engine claude plugin PLUGINS_FOLDER    # export blueprints as plugin folder
-kaye-engine claude plugin -z PLUGINS_FOLDER # .zip package (-n drops version)
+kaye-engine claude plugin -z PLUGINS_FOLDER # .zip package (-N drops version)
 kaye-engine claude marketplace              # to ~/.claude/<marketplace folder>
 kaye-engine claude marketplace MARKETPLACE  # to a custom folder
 kaye-engine claude code                     # plugin + CLAUDE.md into ~/.claude
