@@ -1,7 +1,5 @@
 # Kaye Engine: Continue export
 
-<!-- FIXME continue doc -->
-
 `kaye-engine continue` (alias `c`) writes every entry of `exportable_registry` into a [Continue](https://docs.continue.dev) config folder, as a **rule** or as a **prompt**. Selection reuses `is_exportable` — an entry kept out of `exportable_registry` is never exported — so no Continue-specific flag exists.
 
 ## Usage

@@ -40,10 +40,30 @@ _HELP = "export every registered exportable's content as flat JSON"
 
 _DESCRIPTION = _HELP + """
 
-writes every exportable currently in the registry to a flat JSON object,
-keyed by canonical name:
+writes every exportable currently in the registry to one flat JSON object,
+keyed by canonical name and sorted by key, indented by 2 spaces:
 
-    kaye-engine export-json
+    kaye-engine export-json                 # write ./exportable-as-json.json
+    kaye-engine json -f FILE                # write to FILE instead
+
+an existing output file is overwritten. --dry-run renders every entry and
+reports the file, writing nothing.
+
+output shape:
+
+    {
+      "coder-python": "...rendered content...",
+      "style-markdown": "...rendered content..."
+    }
+
+every entry of the registry is included, each value being that entry's
+content(); there is no whitelist or blacklist yet.
+
+content is rendered with sparseness 0, which collapses every blank-line run
+to nothing, while each entry's own profile still governs everything else.
+{avoid} content is folded inline into each value rather than split into a
+sibling entry, unlike export-image-prompt, which writes it to separate
+-AVOID files.
 """
 
 
