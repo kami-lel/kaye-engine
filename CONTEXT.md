@@ -326,7 +326,6 @@ kaye_engine/
 │   └── export_image_prompt_parser.py  `export-image-prompt`/`img` subcommand:
 │                                    write the image-prompt subset as
 │                                    `<name>.md`/`<name>-AVOID.md` pairs
-└── kamilog.py           logging, shared across the package
 docs/                    per-topic reference, linked above
 docs/cli/                end-user guides for CLI subcommands
 tests/                   prompt/, abbr/, cli/ — mirrors the source
@@ -354,7 +353,8 @@ Tests mirror the source tree: `tests/prompt/` for the engine, `tests/abbr/`
 for the abbreviation collection. `tests/cli/` stays deliberately thin — it
 holds only the corpus-independent pieces (setup guard, exportable-abbr
 registration, `dynamic-node` parsing, `SKILL.md` rendering, the Open WebUI sync with a
-fake client), because the
+fake client, the kamilog deed lines of the zip exports, manifests, and
+`FrontmatterDoc.write`), because the
 exporters need a corpus to produce output and the consumer package covers
 those. The `blueprint` subcommand parser still has no dedicated tests.
 

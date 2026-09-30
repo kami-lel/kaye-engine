@@ -6,8 +6,9 @@ define ``register_dynamic_substitution_parser``
 
 from argparse import RawDescriptionHelpFormatter
 
-from kaye_engine import LOGGER_NAME, kamilog
-from kaye_engine.kamilog import (
+import kamilog
+from kaye_engine import LOGGER_NAME
+from kamilog import (
     add_verbose_arguments,
     set_logging_level_by_namespace,
 )

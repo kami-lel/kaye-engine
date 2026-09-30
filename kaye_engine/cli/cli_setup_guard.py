@@ -4,7 +4,8 @@ cli_setup_guard.py
 define ``check_corpus_setup_for_cli``
 """
 
-from kaye_engine import LOGGER_NAME, kamilog, get_default_corpus_tree
+import kamilog
+from kaye_engine import LOGGER_NAME, get_default_corpus_tree
 from kaye_engine.prompt.blueprint import blueprint_registry
 
 __all__ = ("check_corpus_setup_for_cli",)
