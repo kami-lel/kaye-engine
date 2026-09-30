@@ -112,8 +112,7 @@ once installed (or run as `python -m kaye_engine`):
 kaye-engine --help
 ```
 
-The [`export-json` command guide](docs/cli/export-json-doc.md) lives under
-`docs/cli/`. The command references for the other exporters are at
+The command references for the exporters are at
 [`docs/claude-doc.md`](docs/claude-doc.md),
 [`docs/continue-doc.md`](docs/continue-doc.md) and
 [`docs/open-webui-doc.md`](docs/open-webui-doc.md).

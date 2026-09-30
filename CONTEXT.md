@@ -361,7 +361,6 @@ kaye_engine/
 │                                    write the image-prompt subset as
 │                                    `<name>.md`/`<name>-AVOID.md` pairs
 docs/                    per-topic reference, linked above
-docs/cli/                end-user guides for CLI subcommands
 tests/                   prompt/, abbr/, cli/ — mirrors the source
 ```
 

@@ -4,11 +4,11 @@
 
 <!--
 FIXME CLI provide none and all
-FIXME mpv & reorganize docs/ for CLI
 BUG -u & --variant fail get displayed in all docstring
 
-Todo add build command to optimize
+Fixme review all docs/
 
+Todo add build command to optimize
 Todo support hermes
 
 bug continue exporting missing some skills
