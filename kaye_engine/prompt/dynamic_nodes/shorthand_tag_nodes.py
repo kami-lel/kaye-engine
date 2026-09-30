@@ -4,7 +4,8 @@ shorthand_tag_nodes.py
 define tag-filtered content for the decode-only abbr node
 """
 
-from kaye_engine import LOGGER_NAME, kamilog
+import kamilog
+from kaye_engine import LOGGER_NAME
 from kaye_engine.abbr_collection import get_abbr_data
 
 __all__ = ("gen_shorthand_content_lines",)

@@ -7,7 +7,8 @@ define ``register_generate_parser``
 import dataclasses
 from argparse import RawDescriptionHelpFormatter
 
-from kaye_engine import LOGGER_NAME, kamilog
+import kamilog
+from kaye_engine import LOGGER_NAME
 from kaye_engine.cli.blueprint.blueprint_io_parser import (
     blueprint_io_parser,
     load_blueprint_from_args,
@@ -20,7 +21,7 @@ from kaye_engine.cli.render_profile_parser import (
     resolve_render_profile,
 )
 from kaye_engine.cli.sparseness_parser import SPARSENESS_DESCRIPTION
-from kaye_engine.kamilog import (
+from kamilog import (
     add_verbose_arguments,
     set_logging_level_by_namespace,
 )

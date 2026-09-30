@@ -6,9 +6,14 @@ define ``Skill``
 
 from pathlib import Path
 
+import kamilog
+from kaye_engine.cli.claude import LOGGER_CLAUDE_NAME
 from kaye_engine.cli.frontmatter_doc import FrontmatterDoc, dump_yaml
 from kaye_engine.cli.exportable_abbr import ExportableAbbr
 from kaye_engine.prompt.blueprint import BlueprintRegistry
+
+# logger  ######################################################################
+logger = kamilog.getLogger(LOGGER_CLAUDE_NAME)
 
 
 class Skill(FrontmatterDoc):
@@ -63,7 +68,9 @@ class Skill(FrontmatterDoc):
         :rtype: Path
         """
         folder = Path(parent_folder) / self.name
-        folder.mkdir(parents=True, exist_ok=True)
+        if not folder.is_dir():
+            with logger.track.create_dir(folder):
+                folder.mkdir(parents=True, exist_ok=True)
         super().write(folder / self._FILENAME)
 
         return folder

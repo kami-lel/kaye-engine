@@ -5,7 +5,7 @@ define ``get_plugin_name``, ``get_marketplace_name``,
 ``check_setup_for_claude_cli``
 """
 
-from kaye_engine import kamilog
+import kamilog
 from kaye_engine.cli import claude
 from kaye_engine.cli.cli_setup_guard import check_corpus_setup_for_cli
 
