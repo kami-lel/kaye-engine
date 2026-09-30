@@ -13,7 +13,7 @@ CLAUDE DOCUMENTATION:
 
 see the claude commands documentation on GitHub:
 
-    https://github.com/kami-lel/kaye-engine/blob/main/docs/cli/claude-doc.md"""
+    https://github.com/kami-lel/kaye-engine/blob/main/docs/claude-doc.md"""
 
 # sublogger for all claude subcommands
 LOGGER_CLAUDE_NAME = LOGGER_NAME + ".claude"
