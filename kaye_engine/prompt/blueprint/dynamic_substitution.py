@@ -12,7 +12,8 @@ directly-registered substitution path
 import re
 from abc import ABC, abstractmethod
 
-from kaye_engine import LOGGER_NAME, kamilog
+import kamilog
+from kaye_engine import LOGGER_NAME
 from kaye_engine.prompt.dynamic_nodes import resolve_dynamic_node_factory
 
 __all__ = (

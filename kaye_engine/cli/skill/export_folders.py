@@ -4,7 +4,7 @@ export_folders.py
 define ``export_skills_as_folders``
 """
 
-from kaye_engine import kamilog
+import kamilog
 from kaye_engine.cli.claude import LOGGER_CLAUDE_NAME
 from kaye_engine.exportable import exportable_registry
 from .skill_md import Skill

@@ -7,7 +7,8 @@ define ``export_plugin_as_folder``
 from email.utils import parseaddr
 from importlib.metadata import PackageNotFoundError, metadata
 
-from kaye_engine import PACKAGE_NAME, kamilog
+import kamilog
+from kaye_engine import PACKAGE_NAME
 from kaye_engine.cli.claude import LOGGER_CLAUDE_NAME
 from kaye_engine.cli.claude.plugin_marketplace_name import get_plugin_name
 from kaye_engine.cli.claude.setup import (

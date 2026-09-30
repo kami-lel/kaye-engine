@@ -3,7 +3,8 @@
 from argparse import RawDescriptionHelpFormatter
 from pathlib import Path
 
-from kaye_engine import PACKAGE_NAME, kamilog
+import kamilog
+from kaye_engine import PACKAGE_NAME
 from kaye_engine.cli import DEFAULT_SPARSENESS
 from kaye_engine.cli.claude import LOGGER_CLAUDE_NAME
 from kaye_engine.cli.claude.plugin.export_folder import export_plugin_as_folder

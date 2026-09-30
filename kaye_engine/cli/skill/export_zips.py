@@ -8,7 +8,7 @@ import shutil
 import tempfile
 from pathlib import Path
 
-from kaye_engine import kamilog
+import kamilog
 from kaye_engine.cli.claude import LOGGER_CLAUDE_NAME
 from kaye_engine.cli.claude.setup import get_claude_cli_consumer_version
 

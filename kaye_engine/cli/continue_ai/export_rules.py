@@ -6,7 +6,7 @@ define ``classify_exportable`` and ``export_continue_folder``
 
 from pathlib import Path
 
-from kaye_engine import kamilog
+import kamilog
 from kaye_engine.cli.continue_ai import LOGGER_CONTINUE_NAME
 from kaye_engine.cli.continue_ai.rule_md import ContinueRule
 from kaye_engine.exportable import exportable_registry

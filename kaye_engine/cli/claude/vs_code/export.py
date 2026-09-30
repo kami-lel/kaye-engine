@@ -6,7 +6,7 @@ define ``export_vs_code_extension``
 
 from pathlib import Path
 
-from kaye_engine import kamilog
+import kamilog
 from kaye_engine.cli.claude import LOGGER_CLAUDE_NAME
 from kaye_engine.cli.claude.marketplace.export import export_marketplace
 from kaye_engine.cli.claude.setup import get_marketplace_folder_name

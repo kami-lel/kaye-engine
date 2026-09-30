@@ -7,13 +7,14 @@ define ``register_export_image_prompt_parser``
 import os
 from argparse import RawDescriptionHelpFormatter
 
-from kaye_engine import LOGGER_NAME, PACKAGE_NAME, kamilog
+import kamilog
+from kaye_engine import LOGGER_NAME, PACKAGE_NAME
 from kaye_engine.cli.cli_setup_guard import check_corpus_setup_for_cli
 from kaye_engine.exportable import (
     get_exportable,
     image_prompt_exportable_registry,
 )
-from kaye_engine.kamilog import (
+from kamilog import (
     add_verbose_arguments,
     set_logging_level_by_namespace,
 )
