@@ -2,7 +2,7 @@
 
 `kaye-engine sync-open-webui-skills` (alias `o`) pushes every entry of `exportable_registry` into a running [Open WebUI](https://docs.openwebui.com) through its Skills REST API. A skill absent from the server is created, one whose fields differ is updated, and an identical one is left alone.
 
-New to Open WebUI Desktop? Start with the [setup guide](cli/open-webui-setup-doc.md). For a step-by-step workflow, q.v. the [sync guide](cli/sync-open-webui-skills-doc.md).
+New to Open WebUI Desktop? For a setup and step-by-step workflow, q.v. the [command guide](cli/open-webui-doc.md).
 
 ## Usage
 
