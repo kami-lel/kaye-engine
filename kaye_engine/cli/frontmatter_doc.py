@@ -11,6 +11,7 @@ import kamilog
 import yaml
 
 from kaye_engine import LOGGER_NAME
+from kaye_engine.cli.dry_run import is_dry_run
 
 # logger  ######################################################################
 logger = kamilog.getLogger(LOGGER_NAME)
@@ -75,7 +76,8 @@ class FrontmatterDoc:  # =======================================================
             logger.track.create_file
         )
         with deed(path):
-            path.write_text(self.render(), encoding=_FILE_ENCODING)
+            if not is_dry_run():
+                path.write_text(self.render(), encoding=_FILE_ENCODING)
 
     # fields   -----------------------------------------------------------------
 

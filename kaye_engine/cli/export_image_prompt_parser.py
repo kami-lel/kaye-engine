@@ -20,6 +20,11 @@ from kamilog import (
 )
 from kaye_engine.prompt.blueprint.render_mode import RenderMode
 from kaye_engine.prompt.blueprint.render_profile import RenderProfile
+from kaye_engine.cli.dry_run import (
+    apply_dry_run_arg,
+    build_dry_run_parent_parser,
+    is_dry_run,
+)
 
 # logger  ######################################################################
 logger = kamilog.getLogger(LOGGER_NAME)
@@ -76,18 +81,21 @@ def _write_text_file(path, content):
         else logger.track.create_file
     )
     with deed(path):
-        with open(path, "w", encoding="utf-8") as file:
-            file.write(content)
+        if not is_dry_run():
+            with open(path, "w", encoding="utf-8") as file:
+                file.write(content)
 
 
 def _export_image_prompt_main(args):
     set_logging_level_by_namespace(args, logger=logger)
+    apply_dry_run_arg(args)
     logger.enter("{} export-image-prompt".format(PACKAGE_NAME))
     check_corpus_setup_for_cli()
 
     if not os.path.isdir(args.folder):
         with logger.track.create_dir(args.folder):
-            os.makedirs(args.folder, exist_ok=True)
+            if not is_dry_run():
+                os.makedirs(args.folder, exist_ok=True)
 
     for canonical_name in sorted(image_prompt_exportable_registry):
         exportable = get_exportable(canonical_name)
@@ -119,6 +127,7 @@ def register_export_image_prompt_parser(cli_subparser):
         description=_DESCRIPTION,
         formatter_class=RawDescriptionHelpFormatter,
         aliases=["img"],
+        parents=[build_dry_run_parent_parser()],
     )
 
     # add arguments  -----------------------------------------------------------

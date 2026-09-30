@@ -3,10 +3,12 @@
 [^format]
 
 <!--
-Fixme mpv & reorganize docs/ for CLI
-Bug -u & --variant fail get displayed in all
-Todo consider add link to github
-Fixme CLI provide none and all
+FIXME CLI provide none and all
+BUG -u & --variant fail get displayed in all docstring
+
+Fixme review all docs/
+
+Todo add build command to optimize
 Todo support hermes
 
 bug continue exporting missing some skills
@@ -36,13 +38,27 @@ manually add chat & coder, instead by data structure
   deeds (`create`, `overwrite`, `pack`, `move`, `save`, `load`), with a
   `fail to ...` line and traceback on error
 - dry-run lines of `sync-open-webui-skills` carry the `dry` badge
+- `-n`/`--dry-run` on `skill`, `continue`, `export-image-prompt`, `export-json`,
+  and `claude plugin`/`marketplace`/`code`/`vs-code-extension`: reports
+  every file, directory, and archive step with the `dry` badge, writes
+  nothing
+- every CLI subcommand's `--help` links its GitHub doc; rendering commands
+  add a shared render-profile options blurb
 
 ### Changed
 
+- `claude plugin --no-version` short flag `-n` → `-N`, freeing `-n` for
+  `--dry-run`
 - `kamilog` is now a package dependency instead of a vendored copy;
   modules import it as `import kamilog`
 - export commands report each write once, through its deed; duplicate
   per-file success lines are gone
+- CLI guides merged into `docs/claude-doc.md`, `docs/continue-doc.md`,
+  `docs/open-webui-doc.md`, and the `export-json` command help
+
+> [!WARNING]
+> `kaye-engine claude plugin -n` no longer means `--no-version`; use `-N`.
+> `-n` now means `--dry-run`.
 
 ### Deprecated
 
@@ -52,6 +68,7 @@ manually add chat & coder, instead by data structure
   longer works
 - the `(dry run)` suffix on `sync-open-webui-skills` lines, replaced by the
   `dry` badge
+- `docs/cli/` task-oriented guides, folded into the main docs
 
 ### Fixed
 

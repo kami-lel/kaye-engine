@@ -12,6 +12,7 @@ import json5
 
 import kamilog
 from kaye_engine.cli.claude import LOGGER_CLAUDE_NAME
+from kaye_engine.cli.dry_run import is_dry_run
 
 # logger  ######################################################################
 logger = kamilog.getLogger(LOGGER_CLAUDE_NAME)
@@ -60,7 +61,8 @@ def update_settings_json(claude_folder):
     settings_path = Path(claude_folder) / _SETTINGS_FILENAME
     if not settings_path.parent.is_dir():
         with logger.track.create_dir(settings_path.parent):
-            settings_path.parent.mkdir(parents=True, exist_ok=True)
+            if not is_dry_run():
+                settings_path.parent.mkdir(parents=True, exist_ok=True)
 
     if settings_path.exists():
         try:
@@ -75,8 +77,9 @@ def update_settings_json(claude_folder):
     _set_permissions(data, permission_cmds)
 
     with logger.track.save_config(settings_path):
-        with open(settings_path, "w", encoding="utf-8") as f:
-            json.dump(data, f, indent=2, ensure_ascii=False)
-            f.write("\n")
+        if not is_dry_run():
+            with open(settings_path, "w", encoding="utf-8") as f:
+                json.dump(data, f, indent=2, ensure_ascii=False)
+                f.write("\n")
 
     return settings_path
