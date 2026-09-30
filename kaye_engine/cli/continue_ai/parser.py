@@ -8,7 +8,10 @@ from kaye_engine import PACKAGE_NAME
 from kaye_engine.cli import DEFAULT_SPARSENESS
 from kaye_engine.cli.claude.setup import get_surface_profiles
 from kaye_engine.cli.cli_setup_guard import check_corpus_setup_for_cli
-from kaye_engine.cli.continue_ai import LOGGER_CONTINUE_NAME
+from kaye_engine.cli.continue_ai import (
+    CONTINUE_DOC_DESCRIPTION,
+    LOGGER_CONTINUE_NAME,
+)
 from kaye_engine.cli.continue_ai.export_rules import export_continue_folder
 from kaye_engine.cli.dry_run import (
     apply_dry_run_arg,
@@ -46,7 +49,12 @@ def register_continue_parser(cli_subparser):  ##################################
     continue_parser = cli_subparser.add_parser(
         "continue",
         help=__doc__,
-        description=__doc__ + _DESCRIPTION + RENDER_PROFILE_DESCRIPTION,
+        description=(
+            __doc__
+            + _DESCRIPTION
+            + CONTINUE_DOC_DESCRIPTION
+            + RENDER_PROFILE_DESCRIPTION
+        ),
         formatter_class=RawDescriptionHelpFormatter,
         aliases=["c"],
         parents=[
