@@ -8,6 +8,7 @@ from pathlib import Path
 
 import kamilog
 from kaye_engine.cli.claude import LOGGER_CLAUDE_NAME
+from kaye_engine.cli.dry_run import is_dry_run
 from kaye_engine.cli.claude.exportable_name import (
     get_claude_chat_exportable,
     get_claude_merged_coder_exportable,
@@ -76,11 +77,13 @@ def export_user_system_prompt_file(
 
     if not file_path.parent.is_dir():
         with logger.track.create_dir(file_path.parent):
-            file_path.parent.mkdir(parents=True, exist_ok=True)
+            if not is_dry_run():
+                file_path.parent.mkdir(parents=True, exist_ok=True)
 
     deed = (
         logger.track.owr_file if file_path.exists()
         else logger.track.create_file
     )
     with deed(file_path):
-        file_path.write_text(content, encoding="utf-8")
+        if not is_dry_run():
+            file_path.write_text(content, encoding="utf-8")

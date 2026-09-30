@@ -11,11 +11,14 @@ from pathlib import Path
 import kamilog
 from kaye_engine.cli.claude import LOGGER_CLAUDE_NAME
 from kaye_engine.cli.claude.setup import get_claude_cli_consumer_version
+from kaye_engine.cli.dry_run import is_dry_run
+from kaye_engine.exportable import exportable_registry
 
 
 from .export_folders import (
     export_skills_as_folders,
 )
+from .skill_md import Skill
 
 # logger  ######################################################################
 logger = kamilog.getLogger(LOGGER_CLAUDE_NAME)
@@ -43,11 +46,18 @@ def export_skills_as_zips(parent_folder, *, verbose=True, render_profile=None):
     parent_folder = Path(parent_folder)
     try:
         with logger.track.create_dir(parent_folder):
-            parent_folder.mkdir(parents=True, exist_ok=True)
+            if not is_dry_run():
+                parent_folder.mkdir(parents=True, exist_ok=True)
     except OSError as err:
         raise SystemExit(1) from err
 
     pkg_version = get_claude_cli_consumer_version()
+
+    if is_dry_run():
+        _report_zips_without_writing(
+            parent_folder, pkg_version, render_profile
+        )
+        return
 
     with (
         tempfile.TemporaryDirectory() as skills_temp,
@@ -84,3 +94,23 @@ def export_skills_as_zips(parent_folder, *, verbose=True, render_profile=None):
                     shutil.move(str(zip_file), str(dest))
             except (OSError, shutil.Error) as err:
                 raise SystemExit(1) from err
+
+
+# auxiliaries  #################################################################
+def _report_zips_without_writing(parent_folder, version, render_profile):
+    """
+    log the pack and move deeds of every skill archive, building and
+    writing nothing -- the dry-run stand-in for the archive steps
+    """
+    logger.enter("exporting exportables as skills")
+    for exportable in exportable_registry.values():
+        zip_name = (
+            Skill.from_exportable(
+                exportable, version=version, render_profile=render_profile
+            ).name
+            + ".zip"
+        )
+        with logger.track.pack_files(zip_name[:-4], zip_name):
+            pass
+        with logger.track.mv_file(zip_name, parent_folder / zip_name):
+            pass

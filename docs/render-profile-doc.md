@@ -1,5 +1,11 @@
 # Kaye Engine: Render Profile Documentation
 
+<!--
+Fixme CLI provide none and all
+Bug -u & --variant fail get displayed in all docstring
+-->
+
+
 A **`RenderProfile`** holds the settings for one render of a prompt. It answers questions such as:
 
 - which optional sidecars and affordance variants to include

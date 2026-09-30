@@ -19,7 +19,13 @@ from kaye_engine.cli.claude.user_prompt.parser import (
     DEFAULT_CLAUDE_FOLDER,
     find_user_system_prompt_file,
 )
+from kaye_engine.cli.dry_run import (
+    apply_dry_run_arg,
+    build_dry_run_parent_parser,
+)
+from kaye_engine.cli.claude import CLAUDE_DOC_DESCRIPTION
 from kaye_engine.cli.render_profile_parser import (
+    RENDER_PROFILE_DESCRIPTION,
     build_render_profile_parent_parser,
     resolve_render_profile,
 )
@@ -51,7 +57,8 @@ def register_code_parser(cli_subparser):  ######################################
     code_parser = cli_subparser.add_parser(
         "code",
         help=__doc__,
-        description=_DESCRIPTION,
+        description=_DESCRIPTION + CLAUDE_DOC_DESCRIPTION
+        + RENDER_PROFILE_DESCRIPTION,
         formatter_class=RawDescriptionHelpFormatter,
         aliases=["c"],
         parents=[
@@ -59,7 +66,8 @@ def register_code_parser(cli_subparser):  ######################################
                 default_surface=("code",),
                 default_sparseness=DEFAULT_SPARSENESS,
                 surface_profiles=get_surface_profiles(),
-            )
+            ),
+            build_dry_run_parent_parser(),
         ],
     )
 
@@ -76,6 +84,7 @@ def register_code_parser(cli_subparser):  ######################################
 
     def _code_main(args):
         kamilog.set_logging_level_by_namespace(args, logger=logger)
+        apply_dry_run_arg(args)
         logger.enter("{} claude code".format(PACKAGE_NAME))
         check_setup_for_claude_cli()
 

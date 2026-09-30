@@ -10,7 +10,9 @@ from pathlib import Path
 
 import kamilog
 from kaye_engine.cli.claude import LOGGER_CLAUDE_NAME
+from kaye_engine.cli.claude.plugin_marketplace_name import get_plugin_name
 from kaye_engine.cli.claude.setup import get_claude_cli_consumer_version
+from kaye_engine.cli.dry_run import is_dry_run
 
 from .export_folder import (
     export_plugin_as_folder,
@@ -46,9 +48,14 @@ def export_plugin_as_zip(
     parent_folder = Path(parent_folder)
     try:
         with logger.track.create_dir(parent_folder):
-            parent_folder.mkdir(parents=True, exist_ok=True)
+            if not is_dry_run():
+                parent_folder.mkdir(parents=True, exist_ok=True)
     except OSError as err:
         raise SystemExit(1) from err
+
+    if is_dry_run():
+        _report_zip_without_writing(parent_folder, includes_version)
+        return
 
     with (
         tempfile.TemporaryDirectory() as plugin_temp,
@@ -74,3 +81,22 @@ def export_plugin_as_zip(
         dest = parent_folder / (file_name + ".zip")
         with logger.track.mv_file(zip_base.name + ".zip", dest):
             shutil.move(str(zip_base.with_suffix(".zip")), str(dest))
+
+
+# auxiliaries  #################################################################
+def _report_zip_without_writing(parent_folder, includes_version):
+    """
+    log the pack and move deeds of the plugin archive, building and
+    writing nothing -- the dry-run stand-in for the archive steps
+    """
+    plugin_name = get_plugin_name()
+    file_name = plugin_name
+    if includes_version:
+        file_name = "{}-{}".format(
+            file_name, get_claude_cli_consumer_version()
+        )
+    zip_name = plugin_name + ".zip"
+    with logger.track.pack_files(plugin_name, zip_name):
+        pass
+    with logger.track.mv_file(zip_name, parent_folder / (file_name + ".zip")):
+        pass
