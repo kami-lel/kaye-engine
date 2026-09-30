@@ -1,5 +1,8 @@
 """install Kaye into Claude as plugins or marketplaces"""
 
+from argparse import RawDescriptionHelpFormatter
+
+from kaye_engine.cli.claude import CLAUDE_DOC_DESCRIPTION
 from kaye_engine.cli.claude.code.parser import register_code_parser
 from kaye_engine.cli.claude.marketplace.parser import (
     register_marketplace_parser,
@@ -17,7 +20,8 @@ def register_cli_claude_parser(  ###############################################
     claude_parser = cli_subparser.add_parser(
         "claude",
         help=__doc__,
-        description=__doc__,
+        description=__doc__ + CLAUDE_DOC_DESCRIPTION,
+        formatter_class=RawDescriptionHelpFormatter,
         aliases=["a"],
     )
 

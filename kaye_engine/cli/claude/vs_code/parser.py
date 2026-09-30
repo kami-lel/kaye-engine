@@ -18,6 +18,7 @@ from kaye_engine.cli.dry_run import (
     apply_dry_run_arg,
     build_dry_run_parent_parser,
 )
+from kaye_engine.cli.claude import CLAUDE_DOC_DESCRIPTION
 from kaye_engine.cli.render_profile_parser import (
     RENDER_PROFILE_DESCRIPTION,
     build_render_profile_parent_parser,
@@ -83,7 +84,8 @@ def register_vs_code_parser(cli_subparser):  ###################################
     vs_code_parser = cli_subparser.add_parser(
         "vs-code-extension",
         help=__doc__,
-        description=__doc__ + _DESCRIPTION + RENDER_PROFILE_DESCRIPTION,
+        description=__doc__ + _DESCRIPTION + CLAUDE_DOC_DESCRIPTION
+        + RENDER_PROFILE_DESCRIPTION,
         formatter_class=RawDescriptionHelpFormatter,
         aliases=["v"],
         parents=[
