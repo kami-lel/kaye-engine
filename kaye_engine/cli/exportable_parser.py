@@ -12,6 +12,7 @@ from kaye_engine.cli import DEFAULT_SPARSENESS
 from kaye_engine.cli.cli_setup_guard import check_corpus_setup_for_cli
 from kaye_engine.cli.claude.setup import get_surface_profiles
 from kaye_engine.cli.render_profile_parser import (
+    RENDER_PROFILE_DESCRIPTION,
     build_render_profile_parent_parser,
     resolve_render_profile,
 )
@@ -71,7 +72,7 @@ def register_exportable_parser(cli_subparser):
     export_parser = cli_subparser.add_parser(
         "exportable",
         help=_HELP,
-        description=_DESCRIPTION,
+        description=_DESCRIPTION + RENDER_PROFILE_DESCRIPTION,
         formatter_class=RawDescriptionHelpFormatter,
         aliases=["x"],
         parents=[

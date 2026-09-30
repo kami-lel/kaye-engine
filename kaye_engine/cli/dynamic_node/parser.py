@@ -16,6 +16,7 @@ from kaye_engine.cli.dynamic_node.node_type_choices import (
     list_all_node_type_names,
 )
 from kaye_engine.cli.render_profile_parser import (
+    RENDER_PROFILE_DESCRIPTION,
     build_render_profile_parent_parser,
     resolve_render_profile,
 )
@@ -177,7 +178,7 @@ def register_dynamic_node_parser(cli_subparser):
     dynamic_node_parser = cli_subparser.add_parser(
         "dynamic-node",
         help=_HELP,
-        description=_build_description(),
+        description=_build_description() + RENDER_PROFILE_DESCRIPTION,
         formatter_class=RawDescriptionHelpFormatter,
         aliases=["dn"],
         parents=[
