@@ -14,6 +14,10 @@ from kaye_engine.cli.claude.setup import get_surface_profiles
 from kaye_engine.cli.claude.user_prompt.parser import (
     DEFAULT_CLAUDE_FOLDER,
 )
+from kaye_engine.cli.dry_run import (
+    apply_dry_run_arg,
+    build_dry_run_parent_parser,
+)
 from kaye_engine.cli.render_profile_parser import (
     build_render_profile_parent_parser,
     resolve_render_profile,
@@ -54,6 +58,7 @@ CLAUDE_FOLDER/  (default: ~/.claude)
 
 def _vs_code_main(args):
     kamilog.set_logging_level_by_namespace(args, logger=logger)
+    apply_dry_run_arg(args)
     logger.enter("{} claude vs-code-extension".format(PACKAGE_NAME))
     check_setup_for_claude_cli()
 
@@ -85,7 +90,8 @@ def register_vs_code_parser(cli_subparser):  ###################################
                 default_surface=("vsc",),
                 default_sparseness=DEFAULT_SPARSENESS,
                 surface_profiles=get_surface_profiles(),
-            )
+            ),
+            build_dry_run_parent_parser(),
         ],
     )
 
