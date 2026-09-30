@@ -72,9 +72,10 @@ def export_continue_folder(folder, *, render_profile=None):
     }
     try:
         for subfolder in subfolders.values():
-            subfolder.mkdir(parents=True, exist_ok=True)
+            if not subfolder.is_dir():
+                with logger.track.create_dir(subfolder):
+                    subfolder.mkdir(parents=True, exist_ok=True)
     except OSError as err:
-        logger.critical("cannot create folder:\t" + str(folder))
         raise SystemExit(1) from err
 
     for exportable in exportable_registry.values():
@@ -91,6 +92,4 @@ def export_continue_folder(folder, *, render_profile=None):
                 render_profile=render_profile,
             ).write(path)
         except OSError as err:
-            logger.critical("cannot write {}:\t{}".format(kind, path))
             raise SystemExit(1) from err
-        logger.succ("export {}:\t{}".format(kind, path))
