@@ -8,6 +8,7 @@ from pathlib import Path
 
 import kamilog
 from kaye_engine.cli.claude import LOGGER_CLAUDE_NAME
+from kaye_engine.cli.dry_run import is_dry_run
 from kaye_engine.cli.frontmatter_doc import FrontmatterDoc, dump_yaml
 from kaye_engine.cli.exportable_abbr import ExportableAbbr
 from kaye_engine.prompt.blueprint import BlueprintRegistry
@@ -70,7 +71,8 @@ class Skill(FrontmatterDoc):
         folder = Path(parent_folder) / self.name
         if not folder.is_dir():
             with logger.track.create_dir(folder):
-                folder.mkdir(parents=True, exist_ok=True)
+                if not is_dry_run():
+                    folder.mkdir(parents=True, exist_ok=True)
         super().write(folder / self._FILENAME)
 
         return folder
