@@ -42,6 +42,8 @@ manually add chat & coder, instead by data structure
   and `claude plugin`/`marketplace`/`code`/`vs-code-extension`: reports
   every file, directory, and archive step with the `dry` badge, writes
   nothing
+- every CLI subcommand's `--help` links its GitHub doc; rendering commands
+  add a shared render-profile options blurb
 
 ### Changed
 
@@ -51,6 +53,8 @@ manually add chat & coder, instead by data structure
   modules import it as `import kamilog`
 - export commands report each write once, through its deed; duplicate
   per-file success lines are gone
+- CLI guides merged into `docs/claude-doc.md`, `docs/continue-doc.md`,
+  `docs/open-webui-doc.md`, and the `export-json` command help
 
 > [!WARNING]
 > `kaye-engine claude plugin -n` no longer means `--no-version`; use `-N`.
@@ -64,6 +68,7 @@ manually add chat & coder, instead by data structure
   longer works
 - the `(dry run)` suffix on `sync-open-webui-skills` lines, replaced by the
   `dry` badge
+- `docs/cli/` task-oriented guides, folded into the main docs
 
 ### Fixed
 
