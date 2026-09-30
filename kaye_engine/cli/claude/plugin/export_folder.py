@@ -80,7 +80,6 @@ def export_plugin_as_folder(parent_folder, *, render_profile=None):
         manifest.homepage = pkg_homepage
         manifest.repository = pkg_repository
         manifest.keywords = plugin_keywords
-        logger.succ("write plugin manifest:\t" + str(manifest.path))
 
     logger.debug("exporting blueprints as plugin skills")
     export_skills_as_folders(

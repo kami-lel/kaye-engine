@@ -35,10 +35,9 @@ def export_skills_as_folders(parent_folder, *, version, render_profile=None):
 
     for exportable in exportable_registry.values():
         try:
-            folder = Skill.from_exportable(
+            Skill.from_exportable(
                 exportable, version=version, render_profile=render_profile
             ).write(parent_folder)
         except OSError as err:
             logger.critical("cannot write skill:\t" + exportable.display_name)
             raise SystemExit(1) from err
-        logger.succ("export skill:\t{}".format(folder))
