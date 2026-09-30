@@ -45,11 +45,9 @@ def export_plugin_as_zip(
     """
     parent_folder = Path(parent_folder)
     try:
-        parent_folder.mkdir(parents=True, exist_ok=True)
+        with logger.track.create_dir(parent_folder):
+            parent_folder.mkdir(parents=True, exist_ok=True)
     except OSError as err:
-        logger.critical(
-            "cannot create destination folder:\t" + str(parent_folder)
-        )
         raise SystemExit(1) from err
 
     with (
@@ -61,9 +59,11 @@ def export_plugin_as_zip(
             Path(plugin_temp), render_profile=render_profile
         )
 
-        logger.debug("archiving plugin to .zip package")
         zip_base = Path(zip_temp) / plugin_root.name
-        shutil.make_archive(str(zip_base), "zip", root_dir=plugin_root)
+        with logger.track.pack_files(
+            plugin_root.name, zip_base.name + ".zip"
+        ):
+            shutil.make_archive(str(zip_base), "zip", root_dir=plugin_root)
 
         logger.debug("moving archived plugin to destination folder")
         file_name = plugin_root.name
@@ -72,6 +72,5 @@ def export_plugin_as_zip(
                 file_name, get_claude_cli_consumer_version()
             )
         dest = parent_folder / (file_name + ".zip")
-        shutil.move(str(zip_base.with_suffix(".zip")), str(dest))
-
-        logger.succ("export plugin:\t{}".format(dest))
+        with logger.track.mv_file(zip_base.name + ".zip", dest):
+            shutil.move(str(zip_base.with_suffix(".zip")), str(dest))
