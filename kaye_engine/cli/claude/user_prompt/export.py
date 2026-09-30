@@ -6,7 +6,7 @@ define ``generate_user_system_prompt``, ``export_user_system_prompt_file``
 
 from pathlib import Path
 
-from kaye_engine import kamilog
+import kamilog
 from kaye_engine.cli.claude import LOGGER_CLAUDE_NAME
 from kaye_engine.cli.claude.exportable_name import (
     get_claude_chat_exportable,

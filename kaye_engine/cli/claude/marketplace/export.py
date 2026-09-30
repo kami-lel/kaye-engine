@@ -8,7 +8,8 @@ from email.utils import parseaddr
 from importlib.metadata import PackageNotFoundError, metadata
 from pathlib import Path
 
-from kaye_engine import PACKAGE_NAME, kamilog
+import kamilog
+from kaye_engine import PACKAGE_NAME
 from kaye_engine.cli.claude import LOGGER_CLAUDE_NAME
 from kaye_engine.cli.claude.plugin.export_folder import (
     export_plugin_as_folder,

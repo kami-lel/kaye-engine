@@ -8,7 +8,7 @@ define ``setup_claude_cli``, ``get_claude_cli_consumer_version``,
 # pylint: disable=protected-access
 
 
-from kaye_engine import kamilog
+import kamilog
 from kaye_engine.cli import claude
 from kaye_engine.prompt.affordance_registry import (
     register_variant,

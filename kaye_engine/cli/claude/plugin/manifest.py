@@ -7,7 +7,7 @@ define ``ManifestPluginJson``
 import json
 from pathlib import Path
 
-from kaye_engine import kamilog
+import kamilog
 from kaye_engine.cli.claude import LOGGER_CLAUDE_NAME
 
 # logger  ######################################################################

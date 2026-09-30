@@ -6,14 +6,15 @@ define ``register_show_parser``
 
 from argparse import RawDescriptionHelpFormatter
 
-from kaye_engine import LOGGER_NAME, kamilog
+import kamilog
+from kaye_engine import LOGGER_NAME
 from kaye_engine.cli.blueprint.blueprint_io_parser import (
     blueprint_io_parser,
     load_blueprint_from_args,
 )
 from kaye_engine.cli.cli_setup_guard import check_corpus_setup_for_cli
 from kaye_engine.cli.comment_parser import build_comment_parent_parser
-from kaye_engine.kamilog import (
+from kamilog import (
     add_verbose_arguments,
     set_logging_level_by_namespace,
 )

@@ -10,7 +10,7 @@ from pathlib import Path
 
 import json5
 
-from kaye_engine import kamilog
+import kamilog
 from kaye_engine.cli.claude import LOGGER_CLAUDE_NAME
 
 # logger  ######################################################################

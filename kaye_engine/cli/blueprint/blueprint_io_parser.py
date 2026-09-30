@@ -8,7 +8,8 @@ define ``blueprint_io_parser``, ``load_blueprint_from_args``,
 import sys
 from argparse import ArgumentParser
 
-from kaye_engine import LOGGER_NAME, kamilog
+import kamilog
+from kaye_engine import LOGGER_NAME
 from kaye_engine.prompt.blueprint import blueprint_registry
 from kaye_engine.prompt.blueprint.prompt_blueprint import PromptBlueprint
 

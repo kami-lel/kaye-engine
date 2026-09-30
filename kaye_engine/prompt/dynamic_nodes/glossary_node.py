@@ -7,7 +7,8 @@ consumer-defined glossary name known to ``abbr_glossary_registry``, not
 registered here
 """
 
-from kaye_engine import LOGGER_NAME, kamilog
+import kamilog
+from kaye_engine import LOGGER_NAME
 from kaye_engine.abbr_collection import get_abbr_data
 from kaye_engine.abbr_collection.abbr_glossary_registry import get_abbr_glossary
 

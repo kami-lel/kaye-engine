@@ -7,7 +7,7 @@ define ``SyncSummary``, ``sync_skills``
 from dataclasses import dataclass, field
 from functools import partial
 
-from kaye_engine import kamilog
+import kamilog
 from kaye_engine.cli.open_webui import LOGGER_OPEN_WEBUI_NAME
 from kaye_engine.cli.open_webui.client import OpenWebUIError
 from kaye_engine.cli.open_webui.plan import plan_skill_sync
