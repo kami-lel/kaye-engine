@@ -25,6 +25,12 @@ from .meta import (
     render_description_and_when_to_use,
     render_when_to_use,
 )
+from .prompt import (
+    render_blueprint,
+    render_blueprint_without_dependencies,
+    render_prompt,
+    render_prompt_without_dependencies,
+)
 from .tree import render_blueprint_tree
 from .util import (
     NO_TRIM_SPARSENESS,
@@ -36,12 +42,16 @@ __all__ = (
     "REPLACEMENT_NEWLINE_SYMBOL",
     "apply_sparseness",
     "extract_globs",
+    "render_blueprint",
     "render_blueprint_tree",
+    "render_blueprint_without_dependencies",
     "render_description",
     "render_description_and_when_to_use",
     "render_when_to_use",
     "register_comment_line",
     "render_comment_lines",
     "render_negative_prompt_lines",
+    "render_prompt",
     "render_prompt_lines",
+    "render_prompt_without_dependencies",
 )

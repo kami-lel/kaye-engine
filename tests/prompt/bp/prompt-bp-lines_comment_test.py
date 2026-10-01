@@ -10,15 +10,16 @@ Unit Tests (using pytest) for the comment appended by:
 import re
 
 import pytest
-from kaye_engine.prompt import PromptBlueprint
 from kaye_engine.prompt.blueprint import render
+from kaye_engine.prompt.blueprint.data import create_blueprint
+from kaye_engine.prompt.blueprint.selection import bind_selection
 from kaye_engine.prompt.blueprint.render.comment import (
     comment_line_registry,
     register_comment_line,
 )
 from kaye_engine.prompt.blueprint.render_mode import RenderMode
 from kaye_engine.prompt.blueprint.render_profile import RenderProfile
-from kaye_engine.prompt.prompt_corpus_node import PromptCorpusNode
+from kaye_engine.prompt.prompt_corpus_loader import load_corpus_tree
 
 
 @pytest.fixture(autouse=True)
@@ -30,8 +31,8 @@ def restore_registry():
 
 
 def _build_bp():
-    corpus = PromptCorpusNode.parse("○", None, ["# Prompt", "AAAA"])
-    return PromptBlueprint.create_full_blueprint(corpus_tree=corpus)
+    load_corpus_tree(["# Prompt\nAAAA\n"])
+    return bind_selection(create_blueprint(is_full=True))
 
 
 # Pytest unit tests  ###########################################################
