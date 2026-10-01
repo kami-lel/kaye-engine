@@ -2,8 +2,9 @@
 render.meta.py
 
 define ``show_description``, ``show_when_to_use``,
-``show_description_and_when_to_use``, ``show_globs`` -- what the
-skill and rule exporters read from a blueprint's ``meta``
+``show_description_and_when_to_use``, ``show_globs``,
+``show_dependencies`` -- what the skill and rule exporters, and the CLI,
+read from a blueprint
 """
 
 from ..index import BlueprintSelection, get_corpus_index
@@ -12,11 +13,16 @@ from .lines import render_prompt_lines
 from .util import REPLACEMENT_NEWLINE_SYMBOL
 
 __all__ = (
+    "show_dependencies",
     "show_globs",
     "show_description",
     "show_description_and_when_to_use",
     "show_when_to_use",
 )
+
+
+# constants  ###################################################################
+VALUE_DEPENDENCY_LABEL = "<blueprint value>"
 
 
 # auxiliaries  #################################################################
@@ -91,6 +97,23 @@ def show_description_and_when_to_use(blueprint):
     return REPLACEMENT_NEWLINE_SYMBOL.join(
         _render_node_lines(blueprint.meta.description_node, sparseness=-1)
         + _render_node_lines(blueprint.meta.when_to_use_node, sparseness=-1)
+    )
+
+
+def show_dependencies(blueprint):
+    """
+    pure data: touches no corpus
+
+
+    :param blueprint:
+    :type blueprint: Blueprint
+    :return: the dependency names in order; a dependency carried as a
+            value has no name and shows as ``<blueprint value>``
+    :rtype: tuple[str, ...]
+    """
+    return tuple(
+        dep if isinstance(dep, str) else VALUE_DEPENDENCY_LABEL
+        for dep in blueprint.dependencies
     )
 
 

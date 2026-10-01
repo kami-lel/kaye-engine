@@ -11,6 +11,7 @@ import pytest
 
 from kaye_engine.prompt.blueprint.data import Blueprint, BlueprintMeta
 from kaye_engine.prompt.blueprint.render.meta import (
+    show_dependencies,
     show_globs,
     show_description,
     show_description_and_when_to_use,
@@ -131,3 +132,19 @@ class TestGlobs:
 
     def test_node_without_block(_):
         assert show_globs(_bp(globs_node=DESC)) == []
+
+
+class TestDependencies:
+
+    def test_none(_):
+        assert show_dependencies(Blueprint()) == ()
+
+    def test_names_keep_order(_):
+        bp = Blueprint(dependencies=("b", "a"))
+
+        assert show_dependencies(bp) == ("b", "a")
+
+    def test_value_dependency_shows_as_label(_):
+        bp = Blueprint(dependencies=("a", Blueprint()))
+
+        assert show_dependencies(bp) == ("a", "<blueprint value>")
