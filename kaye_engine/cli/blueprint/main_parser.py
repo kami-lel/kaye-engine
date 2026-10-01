@@ -9,7 +9,7 @@ from kaye_engine.cli.blueprint.ls_parser import register_ls_parser
 from kaye_engine.cli.blueprint.show_parser import register_show_parser
 
 # constants  ###################################################################
-_HELP = "list, preview, and generate system prompts from prompt blueprints"
+_HELP = "inspect and generate from registered prompt blueprints"
 
 
 def register_cli_blueprint_parser(cli_subparser):  #############################
