@@ -20,6 +20,7 @@ from kaye_engine.cli.blueprint.aux_output import (
     pick_render_fx,
     pick_show_fx,
     run_cmd,
+    run_cmd_and_exit,
 )
 from kaye_engine.prompt.blueprint import (
     Blueprint,
@@ -154,3 +155,18 @@ class TestRunCmd:
 
         with pytest.raises(RuntimeError):
             run_cmd(handler, None)
+
+
+class TestRunCmdAndExit:
+
+    def test_success_returns_normally(_):
+        assert run_cmd_and_exit(lambda _args: None, None) is None
+
+    def test_failure_exits_1(_):
+        def handler(_args):
+            raise ValueError("bad")
+
+        with pytest.raises(SystemExit) as info:
+            run_cmd_and_exit(handler, None)
+
+        assert info.value.code == 1
