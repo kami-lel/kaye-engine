@@ -13,6 +13,10 @@ import pytest
 from kaye_engine.abbr_collection import AbbrData, AbbrMeaning
 from kaye_engine.cli.dynamic_node import parser as dynamic_node_parser
 from kaye_engine.prompt.dynamic_nodes import GlossaryNode, TodayNode
+from kaye_engine.prompt.prompt_corpus_loader import (
+    clear_corpus_tree,
+    get_corpus_tree,
+)
 from kaye_engine.prompt.prompt_corpus_node import PromptCorpusNode
 
 
@@ -22,6 +26,14 @@ def _build_dn_parser():
     subparser = root_parser.add_subparsers()
     dynamic_node_parser.register_dynamic_node_parser(subparser)
     return root_parser
+
+
+@pytest.fixture(autouse=True)
+def _fresh_corpus_tree():
+    # the no-corpus fallback loads a real corpus: keep it from leaking
+    clear_corpus_tree()
+    yield
+    clear_corpus_tree()
 
 
 @pytest.fixture(autouse=True)
@@ -48,7 +60,7 @@ class TestDynamicNodeMain:
         )
 
         monkeypatch.setattr(
-            dynamic_node_parser, "get_default_corpus_tree", lambda: root
+            dynamic_node_parser, "get_corpus_tree", lambda: root
         )
 
         parser = _build_dn_parser()
@@ -62,10 +74,10 @@ class TestDynamicNodeMain:
         self, monkeypatch, capsys
     ):
         def _raise_no_default():
-            raise ValueError("no default corpus tree set")
+            raise ValueError("no corpus tree loaded")
 
         monkeypatch.setattr(
-            dynamic_node_parser, "get_default_corpus_tree", _raise_no_default
+            dynamic_node_parser, "get_corpus_tree", _raise_no_default
         )
 
         parser = _build_dn_parser()
@@ -74,6 +86,7 @@ class TestDynamicNodeMain:
 
         out = capsys.readouterr().out
         assert out.strip() != ""
+        assert get_corpus_tree().is_root
 
     def test_reuses_authored_engine_defined_node_without_duplicating(
         self, monkeypatch, capsys
@@ -86,7 +99,7 @@ class TestDynamicNodeMain:
         TodayNode(root, preface=["This is the authored Today preface."])
 
         monkeypatch.setattr(
-            dynamic_node_parser, "get_default_corpus_tree", lambda: root
+            dynamic_node_parser, "get_corpus_tree", lambda: root
         )
 
         parser = _build_dn_parser()
@@ -103,7 +116,7 @@ class TestDynamicNodeMain:
         root = PromptCorpusNode("○", None, [])
 
         monkeypatch.setattr(
-            dynamic_node_parser, "get_default_corpus_tree", lambda: root
+            dynamic_node_parser, "get_corpus_tree", lambda: root
         )
 
         parser = _build_dn_parser()
@@ -119,10 +132,10 @@ class TestPriorityThresholdFlag:  ##############################################
     @pytest.fixture(autouse=True)
     def _no_default_corpus_tree(self, monkeypatch):
         def _raise_no_default():
-            raise ValueError("no default corpus tree set")
+            raise ValueError("no corpus tree loaded")
 
         monkeypatch.setattr(
-            dynamic_node_parser, "get_default_corpus_tree", _raise_no_default
+            dynamic_node_parser, "get_corpus_tree", _raise_no_default
         )
 
     @pytest.fixture
@@ -188,7 +201,7 @@ class TestMultipleNodes:  ######################################################
         )
 
         monkeypatch.setattr(
-            dynamic_node_parser, "get_default_corpus_tree", lambda: root
+            dynamic_node_parser, "get_corpus_tree", lambda: root
         )
 
         parser = _build_dn_parser()
@@ -217,7 +230,7 @@ class TestMultipleNodes:  ######################################################
         )
 
         monkeypatch.setattr(
-            dynamic_node_parser, "get_default_corpus_tree", lambda: root
+            dynamic_node_parser, "get_corpus_tree", lambda: root
         )
 
         parser = _build_dn_parser()
@@ -255,7 +268,7 @@ class TestSparsenessFlag:  #####################################################
         )
 
         monkeypatch.setattr(
-            dynamic_node_parser, "get_default_corpus_tree", lambda: root
+            dynamic_node_parser, "get_corpus_tree", lambda: root
         )
 
     def test_omitted_defaults_to_no_blank_lines(self, capsys):
