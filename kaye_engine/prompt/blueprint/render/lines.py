@@ -11,7 +11,7 @@ from ...prompt_corpus_node import HEADING_PREFIX_ELEMENT
 from ...sidecar_node import AVOID_NAME, get_sidecar_name
 from ..render_mode import RenderMode
 from ..render_profile import RenderProfile
-from .sidecar_splice import _splice_conditional_sidecars
+from .sidecar_splice import _splice_conditional_sidecars, splice_sidecars
 from .comment import render_comment_lines
 from .util import apply_sparseness
 
@@ -321,7 +321,7 @@ def _resolve_is_comment_compact(profile, is_comment_compact):
     return is_comment_compact
 
 
-def render_prompt_lines(
+def _legacy_render_prompt_lines(
     blueprint,
     *,
     profile=RenderProfile(),
@@ -395,6 +395,106 @@ def render_prompt_lines(
 
     if RenderMode._IMAGE in profile.mode:
         lines = _flatten_headings_for_image_mode(lines)
+
+    # appended last, so a registered line starting with "#" stays untouched
+    if profile.show_comment:
+        lines.extend(
+            render_comment_lines(
+                profile.display_name,
+                is_compact=_resolve_is_comment_compact(
+                    profile, is_comment_compact
+                ),
+            )
+        )
+
+    return apply_sparseness(lines, profile.sparseness)
+
+
+def _walk_set_bits(mask):
+    """
+    :return: positions of the set bits of ``mask``, ascending -- which is
+            pre-order, so no sorting is needed
+    :rtype: Iterator[int]
+    """
+    while mask:
+        low = mask & -mask
+        yield low.bit_length() - 1
+        mask ^= low
+
+
+def _render_dynamic_block(index, idx, **kwargs):
+    """
+    :return: heading line then live content lines of dynamic node
+            ``idx``, whose content depends on render options
+    :rtype: tuple[str, ...]
+    """
+    node = index.node_objs[idx]
+    return (
+        HEADING_PREFIX_ELEMENT * node.depth + " " + node.name,
+        *node.content_lines(**kwargs),
+    )
+
+
+def render_prompt_lines(
+    selection,
+    *,
+    profile=RenderProfile(),
+    is_comment_compact=None,
+    **kwargs,
+):
+    """
+    generate prompt as a list of lines from ``selection``
+
+    optionally splices conditional sidecar nodes of specified name(s)
+    into the selection before rendering.
+
+
+    :param selection: nodes to render, dependencies already resolved
+    :type selection: BlueprintSelection
+    :param profile: bundled render settings -- see `RenderProfile` for
+            the full field list (``show_comment``,
+            ``disable_first_heading``, ``conditional_sidecars``,
+            ``variants``, ``display_name``, ``sparseness``, ``mode``,
+            plus the glossary-related fields); defaults to a plain
+            `RenderProfile()`
+    :type profile: RenderProfile, optional
+    :param is_comment_compact: whether to render the comment as one line;
+            ``None`` derives it from ``profile.sparseness == -1``
+    :type is_comment_compact: bool, optional
+    :param kwargs: further render options (e.g. ``query``) forwarded
+            to each selected dynamic node's ``content_lines(**kwargs)``
+    :return: list of prompt lines
+    :rtype: list[str]
+    """
+    if profile.mode != RenderMode.NORMAL:
+        raise NotImplementedError("render modes other than NORMAL")
+
+    selection = splice_sidecars(
+        selection,
+        conditional_sidecars=profile.conditional_sidecars,
+        variants=profile.variants,
+    )
+    index = selection.index
+
+    lines = []
+    should_skip_heading = profile.disable_first_heading
+    last_idx = len(index.node_objs) - 1
+
+    for idx in _walk_set_bits(selection.mask):
+        block = index.blocks[idx] or _render_dynamic_block(
+            index, idx, **kwargs
+        )
+
+        if should_skip_heading:
+            should_skip_heading = False
+        else:
+            lines.append(block[0])
+
+        # a blank line follows content, except after the very last node
+        if len(block) > 1:
+            lines.extend(block[1:])
+            if idx != last_idx:
+                lines.append("")
 
     # appended last, so a registered line starting with "#" stays untouched
     if profile.show_comment:
