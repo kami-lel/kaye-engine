@@ -3,8 +3,6 @@
 [^format]
 
 <!--
-TODO add build command to optimize
-
 Fixme review all docs/
 Todo review render profile flags
 
