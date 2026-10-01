@@ -3,6 +3,8 @@
 [^format]
 
 <!--
+BUG skill command is not what is seems is
+
 FIXME review all docs/
 TODO review render profile flags
 
