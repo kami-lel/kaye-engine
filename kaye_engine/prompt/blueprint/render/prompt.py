@@ -4,7 +4,7 @@ render.prompt.py
 define the render pipeline over a ``Blueprint``:
 
 - ``render_prompt``, ``render_prompt_without_dependencies``
-- ``render_blueprint``, ``render_blueprint_without_dependencies``
+- ``preview_blueprint``, ``preview_blueprint_without_dependencies``
 """
 
 import dataclasses
@@ -14,12 +14,12 @@ from ..render_mode import RenderMode
 from ..render_profile import RenderProfile
 from ..selection import bind_selection, resolve_selection
 from .lines import render_negative_prompt_lines, render_prompt_lines
-from .tree import render_blueprint_tree
+from .tree import preview_selection
 from .util import NO_TRIM_SPARSENESS, apply_sparseness
 
 __all__ = (
-    "render_blueprint",
-    "render_blueprint_without_dependencies",
+    "preview_blueprint",
+    "preview_blueprint_without_dependencies",
     "render_prompt",
     "render_prompt_without_dependencies",
 )
@@ -128,30 +128,30 @@ def render_prompt(blueprint, *, profile=None, **kwargs):
     )
 
 
-def render_blueprint_without_dependencies(blueprint, **kwargs):
+def preview_blueprint_without_dependencies(blueprint, **kwargs):
     """
     generate **preview tree** of ``blueprint``'s own nodes only
 
-    (see ``render_blueprint_tree()`` for parameters)
+    (see ``preview_selection()`` for parameters)
 
 
     :raises ValueError: a path of ``blueprint`` is not in the loaded corpus
     :return: the preview tree
     :rtype: str
     """
-    return render_blueprint_tree(bind_selection(blueprint), **kwargs)
+    return preview_selection(bind_selection(blueprint), **kwargs)
 
 
-def render_blueprint(blueprint, **kwargs):
+def preview_blueprint(blueprint, **kwargs):
     """
     generate **preview tree** of ``blueprint``'s nodes merged with the
     full transitive closure of its ``dependencies``
 
-    (see ``render_blueprint_tree()`` for parameters)
+    (see ``preview_selection()`` for parameters)
 
 
     :raise ValueError: a dependency cycle or an unknown dependency name
     :return: the preview tree
     :rtype: str
     """
-    return render_blueprint_tree(resolve_selection(blueprint), **kwargs)
+    return preview_selection(resolve_selection(blueprint), **kwargs)

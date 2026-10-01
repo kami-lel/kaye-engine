@@ -36,9 +36,9 @@ from .registry import *
 from .render import (
     extract_globs,
     register_comment_line,
-    render_blueprint,
-    render_blueprint_tree,
-    render_blueprint_without_dependencies,
+    preview_blueprint,
+    preview_selection,
+    preview_blueprint_without_dependencies,
     render_description,
     render_description_and_when_to_use,
     render_prompt,

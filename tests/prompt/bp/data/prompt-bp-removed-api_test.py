@@ -78,3 +78,18 @@ class TestRemovedNames:
                 checkmark_nodes(Blueprint(), hash("A"))
         finally:
             clear_corpus_tree()
+
+
+class TestRenamedPreviewNames:
+
+    @pytest.mark.parametrize(
+        "name",
+        [
+            "render_blueprint",
+            "render_blueprint_without_dependencies",
+            "render_blueprint_tree",
+        ],
+    )
+    def test_old_preview_name_not_importable(_, name):
+        with pytest.raises(ImportError):
+            exec("from kaye_engine.prompt.blueprint import " + name)
