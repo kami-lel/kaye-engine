@@ -12,6 +12,11 @@ from kaye_engine.cli.dry_run import is_dry_run
 from kaye_engine.cli.frontmatter_doc import FrontmatterDoc, dump_yaml
 from kaye_engine.cli.exportable_abbr import ExportableAbbr
 from kaye_engine.prompt.blueprint import BlueprintRegistry
+from kaye_engine.prompt.blueprint.render import (
+    extract_globs,
+    render_description,
+    render_when_to_use,
+)
 
 # logger  ######################################################################
 logger = kamilog.getLogger(LOGGER_CLAUDE_NAME)
@@ -168,12 +173,12 @@ class Skill(FrontmatterDoc):
         :rtype: Skill
         """
         if isinstance(exportable, BlueprintRegistry):
-            sidecars = exportable.blueprint.sidecars
+            blueprint = exportable.blueprint
             return cls(
                 name=exportable.canonical_name,
-                description=sidecars.description,
-                when_to_use=sidecars.when_to_use,
-                paths=list(sidecars.globs) if sidecars.globs else [],
+                description=render_description(blueprint),
+                when_to_use=render_when_to_use(blueprint),
+                paths=extract_globs(blueprint),
                 user_invocable=exportable.is_user_invokable,
                 body=exportable.content(profile=render_profile),
                 version=version,
