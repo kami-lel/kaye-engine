@@ -7,6 +7,10 @@ define ``ContinueRule``
 from kaye_engine.cli.exportable_abbr import ExportableAbbr
 from kaye_engine.cli.frontmatter_doc import FrontmatterDoc, dump_yaml
 from kaye_engine.prompt.blueprint import BlueprintRegistry
+from kaye_engine.prompt.blueprint.render import (
+    extract_globs,
+    render_description_and_when_to_use,
+)
 
 
 class ContinueRule(FrontmatterDoc):
@@ -91,9 +95,10 @@ class ContinueRule(FrontmatterDoc):
         :rtype: ContinueRule
         """
         if isinstance(exportable, BlueprintRegistry):
-            sidecars = exportable.blueprint.sidecars
-            description = sidecars.description_and_when_to_use
-            globs = sidecars.globs
+            description = render_description_and_when_to_use(
+                exportable.blueprint
+            )
+            globs = extract_globs(exportable.blueprint)
         else:
             assert isinstance(exportable, ExportableAbbr)
             description = exportable.display_name

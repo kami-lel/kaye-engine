@@ -8,8 +8,11 @@ from dataclasses import dataclass, replace
 
 from kaye_engine.exportable import Exportable, register_exportable_entry
 
-from .prompt_blueprint import PromptBlueprint
+from .data import Blueprint
+from .index import get_corpus_index
+from .render.prompt import render_prompt
 from .render_profile import RenderProfile
+from .selection import bind_selection
 
 __all__ = (
     "BlueprintRegistry",
@@ -22,7 +25,7 @@ __all__ = (
 @dataclass(kw_only=True)
 class BlueprintRegistry(Exportable):
     """
-    metadata & export policy for a single named `PromptBlueprint`
+    metadata & export policy for a single named `Blueprint`
 
     instances are created via `register_blueprint` and collected in
     `blueprint_registry`, keyed by their `canonical_name`; this is the
@@ -33,13 +36,13 @@ class BlueprintRegistry(Exportable):
 
 
     :param blueprint: the underlying blueprint
-    :type blueprint: PromptBlueprint
+    :type blueprint: Blueprint
     :param is_exportable: whether this blueprint is exported as a Claude
             Agent Skill; defaults to True
     :type is_exportable: bool, optional
     """
 
-    blueprint: PromptBlueprint
+    blueprint: Blueprint
     is_exportable: bool = True
 
     supports_negative_content = True
@@ -50,7 +53,7 @@ class BlueprintRegistry(Exportable):
                 entry's own `render_profile`, not replaced by it
         :type profile: RenderProfile, optional
         :param kwargs: further render options (e.g. ``query``)
-                forwarded to ``PromptBlueprint.render_prompt(...)``
+                forwarded to ``render_prompt(...)``
         :return: this blueprint's rendered prompt
         :rtype: str
         """
@@ -60,7 +63,37 @@ class BlueprintRegistry(Exportable):
         # name the comment after this entry unless the caller chose a name
         if not merged.display_name:
             merged = replace(merged, display_name=self.display_name)
-        return self.blueprint.render_prompt(profile=merged, **kwargs)
+        return render_prompt(self.blueprint, profile=merged, **kwargs)
+
+
+# auxiliaries  #################################################################
+def _validate_blueprint(blueprint):
+    """
+    fail early on what a blueprint cannot render: a dependency name that
+    is not registered, and, while a corpus is loaded, a path that is not
+    in it
+
+    (helper function used in ``register_blueprint()``)
+
+
+    :param blueprint:
+    :type blueprint: Blueprint
+    :raises ValueError:
+    """
+    for dep in blueprint.dependencies:
+        if isinstance(dep, Blueprint):
+            _validate_blueprint(dep)
+        elif dep not in blueprint_registry:
+            raise ValueError(
+                "no blueprint registered under dependency name: {}".format(dep)
+            )
+
+    try:
+        get_corpus_index()
+    except ValueError:
+        return  # no corpus yet: paths are checked when one is needed
+
+    bind_selection(blueprint)
 
 
 # Entry Point  #################################################################
@@ -91,7 +124,7 @@ def register_blueprint(
     :param display_name: human-readable name, e.g. ``"Coder Python"``
     :type display_name: str
     :param blueprint: the underlying blueprint
-    :type blueprint: PromptBlueprint
+    :type blueprint: Blueprint
     :param is_exportable: whether this blueprint is exported as a Claude
             Agent Skill; defaults to True
     :type is_exportable: bool, optional
@@ -112,7 +145,9 @@ def register_blueprint(
             passes its own value explicitly; defaults to a plain
             `RenderProfile()`
     :type render_profile: RenderProfile, optional
-    :raises ValueError: ``canonical_name`` is already registered
+    :raises ValueError: ``canonical_name`` is already registered, a
+            dependency name is not registered, or (while a corpus is
+            loaded) a node path is not in it
     :return: the created registry entry
     :rtype: BlueprintRegistry
     :example:
@@ -123,6 +158,8 @@ def register_blueprint(
         raise ValueError(
             "duplicate blueprint registry name: {}".format(canonical_name)
         )
+
+    _validate_blueprint(blueprint)
 
     reg = BlueprintRegistry(
         canonical_name=canonical_name,
