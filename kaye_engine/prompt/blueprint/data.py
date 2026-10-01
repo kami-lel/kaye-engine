@@ -2,8 +2,8 @@
 data.py
 
 define ``Blueprint``, ``BlueprintMeta``, ``create_blueprint``, and the
-JSON codec ``encode_blueprint``, ``decode_blueprint``, ``load_blueprint``,
-``save_blueprint`` -- a blueprint is pure frozen data, touching no corpus
+JSON codec ``encode_blueprint``, ``decode_blueprint``, ``parse_blueprint_json``,
+``load_blueprint``, ``save_blueprint`` -- a blueprint is pure frozen data, touching no corpus
 """
 
 import json
@@ -20,6 +20,7 @@ __all__ = (
     "decode_blueprint",
     "encode_blueprint",
     "load_blueprint",
+    "parse_blueprint_json",
     "save_blueprint",
 )
 
@@ -208,6 +209,26 @@ def decode_blueprint(data):
         )
 
     return _decode_body(data)
+
+
+def parse_blueprint_json(text):
+    """
+    pure data: touches no corpus, so it may run before one is loaded
+
+
+    :param text: JSON text of the form :func:`encode_blueprint` returns
+    :type text: str
+    :raises ValueError: malformed JSON, unknown schema number, or a
+            malformed field
+    :return: the decoded blueprint
+    :rtype: Blueprint
+    """
+    try:
+        data = json.loads(text)
+    except json.JSONDecodeError as err:
+        raise ValueError("blueprint is not valid JSON") from err
+
+    return decode_blueprint(data)
 
 
 def load_blueprint(file_path):

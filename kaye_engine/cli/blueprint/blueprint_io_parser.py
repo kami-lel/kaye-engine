@@ -11,7 +11,7 @@ from argparse import ArgumentParser
 import kamilog
 from kaye_engine import LOGGER_NAME
 from kaye_engine.prompt.blueprint import blueprint_registry
-from kaye_engine.prompt.blueprint.parser import parse_blueprint_text
+from kaye_engine.prompt.blueprint.parser import parse_blueprint_tree
 
 # logger  ######################################################################
 logger = kamilog.getLogger(LOGGER_NAME)
@@ -43,7 +43,7 @@ def load_blueprint_from_args(args):
     """
     if args.BLUEPRINT is None:
         try:
-            blueprint = parse_blueprint_text(sys.stdin.read())
+            blueprint = parse_blueprint_tree(sys.stdin.read())
         except ValueError as err:
             logger.critical(str(err))
             raise SystemExit(1) from err

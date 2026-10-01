@@ -109,3 +109,12 @@ class TestRenamedShowNames:
     def test_old_show_name_not_importable(_, name):
         with pytest.raises(ImportError):
             exec("from kaye_engine.prompt.blueprint import " + name)
+
+
+class TestRenamedParserName:
+
+    def test_parse_blueprint_text_not_importable(_):
+        with pytest.raises(ImportError):
+            from kaye_engine.prompt.blueprint import (  # noqa: F401
+                parse_blueprint_text,
+            )

@@ -1,7 +1,7 @@
 """
 parser.py
 
-define ``parse_blueprint_text``
+define ``parse_blueprint_tree``
 """
 
 import re
@@ -9,7 +9,7 @@ import re
 from .data import Blueprint
 from .index import get_corpus_index
 
-__all__ = ("HEADING_LINE_PATTERN", "parse_blueprint_text")
+__all__ = ("HEADING_LINE_PATTERN", "parse_blueprint_tree")
 
 
 # constants  ###################################################################
@@ -22,7 +22,7 @@ def _validate_against_corpus(path, line):
     check ``path`` names a node of the loaded corpus; does nothing while
     no corpus is loaded, since the text alone carries no corpus
 
-    (helper function used in ``parse_blueprint_text()``)
+    (helper function used in ``parse_blueprint_tree()``)
     """
     try:
         index = get_corpus_index()
@@ -44,7 +44,7 @@ def _validate_against_corpus(path, line):
 
 
 # Public API  ##################################################################
-def parse_blueprint_text(blueprint_text):
+def parse_blueprint_tree(blueprint_text):
     """
     parse ``blueprint_text`` into a blueprint of its checkmarked nodes
 
