@@ -81,9 +81,6 @@ class TestFormat:
 
         assert out == (
             "description: -\n"
-            "description-node: -\n"
-            "when-to-use-node: -\n"
-            "globs-node: -\n"
             "nodes: 0\n"
             "subtrees: 0\n"
             "dependencies: -"
@@ -101,7 +98,6 @@ class TestFormat:
         out = fmt_summary(show_blueprint(bp))
 
         assert "description: d" in out
-        assert "description-node: A > {description}" in out
         assert "nodes: 1" in out
         assert out.endswith("dependencies: x, y")
 
