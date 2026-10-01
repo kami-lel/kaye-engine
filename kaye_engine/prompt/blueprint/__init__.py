@@ -48,3 +48,4 @@ from .render import (
     show_when_to_use,
 )
 from .selection import bind_selection, resolve_selection
+from .validate import validate_blueprint
