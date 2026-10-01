@@ -36,6 +36,10 @@ class BlueprintRegistry(Exportable):
 
     :param blueprint: the underlying blueprint
     :type blueprint: Blueprint
+    :param display_name: fallback name, used only when the blueprint's
+            meta has none; reading ``display_name`` gives the meta name
+            first; defaults to ``""``
+    :type display_name: str, optional
     :param is_exportable: whether this blueprint is exported as a Claude
             Agent Skill; defaults to True
     :type is_exportable: bool, optional
@@ -45,6 +49,23 @@ class BlueprintRegistry(Exportable):
     is_exportable: bool = True
 
     supports_negative_content = True
+
+    @property
+    def display_name(self):
+        """
+        read live, so a reassigned ``blueprint`` with a new meta name
+        shows at once
+
+
+        :return: the blueprint's meta display name, else the fallback,
+                else ``""``
+        :rtype: str
+        """
+        return self.blueprint.meta.display_name or self._fallback_name
+
+    @display_name.setter
+    def display_name(self, value):
+        self._fallback_name = value
 
     def resolve_profile(self, profile=None):
         """
@@ -83,9 +104,9 @@ blueprint_registry = {}
 
 def register_blueprint(
     canonical_name,
-    display_name,
     blueprint,
     *,
+    display_name="",
     is_exportable=True,
     is_user_invokable=True,
     llm_invokable=True,
@@ -101,10 +122,12 @@ def register_blueprint(
     :param canonical_name: kebab-case name, used directly as the
             exported skill name when ``is_exportable``
     :type canonical_name: str
-    :param display_name: human-readable name, e.g. ``"Coder Python"``
-    :type display_name: str
-    :param blueprint: the underlying blueprint
+    :param blueprint: the underlying blueprint; its meta display name is
+            the entry's display name
     :type blueprint: Blueprint
+    :param display_name: fallback name, used only when the blueprint's
+            meta has none; defaults to ``""``
+    :type display_name: str, optional
     :param is_exportable: whether this blueprint is exported as a Claude
             Agent Skill; defaults to True
     :type is_exportable: bool, optional
@@ -131,8 +154,8 @@ def register_blueprint(
     :return: the created registry entry
     :rtype: BlueprintRegistry
     :example:
-    >>> register_blueprint("coder", "Kaye Peer Coder", coder_blueprint)
-    >>> register_blueprint("chat", "Chat", chat_blueprint, is_exportable=False)
+    >>> register_blueprint("coder", coder_blueprint)
+    >>> register_blueprint("chat", chat_blueprint, is_exportable=False)
     """
     if canonical_name in blueprint_registry:
         raise ValueError(
@@ -143,8 +166,8 @@ def register_blueprint(
 
     reg = BlueprintRegistry(
         canonical_name=canonical_name,
-        display_name=display_name,
         blueprint=blueprint,
+        display_name=display_name,
         is_exportable=is_exportable,
         is_user_invokable=is_user_invokable,
         llm_invokable=llm_invokable,

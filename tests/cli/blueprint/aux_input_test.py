@@ -52,7 +52,10 @@ def registered():
 
     def _register(name, blueprint, display_name="Display"):
         register_blueprint(
-            name, display_name, blueprint, is_exportable=False
+            name,
+            blueprint,
+            display_name=display_name,
+            is_exportable=False,
         )
         names.append(name)
 
