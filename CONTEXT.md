@@ -1,6 +1,6 @@
 # kaye-engine CONTEXT
 
-**Last updated:** 2026-09-29
+**Last updated:** 2026-10-01
 
 System knowledge for the **kaye-engine** repository — architecture,
 entities, and boundaries. Read this alongside `AGENTS.md` before making
@@ -59,7 +59,7 @@ Heading syntax carries node type: plain text is an ordinary corpus node,
 ```
 sources ────load_corpus_tree()──> Prompt Tree ──> CorpusIndex ─┐
                                                                 ├─render_prompt()─> text
-blueprint text ──parse_blueprint_text()──> Blueprint ───────────┘
+blueprint text ──parse_blueprint_tree()──> Blueprint ───────────┘
 ```
 
 The process holds exactly one corpus tree: `load_corpus_tree(sources)`
@@ -67,12 +67,12 @@ raises `ValueError` on a second call, `get_corpus_tree()` raises before a
 load, and `clear_corpus_tree()` drops the tree together with everything
 derived from it (the `CorpusIndex`, bound selections) through clear hooks.
 
-`render_prompt()`/`render_blueprint()` are the dependency-resolving
+`render_prompt()`/`preview_blueprint()` are the dependency-resolving
 entry points: each first resolves the blueprint's selection with the full
 transitive closure of its `.dependencies` (`resolve_selection()`, a bitmask
 OR, so a diamond dependency converges without duplicating shared content),
 then delegates to the own-content-only `render_prompt_without_dependencies()`/
-`render_blueprint_without_dependencies()` below. A `dependencies` entry
+`preview_blueprint_without_dependencies()` below. A `dependencies` entry
 may be a `Blueprint` value or a `str`; each `str` is resolved to the
 blueprint registered under that name at render time (late binding), and
 `register_blueprint()` validates every name at registration. A cycle or
@@ -224,7 +224,7 @@ render step to configure; `sync-open-webui-skills` renders internally
 per skill with no exposed profile either. `affordance`/`variant` are
 list-only, so the absence there is expected.
 
-`blueprint show` is the one asymmetric case inside the rendering set:
+`blueprint preview` is the one asymmetric case inside the rendering set:
 it pulls only `build_comment_parent_parser()` out of the bundle (its
 own `-c`/`--comment`, `-C`/`--no-comment`), plus its own
 `-l/--preview-line-count`, `-w/--preview-line-width`,
@@ -315,6 +315,33 @@ getter (`get_plugin_name()`, `get_claude_cli_display_name()`,
 configured name is not in `blueprint_registry` — rather than letting `None`
 or an unresolved name reach path, manifest, or prompt building.
 
+## Blueprint API Verbs
+
+Every blueprint function takes exactly one input type and returns exactly
+one output type: no format sniffing, no union inputs, no mode flag that
+changes the output type. A verb names one kind of operation everywhere:
+
+| verb | meaning | functions |
+|---|---|---|
+| parse | text → `Blueprint` | `parse_blueprint_tree`, `parse_blueprint_json` |
+| decode / encode | dict ↔ `Blueprint` | `decode_blueprint`, `encode_blueprint` |
+| load / save | JSON file ↔ `Blueprint` | `load_blueprint`, `save_blueprint` |
+| dump | `Blueprint` → JSON text | `dump_blueprint` |
+| validate | same `Blueprint`, or `ValueError` | `validate_blueprint` |
+| resolve / trace | direct / transitive dependencies as values | `resolve_dependencies`, `trace_dependencies` |
+| merge / diff | two blueprints → one / their node difference | `merge_blueprints`, `diff_blueprints` |
+| show | read one field or a summary | `show_blueprint`, `show_description`, `show_when_to_use`, `show_description_and_when_to_use`, `show_globs`, `show_dependencies` |
+| preview | preview tree | `preview_blueprint`, `preview_blueprint_without_dependencies`, `preview_selection` |
+| render | prompt | `render_prompt`, `render_prompt_without_dependencies` |
+
+The CLI (`kaye_engine/cli/blueprint/`) only composes these. Format
+detection (JSON when the first non-blank character is `{`, otherwise a
+preview tree) lives in `aux_input.py`, never in the API; a registered name
+renders through its registry entry (`BlueprintRegistry.resolve_profile()`),
+a blueprint read from stdin renders plain. `run_cmd` turns a `ValueError`,
+`KeyError`, or `FileNotFoundError` into one critical log line and exit
+code 1.
+
 ## Repository Layout
 
 ```
@@ -325,7 +352,7 @@ kaye_engine/
 │   │   ├── render_mode.py      RenderMode: NORMAL/NEGATIVE/POST_ORDER/
 │   │   │                        REVERSE_ORDER/IMAGE flag enum
 │   │   ├── render_profile.py   RenderProfile: layerable render-kwargs bundle
-│   │   └── render/             render_*_lines()/render_blueprint_tree(),
+│   │   └── render/             render_*_lines()/preview_selection(),
 │   │       split by concern (tree/lines/sidecar_splice/util)
 │   ├── dynamic_nodes/   render-time generated node types
 │   └── affordance_registry.py  Affordance/Variant two-level registry,
@@ -337,7 +364,9 @@ kaye_engine/
 ├── skill/               Agent Skills standard, agent-neutral: `Skill`
 │                        document, folder/.zip writers, `select_exportables`
 ├── cli/
-│   ├── blueprint/       `blueprint`/`bp` subcommand: ls, show, generate
+│   ├── blueprint/       `blueprint`/`bp` subcommand: list, preview, render,
+│   │                    validate, show; `aux_input.py`/`aux_output.py`
+│   │                    hold the glue (stdin, format detection, formatting)
 │   ├── claude/          plugins, marketplaces, CLAUDE.md
 │   │   ├── setup.py               setup_claude_cli(...); registers
 │   │   │                          consumer-supplied affordance_groups,

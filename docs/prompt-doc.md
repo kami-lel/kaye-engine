@@ -17,7 +17,7 @@ from kaye_engine.prompt import (
     Blueprint,
     create_blueprint,
     checkmark_nodes,
-    parse_blueprint_text,
+    parse_blueprint_tree,
     render_prompt,
     load_corpus_tree,
     get_corpus_tree,
@@ -247,16 +247,16 @@ A display name lives on the blueprint's `BlueprintRegistry` entry, see [Blueprin
 from kaye_engine.prompt import (
     create_blueprint,
     create_blueprint_from_node,
-    parse_blueprint_text,
+    parse_blueprint_tree,
 )
 
 empty = create_blueprint()
 full = create_blueprint(is_full=True)  # one subtrees entry for the root
 one = create_blueprint_from_node("Introduction", is_recursive=True)
-parsed = parse_blueprint_text(blueprint_text)
+parsed = parse_blueprint_tree(blueprint_text)
 ```
 
-`parse_blueprint_text()` reads the format `render_blueprint_tree()` prints: only the lines marked `[x]` select a node, and unchecked lines are ignored. While a corpus is loaded, every heading is checked against it, and an unknown heading raises `ValueError`.
+`parse_blueprint_tree()` reads the format `preview_selection()` prints: only the lines marked `[x]` select a node, and unchecked lines are ignored. While a corpus is loaded, every heading is checked against it, and an unknown heading raises `ValueError`.
 
 `create_blueprint_from_node()` points `.meta` at the node's own `{description}`, `{when_to_use}` and `{globs}` sidecar children, where it has them.
 
@@ -287,7 +287,7 @@ merged = merge_blueprints(bp_left, bp_right)
 
 #### Dependencies
 
-`.dependencies` holds the blueprints this one depends on. `render_prompt()` and `render_blueprint()` resolve them recursively and merge them as a union of checkmarks.
+`.dependencies` holds the blueprints this one depends on. `render_prompt()` and `preview_blueprint()` resolve them recursively and merge them as a union of checkmarks.
 
 A `str` entry is looked up in the registry **at render time**, so a dependency registered after its dependent still resolves. `register_blueprint()` validates every dependency name at registration.
 
@@ -299,18 +299,34 @@ A blueprint round-trips through JSON with a schema number on the envelope, with 
 from kaye_engine.prompt import (
     encode_blueprint,
     decode_blueprint,
+    dump_blueprint,
+    parse_blueprint_json,
     save_blueprint,
     load_blueprint,
 )
 
 data = encode_blueprint(bp)         # JSON-ready dict, paths sorted
-bp2 = decode_blueprint(data)        # also accepts the JSON text
+bp2 = decode_blueprint(data)        # dict only
+text = dump_blueprint(bp, indent=2) # JSON text
+bp3 = parse_blueprint_json(text)    # JSON text only
 save_blueprint(bp, "bp.json")
-bp3 = load_blueprint("bp.json")
-assert bp == bp2 == bp3
+bp4 = load_blueprint("bp.json")
+assert bp == bp2 == bp3 == bp4
 ```
 
-`decode_blueprint()` raises `ValueError` on malformed JSON, an unknown schema number, or a malformed field. A hand-written JSON file decodes the same way. A pickled blueprint equals the original in a fresh process, whatever `PYTHONHASHSEED` is.
+Each function takes one input type: `decode_blueprint()` a dict, `parse_blueprint_json()` JSON text, `parse_blueprint_tree()` preview-tree text, `load_blueprint()` a file path. None of them detects a format; the CLI does that. `decode_blueprint()` and `parse_blueprint_json()` raise `ValueError` on malformed JSON, an unknown schema number, or a malformed field. A hand-written JSON file decodes the same way. A pickled blueprint equals the original in a fresh process, whatever `PYTHONHASHSEED` is.
+
+### Inspecting a Blueprint
+
+Pure functions of a blueprint (or two), none of which mutates it:
+
+- `validate_blueprint(bp)`: returns `bp` itself, or raises `ValueError` for an unregistered dependency name or, while a corpus is loaded, a path it does not contain. `register_blueprint()` calls it
+- `resolve_dependencies(bp)`: the direct dependencies as `Blueprint` values, names looked up in the registry now
+- `trace_dependencies(bp)`: the whole transitive closure as values, each after its own dependencies and once only; a cycle or an unknown name raises `ValueError`
+- `diff_blueprints(left, right)`: a `BlueprintDiff` of the `nodes` only `left` holds and only `right` holds
+- `show_blueprint(bp)`: a `BlueprintSummary` of the meta, node and subtree counts, and dependency names
+- `show_dependencies(bp)`: the dependency names in order; a dependency carried as a value shows as `<blueprint value>`
+- `show_description(bp)`, `show_when_to_use(bp)`, `show_description_and_when_to_use(bp)`, `show_globs(bp)`: the descriptor fields, see [`sidecar-node-doc.md`](sidecar-node-doc.md)
 
 ### The Corpus Index and Selection
 
@@ -337,10 +353,10 @@ All of them take:
 - extra keyword arguments: passed on to each node's `content_lines()`, which is how dynamic nodes receive values such as `query=`, see [Dynamic Node Documentation](dynamic-content-doc.md#feeding-render-time-input)
 
 ```python
->>> from kaye_engine.prompt import parse_blueprint_text, render_prompt_without_dependencies
+>>> from kaye_engine.prompt import parse_blueprint_tree, render_prompt_without_dependencies
 >>> from kaye_engine.prompt.blueprint import bind_selection, render
 >>> from kaye_engine.prompt.blueprint.render_profile import RenderProfile
->>> bp = parse_blueprint_text(...)
+>>> bp = parse_blueprint_tree(...)
 >>> render.render_prompt_lines(
 ...     bind_selection(bp), profile=RenderProfile(disable_first_heading=True)
 ... )
@@ -410,9 +426,9 @@ the negative render is:
 
 The other `RenderMode` members (`POST_ORDER`, `REVERSE_ORDER`, `IMAGE`), and how they combine with `NEGATIVE`, are covered in [`render-profile-doc.md`](render-profile-doc.md#render-modes).
 
-### generate blueprint text
+### Previewing a Blueprint
 
-`render_blueprint_without_dependencies(blueprint)` shows a readable preview of the blueprint's own content only, ignoring `.dependencies`. The preview contains:
+`preview_blueprint_without_dependencies(blueprint)` shows a readable preview of the blueprint's own content only, ignoring `.dependencies`. The preview contains:
 
 - the tree structure of the corresponding prompt corpus tree
 - each node's name (its section heading)
@@ -422,7 +438,7 @@ The other `RenderMode` members (`POST_ORDER`, `REVERSE_ORDER`, `IMAGE`), and how
 By default the tree shows the selected nodes plus their ancestors. Pass `show_full_tree=True` to show the whole corpus tree.
 
 ```python
->>> render_blueprint_without_dependencies(bp)
+>>> preview_blueprint_without_dependencies(bp)
     ○
 [x] └── Project Title
 [ ]     ├── Description
@@ -440,7 +456,7 @@ By default the tree shows the selected nodes plus their ancestors. Pass `show_fu
 [x]     └── License
             This project is licensed under the MIT License.
 (blueprint: conversation; Kaye Engine v1.2.3)
->>> render_blueprint_without_dependencies(
+>>> preview_blueprint_without_dependencies(
 ...     bp, content_preview_lines=0, show_comment=True
 ... )
     ○
@@ -453,9 +469,9 @@ By default the tree shows the selected nodes plus their ancestors. Pass `show_fu
 <!-- blueprint: conversation; Kaye Engine v1.2.3 -->
 ```
 
-`render_blueprint(blueprint)` gives the same preview for this blueprint merged with its whole chain of `.dependencies`, resolved the same way as `render_prompt()`.
+`preview_blueprint(blueprint)` gives the same preview for this blueprint merged with its whole chain of `.dependencies`, resolved the same way as `render_prompt()`.
 
-The preview parses back through `parse_blueprint_text()` to an equal blueprint.
+The preview parses back through `parse_blueprint_tree()` to an equal blueprint.
 
 ### Blueprint Registry
 
@@ -490,12 +506,12 @@ Iterate `blueprint_registry` directly to list every registered blueprint.
 | `bp.uncheckmark(node)` | `bp = uncheckmark_nodes(bp, node)` |
 | `bp.merge(other)`, `bp \| other` | `merge_blueprints(bp, other)` |
 | `bp.prune()` | removed; a blueprint stores only its selection |
-| `PromptBlueprint.parse(text, corpus_tree=)` | `parse_blueprint_text(text)` |
+| `PromptBlueprint.parse(text, corpus_tree=)` | `parse_blueprint_tree(text)` |
 | `create_full_blueprint()`, `create_empty_blueprint()`, `create_from_node()` | `create_blueprint(is_full=)`, `create_blueprint_from_node()` |
 | node as hash integer | node object, name, or `NodePath` |
 | `bp.render_prompt()`, `bp.generate_prompt_without_dependencies()` | `render_prompt(bp)`, `render_prompt_without_dependencies(bp)` |
-| `bp.render_blueprint()`, `bp.generate_blueprint_without_dependencies()` | `render_blueprint(bp)`, `render_blueprint_without_dependencies(bp)` |
-| `bp.sidecars`, `BlueprintDescriptorSidecars` | `bp.meta`, `BlueprintMeta`, `render_description()` and friends |
+| `bp.render_blueprint()`, `bp.generate_blueprint_without_dependencies()` | `preview_blueprint(bp)`, `preview_blueprint_without_dependencies(bp)` |
+| `bp.sidecars`, `BlueprintDescriptorSidecars` | `bp.meta`, `BlueprintMeta`, `show_description()` and friends |
 | `corpus_tree=` argument | none: one corpus per process |
 | `load_corpus_tree(name, sources, is_default_tree=)`, `get_corpus_tree(name)` | `load_corpus_tree(sources)`, `get_corpus_tree()`, `clear_corpus_tree()` |
 | `get_default_corpus_tree()` | `get_corpus_tree()` |

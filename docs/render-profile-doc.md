@@ -348,7 +348,7 @@ See also [Claude Documentation](claude-doc.md).
 
 Every **rendering command** takes the same six options. A rendering command is any subcommand that reaches `render_prompt()`, directly or through `Exportable.content()`:
 
-- `blueprint generate`
+- `blueprint render`
 - `dynamic-node`
 - `exportable`
 - `skill`, `claude skills`, `claude plugin`, `claude marketplace`, `claude code`
@@ -368,7 +368,7 @@ A shared parent parser, `build_render_profile_parent_parser()`, registers these 
 Two notes on the flags:
 
 - `claude user-system-prompt` already uses `-c` for `--coder`, so its comment flags have no short form
-- `blueprint show` has the same comment flags but is not a rendering command
+- `blueprint preview` has the same comment flags but is not a rendering command
 
 ### How Flags Resolve
 
@@ -388,7 +388,7 @@ A command supplies its own fallback when a flag is omitted:
 
 | Command | Comment | Surface |
 | --- | --- | --- |
-| `blueprint generate` | on | none |
+| `blueprint render` | on | none |
 | `dynamic-node` | off | none |
 | `exportable` | off | none |
 | `skill` | off | `chat` |
@@ -403,7 +403,7 @@ A default surface only works when the consumer's `surface_profiles` defines that
 
 `--sparseness` defaults to `DEFAULT_SPARSENESS` (`kaye_engine/cli/__init__.py`, currently `0`), unless a subcommand passes its own `default_sparseness` to `build_render_profile_parent_parser()`.
 
-`blueprint generate` also sets `display_name` to the blueprint's registered name, so the trailing comment names it.
+`blueprint render` also sets `display_name` to the blueprint's registered name (`<stdin>` when read from stdin), so the trailing comment names it. A registered blueprint renders through its registry entry's own `render_profile`, merged under the flags; one read from stdin renders with the flags alone.
 
 ### Handing the Profile Down
 
