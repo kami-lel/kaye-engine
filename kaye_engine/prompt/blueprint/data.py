@@ -2,8 +2,9 @@
 data.py
 
 define ``Blueprint``, ``BlueprintMeta``, ``create_blueprint``, and the
-JSON codec ``encode_blueprint``, ``decode_blueprint``, ``parse_blueprint_json``,
-``load_blueprint``, ``save_blueprint`` -- a blueprint is pure frozen data, touching no corpus
+JSON codec ``encode_blueprint``, ``decode_blueprint``,
+``parse_blueprint_json``, ``dump_blueprint``, ``load_blueprint``,
+``save_blueprint`` -- a blueprint is pure frozen data, touching no corpus
 """
 
 import json
@@ -18,6 +19,7 @@ __all__ = (
     "BlueprintMeta",
     "create_blueprint",
     "decode_blueprint",
+    "dump_blueprint",
     "encode_blueprint",
     "load_blueprint",
     "parse_blueprint_json",
@@ -183,20 +185,13 @@ def decode_blueprint(data):
     pure data: touches no corpus, so it may run before one is loaded
 
 
-    :param data: the form :func:`encode_blueprint` returns, or its JSON
-            text
-    :type data: dict or str
-    :raises ValueError: malformed JSON, unknown schema number, or a
+    :param data: the form :func:`encode_blueprint` returns
+    :type data: dict
+    :raises ValueError: not a dict, unknown schema number, or a
             malformed field
     :return: the decoded blueprint
     :rtype: Blueprint
     """
-    if isinstance(data, str):
-        try:
-            data = json.loads(data)
-        except json.JSONDecodeError as err:
-            raise ValueError("blueprint is not valid JSON") from err
-
     if not isinstance(data, dict):
         raise ValueError("blueprint must be an object: {}".format(repr(data)))
 
@@ -240,7 +235,24 @@ def load_blueprint(file_path):
     :return: the decoded blueprint
     :rtype: Blueprint
     """
-    return decode_blueprint(Path(file_path).read_text(encoding="utf-8"))
+    return parse_blueprint_json(Path(file_path).read_text(encoding="utf-8"))
+
+
+def dump_blueprint(blueprint, *, indent=2):
+    """
+    :param blueprint: blueprint to dump
+    :type blueprint: Blueprint
+    :param indent: spaces per JSON nesting level; defaults to 2
+    :type indent: int, optional
+    :return: JSON text of :func:`encode_blueprint`, ending with a newline
+    :rtype: str
+    """
+    return (
+        json.dumps(
+            encode_blueprint(blueprint), indent=indent, ensure_ascii=False
+        )
+        + "\n"
+    )
 
 
 def save_blueprint(blueprint, file_path):
@@ -250,8 +262,4 @@ def save_blueprint(blueprint, file_path):
     :param file_path: JSON file to write
     :type file_path: str or Path
     """
-    Path(file_path).write_text(
-        json.dumps(encode_blueprint(blueprint), indent=2, ensure_ascii=False)
-        + "\n",
-        encoding="utf-8",
-    )
+    Path(file_path).write_text(dump_blueprint(blueprint), encoding="utf-8")

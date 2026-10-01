@@ -11,6 +11,7 @@ from .data import (
     BlueprintMeta,
     create_blueprint,
     decode_blueprint,
+    dump_blueprint,
     encode_blueprint,
     load_blueprint,
     parse_blueprint_json,

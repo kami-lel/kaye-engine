@@ -20,6 +20,7 @@ from kaye_engine.prompt.blueprint.data import (
     BlueprintMeta,
     create_blueprint,
     decode_blueprint,
+    dump_blueprint,
     encode_blueprint,
     load_blueprint,
     parse_blueprint_json,
@@ -92,7 +93,7 @@ class TestJson:
     def test_round_trip_through_text(_, blueprint):
         text = json.dumps(encode_blueprint(blueprint))
 
-        assert decode_blueprint(text) == blueprint
+        assert parse_blueprint_json(text) == blueprint
 
     def test_envelope_carries_schema(_, blueprint):
         assert encode_blueprint(blueprint)["schema"] == 1
@@ -133,6 +134,7 @@ class TestJson:
             {"schema": 1, "meta": {"description": 4}},
             [],
             "not json",
+            '{"schema": 1}',
         ],
     )
     def test_malformed_raises(_, data):
@@ -149,6 +151,24 @@ class TestJson:
     def test_decode_needs_no_corpus(_):
         # no corpus is loaded by this suite: decoding must still work
         assert decode_blueprint({"schema": 1, "nodes": [["A"]]}).nodes
+
+
+class TestDump:
+
+    def test_round_trip(_, blueprint):
+        assert parse_blueprint_json(dump_blueprint(blueprint)) == blueprint
+
+    def test_ends_with_newline(_, blueprint):
+        assert dump_blueprint(blueprint).endswith("}\n")
+
+    def test_indent_applies(_):
+        assert '\n    "schema"' in dump_blueprint(Blueprint(), indent=4)
+
+    def test_save_writes_dump(_, blueprint, tmp_path):
+        path = tmp_path / "bp.json"
+        save_blueprint(blueprint, path)
+
+        assert path.read_text(encoding="utf-8") == dump_blueprint(blueprint)
 
 
 class TestParseJson:
