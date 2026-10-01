@@ -19,6 +19,7 @@ from kaye_engine.prompt.blueprint import (
     show_blueprint,
     show_dependencies,
     show_description,
+    show_display_name,
     show_globs,
     show_when_to_use,
 )
@@ -62,6 +63,7 @@ def _show_from_summary(fmt_fx):
 # constants  ###################################################################
 # ``bp show`` field flag name -> the API function it selects
 SHOW_FIELD_FXS = {
+    "display-name": show_display_name,
     "description": show_description,
     "description-node": _show_from_summary(
         lambda summary: _fmt_path(summary.meta.description_node)
@@ -136,6 +138,7 @@ def fmt_summary(summary):
 
     return fmt_ls(
         [
+            "display name: {}".format(meta.display_name or _NONE_LABEL),
             "description: {}".format(meta.description or _NONE_LABEL),
             "nodes: {}".format(summary.node_count),
             "subtrees: {}".format(summary.subtree_count),

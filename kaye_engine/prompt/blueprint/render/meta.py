@@ -1,7 +1,7 @@
 """
 render.meta.py
 
-define ``show_description``, ``show_when_to_use``,
+define ``show_display_name``, ``show_description``, ``show_when_to_use``,
 ``show_description_and_when_to_use``, ``show_globs``,
 ``show_dependencies`` -- what the skill and rule exporters, and the CLI,
 read from a blueprint
@@ -14,6 +14,7 @@ from .util import REPLACEMENT_NEWLINE_SYMBOL
 
 __all__ = (
     "show_dependencies",
+    "show_display_name",
     "show_globs",
     "show_description",
     "show_description_and_when_to_use",
@@ -53,6 +54,19 @@ def _render_node_lines(path, *, sparseness):
 
 
 # Public API  ##################################################################
+def show_display_name(blueprint):
+    """
+    pure data: touches no corpus
+
+
+    :param blueprint:
+    :type blueprint: Blueprint
+    :return: the meta display name, ``""`` when unnamed
+    :rtype: str
+    """
+    return blueprint.meta.display_name
+
+
 def show_description(blueprint):
     """
     :param blueprint:

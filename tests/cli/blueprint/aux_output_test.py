@@ -33,6 +33,7 @@ from kaye_engine.prompt.blueprint import (
     show_blueprint,
     show_dependencies,
     show_description,
+    show_display_name,
     show_globs,
     show_when_to_use,
 )
@@ -52,12 +53,14 @@ class TestPick:
         assert pick_show_fx(None) is show_blueprint
 
     def test_show_field_map(_):
-        assert SHOW_FIELD_FXS == {
+        # the two ``-node`` fields are lambdas: compared by name only
+        assert {
+            "display-name": show_display_name,
             "description": show_description,
             "when-to-use": show_when_to_use,
             "globs": show_globs,
             "dependencies": show_dependencies,
-        }
+        }.items() <= SHOW_FIELD_FXS.items()
 
     @pytest.mark.parametrize("field", sorted(SHOW_FIELD_FXS))
     def test_show_field(_, field):
@@ -80,6 +83,7 @@ class TestFormat:
         out = fmt_summary(show_blueprint(Blueprint()))
 
         assert out == (
+            "display name: -\n"
             "description: -\n"
             "nodes: 0\n"
             "subtrees: 0\n"
@@ -89,7 +93,9 @@ class TestFormat:
     def test_summary_of_filled_blueprint(_):
         bp = Blueprint(
             meta=BlueprintMeta(
-                description="d", description_node=("A", "{description}")
+                display_name="Name",
+                description="d",
+                description_node=("A", "{description}"),
             ),
             nodes=frozenset({("A",)}),
             dependencies=("x", "y"),
@@ -97,6 +103,7 @@ class TestFormat:
 
         out = fmt_summary(show_blueprint(bp))
 
+        assert out.startswith("display name: Name\n")
         assert "description: d" in out
         assert "nodes: 1" in out
         assert out.endswith("dependencies: x, y")

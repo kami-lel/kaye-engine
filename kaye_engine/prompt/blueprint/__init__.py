@@ -47,6 +47,7 @@ from .render import (
     show_dependencies,
     show_description,
     show_description_and_when_to_use,
+    show_display_name,
     show_globs,
     show_when_to_use,
 )

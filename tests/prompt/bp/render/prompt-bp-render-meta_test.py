@@ -3,7 +3,7 @@ prompt-bp-render-meta_test.py
 
 Unit Tests (using pytest) for:
 
-show_description, show_when_to_use,
+show_display_name, show_description, show_when_to_use,
 show_description_and_when_to_use, show_globs
 """
 
@@ -15,6 +15,7 @@ from kaye_engine.prompt.blueprint.render.meta import (
     show_globs,
     show_description,
     show_description_and_when_to_use,
+    show_display_name,
     show_when_to_use,
 )
 from kaye_engine.prompt.blueprint.render.util import (
@@ -56,6 +57,21 @@ def _bp(**meta):
 
 
 # pytest  ######################################################################
+class TestDisplayName:
+
+    def test_returns_meta_name(_):
+        assert show_display_name(_bp(display_name="Ria")) == "Ria"
+
+    def test_unnamed_is_empty(_):
+        assert show_display_name(_bp()) == ""
+
+    def test_touches_no_corpus(_):
+        # pure data: a dangling meta node path is never looked up
+        bp = _bp(display_name="X", description_node=("Nope",))
+
+        assert show_display_name(bp) == "X"
+
+
 class TestDescription:
 
     def test_from_node(_):
