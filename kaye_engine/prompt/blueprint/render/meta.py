@@ -1,8 +1,8 @@
 """
 render.meta.py
 
-define ``render_description``, ``render_when_to_use``,
-``render_description_and_when_to_use``, ``extract_globs`` -- what the
+define ``show_description``, ``show_when_to_use``,
+``show_description_and_when_to_use``, ``show_globs`` -- what the
 skill and rule exporters read from a blueprint's ``meta``
 """
 
@@ -12,10 +12,10 @@ from .lines import render_prompt_lines
 from .util import REPLACEMENT_NEWLINE_SYMBOL
 
 __all__ = (
-    "extract_globs",
-    "render_description",
-    "render_description_and_when_to_use",
-    "render_when_to_use",
+    "show_globs",
+    "show_description",
+    "show_description_and_when_to_use",
+    "show_when_to_use",
 )
 
 
@@ -47,7 +47,7 @@ def _render_node_lines(path, *, sparseness):
 
 
 # Public API  ##################################################################
-def render_description(blueprint):
+def show_description(blueprint):
     """
     :param blueprint:
     :type blueprint: Blueprint
@@ -63,7 +63,7 @@ def render_description(blueprint):
     return lines[0] if lines else ""
 
 
-def render_when_to_use(blueprint):
+def show_when_to_use(blueprint):
     """
     :param blueprint:
     :type blueprint: Blueprint
@@ -75,7 +75,7 @@ def render_when_to_use(blueprint):
     return lines[0] if lines else ""
 
 
-def render_description_and_when_to_use(blueprint):
+def show_description_and_when_to_use(blueprint):
     """
     :param blueprint:
     :type blueprint: Blueprint
@@ -94,7 +94,7 @@ def render_description_and_when_to_use(blueprint):
     )
 
 
-def extract_globs(blueprint):
+def show_globs(blueprint):
     """
     :param blueprint:
     :type blueprint: Blueprint
