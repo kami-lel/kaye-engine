@@ -27,6 +27,8 @@ CORPUS = """# Project
 Overview text.
 ## Install
 Clone it.
+### {note}
+Noted text.
 ## License
 MIT.
 """

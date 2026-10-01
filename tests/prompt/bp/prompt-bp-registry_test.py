@@ -16,6 +16,7 @@ from kaye_engine.prompt.blueprint.registry import (
     register_blueprint,
     blueprint_registry,
 )
+from kaye_engine.prompt.blueprint.render_mode import RenderMode
 from kaye_engine.prompt.blueprint.render_profile import RenderProfile
 from kaye_engine.prompt.prompt_corpus_loader import (
     clear_corpus_tree,
@@ -244,3 +245,35 @@ class TestRegisterValidation:  #################################################
         registered_names.append(reg.canonical_name)
 
         assert reg.canonical_name in blueprint_registry
+
+
+class TestResolveProfile:  ######################################################
+
+    def test_entry_profile_is_the_base(_, registered_names):
+        reg = register_blueprint(
+            "test-registry-resolve",
+            "Resolve",
+            create_blueprint(),
+            render_profile=RenderProfile(mode=RenderMode.REVERSE_ORDER),
+        )
+        registered_names.append(reg.canonical_name)
+
+        assert reg.resolve_profile().mode == RenderMode.REVERSE_ORDER
+
+    def test_names_the_comment_after_the_entry(_, registered_names):
+        reg = register_blueprint(
+            "test-registry-resolve-name", "Entry Name", create_blueprint()
+        )
+        registered_names.append(reg.canonical_name)
+
+        assert reg.resolve_profile().display_name == "Entry Name"
+
+    def test_caller_chosen_name_wins(_, registered_names):
+        reg = register_blueprint(
+            "test-registry-resolve-own", "Entry Name", create_blueprint()
+        )
+        registered_names.append(reg.canonical_name)
+
+        out = reg.resolve_profile(RenderProfile(display_name="Chosen"))
+
+        assert out.display_name == "Chosen"

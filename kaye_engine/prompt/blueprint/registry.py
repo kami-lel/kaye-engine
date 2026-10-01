@@ -46,23 +46,34 @@ class BlueprintRegistry(Exportable):
 
     supports_negative_content = True
 
-    def content(self, *, profile=None, **kwargs):
+    def resolve_profile(self, profile=None):
         """
         :param profile: render profile merged with this registry
                 entry's own `render_profile`, not replaced by it
+        :type profile: RenderProfile, optional
+        :return: the profile to render this entry with; its comment is
+                named after this entry unless the caller chose a name
+        :rtype: RenderProfile
+        """
+        merged = self.render_profile
+        if profile is not None:
+            merged = merged.merge(profile)
+        if not merged.display_name:
+            merged = replace(merged, display_name=self.display_name)
+        return merged
+
+    def content(self, *, profile=None, **kwargs):
+        """
+        :param profile: see :meth:`resolve_profile`
         :type profile: RenderProfile, optional
         :param kwargs: further render options (e.g. ``query``)
                 forwarded to ``render_prompt(...)``
         :return: this blueprint's rendered prompt
         :rtype: str
         """
-        merged = self.render_profile
-        if profile is not None:
-            merged = merged.merge(profile)
-        # name the comment after this entry unless the caller chose a name
-        if not merged.display_name:
-            merged = replace(merged, display_name=self.display_name)
-        return render_prompt(self.blueprint, profile=merged, **kwargs)
+        return render_prompt(
+            self.blueprint, profile=self.resolve_profile(profile), **kwargs
+        )
 
 
 # Entry Point  #################################################################
