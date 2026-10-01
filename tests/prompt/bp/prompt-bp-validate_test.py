@@ -56,7 +56,10 @@ class TestDependencies:
 
     def test_registered_name_is_accepted(_):
         register_blueprint(
-            "test-validate-dep", "Dep", create_blueprint(), is_exportable=False
+            "test-validate-dep",
+            create_blueprint(),
+            display_name="Dep",
+            is_exportable=False,
         )
         try:
             bp = create_blueprint(dependencies=["test-validate-dep"])

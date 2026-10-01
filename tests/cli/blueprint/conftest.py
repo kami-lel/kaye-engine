@@ -71,7 +71,11 @@ def registered(corpus):
 
     def _register(name, blueprint, display_name="Display Name", **kwargs):
         register_blueprint(
-            name, display_name, blueprint, is_exportable=False, **kwargs
+            name,
+            blueprint,
+            display_name=display_name,
+            is_exportable=False,
+            **kwargs,
         )
         names.append(name)
 
