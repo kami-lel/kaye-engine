@@ -34,14 +34,9 @@ _HELP = "show a blueprint's summary, or one of its fields"
 
 _DESCRIPTION = _HELP + """
 
-without a field flag, prints a summary of the blueprint's meta, node count,
-and dependencies; with one, prints that field alone, and the field flags
-are mutually exclusive:
+by default, prints the blueprint summary
 
-    -d  --description   the description
-    -w  --when-to-use   the when-to-use
-    -g  --globs         glob patterns, one per line
-    -p  --dependencies  dependency names, one per line
+with a field flag, prints only that field; the flags are mutually exclusive
 
 select BLUEPRINT by canonical name in blueprint registry:
 
@@ -54,10 +49,12 @@ reading blueprint from stdin, a preview tree or JSON:
     cat my-tree.txt | kaye-engine blueprint show --description
 """
 
-# (short flag, field): the field names a key of ``SHOW_FIELD_FXS``
+# (short flag or None, field): the field names a key of ``SHOW_FIELD_FXS``
 _FIELD_FLAGS = (
     ("-d", "description"),
+    (None, "description-node"),
     ("-w", "when-to-use"),
+    (None, "when-to-use-node"),
     ("-g", "globs"),
     ("-p", "dependencies"),
 )
@@ -92,13 +89,13 @@ def register_show_parser(cli_subparser):
     field_group = show_parser.add_mutually_exclusive_group()
     for short_flag, field in _FIELD_FLAGS:
         field_group.add_argument(
-            short_flag,
+            *([short_flag] if short_flag else []),
             "--" + field,
             dest="field",
             action="store_const",
             const=field,
             default=None,
-            help="show the blueprint's {} alone".format(field),
+            help="show {} alone".format(field),
         )
 
     add_verbose_arguments(show_parser)

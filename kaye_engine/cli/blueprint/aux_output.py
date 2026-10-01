@@ -40,14 +40,6 @@ __all__ = (
 logger = kamilog.getLogger(LOGGER_NAME)
 
 # constants  ###################################################################
-# ``bp show`` field flag name -> the API function it selects
-SHOW_FIELD_FXS = {
-    "description": show_description,
-    "when-to-use": show_when_to_use,
-    "globs": show_globs,
-    "dependencies": show_dependencies,
-}
-
 _NONE_LABEL = "-"
 _PATH_SEPARATOR = " > "
 
@@ -55,6 +47,32 @@ _PATH_SEPARATOR = " > "
 # auxiliaries  #################################################################
 def _fmt_path(path):
     return _PATH_SEPARATOR.join(path) if path else _NONE_LABEL
+
+
+def _show_from_summary(fmt_fx):
+    """
+    :param fmt_fx: formats a ``BlueprintSummary`` into the one field
+    :type fmt_fx: Callable
+    :return: a show function for that field, reading the summary
+    :rtype: Callable
+    """
+    return lambda blueprint: fmt_fx(show_blueprint(blueprint))
+
+
+# constants  ###################################################################
+# ``bp show`` field flag name -> the API function it selects
+SHOW_FIELD_FXS = {
+    "description": show_description,
+    "description-node": _show_from_summary(
+        lambda summary: _fmt_path(summary.meta.description_node)
+    ),
+    "when-to-use": show_when_to_use,
+    "when-to-use-node": _show_from_summary(
+        lambda summary: _fmt_path(summary.meta.when_to_use_node)
+    ),
+    "globs": show_globs,
+    "dependencies": show_dependencies,
+}
 
 
 # Public API  ##################################################################
@@ -119,9 +137,6 @@ def fmt_summary(summary):
     return fmt_ls(
         [
             "description: {}".format(meta.description or _NONE_LABEL),
-            "description-node: {}".format(_fmt_path(meta.description_node)),
-            "when-to-use-node: {}".format(_fmt_path(meta.when_to_use_node)),
-            "globs-node: {}".format(_fmt_path(meta.globs_node)),
             "nodes: {}".format(summary.node_count),
             "subtrees: {}".format(summary.subtree_count),
             "dependencies: {}".format(
