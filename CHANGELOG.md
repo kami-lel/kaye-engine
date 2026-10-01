@@ -3,9 +3,9 @@
 [^format]
 
 <!--
-Fixme review all docs/
+TODO add build command to optimize
 
-Todo add build command to optimize
+Fixme review all docs/
 Todo support hermes
 
 bug continue exporting missing some skills
