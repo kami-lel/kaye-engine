@@ -175,12 +175,3 @@ class TestSidecarsSpliced:
         assert "Sidecar text." not in _render(
             DESC, conditional_sidecars=("description",)
         )
-
-
-class TestModes:
-
-    def test_other_modes_not_yet_supported(_):
-        from kaye_engine.prompt.blueprint.render_mode import RenderMode
-
-        with pytest.raises(NotImplementedError):
-            _render(DESC, mode=RenderMode.POST_ORDER)

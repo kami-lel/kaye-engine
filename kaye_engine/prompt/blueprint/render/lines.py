@@ -435,6 +435,70 @@ def _render_dynamic_block(index, idx, **kwargs):
     )
 
 
+def _iter_idxs_pre_order(index, idx, reverse_sibling_order):
+    """
+    :return: ``idx`` and its descendants' positions in pre-order, the
+            siblings of every level reversed when ``reverse_sibling_order``
+    :rtype: Iterator[int]
+    """
+    yield idx
+    children = index.child_idxs[idx]
+    for child_idx in reversed(children) if reverse_sibling_order else children:
+        yield from _iter_idxs_pre_order(index, child_idx, reverse_sibling_order)
+
+
+def _render_post_order_recursively(
+    selection, idx, *, reverse_sibling_order=False, **kwargs
+):
+    """
+    recursively render node ``idx`` and its descendants with every
+    child's block first (children kept in original relative order, or
+    reversed when ``reverse_sibling_order`` is set), then this node's own
+    heading and content last
+
+    (helper function used in ``render_prompt_lines()`` when
+    ``RenderMode.POST_ORDER`` is set)
+
+
+    :param selection:
+    :type selection: BlueprintSelection
+    :param idx: position of the node to render
+    :type idx: int
+    :param reverse_sibling_order: whether to reverse sibling order at
+            every level of the walk
+    :type reverse_sibling_order: bool
+    :param kwargs: further render options forwarded to each selected
+            dynamic node's ``content_lines(**kwargs)``
+    :return: rendered lines for the node and its descendants, or an
+            empty list when nothing in this subtree is selected
+    :rtype: list[str]
+    """
+    index = selection.index
+
+    children = index.child_idxs[idx]
+    child_blocks = []
+    for child_idx in reversed(children) if reverse_sibling_order else children:
+        block = _render_post_order_recursively(
+            selection,
+            child_idx,
+            reverse_sibling_order=reverse_sibling_order,
+            **kwargs,
+        )
+        if block:
+            child_blocks.append(block)
+
+    blocks = list(child_blocks)
+    if selection.mask >> idx & 1:
+        blocks.append(
+            list(
+                index.blocks[idx]
+                or _render_dynamic_block(index, idx, **kwargs)
+            )
+        )
+
+    return _join_blocks(blocks)
+
+
 def render_prompt_lines(
     selection,
     *,
@@ -466,9 +530,6 @@ def render_prompt_lines(
     :return: list of prompt lines
     :rtype: list[str]
     """
-    if profile.mode != RenderMode.NORMAL:
-        raise NotImplementedError("render modes other than NORMAL")
-
     selection = splice_sidecars(
         selection,
         conditional_sidecars=profile.conditional_sidecars,
@@ -476,25 +537,53 @@ def render_prompt_lines(
     )
     index = selection.index
 
-    lines = []
-    should_skip_heading = profile.disable_first_heading
-    last_idx = len(index.node_objs) - 1
+    reverse_sibling_order = RenderMode.REVERSE_ORDER in profile.mode
 
-    for idx in _walk_set_bits(selection.mask):
-        block = index.blocks[idx] or _render_dynamic_block(
-            index, idx, **kwargs
+    if RenderMode.POST_ORDER in profile.mode:
+        lines = _render_post_order_recursively(
+            selection,
+            0,
+            reverse_sibling_order=reverse_sibling_order,
+            **kwargs,
         )
+        if profile.disable_first_heading:
+            lines = _remove_first_heading_line(lines)
+    else:
+        lines = []
+        should_skip_heading = profile.disable_first_heading
+        node_cnt = len(index.node_objs)
 
-        if should_skip_heading:
-            should_skip_heading = False
+        if reverse_sibling_order:
+            # the last node walked, not the last in corpus order, gets no
+            # blank line after it
+            walk = (
+                (pos, idx)
+                for pos, idx in enumerate(
+                    _iter_idxs_pre_order(index, 0, True)
+                )
+                if selection.mask >> idx & 1
+            )
         else:
-            lines.append(block[0])
+            walk = ((idx, idx) for idx in _walk_set_bits(selection.mask))
 
-        # a blank line follows content, except after the very last node
-        if len(block) > 1:
-            lines.extend(block[1:])
-            if idx != last_idx:
-                lines.append("")
+        for pos, idx in walk:
+            block = index.blocks[idx] or _render_dynamic_block(
+                index, idx, **kwargs
+            )
+
+            if should_skip_heading:
+                should_skip_heading = False
+            else:
+                lines.append(block[0])
+
+            # a blank line follows content, except after the last node
+            if len(block) > 1:
+                lines.extend(block[1:])
+                if pos != node_cnt - 1:
+                    lines.append("")
+
+    if RenderMode._IMAGE in profile.mode:
+        lines = _flatten_headings_for_image_mode(lines)
 
     # appended last, so a registered line starting with "#" stays untouched
     if profile.show_comment:
