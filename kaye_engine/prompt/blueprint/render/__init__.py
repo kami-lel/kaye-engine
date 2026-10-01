@@ -20,6 +20,7 @@ existing ``render.X`` call site keeps working unchanged)
 from .comment import register_comment_line, render_comment_lines
 from .lines import render_negative_prompt_lines, render_prompt_lines
 from .meta import (
+    show_dependencies,
     show_globs,
     show_description,
     show_description_and_when_to_use,
@@ -39,6 +40,7 @@ from .util import (
 )
 
 __all__ = (
+    "show_dependencies",
     "REPLACEMENT_NEWLINE_SYMBOL",
     "apply_sparseness",
     "show_globs",

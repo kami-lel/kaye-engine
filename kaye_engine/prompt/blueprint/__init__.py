@@ -38,16 +38,18 @@ from .index import (
 from .parser import parse_blueprint_tree
 from .registry import *
 from .render import (
-    show_globs,
-    register_comment_line,
     preview_blueprint,
-    preview_selection,
     preview_blueprint_without_dependencies,
-    show_description,
-    show_description_and_when_to_use,
+    preview_selection,
+    register_comment_line,
     render_prompt,
     render_prompt_without_dependencies,
+    show_dependencies,
+    show_description,
+    show_description_and_when_to_use,
+    show_globs,
     show_when_to_use,
 )
 from .selection import bind_selection, resolve_selection
+from .summary import BlueprintSummary, show_blueprint
 from .validate import validate_blueprint
