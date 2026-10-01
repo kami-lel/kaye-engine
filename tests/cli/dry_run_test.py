@@ -167,7 +167,7 @@ class TestWiring:
     @pytest.mark.parametrize(
         "argv",
         [
-            ["skill"],
+            ["skill", "-a", "F"],
             ["claude", "skills"],
             ["continue"],
             ["export-image-prompt", "F"],

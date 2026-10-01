@@ -14,6 +14,7 @@ from kaye_engine import LOGGER_NAME
 from kaye_engine.cli.claude import LOGGER_CLAUDE_NAME
 from kaye_engine.cli.continue_ai import LOGGER_CONTINUE_NAME
 from kaye_engine.cli.open_webui import LOGGER_OPEN_WEBUI_NAME
+from kaye_engine.skill import LOGGER_SKILL_NAME
 
 __all__ = (
     "DRY_BADGE",
@@ -33,6 +34,7 @@ _LOGGER_NAMES = (
     LOGGER_CLAUDE_NAME,
     LOGGER_CONTINUE_NAME,
     LOGGER_OPEN_WEBUI_NAME,
+    LOGGER_SKILL_NAME,
 )
 
 # run-wide switch; writers read it through is_dry_run()
