@@ -17,6 +17,7 @@ from .data import (
     parse_blueprint_json,
     save_blueprint,
 )
+from .dependencies import resolve_dependencies, trace_dependencies
 from .dynamic_substitution import *
 from .edit import (
     checkmark_nodes,
