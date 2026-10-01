@@ -50,10 +50,10 @@ class TestPick:
         assert pick_render_fx(True) is render_prompt_without_dependencies
 
     def test_show_without_field_is_the_summary(_):
-        assert pick_show_fx(None) is show_blueprint
+        assert pick_show_fx(None) not in SHOW_FIELD_FXS.values()
+        assert callable(pick_show_fx(None))
 
     def test_show_field_map(_):
-        # the two ``-node`` fields are lambdas: compared by name only
         assert {
             "display-name": show_display_name,
             "description": show_description,
@@ -85,6 +85,7 @@ class TestFormat:
         assert out == (
             "display name: -\n"
             "description: -\n"
+            "when to use: -\n"
             "nodes: 0\n"
             "subtrees: 0\n"
             "dependencies: -"
@@ -101,10 +102,13 @@ class TestFormat:
             dependencies=("x", "y"),
         )
 
-        out = fmt_summary(show_blueprint(bp))
+        out = fmt_summary(
+            show_blueprint(bp), description="d", when_to_use="w"
+        )
 
         assert out.startswith("display name: Name\n")
         assert "description: d" in out
+        assert "when to use: w" in out
         assert "nodes: 1" in out
         assert out.endswith("dependencies: x, y")
 
