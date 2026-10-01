@@ -1,19 +1,12 @@
 """
 render.sidecar_splice.py
 
-define ``splice_sidecars`` and, until the renderers move to selections,
-``_splice_conditional_sidecars``
+define ``splice_sidecars``
 """
-
-import copy
-
-from anytree import PreOrderIter
-
-from ...sidecar_node import get_sidecar_name
 
 from ..index import BlueprintSelection
 
-__all__ = ("_splice_conditional_sidecars", "splice_sidecars")
+__all__ = ("splice_sidecars",)
 
 
 def _build_variant_sidecar_map(variants):
@@ -24,7 +17,7 @@ def _build_variant_sidecar_map(variants):
     entry pair per ``affordance_registry`` entry, checkmarked when
     any/none of its registered variants are present in ``variants``
 
-    (helper function used in ``_splice_conditional_sidecars()``)
+    (helper function used in ``splice_sidecars()``)
 
 
     :param variants: canonical names of variants available on the
@@ -110,45 +103,3 @@ def splice_sidecars(selection, *, conditional_sidecars, variants):
 
     return BlueprintSelection(index, mask)
 
-
-def _splice_conditional_sidecars(
-    blueprint, *, conditional_sidecars, variants
-):
-    """
-    auto-checkmark conditional sidecar nodes ahead of rendering -- both
-    plain ``conditional_sidecars`` name matches and, when ``variants``
-    is given, the ``Usage``/``Lack``/``Fallback`` sidecars derived
-    from ``variant_registry``/``affordance_registry``
-
-    (helper function used in ``render_prompt_lines()``)
-
-
-    :param blueprint:
-    :type blueprint: PromptBlueprint
-    :param conditional_sidecars: see ``render_prompt_lines()``
-    :type conditional_sidecars: collections.abc.Iterable[str]
-    :param variants: see ``render_prompt_lines()``
-    :type variants: collections.abc.Iterable[str] or None
-    :return: ``blueprint``, or a checkmark-spliced copy of it when either
-            mechanism has anything to apply
-    :rtype: PromptBlueprint
-    """
-    variant_sidecar_names = (
-        _build_variant_sidecar_map(variants) if variants is not None else None
-    )
-
-    if not conditional_sidecars and variant_sidecar_names is None:
-        return blueprint
-
-    working_bp = copy.copy(blueprint)
-    for node in PreOrderIter(working_bp.corpus):
-        sidecar_name = get_sidecar_name(node)
-        if sidecar_name is None or not working_bp.is_checkmarked(node.parent):
-            continue
-        if sidecar_name in conditional_sidecars or (
-            variant_sidecar_names is not None
-            and variant_sidecar_names.get(sidecar_name)
-        ):
-            working_bp.checkmark(node)
-
-    return working_bp
