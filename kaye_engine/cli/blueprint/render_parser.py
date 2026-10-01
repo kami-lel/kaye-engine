@@ -27,7 +27,6 @@ from kaye_engine.cli.render_profile_parser import (
     build_render_profile_parent_parser,
     resolve_render_profile,
 )
-from kaye_engine.cli.sparseness_parser import SPARSENESS_DESCRIPTION
 from kamilog import (
     add_verbose_arguments,
     set_logging_level_by_namespace,
@@ -43,8 +42,7 @@ _HELP = "render a blueprint into a concrete prompt"
 
 _DESCRIPTION = _HELP + """
 
-renders blueprint into a final system prompt; the result is printed to stdout;
-dependencies are included unless -D is given
+renders blueprint into a final system prompt; the result is printed to stdout
 
 select BLUEPRINT by canonical name in blueprint registry:
 
@@ -54,8 +52,7 @@ reading blueprint from stdin, a preview tree or JSON:
 
     kaye-engine blueprint render < my-blueprint.json
     cat my-tree.txt | kaye-engine blueprint render
-
-""" + SPARSENESS_DESCRIPTION
+"""
 
 
 # auxiliaries  #################################################################
@@ -94,7 +91,7 @@ def register_render_parser(cli_subparser):
         formatter_class=RawDescriptionHelpFormatter,
         aliases=["r"],
         parents=[
-            build_blueprint_arg_parser(),
+            build_blueprint_arg_parser(is_render_profile=True),
             build_no_dependencies_arg_parser(),
             build_render_profile_parent_parser(
                 default_sparseness=DEFAULT_SPARSENESS,

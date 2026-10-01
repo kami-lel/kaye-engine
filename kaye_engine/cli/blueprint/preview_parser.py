@@ -36,8 +36,7 @@ _HELP = "preview a blueprint as a tree of its entries"
 _DESCRIPTION = _HELP + """
 
 renders the blueprint as a tree of its entries, each shown as a truncated
-excerpt of its content, and prints the result to stdout; dependencies are
-included unless -D is given
+excerpt of its content, and prints the result to stdout
 
 select BLUEPRINT by canonical name in blueprint registry:
 
