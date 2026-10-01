@@ -8,6 +8,7 @@ Unit Tests (using pytest) for:
 - emit_str(), run_cmd()
 """
 
+import kamilog
 import pytest
 
 from kaye_engine.cli.blueprint.aux_output import (
@@ -37,6 +38,10 @@ from kaye_engine.prompt.blueprint import (
     show_globs,
     show_when_to_use,
 )
+
+
+def _field(label, value):
+    return kamilog.gen_comment_banner_centered(label, 5) + "\n" + value
 
 
 class TestPick:
@@ -82,13 +87,11 @@ class TestFormat:
     def test_summary_of_empty_blueprint(_):
         out = fmt_summary(show_blueprint(Blueprint()))
 
-        assert out == (
-            "display name: -\n"
-            "description: -\n"
-            "when to use: -\n"
-            "nodes: 0\n"
-            "subtrees: 0\n"
-            "dependencies: -"
+        assert out == "\n".join(
+            [
+                _field("nodes", "0"),
+                _field("subtrees", "0"),
+            ]
         )
 
     def test_summary_of_filled_blueprint(_):
@@ -106,11 +109,19 @@ class TestFormat:
             show_blueprint(bp), description="d", when_to_use="w"
         )
 
-        assert out.startswith("display name: Name\n")
-        assert "description: d" in out
-        assert "when to use: w" in out
-        assert "nodes: 1" in out
-        assert out.endswith("dependencies: x, y")
+        assert out.startswith(_field("display name", "Name") + "\n")
+        assert _field("description", "d") in out
+        assert _field("when to use", "w") in out
+        assert _field("nodes", "1") in out
+        assert out.endswith(_field("dependencies", "x\ny"))
+
+    def test_summary_banner_is_centered_cb5_of_80_chars(_):
+        out = fmt_summary(show_blueprint(Blueprint()))
+
+        banner = out.splitlines()[0]
+        assert len(banner) == 80
+        assert "  nodes  " in banner
+        assert set(banner.replace("  nodes  ", "")) == {"-"}
 
     def test_show_result_by_type(_):
         summary = show_blueprint(Blueprint())
