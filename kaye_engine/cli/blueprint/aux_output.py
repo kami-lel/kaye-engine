@@ -3,8 +3,9 @@ aux_output.py
 
 define ``SHOW_FIELD_FXS``, ``pick_preview_fx``, ``pick_render_fx``,
 ``pick_show_fx``, ``fmt_ls``, ``fmt_summary``, ``fmt_show_result``,
-``emit_str``, ``run_cmd`` -- the CLI glue between API functions and
-stdout; each one composes API functions, none duplicates their logic
+``emit_str``, ``run_cmd``, ``run_cmd_and_exit`` -- the CLI glue between
+API functions and stdout; each one composes API functions, none
+duplicates their logic
 """
 
 import kamilog
@@ -32,6 +33,7 @@ __all__ = (
     "pick_render_fx",
     "pick_show_fx",
     "run_cmd",
+    "run_cmd_and_exit",
 )
 
 # logger  ######################################################################
@@ -170,3 +172,21 @@ def run_cmd(handler, args):
         return 1
 
     return 0
+
+
+def run_cmd_and_exit(handler, args):
+    """
+    run ``handler`` through :func:`run_cmd`, and leave the process with its
+    exit code when that is not ``0``
+
+
+    :param handler: the command handler
+    :type handler: Callable
+    :param args: parsed arguments, passed to ``handler``
+    :type args: argparse.Namespace
+    :raises SystemExit: the handler failed
+    """
+    exit_code = run_cmd(handler, args)
+
+    if exit_code:
+        raise SystemExit(exit_code)
