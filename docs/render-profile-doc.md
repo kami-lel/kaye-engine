@@ -1,8 +1,8 @@
 # Kaye Engine: Render Profile Documentation
 
 <!--
-Fixme CLI provide none and all
-Bug -u & --variant fail get displayed in all docstring
+FIXME CLI provide none and all
+BUG -u & --variant fail get displayed in all docstring
 -->
 
 
