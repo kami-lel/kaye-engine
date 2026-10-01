@@ -8,6 +8,7 @@ from kaye_engine.cli.claude.marketplace.parser import (
     register_marketplace_parser,
 )
 from kaye_engine.cli.claude.plugin.parser import register_plugin_parser
+from kaye_engine.cli.claude.skills.parser import register_skills_parser
 from kaye_engine.cli.claude.user_prompt.parser import (
     register_user_prompt_parser,
 )
@@ -37,5 +38,6 @@ def register_cli_claude_parser(  ###############################################
     register_user_prompt_parser(claude_subparser)
     register_plugin_parser(claude_subparser)
     register_marketplace_parser(claude_subparser)
+    register_skills_parser(claude_subparser)
     register_vs_code_parser(claude_subparser)
     register_code_parser(claude_subparser)
