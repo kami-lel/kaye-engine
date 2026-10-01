@@ -6,7 +6,9 @@
 Fixme review all docs/
 Todo review render profile flags
 
-Todo support hermes
+todo support hermes
+
+todo support mux consumer project
 
 bug continue exporting missing some skills
 todo organize exportable registry,
