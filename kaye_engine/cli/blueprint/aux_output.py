@@ -56,6 +56,15 @@ def _gen_lineage_str(path):
     return _LINEAGE_SEPARATOR.join(path or ())
 
 
+def _gen_lineage_strs(paths):
+    """
+    :type paths: Iterable[NodePath]
+    :return: each path's lineage string, sorted
+    :rtype: list[str]
+    """
+    return sorted(_gen_lineage_str(path) for path in paths)
+
+
 def _show_from_summary(fmt_fx):
     """
     :param fmt_fx: formats a ``BlueprintSummary`` into the one field
@@ -94,6 +103,8 @@ SHOW_FIELD_FXS = {
     "when-to-use-node": _show_from_summary(
         lambda summary: _gen_lineage_str(summary.meta.when_to_use_node)
     ),
+    "nodes": lambda blueprint: _gen_lineage_strs(blueprint.nodes),
+    "subtrees": lambda blueprint: _gen_lineage_strs(blueprint.subtrees),
     "globs": show_globs,
     "dependencies": show_dependencies,
 }
@@ -192,7 +203,7 @@ def fmt_summary(
     ):
         heading = "{}: {}".format(label, count)
         lines.append(kamilog.gen_comment_banner_centered(heading, 5))
-        lines += sorted(_gen_lineage_str(path) for path in paths)
+        lines += _gen_lineage_strs(paths)
 
     if summary.dependencies:
         lines.append(kamilog.gen_comment_banner_centered("dependencies", 5))
