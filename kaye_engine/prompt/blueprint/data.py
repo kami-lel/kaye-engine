@@ -38,6 +38,9 @@ class BlueprintMeta:  ##########################################################
     descriptors of a blueprint, replacing sidecar lookups
 
 
+    :param display_name: human-facing name; empty is legal and means
+            unnamed; defaults to ``""``
+    :type display_name: str, optional
     :param description: literal description, taking priority over the
             description node; defaults to None
     :type description: str, optional
@@ -49,6 +52,7 @@ class BlueprintMeta:  ##########################################################
     :type globs_node: NodePath, optional
     """
 
+    display_name: str = ""
     description: str | None = None
     description_node: NodePath | None = None
     when_to_use_node: NodePath | None = None
@@ -100,6 +104,8 @@ def _encode_paths(paths):
 
 def _encode_body(blueprint):
     meta = {"description": blueprint.meta.description}
+    if blueprint.meta.display_name:
+        meta["display_name"] = blueprint.meta.display_name
     for field in _META_PATH_FIELDS:
         value = getattr(blueprint.meta, field)
         if value is not None:
@@ -126,6 +132,11 @@ def _decode_body(data):
     if description is not None and not isinstance(description, str):
         raise ValueError("meta.description must be a string or null")
     meta_kwargs["description"] = description
+    display_name = raw_meta.get("display_name")
+    if display_name is not None:
+        if not isinstance(display_name, str):
+            raise ValueError("meta.display_name must be a string")
+        meta_kwargs["display_name"] = display_name
     for field in _META_PATH_FIELDS:
         raw = raw_meta.get(field)
         if raw is not None:

@@ -33,7 +33,9 @@ from kaye_engine.prompt.blueprint.data import (
 def blueprint():
     return Blueprint(
         meta=BlueprintMeta(
-            description="Does things", globs_node=("Style", "{globs}")
+            display_name="Thing Doer",
+            description="Does things",
+            globs_node=("Style", "{globs}"),
         ),
         nodes=frozenset({("A", "B"), ("C",)}),
         subtrees=frozenset({("Amanuensis", "Redactor")}),
@@ -124,6 +126,20 @@ class TestJson:
     def test_minimal_hand_written(_):
         assert decode_blueprint({"schema": 1}) == Blueprint()
 
+    def test_display_name_round_trips(_, blueprint):
+        encoded = encode_blueprint(blueprint)
+
+        assert encoded["meta"]["display_name"] == "Thing Doer"
+        assert decode_blueprint(encoded).meta.display_name == "Thing Doer"
+
+    def test_absent_display_name_decodes_empty(_):
+        bp = decode_blueprint({"schema": 1, "meta": {"description": "x"}})
+
+        assert bp.meta.display_name == ""
+
+    def test_empty_display_name_not_encoded(_):
+        assert "display_name" not in encode_blueprint(Blueprint())["meta"]
+
     @pytest.mark.parametrize(
         "data",
         [
@@ -132,6 +148,7 @@ class TestJson:
             {"schema": 1, "nodes": [["ok", 3]]},
             {"schema": 1, "nodes": ["flat"]},
             {"schema": 1, "meta": {"description": 4}},
+            {"schema": 1, "meta": {"display_name": 4}},
             [],
             "not json",
             '{"schema": 1}',
