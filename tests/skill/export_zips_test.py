@@ -12,9 +12,9 @@ from unittest.mock import patch
 
 import pytest
 
-from kaye_engine.cli.claude import LOGGER_CLAUDE_NAME
-from kaye_engine.cli.skill import export_zips
-from kaye_engine.cli.skill.export_zips import export_skills_as_zips
+from kaye_engine.skill import LOGGER_SKILL_NAME
+from kaye_engine.skill import export_zips
+from kaye_engine.skill.export_zips import export_skills_as_zips
 
 
 # auxiliaries  #################################################################
@@ -32,9 +32,6 @@ def _patched_fixture():
             "export_skills_as_folders",
             side_effect=_fake_export_folders,
         ),
-        patch.object(
-            export_zips, "get_claude_cli_consumer_version", return_value="1"
-        ),
     ):
         yield
 
@@ -44,8 +41,8 @@ class TestExportSkillsAsZips:
 
     def test_logs_create_dir_pack_and_move(_, _patched, tmp_path, caplog):
         dest = tmp_path / "out"
-        with caplog.at_level(logging.INFO, logger=LOGGER_CLAUDE_NAME):
-            export_skills_as_zips(dest)
+        with caplog.at_level(logging.INFO, logger=LOGGER_SKILL_NAME):
+            export_skills_as_zips(dest, version="1")
 
         assert (dest / "alpha.zip").is_file()
         assert [rec.message for rec in caplog.records] == [
@@ -58,9 +55,9 @@ class TestExportSkillsAsZips:
         blocker = tmp_path / "file"
         blocker.write_text("", encoding="utf-8")
 
-        with caplog.at_level(logging.INFO, logger=LOGGER_CLAUDE_NAME):
+        with caplog.at_level(logging.INFO, logger=LOGGER_SKILL_NAME):
             with pytest.raises(SystemExit) as info:
-                export_skills_as_zips(blocker / "out")
+                export_skills_as_zips(blocker / "out", version="1")
 
         assert info.value.code == 1
         assert caplog.records[-1].levelno == logging.ERROR
@@ -68,9 +65,9 @@ class TestExportSkillsAsZips:
 
     def test_archive_failure_exits_1(_, _patched, tmp_path, caplog):
         with patch.object(shutil, "make_archive", side_effect=OSError("x")):
-            with caplog.at_level(logging.INFO, logger=LOGGER_CLAUDE_NAME):
+            with caplog.at_level(logging.INFO, logger=LOGGER_SKILL_NAME):
                 with pytest.raises(SystemExit) as info:
-                    export_skills_as_zips(tmp_path / "out")
+                    export_skills_as_zips(tmp_path / "out", version="1")
 
         assert info.value.code == 1
         assert caplog.records[-1].message.startswith("fail to pack alpha")

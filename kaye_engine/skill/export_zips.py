@@ -9,8 +9,7 @@ import tempfile
 from pathlib import Path
 
 import kamilog
-from kaye_engine.cli.claude import LOGGER_CLAUDE_NAME
-from kaye_engine.cli.claude.setup import get_claude_cli_consumer_version
+from kaye_engine.skill import LOGGER_SKILL_NAME
 from kaye_engine.cli.dry_run import is_dry_run
 from kaye_engine.exportable import exportable_registry
 
@@ -21,12 +20,14 @@ from .export_folders import (
 from .skill_md import Skill
 
 # logger  ######################################################################
-logger = kamilog.getLogger(LOGGER_CLAUDE_NAME)
+logger = kamilog.getLogger(LOGGER_SKILL_NAME)
 
 # entry point  #################################################################
 
 
-def export_skills_as_zips(parent_folder, *, verbose=True, render_profile=None):
+def export_skills_as_zips(
+    parent_folder, *, version, verbose=True, render_profile=None
+):
     """
     export all blueprints, prompts, and abbreviation groups as ``.zip`` files
 
@@ -37,6 +38,8 @@ def export_skills_as_zips(parent_folder, *, verbose=True, render_profile=None):
 
     :param parent_folder: destination directory to write ``.zip`` files into
     :type parent_folder: Path-like
+    :param version: installed package version
+    :type version: str
     :param verbose: print exported paths when ``True``
     :type verbose: bool
     :param render_profile: render options forwarded to
@@ -51,11 +54,9 @@ def export_skills_as_zips(parent_folder, *, verbose=True, render_profile=None):
     except OSError as err:
         raise SystemExit(1) from err
 
-    pkg_version = get_claude_cli_consumer_version()
-
     if is_dry_run():
         _report_zips_without_writing(
-            parent_folder, pkg_version, render_profile
+            parent_folder, version, render_profile
         )
         return
 
@@ -66,7 +67,7 @@ def export_skills_as_zips(parent_folder, *, verbose=True, render_profile=None):
         logger.debug("building skill folders in temporary directory")
         export_skills_as_folders(
             Path(skills_temp),
-            version=pkg_version,
+            version=version,
             render_profile=render_profile,
         )
 
