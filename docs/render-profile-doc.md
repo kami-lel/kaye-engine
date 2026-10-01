@@ -292,7 +292,6 @@ from kaye_engine.prompt.blueprint.render_profile import RenderProfile
 
 register_blueprint(
     "coder",
-    "Kaye Peer Coder",
     coder_blueprint,
     render_profile=RenderProfile(conditional_sidecars=("[Claude]",)),
 )

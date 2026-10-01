@@ -235,11 +235,11 @@ A `Blueprint` has four fields:
 | `.nodes` | `frozenset[NodePath]`: nodes checkmarked one by one |
 | `.subtrees` | `frozenset[NodePath]`: nodes checkmarked together with every non-sidecar descendant, even one added later |
 | `.dependencies` | `tuple[str or Blueprint, ...]`: a `str` names a registered blueprint, resolved at render time; a `Blueprint` is carried as a value |
-| `.meta` | `BlueprintMeta`: descriptors for the exporters, see [`sidecar-node-doc.md`](sidecar-node-doc.md#blueprintmeta) |
+| `.meta` | `BlueprintMeta`: the display name and descriptors for the exporters, see [`sidecar-node-doc.md`](sidecar-node-doc.md#blueprintmeta) |
 
 A `NodePath` is a tuple of section names from just below the root down to the node, such as `("Style Guide", "Good Writing")`. The root itself is never stored, because it is always enabled.
 
-A display name lives on the blueprint's `BlueprintRegistry` entry, see [Blueprint Registry](#blueprint-registry), or is a render-time argument.
+A display name is blueprint meta: `bp.meta.display_name`, `""` when unnamed. A `BlueprintRegistry` entry reads it live, see [Blueprint Registry](#blueprint-registry); it is also a render-time argument.
 
 ### Creating a Blueprint
 
@@ -258,7 +258,7 @@ parsed = parse_blueprint_tree(blueprint_text)
 
 `parse_blueprint_tree()` reads the format `preview_selection()` prints: only the lines marked `[x]` select a node, and unchecked lines are ignored. While a corpus is loaded, every heading is checked against it, and an unknown heading raises `ValueError`.
 
-`create_blueprint_from_node()` points `.meta` at the node's own `{description}`, `{when_to_use}` and `{globs}` sidecar children, where it has them.
+`create_blueprint_from_node()` names the blueprint after the node and points `.meta` at the node's own `{description}`, `{when_to_use}` and `{globs}` sidecar children, where it has them. Pass `meta=` to take over the whole meta, name included.
 
 ### Editing a Blueprint
 
@@ -475,7 +475,7 @@ The preview parses back through `parse_blueprint_tree()` to an equal blueprint.
 
 ### Blueprint Registry
 
-`register_blueprint(name, ...)` creates a `BlueprintRegistry` and inserts it into the `blueprint_registry` dictionary, the single source of truth for a blueprint's identity and export policy.
+`register_blueprint(name, blueprint, ...)` creates a `BlueprintRegistry` and inserts it into the `blueprint_registry` dictionary, the single source of truth for a blueprint's identity and export policy.
 
 `kaye_engine` bundles no blueprint registrations of its own. A consumer package calls `register_blueprint` for each real blueprint it defines. Keys are canonical kebab-case names, values are `BlueprintRegistry` entries, and `get_blueprint(name)` retrieves one:
 
@@ -484,14 +484,14 @@ from kaye_engine.prompt import get_blueprint, blueprint_registry
 
 registry = get_blueprint("chat")
 blueprint = registry.blueprint          # a Blueprint value
-name = registry.display_name            # e.g. "Chat"
+name = registry.display_name            # e.g. "Chat", read from blueprint.meta
 canonical_name = registry.canonical_name  # kebab-case slug, e.g. "chat"
 ```
 
 Each entry carries:
 
 - `.blueprint`: the underlying `Blueprint`; assign a new value to edit it, as a blueprint is immutable
-- `.canonical_name` and `.display_name`
+- `.canonical_name` and `.display_name`: the name is read live from `.blueprint.meta.display_name`, so reassigning `.blueprint` with a new meta name changes it; when the meta name is empty it falls back to the optional `display_name=` argument of `register_blueprint()`, else `""`
 - `.is_exportable`: whether it is exported as an Agent Skill
 - `is_user_invokable` and `llm_invokable`: the export-policy flags
 

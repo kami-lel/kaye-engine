@@ -312,10 +312,11 @@ Frozen container pointing at the descriptor sidecar nodes of a blueprint.
 **Location:** `kaye_engine/prompt/blueprint/data.py`
 
 **Description:**
-Holds the descriptors (description, when_to_use, globs) of a blueprint as **node paths**, never node objects. They are never rendered into the prompt output — they exist purely for discovery, documentation, and export. `create_blueprint_from_node()` fills them from the node's own sidecar children; `replace_meta()` replaces any of them.
+Holds the display name and the descriptors (description, when_to_use, globs) of a blueprint; the descriptors are **node paths**, never node objects. They are never rendered into the prompt output — they exist purely for discovery, documentation, and export. `create_blueprint_from_node()` fills them from the node's own sidecar children; `replace_meta()` replaces any of them.
 
 **Fields:**
 
+- `display_name`: `str`, the blueprint's human-facing name, `""` when unnamed; `create_blueprint_from_node()` defaults it to the node's name
 - `description`: `str or None`, a literal description that takes priority over the node
 - `description_node`: `NodePath or None`, path of the node holding the description
 - `when_to_use_node`: `NodePath or None`, path of the node holding the when-to-use
@@ -323,8 +324,9 @@ Holds the descriptors (description, when_to_use, globs) of a blueprint as **node
 
 **Reading the descriptors:**
 
-All three are functions of `kaye_engine.prompt.blueprint.render` (re-exported from `kaye_engine.prompt`), and need the corpus loaded:
+These are functions of `kaye_engine.prompt.blueprint.render` (re-exported from `kaye_engine.prompt`), and need the corpus loaded:
 
+- `show_display_name(blueprint)`: the meta display name, `""` when unnamed; pure data, needs no corpus
 - `show_description(blueprint)`: the literal `description` when set, else the description node's content as one line, else `""`
 - `show_when_to_use(blueprint)`: the when-to-use node's content as one line, else `""`
 - `show_description_and_when_to_use(blueprint)`: the literal `description` alone when set, else the description and when-to-use node content joined by the replacement newline symbol

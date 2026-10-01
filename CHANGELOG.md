@@ -76,6 +76,26 @@ verify it. The calls that changed are mapped in the warning below.
 > `.blueprint` must be reassigned rather than mutated, and a second
 > `load_corpus_tree()` call now raises `ValueError`.
 
+### Display Name as Blueprint Meta
+
+**Purpose**: a blueprint carries its own human-facing name, so the name
+travels with it instead of living only on the registry entry.
+
+**High-level design**:
+
+- `BlueprintMeta.display_name` (default `""`, empty is legal) round-trips
+  through the JSON codec as the optional `meta.display_name`; old files
+  without it still load
+- a `BlueprintRegistry` entry reads its `display_name` live from the
+  blueprint meta, falling back to the `display_name=` argument, else `""`
+- `create_blueprint_from_node()` names the blueprint after the node
+
+> [!WARNING]
+> `register_blueprint(canonical_name, display_name, blueprint)` is now
+> `register_blueprint(canonical_name, blueprint, *, display_name="")`.
+> Callers passing the name positionally must move it into the blueprint
+> meta (`replace_meta(bp, display_name=...)`) or pass `display_name=`.
+
 ### Blueprint CLI and API Verbs
 
 **Purpose**: one verb vocabulary for the blueprint API and the CLI, so a
@@ -113,6 +133,8 @@ input type and returns one output type.
 
 ### Added
 
+- `show_display_name()` and `blueprint show -n`/`--display-name`; the
+  `blueprint show` summary leads with a `display name:` line
 - file and directory actions in every export log as fixed-wording kamilog
   deeds (`create`, `overwrite`, `pack`, `move`, `save`, `load`), with a
   `fail to ...` line and traceback on error
