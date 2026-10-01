@@ -31,14 +31,14 @@ class TestSummary:
         exit_code, out = run([verb, "test-cli-top"])
 
         assert exit_code == 0
-        assert _field("nodes", "1") in out
+        assert "  nodes: 1  " in out
         assert _field("dependencies", "test-cli-base") in out
 
     def test_stdin_tree(_, run):
         exit_code, out = run(["show"], stdin=TREE)
 
         assert exit_code == 0
-        assert _field("nodes", "2") in out
+        assert "  nodes: 2  " in out
         assert "dependencies" not in out
 
     def test_stdin_json(_, run):
@@ -47,7 +47,7 @@ class TestSummary:
         exit_code, out = run(["show"], stdin=text)
 
         assert exit_code == 0
-        assert _field("nodes", "1") in out
+        assert "  nodes: 1  " in out
         assert _field("dependencies", "x") in out
 
     def test_unknown_name_exits_1(_, run):

@@ -77,6 +77,8 @@ def _show_summary(blueprint):
         show_blueprint(blueprint),
         description=show_description(blueprint),
         when_to_use=show_when_to_use(blueprint),
+        nodes=blueprint.nodes,
+        subtrees=blueprint.subtrees,
     )
 
 
@@ -147,18 +149,25 @@ def fmt_ls(names):
     return "\n".join(names)
 
 
-def fmt_summary(summary, *, description="", when_to_use=""):
+def fmt_summary(
+    summary, *, description="", when_to_use="", nodes=(), subtrees=()
+):
     """
     :type summary: BlueprintSummary
     :param description: description content, ``""`` for none
     :type description: str
     :param when_to_use: when-to-use content, ``""`` for none
     :type when_to_use: str
+    :param nodes: paths of the nodes checkmarked one by one
+    :type nodes: Iterable[NodePath]
+    :param subtrees: paths of the nodes checkmarked with their descendants
+    :type subtrees: Iterable[NodePath]
     :return: the summary as fields, each a centered banner line over its
-            value; a field with no value is left out
+            value lines; a text field with no value is left out, while
+            ``nodes`` and ``subtrees`` always show their count
     :rtype: str
     """
-    fields = (
+    text_fields = (
         ("display name", summary.meta.display_name),
         ("description", description),
         (
@@ -170,18 +179,24 @@ def fmt_summary(summary, *, description="", when_to_use=""):
             "when to use node",
             _gen_lineage_str(summary.meta.when_to_use_node),
         ),
-        ("nodes", str(summary.node_count)),
-        ("subtrees", str(summary.subtree_count)),
-        ("dependencies", fmt_ls(summary.dependencies)),
     )
 
     lines = []
-    for label, value in fields:
-        if not value:
-            continue
+    for label, value in text_fields:
+        if value:
+            lines += [kamilog.gen_comment_banner_centered(label, 5), value]
 
-        lines.append(kamilog.gen_comment_banner_centered(label, 5))
-        lines.append(value)
+    for label, count, paths in (
+        ("nodes", summary.node_count, nodes),
+        ("subtrees", summary.subtree_count, subtrees),
+    ):
+        heading = "{}: {}".format(label, count)
+        lines.append(kamilog.gen_comment_banner_centered(heading, 5))
+        lines += sorted(_gen_lineage_str(path) for path in paths)
+
+    if summary.dependencies:
+        lines.append(kamilog.gen_comment_banner_centered("dependencies", 5))
+        lines.append(fmt_ls(summary.dependencies))
 
     return fmt_ls(lines)
 
