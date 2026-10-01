@@ -4,6 +4,8 @@ ls_parser.py
 define ``register_ls_parser``
 """
 
+from argparse import RawDescriptionHelpFormatter
+
 from kaye_engine.cli.cli_setup_guard import check_corpus_setup_for_cli
 from kaye_engine.prompt.blueprint import blueprint_registry
 
@@ -11,12 +13,12 @@ from kaye_engine.prompt.blueprint import blueprint_registry
 
 # constants  ###################################################################
 
-_HELP = "list names of all registered blueprints"
+_HELP = "list all registered blueprints by canonical name"
 
 
 _DESCRIPTION = _HELP + """
 
-prints the name of each registered blueprint in blueprint_registry,
+prints each canonical name held in blueprint_registry,
 sorted alphabetically, one per line"""
 
 
@@ -32,7 +34,10 @@ def register_ls_parser(cli_subparser):  ########################################
     register the ``kaye blueprint ls`` subcommand parser
     """
     ls_parser = cli_subparser.add_parser(
-        "ls", help=_HELP, description=_DESCRIPTION
+        "ls",
+        help=_HELP,
+        description=_DESCRIPTION,
+        formatter_class=RawDescriptionHelpFormatter,
     )
 
     ls_parser.set_defaults(func=_ls_main)
