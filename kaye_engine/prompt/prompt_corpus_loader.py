@@ -1,9 +1,9 @@
 """
 prompt_corpus_loader.py
 
-define ``load_corpus_tree`` and ``get_corpus_tree`` -- a name-keyed
-cache of parsed prompt corpus trees -- plus ``get_default_corpus_tree``,
-resolving whichever tree was loaded with ``is_default_tree=True``
+define ``load_corpus_tree``, ``get_corpus_tree`` and
+``clear_corpus_tree`` -- the one parsed prompt corpus tree a process
+holds
 
 Every dynamic node auto-attaches; an authored ``(name)`` heading, at
 any depth, fixes its location and preface -- else it falls back to root.
@@ -28,8 +28,8 @@ from .md_fence import compute_fenced_line_mask
 from .prompt_corpus_node import PromptCorpusNode
 
 __all__ = (
+    "clear_corpus_tree",
     "get_corpus_tree",
-    "get_default_corpus_tree",
     "load_corpus_tree",
 )
 
@@ -126,23 +126,18 @@ def _resolve_dynamic_heading(heading):
     return factory, {}
 
 
-# name-keyed cache of parsed prompt corpus trees
-_corpus_tree_cache = {}
-
-# name of the tree flagged as default via load_corpus_tree(is_default_tree=True)
-_default_tree_name = None
+# the one parsed prompt corpus tree of this process
+_corpus_tree = None
 
 
 # Public API  ##################################################################
 
 
-def load_corpus_tree(  # =======================================================
-    tree_name, sources, *, is_default_tree=False
-):
+def load_corpus_tree(sources):  # ==============================================
     """
     concatenate ``sources``, in order, into one logical document, parse
-    it into a **prompt corpus tree**, and cache it under ``tree_name``
-    -- every dynamic node (each ``DYNAMIC_NODE_TYPES`` member, each
+    it into the process's **prompt corpus tree**, and hold it -- every
+    dynamic node (each ``DYNAMIC_NODE_TYPES`` member, each
     ``ABBR_TAG_NODE_MEMBERS`` tag, and every registered glossary)
     auto-attaches unconditionally; an authored ``(name)`` heading, at
     any depth in ``sources``, fixes its preface and tree location in
@@ -153,22 +148,12 @@ def load_corpus_tree(  # =======================================================
     named in a ``(name)`` heading of ``sources``
 
 
-    :param tree_name: key this tree is cached under; every subsequent
-            :func:`get_corpus_tree` call with this name returns the
-            same tree object
-    :type tree_name: str
     :param sources: ordered sources to concatenate into one logical
             document -- each ``str`` entry is literal content, each
             ``Path`` entry is a markdown file to read
     :type sources: list[str or Path]
-    :param is_default_tree: flag this tree as the **default** corpus
-            tree, retrievable via :func:`get_default_corpus_tree`
-            without knowing ``tree_name``; only one tree may ever be
-            flagged default per process
-    :type is_default_tree: bool, optional
-    :raises ValueError: ``tree_name`` is already registered,
-            ``is_default_tree`` is set while a default tree already
-            exists, ``sources`` contain a heading wrapped in
+    :raises ValueError: a corpus tree is already loaded,
+            ``sources`` contain a heading wrapped in
             parentheses -- reserved for dynamic nodes -- that resolves
             to no known dynamic node, or two headings resolve to the
             same dynamic node
@@ -177,16 +162,11 @@ def load_corpus_tree(  # =======================================================
     :return: **root** node of the parsed *prompt corpus tree*
     :rtype: PromptCorpusNode
     """
-    global _default_tree_name  # pylint: disable=global-statement
+    global _corpus_tree  # pylint: disable=global-statement
 
-    if tree_name in _corpus_tree_cache:
-        raise ValueError("duplicate corpus tree name: {}".format(tree_name))
-
-    if is_default_tree and _default_tree_name is not None:
+    if _corpus_tree is not None:
         raise ValueError(
-            "a default corpus tree is already set: {}".format(
-                _default_tree_name
-            )
+            "a corpus tree is already loaded; call clear_corpus_tree() first"
         )
 
     # read corpus content from sources, concatenated as if one file
@@ -259,45 +239,33 @@ def load_corpus_tree(  # =======================================================
             key,
         )
 
-    _corpus_tree_cache[tree_name] = tree
-
-    if is_default_tree:
-        _default_tree_name = tree_name
+    _corpus_tree = tree
 
     return tree
 
 
-def get_corpus_tree(tree_name):  # =============================================
+def get_corpus_tree():  # ======================================================
     """
-    :param tree_name: key a tree was previously cached under via
-            :func:`load_corpus_tree`
-    :type tree_name: str
-    :raises KeyError: no tree is registered under ``tree_name``
-    :return: **root** node of the cached *prompt corpus tree*
+    Prerequisite: :func:`load_corpus_tree` called
+
+
+    :raises ValueError: no corpus tree is loaded yet
+    :return: **root** node of the loaded *prompt corpus tree*
     :rtype: PromptCorpusNode
     """
-    try:
-        return _corpus_tree_cache[tree_name]
-    except KeyError as err:
-        raise KeyError(
-            "no corpus tree registered under name: {}".format(tree_name)
-        ) from err
-
-
-def get_default_corpus_tree():  # ==============================================
-    """
-    Prerequisite: :func:`load_corpus_tree` called with
-    ``is_default_tree=True``
-
-
-    :raises ValueError: no tree has been flagged default yet
-    :return: **root** node of the corpus tree flagged default
-    :rtype: PromptCorpusNode
-    """
-    if _default_tree_name is None:
+    if _corpus_tree is None:
         raise ValueError(
-            "no default corpus tree set; call "
-            "load_corpus_tree(..., is_default_tree=True) first"
+            "no corpus tree loaded; call load_corpus_tree(sources) first"
         )
 
-    return get_corpus_tree(_default_tree_name)
+    return _corpus_tree
+
+
+def clear_corpus_tree():  # ====================================================
+    """
+    drop the loaded corpus tree so :func:`load_corpus_tree` may run
+    again; a no-op when none is loaded
+    """
+    global _corpus_tree  # pylint: disable=global-statement
+
+    _corpus_tree = None
