@@ -42,6 +42,7 @@ merge.
 | `kaye_engine/prompt/blueprint/render/` | `tests/prompt/`, plus `tests/cli/export_image_prompt_parser_test.py` (asserts rendered negative-prompt text) |
 | `kaye_engine/abbr_collection/` | `tests/abbr/` |
 | `kaye_engine/cli/` | `tests/cli/` |
+| `kaye_engine/cli/blueprint/` | `tests/cli/blueprint/` (drives the real parsers over a small inline corpus; `aux_input_test.py`, `aux_output_test.py` for the helpers) |
 | `kaye_engine/cli/continue_ai/` | `tests/cli/continue_ai/` |
 | `kaye_engine/cli/open_webui/` | `tests/cli/open_webui/` |
 | `kaye_engine/cli/skill/` | `tests/cli/skill/` |
@@ -56,7 +57,7 @@ pytest tests/prompt/bp/data/prompt-bp-edit_test.py
 pytest tests/prompt/bp/data/prompt-bp-edit_test.py::TestCreateFromNode
 ```
 
-`tests/cli/` covers only what runs without a corpus — the setup guard,
+`tests/cli/` covers only what runs without a vault-sized corpus — the setup guard,
 exportable-abbr registration, `dynamic-node` parsing, and `SKILL.md`
 rendering. The exporters themselves need a corpus to produce output, so the
 consumer package's suite covers those; do not scaffold corpus fixtures here
@@ -83,11 +84,15 @@ the shorter form. **Thirteen** top-level subcommands exist: `blueprint`,
 
 ```bash
 kaye-engine --help                          # show CLI usage
-kaye-engine blueprint ls                    # list registered blueprint names
-kaye-engine blueprint show BLUEPRINT        # preview a blueprint's structure
-kaye-engine blueprint show < FILE           # preview from stdin (BLUEPRINT omitted)
-kaye-engine blueprint generate BLUEPRINT    # render a concrete prompt
-kaye-engine blueprint generate < FILE       # render from stdin (BLUEPRINT omitted)
+kaye-engine blueprint list                  # list registered blueprint names; alias ls
+kaye-engine blueprint preview BLUEPRINT     # preview a blueprint's structure, dependencies included
+kaye-engine blueprint preview BLUEPRINT -D  # own nodes only; flags -l -w -t tune the tree
+kaye-engine blueprint render BLUEPRINT      # render a concrete prompt, dependencies included
+kaye-engine blueprint render BLUEPRINT -D   # own nodes only
+kaye-engine blueprint validate BLUEPRINT    # exit 0 if sound, 1 with the reason if not
+kaye-engine blueprint show BLUEPRINT        # summary of meta, node count, dependencies
+kaye-engine blueprint show BLUEPRINT -d     # one field: -d description, -w when-to-use, -g globs, -p dependencies
+kaye-engine blueprint preview < FILE        # any blueprint command reads stdin when BLUEPRINT is omitted
 kaye-engine dynamic-node NODE...            # render 1+ dynamic nodes merged into one blueprint/output; NODE is "today"/"decode-only-abbr", any simple AbbrTags kebab slug (eg "emoji", "single-character"), or any known abbr glossary name
 kaye-engine dynamic-node NODE -t THRESHOLD  # for a glossary NODE, hide entries with priority > THRESHOLD
 kaye-engine dynamic-node ls                 # list every available NODE value: today, decode-only-abbr, every AbbrTags-derived name, then glossary names alphabetically
@@ -123,8 +128,9 @@ kaye-engine o -n                            # report create/update/skip without 
 kaye-engine o --prune --base-url URL        # also delete remote-only skills; custom server
 ```
 
-Aliases: `blueprint` → `bp`; `blueprint show` → `bp s`; `blueprint
-generate` → `bp gen`/`bp g`; `continue` → `c`; `export-image-prompt` → `img`; `dynamic-node` →
+Aliases: `blueprint` → `bp`; `blueprint list` → `bp ls`; `blueprint
+preview` → `bp p`; `blueprint render` → `bp r`; `blueprint validate` →
+`bp v`; `blueprint show` → `bp s`; `continue` → `c`; `export-image-prompt` → `img`; `dynamic-node` →
 `dn`; `dynamic-substitution` → `ds`; `claude` → `a`; `claude code`
 → `claude c`; `claude
 marketplace` → `claude m`; `claude plugin` → `claude p`; `claude skills` → `claude s`; `skill`
@@ -135,7 +141,7 @@ marketplace` → `claude m`; `claude plugin` → `claude p`; `claude skills` →
 
 **Rendering commands** — any subcommand that reaches
 `render_prompt(...)`, directly or via
-`Exportable.content()` (`blueprint generate`, `dynamic-node`,
+`Exportable.content()` (`blueprint render`, `dynamic-node`,
 `exportable`, `skill`, `claude skills`, `claude plugin`,
 `claude marketplace`,
 `claude user-system-prompt`, `claude vs-code-extension`, `claude
@@ -159,7 +165,7 @@ rather than clobbering a `register_blueprint()` entry's own
 `render_profile`. Merge semantics live in `CONTEXT.md`. `claude
 user-system-prompt` already owns `-c` for `--coder`, so
 `--comment`/`--no-comment` are long-form only there. `kaye-engine
-blueprint show` is not a rendering command but shares the
+blueprint preview` is not a rendering command but shares the
 `--comment`/`--no-comment` toggle (`-c`/`-C` included there).
 
 `--sparseness SPARSENESS` controls blank-line collapsing in the

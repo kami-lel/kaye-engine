@@ -65,7 +65,7 @@ Describes the parent node's functionality — what the node represents or what i
 
 **Rendering behavior:** The description is **overridable** — if the blueprint's `meta.description` literal is set, it is used; otherwise, it falls back to the content of the node at `meta.description_node`.
 
-**Access:** `render_description(blueprint)`
+**Access:** `show_description(blueprint)`
 
 
 
@@ -77,7 +77,7 @@ Indicates when the parent node should be enabled — the conditions or contexts 
 
 **Rendering behavior:** `when_to_use` is **always rendered from the sidecar node content**, never overridden.
 
-**Access:** `render_when_to_use(blueprint)`
+**Access:** `show_when_to_use(blueprint)`
 
 
 
@@ -89,7 +89,7 @@ Lists file glob patterns indicating which file types or paths make the parent no
 
 **Rendering behavior:** `globs` requires **fence-block parsing** (e.g., code blocks with ` ```glob ` delimiters). The patterns are extracted from the node at `meta.globs_node`.
 
-**Access:** `extract_globs(blueprint)` (returns list of glob patterns)
+**Access:** `show_globs(blueprint)` (returns list of glob patterns)
 
 
 
@@ -325,29 +325,29 @@ Holds the descriptors (description, when_to_use, globs) of a blueprint as **node
 
 All three are functions of `kaye_engine.prompt.blueprint.render` (re-exported from `kaye_engine.prompt`), and need the corpus loaded:
 
-- `render_description(blueprint)`: the literal `description` when set, else the description node's content as one line, else `""`
-- `render_when_to_use(blueprint)`: the when-to-use node's content as one line, else `""`
-- `render_description_and_when_to_use(blueprint)`: the literal `description` alone when set, else the description and when-to-use node content joined by the replacement newline symbol
-- `extract_globs(blueprint)`: the patterns of the globs node's first fenced `glob` block, one per line
+- `show_description(blueprint)`: the literal `description` when set, else the description node's content as one line, else `""`
+- `show_when_to_use(blueprint)`: the when-to-use node's content as one line, else `""`
+- `show_description_and_when_to_use(blueprint)`: the literal `description` alone when set, else the description and when-to-use node content joined by the replacement newline symbol
+- `show_globs(blueprint)`: the patterns of the globs node's first fenced `glob` block, one per line
 
 **Example:**
 ```python
 from kaye_engine.prompt import (
     create_blueprint_from_node,
-    extract_globs,
-    render_description,
-    render_when_to_use,
+    show_globs,
+    show_description,
+    show_when_to_use,
     replace_meta,
 )
 
 bp = create_blueprint_from_node("Coder Python")
 
-print(render_description(bp))
-print(render_when_to_use(bp))
-print(extract_globs(bp))  # e.g., ["**/*.py", "**/*.pyi"]
+print(show_description(bp))
+print(show_when_to_use(bp))
+print(show_globs(bp))  # e.g., ["**/*.py", "**/*.pyi"]
 
 bp = replace_meta(bp, description="Custom description")
-print(render_description(bp))  # "Custom description"
+print(show_description(bp))  # "Custom description"
 ```
 
 **Merging:**

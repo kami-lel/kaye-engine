@@ -111,7 +111,16 @@ once installed (or run as `python -m kaye_engine`):
 
 ```bash
 kaye-engine --help
+kaye-engine blueprint list                # registered blueprint names
+kaye-engine blueprint preview my-bp       # a tree of its entries
+kaye-engine blueprint render my-bp        # the concrete prompt
+kaye-engine blueprint validate my-bp      # exit 0 if sound
+kaye-engine blueprint show my-bp -g       # summary, or one field
 ```
+
+Every `blueprint` command takes a registered name, or reads a preview tree
+or JSON from stdin when the name is omitted; `preview` and `render` accept
+`-D` to leave dependencies out.
 
 The command references for the exporters are at
 [`docs/claude-doc.md`](docs/claude-doc.md),

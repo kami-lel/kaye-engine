@@ -68,12 +68,12 @@ Without an authored heading, a dynamic node still attaches — at root, with an 
 Once attached, a dynamic node behaves like any other corpus node in a blueprint: checkmark it to include it, uncheckmark it to leave it out.
 
 ```python
-from kaye_engine.prompt import parse_blueprint_text, render_prompt
+from kaye_engine.prompt import parse_blueprint_tree, render_prompt
 
 blueprint_text = """ ○
 [x] └── (today)"""
 
-blueprint = parse_blueprint_text(blueprint_text)
+blueprint = parse_blueprint_tree(blueprint_text)
 prompt = render_prompt(blueprint)
 ```
 
