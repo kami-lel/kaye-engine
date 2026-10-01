@@ -168,6 +168,7 @@ class TestWiring:
         "argv",
         [
             ["skill"],
+            ["claude", "skills"],
             ["continue"],
             ["export-image-prompt", "F"],
             ["export-json"],
