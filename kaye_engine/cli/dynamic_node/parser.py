@@ -32,17 +32,16 @@ from kaye_engine.prompt.dynamic_nodes import (
     resolve_dynamic_node_factory,
     slug_for_abbr_tag,
 )
-from kaye_engine.prompt.prompt_corpus_loader import get_default_corpus_tree
-from kaye_engine.prompt.prompt_corpus_node import PromptCorpusNode
+from kaye_engine.prompt.prompt_corpus_loader import (
+    get_corpus_tree,
+    load_corpus_tree,
+)
 
 # logger  ######################################################################
 logger = kamilog.getLogger(LOGGER_NAME)
 
 # constants  ###################################################################
 _HELP = "render 1 or more dynamic nodes"
-
-# root heading of the dummy corpus tree built for this command
-_ROOT_NODE_NAME = "○"
 
 
 # auxiliaries  #################################################################
@@ -83,15 +82,16 @@ def _resolve_node_type(name):
 
 def _get_shared_corpus_tree():
     """
-    :return: the default corpus tree if one is set, else a fresh dummy
-            root -- shared as the single ``corpus_tree`` every requested
-            NODE is attached to or read from, so their blueprints can merge
+    :return: the loaded corpus tree, else one loaded from no sources --
+            which still auto-attaches every dynamic node -- shared as
+            the single ``corpus_tree`` every requested NODE is attached
+            to or read from, so their blueprints can merge
     :rtype: PromptCorpusNode
     """
     try:
-        return get_default_corpus_tree()
+        return get_corpus_tree()
     except ValueError:
-        return PromptCorpusNode(_ROOT_NODE_NAME, None, [])
+        return load_corpus_tree([])
 
 
 def _node_name_in(corpus_tree, node_name_arg, node_cls, kwargs):
