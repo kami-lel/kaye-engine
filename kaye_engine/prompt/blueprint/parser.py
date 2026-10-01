@@ -6,6 +6,9 @@ define ``parse_blueprint_text``
 
 import re
 
+from .data import Blueprint
+from .index import get_corpus_index
+
 __all__ = ("HEADING_LINE_PATTERN", "parse_blueprint_text")
 
 
@@ -14,44 +17,54 @@ HEADING_LINE_PATTERN = re.compile(r"\[([x ])\] (.*)[└├]── (.+)")
 
 
 # auxiliaries  #################################################################
-def _lookup_corpus_node(parent, heading, line):
+def _validate_against_corpus(path, line):
     """
-    find node under ``parent`` matching ``heading``
+    check ``path`` names a node of the loaded corpus; does nothing while
+    no corpus is loaded, since the text alone carries no corpus
 
     (helper function used in ``parse_blueprint_text()``)
     """
     try:
-        return parent[heading]
-    except KeyError as err:
-        raise ValueError(
-            "missing node heading {} in corpus "
-            "that corresponds to this line:\n{}".format(repr(heading), line)
-        ) from err
+        index = get_corpus_index()
+    except ValueError:
+        return
+
+    if path in index.idx_by_path:
+        return
+
+    # name the first heading along the path the corpus does not know
+    for depth in range(1, len(path) + 1):
+        if path[:depth] not in index.idx_by_path:
+            raise ValueError(
+                "missing node heading {} in corpus "
+                "that corresponds to this line:\n{}".format(
+                    repr(path[depth - 1]), line
+                )
+            )
 
 
 # Public API  ##################################################################
-def parse_blueprint_text(blueprint_text, corpus):
+def parse_blueprint_text(blueprint_text):
     """
-    parse ``blueprint_text`` into a dict of checkmark state, keyed by
-    node hash
+    parse ``blueprint_text`` into a blueprint of its checkmarked nodes
 
     ``blueprint_text`` must be in the same format as the output of
-    ``render.render_blueprint_tree()``
-    (with tree structure and checkmarks)
+    ``render.render_blueprint_tree()`` (with tree structure and
+    checkmarks); unchecked lines select nothing and are ignored. While a
+    corpus is loaded, every heading is also checked against it
 
 
     :param blueprint_text: prompt blueprint text to set nodes
     :type blueprint_text: str
-    :param corpus: root of the corpus tree to resolve headings against
-    :type corpus: BasePromptNode
-    :raise ValueError:
-    :return: dict of {node_hash: is_checkmarked}
-    :rtype: dict(int, bool)
+    :raise ValueError: malformed tree format, or a heading the loaded
+            corpus does not contain
+    :return: a blueprint whose ``nodes`` are the checkmarked lines' paths
+    :rtype: Blueprint
     """
-    checkmarks = {}
+    nodes = set()
 
     # extract all headings  ----------------------------------------------------
-    prev_node = corpus
+    lineage = []
     for line in blueprint_text.split("\n"):
         heading_line_match = HEADING_LINE_PATTERN.fullmatch(line)
 
@@ -63,23 +76,16 @@ def parse_blueprint_text(blueprint_text, corpus):
         level = len(heading_line_match.group(2)) // 4 + 1
         heading = heading_line_match.group(3)
 
-        # find parent of current node
-        level_offset = level - prev_node.depth
-        if level_offset > 1:
+        # a node sits at most 1 level below the previous node
+        if level - 1 > len(lineage):
             raise ValueError("malformed tree format at line:\n{}".format(line))
 
-        elif level_offset > 0:
-            parent = prev_node
+        lineage = lineage[: level - 1] + [heading]
+        path = tuple(lineage)
 
-        else:
-            parent = prev_node.ancestors[level - 1]
+        _validate_against_corpus(path, line)
 
-        # find current node in corpus
-        node = _lookup_corpus_node(parent, heading, line)
+        if is_checkmarked:
+            nodes.add(path)
 
-        # include node in the checkmark state
-        checkmarks[hash(node)] = is_checkmarked
-
-        prev_node = node
-
-    return checkmarks
+    return Blueprint(nodes=frozenset(nodes))
