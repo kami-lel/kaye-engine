@@ -6,6 +6,8 @@
 TODO add build command to optimize
 
 Fixme review all docs/
+Todo review render profile flags
+
 Todo support hermes
 
 bug continue exporting missing some skills
@@ -29,92 +31,31 @@ manually add chat & coder, instead by data structure
 
 ## [Unreleased]
 
-### Added
+### Optimize Blueprint Data Structure
 
-- file and directory actions in every export log as fixed-wording kamilog
-  deeds (`create`, `overwrite`, `pack`, `move`, `save`, `load`), with a
-  `fail to ...` line and traceback on error
-- dry-run lines of `sync-open-webui-skills` carry the `dry` badge
-- `-n`/`--dry-run` on `skill`, `continue`, `export-image-prompt`, `export-json`,
-  and `claude plugin`/`marketplace`/`code`/`vs-code-extension`: reports
-  every file, directory, and archive step with the `dry` badge, writes
-  nothing
-- every CLI subcommand's `--help` links its GitHub doc; rendering commands
-  add a shared render-profile options blurb
-- `Blueprint`, a frozen, hashable, picklable value recording the checkmarked
-  nodes by path (`nodes`, `subtrees`) with its `meta` and `dependencies`;
-  it holds no node object, so it is built, compared, and shipped without a
-  corpus
-- pure blueprint functions, each returning a new blueprint:
-  `create_blueprint` (empty, or full with `is_full=True`),
-  `create_blueprint_from_node`, `checkmark_nodes`, `uncheckmark_nodes`,
-  `is_checkmarked`, `merge_blueprints`, `replace_meta`, and
-  `parse_blueprint_text`; a node argument is a node object, a name, or a
-  `NodePath`, and an unknown node raises `ValueError` naming it
-- `subtrees` entries: a recursive checkmark covers every non-sidecar
-  descendant, even one added later; unchecking a node under one expands it
-  into explicit nodes first
-- JSON form of a blueprint with a schema number on the envelope:
-  `encode_blueprint`, `decode_blueprint`, `save_blueprint`,
-  `load_blueprint`; decoding touches no corpus; pickle and JSON round trips
-  are equal across processes and `PYTHONHASHSEED` values
-- `BlueprintMeta`, replacing the sidecar accessor class: a literal
-  `description` plus `description_node`, `when_to_use_node`, and
-  `globs_node` as paths; `create_blueprint_from_node` fills the three node
-  fields from the node's own `{description}`, `{when_to_use}`, and
-  `{globs}` children
-- `render_description`, `render_when_to_use`,
-  `render_description_and_when_to_use`, and `extract_globs` read a
-  blueprint's descriptors for the exporters
-- `CorpusIndex`, derived once per process from the loaded tree: pre-order
-  node arrays, paths, depths, parent and child indexes, subtree and sidecar
-  masks, and the static content block of each node; `get_corpus_index()`
-  and `get_corpus_node(*path)` reach it
-- `BlueprintSelection`, a blueprint bound to the index as one bitmask;
-  `bind_selection` memoizes it per blueprint, `resolve_selection` ORs in the
-  dependencies by name with a cycle guard
-- late-bound dependencies: a `str` dependency is looked up in the registry at
-  render time, so a dependency registered after its dependent resolves;
-  `register_blueprint` validates every dependency name up front
-- `clear_corpus_tree()` drops the loaded tree and everything derived from
-  it; `add_corpus_clear_hook()` lets derived data follow
-- `render_prompt`, `render_prompt_without_dependencies`, `render_blueprint`,
-  and `render_blueprint_without_dependencies` as functions of a blueprint
-- breaking-change table and the new data-model sections in
-  `docs/prompt-doc.md`
+**Purpose**: cut the startup cost of registering blueprints, and make a
+blueprint cheap and portable, while every rendered prompt stays exactly as
+before. A consumer registers about 160 blueprints, and each one deep-copied
+the whole corpus tree (about 690 nodes), so every `kaye` command paid 1.4 to
+1.7 s before doing any work.
 
-### Changed
+**Concept**: a blueprint only needs to say *which* nodes it selects, so it
+stores their paths and never the nodes themselves.
 
-- `claude plugin --no-version` short flag `-n` → `-N`, freeing `-n` for
-  `--dry-run`
-- `kamilog` is now a package dependency instead of a vendored copy;
-  modules import it as `import kamilog`
-- export commands report each write once, through its deed; duplicate
-  per-file success lines are gone
-- CLI guides merged into `docs/claude-doc.md`, `docs/continue-doc.md`,
-  `docs/open-webui-doc.md`, and the `export-json` command help
-- a process holds one corpus tree: `load_corpus_tree(sources)` takes no
-  name or default flag and raises `ValueError` on a second call;
-  `get_corpus_tree()` takes no name and raises `ValueError` before a load
-- every blueprint function reads that one tree; the `corpus_tree=` argument
-  is gone, and the CLI setup guard and `dynamic-node` use `get_corpus_tree()`
-  (`dynamic-node` with no corpus loads one holding only the dynamic nodes)
-- rendering walks set bits of a selection bitmask instead of copying and
-  re-walking the tree, and a conditional sidecar splices through mask
-  arithmetic on the index with no blueprint copy; rendered output is
-  byte-identical to before
-- the skill and Continue rule exporters read description, when-to-use, and
-  globs through the new render functions
-- `parse_blueprint_text` selects only `[x]` lines and ignores unchecked
-  ones; it no longer takes a corpus and no longer prunes
-- `render_blueprint_tree` shows the selected nodes plus their ancestors
-- `merge_blueprints` is a set union: `left` wins every meta field it sets,
-  and dependencies keep `left`'s order, then `right`'s not already present
-- startup no longer deep-copies the corpus once per registered blueprint
+**High-level design**:
 
-> [!WARNING]
-> `kaye-engine claude plugin -n` no longer means `--no-version`; use `-N`.
-> `-n` now means `--dry-run`.
+- the engine holds **one corpus tree per process** and derives a single
+  index from it
+- a blueprint becomes a **plain frozen value**: the paths of the nodes it
+  selects, plus its descriptors and dependencies, with no tree attached
+- every operation on a blueprint becomes a **function** returning a new
+  blueprint, instead of a method that mutates one
+- rendering binds a blueprint to the index as a bitmask and walks only the
+  selected nodes
+
+**Result**: `kaye --version` drops from 1.375 s to 0.142 s, and rendered
+output is byte-identical for every exportable of the consumer used to
+verify it. The calls that changed are mapped in the warning below.
 
 > [!WARNING]
 > The blueprint API is a breaking rework; callers must migrate before
@@ -137,21 +78,117 @@ manually add chat & coder, instead by data structure
 > `.blueprint` must be reassigned rather than mutated, and a second
 > `load_corpus_tree()` call now raises `ValueError`.
 
+### Added
+
+- file and directory actions in every export log as fixed-wording kamilog
+  deeds (`create`, `overwrite`, `pack`, `move`, `save`, `load`), with a
+  `fail to ...` line and traceback on error
+- dry-run lines of `sync-open-webui-skills` carry the `dry` badge
+- `-n`/`--dry-run` on `skill`, `continue`, `export-image-prompt`, `export-json`,
+  and `claude plugin`/`marketplace`/`code`/`vs-code-extension`: reports
+  every file, directory, and archive step with the `dry` badge, writes
+  nothing
+- every CLI subcommand's `--help` links its GitHub doc; rendering commands
+  add a shared render-profile options blurb
+
+##### Optimize Blueprint Data Structure
+
+- `Blueprint`, a frozen, hashable, picklable value recording the
+  checkmarked nodes by path (`nodes`, `subtrees`) with its `meta` and
+  `dependencies`; it holds no node object, so it is built, compared, and
+  shipped without a corpus
+- pure blueprint functions, each returning a new blueprint:
+  `create_blueprint` (empty, or full with `is_full=True`),
+  `create_blueprint_from_node`, `checkmark_nodes`, `uncheckmark_nodes`,
+  `is_checkmarked`, `merge_blueprints`, `replace_meta`, and
+  `parse_blueprint_text`; a node is given as a node object, a name, or a
+  `NodePath`, and an unknown node raises `ValueError` naming it
+- `subtrees` entries: a recursive checkmark covers every non-sidecar
+  descendant, even one added later; unchecking a node under one expands it
+  into explicit nodes first
+- JSON form with a schema number on the envelope: `encode_blueprint`,
+  `decode_blueprint`, `save_blueprint`, `load_blueprint`; decoding touches
+  no corpus, and pickle and JSON round trips are equal across processes
+  and `PYTHONHASHSEED` values
+- `BlueprintMeta`, a literal `description` plus `description_node`,
+  `when_to_use_node`, and `globs_node` as paths;
+  `create_blueprint_from_node` fills the three node fields from the node's
+  own `{description}`, `{when_to_use}`, and `{globs}` children
+- `render_description`, `render_when_to_use`,
+  `render_description_and_when_to_use`, and `extract_globs` read a
+  blueprint's descriptors for the exporters
+- `CorpusIndex`, derived once per process: pre-order node arrays, paths,
+  depths, parent and child indexes, subtree and sidecar masks, and each
+  node's static content block; `get_corpus_index()` and
+  `get_corpus_node(*path)` reach it
+- `BlueprintSelection`, a blueprint bound to the index as one bitmask;
+  `bind_selection` memoizes it per blueprint, `resolve_selection` ORs in
+  the dependencies by name with a cycle guard
+- late-bound dependencies: a `str` dependency is looked up at render time,
+  so a dependency registered after its dependent resolves;
+  `register_blueprint` validates every dependency name up front
+- `clear_corpus_tree()` drops the loaded tree and everything derived from
+  it; `add_corpus_clear_hook()` lets derived data follow
+- `render_prompt`, `render_prompt_without_dependencies`, `render_blueprint`,
+  and `render_blueprint_without_dependencies` as functions of a blueprint
+- the breaking-change table and new data-model sections in
+  `docs/prompt-doc.md`
+
+### Changed
+
+- `claude plugin --no-version` short flag `-n` → `-N`, freeing `-n` for
+  `--dry-run`
+- `kamilog` is now a package dependency instead of a vendored copy;
+  modules import it as `import kamilog`
+- export commands report each write once, through its deed; duplicate
+  per-file success lines are gone
+- CLI guides merged into `docs/claude-doc.md`, `docs/continue-doc.md`,
+  `docs/open-webui-doc.md`, and the `export-json` command help
+
+> [!WARNING]
+> `kaye-engine claude plugin -n` no longer means `--no-version`; use `-N`.
+> `-n` now means `--dry-run`.
+
+##### Optimize Blueprint Data Structure
+
+- `load_corpus_tree(sources)` takes no name or default flag and raises
+  `ValueError` on a second call; `get_corpus_tree()` takes no name and
+  raises `ValueError` before a load
+- every blueprint function reads that one tree and the `corpus_tree=`
+  argument is gone; the CLI setup guard and `dynamic-node` use
+  `get_corpus_tree()`, and `dynamic-node` with no corpus loads one holding
+  only the dynamic nodes
+- rendering walks the set bits of a selection bitmask instead of copying
+  and re-walking the tree, and a conditional sidecar splices through mask
+  arithmetic with no blueprint copy; startup no longer deep-copies the
+  corpus once per registered blueprint
+- the skill and Continue rule exporters read description, when-to-use, and
+  globs through the new render functions
+- `parse_blueprint_text` selects only `[x]` lines and ignores unchecked
+  ones; it takes no corpus and no longer prunes
+- `render_blueprint_tree` shows the selected nodes plus their ancestors
+- `merge_blueprints` is a set union: `left` wins every meta field it sets,
+  and dependencies keep `left`'s order, then `right`'s not already present
+
 ### Deprecated
 
 ### Removed
 
-- `PromptBlueprint`, its `.prune()`, hash-integer node arguments, the `|`,
-  `+=`, and `-=` operators, and `BlueprintDescriptorSidecars` with its
-  `.sidecars` accessor
-- `node_resolver.py`
-- `tree_name`, `is_default_tree`, and `get_default_corpus_tree`, with the
-  name-keyed tree cache they served
 - vendored `kaye_engine/kamilog.py`; `from kaye_engine import kamilog` no
   longer works
 - the `(dry run)` suffix on `sync-open-webui-skills` lines, replaced by the
   `dry` badge
 - `docs/cli/` task-oriented guides, folded into the main docs
+
+##### Optimize Blueprint Data Structure
+
+- `PromptBlueprint`, its `.prune()`, the `|`, `+=`, and `-=` operators, and
+  hash-integer node arguments
+- `BlueprintDescriptorSidecars` and the `.sidecars` accessor, replaced by
+  `BlueprintMeta`
+- `node_resolver.py`
+- `tree_name`, `is_default_tree`, and `get_default_corpus_tree`, with the
+  name-keyed tree cache they served
 
 ### Fixed
 
