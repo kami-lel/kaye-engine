@@ -10,12 +10,17 @@ from dataclasses import dataclass
 from anytree import PreOrderIter
 
 from ..base_prompt_node import BasePromptNode
+from ..dynamic_nodes.dynamic_node import DynamicNode
 from ..prompt_corpus_loader import add_corpus_clear_hook, get_corpus_tree
+from ..prompt_corpus_node import HEADING_PREFIX_ELEMENT
+from ..sidecar_node import get_sidecar_name
 
 __all__ = (
+    "BlueprintSelection",
     "CorpusIndex",
     "NodePath",
     "get_corpus_index",
+    "get_corpus_node",
 )
 
 # lineage below root, root is ()
@@ -45,6 +50,13 @@ class CorpusIndex:  ############################################################
     :type child_idxs: tuple[tuple[int, ...], ...]
     :param subtree_masks: each node's bit OR-ed with every descendant's
     :type subtree_masks: tuple[int, ...]
+    :param sidecar_masks: node mask of every ``{name}`` sidecar node,
+            by sidecar name -- the pattern is matched once, here
+    :type sidecar_masks: dict[str, int]
+    :param blocks: each node's heading line followed by its static
+            content lines; ``None`` for a dynamic node, whose content
+            depends on render options and stays live at render time
+    :type blocks: tuple[tuple[str, ...] or None, ...]
     :param idx_by_path: node position by path
     :type idx_by_path: dict[NodePath, int]
     """
@@ -55,7 +67,25 @@ class CorpusIndex:  ############################################################
     parent_idxs: tuple[int, ...]
     child_idxs: tuple[tuple[int, ...], ...]
     subtree_masks: tuple[int, ...]
+    sidecar_masks: dict[str, int]
+    blocks: tuple[tuple[str, ...] | None, ...]
     idx_by_path: dict[NodePath, int]
+
+
+@dataclass(frozen=True, slots=True)
+class BlueprintSelection:  #####################################################
+    """
+    a set of checkmarked nodes over one corpus index
+
+
+    :param index: the index the mask's bits refer to
+    :type index: CorpusIndex
+    :param mask: bit ``i`` set means node ``i`` is checkmarked
+    :type mask: int
+    """
+
+    index: CorpusIndex
+    mask: int
 
 
 # auxiliaries  #################################################################
@@ -89,6 +119,24 @@ def _build_corpus_index(root):
             mask |= subtree_masks[child_idx]
         subtree_masks[idx] = mask
 
+    sidecar_masks = {}
+    for idx, node in enumerate(node_objs):
+        sidecar_name = get_sidecar_name(node)
+        if sidecar_name is not None:
+            sidecar_masks[sidecar_name] = (
+                sidecar_masks.get(sidecar_name, 0) | 1 << idx
+            )
+
+    blocks = tuple(
+        None
+        if isinstance(node, DynamicNode)
+        else (
+            HEADING_PREFIX_ELEMENT * node.depth + " " + node.name,
+            *(node.content_lines() or ()),
+        )
+        for node in node_objs
+    )
+
     return CorpusIndex(
         node_objs=node_objs,
         paths=paths,
@@ -96,6 +144,8 @@ def _build_corpus_index(root):
         parent_idxs=parent_idxs,
         child_idxs=child_idxs,
         subtree_masks=tuple(subtree_masks),
+        sidecar_masks=sidecar_masks,
+        blocks=blocks,
         idx_by_path={path: idx for idx, path in enumerate(paths)},
     )
 
@@ -126,3 +176,26 @@ def get_corpus_index():
         _corpus_index = _build_corpus_index(get_corpus_tree())
 
     return _corpus_index
+
+
+def get_corpus_node(*path):
+    """
+    Prerequisite: :func:`load_corpus_tree` called
+
+
+    :param path: names from below root down to the node; none for root
+    :type path: str
+    :raises ValueError: no corpus tree is loaded, or no node has ``path``
+    :return: the node at ``path`` in the loaded corpus tree
+    :rtype: BasePromptNode
+    :example:
+    >>> get_corpus_node("Style Guide", "Good Writing")
+    """
+    index = get_corpus_index()
+
+    try:
+        return index.node_objs[index.idx_by_path[tuple(path)]]
+    except KeyError as err:
+        raise ValueError(
+            "no node in corpus at path: {}".format(list(path))
+        ) from err
