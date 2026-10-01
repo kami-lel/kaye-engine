@@ -38,7 +38,7 @@ merge.
 
 | changed source | test scope |
 |---|---|
-| `kaye_engine/prompt/` | `tests/prompt/` |
+| `kaye_engine/prompt/` | `tests/prompt/` (`tests/prompt/tree/` for the loader, `tests/prompt/index/` for `CorpusIndex`, `tests/prompt/bp/data/` for `Blueprint` and its functions) |
 | `kaye_engine/prompt/blueprint/render/` | `tests/prompt/`, plus `tests/cli/export_image_prompt_parser_test.py` (asserts rendered negative-prompt text) |
 | `kaye_engine/abbr_collection/` | `tests/abbr/` |
 | `kaye_engine/cli/` | `tests/cli/` |
@@ -50,8 +50,8 @@ merge.
 ```bash
 pytest tests/prompt/
 pytest tests/prompt/bp/
-pytest tests/prompt/bp/prompt-bp-merge_test.py
-pytest tests/prompt/bp/prompt-bp-merge_test.py::TestMerge::test1_1
+pytest tests/prompt/bp/data/prompt-bp-edit_test.py
+pytest tests/prompt/bp/data/prompt-bp-edit_test.py::TestCreateFromNode
 ```
 
 `tests/cli/` covers only what runs without a corpus — the setup guard,
@@ -128,7 +128,7 @@ marketplace` → `claude m`; `claude plugin` → `claude p`; `skill`
 → `var`; `glossary` → `g`; `sync-open-webui-skills` → `o`.
 
 **Rendering commands** — any subcommand that reaches
-`PromptBlueprint.render_prompt(...)`, directly or via
+`render_prompt(...)`, directly or via
 `Exportable.content()` (`blueprint generate`, `dynamic-node`,
 `exportable`, `skill`, `claude plugin`, `claude marketplace`,
 `claude user-system-prompt`, `claude vs-code-extension`, `claude

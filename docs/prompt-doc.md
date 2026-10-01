@@ -1,6 +1,6 @@
 # Kaye Engine: `prompt` module Documentation
 
-The public programmatic API lives in `kaye_engine.prompt`. It re-exports the prompt tree nodes, the blueprint type, the corpus loader, and the blueprint registry.
+The public programmatic API lives in `kaye_engine.prompt`. It re-exports the prompt tree nodes, the `Blueprint` value and its functions, the corpus loader, and the blueprint registry.
 
 The page has two halves:
 
@@ -14,9 +14,14 @@ from kaye_engine.prompt import (
     BasePromptNode,
     DynamicNode,
     PromptCorpusNode,
-    PromptBlueprint,
+    Blueprint,
+    create_blueprint,
+    checkmark_nodes,
+    parse_blueprint_text,
+    render_prompt,
     load_corpus_tree,
     get_corpus_tree,
+    clear_corpus_tree,
     BlueprintRegistry,
     register_blueprint,
     get_blueprint,
@@ -61,12 +66,9 @@ classDiagram
 
 ### Creating a Tree
 
-Creating individual nodes by hand is rare. To create a whole tree, call `load_corpus_tree(tree_name, sources)`.
+Creating individual nodes by hand is rare. To create the whole tree, call `load_corpus_tree(sources)`.
 
-`kaye_engine` bundles no corpus file of its own, so the caller supplies:
-
-- `tree_name`: the name to cache the tree under
-- `sources`: an ordered list of corpus pieces, where a `str` is literal content and a `Path` is a Markdown file read from disk
+`kaye_engine` bundles no corpus file of its own, so the caller supplies `sources`: an ordered list of corpus pieces, where a `str` is literal content and a `Path` is a Markdown file read from disk.
 
 The pieces are joined in list order into one document, then parsed, and the runtime dynamic nodes are attached once, see [Dynamic Node Documentation](dynamic-content-doc.md#auto-attachment).
 
@@ -75,13 +77,20 @@ from pathlib import Path
 
 from kaye_engine.prompt import load_corpus_tree, get_corpus_tree
 
-tree_root = load_corpus_tree("my-tree", [Path("path/to/corpus.md")])
+tree_root = load_corpus_tree([Path("path/to/corpus.md")])
 
-# subsequent lookups by the same name return the same cached tree
-tree_root is get_corpus_tree("my-tree")  # True
+tree_root is get_corpus_tree()  # True
 ```
 
-`PromptBlueprint`'s `corpus_tree` argument defaults to `None`, which means the tree registered as the default through `load_corpus_tree(..., is_default_tree=True)`. If no consumer package has loaded a default tree yet, that lookup raises `ValueError`.
+A process holds **one** corpus tree:
+
+| Call | Result |
+| --- | --- |
+| `load_corpus_tree(sources)` | loads the tree; raises `ValueError` when one is already loaded |
+| `get_corpus_tree()` | returns the loaded root; raises `ValueError` before any load |
+| `clear_corpus_tree()` | drops the tree and everything derived from it, so `load_corpus_tree()` may run again; a no-op when none is loaded |
+
+Every blueprint function reads this one tree. There is no tree argument, no tree name, and no default-tree flag.
 
 ### Node Basics
 
@@ -213,118 +222,114 @@ The content preview can be tuned with `content_preview_lines` and `content_previ
 
 ## Prompt Blueprint
 
-A **prompt blueprint** is a configurable subset of a prompt corpus tree. Each node is either **checkmarked** (enabled) or **uncheckmarked** (disabled), and a prompt is generated from the checkmarked part of the tree.
+A **blueprint** is a configurable subset of the prompt corpus tree. A `Blueprint` is a frozen, plain value: it records *which* nodes are checkmarked by their **paths**, and never holds a node object. A prompt is generated from the checkmarked part of the loaded corpus.
 
-### Creating a Blueprint
-
-Parse a blueprint text with the classmethod `.parse()`:
-
-```python
-prompt_corpus = ~
-blueprint_text = ~
-blueprint = PromptBlueprint.parse(blueprint_text)
-```
-
-By default (`corpus_tree=None`) the text is parsed against the process default corpus tree, see [Creating a Tree](#creating-a-tree). Pass `corpus_tree` (a root node, or a name registered through `load_corpus_tree`) to parse against another tree instead, which is mostly useful in tests.
-
-Two more classmethods build a blueprint that holds every node of the corpus tree:
-
-- `PromptBlueprint.create_full_blueprint()`: every node checkmarked
-- `PromptBlueprint.create_empty_blueprint()`: every node uncheckmarked
+Because a blueprint is pure data, it is hashable, picklable, comparable by value, and can be built before any corpus is loaded. Only the functions that look nodes up (checkmarking, binding, rendering) need the corpus.
 
 ### Structure
 
-A `PromptBlueprint` is a data structure based on a Python `dict`. Each entry stands for one node: the key is the node's `hash()` (`int`) and the value says whether it is checkmarked (`bool`). The root node is never stored, because it is always treated as enabled.
+A `Blueprint` has four fields:
 
-A blueprint also has four attributes:
-
-| Attribute | Meaning |
+| Field | Meaning |
 | --- | --- |
-| `.corpus_tree` | the `corpus_tree` argument it was built with: a root node, a registered tree name, or `None` |
-| `.corpus` | the corpus tree root it resolved to (`BasePromptNode`) |
-| `.sidecars` | metadata (description, when_to_use, globs) derived from sidecar nodes, see [`sidecar-node-doc.md`](sidecar-node-doc.md) |
-| `.dependencies` | other blueprints this one depends on (`list[PromptBlueprint]`, empty by default), see [Dependencies](#dependencies) |
+| `.nodes` | `frozenset[NodePath]`: nodes checkmarked one by one |
+| `.subtrees` | `frozenset[NodePath]`: nodes checkmarked together with every non-sidecar descendant, even one added later |
+| `.dependencies` | `tuple[str or Blueprint, ...]`: a `str` names a registered blueprint, resolved at render time; a `Blueprint` is carried as a value |
+| `.meta` | `BlueprintMeta`: descriptors for the exporters, see [`sidecar-node-doc.md`](sidecar-node-doc.md#blueprintmeta) |
 
-There is no `.display_name` on the instance. A display name is either a render-time argument of `.generate_prompt_without_dependencies()` and `.generate_blueprint_without_dependencies()`, or it lives on the blueprint's `BlueprintRegistry` entry, see [Blueprint Registry](#blueprint-registry).
+A `NodePath` is a tuple of section names from just below the root down to the node, such as `("Style Guide", "Good Writing")`. The root itself is never stored, because it is always enabled.
+
+A display name lives on the blueprint's `BlueprintRegistry` entry, see [Blueprint Registry](#blueprint-registry), or is a render-time argument.
+
+### Creating a Blueprint
+
+```python
+from kaye_engine.prompt import (
+    create_blueprint,
+    create_blueprint_from_node,
+    parse_blueprint_text,
+)
+
+empty = create_blueprint()
+full = create_blueprint(is_full=True)  # one subtrees entry for the root
+one = create_blueprint_from_node("Introduction", is_recursive=True)
+parsed = parse_blueprint_text(blueprint_text)
+```
+
+`parse_blueprint_text()` reads the format `render_blueprint_tree()` prints: only the lines marked `[x]` select a node, and unchecked lines are ignored. While a corpus is loaded, every heading is checked against it, and an unknown heading raises `ValueError`.
+
+`create_blueprint_from_node()` points `.meta` at the node's own `{description}`, `{when_to_use}` and `{globs}` sidecar children, where it has them.
+
+### Editing a Blueprint
+
+Every edit function returns a **new** blueprint and never mutates its argument. A node argument is a node object of the loaded corpus, a name (the first match in pre-order), or a `NodePath`; an unknown node raises `ValueError`, and a hash integer is no longer accepted.
+
+```python
+from kaye_engine.prompt import (
+    checkmark_nodes,
+    uncheckmark_nodes,
+    is_checkmarked,
+    merge_blueprints,
+    replace_meta,
+)
+
+bp = checkmark_nodes(bp, ("Style Guide",))
+bp = checkmark_nodes(bp, "Assistant Barista", is_recursive=True)
+bp = uncheckmark_nodes(bp, "Important Instruction")
+is_checkmarked(bp, "(decode-only-abbr)")  # False
+bp = replace_meta(bp, description="quick, mechanical text tasks")
+merged = merge_blueprints(bp_left, bp_right)
+```
+
+- `is_recursive=True` on `checkmark_nodes()` records a `subtrees` entry, so the node and all its non-sidecar descendants are selected. Sidecar nodes are only ever checkmarked by name, never through a subtree
+- `uncheckmark_nodes()` on a node covered by a subtree first expands the subtree into explicit nodes, so only that node is removed. Unchecking a node that is not checkmarked changes nothing
+- `merge_blueprints(left, right)` is the union of both selections; `left` wins every meta field it sets, and dependencies keep `left`'s order, then `right`'s not already present
 
 #### Dependencies
 
-`.dependencies` holds the blueprints this one directly depends on. `.render_prompt()` and `.render_blueprint()` resolve them recursively and merge them as a union of checkmarks.
+`.dependencies` holds the blueprints this one depends on. `render_prompt()` and `render_blueprint()` resolve them recursively and merge them as a union of checkmarks.
 
-The constructor's `dependencies` argument also accepts `str` entries (`list[PromptBlueprint | str]`). Each `str` is resolved when the blueprint is constructed, to the blueprint registered under that name through `register_blueprint()`.
+A `str` entry is looked up in the registry **at render time**, so a dependency registered after its dependent still resolves. `register_blueprint()` validates every dependency name at registration.
 
-### Per-Node Operations
+### JSON and Pickle
 
-A node and a blueprint can be related in two ways:
-
-- the node is **contained** in the blueprint
-- the node is **checkmarked** in the blueprint
-
-| Look up by | Contained | Checkmarked |
-| --- | --- | --- |
-| hash | `h in bp`, `h in bp.keys()` | `bp.is_checkmarked(h)`, `bp[h]` |
-| object | `node in bp` | `bp.is_checkmarked(node)` |
-| name | `name in bp` | `bp.is_checkmarked(name)` |
-
-(`h`: hash value, `node`: node object, `bp`: blueprint)
-
-#### Checkmarking and Unchecking
-
-A node to checkmark must come from the blueprint's corpus tree:
+A blueprint round-trips through JSON with a schema number on the envelope, with no corpus loaded:
 
 ```python
-blueprint.checkmark(node)
-blueprint += node  # identical
+from kaye_engine.prompt import (
+    encode_blueprint,
+    decode_blueprint,
+    save_blueprint,
+    load_blueprint,
+)
+
+data = encode_blueprint(bp)         # JSON-ready dict, paths sorted
+bp2 = decode_blueprint(data)        # also accepts the JSON text
+save_blueprint(bp, "bp.json")
+bp3 = load_blueprint("bp.json")
+assert bp == bp2 == bp3
 ```
 
-A node already in the blueprint can be unchecked:
+`decode_blueprint()` raises `ValueError` on malformed JSON, an unknown schema number, or a malformed field. A hand-written JSON file decodes the same way. A pickled blueprint equals the original in a fresh process, whatever `PYTHONHASHSEED` is.
 
-```python
-blueprint.uncheckmark(node)
-blueprint -= node  # identical
-```
+### The Corpus Index and Selection
 
-Both calls take a node object, a hash value, or a name:
+The engine derives a `CorpusIndex` once per process from the loaded tree: pre-order node arrays, paths, depths, parent and child indexes, subtree masks, sidecar masks, and the static content block of each node. `get_corpus_index()` returns it, and `clear_corpus_tree()` drops it.
 
-```python
-bp.checkmark(bp.corpus[0][1])
-bp.checkmark(node_hash)
-bp.uncheckmark("Important Instruction")
-bp.uncheckmark("(decode-only-abbr)")
-```
+`bind_selection(blueprint)` turns a blueprint into a `BlueprintSelection`: one bitmask over the index (memoized per blueprint). `resolve_selection(blueprint)` additionally ORs in the dependencies by name, with a cycle guard. Both are what the renderers use; most code never calls them.
 
-Pass `recursively=True` to change a node and all its descendants at once. For how sidecar nodes behave under recursive checkmarking, see [`sidecar-node-doc.md`](sidecar-node-doc.md#in-prompt-corpus).
-
-When a node exists in the corpus tree but is not yet contained in the blueprint:
-
-- `.checkmark()` adds the node, then checkmarks it
-- `.uncheckmark()` raises `ValueError`
-
-### Blueprint-Level Operations
-
-#### prune
-
-`bp.prune()` returns a minimal blueprint that keeps only the branches containing checkmarked nodes.
-
-#### merge
-
-`.merge()` combines two blueprints into the union of their checkmarked nodes. The `|` operator does the same:
-
-```python
-bp_left.merge(bp_right)  # or, identically
-bp_left | bp_right
-```
+`get_corpus_node(*path)` returns the node object at a path, and raises `ValueError` naming an unknown one.
 
 ### Generating a Prompt
 
-Two methods render the concrete prompt, which is the text used as an LLM system message:
+Two functions render the concrete prompt, which is the text used as an LLM system message:
 
-- `.render_prompt()`: renders this blueprint merged with its whole chain of `.dependencies`
-- `.generate_prompt_without_dependencies()`: renders only this blueprint's own checkmarks and ignores `.dependencies`
+- `render_prompt(blueprint)`: renders this blueprint merged with its whole chain of `.dependencies`
+- `render_prompt_without_dependencies(blueprint)`: renders only this blueprint's own checkmarks and ignores `.dependencies`
 
-Anything that renders *final*, LLM-facing content should call `.render_prompt()`.
+Anything that renders *final*, LLM-facing content should call `render_prompt()`.
 
-To get the prompt as a list of lines instead of one string, use `render.render_prompt_lines()` from `kaye_engine.prompt.blueprint.render`.
+To get the prompt as a list of lines instead of one string, use `render_prompt_lines()` from `kaye_engine.prompt.blueprint.render`, which takes a `BlueprintSelection`.
 
 All of them take:
 
@@ -332,11 +337,12 @@ All of them take:
 - extra keyword arguments: passed on to each node's `content_lines()`, which is how dynamic nodes receive values such as `query=`, see [Dynamic Node Documentation](dynamic-content-doc.md#feeding-render-time-input)
 
 ```python
->>> from kaye_engine.prompt.blueprint import render
+>>> from kaye_engine.prompt import parse_blueprint_text, render_prompt_without_dependencies
+>>> from kaye_engine.prompt.blueprint import bind_selection, render
 >>> from kaye_engine.prompt.blueprint.render_profile import RenderProfile
->>> tree = PromptBlueprint.parse(...)
+>>> bp = parse_blueprint_text(...)
 >>> render.render_prompt_lines(
-...     tree, profile=RenderProfile(disable_first_heading=True)
+...     bind_selection(bp), profile=RenderProfile(disable_first_heading=True)
 ... )
 ['Overview of the methodologies used.',
  '### Data Collection',
@@ -344,8 +350,8 @@ All of them take:
  '',
  '## Conclusion',
  'Summarizing the findings and implications.']
->>> tree.generate_prompt_without_dependencies(
-...     profile=RenderProfile(show_comment=True)
+>>> render_prompt_without_dependencies(
+...     bp, profile=RenderProfile(show_comment=True)
 ... )
 # Main Title
 Overview of the methodologies used.
@@ -358,11 +364,11 @@ Summarizing the findings and implications.
 
 #### How Dependencies Are Resolved
 
-`.render_prompt()` first resolves `.dependencies` recursively and unions them in with `.merge()`, so a diamond dependency converges without duplicating shared content. It then calls `.generate_prompt_without_dependencies()` on the merged result. A dependency cycle raises `ValueError`.
+`render_prompt()` first resolves `.dependencies` recursively and unions their selections in, so a diamond dependency converges without duplicating shared content. It then splices conditional sidecars and renders the merged selection. A dependency cycle, or an unknown dependency name, raises `ValueError`.
 
 ### generate negative prompt
 
-The negative prompt is not a separate method. It is the same `.render_prompt()` and `.generate_prompt_without_dependencies()` entry point, switched by the profile's `mode`:
+The negative prompt is not a separate function. It is the same `render_prompt()` and `render_prompt_without_dependencies()` entry point, switched by the profile's `mode`:
 
 ```python
 RenderProfile(mode=RenderMode.NEGATIVE)
@@ -391,7 +397,7 @@ Or this.
 the negative render is:
 
 ```python
->>> render.render_negative_prompt_lines(tree)
+>>> render.render_negative_prompt_lines(bind_selection(bp))
 ['## Some',
  '### Prompt',
  "Don't do this.",
@@ -400,24 +406,23 @@ the negative render is:
  'Or this.']
 ```
 
-`render.render_negative_prompt_lines()` is the function `render_prompt_lines()` hands off to when `RenderMode.NEGATIVE` is set. Call it directly to get the same output without a `PromptBlueprint`. Dependency resolution through `.render_prompt(profile=...)` works the same in every mode.
+`render.render_negative_prompt_lines()` is the function `render_prompt_lines()` hands off to when `RenderMode.NEGATIVE` is set. Call it directly to get the same output without a profile. Dependency resolution through `render_prompt(bp, profile=...)` works the same in every mode.
 
 The other `RenderMode` members (`POST_ORDER`, `REVERSE_ORDER`, `IMAGE`), and how they combine with `NEGATIVE`, are covered in [`render-profile-doc.md`](render-profile-doc.md#render-modes).
 
 ### generate blueprint text
 
-`.generate_blueprint_without_dependencies()` shows a readable preview of the blueprint's own content only, ignoring `.dependencies`. The preview contains:
+`render_blueprint_without_dependencies(blueprint)` shows a readable preview of the blueprint's own content only, ignoring `.dependencies`. The preview contains:
 
 - the tree structure of the corresponding prompt corpus tree
 - each node's name (its section heading)
 - a preview of each node's content
 - the **checkmark status** of each node, as a `[x]` or `[ ]` prefix
 
-By default the tree is **pruned** to the branches relevant to this blueprint. Pass `show_full_tree=True` to show the whole corpus tree.
+By default the tree shows the selected nodes plus their ancestors. Pass `show_full_tree=True` to show the whole corpus tree.
 
 ```python
->>> tree = PromptBlueprint.parse(...)
->>> tree.generate_blueprint_without_dependencies()
+>>> render_blueprint_without_dependencies(bp)
     ○
 [x] └── Project Title
 [ ]     ├── Description
@@ -435,7 +440,9 @@ By default the tree is **pruned** to the branches relevant to this blueprint. Pa
 [x]     └── License
             This project is licensed under the MIT License.
 (blueprint: conversation; Kaye Engine v1.2.3)
->>> tree.generate_blueprint_without_dependencies(content_preview_lines=0, show_comment=True)
+>>> render_blueprint_without_dependencies(
+...     bp, content_preview_lines=0, show_comment=True
+... )
     ○
 [x] └── Project Title
 [ ]     ├── Description
@@ -446,9 +453,9 @@ By default the tree is **pruned** to the branches relevant to this blueprint. Pa
 <!-- blueprint: conversation; Kaye Engine v1.2.3 -->
 ```
 
-`.render_blueprint()` gives the same preview for this blueprint merged with its whole chain of `.dependencies`, resolved the same way as `.render_prompt()`.
+`render_blueprint(blueprint)` gives the same preview for this blueprint merged with its whole chain of `.dependencies`, resolved the same way as `render_prompt()`.
 
-`repr(blueprint)` is the same as `blueprint.generate_blueprint_without_dependencies()`.
+The preview parses back through `parse_blueprint_text()` to an equal blueprint.
 
 ### Blueprint Registry
 
@@ -460,16 +467,36 @@ By default the tree is **pruned** to the branches relevant to this blueprint. Pa
 from kaye_engine.prompt import get_blueprint, blueprint_registry
 
 registry = get_blueprint("chat")
-blueprint = registry.blueprint          # a PromptBlueprint instance
+blueprint = registry.blueprint          # a Blueprint value
 name = registry.display_name            # e.g. "Chat"
 canonical_name = registry.canonical_name  # kebab-case slug, e.g. "chat"
 ```
 
 Each entry carries:
 
-- `.blueprint`: the underlying `PromptBlueprint`
+- `.blueprint`: the underlying `Blueprint`; assign a new value to edit it, as a blueprint is immutable
 - `.canonical_name` and `.display_name`
 - `.is_exportable`: whether it is exported as an Agent Skill
 - `is_user_invokable` and `llm_invokable`: the export-policy flags
 
 Iterate `blueprint_registry` directly to list every registered blueprint.
+
+### Breaking Changes
+
+| Before | Now |
+| --- | --- |
+| `PromptBlueprint` (a `dict` subclass) | frozen `Blueprint` value plus pure functions |
+| `bp.checkmark(node)`, `bp += node` | `bp = checkmark_nodes(bp, node)` |
+| `bp.uncheckmark(node)` | `bp = uncheckmark_nodes(bp, node)` |
+| `bp.merge(other)`, `bp \| other` | `merge_blueprints(bp, other)` |
+| `bp.prune()` | removed; a blueprint stores only its selection |
+| `PromptBlueprint.parse(text, corpus_tree=)` | `parse_blueprint_text(text)` |
+| `create_full_blueprint()`, `create_empty_blueprint()`, `create_from_node()` | `create_blueprint(is_full=)`, `create_blueprint_from_node()` |
+| node as hash integer | node object, name, or `NodePath` |
+| `bp.render_prompt()`, `bp.generate_prompt_without_dependencies()` | `render_prompt(bp)`, `render_prompt_without_dependencies(bp)` |
+| `bp.render_blueprint()`, `bp.generate_blueprint_without_dependencies()` | `render_blueprint(bp)`, `render_blueprint_without_dependencies(bp)` |
+| `bp.sidecars`, `BlueprintDescriptorSidecars` | `bp.meta`, `BlueprintMeta`, `render_description()` and friends |
+| `corpus_tree=` argument | none: one corpus per process |
+| `load_corpus_tree(name, sources, is_default_tree=)`, `get_corpus_tree(name)` | `load_corpus_tree(sources)`, `get_corpus_tree()`, `clear_corpus_tree()` |
+| `get_default_corpus_tree()` | `get_corpus_tree()` |
+| dependency `str` resolved at construction | resolved at render time |

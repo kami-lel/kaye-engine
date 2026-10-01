@@ -68,16 +68,16 @@ Without an authored heading, a dynamic node still attaches — at root, with an 
 Once attached, a dynamic node behaves like any other corpus node in a blueprint: checkmark it to include it, uncheckmark it to leave it out.
 
 ```python
-from kaye_engine.prompt import PromptBlueprint
+from kaye_engine.prompt import parse_blueprint_text, render_prompt
 
 blueprint_text = """ ○
 [x] └── (today)"""
 
-blueprint = PromptBlueprint.parse(blueprint_text)
-prompt = blueprint.render_prompt()
+blueprint = parse_blueprint_text(blueprint_text)
+prompt = render_prompt(blueprint)
 ```
 
-Because every dynamic node now auto-attaches, `PromptBlueprint.create_full_blueprint()` checkmarks them too, like any other node — its output now includes today's date/time, the shorthand fallback list, and the full content of every abbr-tag and every registered glossary, where previously it was effectively empty of dynamic content unless explicitly authored.
+Because every dynamic node now auto-attaches, `create_blueprint(is_full=True)` checkmarks them too, like any other node — its output now includes today's date/time, the shorthand fallback list, and the full content of every abbr-tag and every registered glossary, where previously it was effectively empty of dynamic content unless explicitly authored.
 
 
 
@@ -95,7 +95,7 @@ Because every dynamic node now auto-attaches, `PromptBlueprint.create_full_bluep
 
 #### Resolution & Headless Rendering
 
-Alongside the tree-child mechanism above, `PromptBlueprint.render_prompt()` runs a second, independent pass: any `(((name)))` placeholder appearing anywhere in the fully-assembled prompt text is replaced with that dynamic node's generated content — unconditionally, regardless of whether a same-named tree child exists or is checkmarked. This lets you drop a dynamic node's content in the middle of ordinary prose, not just as a whole checkmark-controlled section.
+Alongside the tree-child mechanism above, `render_prompt()` runs a second, independent pass: any `(((name)))` placeholder appearing anywhere in the fully-assembled prompt text is replaced with that dynamic node's generated content — unconditionally, regardless of whether a same-named tree child exists or is checkmarked. This lets you drop a dynamic node's content in the middle of ordinary prose, not just as a whole checkmark-controlled section.
 
 `name` resolves against the same `resolve_dynamic_node_factory` used by the tree mechanism, via a **headless** instance of the matched `DynamicNode` subclass (`parent=None`, empty preface) — content generation is identical, just without ever attaching to the tree.
 
@@ -153,7 +153,8 @@ The two mechanisms are independent and both fully functional: `DynamicNode` tree
 Some dynamic nodes need input that only exists at render time — a search query, for example. Pass that input as an extra keyword argument to `render_prompt()` / `render.render_prompt_lines()`; it is forwarded to every node's content generation, and each dynamic node picks out the keyword(s) it understands.
 
 ```python
-prompt = blueprint.render_prompt(
+prompt = render_prompt(
+    blueprint,
     query="...",
 )
 ```
