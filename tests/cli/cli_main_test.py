@@ -32,8 +32,8 @@ class TestRegisterCliSubcommands:
             ["continue"],
             ["sync-open-webui-skills"],
             ["o"],
-            ["skill"],
-            ["s"],
+            ["skill", "-a", "F"],
+            ["s", "alpha", "F"],
             ["dynamic-node", "decode-only-abbr"],
         ):
             args = parser.parse_args(argv)
@@ -73,8 +73,8 @@ class TestRegisterCliMainParser:
             ["continue"],
             ["sync-open-webui-skills"],
             ["o"],
-            ["skill"],
-            ["s"],
+            ["skill", "-a", "F"],
+            ["s", "alpha", "F"],
             ["dynamic-node", "decode-only-abbr"],
         ):
             args = parser.parse_args(argv)
