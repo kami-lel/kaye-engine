@@ -37,9 +37,11 @@ not a gap to fill.
 
 | entity | what it is |
 |---|---|
-| **Prompt Corpus** | a structured Markdown document (one file, or several sources concatenated by `load_corpus_tree`); the authoritative source of truth |
+| **Prompt Corpus** | a structured Markdown document (one file, or several sources concatenated by `load_corpus_tree`); a process holds one; the authoritative source of truth |
 | **Prompt Tree** | the parsed corpus; every heading a `BasePromptNode` |
-| **Blueprint** | a selection spec marking which tree nodes render |
+| **Blueprint** | a frozen value (`Blueprint`) recording which tree nodes render, by path (`nodes`, `subtrees`), plus `meta` and `dependencies`; pure data, edited only through functions that return a new one |
+| **Corpus Index** | `CorpusIndex`, derived once per process from the one loaded tree: pre-order node arrays, paths, depths, child indexes, subtree and sidecar masks, static content blocks |
+| **Blueprint Selection** | `BlueprintSelection`, a blueprint bound to the index as one bitmask; what the renderers walk |
 | **Blueprint Registry** | name → blueprint plus its export policy |
 | **Exportable** | common base for anything `exportable_registry` holds — `BlueprintRegistry` and `ExportableAbbr` are its two implementers |
 | **Role** | a task-specific behavior profile held inside the corpus |
@@ -55,20 +57,26 @@ Heading syntax carries node type: plain text is an ordinary corpus node,
 `{braces}` a sidecar, `(parentheses)` a dynamic node.
 
 ```
-sources ────load_corpus_tree()──> Prompt Tree ─┐
-                                                 ├─render_prompt()─> text
-blueprint text ──PromptBlueprint.parse()─────────┘
+sources ────load_corpus_tree()──> Prompt Tree ──> CorpusIndex ─┐
+                                                                ├─render_prompt()─> text
+blueprint text ──parse_blueprint_text()──> Blueprint ───────────┘
 ```
 
+The process holds exactly one corpus tree: `load_corpus_tree(sources)`
+raises `ValueError` on a second call, `get_corpus_tree()` raises before a
+load, and `clear_corpus_tree()` drops the tree together with everything
+derived from it (the `CorpusIndex`, bound selections) through clear hooks.
+
 `render_prompt()`/`render_blueprint()` are the dependency-resolving
-entry points: each first merges the blueprint with the full transitive
-closure of its `.dependencies` (via `.merge()`, so a diamond dependency
-converges without duplicating shared content), then delegates to the
-own-content-only `generate_prompt_without_dependencies()`/
-`generate_blueprint_without_dependencies()` below. A `dependencies` entry
-may be a `PromptBlueprint` or a `str`; `_resolve_dependency()` resolves
-each `str` to the blueprint registered under that name via
-`register_blueprint()`, at `PromptBlueprint.__init__` time.
+entry points: each first resolves the blueprint's selection with the full
+transitive closure of its `.dependencies` (`resolve_selection()`, a bitmask
+OR, so a diamond dependency converges without duplicating shared content),
+then delegates to the own-content-only `render_prompt_without_dependencies()`/
+`render_blueprint_without_dependencies()` below. A `dependencies` entry
+may be a `Blueprint` value or a `str`; each `str` is resolved to the
+blueprint registered under that name at render time (late binding), and
+`register_blueprint()` validates every name at registration. A cycle or
+unknown name raises `ValueError`.
 
 Rendering takes a `sparseness` parameter governing how runs of blank lines
 collapse in the output, from `-1` (whole output joined onto one line) through
@@ -81,7 +89,7 @@ heading parser (`_split_sections` in `prompt_corpus_node.py`), and the
 load-time blank-line cleanup in `load_corpus_tree`
 (`_collapse_unfenced_blank_runs` in `prompt_corpus_loader.py`) all rely on
 to stay out of fenced regions.
-`PromptBlueprint.generate_prompt_without_dependencies()` applies `sparseness` last: it renders
+`render_prompt()` applies `sparseness` last: it renders
 the tree unsparse, then `apply_dynamic_substitutions()`, then applies the
 caller's `sparseness` to the substituted result, so a substitution's own
 blank lines are shaped by the same policy. Because that unsparse render
@@ -100,13 +108,13 @@ metadata and never rendered; every other name is a *conditional* sidecar,
 real content spliced in only when its name is on a `RenderProfile`'s
 `conditional_sidecars`, or matched via that same profile's `variants`
 field against `variant_registry`. `{avoid}` (negative-instruction/example
-content) is neither: it carries no `.sidecars` accessor and is never
+content) is neither: it carries no `BlueprintMeta` field and is never
 manually spliced by name, but is discovered automatically, at any depth,
 by `render.render_negative_prompt_lines()`, reached via the single
 `RenderMode`-driven entry point — `RenderProfile(mode=RenderMode.NEGATIVE)`
-passed to `render_prompt()`/`generate_prompt_without_dependencies()` (or
+passed to `render_prompt()`/`render_prompt_without_dependencies()` (or
 merged into a caller's profile) picks it in place of the positive
-`render_prompt_lines()`, at every layer: `PromptBlueprint`,
+`render_prompt_lines()`, at every layer: the render functions,
 `BlueprintRegistry.content()`, and any other `Exportable.content()`.
 A node's own `{avoid}` child contributes only when that node itself is
 checkmarked, under its own heading (never the literal `{avoid}`
@@ -164,7 +172,7 @@ consumer-supplied
 q.v. `kaye_vault/claude_render_profiles.py`) maps a surface name to the
 `RenderProfile` carrying that surface's variants/conditional-sidecars.
 Every **rendering command** — any CLI subcommand that reaches
-`PromptBlueprint.render_prompt(...)`, directly or via
+`render_prompt(...)`, directly or via
 `Exportable.content()` — exposes the same 6 options (`--surface`,
 `--comment`/`--no-comment`, `--conditional-sidecar`, `--variant`,
 `--sparseness`, `--reverse-order`) via one shared parent parser and one
@@ -243,7 +251,7 @@ fixes the node's preface and tree location in place of the heading
 itself, else it falls back to a direct child of root. A second,
 independent mechanism, inline `(((name)))` substitution, resolves
 canonical names anywhere inside rendered prompt text at
-`generate_prompt_without_dependencies()` (and, transitively,
+`render_prompt_without_dependencies()` (and, transitively,
 `render_prompt()`) time, against two sources in order: first
 `dynamic_substitution_registry` (populated via
 `register_dynamic_substitution(name, substitution)`, where
@@ -263,7 +271,7 @@ collection documentation](docs/abbrs-doc.md).
 ```python
 from kaye_engine import (
     PACKAGE_NAME, LOGGER_NAME,
-    load_corpus_tree, get_default_corpus_tree,
+    load_corpus_tree,
     AbbrData,
     DynamicSubstitution, StringDynamicSubstitution,
     register_abbr_glossary,
@@ -311,7 +319,8 @@ or an unresolved name reach path, manifest, or prompt building.
 ```
 kaye_engine/
 ├── prompt/              parse, model, select, render
-│   ├── blueprint/       PromptBlueprint, registry, rendering
+│   ├── blueprint/       Blueprint value (data/edit/parser), CorpusIndex
+│   │                    (index), selection binding, registry, rendering
 │   │   ├── render_mode.py      RenderMode: NORMAL/NEGATIVE/POST_ORDER/
 │   │   │                        REVERSE_ORDER/IMAGE flag enum
 │   │   ├── render_profile.py   RenderProfile: layerable render-kwargs bundle
