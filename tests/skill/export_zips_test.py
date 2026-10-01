@@ -8,6 +8,7 @@ export_skills_as_zips() deed logging
 
 import logging
 import shutil
+from types import SimpleNamespace
 from unittest.mock import patch
 
 import pytest
@@ -71,3 +72,32 @@ class TestExportSkillsAsZips:
 
         assert info.value.code == 1
         assert caplog.records[-1].message.startswith("fail to pack alpha")
+
+
+class TestExportSkillsAsZipsNames:
+
+    def test_names_forwarded_to_folder_export(_, _patched, tmp_path):
+        entries = [SimpleNamespace(canonical_name="alpha")]
+        with (
+            patch.object(
+                export_zips, "select_exportables", return_value=entries
+            ),
+            patch.object(
+                export_zips,
+                "export_skills_as_folders",
+                side_effect=_fake_export_folders,
+            ) as folders,
+        ):
+            export_skills_as_zips(tmp_path / "out", version="1", names=["a"])
+
+        assert folders.call_args.kwargs["names"] == ["alpha"]
+
+    def test_unknown_name_writes_nothing(_, _patched, tmp_path):
+        dest = tmp_path / "out"
+        with patch.object(
+            export_zips, "select_exportables", side_effect=ValueError("x")
+        ):
+            with pytest.raises(ValueError):
+                export_skills_as_zips(dest, version="1", names=["nope"])
+
+        assert not dest.exists()

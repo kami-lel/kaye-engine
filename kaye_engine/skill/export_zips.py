@@ -11,12 +11,12 @@ from pathlib import Path
 import kamilog
 from kaye_engine.skill import LOGGER_SKILL_NAME
 from kaye_engine.cli.dry_run import is_dry_run
-from kaye_engine.exportable import exportable_registry
 
 
 from .export_folders import (
     export_skills_as_folders,
 )
+from .select import select_exportables
 from .skill_md import Skill
 
 # logger  ######################################################################
@@ -26,7 +26,7 @@ logger = kamilog.getLogger(LOGGER_SKILL_NAME)
 
 
 def export_skills_as_zips(
-    parent_folder, *, version, verbose=True, render_profile=None
+    parent_folder, *, version, verbose=True, render_profile=None, names=None
 ):
     """
     export all blueprints, prompts, and abbreviation groups as ``.zip`` files
@@ -45,7 +45,11 @@ def export_skills_as_zips(
     :param render_profile: render options forwarded to
             :func:`export_skills_as_folders`
     :type render_profile: RenderProfile, optional
+    :param names: canonical names to export; ``None`` exports every entry
+    :type names: Iterable[str], optional
+    :raises ValueError: 1+ names are not registered; nothing is written
     """
+    exportables = select_exportables(names)
     parent_folder = Path(parent_folder)
     try:
         with logger.track.create_dir(parent_folder):
@@ -56,7 +60,7 @@ def export_skills_as_zips(
 
     if is_dry_run():
         _report_zips_without_writing(
-            parent_folder, version, render_profile
+            parent_folder, version, render_profile, exportables
         )
         return
 
@@ -69,6 +73,7 @@ def export_skills_as_zips(
             Path(skills_temp),
             version=version,
             render_profile=render_profile,
+            names=[e.canonical_name for e in exportables],
         )
 
         logger.debug("archiving skills to .zip packages")
@@ -98,13 +103,15 @@ def export_skills_as_zips(
 
 
 # auxiliaries  #################################################################
-def _report_zips_without_writing(parent_folder, version, render_profile):
+def _report_zips_without_writing(
+    parent_folder, version, render_profile, exportables
+):
     """
     log the pack and move deeds of every skill archive, building and
     writing nothing -- the dry-run stand-in for the archive steps
     """
     logger.enter("exporting exportables as skills")
-    for exportable in exportable_registry.values():
+    for exportable in exportables:
         zip_name = (
             Skill.from_exportable(
                 exportable, version=version, render_profile=render_profile
