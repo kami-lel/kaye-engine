@@ -53,7 +53,9 @@ reading blueprint from stdin, a preview tree or JSON:
 _FIELD_FLAGS = (
     ("-n", "display-name"),
     ("-d", "description"),
+    (None, "description-node"),
     ("-w", "when-to-use"),
+    (None, "when-to-use-node"),
     ("-g", "globs"),
     ("-p", "dependencies"),
 )
