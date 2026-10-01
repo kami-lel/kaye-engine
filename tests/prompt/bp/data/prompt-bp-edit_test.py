@@ -305,3 +305,14 @@ class TestCreateFromNode:
 
         assert bp.dependencies == ("coder",)
         assert bp.meta.description == "d"
+
+    def test_defaults_meta_to_sidecar_children(_):
+        bp = create_blueprint_from_node(METHODS)
+
+        assert bp.meta.globs_node == GLOBS
+        assert bp.meta.description_node is None
+
+    def test_no_sidecar_children_leaves_meta_empty(_):
+        bp = create_blueprint_from_node(INTRO)
+
+        assert bp.meta == BlueprintMeta()

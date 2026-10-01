@@ -128,6 +128,24 @@ def _expand_subtrees_covering(blueprint, path):
     )
 
 
+def _sidecar_meta(path):
+    """
+    :return: meta pointing at the descriptor sidecar children of the node
+            at ``path``, where it has them
+    :rtype: BlueprintMeta
+    """
+    index = get_corpus_index()
+    found = {}
+    for field, name in (
+        ("description_node", "{description}"),
+        ("when_to_use_node", "{when_to_use}"),
+        ("globs_node", "{globs}"),
+    ):
+        if (*path, name) in index.idx_by_path:
+            found[field] = (*path, name)
+    return BlueprintMeta(**found)
+
+
 # Public API  ##################################################################
 def is_checkmarked(blueprint, node):
     """
@@ -294,7 +312,9 @@ def create_blueprint_from_node(
     :type node: BasePromptNode or str or tuple[str, ...]
     :param is_recursive: whether to select its descendants too
     :type is_recursive: bool, optional
-    :param meta: descriptors; defaults to none set
+    :param meta: descriptors; defaults to the ``{description}``,
+            ``{when_to_use}`` and ``{globs}`` sidecar children of ``node``
+            that exist
     :type meta: BlueprintMeta, optional
     :param dependencies: registered blueprint names or blueprint values
     :type dependencies: Iterable[str or Blueprint], optional
@@ -303,8 +323,13 @@ def create_blueprint_from_node(
     :return: a blueprint selecting ``node``
     :rtype: Blueprint
     """
+    path = _resolve_path(node)
+
+    if meta is None:
+        meta = _sidecar_meta(path)
+
     return checkmark_nodes(
         create_blueprint(meta=meta, dependencies=dependencies),
-        node,
+        path,
         is_recursive=is_recursive,
     )
