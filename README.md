@@ -12,6 +12,7 @@ Kaye Engine parses a plain Markdown file, as the structured single source of tru
 - 💻 CLI for quick local generation and inspection
 - 🎨 Image-prompt export: write a marked exportable subset to per-entry Markdown files, each with an `-AVOID` negative-prompt sibling where relevant
 - 🧭 Continue export: write every exportable into a `~/.continue` folder as an always-apply/conditional rule or an invokable prompt
+- 🧩 Agent Skills export: write every exportable, or just the ones you name, as Agent Skill folders or `.zip`s
 - 🔄 Open WebUI sync: push every exportable into a running Open WebUI server as an Agent Skill, creating, updating, and (optionally) pruning to match
 - 🔌 pluggable mechanism, ready for a consumer package to plug in its own corpus, abbreviations, and blueprints — including a Flask/HTTP surface, if the consumer chooses to build one
 

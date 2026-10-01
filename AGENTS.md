@@ -45,6 +45,8 @@ merge.
 | `kaye_engine/cli/continue_ai/` | `tests/cli/continue_ai/` |
 | `kaye_engine/cli/open_webui/` | `tests/cli/open_webui/` |
 | `kaye_engine/cli/skill/` | `tests/cli/skill/` |
+| `kaye_engine/cli/claude/skills/` | `tests/cli/cli_main_test.py`, `tests/cli/dry_run_test.py` |
+| `kaye_engine/skill/` | `tests/skill/`, plus `tests/cli/open_webui/skill_form_test.py` (reads `Skill`) |
 | `kaye_engine/exportable/` | `tests/exportable_test.py`, `tests/image_prompt_export_test.py` |
 
 ```bash
@@ -91,8 +93,12 @@ kaye-engine dynamic-node NODE -t THRESHOLD  # for a glossary NODE, hide entries 
 kaye-engine dynamic-node ls                 # list every available NODE value: today, decode-only-abbr, every AbbrTags-derived name, then glossary names alphabetically
 kaye-engine dynamic-substitution NAME       # print a registered dynamic substitution's content
 kaye-engine dynamic-substitution ls         # list every registered dynamic substitution name
-kaye-engine skill SKILLS_FOLDER             # export blueprints as Agent Skill folders
-kaye-engine skill -z ZIPS_FOLDER            # create .zip Agent Skill packages
+kaye-engine skill NAME... FOLDER            # export the named Agent Skills into FOLDER (required)
+kaye-engine skill --all FOLDER              # export every Agent Skill; -a short
+kaye-engine skill -z NAME... FOLDER         # create .zip Agent Skill packages
+kaye-engine claude skills                   # export all skills into ~/.claude/skills
+kaye-engine claude skills FOLDER            # to a custom folder
+kaye-engine claude skills -z                # .zip per skill in the current directory
 kaye-engine claude plugin PLUGINS_FOLDER    # export blueprints as plugin folder
 kaye-engine claude plugin -z PLUGINS_FOLDER # .zip package (-N drops version)
 kaye-engine claude marketplace              # to ~/.claude/<marketplace folder>
@@ -121,7 +127,7 @@ Aliases: `blueprint` → `bp`; `blueprint show` → `bp s`; `blueprint
 generate` → `bp gen`/`bp g`; `continue` → `c`; `export-image-prompt` → `img`; `dynamic-node` →
 `dn`; `dynamic-substitution` → `ds`; `claude` → `a`; `claude code`
 → `claude c`; `claude
-marketplace` → `claude m`; `claude plugin` → `claude p`; `skill`
+marketplace` → `claude m`; `claude plugin` → `claude p`; `claude skills` → `claude s`; `skill`
 → `s`; `claude user-system-prompt` → `claude usp`;
 `claude vs-code-extension` → `claude v`; `exportable` → `x`;
 `export-json` → `json`; `affordance` → `afd`; `variant`
@@ -130,7 +136,8 @@ marketplace` → `claude m`; `claude plugin` → `claude p`; `skill`
 **Rendering commands** — any subcommand that reaches
 `render_prompt(...)`, directly or via
 `Exportable.content()` (`blueprint generate`, `dynamic-node`,
-`exportable`, `skill`, `claude plugin`, `claude marketplace`,
+`exportable`, `skill`, `claude skills`, `claude plugin`,
+`claude marketplace`,
 `claude user-system-prompt`, `claude vs-code-extension`, `claude
 code`) — all expose the same 6 options via one shared parent parser
 and one aux function, `build_render_profile_parent_parser`/
