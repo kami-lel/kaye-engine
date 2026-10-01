@@ -14,6 +14,7 @@ from kaye_engine.cli.blueprint.blueprint_io_parser import (
 )
 from kaye_engine.cli.cli_setup_guard import check_corpus_setup_for_cli
 from kaye_engine.cli.comment_parser import build_comment_parent_parser
+from kaye_engine.prompt.blueprint.render import render_blueprint
 from kamilog import (
     add_verbose_arguments,
     set_logging_level_by_namespace,
@@ -63,7 +64,7 @@ def _show_main(args):
     if args.preview_line_width is not None:
         render_kwargs["content_preview_width"] = args.preview_line_width
 
-    preview_tree = blueprint.render_blueprint(**render_kwargs)
+    preview_tree = render_blueprint(blueprint, **render_kwargs)
 
     print(preview_tree)
 

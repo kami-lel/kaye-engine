@@ -12,12 +12,11 @@ import pytest
 
 from kaye_engine.abbr_collection import AbbrData, AbbrMeaning
 from kaye_engine.cli.dynamic_node import parser as dynamic_node_parser
-from kaye_engine.prompt.dynamic_nodes import GlossaryNode, TodayNode
 from kaye_engine.prompt.prompt_corpus_loader import (
     clear_corpus_tree,
     get_corpus_tree,
+    load_corpus_tree,
 )
-from kaye_engine.prompt.prompt_corpus_node import PromptCorpusNode
 
 
 # auxiliaries  ##################################################################
@@ -52,15 +51,8 @@ class TestDynamicNodeMain:
     def test_uses_default_corpus_tree_preface_when_heading_authored(
         self, monkeypatch, capsys
     ):
-        root = PromptCorpusNode("○", None, [])
-        GlossaryNode(
-            root,
-            glossary_name="some-glossary",
-            preface=["This is the authored preface line."],
-        )
-
-        monkeypatch.setattr(
-            dynamic_node_parser, "get_corpus_tree", lambda: root
+        load_corpus_tree(
+            ["# (some-glossary)\nThis is the authored preface line.\n"]
         )
 
         parser = _build_dn_parser()
@@ -95,12 +87,7 @@ class TestDynamicNodeMain:
         # NODE arg instead of by the canonical NAME used to falsely
         # conclude no authored heading existed, so a second TodayNode
         # got attached alongside the real one and both rendered
-        root = PromptCorpusNode("○", None, [])
-        TodayNode(root, preface=["This is the authored Today preface."])
-
-        monkeypatch.setattr(
-            dynamic_node_parser, "get_corpus_tree", lambda: root
-        )
+        load_corpus_tree(["# (today)\nThis is the authored Today preface.\n"])
 
         parser = _build_dn_parser()
         args = parser.parse_args(["dynamic-node", "today"])
@@ -113,11 +100,7 @@ class TestDynamicNodeMain:
     def test_falls_back_when_heading_not_authored_in_default_tree(
         self, monkeypatch, capsys
     ):
-        root = PromptCorpusNode("○", None, [])
-
-        monkeypatch.setattr(
-            dynamic_node_parser, "get_corpus_tree", lambda: root
-        )
+        load_corpus_tree(["# Unrelated\nplain\n"])
 
         parser = _build_dn_parser()
         args = parser.parse_args(["dynamic-node", "some-glossary"])
@@ -193,15 +176,8 @@ class TestMultipleNodes:  ######################################################
     def test_renders_every_given_node_in_one_merged_output(
         self, monkeypatch, capsys
     ):
-        root = PromptCorpusNode("○", None, [])
-        GlossaryNode(
-            root,
-            glossary_name="some-glossary",
-            preface=["This is the some-glossary preface line."],
-        )
-
-        monkeypatch.setattr(
-            dynamic_node_parser, "get_corpus_tree", lambda: root
+        load_corpus_tree(
+            ["# (some-glossary)\nThis is the some-glossary preface line.\n"]
         )
 
         parser = _build_dn_parser()
@@ -217,20 +193,11 @@ class TestMultipleNodes:  ######################################################
     def test_renders_two_glossaries_sharing_one_corpus_tree(
         self, monkeypatch, capsys
     ):
-        root = PromptCorpusNode("○", None, [])
-        GlossaryNode(
-            root,
-            glossary_name="some-glossary",
-            preface=["This is the some-glossary preface line."],
-        )
-        GlossaryNode(
-            root,
-            glossary_name="other-glossary",
-            preface=["This is the other-glossary preface line."],
-        )
-
-        monkeypatch.setattr(
-            dynamic_node_parser, "get_corpus_tree", lambda: root
+        load_corpus_tree(
+            [
+                "# (some-glossary)\nThis is the some-glossary preface line.\n",
+                "# (other-glossary)\nThis is the other-glossary preface line.\n",
+            ]
         )
 
         parser = _build_dn_parser()
@@ -255,20 +222,11 @@ class TestSparsenessFlag:  #####################################################
 
     @pytest.fixture(autouse=True)
     def _two_glossaries(self, monkeypatch):
-        root = PromptCorpusNode("○", None, [])
-        GlossaryNode(
-            root,
-            glossary_name="some-glossary",
-            preface=["This is the some-glossary preface line."],
-        )
-        GlossaryNode(
-            root,
-            glossary_name="other-glossary",
-            preface=["This is the other-glossary preface line."],
-        )
-
-        monkeypatch.setattr(
-            dynamic_node_parser, "get_corpus_tree", lambda: root
+        load_corpus_tree(
+            [
+                "# (some-glossary)\nThis is the some-glossary preface line.\n",
+                "# (other-glossary)\nThis is the other-glossary preface line.\n",
+            ]
         )
 
     def test_omitted_defaults_to_no_blank_lines(self, capsys):
