@@ -49,7 +49,7 @@ def parse_blueprint_text(blueprint_text):
     parse ``blueprint_text`` into a blueprint of its checkmarked nodes
 
     ``blueprint_text`` must be in the same format as the output of
-    ``render.render_blueprint_tree()`` (with tree structure and
+    ``render.preview_selection()`` (with tree structure and
     checkmarks); unchecked lines select nothing and are ignored. While a
     corpus is loaded, every heading is also checked against it
 

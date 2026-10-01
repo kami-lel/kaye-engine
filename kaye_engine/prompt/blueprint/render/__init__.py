@@ -3,7 +3,7 @@ kaye_engine.prompt.blueprint.render.__init__.py
 
 facade re-exporting the render subpackage's public API:
 
-- ``render_blueprint_tree``
+- ``preview_selection``
 - ``render_prompt_lines``
 - ``render_negative_prompt_lines``
 - ``render_comment_lines``
@@ -26,12 +26,12 @@ from .meta import (
     render_when_to_use,
 )
 from .prompt import (
-    render_blueprint,
-    render_blueprint_without_dependencies,
+    preview_blueprint,
+    preview_blueprint_without_dependencies,
     render_prompt,
     render_prompt_without_dependencies,
 )
-from .tree import render_blueprint_tree
+from .tree import preview_selection
 from .util import (
     NO_TRIM_SPARSENESS,
     REPLACEMENT_NEWLINE_SYMBOL,
@@ -42,9 +42,9 @@ __all__ = (
     "REPLACEMENT_NEWLINE_SYMBOL",
     "apply_sparseness",
     "extract_globs",
-    "render_blueprint",
-    "render_blueprint_tree",
-    "render_blueprint_without_dependencies",
+    "preview_blueprint",
+    "preview_selection",
+    "preview_blueprint_without_dependencies",
     "render_description",
     "render_description_and_when_to_use",
     "render_when_to_use",

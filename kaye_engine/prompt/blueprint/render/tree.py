@@ -1,12 +1,12 @@
 """
 render.tree.py
 
-define ``render_blueprint_tree``
+define ``preview_selection``
 """
 
 from .comment import render_comment_lines
 
-__all__ = ("render_blueprint_tree",)
+__all__ = ("preview_selection",)
 
 
 # constants  ####################################################################
@@ -51,7 +51,7 @@ def _content_preview_lines(index, idx):
 
 
 # Public API  ####################################################################
-def render_blueprint_tree(
+def preview_selection(
     selection,
     *,
     content_preview_lines=3,

@@ -14,7 +14,7 @@ from kaye_engine.cli.blueprint.blueprint_io_parser import (
 )
 from kaye_engine.cli.cli_setup_guard import check_corpus_setup_for_cli
 from kaye_engine.cli.comment_parser import build_comment_parent_parser
-from kaye_engine.prompt.blueprint.render import render_blueprint
+from kaye_engine.prompt.blueprint.render import preview_blueprint
 from kamilog import (
     add_verbose_arguments,
     set_logging_level_by_namespace,
@@ -25,14 +25,15 @@ logger = kamilog.getLogger(LOGGER_NAME)
 
 # constants  ###################################################################
 
-_HELP = "show content of any of registered blueprints"
+_HELP = "show a registered blueprint as preview tree"
 
 
 _DESCRIPTION = _HELP + """
 
-render blueprint into a preview tree; the result is printed to stdout
+renders the blueprint as a tree of its entries, each shown as a truncated
+excerpt of its content, and prints the result to stdout
 
-select blueprint by registry name BLUEPRINT:
+select BLUEPRINT by canonical name in blueprint registry:
 
     kaye-engine blueprint show my-blueprint
 
@@ -41,7 +42,7 @@ reading blueprint from stdin:
     kaye-engine blueprint show < my-blueprint.yaml
     cat my-blueprint.yaml | kaye-engine blueprint show
 
-the preview's depth, line count, and line width can be tuned with -t, -l, and -w
+preview tree's depth, line count, and line width can be tuned with: -t, -l, -w
 """
 
 
@@ -64,7 +65,7 @@ def _show_main(args):
     if args.preview_line_width is not None:
         render_kwargs["content_preview_width"] = args.preview_line_width
 
-    preview_tree = render_blueprint(blueprint, **render_kwargs)
+    preview_tree = preview_blueprint(blueprint, **render_kwargs)
 
     print(preview_tree)
 
