@@ -74,7 +74,9 @@ def build_render_profile_parent_parser(
                 default_surface, surface_profiles=surface_profiles
             ),
             build_sparseness_parent_parser(default_sparseness),
-            build_comment_parent_parser(short_flags=comment_short_flags),
+            build_comment_parent_parser(
+                short_flags=comment_short_flags, is_render_profile=True
+            ),
         ],
     )
     parent.add_argument(
@@ -82,7 +84,7 @@ def build_render_profile_parent_parser(
         nargs="+",
         metavar="VARIANT",
         default=(),
-        help="variant name(s) to include, unioned with --surface",
+        help="variant name(s) to include, unioned with --surface, v.s.",
     )
     parent.add_argument(
         "-i",
@@ -92,7 +94,7 @@ def build_render_profile_parent_parser(
         default=(),
         help=(
             "conditional-sidecar name(s) to include, unioned with "
-            "--surface"
+            "--surface, v.s."
         ),
     )
     parent.add_argument(
@@ -100,7 +102,7 @@ def build_render_profile_parent_parser(
         dest="reverse_sibling_order",
         action="store_true",
         default=False,
-        help="reverse sibling order at every level of the tree walk",
+        help="reverse sibling order at every level of the tree walk, v.s.",
     )
     return parent
 
