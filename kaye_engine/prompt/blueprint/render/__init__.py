@@ -24,6 +24,7 @@ from .meta import (
     show_globs,
     show_description,
     show_description_and_when_to_use,
+    show_display_name,
     show_when_to_use,
 )
 from .prompt import (
@@ -49,6 +50,7 @@ __all__ = (
     "preview_blueprint_without_dependencies",
     "show_description",
     "show_description_and_when_to_use",
+    "show_display_name",
     "show_when_to_use",
     "register_comment_line",
     "render_comment_lines",

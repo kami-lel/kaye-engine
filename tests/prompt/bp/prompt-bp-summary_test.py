@@ -45,6 +45,13 @@ class TestShowBlueprint:
 
         assert show_blueprint(Blueprint(meta=meta)).meta == meta
 
+    def test_carries_display_name(_):
+        meta = BlueprintMeta(display_name="Nice Name")
+
+        assert show_blueprint(Blueprint(meta=meta)).meta.display_name == (
+            "Nice Name"
+        )
+
     def test_lists_dependency_names(_):
         bp = Blueprint(dependencies=("x", "y"))
 

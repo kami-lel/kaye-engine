@@ -66,6 +66,35 @@ class TestFields:
         assert exit_code == 0
         assert out == "test-cli-base\ntest-cli-top\n"
 
+    @pytest.mark.parametrize("flag", ["-n", "--display-name"])
+    def test_display_name(_, run, registered, flag):
+        registered(
+            "test-cli-named",
+            Blueprint(meta=BlueprintMeta(display_name="Nice Name")),
+        )
+
+        exit_code, out = run(["show", "test-cli-named", flag])
+
+        assert exit_code == 0
+        assert out == "Nice Name\n"
+
+    def test_display_name_empty_when_unnamed(_, run):
+        exit_code, out = run(["show", "test-cli-base", "-n"])
+
+        assert exit_code == 0
+        assert out == "\n"
+
+    def test_summary_shows_display_name_first(_, run, registered):
+        registered(
+            "test-cli-named-2",
+            Blueprint(meta=BlueprintMeta(display_name="Nice Name")),
+        )
+
+        exit_code, out = run(["show", "test-cli-named-2"])
+
+        assert exit_code == 0
+        assert out.startswith("display name: Nice Name\n")
+
     @pytest.mark.parametrize("flag", ["-d", "--description"])
     def test_description(_, run, registered, flag):
         registered(
@@ -102,6 +131,7 @@ class TestFields:
 
     def test_every_field_flag_maps_to_an_api_function(_):
         assert set(SHOW_FIELD_FXS) == {
+            "display-name",
             "description",
             "description-node",
             "when-to-use",
