@@ -18,6 +18,7 @@ from .data import (
     save_blueprint,
 )
 from .dependencies import resolve_dependencies, trace_dependencies
+from .diff import BlueprintDiff, diff_blueprints
 from .dynamic_substitution import *
 from .edit import (
     checkmark_nodes,
