@@ -100,7 +100,8 @@ hides the real `sparseness`, the generated-by comment's compact form
 `display_name` is set, then `Kaye Engine vX`) plus client lines from
 `register_comment_line()`, and is appended after image-mode heading
 flattening. `BlueprintRegistry.content()` fills an empty `display_name`
-from the entry's own.
+from the entry's own, which `BlueprintRegistry` reads live from
+`blueprint.meta.display_name`, else its explicit fallback, else `""`.
 
 Sidecars split by usage rather than by class. *Descriptor* sidecars
 (`{description}`, `{when_to_use}`, `{globs}`) are consumed as blueprint

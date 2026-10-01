@@ -91,7 +91,7 @@ kaye-engine blueprint render BLUEPRINT      # render a concrete prompt, dependen
 kaye-engine blueprint render BLUEPRINT -D   # own nodes only
 kaye-engine blueprint validate BLUEPRINT    # exit 0 if sound, 1 with the reason if not
 kaye-engine blueprint show BLUEPRINT        # summary of meta, node count, dependencies
-kaye-engine blueprint show BLUEPRINT -d     # one field: -d description, -w when-to-use, -g globs, -p dependencies
+kaye-engine blueprint show BLUEPRINT -d     # one field: -n display name, -d description, -w when-to-use, -g globs, -p dependencies
 kaye-engine blueprint preview < FILE        # any blueprint command reads stdin when BLUEPRINT is omitted
 kaye-engine dynamic-node NODE...            # render 1+ dynamic nodes merged into one blueprint/output; NODE is "today"/"decode-only-abbr", any simple AbbrTags kebab slug (eg "emoji", "single-character"), or any known abbr glossary name
 kaye-engine dynamic-node NODE -t THRESHOLD  # for a glossary NODE, hide entries with priority > THRESHOLD
@@ -216,7 +216,10 @@ consumer project configures it. Mechanics in `CONTEXT.md`.
 
 `register_blueprint()` in `kaye_engine/prompt/blueprint/registry.py` is the
 only gate — every exporter reads `blueprint_registry` directly. **Calls
-live in the consumer package**, not here.
+live in the consumer package**, not here. The signature is
+`register_blueprint(canonical_name, blueprint, *, display_name="", ...)`: the
+entry's name is `blueprint.meta.display_name`, and `display_name=` only backs
+it when the meta name is empty.
 
 Export policy — one gate plus three independent flags, no allow-list
 constant:

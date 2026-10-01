@@ -48,8 +48,10 @@ Two kinds of exportable registration feed `exportable_registry`:
 
 - **consumer registered exportable**
 
-  - blueprint: `register_blueprint()`
-    will automatically register the blueprint into `exportable_registry`
+  - blueprint: `register_blueprint(name, blueprint)`
+    will automatically register the blueprint into `exportable_registry`;
+    its display name comes from `blueprint.meta.display_name`, with the
+    optional `display_name=` argument as fallback, else `""`
   - glossary: `register_abbr_glossary()` registers the glossary's name
     and settings into `abbr_glossary_registry`; `register_exportable_abbrs()`
     (re-run whenever `AbbrData` changes) is what actually inserts the
