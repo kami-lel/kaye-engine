@@ -11,7 +11,7 @@ import re
 import pytest
 
 from kaye_engine.prompt.blueprint.data import Blueprint
-from kaye_engine.prompt.blueprint.parser import parse_blueprint_text
+from kaye_engine.prompt.blueprint.parser import parse_blueprint_tree
 from kaye_engine.prompt.blueprint.render.tree import preview_selection
 from kaye_engine.prompt.blueprint.selection import bind_selection
 from kaye_engine.prompt.prompt_corpus_loader import load_corpus_tree
@@ -147,7 +147,7 @@ class TestRoundTrip:
             bind_selection(blueprint), content_preview_lines=0
         )
 
-        assert parse_blueprint_text(text) == blueprint
+        assert parse_blueprint_tree(text) == blueprint
 
     def test_full_tree_with_previews_parses_back(_):
         blueprint = Blueprint(nodes=frozenset({DESC, LICENSE}))
@@ -156,7 +156,7 @@ class TestRoundTrip:
             bind_selection(blueprint), show_full_tree=True
         )
 
-        assert parse_blueprint_text(text) == blueprint
+        assert parse_blueprint_tree(text) == blueprint
 
     def test_dynamic_nodes_round_trip(_):
         blueprint = Blueprint(nodes=frozenset({("(today)",), DESC}))
@@ -165,4 +165,4 @@ class TestRoundTrip:
             bind_selection(blueprint), content_preview_lines=0
         )
 
-        assert parse_blueprint_text(text) == blueprint
+        assert parse_blueprint_tree(text) == blueprint

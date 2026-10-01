@@ -13,6 +13,7 @@ from .data import (
     decode_blueprint,
     encode_blueprint,
     load_blueprint,
+    parse_blueprint_json,
     save_blueprint,
 )
 from .dynamic_substitution import *
@@ -31,7 +32,7 @@ from .index import (
     get_corpus_index,
     get_corpus_node,
 )
-from .parser import parse_blueprint_text
+from .parser import parse_blueprint_tree
 from .registry import *
 from .render import (
     show_globs,

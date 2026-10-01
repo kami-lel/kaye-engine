@@ -22,6 +22,7 @@ from kaye_engine.prompt.blueprint.data import (
     decode_blueprint,
     encode_blueprint,
     load_blueprint,
+    parse_blueprint_json,
     save_blueprint,
 )
 
@@ -148,6 +149,23 @@ class TestJson:
     def test_decode_needs_no_corpus(_):
         # no corpus is loaded by this suite: decoding must still work
         assert decode_blueprint({"schema": 1, "nodes": [["A"]]}).nodes
+
+
+class TestParseJson:
+
+    def test_parses_dumped_text(_):
+        blueprint = Blueprint(nodes=frozenset({("A",)}))
+        text = json.dumps(encode_blueprint(blueprint))
+
+        assert parse_blueprint_json(text) == blueprint
+
+    def test_malformed_json_raises(_):
+        with pytest.raises(ValueError, match="not valid JSON"):
+            parse_blueprint_json("{nope")
+
+    def test_unknown_schema_raises(_):
+        with pytest.raises(ValueError, match="schema"):
+            parse_blueprint_json('{"schema": 99}')
 
 
 class TestPickle:
