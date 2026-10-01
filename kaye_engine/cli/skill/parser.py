@@ -70,7 +70,7 @@ def register_skill_parser(cli_subparser):  #####################################
         "paths",
         nargs="+",
         metavar="NAME... FOLDER",
-        help="skill names to export, then the destination folder",
+        help="skill names to export, then the destination folder, v.s.",
     )
 
     skill_parser.add_argument(

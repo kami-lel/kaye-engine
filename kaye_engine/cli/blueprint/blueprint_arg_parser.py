@@ -12,8 +12,11 @@ __all__ = ("build_blueprint_arg_parser", "build_no_dependencies_arg_parser")
 
 
 # Public API  ##################################################################
-def build_blueprint_arg_parser():
+def build_blueprint_arg_parser(*, is_render_profile=False):
     """
+    :param is_render_profile: whether the command takes the render
+            profile options, appending ``v.s.`` to the help
+    :type is_render_profile: bool
     :return: a fresh, help-suppressed parent parser carrying the optional
             ``BLUEPRINT`` positional: a registered name, or stdin when
             omitted
@@ -22,7 +25,8 @@ def build_blueprint_arg_parser():
     parent = ArgumentParser(add_help=False)
     parent.add_argument(
         "BLUEPRINT",
-        help="registered blueprint name; omitted reads stdin",
+        help="registered blueprint name; omitted reads stdin"
+        + (", v.s." if is_render_profile else ""),
         type=str,
         nargs="?",
         default=None,

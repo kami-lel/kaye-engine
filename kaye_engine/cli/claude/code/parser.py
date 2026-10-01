@@ -77,7 +77,7 @@ def register_code_parser(cli_subparser):  ######################################
         metavar="CLAUDE_FOLDER",
         type=Path,
         default=DEFAULT_CLAUDE_FOLDER,
-        help="path to local .claude/ folder; default: ~/.claude",
+        help="path to local .claude/ folder; default: ~/.claude, v.s.",
     )
 
     kamilog.add_verbose_arguments(code_parser)

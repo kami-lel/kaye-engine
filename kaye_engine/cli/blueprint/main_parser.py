@@ -13,7 +13,7 @@ from kaye_engine.cli.blueprint.validate_parser import (
 )
 
 # constants  ###################################################################
-_HELP = "inspect and generate from registered prompt blueprints"
+_HELP = "operate with (registered or not) prompt blueprints"
 
 
 def register_cli_blueprint_parser(cli_subparser):  #############################

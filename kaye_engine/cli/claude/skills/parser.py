@@ -70,7 +70,7 @@ def register_skills_parser(cli_subparser):  ####################################
         metavar="FOLDER",
         type=Path,
         default=None,
-        help="destination folder; default: ~/.claude/skills/",
+        help="destination folder; default: ~/.claude/skills/, v.s.",
     )
 
     skills_parser.add_argument(
