@@ -3,10 +3,10 @@
 [^format]
 
 <!--
-Fixme review all docs/
-Todo review render profile flags
+FIXME review all docs/
+TODO review render profile flags
 
-Todo support hermes
+todo support hermes
 
 bug continue exporting missing some skills
 todo organize exportable registry,
