@@ -89,8 +89,8 @@ class TestFormat:
 
         assert out == "\n".join(
             [
-                _field("nodes", "0"),
-                _field("subtrees", "0"),
+                _field("nodes: 0", "").rstrip("\n"),
+                _field("subtrees: 0", "").rstrip("\n"),
             ]
         )
 
@@ -107,7 +107,10 @@ class TestFormat:
         )
 
         out = fmt_summary(
-            show_blueprint(bp), description="d", when_to_use="w"
+            show_blueprint(bp),
+            description="d",
+            when_to_use="w",
+            nodes=bp.nodes,
         )
 
         assert out.startswith(_field("display name", "Name") + "\n")
@@ -115,7 +118,7 @@ class TestFormat:
         assert _field("when to use", "w") in out
         assert _field("description node", "A # {description}") in out
         assert _field("when to use node", "A # {when}") in out
-        assert _field("nodes", "1") in out
+        assert _field("nodes: 1", "A") in out
         assert out.endswith(_field("dependencies", "x\ny"))
 
     def test_summary_banner_is_centered_cb5_of_80_chars(_):
@@ -123,8 +126,8 @@ class TestFormat:
 
         banner = out.splitlines()[0]
         assert len(banner) == 80
-        assert "  nodes  " in banner
-        assert set(banner.replace("  nodes  ", "")) == {"-"}
+        assert "  nodes: 0  " in banner
+        assert set(banner.replace("  nodes: 0  ", "")) == {"-"}
 
     def test_show_result_by_type(_):
         summary = show_blueprint(Blueprint())
