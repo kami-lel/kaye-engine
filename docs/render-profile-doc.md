@@ -23,12 +23,13 @@ Pass a profile to `render_prompt()` through `profile=`:
 from kaye_engine.prompt.blueprint.render_mode import RenderMode
 from kaye_engine.prompt.blueprint.render_profile import RenderProfile
 
-prompt = bp.render_prompt(
+prompt = render_prompt(
+    bp,
     profile=RenderProfile(
         conditional_sidecars=("[Bash]",),
         mode=RenderMode.POST_ORDER,
         sparseness=0,
-    )
+    ),
 )
 ```
 
@@ -175,7 +176,7 @@ Adding `IMAGE` removes every title, leaving only the `{avoid}` text, with its bl
 Sidecar nodes such as `{[Bash]}` are left out of every render unless a profile asks for them. List their names in `conditional_sidecars`:
 
 ```python
-bp.render_prompt(profile=RenderProfile(conditional_sidecars=("[Bash]",)))
+render_prompt(bp, profile=RenderProfile(conditional_sidecars=("[Bash]",)))
 ```
 
 Things to know:
@@ -195,7 +196,7 @@ See [Sidecar Node Documentation](sidecar-node-doc.md#conditional-sidecar-nodes) 
 - an affordance includes its `Usage` sidecar when any of its variants is listed, otherwise its `Fallback` sidecar
 
 ```python
-bp.render_prompt(profile=RenderProfile(variants=("ClaudeCode:TodoWrite",)))
+render_prompt(bp, profile=RenderProfile(variants=("ClaudeCode:TodoWrite",)))
 ```
 
 The field has three states:
@@ -297,7 +298,7 @@ register_blueprint(
 )
 ```
 
-Calling `PromptBlueprint.render_prompt(profile=...)` or `generate_prompt_without_dependencies(profile=...)` directly skips entry defaults. Both fall back to `RenderProfile()` when given no profile. Extra keyword arguments such as `query=` are not profile fields; they pass through to each node's `content_lines()`.
+Calling `render_prompt(bp, profile=...)` or `render_prompt_without_dependencies(bp, profile=...)` directly skips entry defaults. Both fall back to `RenderProfile()` when given no profile. Extra keyword arguments such as `query=` are not profile fields; they pass through to each node's `content_lines()`.
 
 ## Surfaces
 
@@ -345,7 +346,7 @@ See also [Claude Documentation](claude-doc.md).
 
 ## CLI Options
 
-Every **rendering command** takes the same six options. A rendering command is any subcommand that reaches `PromptBlueprint.render_prompt()`, directly or through `Exportable.content()`:
+Every **rendering command** takes the same six options. A rendering command is any subcommand that reaches `render_prompt()`, directly or through `Exportable.content()`:
 
 - `blueprint generate`
 - `dynamic-node`

@@ -1,11 +1,48 @@
 """
 kaye_engine/prompt/blueprint/
 
-`PromptBlueprint`: definition, parsing, rendering, and loading;
-the blueprint registry mechanism
+`Blueprint`: the frozen selection of corpus nodes, its pure edit functions,
+JSON codec, text parser, binding, and rendering; the blueprint registry
+mechanism
 """
 
+from .data import (
+    Blueprint,
+    BlueprintMeta,
+    create_blueprint,
+    decode_blueprint,
+    encode_blueprint,
+    load_blueprint,
+    save_blueprint,
+)
 from .dynamic_substitution import *
-from .prompt_blueprint import *
+from .edit import (
+    checkmark_nodes,
+    create_blueprint_from_node,
+    is_checkmarked,
+    merge_blueprints,
+    replace_meta,
+    uncheckmark_nodes,
+)
+from .index import (
+    BlueprintSelection,
+    CorpusIndex,
+    NodePath,
+    get_corpus_index,
+    get_corpus_node,
+)
+from .parser import parse_blueprint_text
 from .registry import *
-from .render import register_comment_line
+from .render import (
+    extract_globs,
+    register_comment_line,
+    render_blueprint,
+    render_blueprint_tree,
+    render_blueprint_without_dependencies,
+    render_description,
+    render_description_and_when_to_use,
+    render_prompt,
+    render_prompt_without_dependencies,
+    render_when_to_use,
+)
+from .selection import bind_selection, resolve_selection

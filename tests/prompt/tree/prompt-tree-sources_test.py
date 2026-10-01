@@ -46,7 +46,7 @@ class TestPathSources:
             "builtins.open", side_effect=_open_side_effect(content_by_path)
         ):
             tree = load_corpus_tree(
-                "sources-two-path-test", [Path("a.md"), Path("b.md")]
+                [Path("a.md"), Path("b.md")]
             )
 
         assert [c.name for c in tree.children][:2] == ["A", "B"]
@@ -60,7 +60,7 @@ class TestStrSources:
 
         with patch("builtins.open", side_effect=_open_raising):
             tree = load_corpus_tree(
-                "sources-str-literal-test", ["# A\nContent A.\n"]
+                ["# A\nContent A.\n"]
             )
 
         assert [c.name for c in tree.children][:1] == ["A"]
@@ -75,7 +75,6 @@ class TestMixedSources:
             "builtins.open", side_effect=_open_side_effect(content_by_path)
         ):
             tree = load_corpus_tree(
-                "sources-mixed-order-test",
                 ["# A\nContent A.\n", Path("b.md"), "# C\nContent C.\n"],
             )
 
@@ -89,7 +88,6 @@ class TestSourceJoinBoundary:
         # keep the second source's heading from gluing onto the first
         # source's last line
         tree = load_corpus_tree(
-            "sources-no-trailing-newline-test",
             ["# A\nContent A.", "# B\nContent B."],
         )
 

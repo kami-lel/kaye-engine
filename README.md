@@ -30,7 +30,7 @@ Kaye Engine parses a plain Markdown file, as the structured single source of tru
 
 ### 📄 Prompt Corpus
 
-The **Prompt Corpus** is a structured Markdown document that defines identity, roles, rules, styles, and references — the authoritative Source Of Truth used to generate prompts for different scenarios. `kaye-engine` does not bundle one itself; it only provides the parsing mechanism (`load_corpus_tree()` / `get_corpus_tree()`) that any caller uses to load — from an ordered list of file and/or literal-content sources — and cache one by name.
+The **Prompt Corpus** is a structured Markdown document that defines identity, roles, rules, styles, and references — the authoritative Source Of Truth used to generate prompts for different scenarios. `kaye-engine` does not bundle one itself; it only provides the parsing mechanism (`load_corpus_tree()` / `get_corpus_tree()`) that any caller uses to load — from an ordered list of file and/or literal-content sources — and hold the one corpus a process uses.
 
 Q.v. [Prompt Corpus Format documentation](docs/corpus-doc.md) for the heading-to-tree mapping and full Markdown syntax.
 
@@ -40,7 +40,7 @@ Other core concepts:
 
 - 🎭 role: task-specific **Behavior Profile** inside the corpus shaping response style and scope
 - 📝 prompt: final **Rendered Text** tailored to a context and ready for direct use
-- 🌲 blueprint: tree **Selection Spec** that controls which corpus parts are rendered
+- 🌲 blueprint: frozen **Selection Value** of corpus node paths that controls which corpus parts are rendered, edited through pure functions and storable as JSON — Q.v. [Prompt documentation](docs/prompt-doc.md#prompt-blueprint)
 - 📦 exportable: **Registry Entry** unifying blueprints and abbreviation/glossary groups under one exportable name — Q.v. [`Exportable` registry documentation](docs/exportable-registry-doc.md)
 - 🔀 dynamic node: corpus node whose content is **Generated** at render time — Q.v. [Dynamic Node documentation](docs/dynamic-content-doc.md)
 - 🗂️ sidecar node: corpus node holding structured **Metadata** about its parent — Q.v. [Sidecar Node documentation](docs/sidecar-node-doc.md)

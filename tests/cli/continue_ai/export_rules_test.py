@@ -17,13 +17,24 @@ from kaye_engine.cli.continue_ai.export_rules import (
 )
 from kaye_engine.cli.exportable_abbr import ExportableAbbr
 from kaye_engine.prompt.blueprint import BlueprintRegistry
+from kaye_engine.prompt.blueprint.data import Blueprint, BlueprintMeta
+from kaye_engine.prompt.prompt_corpus_loader import (
+    clear_corpus_tree,
+    load_corpus_tree,
+)
+
+
+@pytest.fixture(autouse=True)
+def _corpus():
+    # exporting renders every entry, which needs the one corpus
+    clear_corpus_tree()
+    load_corpus_tree(["# R\n"])
+    yield
+    clear_corpus_tree()
 
 
 def _registry(name, **kwargs):
-    blueprint = MagicMock()
-    blueprint.sidecars.description_and_when_to_use = "d"
-    blueprint.sidecars.globs = []
-    blueprint.render_prompt.return_value = "body of " + name
+    blueprint = Blueprint(meta=BlueprintMeta(description="d"))
     return BlueprintRegistry(
         canonical_name=name,
         display_name="Display " + name,

@@ -138,7 +138,7 @@ The `kaye-engine affordance`/`variant` CLI subcommands (q.v. [CLI Integration](#
 - for each `variant_registry` entry: `usage_sidecar_name` is `True` iff its `canonical_name` is in `variants`; `lack_sidecar_name` is the negation
 - for each `affordance_registry` entry: `usage_sidecar_name` is `True` iff *any* of its registered variants are present in `variants`; `fallback_sidecar_name` is `True` iff it has at least one registered variant and *all* of them are absent
 
-`_splice_conditional_sidecars()` feeds this map alongside the plain `conditional_sidecars` name set — a sidecar node only checkmarks when its name matches one or the other, and only when its parent is already checkmarked.
+`splice_sidecars()` feeds this map alongside the plain `conditional_sidecars` name set — a sidecar node only checkmarks when its name matches one or the other, and only when its parent is already checkmarked.
 
 This whole mechanism is opt-in per render call, via a render profile's `variants` field, q.v. [`render-profile-doc.md`](render-profile-doc.md#variants).
 
@@ -189,8 +189,8 @@ register_variant("ask_user_input_v0", "ask-user-question")
 register_variant("AskUserQuestion", "ask-user-question")
 
 # Usage/Lack/Fallback checkmarking for every registered affordance/variant
-prompt = bp.render_prompt(
-    profile=RenderProfile(variants=("ClaudeCode:TodoWrite",))
+prompt = render_prompt(
+    bp, profile=RenderProfile(variants=("ClaudeCode:TodoWrite",))
 )
 ```
 

@@ -53,7 +53,7 @@ Sidecar nodes enable two complementary patterns, plus affordances, a third mecha
 
 ### Descriptor Sidecars
 
-Descriptor sidecars are metadata fields that describe a parent node's purpose, relevance, and applicable contexts. They are consumed by blueprints and exposed via `.sidecars` (a `BlueprintDescriptorSidecars` instance).
+Descriptor sidecars are metadata fields that describe a parent node's purpose, relevance, and applicable contexts. They are consumed through a blueprint's `.meta` (a `BlueprintMeta`), which points at the sidecar nodes by path.
 
 
 
@@ -63,9 +63,9 @@ Descriptor sidecars are metadata fields that describe a parent node's purpose, r
 
 Describes the parent node's functionality — what the node represents or what it instructs. Used in blueprint discovery and documentation generation.
 
-**Rendering behavior:** The description is **overridable** — if explicitly set on the blueprint object, it is used; otherwise, it falls back to the `{description}` node's content.
+**Rendering behavior:** The description is **overridable** — if the blueprint's `meta.description` literal is set, it is used; otherwise, it falls back to the content of the node at `meta.description_node`.
 
-**Access:** `blueprint.sidecars.description`
+**Access:** `render_description(blueprint)`
 
 
 
@@ -77,7 +77,7 @@ Indicates when the parent node should be enabled — the conditions or contexts 
 
 **Rendering behavior:** `when_to_use` is **always rendered from the sidecar node content**, never overridden.
 
-**Access:** `blueprint.sidecars.when_to_use`
+**Access:** `render_when_to_use(blueprint)`
 
 
 
@@ -87,9 +87,9 @@ Indicates when the parent node should be enabled — the conditions or contexts 
 
 Lists file glob patterns indicating which file types or paths make the parent node relevant. Each line is treated as a separate pattern — multiple patterns are supported. Used by IDE integrations and code editors to determine when to apply the prompt context.
 
-**Rendering behavior:** `globs` requires **fence-block parsing** (e.g., code blocks with ` ```glob ` delimiters). The patterns are extracted and stored in `blueprint.sidecars.globs`.
+**Rendering behavior:** `globs` requires **fence-block parsing** (e.g., code blocks with ` ```glob ` delimiters). The patterns are extracted from the node at `meta.globs_node`.
 
-**Access:** `blueprint.sidecars.globs` (returns list of glob patterns)
+**Access:** `extract_globs(blueprint)` (returns list of glob patterns)
 
 
 
@@ -97,7 +97,7 @@ Lists file glob patterns indicating which file types or paths make the parent no
 ### Negative-Instruction Sidecar
 
 `{avoid}` is neither a descriptor sidecar nor a conditional one — it is
-never exposed via `.sidecars`, and it is never spliced into a rendered
+never reachable through `.meta`, and it is never spliced into a rendered
 prompt by naming it in `conditional_sidecars` (though that splice
 mechanism still works structurally on it like on any other name,
 independent of the render below). Instead, `{avoid}` content is
@@ -128,7 +128,7 @@ omitted entirely. It is never included in the *positive* prompt unless
 explicitly named via `conditional_sidecars`.
 
 **Access:** `RenderMode.NEGATIVE` only — there is no
-`blueprint.sidecars.avoid` accessor.
+`render_avoid` function or `.meta` field.
 
 
 
@@ -213,13 +213,13 @@ Sidecar nodes follow the standard Markdown heading format in `prompt_corpus.md`:
 - The heading level of a sidecar node (e.g., `##`, `###`) determines its depth in the tree
 - A sidecar node must be **one level deeper than its parent node**
 - Sidecar nodes are identified by the pattern `^\{.+\}$` (any name in curly braces) — there is no fixed vocabulary; any name is a valid sidecar
-- `description`, `when_to_use`, and `globs` are reserved names consumed as metadata by `BlueprintDescriptorSidecars`; `avoid` is reserved too, but discovered directly by `render.render_negative_prompt_lines()` (via `RenderMode.NEGATIVE`) instead (q.v. [Negative-Instruction Sidecar](#negative-instruction-sidecar)); every other name is available for conditional content inclusion
+- `description`, `when_to_use`, and `globs` are reserved names consumed as metadata through `BlueprintMeta`; `avoid` is reserved too, but discovered directly by `render.render_negative_prompt_lines()` (via `RenderMode.NEGATIVE`) instead (q.v. [Negative-Instruction Sidecar](#negative-instruction-sidecar)); every other name is available for conditional content inclusion
 
 **Checkmarking behavior:**
-- Sidecar nodes are **never auto-checkmarked** by `create_full_blueprint()` or by `.checkmark()` with `recursively=True`
-- Descriptor sidecars are generally not checkmarked at all — their content is accessed via the `.sidecars` blueprint attribute
+- Sidecar nodes are **never auto-checkmarked** by `create_blueprint(is_full=True)` or by `checkmark_nodes()` with `is_recursive=True`
+- Descriptor sidecars are generally not checkmarked at all — their content is accessed through the blueprint's `.meta`
 - Conditional sidecar nodes can be auto-checkmarked only when you explicitly list their name in a render profile's `conditional_sidecars`, q.v. [`render-profile-doc.md`](render-profile-doc.md#conditional-sidecars)
-- To explicitly checkmark a sidecar node: `bp.checkmark(sidecar_node)`
+- To explicitly checkmark a sidecar node: `bp = checkmark_nodes(bp, sidecar_node)`
 
 
 
@@ -305,117 +305,53 @@ if name == "[ClaudeCode:TodoWrite]":
 
 ---
 
-#### `BlueprintDescriptorSidecars`
+#### `BlueprintMeta`
 
-Container for descriptor sidecar metadata extracted from a node's descriptor children.
+Frozen container pointing at the descriptor sidecar nodes of a blueprint.
 
-**Location:** `kaye_engine/prompt/sidecar_node.py`
+**Location:** `kaye_engine/prompt/blueprint/data.py`
 
 **Description:**
-Represents the structured metadata (description, when_to_use, globs) derived from a node's sidecar children. These are accessed via `blueprint.sidecars` and never rendered to the prompt output — they exist purely for discovery, documentation, and conditional inclusion logic.
+Holds the descriptors (description, when_to_use, globs) of a blueprint as **node paths**, never node objects. They are never rendered into the prompt output — they exist purely for discovery, documentation, and export. `create_blueprint_from_node()` fills them from the node's own sidecar children; `replace_meta()` replaces any of them.
 
-**Attributes:**
+**Fields:**
 
-##### `description`
+- `description`: `str or None`, a literal description that takes priority over the node
+- `description_node`: `NodePath or None`, path of the node holding the description
+- `when_to_use_node`: `NodePath or None`, path of the node holding the when-to-use
+- `globs_node`: `NodePath or None`, path of the node holding the glob patterns
 
-The description metadata from the node's `{description}` sidecar child.
+**Reading the descriptors:**
 
-**Type:** `str`
+All three are functions of `kaye_engine.prompt.blueprint.render` (re-exported from `kaye_engine.prompt`), and need the corpus loaded:
 
-**Behavior:** Overridable via setter. If explicitly set, that value is used; otherwise, content from the `{description}` sidecar node is used as fallback.
-
-**Example:**
-```python
-blueprint.sidecars.description = "Custom description"
-print(blueprint.sidecars.description)  # "Custom description"
-```
-
-##### `when_to_use`
-
-The when_to_use metadata from the node's `{when_to_use}` sidecar child.
-
-**Type:** `str`
-
-**Behavior:** Always rendered from the sidecar node content; cannot be overridden.
+- `render_description(blueprint)`: the literal `description` when set, else the description node's content as one line, else `""`
+- `render_when_to_use(blueprint)`: the when-to-use node's content as one line, else `""`
+- `render_description_and_when_to_use(blueprint)`: the literal `description` alone when set, else the description and when-to-use node content joined by the replacement newline symbol
+- `extract_globs(blueprint)`: the patterns of the globs node's first fenced `glob` block, one per line
 
 **Example:**
 ```python
-print(blueprint.sidecars.when_to_use)  # content of {when_to_use} node
+from kaye_engine.prompt import (
+    create_blueprint_from_node,
+    extract_globs,
+    render_description,
+    render_when_to_use,
+    replace_meta,
+)
+
+bp = create_blueprint_from_node("Coder Python")
+
+print(render_description(bp))
+print(render_when_to_use(bp))
+print(extract_globs(bp))  # e.g., ["**/*.py", "**/*.pyi"]
+
+bp = replace_meta(bp, description="Custom description")
+print(render_description(bp))  # "Custom description"
 ```
 
-##### `globs`
+**Merging:**
 
-The file glob patterns from the node's `{globs}` sidecar child.
-
-**Type:** `list[str]`
-
-**Behavior:** Extracted via fence-block parsing (e.g., ` ```glob ` code blocks). Each line becomes a separate pattern.
-
-**Example:**
-```python
-patterns = blueprint.sidecars.globs
-# e.g., ["**/*.py", "**/*.pyi"]
-```
-
-##### `description_and_when_to_use`
-
-Derived property combining both description and when_to_use fields.
-
-**Type:** `str`
-
-**Behavior:** When the description is not overridden, returns the
-description and when-to-use node content concatenated with appropriate
-separators. When the description *is* explicitly overridden, returns
-that override alone — the when-to-use content is not appended in that
-case.
-
-**Example:**
-```python
-combined = blueprint.sidecars.description_and_when_to_use
-```
-
-**Methods:**
-
-##### `__or__(other)`
-
-Merge two `BlueprintDescriptorSidecars` instances using the `|` operator.
-
-**Signature:**
-```python
-def __or__(self, other: BlueprintDescriptorSidecars) -> BlueprintDescriptorSidecars
-```
-
-**Behavior:**
-- Creates a new instance merging metadata from both operands
-- `description` takes from self if set, otherwise from other
-- `when_to_use` and `globs` take from self if set, otherwise from other
-
-**Example:**
-```python
-merged = bp1.sidecars | bp2.sidecars
-```
-
-**Usage in PromptBlueprint:**
-
-Access descriptor sidecar metadata:
-```python
-from kaye_engine.prompt import PromptBlueprint
-
-bp = PromptBlueprint.parse(blueprint_text)
-
-# Access descriptor sidecars
-print(bp.sidecars.description)
-print(bp.sidecars.when_to_use)
-print(bp.sidecars.globs)
-
-# Use combined field
-print(bp.sidecars.description_and_when_to_use)
-```
-
-Merge blueprints:
-```python
-merged_bp = bp1 | bp2
-# merged_bp.sidecars combines metadata from both
-```
+`merge_blueprints(left, right)` merges the metadata too: `left` wins every field it sets, `right` fills the rest.
 
 Conditional rendering with conditional sidecar nodes: q.v. [`render-profile-doc.md`](render-profile-doc.md#conditional-sidecars).

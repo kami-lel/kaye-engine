@@ -23,7 +23,7 @@ def prompt_corpus_tree_preview():
     m = mock_open(read_data="# Title\n")
 
     with patch("builtins.open", m):
-        tree = load_corpus_tree("dynamic-nodes-test", [Path("dummy-path.md")])
+        tree = load_corpus_tree([Path("dummy-path.md")])
 
     return tree.generate_prompt_tree_preview(content_preview_lines=0)
 
@@ -74,7 +74,7 @@ class TestDynamic:
 
         with patch("builtins.open", m):
             tree = load_corpus_tree(
-                "dynamic-nodes-glossary-auto-test", [Path("d.md")]
+                [Path("d.md")]
             )
 
         node = tree["(some-glossary)"]
@@ -103,7 +103,7 @@ class TestGlossaryHeading:
 
         with patch("builtins.open", m):
             tree = load_corpus_tree(
-                "dynamic-nodes-glossary-test", [Path("d.md")]
+                [Path("d.md")]
             )
 
         node = tree["(some-glossary)"]
@@ -118,7 +118,7 @@ class TestGlossaryHeading:
         ):
             with patch("builtins.open", m):
                 load_corpus_tree(
-                    "dynamic-nodes-glossary-reject-test", [Path("d.md")]
+                    [Path("d.md")]
                 )
 
 
@@ -131,7 +131,7 @@ class TestPreface:
 
         with patch("builtins.open", m):
             tree = load_corpus_tree(
-                "dynamic-nodes-preface-test", [Path("d.md")]
+                [Path("d.md")]
             )
 
         today_node = tree["(today)"]
@@ -147,7 +147,7 @@ class TestPreface:
 
         with patch("builtins.open", m):
             tree = load_corpus_tree(
-                "dynamic-nodes-abbr-tag-preface-test", [Path("d.md")]
+                [Path("d.md")]
             )
 
         emoji_node = tree["(emoji)"]
@@ -162,7 +162,7 @@ class TestPreface:
         with pytest.raises(ValueError, match="unrecognized dynamic node name"):
             with patch("builtins.open", m):
                 load_corpus_tree(
-                    "dynamic-nodes-reject-test", [Path("d.md")]
+                    [Path("d.md")]
                 )
 
 
@@ -178,7 +178,7 @@ class TestNestedParenHeading:
 
         with patch("builtins.open", m):
             tree = load_corpus_tree(
-                "dynamic-nodes-nested-today-test", [Path("d.md")]
+                [Path("d.md")]
             )
 
         today_node = tree["Intro"]["(today)"]
@@ -198,7 +198,7 @@ class TestNestedParenHeading:
         ):
             with patch("builtins.open", m):
                 load_corpus_tree(
-                    "dynamic-nodes-nested-reject-test", [Path("d.md")]
+                    [Path("d.md")]
                 )
 
     def test_duplicate_heading_for_same_node_raises(_):
@@ -212,7 +212,7 @@ class TestNestedParenHeading:
         ):
             with patch("builtins.open", m):
                 load_corpus_tree(
-                    "dynamic-nodes-duplicate-heading-test", [Path("d.md")]
+                    [Path("d.md")]
                 )
 
 
@@ -226,6 +226,6 @@ class TestLocationOrdering:
         m = mock_open(read_data="# A\n\n# (today)\nPreface.\n\n# B\n")
 
         with patch("builtins.open", m):
-            tree = load_corpus_tree("dynamic-nodes-order-test", [Path("d.md")])
+            tree = load_corpus_tree([Path("d.md")])
 
         assert [c.name for c in tree.children][:3] == ["A", "(today)", "B"]
