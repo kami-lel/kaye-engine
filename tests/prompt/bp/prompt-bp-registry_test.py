@@ -10,13 +10,17 @@ Unit Tests (using pytest) for:
 import pytest
 
 from kaye_engine.exportable import exportable_registry
-from kaye_engine.prompt.blueprint import PromptBlueprint
+from kaye_engine.prompt.blueprint.data import Blueprint, create_blueprint
 from kaye_engine.prompt.blueprint.registry import (
     BlueprintRegistry,
     register_blueprint,
     blueprint_registry,
 )
 from kaye_engine.prompt.blueprint.render_profile import RenderProfile
+from kaye_engine.prompt.prompt_corpus_loader import (
+    clear_corpus_tree,
+    load_corpus_tree,
+)
 
 
 @pytest.fixture
@@ -30,10 +34,8 @@ def registered_names():
 
 class TestRegisterBlueprint:  ###################################################
 
-    def test_dft(_, corpus_testee1, registered_names):
-        bp = PromptBlueprint.create_empty_blueprint(
-            corpus_tree=corpus_testee1
-        )
+    def test_dft(_, registered_names):
+        bp = create_blueprint()
 
         reg = register_blueprint("test-registry-dft", "Test Registry Dft", bp)
         registered_names.append(reg.canonical_name)
@@ -50,10 +52,8 @@ class TestRegisterBlueprint:  ##################################################
         assert blueprint_registry["test-registry-dft"] is reg
         assert exportable_registry["test-registry-dft"] is reg
 
-    def test_flags(_, corpus_testee1, registered_names):
-        bp = PromptBlueprint.create_empty_blueprint(
-            corpus_tree=corpus_testee1
-        )
+    def test_flags(_, registered_names):
+        bp = create_blueprint()
 
         reg = register_blueprint(
             "test-registry-flags",
@@ -72,11 +72,9 @@ class TestRegisterBlueprint:  ##################################################
         assert exportable_registry["test-registry-flags"] is reg
 
     def test_is_exportable_false_skips_exportable_registry(
-        _, corpus_testee1, registered_names
+        _, registered_names
     ):
-        bp = PromptBlueprint.create_empty_blueprint(
-            corpus_tree=corpus_testee1
-        )
+        bp = create_blueprint()
 
         reg = register_blueprint(
             "test-registry-internal",
@@ -91,11 +89,9 @@ class TestRegisterBlueprint:  ##################################################
         assert "test-registry-internal" not in exportable_registry
 
     def test_conditional_sidecars_and_variants(
-        _, corpus_testee1, registered_names
+        _, registered_names
     ):
-        bp = PromptBlueprint.create_empty_blueprint(
-            corpus_tree=corpus_testee1
-        )
+        bp = create_blueprint()
 
         reg = register_blueprint(
             "test-registry-sidecars",
@@ -110,10 +106,8 @@ class TestRegisterBlueprint:  ##################################################
         assert reg.render_profile.conditional_sidecars == ("for Kaye",)
         assert reg.render_profile.variants == ()
 
-    def test_duplicate_name(_, corpus_testee1, registered_names):
-        bp = PromptBlueprint.create_empty_blueprint(
-            corpus_tree=corpus_testee1
-        )
+    def test_duplicate_name(_, registered_names):
+        bp = create_blueprint()
 
         reg = register_blueprint("test-registry-dup", "Test Registry Dup", bp)
         registered_names.append(reg.canonical_name)
@@ -128,15 +122,12 @@ class TestRegisterBlueprint:  ##################################################
 
 class TestBlueprintRegistryContent:  ############################################
 
-    def test_forwards_registry_defaults(_, corpus_testee1, monkeypatch):
-        bp = PromptBlueprint.create_empty_blueprint(
-            corpus_tree=corpus_testee1
-        )
+    def test_forwards_registry_defaults(_, monkeypatch):
+        bp = create_blueprint()
         captured = {}
         monkeypatch.setattr(
-            bp,
-            "render_prompt",
-            lambda **kwargs: captured.update(kwargs),
+            "kaye_engine.prompt.blueprint.registry.render_prompt",
+            lambda _bp, **kwargs: captured.update(kwargs),
         )
 
         reg = BlueprintRegistry(
@@ -153,16 +144,13 @@ class TestBlueprintRegistryContent:  ###########################################
         assert captured["profile"].variants == ()
 
     def test_explicit_kwargs_merge_with_registry_defaults(
-        _, corpus_testee1, monkeypatch
+        _, monkeypatch
     ):
-        bp = PromptBlueprint.create_empty_blueprint(
-            corpus_tree=corpus_testee1
-        )
+        bp = create_blueprint()
         captured = {}
         monkeypatch.setattr(
-            bp,
-            "render_prompt",
-            lambda **kwargs: captured.update(kwargs),
+            "kaye_engine.prompt.blueprint.registry.render_prompt",
+            lambda _bp, **kwargs: captured.update(kwargs),
         )
 
         reg = BlueprintRegistry(
@@ -188,3 +176,71 @@ class TestBlueprintRegistryContent:  ###########################################
             "for Ria",
         )
         assert captured["profile"].variants == ()
+
+
+class TestRegisterValidation:  ##################################################
+
+    def test_unknown_dependency_name_fails_at_registration(
+        _, registered_names
+    ):
+        bp = create_blueprint(dependencies=["no-such-blueprint"])
+
+        with pytest.raises(ValueError, match="no-such-blueprint"):
+            register_blueprint("test-registry-baddep", "Bad Dep", bp)
+
+        assert "test-registry-baddep" not in blueprint_registry
+
+    def test_unknown_dependency_inside_nested_value_fails(_):
+        inner = Blueprint(dependencies=("no-such-blueprint",))
+        bp = Blueprint(dependencies=(inner,))
+
+        with pytest.raises(ValueError, match="no-such-blueprint"):
+            register_blueprint("test-registry-nested", "Nested", bp)
+
+    def test_registered_dependency_is_accepted(_, registered_names):
+        dep = register_blueprint("test-registry-dep", "Dep", create_blueprint())
+        registered_names.append(dep.canonical_name)
+
+        reg = register_blueprint(
+            "test-registry-dependent",
+            "Dependent",
+            create_blueprint(dependencies=["test-registry-dep"]),
+        )
+        registered_names.append(reg.canonical_name)
+
+        assert reg.blueprint.dependencies == ("test-registry-dep",)
+
+    def test_unknown_path_fails_while_corpus_loaded(_):
+        clear_corpus_tree()
+        load_corpus_tree(["# A\n"])
+        bp = Blueprint(nodes=frozenset({("A", "Nope")}))
+
+        with pytest.raises(ValueError, match="Nope"):
+            register_blueprint("test-registry-badpath", "Bad Path", bp)
+
+        assert "test-registry-badpath" not in blueprint_registry
+
+    def test_known_path_is_accepted(_, registered_names):
+        clear_corpus_tree()
+        load_corpus_tree(["# A\n"])
+
+        reg = register_blueprint(
+            "test-registry-goodpath",
+            "Good Path",
+            Blueprint(nodes=frozenset({("A",)})),
+        )
+        registered_names.append(reg.canonical_name)
+
+        assert reg.blueprint.nodes == {("A",)}
+
+    def test_paths_unchecked_without_corpus(_, registered_names):
+        clear_corpus_tree()
+
+        reg = register_blueprint(
+            "test-registry-nocorpus",
+            "No Corpus",
+            Blueprint(nodes=frozenset({("Anything",)})),
+        )
+        registered_names.append(reg.canonical_name)
+
+        assert reg.canonical_name in blueprint_registry

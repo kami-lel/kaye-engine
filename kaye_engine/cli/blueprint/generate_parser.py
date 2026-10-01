@@ -22,6 +22,7 @@ from kaye_engine.cli.render_profile_parser import (
     resolve_render_profile,
 )
 from kaye_engine.cli.sparseness_parser import SPARSENESS_DESCRIPTION
+from kaye_engine.prompt.blueprint.render import render_prompt
 from kamilog import (
     add_verbose_arguments,
     set_logging_level_by_namespace,
@@ -68,7 +69,7 @@ def _generate_main(args):  ####################################################
     if registry is not None:
         prompt = registry.content(profile=render_profile)
     else:
-        prompt = blueprint.render_prompt(profile=render_profile)
+        prompt = render_prompt(blueprint, profile=render_profile)
 
     print(prompt)
 

@@ -181,7 +181,8 @@ Unlike `DecodeOnlyAbbrNode`, `GlossaryNode` is not a fixed engine type — one i
 `(decode-only-abbr)` needs render-time input — a piece of text to scan for abbreviation occurrences. Pass it as `query=` to `render_prompt()` / `render.render_prompt_lines()`:
 
 ```python
-prompt = blueprint.render_prompt(
+prompt = render_prompt(
+    blueprint,
     query="use an algo to calc the avg",
 )
 ```

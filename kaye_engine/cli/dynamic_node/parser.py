@@ -25,24 +25,27 @@ from kamilog import (
     add_verbose_arguments,
     set_logging_level_by_namespace,
 )
-from kaye_engine.prompt.blueprint.prompt_blueprint import PromptBlueprint
+from kaye_engine.prompt.blueprint.edit import (
+    create_blueprint_from_node,
+    merge_blueprints,
+)
+from kaye_engine.prompt.blueprint.render import render_prompt
 from kaye_engine.prompt.dynamic_nodes import (
     AbbrTagNode,
     GlossaryNode,
     resolve_dynamic_node_factory,
     slug_for_abbr_tag,
 )
-from kaye_engine.prompt.prompt_corpus_loader import get_default_corpus_tree
-from kaye_engine.prompt.prompt_corpus_node import PromptCorpusNode
+from kaye_engine.prompt.prompt_corpus_loader import (
+    get_corpus_tree,
+    load_corpus_tree,
+)
 
 # logger  ######################################################################
 logger = kamilog.getLogger(LOGGER_NAME)
 
 # constants  ###################################################################
 _HELP = "render 1 or more dynamic nodes"
-
-# root heading of the dummy corpus tree built for this command
-_ROOT_NODE_NAME = "○"
 
 
 # auxiliaries  #################################################################
@@ -83,23 +86,26 @@ def _resolve_node_type(name):
 
 def _get_shared_corpus_tree():
     """
-    :return: the default corpus tree if one is set, else a fresh dummy
-            root -- shared as the single ``corpus_tree`` every requested
-            NODE is attached to or read from, so their blueprints can merge
+    :return: the loaded corpus tree, else one loaded from no sources --
+            which still auto-attaches every dynamic node -- shared as
+            the single ``corpus_tree`` every requested NODE is attached
+            to or read from, so their blueprints can merge
     :rtype: PromptCorpusNode
     """
     try:
-        return get_default_corpus_tree()
+        return get_corpus_tree()
     except ValueError:
-        return PromptCorpusNode(_ROOT_NODE_NAME, None, [])
+        return load_corpus_tree([])
 
 
 def _node_name_in(corpus_tree, node_name_arg, node_cls, kwargs):
     """
-    :return: the authored "(...)" heading already present as a child of
-            ``corpus_tree`` for ``node_name_arg``, else the name of a
-            freshly attached ``node_cls`` instance
+    :return: the heading of the dynamic node for ``node_name_arg``, which
+            the corpus loader attached -- at its authored ``(...)``
+            heading, or at root
     :rtype: str
+    :raises ValueError: the corpus holds no such node, e.g. a glossary
+            registered after the corpus was loaded
     """
     if node_cls is AbbrTagNode:
         name_text = slug_for_abbr_tag(kwargs["abbr_tag"])
@@ -109,14 +115,12 @@ def _node_name_in(corpus_tree, node_name_arg, node_cls, kwargs):
         name_text = node_cls.NAME
     heading = "(" + name_text + ")"
 
-    has_authored_heading = any(
-        child.name == heading for child in corpus_tree.children
-    )
-    if has_authored_heading:
-        return heading
+    if not any(node.name == heading for node in corpus_tree.descendants):
+        raise ValueError(
+            "no dynamic node in the loaded corpus: {}".format(node_name_arg)
+        )
 
-    node = node_cls(corpus_tree, **kwargs)
-    return node.name
+    return heading
 
 
 def _dynamic_node_main(args):
@@ -139,13 +143,11 @@ def _dynamic_node_main(args):
 
         blueprint = None
         for node_name in node_names:
-            node_blueprint = PromptBlueprint.create_from_node(
-                node_name, corpus_tree=corpus_tree
-            )
+            node_blueprint = create_blueprint_from_node(node_name)
             blueprint = (
                 node_blueprint
                 if blueprint is None
-                else blueprint.merge(node_blueprint)
+                else merge_blueprints(blueprint, node_blueprint)
             )
     except ValueError as err:
         logger.error(str(err))
@@ -154,7 +156,8 @@ def _dynamic_node_main(args):
     query = sys.stdin.read() if not sys.stdin.isatty() else ""
 
     try:
-        prompt = blueprint.render_prompt(
+        prompt = render_prompt(
+            blueprint,
             query=query,
             glossary_priority_threshold=args.priority_threshold,
             profile=resolve_render_profile(
