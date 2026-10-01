@@ -19,6 +19,12 @@ existing ``render.X`` call site keeps working unchanged)
 
 from .comment import register_comment_line, render_comment_lines
 from .lines import render_negative_prompt_lines, render_prompt_lines
+from .meta import (
+    extract_globs,
+    render_description,
+    render_description_and_when_to_use,
+    render_when_to_use,
+)
 from .tree import render_blueprint_tree
 from .util import (
     NO_TRIM_SPARSENESS,
@@ -29,7 +35,11 @@ from .util import (
 __all__ = (
     "REPLACEMENT_NEWLINE_SYMBOL",
     "apply_sparseness",
+    "extract_globs",
     "render_blueprint_tree",
+    "render_description",
+    "render_description_and_when_to_use",
+    "render_when_to_use",
     "register_comment_line",
     "render_comment_lines",
     "render_negative_prompt_lines",
