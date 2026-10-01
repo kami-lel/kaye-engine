@@ -53,7 +53,7 @@ def _join_blocks(blocks):
     return lines
 
 
-def _render_negative_prompt_node_recursively(
+def _legacy_render_negative_prompt_node_recursively(
     blueprint,
     node,
     *,
@@ -107,7 +107,7 @@ def _render_negative_prompt_node_recursively(
             if is_checked:
                 own_avoid_lines = child.content_lines(**kwargs)
         elif sidecar_name is None:
-            block = _render_negative_prompt_node_recursively(
+            block = _legacy_render_negative_prompt_node_recursively(
                 blueprint,
                 child,
                 reverse_sibling_order=reverse_sibling_order,
@@ -189,7 +189,7 @@ def _render_prompt_node_post_order_recursively(
     return _join_blocks(blocks)
 
 
-def _render_negative_prompt_node_post_order_recursively(
+def _legacy_render_negative_prompt_node_post_order_recursively(
     blueprint,
     node,
     *,
@@ -244,7 +244,7 @@ def _render_negative_prompt_node_post_order_recursively(
             if is_checked:
                 own_avoid_lines = child.content_lines(**kwargs)
         elif sidecar_name is None:
-            block = _render_negative_prompt_node_post_order_recursively(
+            block = _legacy_render_negative_prompt_node_post_order_recursively(
                 blueprint,
                 child,
                 reverse_sibling_order=reverse_sibling_order,
@@ -599,7 +599,7 @@ def render_prompt_lines(
     return apply_sparseness(lines, profile.sparseness)
 
 
-def render_negative_prompt_lines(
+def _legacy_render_negative_prompt_lines(
     blueprint,
     *,
     profile=RenderProfile(),
@@ -647,9 +647,9 @@ def render_negative_prompt_lines(
     reverse_sibling_order = RenderMode.REVERSE_ORDER in profile.mode
 
     recurse = (
-        _render_negative_prompt_node_post_order_recursively
+        _legacy_render_negative_prompt_node_post_order_recursively
         if RenderMode.POST_ORDER in profile.mode
-        else _render_negative_prompt_node_recursively
+        else _legacy_render_negative_prompt_node_recursively
     )
 
     # image-mode negative prompt carries bare content, no titles
@@ -672,6 +672,194 @@ def render_negative_prompt_lines(
     lines = _join_blocks(child_blocks)
 
     if RenderMode._IMAGE in profile.mode:
+        lines = _flatten_headings_for_image_mode(lines)
+
+    # appended last, so a registered line starting with "#" stays untouched
+    if profile.show_comment:
+        lines.extend(
+            render_comment_lines(
+                profile.display_name,
+                is_compact=_resolve_is_comment_compact(
+                    profile, is_comment_compact
+                ),
+            )
+        )
+
+    return apply_sparseness(lines, profile.sparseness)
+
+
+def _render_negative_node_recursively(
+    selection,
+    idx,
+    *,
+    avoid_mask,
+    sidecar_mask,
+    is_post_order,
+    reverse_sibling_order,
+    is_title_shown,
+    **kwargs,
+):
+    """
+    recursively render one node's contribution to a negative prompt
+
+    a node's own ``{avoid}`` sidecar child contributes only when the
+    node itself is selected; descendants are always walked regardless of
+    this node's own selection, so a selected descendant several levels
+    below an unselected ancestor still contributes. A node with no
+    ``{avoid}`` content of its own is transparent: its contributing
+    descendants' blocks splice in directly, with no heading of this
+    node's own -- a node contributes at all only when it, or some
+    descendant, carries ``{avoid}`` content; a node with neither is
+    omitted entirely, and non-``avoid`` sidecar children
+    (``{description}``, ``{when_to_use}``, ...) never contribute
+
+    (helper function used in ``render_negative_prompt_lines()``)
+
+
+    :param selection:
+    :type selection: BlueprintSelection
+    :param idx: position of the node to render, never the corpus root
+    :type idx: int
+    :param avoid_mask: node mask of every ``{avoid}`` sidecar
+    :type avoid_mask: int
+    :param sidecar_mask: node mask of every sidecar
+    :type sidecar_mask: int
+    :param is_post_order: whether this node's own block follows its
+            children's rather than precedes them
+    :type is_post_order: bool
+    :param reverse_sibling_order: whether to reverse sibling order at
+            every level of the walk
+    :type reverse_sibling_order: bool
+    :param is_title_shown: whether to print each contributing node's own
+            heading above its ``{avoid}`` content
+    :type is_title_shown: bool
+    :param kwargs: further render options forwarded to the ``{avoid}``
+            node's ``content_lines(**kwargs)``
+    :return: rendered lines for the node and its descendants, or an
+            empty list when nothing in this subtree contributes
+    :rtype: list[str]
+    """
+    index = selection.index
+    is_selected = selection.mask >> idx & 1
+
+    own_avoid_lines = []
+    child_blocks = []
+
+    children = index.child_idxs[idx]
+    for child_idx in reversed(children) if reverse_sibling_order else children:
+        if avoid_mask >> child_idx & 1:
+            if is_selected:
+                block = index.blocks[child_idx]
+                own_avoid_lines = list(
+                    block[1:]
+                    if block is not None
+                    else index.node_objs[child_idx].content_lines(**kwargs)
+                )
+        elif not sidecar_mask >> child_idx & 1:
+            block = _render_negative_node_recursively(
+                selection,
+                child_idx,
+                avoid_mask=avoid_mask,
+                sidecar_mask=sidecar_mask,
+                is_post_order=is_post_order,
+                reverse_sibling_order=reverse_sibling_order,
+                is_title_shown=is_title_shown,
+                **kwargs,
+            )
+            if block:
+                child_blocks.append(block)
+
+    if not own_avoid_lines:
+        return _join_blocks(child_blocks)
+
+    own_lines = []
+    if is_title_shown:
+        own_lines.append(index.blocks[idx][0])
+    own_lines.extend(own_avoid_lines)
+
+    if is_post_order:
+        return _join_blocks(child_blocks + [own_lines])
+    return _join_blocks([own_lines] + child_blocks)
+
+
+def render_negative_prompt_lines(
+    selection,
+    *,
+    profile=RenderProfile(),
+    is_comment_compact=None,
+    **kwargs,
+):
+    """
+    generate **negative prompt** as a list of lines from ``selection``
+
+    walks every node of the corpus; a selected node's own ``{avoid}``
+    sidecar child supplies its printed content (that child's own heading
+    is never shown), and a node is printed at all only when it or some
+    descendant carries ``{avoid}`` content -- branches with none are
+    omitted entirely. A node with no ``{avoid}`` content of its own, but
+    a contributing descendant, is transparent: its own heading is never
+    printed either, only the descendant's
+
+    when ``profile.mode`` contains both ``RenderMode.NEGATIVE`` and
+    ``RenderMode.IMAGE``, no node's own heading is printed at all, at
+    any depth -- only the ``{avoid}`` content itself remains, its
+    blocks still separated by one blank line
+
+
+    :param selection: nodes to render, dependencies already resolved
+    :type selection: BlueprintSelection
+    :param profile: bundled render settings -- of `RenderProfile`'s
+            fields, only ``conditional_sidecars``, ``variants``,
+            ``show_comment``, ``display_name``, ``sparseness``, and
+            ``mode`` apply here; defaults to a plain `RenderProfile()`
+    :type profile: RenderProfile, optional
+    :param is_comment_compact: whether to render the comment as one line;
+            ``None`` derives it from ``profile.sparseness == -1``
+    :type is_comment_compact: bool, optional
+    :param kwargs: further render options forwarded to each ``{avoid}``
+            node's ``content_lines(**kwargs)``
+    :return: list of negative-prompt lines
+    :rtype: list[str]
+    """
+    selection = splice_sidecars(
+        selection,
+        conditional_sidecars=profile.conditional_sidecars,
+        variants=profile.variants,
+    )
+    index = selection.index
+
+    sidecar_mask = 0
+    for name_mask in index.sidecar_masks.values():
+        sidecar_mask |= name_mask
+
+    reverse_sibling_order = RenderMode.REVERSE_ORDER in profile.mode
+
+    # image-mode negative prompt carries bare content, no titles
+    mode = profile.mode
+    is_title_shown = not (
+        RenderMode.NEGATIVE in mode and RenderMode._IMAGE in mode
+    )
+
+    child_blocks = []
+    root_children = index.child_idxs[0]
+    for child_idx in (
+        reversed(root_children) if reverse_sibling_order else root_children
+    ):
+        block = _render_negative_node_recursively(
+            selection,
+            child_idx,
+            avoid_mask=index.sidecar_masks.get(AVOID_NAME, 0),
+            sidecar_mask=sidecar_mask,
+            is_post_order=RenderMode.POST_ORDER in mode,
+            reverse_sibling_order=reverse_sibling_order,
+            is_title_shown=is_title_shown,
+            **kwargs,
+        )
+        if block:
+            child_blocks.append(block)
+    lines = _join_blocks(child_blocks)
+
+    if RenderMode._IMAGE in mode:
         lines = _flatten_headings_for_image_mode(lines)
 
     # appended last, so a registered line starting with "#" stays untouched
