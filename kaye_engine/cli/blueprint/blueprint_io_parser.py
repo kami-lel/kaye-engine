@@ -11,7 +11,7 @@ from argparse import ArgumentParser
 import kamilog
 from kaye_engine import LOGGER_NAME
 from kaye_engine.prompt.blueprint import blueprint_registry
-from kaye_engine.prompt.blueprint.prompt_blueprint import PromptBlueprint
+from kaye_engine.prompt.blueprint.parser import parse_blueprint_text
 
 # logger  ######################################################################
 logger = kamilog.getLogger(LOGGER_NAME)
@@ -39,10 +39,14 @@ def load_blueprint_from_args(args):
             `BlueprintRegistry` the blueprint was looked up from, or
             ``None`` when loaded from stdin (no registry entry to consult
             for defaults)
-    :rtype: tuple[PromptBlueprint, str, BlueprintRegistry or None]
+    :rtype: tuple[Blueprint, str, BlueprintRegistry or None]
     """
     if args.BLUEPRINT is None:
-        blueprint = PromptBlueprint.parse(sys.stdin.read())
+        try:
+            blueprint = parse_blueprint_text(sys.stdin.read())
+        except ValueError as err:
+            logger.critical(str(err))
+            raise SystemExit(1) from err
         return blueprint, "<stdin>", None
 
     try:
