@@ -3,8 +3,6 @@
 [^format]
 
 <!--
-BUG skill command is not what is seems is
-
 FIXME review all docs/
 TODO review render profile flags
 
@@ -90,6 +88,13 @@ verify it. The calls that changed are mapped in the warning below.
   nothing
 - every CLI subcommand's `--help` links its GitHub doc; rendering commands
   add a shared render-profile options blurb
+- `claude skills` (`claude s`): exports every exportable as Agent Skills,
+  into `~/.claude/skills` by default; `-z` makes one `.zip` per skill
+- `skill NAME... FOLDER` and `skill --all`/`-a FOLDER`: export only the
+  named Agent Skills into a required FOLDER; an unknown name aborts before
+  anything is written
+- `kaye_engine.skill`: the agent-neutral Agent Skills package, holding
+  `Skill`, the folder and `.zip` writers, and `select_exportables`
 
 ##### Optimize Blueprint Data Structure
 
@@ -145,9 +150,19 @@ verify it. The calls that changed are mapped in the warning below.
 - CLI guides merged into `docs/claude-doc.md`, `docs/continue-doc.md`,
   `docs/open-webui-doc.md`, and the `export-json` command help
 
+- `skill` no longer exports every skill into a default folder; that is now
+  `claude skills`. The `skill` command's own FOLDER is required
+- the `Skill` document and its writers moved from `kaye_engine.cli.skill`
+  to `kaye_engine.skill`, logging under `kaye.engine.skill`
+
 > [!WARNING]
 > `kaye-engine claude plugin -n` no longer means `--no-version`; use `-N`.
 > `-n` now means `--dry-run`.
+
+> [!WARNING]
+> `kaye-engine skill FOLDER` and `kaye-engine skill` alone no longer export
+> everything; use `kaye-engine claude skills`, or `kaye-engine skill --all
+> FOLDER`. `export_skills_as_zips` now requires a `version` argument.
 
 ##### Optimize Blueprint Data Structure
 

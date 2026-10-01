@@ -199,7 +199,7 @@ its own default for `--comment`/`--no-comment` and `--sparseness` when
 the flags are omitted (via `build_sparseness_parent_parser(default=...)`,
 a per-call builder). The resolved `RenderProfile` is carried as a single
 `profile=` object from parser down through every `claude` export chain
-(plugin/marketplace/vs-code/code/user-prompt, plus the top-level `skill`). A `RenderProfile()`
+(plugin/marketplace/vs-code/code/user-prompt/skills, plus the top-level `skill`). A `RenderProfile()`
 default (no explicit `--surface`/`--variant`/`--conditional-sidecar`)
 carries `variants=None`/`conditional_sidecars=()`, which
 `RenderProfile.merge()` treats as a no-op contribution, so a
@@ -212,7 +212,7 @@ documentation](docs/sidecar-node-doc.md).
 
 ### CLI Flag Surface
 
-Beyond AGENTS.md's 9-command rendering-command table, several other
+Beyond AGENTS.md's 10-command rendering-command table, several other
 leaf subcommands print rendered or registry content but were never
 wired to `build_render_profile_parent_parser`, so they expose no
 `--surface`/`--variant`/`--conditional-sidecar`/`--sparseness`/
@@ -231,14 +231,15 @@ own `-c`/`--comment`, `-C`/`--no-comment`), plus its own
 `-t/--show-full-tree` — no `--surface`/`--variant`/`--sparseness`,
 since it renders a preview tree, not a prompt.
 
-`-z/--zip` is genuinely shared behavior (`claude plugin`, `skill`) but
+`-z/--zip` is genuinely shared behavior (`claude plugin`, `claude skills`,
+`skill`) but
 is hand-duplicated per parser rather than pulled into its own builder,
 unlike the render-profile options. `-n` means `--dry-run` on every
 write command; `claude plugin` spells `--no-version` as `-N`.
 
 `--dry-run` on the write commands comes from `cli/dry_run.py`: a shared
 `-n/--dry-run` parent parser, plus a run-wide switch (`enable_dry_run()`,
-`is_dry_run()`) that also stamps the `dry` badge on the four engine
+`is_dry_run()`) that also stamps the `dry` badge on the five engine
 loggers. Writers keep their deed lines and skip only the filesystem call
 under `is_dry_run()`; the zip exports skip the temporary build and log
 the pack and move deeds directly. `sync-open-webui-skills` keeps its own
@@ -333,15 +334,20 @@ kaye_engine/
 ├── exportable/           Exportable base, exportable_registry
 │   └── image_prompt_export.py  image_prompt_exportable_registry,
 │                            register_image_prompt_exportable
+├── skill/               Agent Skills standard, agent-neutral: `Skill`
+│                        document, folder/.zip writers, `select_exportables`
 ├── cli/
 │   ├── blueprint/       `blueprint`/`bp` subcommand: ls, show, generate
 │   ├── claude/          plugins, marketplaces, CLAUDE.md
 │   │   ├── setup.py               setup_claude_cli(...); registers
 │   │   │                          consumer-supplied affordance_groups,
 │   │   │                          stores surface_profiles
+│   │   ├── skills/                `claude skills`/`claude s`: every skill
+│   │   │                          into ~/.claude/skills (`-z` for .zips)
 │   │   └── surface_parser.py      shared `--surface` parent parser --
 │   │                              choices from consumer's surface_profiles
-│   ├── skill/           `skill`/`s` subcommand: Agent Skill folders/.zips
+│   ├── skill/           `skill`/`s` subcommand: named Agent Skills into a
+│   │                    required FOLDER (`--all` for every one)
 │   ├── continue_ai/    `continue`/`c` subcommand: rules/ + prompts/ for Continue
 │   │   ├── rule_md.py       ContinueRule frontmatter doc + factory
 │   │   ├── export_rules.py  classify_exportable, export_continue_folder
