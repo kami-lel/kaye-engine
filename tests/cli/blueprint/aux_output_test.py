@@ -100,6 +100,7 @@ class TestFormat:
                 display_name="Name",
                 description="d",
                 description_node=("A", "{description}"),
+                when_to_use_node=("A", "{when}"),
             ),
             nodes=frozenset({("A",)}),
             dependencies=("x", "y"),
@@ -112,6 +113,8 @@ class TestFormat:
         assert out.startswith(_field("display name", "Name") + "\n")
         assert _field("description", "d") in out
         assert _field("when to use", "w") in out
+        assert _field("description node", "A # {description}") in out
+        assert _field("when to use node", "A # {when}") in out
         assert _field("nodes", "1") in out
         assert out.endswith(_field("dependencies", "x\ny"))
 

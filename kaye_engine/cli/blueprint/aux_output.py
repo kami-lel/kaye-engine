@@ -41,7 +41,31 @@ __all__ = (
 logger = kamilog.getLogger(LOGGER_NAME)
 
 
+# constants  ###################################################################
+_LINEAGE_SEPARATOR = " # "
+
+
 # auxiliaries  #################################################################
+def _gen_lineage_str(path):
+    """
+    :param path: node path, ``None`` for no node
+    :type path: NodePath or None
+    :return: the path's names joined by `` # ``, ``""`` for no node
+    :rtype: str
+    """
+    return _LINEAGE_SEPARATOR.join(path or ())
+
+
+def _show_from_summary(fmt_fx):
+    """
+    :param fmt_fx: formats a ``BlueprintSummary`` into the one field
+    :type fmt_fx: Callable
+    :return: a show function for that field, reading the summary
+    :rtype: Callable
+    """
+    return lambda blueprint: fmt_fx(show_blueprint(blueprint))
+
+
 def _show_summary(blueprint):
     """
     :type blueprint: Blueprint
@@ -61,7 +85,13 @@ def _show_summary(blueprint):
 SHOW_FIELD_FXS = {
     "display-name": show_display_name,
     "description": show_description,
+    "description-node": _show_from_summary(
+        lambda summary: _gen_lineage_str(summary.meta.description_node)
+    ),
     "when-to-use": show_when_to_use,
+    "when-to-use-node": _show_from_summary(
+        lambda summary: _gen_lineage_str(summary.meta.when_to_use_node)
+    ),
     "globs": show_globs,
     "dependencies": show_dependencies,
 }
@@ -131,7 +161,15 @@ def fmt_summary(summary, *, description="", when_to_use=""):
     fields = (
         ("display name", summary.meta.display_name),
         ("description", description),
+        (
+            "description node",
+            _gen_lineage_str(summary.meta.description_node),
+        ),
         ("when to use", when_to_use),
+        (
+            "when to use node",
+            _gen_lineage_str(summary.meta.when_to_use_node),
+        ),
         ("nodes", str(summary.node_count)),
         ("subtrees", str(summary.subtree_count)),
         ("dependencies", fmt_ls(summary.dependencies)),

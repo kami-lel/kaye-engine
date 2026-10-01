@@ -4,7 +4,8 @@ show_test.py
 Unit Tests (using pytest) for:
 
 - ``blueprint show`` / ``s``: the summary, and the field flags
-  ``-d -w -g -p`` with their long forms, mutually exclusive
+  ``-d -w -g -p`` with their long forms and the long-only
+  ``--description-node``, ``--when-to-use-node``, mutually exclusive
 """
 
 import kamilog
@@ -125,6 +126,33 @@ class TestFields:
         assert exit_code == 0
         assert out == "\n"
 
+    @pytest.mark.parametrize(
+        "flag", ["--description-node", "--when-to-use-node"]
+    )
+    def test_node_empty_when_unset(_, run, flag):
+        exit_code, out = run(["show", "test-cli-base", flag])
+
+        assert exit_code == 0
+        assert out == "\n"
+
+    @pytest.mark.parametrize(
+        ("flag", "field"),
+        [
+            ("--description-node", "description_node"),
+            ("--when-to-use-node", "when_to_use_node"),
+        ],
+    )
+    def test_node_shows_lineage(_, run, registered, flag, field):
+        registered(
+            "test-cli-lineage",
+            Blueprint(meta=BlueprintMeta(**{field: ("A", "B")})),
+        )
+
+        exit_code, out = run(["show", "test-cli-lineage", flag])
+
+        assert exit_code == 0
+        assert out == "A # B\n"
+
     def test_field_from_stdin(_, run):
         text = '{"schema": 1, "dependencies": ["test-cli-base"]}'
 
@@ -137,7 +165,9 @@ class TestFields:
         assert set(SHOW_FIELD_FXS) == {
             "display-name",
             "description",
+            "description-node",
             "when-to-use",
+            "when-to-use-node",
             "globs",
             "dependencies",
         }
@@ -149,7 +179,7 @@ class TestFields:
             ["-d", "-w"],
             ["-g", "-p"],
             ["--description", "--globs"],
-            ["--description", "--when-to-use"],
+            ["--description-node", "--when-to-use-node"],
         ],
     )
     def test_field_flags_are_mutually_exclusive(_, run, flags):
