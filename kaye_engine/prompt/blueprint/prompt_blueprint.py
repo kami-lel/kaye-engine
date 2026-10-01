@@ -15,7 +15,7 @@ from kaye_engine.prompt.sidecar_node import (
 )
 
 from ..base_prompt_node import BasePromptNode
-from ..prompt_corpus_loader import get_corpus_tree, get_default_corpus_tree
+from ..prompt_corpus_loader import get_corpus_tree
 from . import parser, render
 from .dynamic_substitution import apply_dynamic_substitutions
 from .node_resolver import resolve_node
@@ -37,10 +37,10 @@ def _resolve_corpus_tree(corpus_tree):
     :rtype: BasePromptNode
     """
     if corpus_tree is None:
-        return get_default_corpus_tree()
+        return get_corpus_tree()
 
     if isinstance(corpus_tree, str):
-        return get_corpus_tree(corpus_tree)
+        raise ValueError("named corpus trees no longer exist")
 
     if not (isinstance(corpus_tree, BasePromptNode) and corpus_tree.is_root):
         raise ValueError(

@@ -31,7 +31,7 @@ Licensed under the MIT License.
 
     with patch("builtins.open", m):
         return load_corpus_tree(
-            "prompt-tree-test-1", [Path("dummy-path-1.md")]
+            [Path("dummy-path-1.md")]
         )
 
 
@@ -61,7 +61,7 @@ This project is licensed under the MIT License.
 
     with patch("builtins.open", m):
         return load_corpus_tree(
-            "prompt-tree-test-2", [Path("dummy-path-2.md")]
+            [Path("dummy-path-2.md")]
         )
 
 
@@ -100,7 +100,7 @@ Summarizing the findings and implications.
 
     with patch("builtins.open", m):
         return load_corpus_tree(
-            "prompt-tree-test-3", [Path("dummy-path-3.md")]
+            [Path("dummy-path-3.md")]
         )
 
 
