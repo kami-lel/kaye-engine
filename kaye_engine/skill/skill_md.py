@@ -7,7 +7,7 @@ define ``Skill``
 from pathlib import Path
 
 import kamilog
-from kaye_engine.cli.claude import LOGGER_CLAUDE_NAME
+from kaye_engine.skill import LOGGER_SKILL_NAME
 from kaye_engine.cli.dry_run import is_dry_run
 from kaye_engine.cli.frontmatter_doc import FrontmatterDoc, dump_yaml
 from kaye_engine.cli.exportable_abbr import ExportableAbbr
@@ -19,7 +19,7 @@ from kaye_engine.prompt.blueprint.render import (
 )
 
 # logger  ######################################################################
-logger = kamilog.getLogger(LOGGER_CLAUDE_NAME)
+logger = kamilog.getLogger(LOGGER_SKILL_NAME)
 
 
 class Skill(FrontmatterDoc):

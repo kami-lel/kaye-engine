@@ -22,10 +22,8 @@ from kaye_engine.cli.render_profile_parser import (
     resolve_render_profile,
 )
 
-from .export_folders import (
-    export_skills_as_folders,
-)
-from .export_zips import export_skills_as_zips
+from kaye_engine.skill.export_folders import export_skills_as_folders
+from kaye_engine.skill.export_zips import export_skills_as_zips
 
 # logger  ######################################################################
 logger = kamilog.getLogger(LOGGER_CLAUDE_NAME)
@@ -100,7 +98,11 @@ def register_skill_parser(cli_subparser):  #####################################
 
         if args.zip:
             logger.debug("export skills as zip packages")
-            export_skills_as_zips(folder, render_profile=render_profile)
+            export_skills_as_zips(
+                folder,
+                version=get_claude_cli_consumer_version(),
+                render_profile=render_profile,
+            )
             done_msg = "export skills as zip packages"
         else:
             logger.debug("export skills as folders")

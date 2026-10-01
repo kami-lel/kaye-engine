@@ -5,12 +5,12 @@ define ``export_skills_as_folders``
 """
 
 import kamilog
-from kaye_engine.cli.claude import LOGGER_CLAUDE_NAME
+from kaye_engine.skill import LOGGER_SKILL_NAME
 from kaye_engine.exportable import exportable_registry
 from .skill_md import Skill
 
 # logger  ######################################################################
-logger = kamilog.getLogger(LOGGER_CLAUDE_NAME)
+logger = kamilog.getLogger(LOGGER_SKILL_NAME)
 
 # entry point  #################################################################
 
