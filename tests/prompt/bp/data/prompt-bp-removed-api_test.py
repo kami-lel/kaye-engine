@@ -93,3 +93,19 @@ class TestRenamedPreviewNames:
     def test_old_preview_name_not_importable(_, name):
         with pytest.raises(ImportError):
             exec("from kaye_engine.prompt.blueprint import " + name)
+
+
+class TestRenamedShowNames:
+
+    @pytest.mark.parametrize(
+        "name",
+        [
+            "render_description",
+            "render_when_to_use",
+            "render_description_and_when_to_use",
+            "extract_globs",
+        ],
+    )
+    def test_old_show_name_not_importable(_, name):
+        with pytest.raises(ImportError):
+            exec("from kaye_engine.prompt.blueprint import " + name)

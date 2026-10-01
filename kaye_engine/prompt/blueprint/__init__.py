@@ -34,15 +34,15 @@ from .index import (
 from .parser import parse_blueprint_text
 from .registry import *
 from .render import (
-    extract_globs,
+    show_globs,
     register_comment_line,
     preview_blueprint,
     preview_selection,
     preview_blueprint_without_dependencies,
-    render_description,
-    render_description_and_when_to_use,
+    show_description,
+    show_description_and_when_to_use,
     render_prompt,
     render_prompt_without_dependencies,
-    render_when_to_use,
+    show_when_to_use,
 )
 from .selection import bind_selection, resolve_selection

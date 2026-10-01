@@ -20,10 +20,10 @@ existing ``render.X`` call site keeps working unchanged)
 from .comment import register_comment_line, render_comment_lines
 from .lines import render_negative_prompt_lines, render_prompt_lines
 from .meta import (
-    extract_globs,
-    render_description,
-    render_description_and_when_to_use,
-    render_when_to_use,
+    show_globs,
+    show_description,
+    show_description_and_when_to_use,
+    show_when_to_use,
 )
 from .prompt import (
     preview_blueprint,
@@ -41,13 +41,13 @@ from .util import (
 __all__ = (
     "REPLACEMENT_NEWLINE_SYMBOL",
     "apply_sparseness",
-    "extract_globs",
+    "show_globs",
     "preview_blueprint",
     "preview_selection",
     "preview_blueprint_without_dependencies",
-    "render_description",
-    "render_description_and_when_to_use",
-    "render_when_to_use",
+    "show_description",
+    "show_description_and_when_to_use",
+    "show_when_to_use",
     "register_comment_line",
     "render_comment_lines",
     "render_negative_prompt_lines",
