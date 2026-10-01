@@ -9,10 +9,9 @@ from dataclasses import dataclass, replace
 from kaye_engine.exportable import Exportable, register_exportable_entry
 
 from .data import Blueprint
-from .index import get_corpus_index
 from .render.prompt import render_prompt
 from .render_profile import RenderProfile
-from .selection import bind_selection
+from .validate import validate_blueprint
 
 __all__ = (
     "BlueprintRegistry",
@@ -64,36 +63,6 @@ class BlueprintRegistry(Exportable):
         if not merged.display_name:
             merged = replace(merged, display_name=self.display_name)
         return render_prompt(self.blueprint, profile=merged, **kwargs)
-
-
-# auxiliaries  #################################################################
-def _validate_blueprint(blueprint):
-    """
-    fail early on what a blueprint cannot render: a dependency name that
-    is not registered, and, while a corpus is loaded, a path that is not
-    in it
-
-    (helper function used in ``register_blueprint()``)
-
-
-    :param blueprint:
-    :type blueprint: Blueprint
-    :raises ValueError:
-    """
-    for dep in blueprint.dependencies:
-        if isinstance(dep, Blueprint):
-            _validate_blueprint(dep)
-        elif dep not in blueprint_registry:
-            raise ValueError(
-                "no blueprint registered under dependency name: {}".format(dep)
-            )
-
-    try:
-        get_corpus_index()
-    except ValueError:
-        return  # no corpus yet: paths are checked when one is needed
-
-    bind_selection(blueprint)
 
 
 # Entry Point  #################################################################
@@ -159,7 +128,7 @@ def register_blueprint(
             "duplicate blueprint registry name: {}".format(canonical_name)
         )
 
-    _validate_blueprint(blueprint)
+    validate_blueprint(blueprint)
 
     reg = BlueprintRegistry(
         canonical_name=canonical_name,
