@@ -41,6 +41,47 @@ manually add chat & coder, instead by data structure
   nothing
 - every CLI subcommand's `--help` links its GitHub doc; rendering commands
   add a shared render-profile options blurb
+- `Blueprint`, a frozen, hashable, picklable value recording the checkmarked
+  nodes by path (`nodes`, `subtrees`) with its `meta` and `dependencies`;
+  it holds no node object, so it is built, compared, and shipped without a
+  corpus
+- pure blueprint functions, each returning a new blueprint:
+  `create_blueprint` (empty, or full with `is_full=True`),
+  `create_blueprint_from_node`, `checkmark_nodes`, `uncheckmark_nodes`,
+  `is_checkmarked`, `merge_blueprints`, `replace_meta`, and
+  `parse_blueprint_text`; a node argument is a node object, a name, or a
+  `NodePath`, and an unknown node raises `ValueError` naming it
+- `subtrees` entries: a recursive checkmark covers every non-sidecar
+  descendant, even one added later; unchecking a node under one expands it
+  into explicit nodes first
+- JSON form of a blueprint with a schema number on the envelope:
+  `encode_blueprint`, `decode_blueprint`, `save_blueprint`,
+  `load_blueprint`; decoding touches no corpus; pickle and JSON round trips
+  are equal across processes and `PYTHONHASHSEED` values
+- `BlueprintMeta`, replacing the sidecar accessor class: a literal
+  `description` plus `description_node`, `when_to_use_node`, and
+  `globs_node` as paths; `create_blueprint_from_node` fills the three node
+  fields from the node's own `{description}`, `{when_to_use}`, and
+  `{globs}` children
+- `render_description`, `render_when_to_use`,
+  `render_description_and_when_to_use`, and `extract_globs` read a
+  blueprint's descriptors for the exporters
+- `CorpusIndex`, derived once per process from the loaded tree: pre-order
+  node arrays, paths, depths, parent and child indexes, subtree and sidecar
+  masks, and the static content block of each node; `get_corpus_index()`
+  and `get_corpus_node(*path)` reach it
+- `BlueprintSelection`, a blueprint bound to the index as one bitmask;
+  `bind_selection` memoizes it per blueprint, `resolve_selection` ORs in the
+  dependencies by name with a cycle guard
+- late-bound dependencies: a `str` dependency is looked up in the registry at
+  render time, so a dependency registered after its dependent resolves;
+  `register_blueprint` validates every dependency name up front
+- `clear_corpus_tree()` drops the loaded tree and everything derived from
+  it; `add_corpus_clear_hook()` lets derived data follow
+- `render_prompt`, `render_prompt_without_dependencies`, `render_blueprint`,
+  and `render_blueprint_without_dependencies` as functions of a blueprint
+- breaking-change table and the new data-model sections in
+  `docs/prompt-doc.md`
 
 ### Changed
 
@@ -52,15 +93,60 @@ manually add chat & coder, instead by data structure
   per-file success lines are gone
 - CLI guides merged into `docs/claude-doc.md`, `docs/continue-doc.md`,
   `docs/open-webui-doc.md`, and the `export-json` command help
+- a process holds one corpus tree: `load_corpus_tree(sources)` takes no
+  name or default flag and raises `ValueError` on a second call;
+  `get_corpus_tree()` takes no name and raises `ValueError` before a load
+- every blueprint function reads that one tree; the `corpus_tree=` argument
+  is gone, and the CLI setup guard and `dynamic-node` use `get_corpus_tree()`
+  (`dynamic-node` with no corpus loads one holding only the dynamic nodes)
+- rendering walks set bits of a selection bitmask instead of copying and
+  re-walking the tree, and a conditional sidecar splices through mask
+  arithmetic on the index with no blueprint copy; rendered output is
+  byte-identical to before
+- the skill and Continue rule exporters read description, when-to-use, and
+  globs through the new render functions
+- `parse_blueprint_text` selects only `[x]` lines and ignores unchecked
+  ones; it no longer takes a corpus and no longer prunes
+- `render_blueprint_tree` shows the selected nodes plus their ancestors
+- `merge_blueprints` is a set union: `left` wins every meta field it sets,
+  and dependencies keep `left`'s order, then `right`'s not already present
+- startup no longer deep-copies the corpus once per registered blueprint
 
 > [!WARNING]
 > `kaye-engine claude plugin -n` no longer means `--no-version`; use `-N`.
 > `-n` now means `--dry-run`.
 
+> [!WARNING]
+> The blueprint API is a breaking rework; callers must migrate before
+> upgrading:
+>
+> | Before | Now |
+> | --- | --- |
+> | `PromptBlueprint` (a `dict` subclass) | frozen `Blueprint` plus pure functions |
+> | `bp.checkmark(n)`, `bp += n` | `bp = checkmark_nodes(bp, n)` |
+> | `bp.uncheckmark(n)`, `bp -= n` | `bp = uncheckmark_nodes(bp, n)` |
+> | `bp.merge(o)`, `bp \| o` | `merge_blueprints(bp, o)` |
+> | `bp.prune()` | removed |
+> | `PromptBlueprint.parse(t, corpus_tree=)` | `parse_blueprint_text(t)` |
+> | `create_full_blueprint()`, `create_empty_blueprint()`, `create_from_node()` | `create_blueprint(is_full=)`, `create_blueprint_from_node()` |
+> | `bp.render_prompt()` and the other render methods | `render_prompt(bp)` and the other render functions |
+> | `bp.sidecars`, `BlueprintDescriptorSidecars` | `bp.meta`, `BlueprintMeta`, `render_description()` and friends |
+> | `load_corpus_tree(name, sources, is_default_tree=)`, `get_corpus_tree(name)`, `get_default_corpus_tree()` | `load_corpus_tree(sources)`, `get_corpus_tree()` |
+>
+> A node can no longer be given as a hash integer, a registered blueprint's
+> `.blueprint` must be reassigned rather than mutated, and a second
+> `load_corpus_tree()` call now raises `ValueError`.
+
 ### Deprecated
 
 ### Removed
 
+- `PromptBlueprint`, its `.prune()`, hash-integer node arguments, the `|`,
+  `+=`, and `-=` operators, and `BlueprintDescriptorSidecars` with its
+  `.sidecars` accessor
+- `node_resolver.py`
+- `tree_name`, `is_default_tree`, and `get_default_corpus_tree`, with the
+  name-keyed tree cache they served
 - vendored `kaye_engine/kamilog.py`; `from kaye_engine import kamilog` no
   longer works
 - the `(dry run)` suffix on `sync-open-webui-skills` lines, replaced by the
