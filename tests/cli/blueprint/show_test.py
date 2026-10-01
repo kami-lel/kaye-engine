@@ -7,6 +7,7 @@ Unit Tests (using pytest) for:
   ``-d -w -g -p`` with their long forms, mutually exclusive
 """
 
+import kamilog
 import pytest
 
 from kaye_engine.cli.blueprint.aux_output import SHOW_FIELD_FXS
@@ -18,6 +19,10 @@ TREE = """    ○
 [ ]     └── License"""
 
 
+def _field(label, value):
+    return kamilog.gen_comment_banner_centered(label, 5) + "\n" + value
+
+
 class TestSummary:
 
     @pytest.mark.parametrize("verb", ["show", "s"])
@@ -25,15 +30,15 @@ class TestSummary:
         exit_code, out = run([verb, "test-cli-top"])
 
         assert exit_code == 0
-        assert "nodes: 1" in out
-        assert "dependencies: test-cli-base" in out
+        assert _field("nodes", "1") in out
+        assert _field("dependencies", "test-cli-base") in out
 
     def test_stdin_tree(_, run):
         exit_code, out = run(["show"], stdin=TREE)
 
         assert exit_code == 0
-        assert "nodes: 2" in out
-        assert "dependencies: -" in out
+        assert _field("nodes", "2") in out
+        assert "dependencies" not in out
 
     def test_stdin_json(_, run):
         text = '{"schema": 1, "nodes": [["Project"]], "dependencies": ["x"]}'
@@ -41,8 +46,8 @@ class TestSummary:
         exit_code, out = run(["show"], stdin=text)
 
         assert exit_code == 0
-        assert "nodes: 1" in out
-        assert "dependencies: x" in out
+        assert _field("nodes", "1") in out
+        assert _field("dependencies", "x") in out
 
     def test_unknown_name_exits_1(_, run):
         exit_code, out = run(["show", "no-such-blueprint"])
@@ -92,7 +97,7 @@ class TestFields:
         exit_code, out = run(["show", "test-cli-named-2"])
 
         assert exit_code == 0
-        assert out.startswith("display name: Nice Name\n")
+        assert out.startswith(_field("display name", "Nice Name") + "\n")
 
     @pytest.mark.parametrize("flag", ["-d", "--description"])
     def test_description(_, run, registered, flag):

@@ -40,9 +40,6 @@ __all__ = (
 # logger  ######################################################################
 logger = kamilog.getLogger(LOGGER_NAME)
 
-# constants  ###################################################################
-_NONE_LABEL = "-"
-
 
 # auxiliaries  #################################################################
 def _show_summary(blueprint):
@@ -127,24 +124,28 @@ def fmt_summary(summary, *, description="", when_to_use=""):
     :type description: str
     :param when_to_use: when-to-use content, ``""`` for none
     :type when_to_use: str
-    :return: the summary as ``label: value`` lines; ``-`` for what is
-            not set
+    :return: the summary as fields, each a centered banner line over its
+            value; a field with no value is left out
     :rtype: str
     """
-    meta = summary.meta
-
-    return fmt_ls(
-        [
-            "display name: {}".format(meta.display_name or _NONE_LABEL),
-            "description: {}".format(description or _NONE_LABEL),
-            "when to use: {}".format(when_to_use or _NONE_LABEL),
-            "nodes: {}".format(summary.node_count),
-            "subtrees: {}".format(summary.subtree_count),
-            "dependencies: {}".format(
-                ", ".join(summary.dependencies) or _NONE_LABEL
-            ),
-        ]
+    fields = (
+        ("display name", summary.meta.display_name),
+        ("description", description),
+        ("when to use", when_to_use),
+        ("nodes", str(summary.node_count)),
+        ("subtrees", str(summary.subtree_count)),
+        ("dependencies", fmt_ls(summary.dependencies)),
     )
+
+    lines = []
+    for label, value in fields:
+        if not value:
+            continue
+
+        lines.append(kamilog.gen_comment_banner_centered(label, 5))
+        lines.append(value)
+
+    return fmt_ls(lines)
 
 
 def fmt_show_result(result):
