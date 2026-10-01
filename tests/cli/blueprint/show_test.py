@@ -4,8 +4,8 @@ show_test.py
 Unit Tests (using pytest) for:
 
 - ``blueprint show`` / ``s``: the summary, and the field flags
-  ``-d -w -g -p`` with their long forms and the long-only
-  ``--description-node``, ``--when-to-use-node``, mutually exclusive
+  ``-a -d -D -w -W -n -t -g -p`` with their long forms, mutually
+  exclusive
 """
 
 import kamilog
@@ -71,7 +71,7 @@ class TestFields:
         assert exit_code == 0
         assert out == "test-cli-base\ntest-cli-top\n"
 
-    @pytest.mark.parametrize("flag", ["-n", "--display-name"])
+    @pytest.mark.parametrize("flag", ["-a", "--display-name"])
     def test_display_name(_, run, registered, flag):
         registered(
             "test-cli-named",
@@ -84,7 +84,7 @@ class TestFields:
         assert out == "Nice Name\n"
 
     def test_display_name_empty_when_unnamed(_, run):
-        exit_code, out = run(["show", "test-cli-base", "-n"])
+        exit_code, out = run(["show", "test-cli-base", "-a"])
 
         assert exit_code == 0
         assert out == "\n"
@@ -127,7 +127,7 @@ class TestFields:
         assert out == "\n"
 
     @pytest.mark.parametrize(
-        "flag", ["--description-node", "--when-to-use-node"]
+        "flag", ["-D", "--description-node", "-W", "--when-to-use-node"]
     )
     def test_node_empty_when_unset(_, run, flag):
         exit_code, out = run(["show", "test-cli-base", flag])
@@ -138,7 +138,9 @@ class TestFields:
     @pytest.mark.parametrize(
         ("flag", "field"),
         [
+            ("-D", "description_node"),
             ("--description-node", "description_node"),
+            ("-W", "when_to_use_node"),
             ("--when-to-use-node", "when_to_use_node"),
         ],
     )
@@ -152,6 +154,33 @@ class TestFields:
 
         assert exit_code == 0
         assert out == "A # B\n"
+
+    @pytest.mark.parametrize("flag", ["-n", "--nodes"])
+    def test_nodes_one_lineage_per_line(_, run, flag):
+        exit_code, out = run(["show", "test-cli-base", flag])
+
+        assert exit_code == 0
+        assert out == "Project\nProject # Install\n"
+
+    @pytest.mark.parametrize("flag", ["-t", "--subtrees"])
+    def test_subtrees_one_lineage_per_line(_, run, registered, flag):
+        registered(
+            "test-cli-subtrees",
+            Blueprint(
+                subtrees=frozenset({("Project", "License"), ("Project",)})
+            ),
+        )
+
+        exit_code, out = run(["show", "test-cli-subtrees", flag])
+
+        assert exit_code == 0
+        assert out == "Project\nProject # License\n"
+
+    def test_subtrees_empty_when_none(_, run):
+        exit_code, out = run(["show", "test-cli-base", "--subtrees"])
+
+        assert exit_code == 0
+        assert out == "\n"
 
     def test_field_from_stdin(_, run):
         text = '{"schema": 1, "dependencies": ["test-cli-base"]}'
@@ -168,6 +197,8 @@ class TestFields:
             "description-node",
             "when-to-use",
             "when-to-use-node",
+            "nodes",
+            "subtrees",
             "globs",
             "dependencies",
         }

@@ -51,11 +51,13 @@ reading blueprint from stdin, a preview tree or JSON:
 
 # (short flag or None, field): the field names a key of ``SHOW_FIELD_FXS``
 _FIELD_FLAGS = (
-    ("-n", "display-name"),
+    ("-a", "display-name"),
     ("-d", "description"),
-    (None, "description-node"),
+    ("-D", "description-node"),
     ("-w", "when-to-use"),
-    (None, "when-to-use-node"),
+    ("-W", "when-to-use-node"),
+    ("-n", "nodes"),
+    ("-t", "subtrees"),
     ("-g", "globs"),
     ("-p", "dependencies"),
 )
