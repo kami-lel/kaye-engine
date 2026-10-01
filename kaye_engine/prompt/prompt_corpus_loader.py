@@ -28,6 +28,7 @@ from .md_fence import compute_fenced_line_mask
 from .prompt_corpus_node import PromptCorpusNode
 
 __all__ = (
+    "add_corpus_clear_hook",
     "clear_corpus_tree",
     "get_corpus_tree",
     "load_corpus_tree",
@@ -128,6 +129,9 @@ def _resolve_dynamic_heading(heading):
 
 # the one parsed prompt corpus tree of this process
 _corpus_tree = None
+
+# callbacks run by clear_corpus_tree(), dropping data derived from the tree
+_clear_hooks = []
 
 
 # Public API  ##################################################################
@@ -269,3 +273,18 @@ def clear_corpus_tree():  # ====================================================
     global _corpus_tree  # pylint: disable=global-statement
 
     _corpus_tree = None
+    for hook in _clear_hooks:
+        hook()
+
+
+def add_corpus_clear_hook(hook):  # ============================================
+    """
+    register ``hook`` to run on every :func:`clear_corpus_tree`, so data
+    derived from the tree is dropped together with it
+
+
+    :param hook: zero-argument callable
+    :type hook: Callable[[], None]
+    """
+    if hook not in _clear_hooks:
+        _clear_hooks.append(hook)
