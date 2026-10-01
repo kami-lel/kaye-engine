@@ -4,8 +4,7 @@ show_test.py
 Unit Tests (using pytest) for:
 
 - ``blueprint show`` / ``s``: the summary, and the field flags
-  ``-d -w -g -p`` with their long forms and the long-only
-  ``--description-node``, ``--when-to-use-node``, mutually exclusive
+  ``-d -w -g -p`` with their long forms, mutually exclusive
 """
 
 import pytest
@@ -133,21 +132,10 @@ class TestFields:
         assert set(SHOW_FIELD_FXS) == {
             "display-name",
             "description",
-            "description-node",
             "when-to-use",
-            "when-to-use-node",
             "globs",
             "dependencies",
         }
-
-    @pytest.mark.parametrize(
-        "flag", ["--description-node", "--when-to-use-node"]
-    )
-    def test_node_path_dash_when_unset(_, run, flag):
-        exit_code, out = run(["show", "test-cli-base", flag])
-
-        assert exit_code == 0
-        assert out == "-\n"
 
 
     @pytest.mark.parametrize(
@@ -156,7 +144,7 @@ class TestFields:
             ["-d", "-w"],
             ["-g", "-p"],
             ["--description", "--globs"],
-            ["--description-node", "--when-to-use-node"],
+            ["--description", "--when-to-use"],
         ],
     )
     def test_field_flags_are_mutually_exclusive(_, run, flags):

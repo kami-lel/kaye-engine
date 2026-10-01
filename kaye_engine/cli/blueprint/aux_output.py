@@ -42,22 +42,21 @@ logger = kamilog.getLogger(LOGGER_NAME)
 
 # constants  ###################################################################
 _NONE_LABEL = "-"
-_PATH_SEPARATOR = " > "
 
 
 # auxiliaries  #################################################################
-def _fmt_path(path):
-    return _PATH_SEPARATOR.join(path) if path else _NONE_LABEL
-
-
-def _show_from_summary(fmt_fx):
+def _show_summary(blueprint):
     """
-    :param fmt_fx: formats a ``BlueprintSummary`` into the one field
-    :type fmt_fx: Callable
-    :return: a show function for that field, reading the summary
-    :rtype: Callable
+    :type blueprint: Blueprint
+    :raises ValueError: a meta node is not in the loaded corpus
+    :return: the summary text, with description and when-to-use as content
+    :rtype: str
     """
-    return lambda blueprint: fmt_fx(show_blueprint(blueprint))
+    return fmt_summary(
+        show_blueprint(blueprint),
+        description=show_description(blueprint),
+        when_to_use=show_when_to_use(blueprint),
+    )
 
 
 # constants  ###################################################################
@@ -65,13 +64,7 @@ def _show_from_summary(fmt_fx):
 SHOW_FIELD_FXS = {
     "display-name": show_display_name,
     "description": show_description,
-    "description-node": _show_from_summary(
-        lambda summary: _fmt_path(summary.meta.description_node)
-    ),
     "when-to-use": show_when_to_use,
-    "when-to-use-node": _show_from_summary(
-        lambda summary: _fmt_path(summary.meta.when_to_use_node)
-    ),
     "globs": show_globs,
     "dependencies": show_dependencies,
 }
@@ -109,11 +102,11 @@ def pick_show_fx(field):
     :param field: field flag name of ``bp show``, ``None`` for none
     :type field: str or None
     :raises KeyError: an unknown field name
-    :return: the show function for the flag; ``show_blueprint`` for none
+    :return: the show function for the flag; the summary text for none
     :rtype: Callable
     """
     if field is None:
-        return show_blueprint
+        return _show_summary
 
     return SHOW_FIELD_FXS[field]
 
@@ -127,9 +120,13 @@ def fmt_ls(names):
     return "\n".join(names)
 
 
-def fmt_summary(summary):
+def fmt_summary(summary, *, description="", when_to_use=""):
     """
     :type summary: BlueprintSummary
+    :param description: description content, ``""`` for none
+    :type description: str
+    :param when_to_use: when-to-use content, ``""`` for none
+    :type when_to_use: str
     :return: the summary as ``label: value`` lines; ``-`` for what is
             not set
     :rtype: str
@@ -139,7 +136,8 @@ def fmt_summary(summary):
     return fmt_ls(
         [
             "display name: {}".format(meta.display_name or _NONE_LABEL),
-            "description: {}".format(meta.description or _NONE_LABEL),
+            "description: {}".format(description or _NONE_LABEL),
+            "when to use: {}".format(when_to_use or _NONE_LABEL),
             "nodes: {}".format(summary.node_count),
             "subtrees: {}".format(summary.subtree_count),
             "dependencies: {}".format(
