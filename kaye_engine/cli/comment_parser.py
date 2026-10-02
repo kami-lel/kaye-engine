@@ -13,7 +13,9 @@ __all__ = ("build_comment_parent_parser",)
 
 
 # Main Entry Point  ############################################################
-def build_comment_parent_parser(*, short_flags=True):
+def build_comment_parent_parser(
+    *, short_flags=True, is_render_profile=False
+):
     """
     build a fresh, help-suppressed ``ArgumentParser`` carrying the
     ``--comment``/``--no-comment`` mutually-exclusive pair -- a fresh
@@ -29,10 +31,14 @@ def build_comment_parent_parser(*, short_flags=True):
             ``False`` for ``claude user-system-prompt``, which already
             owns ``-c`` for ``--coder``
     :type short_flags: bool
+    :param is_render_profile: whether the flags belong to the render
+            profile options, appending ``v.s.`` to their help
+    :type is_render_profile: bool
     :return: the parent parser
     :rtype: ArgumentParser
     """
     parent = ArgumentParser(add_help=False)
+    vs = ", v.s." if is_render_profile else ""
     group = parent.add_mutually_exclusive_group()
     comment_flags = ["-c", "--comment"] if short_flags else ["--comment"]
     no_comment_flags = (
@@ -43,13 +49,13 @@ def build_comment_parent_parser(*, short_flags=True):
         dest="show_comment",
         action="store_true",
         default=None,
-        help="show comment nodes in the rendered output",
+        help="show comment nodes in the rendered output" + vs,
     )
     group.add_argument(
         *no_comment_flags,
         dest="show_comment",
         action="store_false",
         default=None,
-        help="omit comment nodes from the rendered output",
+        help="omit comment nodes from the rendered output" + vs,
     )
     return parent

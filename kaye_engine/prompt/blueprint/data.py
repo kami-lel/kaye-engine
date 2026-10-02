@@ -2,7 +2,8 @@
 data.py
 
 define ``Blueprint``, ``BlueprintMeta``, ``create_blueprint``, and the
-JSON codec ``encode_blueprint``, ``decode_blueprint``, ``load_blueprint``,
+JSON codec ``encode_blueprint``, ``decode_blueprint``,
+``parse_blueprint_json``, ``dump_blueprint``, ``load_blueprint``,
 ``save_blueprint`` -- a blueprint is pure frozen data, touching no corpus
 """
 
@@ -18,8 +19,10 @@ __all__ = (
     "BlueprintMeta",
     "create_blueprint",
     "decode_blueprint",
+    "dump_blueprint",
     "encode_blueprint",
     "load_blueprint",
+    "parse_blueprint_json",
     "save_blueprint",
 )
 
@@ -35,6 +38,9 @@ class BlueprintMeta:  ##########################################################
     descriptors of a blueprint, replacing sidecar lookups
 
 
+    :param display_name: human-facing name; empty is legal and means
+            unnamed; defaults to ``""``
+    :type display_name: str, optional
     :param description: literal description, taking priority over the
             description node; defaults to None
     :type description: str, optional
@@ -46,6 +52,7 @@ class BlueprintMeta:  ##########################################################
     :type globs_node: NodePath, optional
     """
 
+    display_name: str = ""
     description: str | None = None
     description_node: NodePath | None = None
     when_to_use_node: NodePath | None = None
@@ -97,6 +104,8 @@ def _encode_paths(paths):
 
 def _encode_body(blueprint):
     meta = {"description": blueprint.meta.description}
+    if blueprint.meta.display_name:
+        meta["display_name"] = blueprint.meta.display_name
     for field in _META_PATH_FIELDS:
         value = getattr(blueprint.meta, field)
         if value is not None:
@@ -123,6 +132,11 @@ def _decode_body(data):
     if description is not None and not isinstance(description, str):
         raise ValueError("meta.description must be a string or null")
     meta_kwargs["description"] = description
+    display_name = raw_meta.get("display_name")
+    if display_name is not None:
+        if not isinstance(display_name, str):
+            raise ValueError("meta.display_name must be a string")
+        meta_kwargs["display_name"] = display_name
     for field in _META_PATH_FIELDS:
         raw = raw_meta.get(field)
         if raw is not None:
@@ -182,20 +196,13 @@ def decode_blueprint(data):
     pure data: touches no corpus, so it may run before one is loaded
 
 
-    :param data: the form :func:`encode_blueprint` returns, or its JSON
-            text
-    :type data: dict or str
-    :raises ValueError: malformed JSON, unknown schema number, or a
+    :param data: the form :func:`encode_blueprint` returns
+    :type data: dict
+    :raises ValueError: not a dict, unknown schema number, or a
             malformed field
     :return: the decoded blueprint
     :rtype: Blueprint
     """
-    if isinstance(data, str):
-        try:
-            data = json.loads(data)
-        except json.JSONDecodeError as err:
-            raise ValueError("blueprint is not valid JSON") from err
-
     if not isinstance(data, dict):
         raise ValueError("blueprint must be an object: {}".format(repr(data)))
 
@@ -210,6 +217,26 @@ def decode_blueprint(data):
     return _decode_body(data)
 
 
+def parse_blueprint_json(text):
+    """
+    pure data: touches no corpus, so it may run before one is loaded
+
+
+    :param text: JSON text of the form :func:`encode_blueprint` returns
+    :type text: str
+    :raises ValueError: malformed JSON, unknown schema number, or a
+            malformed field
+    :return: the decoded blueprint
+    :rtype: Blueprint
+    """
+    try:
+        data = json.loads(text)
+    except json.JSONDecodeError as err:
+        raise ValueError("blueprint is not valid JSON") from err
+
+    return decode_blueprint(data)
+
+
 def load_blueprint(file_path):
     """
     :param file_path: JSON file holding an encoded blueprint
@@ -219,7 +246,24 @@ def load_blueprint(file_path):
     :return: the decoded blueprint
     :rtype: Blueprint
     """
-    return decode_blueprint(Path(file_path).read_text(encoding="utf-8"))
+    return parse_blueprint_json(Path(file_path).read_text(encoding="utf-8"))
+
+
+def dump_blueprint(blueprint, *, indent=2):
+    """
+    :param blueprint: blueprint to dump
+    :type blueprint: Blueprint
+    :param indent: spaces per JSON nesting level; defaults to 2
+    :type indent: int, optional
+    :return: JSON text of :func:`encode_blueprint`, ending with a newline
+    :rtype: str
+    """
+    return (
+        json.dumps(
+            encode_blueprint(blueprint), indent=indent, ensure_ascii=False
+        )
+        + "\n"
+    )
 
 
 def save_blueprint(blueprint, file_path):
@@ -229,8 +273,4 @@ def save_blueprint(blueprint, file_path):
     :param file_path: JSON file to write
     :type file_path: str or Path
     """
-    Path(file_path).write_text(
-        json.dumps(encode_blueprint(blueprint), indent=2, ensure_ascii=False)
-        + "\n",
-        encoding="utf-8",
-    )
+    Path(file_path).write_text(dump_blueprint(blueprint), encoding="utf-8")

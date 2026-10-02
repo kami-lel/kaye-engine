@@ -3,8 +3,8 @@ prompt-bp-prompt_test.py
 
 Unit Tests (using pytest) for:
 
-render_prompt, render_prompt_without_dependencies, render_blueprint,
-render_blueprint_without_dependencies
+render_prompt, render_prompt_without_dependencies, preview_blueprint,
+preview_blueprint_without_dependencies
 """
 
 import re
@@ -20,8 +20,8 @@ from kaye_engine.prompt.blueprint.dynamic_substitution import (
 )
 from kaye_engine.prompt.blueprint.registry import blueprint_registry
 from kaye_engine.prompt.blueprint.render import (
-    render_blueprint,
-    render_blueprint_without_dependencies,
+    preview_blueprint,
+    preview_blueprint_without_dependencies,
     render_prompt,
     render_prompt_without_dependencies,
 )
@@ -206,7 +206,7 @@ class TestRenderBlueprint:
 
     def test_preview_of_merged_selection(_, registry):
         registry("dep", _bp(OTHER))
-        out = render_blueprint(
+        out = preview_blueprint(
             _bp(PROMPT, dependencies=("dep",)), content_preview_lines=0
         )
 
@@ -215,7 +215,7 @@ class TestRenderBlueprint:
 
     def test_without_dependencies(_, registry):
         registry("dep", _bp(OTHER))
-        out = render_blueprint_without_dependencies(
+        out = preview_blueprint_without_dependencies(
             _bp(PROMPT, dependencies=("dep",)), content_preview_lines=0
         )
 
@@ -223,7 +223,7 @@ class TestRenderBlueprint:
         assert "[x]     └── Prompt" in out
 
     def test_full_tree_option_forwarded(_):
-        out = render_blueprint(
+        out = preview_blueprint(
             create_blueprint(), show_full_tree=True, content_preview_lines=0
         )
 

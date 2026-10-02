@@ -20,7 +20,6 @@ from kaye_engine.cli.render_profile_parser import (
     build_render_profile_parent_parser,
     resolve_render_profile,
 )
-from kaye_engine.cli.sparseness_parser import SPARSENESS_DESCRIPTION
 from kamilog import (
     add_verbose_arguments,
     set_logging_level_by_namespace,
@@ -62,8 +61,7 @@ when NODE=decode-only-abbr, reads query content from stdin, optional:
 run to list available NODE values:
 
     kaye-engine dynamic-node ls
-
-""" + SPARSENESS_DESCRIPTION
+"""
 
 
 def _resolve_node_type(name):
@@ -197,7 +195,7 @@ def register_dynamic_node_parser(cli_subparser):
     dynamic_node_parser.add_argument(
         "NODE",
         nargs="+",
-        help="dynamic nodes to render; NODE=ls: list available node values",
+        help="dynamic nodes to render; NODE=ls: list available node values, v.s.",
     )
     dynamic_node_parser.add_argument(
         "-t",

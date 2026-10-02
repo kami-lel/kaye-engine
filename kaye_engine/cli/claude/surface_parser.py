@@ -41,6 +41,6 @@ def build_surface_parent_parser(default, *, surface_profiles=None):
             metavar="SURFACE",
             choices=list(surface_profiles),
             default=list(default),
-            help="Claude surface(s) to checkmark for; combinable",
+            help="Claude surface(s) to checkmark for; combinable, v.s.",
         )
     return parent

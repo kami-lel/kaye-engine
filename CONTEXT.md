@@ -1,6 +1,6 @@
 # kaye-engine CONTEXT
 
-**Last updated:** 2026-09-29
+**Last updated:** 2026-10-01
 
 System knowledge for the **kaye-engine** repository — architecture,
 entities, and boundaries. Read this alongside `AGENTS.md` before making
@@ -59,7 +59,7 @@ Heading syntax carries node type: plain text is an ordinary corpus node,
 ```
 sources ────load_corpus_tree()──> Prompt Tree ──> CorpusIndex ─┐
                                                                 ├─render_prompt()─> text
-blueprint text ──parse_blueprint_text()──> Blueprint ───────────┘
+blueprint text ──parse_blueprint_tree()──> Blueprint ───────────┘
 ```
 
 The process holds exactly one corpus tree: `load_corpus_tree(sources)`
@@ -67,12 +67,12 @@ raises `ValueError` on a second call, `get_corpus_tree()` raises before a
 load, and `clear_corpus_tree()` drops the tree together with everything
 derived from it (the `CorpusIndex`, bound selections) through clear hooks.
 
-`render_prompt()`/`render_blueprint()` are the dependency-resolving
+`render_prompt()`/`preview_blueprint()` are the dependency-resolving
 entry points: each first resolves the blueprint's selection with the full
 transitive closure of its `.dependencies` (`resolve_selection()`, a bitmask
 OR, so a diamond dependency converges without duplicating shared content),
 then delegates to the own-content-only `render_prompt_without_dependencies()`/
-`render_blueprint_without_dependencies()` below. A `dependencies` entry
+`preview_blueprint_without_dependencies()` below. A `dependencies` entry
 may be a `Blueprint` value or a `str`; each `str` is resolved to the
 blueprint registered under that name at render time (late binding), and
 `register_blueprint()` validates every name at registration. A cycle or
@@ -100,7 +100,8 @@ hides the real `sparseness`, the generated-by comment's compact form
 `display_name` is set, then `Kaye Engine vX`) plus client lines from
 `register_comment_line()`, and is appended after image-mode heading
 flattening. `BlueprintRegistry.content()` fills an empty `display_name`
-from the entry's own.
+from the entry's own, which `BlueprintRegistry` reads live from
+`blueprint.meta.display_name`, else its explicit fallback, else `""`.
 
 Sidecars split by usage rather than by class. *Descriptor* sidecars
 (`{description}`, `{when_to_use}`, `{globs}`) are consumed as blueprint
@@ -152,7 +153,7 @@ attribute, `False` by default, `True` on `BlueprintRegistry`) is the
 explicit capability flag `export-image-prompt`'s `_avoid_content()` checks
 before calling `content(profile=... RenderMode.NEGATIVE)` to build each
 `<canonical_name>-AVOID.md` sibling. Q.v. [sidecar node
-documentation](docs/sidecar-node-doc.md).
+documentation](docs/sidecar-doc.md).
 
 `affordance_registry`/`variant_registry` form a two-level model: an
 `Affordance` is a conceptual capability family, a `Variant` one concrete
@@ -165,7 +166,7 @@ derives its own `[{name}] Usage` sidecar (checkmarked when at least one
 of its registered variants is present) plus a `[{name}] Fallback`
 sidecar, checkmarked when every variant registered under that affordance
 is absent (and the affordance has ≥1 registered variant). Q.v.
-[affordance documentation](docs/affordance-doc.md). A Kaye-specific,
+[affordance documentation](docs/sidecar-doc.md#affordance). A Kaye-specific,
 consumer-supplied
 `surface_profiles` dict (`dict[str, RenderProfile]`, passed to
 `setup_claude_cli(...)` — kaye-vault owns the actual Claude surface data,
@@ -199,7 +200,7 @@ its own default for `--comment`/`--no-comment` and `--sparseness` when
 the flags are omitted (via `build_sparseness_parent_parser(default=...)`,
 a per-call builder). The resolved `RenderProfile` is carried as a single
 `profile=` object from parser down through every `claude` export chain
-(plugin/marketplace/vs-code/code/user-prompt, plus the top-level `skill`). A `RenderProfile()`
+(plugin/marketplace/vs-code/code/user-prompt/skills, plus the top-level `skill`). A `RenderProfile()`
 default (no explicit `--surface`/`--variant`/`--conditional-sidecar`)
 carries `variants=None`/`conditional_sidecars=()`, which
 `RenderProfile.merge()` treats as a no-op contribution, so a
@@ -208,11 +209,11 @@ apply — `BlueprintRegistry.content()` merges them in via
 `self.render_profile.merge(profile)` whenever the caller (`blueprint
 generate`, `Skill.from_exportable()`) passes a `profile=`. Q.v. [Claude
 documentation](docs/claude-doc.md) and [sidecar node
-documentation](docs/sidecar-node-doc.md).
+documentation](docs/sidecar-doc.md).
 
 ### CLI Flag Surface
 
-Beyond AGENTS.md's 9-command rendering-command table, several other
+Beyond AGENTS.md's 10-command rendering-command table, several other
 leaf subcommands print rendered or registry content but were never
 wired to `build_render_profile_parent_parser`, so they expose no
 `--surface`/`--variant`/`--conditional-sidecar`/`--sparseness`/
@@ -224,21 +225,22 @@ render step to configure; `sync-open-webui-skills` renders internally
 per skill with no exposed profile either. `affordance`/`variant` are
 list-only, so the absence there is expected.
 
-`blueprint show` is the one asymmetric case inside the rendering set:
+`blueprint preview` is the one asymmetric case inside the rendering set:
 it pulls only `build_comment_parent_parser()` out of the bundle (its
 own `-c`/`--comment`, `-C`/`--no-comment`), plus its own
 `-l/--preview-line-count`, `-w/--preview-line-width`,
 `-t/--show-full-tree` — no `--surface`/`--variant`/`--sparseness`,
 since it renders a preview tree, not a prompt.
 
-`-z/--zip` is genuinely shared behavior (`claude plugin`, `skill`) but
+`-z/--zip` is genuinely shared behavior (`claude plugin`, `claude skills`,
+`skill`) but
 is hand-duplicated per parser rather than pulled into its own builder,
 unlike the render-profile options. `-n` means `--dry-run` on every
 write command; `claude plugin` spells `--no-version` as `-N`.
 
 `--dry-run` on the write commands comes from `cli/dry_run.py`: a shared
 `-n/--dry-run` parent parser, plus a run-wide switch (`enable_dry_run()`,
-`is_dry_run()`) that also stamps the `dry` badge on the four engine
+`is_dry_run()`) that also stamps the `dry` badge on the five engine
 loggers. Writers keep their deed lines and skip only the filesystem call
 under `is_dry_run()`; the zip exports skip the temporary build and log
 the pack and move deeds directly. `sync-open-webui-skills` keeps its own
@@ -314,6 +316,33 @@ getter (`get_plugin_name()`, `get_claude_cli_display_name()`,
 configured name is not in `blueprint_registry` — rather than letting `None`
 or an unresolved name reach path, manifest, or prompt building.
 
+## Blueprint API Verbs
+
+Every blueprint function takes exactly one input type and returns exactly
+one output type: no format sniffing, no union inputs, no mode flag that
+changes the output type. A verb names one kind of operation everywhere:
+
+| verb | meaning | functions |
+|---|---|---|
+| parse | text → `Blueprint` | `parse_blueprint_tree`, `parse_blueprint_json` |
+| decode / encode | dict ↔ `Blueprint` | `decode_blueprint`, `encode_blueprint` |
+| load / save | JSON file ↔ `Blueprint` | `load_blueprint`, `save_blueprint` |
+| dump | `Blueprint` → JSON text | `dump_blueprint` |
+| validate | same `Blueprint`, or `ValueError` | `validate_blueprint` |
+| resolve / trace | direct / transitive dependencies as values | `resolve_dependencies`, `trace_dependencies` |
+| merge / diff | two blueprints → one / their node difference | `merge_blueprints`, `diff_blueprints` |
+| show | read one field or a summary | `show_blueprint`, `show_description`, `show_when_to_use`, `show_description_and_when_to_use`, `show_globs`, `show_dependencies` |
+| preview | preview tree | `preview_blueprint`, `preview_blueprint_without_dependencies`, `preview_selection` |
+| render | prompt | `render_prompt`, `render_prompt_without_dependencies` |
+
+The CLI (`kaye_engine/cli/blueprint/`) only composes these. Format
+detection (JSON when the first non-blank character is `{`, otherwise a
+preview tree) lives in `aux_input.py`, never in the API; a registered name
+renders through its registry entry (`BlueprintRegistry.resolve_profile()`),
+a blueprint read from stdin renders plain. `run_cmd` turns a `ValueError`,
+`KeyError`, or `FileNotFoundError` into one critical log line and exit
+code 1.
+
 ## Repository Layout
 
 ```
@@ -324,7 +353,7 @@ kaye_engine/
 │   │   ├── render_mode.py      RenderMode: NORMAL/NEGATIVE/POST_ORDER/
 │   │   │                        REVERSE_ORDER/IMAGE flag enum
 │   │   ├── render_profile.py   RenderProfile: layerable render-kwargs bundle
-│   │   └── render/             render_*_lines()/render_blueprint_tree(),
+│   │   └── render/             render_*_lines()/preview_selection(),
 │   │       split by concern (tree/lines/sidecar_splice/util)
 │   ├── dynamic_nodes/   render-time generated node types
 │   └── affordance_registry.py  Affordance/Variant two-level registry,
@@ -333,15 +362,22 @@ kaye_engine/
 ├── exportable/           Exportable base, exportable_registry
 │   └── image_prompt_export.py  image_prompt_exportable_registry,
 │                            register_image_prompt_exportable
+├── skill/               Agent Skills standard, agent-neutral: `Skill`
+│                        document, folder/.zip writers, `select_exportables`
 ├── cli/
-│   ├── blueprint/       `blueprint`/`bp` subcommand: ls, show, generate
+│   ├── blueprint/       `blueprint`/`bp` subcommand: list, preview, render,
+│   │                    validate, show; `aux_input.py`/`aux_output.py`
+│   │                    hold the glue (stdin, format detection, formatting)
 │   ├── claude/          plugins, marketplaces, CLAUDE.md
 │   │   ├── setup.py               setup_claude_cli(...); registers
 │   │   │                          consumer-supplied affordance_groups,
 │   │   │                          stores surface_profiles
+│   │   ├── skills/                `claude skills`/`claude s`: every skill
+│   │   │                          into ~/.claude/skills (`-z` for .zips)
 │   │   └── surface_parser.py      shared `--surface` parent parser --
 │   │                              choices from consumer's surface_profiles
-│   ├── skill/           `skill`/`s` subcommand: Agent Skill folders/.zips
+│   ├── skill/           `skill`/`s` subcommand: named Agent Skills into a
+│   │                    required FOLDER (`--all` for every one)
 │   ├── continue_ai/    `continue`/`c` subcommand: rules/ + prompts/ for Continue
 │   │   ├── rule_md.py       ContinueRule frontmatter doc + factory
 │   │   ├── export_rules.py  classify_exportable, export_continue_folder

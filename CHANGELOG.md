@@ -3,11 +3,7 @@
 [^format]
 
 <!--
-Fixme review all docs/
-Todo review render profile flags
-
 todo support hermes
-
 todo support mux consumer project
 
 bug continue exporting missing some skills
@@ -68,18 +64,75 @@ verify it. The calls that changed are mapped in the warning below.
 > | `bp.uncheckmark(n)`, `bp -= n` | `bp = uncheckmark_nodes(bp, n)` |
 > | `bp.merge(o)`, `bp \| o` | `merge_blueprints(bp, o)` |
 > | `bp.prune()` | removed |
-> | `PromptBlueprint.parse(t, corpus_tree=)` | `parse_blueprint_text(t)` |
+> | `PromptBlueprint.parse(t, corpus_tree=)` | `parse_blueprint_tree(t)` |
 > | `create_full_blueprint()`, `create_empty_blueprint()`, `create_from_node()` | `create_blueprint(is_full=)`, `create_blueprint_from_node()` |
 > | `bp.render_prompt()` and the other render methods | `render_prompt(bp)` and the other render functions |
-> | `bp.sidecars`, `BlueprintDescriptorSidecars` | `bp.meta`, `BlueprintMeta`, `render_description()` and friends |
+> | `bp.sidecars`, `BlueprintDescriptorSidecars` | `bp.meta`, `BlueprintMeta`, `show_description()` and friends |
 > | `load_corpus_tree(name, sources, is_default_tree=)`, `get_corpus_tree(name)`, `get_default_corpus_tree()` | `load_corpus_tree(sources)`, `get_corpus_tree()` |
 >
 > A node can no longer be given as a hash integer, a registered blueprint's
 > `.blueprint` must be reassigned rather than mutated, and a second
 > `load_corpus_tree()` call now raises `ValueError`.
 
+### Display Name as Blueprint Meta
+
+**Purpose**: a blueprint carries its own human-facing name, so the name
+travels with it instead of living only on the registry entry.
+
+**High-level design**:
+
+- `BlueprintMeta.display_name` (default `""`, empty is legal) round-trips
+  through the JSON codec as the optional `meta.display_name`; old files
+  without it still load
+- a `BlueprintRegistry` entry reads its `display_name` live from the
+  blueprint meta, falling back to the `display_name=` argument, else `""`
+- `create_blueprint_from_node()` names the blueprint after the node
+
+> [!WARNING]
+> `register_blueprint(canonical_name, display_name, blueprint)` is now
+> `register_blueprint(canonical_name, blueprint, *, display_name="")`.
+> Callers passing the name positionally must move it into the blueprint
+> meta (`replace_meta(bp, display_name=...)`) or pass `display_name=`.
+
+### Blueprint CLI and API Verbs
+
+**Purpose**: one verb vocabulary for the blueprint API and the CLI, so a
+verb names one kind of operation everywhere and every function takes one
+input type and returns one output type.
+
+**High-level design**:
+
+- API verbs: `parse` and `decode` turn text and dicts into a blueprint,
+  `encode` and `dump` turn it back, `preview` draws a tree, `render`
+  generates the prompt, `show` reads a field, `validate`, `resolve`,
+  `trace`, and `diff` inspect
+- the CLI composes API functions and owns format detection (JSON or
+  preview tree) and stdin handling; the API never sniffs a format
+
+> [!WARNING]
+> The blueprint CLI and API names changed; callers must migrate before
+> upgrading:
+>
+> | Before | Now |
+> | --- | --- |
+> | `kaye-engine blueprint ls` | `kaye-engine blueprint list` (`ls` stays an alias) |
+> | `kaye-engine blueprint show` (a preview) | `kaye-engine blueprint preview` (`p`) |
+> | `kaye-engine blueprint generate` (`gen`, `g`) | `kaye-engine blueprint render` (`r`) |
+> | `kaye-engine blueprint show` as summary | new meaning of `show` (`s`) |
+> | `render_blueprint`, `render_blueprint_without_dependencies` | `preview_blueprint`, `preview_blueprint_without_dependencies` |
+> | `render_blueprint_tree` | `preview_selection` |
+> | `render_description`, `render_when_to_use`, `render_description_and_when_to_use` | `show_description`, `show_when_to_use`, `show_description_and_when_to_use` |
+> | `extract_globs` | `show_globs` |
+> | `parse_blueprint_text` | `parse_blueprint_tree` |
+> | `decode_blueprint(text)` | `parse_blueprint_json(text)`; `decode_blueprint` takes a dict only |
+>
+> `blueprint show` now prints a summary instead of a preview tree, so a
+> script that still calls it gets different output, not an error.
+
 ### Added
 
+- `show_display_name()` and `blueprint show -n`/`--display-name`; the
+  `blueprint show` summary leads with a `display name:` line
 - file and directory actions in every export log as fixed-wording kamilog
   deeds (`create`, `overwrite`, `pack`, `move`, `save`, `load`), with a
   `fail to ...` line and traceback on error
@@ -90,6 +143,27 @@ verify it. The calls that changed are mapped in the warning below.
   nothing
 - every CLI subcommand's `--help` links its GitHub doc; rendering commands
   add a shared render-profile options blurb
+- `claude skills` (`claude s`): exports every exportable as Agent Skills,
+  into `~/.claude/skills` by default; `-z` makes one `.zip` per skill
+- `skill NAME... FOLDER` and `skill --all`/`-a FOLDER`: export only the
+  named Agent Skills into a required FOLDER; an unknown name aborts before
+  anything is written
+- `kaye_engine.skill`: the agent-neutral Agent Skills package, holding
+  `Skill`, the folder and `.zip` writers, and `select_exportables`
+
+##### Blueprint CLI and API Verbs
+
+- `blueprint validate` (`v`), `blueprint preview` (`p`), and `blueprint
+  render` (`r`) take `-D`/`--no-dependencies` for a blueprint's own nodes
+  only (`validate` takes none); `blueprint show` (`s`) prints a summary,
+  or one field with `-d`, `-w`, `-g`, or `-p`
+- the `BLUEPRINT` argument of every blueprint command also reads stdin,
+  as a preview tree or as JSON, detected from its first character
+- `parse_blueprint_json`, `dump_blueprint`, `validate_blueprint`,
+  `resolve_dependencies`, `trace_dependencies`, `diff_blueprints`,
+  `show_blueprint` with `BlueprintSummary`, and `show_dependencies`
+- `BlueprintRegistry.resolve_profile()`: the entry's own render profile
+  merged with a caller's, as `content()` renders with it
 
 ##### Optimize Blueprint Data Structure
 
@@ -101,21 +175,21 @@ verify it. The calls that changed are mapped in the warning below.
   `create_blueprint` (empty, or full with `is_full=True`),
   `create_blueprint_from_node`, `checkmark_nodes`, `uncheckmark_nodes`,
   `is_checkmarked`, `merge_blueprints`, `replace_meta`, and
-  `parse_blueprint_text`; a node is given as a node object, a name, or a
+  `parse_blueprint_tree`; a node is given as a node object, a name, or a
   `NodePath`, and an unknown node raises `ValueError` naming it
 - `subtrees` entries: a recursive checkmark covers every non-sidecar
   descendant, even one added later; unchecking a node under one expands it
   into explicit nodes first
 - JSON form with a schema number on the envelope: `encode_blueprint`,
-  `decode_blueprint`, `save_blueprint`, `load_blueprint`; decoding touches
-  no corpus, and pickle and JSON round trips are equal across processes
+  `decode_blueprint`, `parse_blueprint_json`, `dump_blueprint`,
+  `save_blueprint`, `load_blueprint`; decoding touches no corpus, and pickle and JSON round trips are equal across processes
   and `PYTHONHASHSEED` values
 - `BlueprintMeta`, a literal `description` plus `description_node`,
   `when_to_use_node`, and `globs_node` as paths;
   `create_blueprint_from_node` fills the three node fields from the node's
   own `{description}`, `{when_to_use}`, and `{globs}` children
-- `render_description`, `render_when_to_use`,
-  `render_description_and_when_to_use`, and `extract_globs` read a
+- `show_description`, `show_when_to_use`,
+  `show_description_and_when_to_use`, and `show_globs` read a
   blueprint's descriptors for the exporters
 - `CorpusIndex`, derived once per process: pre-order node arrays, paths,
   depths, parent and child indexes, subtree and sidecar masks, and each
@@ -129,8 +203,8 @@ verify it. The calls that changed are mapped in the warning below.
   `register_blueprint` validates every dependency name up front
 - `clear_corpus_tree()` drops the loaded tree and everything derived from
   it; `add_corpus_clear_hook()` lets derived data follow
-- `render_prompt`, `render_prompt_without_dependencies`, `render_blueprint`,
-  and `render_blueprint_without_dependencies` as functions of a blueprint
+- `render_prompt`, `render_prompt_without_dependencies`, `preview_blueprint`,
+  and `preview_blueprint_without_dependencies` as functions of a blueprint
 - the breaking-change table and new data-model sections in
   `docs/prompt-doc.md`
 
@@ -144,10 +218,39 @@ verify it. The calls that changed are mapped in the warning below.
   per-file success lines are gone
 - CLI guides merged into `docs/claude-doc.md`, `docs/continue-doc.md`,
   `docs/open-webui-doc.md`, and the `export-json` command help
+- `docs/abbrs-doc.md`, `docs/corpus-doc.md`, `docs/dynamic-content-doc.md`,
+  `docs/exportable-registry-doc.md`, and `docs/prompt-doc.md` rewritten as
+  full references; `docs/affordance-doc.md` and `docs/sidecar-node-doc.md`
+  merged into `docs/sidecar-doc.md`
+- Claude CLI help and docstrings unify on "Chat Blueprint"/"Coder
+  Blueprint" naming and drop the "kaye" prefix from plugin references
+
+- `skill` no longer exports every skill into a default folder; that is now
+  `claude skills`. The `skill` command's own FOLDER is required
+- the `Skill` document and its writers moved from `kaye_engine.cli.skill`
+  to `kaye_engine.skill`, logging under `kaye.engine.skill`
 
 > [!WARNING]
 > `kaye-engine claude plugin -n` no longer means `--no-version`; use `-N`.
 > `-n` now means `--dry-run`.
+
+> [!WARNING]
+> `kaye-engine skill FOLDER` and `kaye-engine skill` alone no longer export
+> everything; use `kaye-engine claude skills`, or `kaye-engine skill --all
+> FOLDER`. `export_skills_as_zips` now requires a `version` argument.
+
+##### Blueprint CLI and API Verbs
+
+- `blueprint ls` is now `blueprint list`, with `ls` kept as its alias;
+  `blueprint show` is the summary, and the preview tree moved to
+  `blueprint preview`
+- `blueprint render` of a registered name keeps its registry entry's
+  render profile, and `blueprint preview` and `render` accept JSON or a
+  preview tree on stdin
+- `decode_blueprint` takes a dict only; JSON text goes through
+  `parse_blueprint_json`
+- the CLI reports a blueprint error as one critical log line and exit
+  code 1
 
 ##### Optimize Blueprint Data Structure
 
@@ -164,9 +267,9 @@ verify it. The calls that changed are mapped in the warning below.
   corpus once per registered blueprint
 - the skill and Continue rule exporters read description, when-to-use, and
   globs through the new render functions
-- `parse_blueprint_text` selects only `[x]` lines and ignores unchecked
+- `parse_blueprint_tree` selects only `[x]` lines and ignores unchecked
   ones; it takes no corpus and no longer prunes
-- `render_blueprint_tree` shows the selected nodes plus their ancestors
+- `preview_selection` shows the selected nodes plus their ancestors
 - `merge_blueprints` is a set union: `left` wins every meta field it sets,
   and dependencies keep `left`'s order, then `right`'s not already present
 
@@ -179,6 +282,12 @@ verify it. The calls that changed are mapped in the warning below.
 - the `(dry run)` suffix on `sync-open-webui-skills` lines, replaced by the
   `dry` badge
 - `docs/cli/` task-oriented guides, folded into the main docs
+
+##### Blueprint CLI and API Verbs
+
+- `blueprint generate` (`gen`, `g`), replaced by `blueprint render`
+- the old API names listed in the warning above, with no alias: an old
+  call raises `ImportError`
 
 ##### Optimize Blueprint Data Structure
 

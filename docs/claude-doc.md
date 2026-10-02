@@ -1,6 +1,8 @@
-# Kaye Engine support for Anthropic Claude
+# Kaye Engine: support for Anthropic Claude
 
-Kaye Engine's integration with Anthropic Claude: exporting corpus blueprints as Claude plugins and system prompts (Agent Skills export lives in the top-level `kaye-engine skill` command).
+<!-- fixme mpv support for anthropic claude -->
+
+Kaye Engine's integration with Anthropic Claude: exporting corpus blueprints as Claude plugins and system prompts and exporting every exportable as Agent Skills into Claude's skills folder (`claude skills`); exporting chosen Agent Skills into any folder is the top-level `kaye-engine skill` command.
 
 > [!NOTE]
 > All (non-internal) exportables in `exportable_registry` will be rendered
@@ -13,7 +15,7 @@ Kaye Engine's integration with Anthropic Claude: exporting corpus blueprints as 
 > Run `kaye-engine claude [SUBCOMMAND] -h` any time to see the live flags.
 
 > [!NOTE]
-> Exporting Agent Skills is no longer a `claude` subcommand. It moved up to the top-level `kaye-engine skill` command (alias `s`).
+> `claude skills` (plural) exports ALL skills and assumes a folder. To export chosen skills into a folder you name, use the top-level `kaye-engine skill NAME... FOLDER` (or `--all`), which is not Claude-specific.
 
 ### Choose a Subcommand
 
@@ -21,6 +23,7 @@ Kaye Engine's integration with Anthropic Claude: exporting corpus blueprints as 
 | --- | --- | --- |
 | Upload a plugin to Claude Desktop | `claude plugin -z` | `claude p` |
 | Get a plugin folder to load locally | `claude plugin` | `claude p` |
+| Export every skill into `~/.claude/skills` | `claude skills` | `claude s` |
 | Get an installable marketplace folder | `claude marketplace` | `claude m` |
 | Set up Claude Code in the terminal | `claude code` | `claude c` |
 | Set up the Claude Code VS Code Extension | `claude vs-code-extension` | `claude v` |
@@ -53,6 +56,27 @@ FOLDER/                      (default: ~/.claude/plugins/)
 #### Claude Desktop
 
 Generate the package with `kaye-engine claude plugin --zip`, then upload the `.zip` to [Claude Desktop](https://claude.ai) settings under *Plugins* to enable Kaye Engine integration.
+
+### skills
+
+Writes one `SKILL.md` per exportable as its own skill folder, ready for Claude to read.
+
+```bash
+kaye-engine claude skills              # ~/.claude/skills/
+kaye-engine claude skills FOLDER       # FOLDER/
+kaye-engine claude skills -z           # one .zip per skill in the current directory
+kaye-engine claude skills -z ZIPS      # ZIPS/
+```
+
+```text
+FOLDER/                      (default: ~/.claude/skills/)
+└── <canonical_name>/
+    └── SKILL.md
+```
+
+- `-z`, `--zip`: create a `.zip` per skill instead of folders; FOLDER then defaults to the current directory
+
+For a chosen subset, or a folder that is not Claude's, use `kaye-engine skill NAME... FOLDER` instead; FOLDER is required there.
 
 ### marketplace
 

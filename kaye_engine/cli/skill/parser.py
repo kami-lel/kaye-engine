@@ -1,4 +1,4 @@
-"""export each exportable as an individual Agent Skill"""
+"""export exportables as Agent Skills"""
 
 from argparse import RawDescriptionHelpFormatter
 from pathlib import Path
@@ -6,7 +6,6 @@ from pathlib import Path
 import kamilog
 from kaye_engine import PACKAGE_NAME
 from kaye_engine.cli import DEFAULT_SPARSENESS
-from kaye_engine.cli.claude import LOGGER_CLAUDE_NAME
 from kaye_engine.cli.claude.setup import (
     get_claude_cli_consumer_version,
     get_surface_profiles,
@@ -21,28 +20,28 @@ from kaye_engine.cli.render_profile_parser import (
     build_render_profile_parent_parser,
     resolve_render_profile,
 )
-
-from .export_folders import (
-    export_skills_as_folders,
-)
-from .export_zips import export_skills_as_zips
+from kaye_engine.skill import LOGGER_SKILL_NAME
+from kaye_engine.skill.export_folders import export_skills_as_folders
+from kaye_engine.skill.export_zips import export_skills_as_zips
+from kaye_engine.skill.select import select_exportables
 
 # logger  ######################################################################
-logger = kamilog.getLogger(LOGGER_CLAUDE_NAME)
+logger = kamilog.getLogger(LOGGER_SKILL_NAME)
 
 # constants  ===================================================================
 
-_DEFAULT_SKILLS_FOLDER = Path.home() / ".claude" / "skills"
+_USAGE = """%(prog)s [-h] [-z] [-n] [NAME ...] FOLDER
+       %(prog)s [-h] [-z] [-n] --all FOLDER"""
 
 _DESCRIPTION = """
 
-writes one SKILL.md per exportable as its own skill folder;
-with -z, creates a .zip per skill instead.
+writes one SKILL.md per named skill as its own skill folder
+by name or all, into a given FOLDER
 
-FOLDER/  (default: ~/.claude/skills/)
+FOLDER/
 ├── coder-python/
 │   └── SKILL.md
-└── ~~  (one folder per remaining exportable)
+└── ~~  (one folder per remaining NAME)
 """
 
 
@@ -51,6 +50,7 @@ def register_skill_parser(cli_subparser):  #####################################
     skill_parser = cli_subparser.add_parser(
         "skill",
         help=__doc__,
+        usage=_USAGE,
         description=__doc__ + _DESCRIPTION + RENDER_PROFILE_DESCRIPTION,
         formatter_class=RawDescriptionHelpFormatter,
         aliases=["s"],
@@ -64,13 +64,20 @@ def register_skill_parser(cli_subparser):  #####################################
         ],
     )
 
+    # NAMEs and FOLDER share one positional: FOLDER is always the last
     skill_parser.add_argument(
-        "folder",
-        nargs="?",
-        metavar="FOLDER",
-        type=Path,
-        default=None,
-        help="destination folder; default: ~/.claude/skills/",
+        "paths",
+        nargs="+",
+        metavar="NAME... FOLDER",
+        help="skill names to export, then the destination folder, v.s.",
+    )
+
+    skill_parser.add_argument(
+        "-a",
+        "--all",
+        action="store_true",
+        dest="is_all",
+        help="export every skill; then only FOLDER is given",
     )
 
     skill_parser.add_argument(
@@ -78,7 +85,7 @@ def register_skill_parser(cli_subparser):  #####################################
         "--zip",
         action="store_true",
         dest="zip",
-        help="create .zip Skill packages; FOLDER default: current directory",
+        help="create .zip Skill packages instead of folders",
     )
 
     kamilog.add_verbose_arguments(skill_parser)
@@ -86,28 +93,48 @@ def register_skill_parser(cli_subparser):  #####################################
     def _skill_main(args):
         kamilog.set_logging_level_by_namespace(args, logger=logger)
         apply_dry_run_arg(args)
+
+        *names, folder = args.paths
+        folder = Path(folder)
+        if args.is_all and names:
+            skill_parser.error("--all takes only FOLDER, not skill names")
+        if not args.is_all and not names:
+            skill_parser.error("give 1+ skill names, or --all, before FOLDER")
+
         logger.enter("{} skill".format(PACKAGE_NAME))
         check_corpus_setup_for_cli()
 
-        folder = args.folder
-        if folder is None:
-            folder = Path.cwd() if args.zip else _DEFAULT_SKILLS_FOLDER
+        if args.is_all:
+            names = None
+        try:
+            select_exportables(names)
+        except ValueError as err:
+            logger.critical(str(err))
+            raise SystemExit(1) from err
+
         render_profile = resolve_render_profile(
             args,
             surface_profiles=get_surface_profiles(),
             default_show_comment=False,
         )
+        version = get_claude_cli_consumer_version()
 
         if args.zip:
             logger.debug("export skills as zip packages")
-            export_skills_as_zips(folder, render_profile=render_profile)
+            export_skills_as_zips(
+                folder,
+                version=version,
+                render_profile=render_profile,
+                names=names,
+            )
             done_msg = "export skills as zip packages"
         else:
             logger.debug("export skills as folders")
             export_skills_as_folders(
                 folder,
-                version=get_claude_cli_consumer_version(),
+                version=version,
                 render_profile=render_profile,
+                names=names,
             )
             done_msg = "export skills as folders"
 
