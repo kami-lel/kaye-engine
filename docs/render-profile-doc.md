@@ -157,7 +157,7 @@ Each mode changes the walk like this:
 - the tree is always walked all the way down, so a checkmarked node below an unchecked one still contributes
 - a node with no `{avoid}` content anywhere beneath it is left out
 
-Adding `IMAGE` removes every title, leaving only the `{avoid}` text, with its blocks still separated by a blank line. Any other combination, such as `NEGATIVE | POST_ORDER`, keeps its headings. See [Negative-Instruction Sidecar](sidecar-node-doc.md#negative-instruction-sidecar) and [generate negative prompt](prompt-doc.md#generate-negative-prompt). Whether an `Exportable` can render a negative prompt at all is its `supports_negative_content` flag, see [Exportable Registry Documentation](exportable-registry-doc.md).
+Adding `IMAGE` removes every title, leaving only the `{avoid}` text, with its blocks still separated by a blank line. Any other combination, such as `NEGATIVE | POST_ORDER`, keeps its headings. See [Negative-Instruction Sidecar](sidecar-doc.md#negative-instruction-sidecar) and [generate negative prompt](prompt-doc.md#generate-negative-prompt). Whether an `Exportable` can render a negative prompt at all is its `supports_negative_content` flag, see [Exportable Registry Documentation](exportable-registry-doc.md).
 
 
 
@@ -185,7 +185,7 @@ Things to know:
 - any `{name}` sidecar can be requested, including the reserved descriptor names
 - `{avoid}` is normally reached through `RenderMode.NEGATIVE` instead
 
-See [Sidecar Node Documentation](sidecar-node-doc.md#conditional-sidecar-nodes) for the node types.
+See [Sidecar Node Documentation](sidecar-doc.md#conditional-sidecars) for the node types.
 
 ## Variants
 
@@ -205,7 +205,7 @@ The field has three states:
 - `()`: on, with every variant absent, so every `Lack` and `Fallback` sidecar applies
 - `("A", "B")`: on, with `A` and `B` present
 
-See [Affordance Documentation](affordance-doc.md#checkmark-evaluation) for how the sidecars are derived. Conditional sidecars and variants share one step before the tree walk, and both require the sidecar's parent to be checkmarked.
+See [Affordance Documentation](sidecar-doc.md#checkmark-evaluation) for how the sidecars are derived. Conditional sidecars and variants share one step before the tree walk, and both require the sidecar's parent to be checkmarked.
 
 ## Sparseness
 

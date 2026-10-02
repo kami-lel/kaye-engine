@@ -165,7 +165,7 @@ Each node has a `.name`, its **section heading**, which also appears in the [tre
 
 The two special kinds behave differently at render time:
 
-- **Sidecar nodes** hold metadata or conditional instructions for their parent node, and the plain render skips them. See [`sidecar-node-doc.md`](sidecar-node-doc.md) for identification, checkmarking, and rendering.
+- **Sidecar nodes** hold metadata or conditional instructions for their parent node, and the plain render skips them. See [`sidecar-doc.md`](sidecar-doc.md) for identification, checkmarking, and rendering.
 - **Dynamic nodes** are injected at render time and **are** part of the rendered output. See [Dynamic Node Documentation](dynamic-content-doc.md).
 
 
@@ -369,7 +369,7 @@ A `Blueprint` has four fields, all keyword-only:
 
 | Field | Meaning |
 | --- | --- |
-| `.meta` | `BlueprintMeta`: the display name and descriptors for the exporters, see [`sidecar-node-doc.md`](sidecar-node-doc.md#blueprintmeta) |
+| `.meta` | `BlueprintMeta`: the display name and descriptors for the exporters, see [`sidecar-doc.md`](sidecar-doc.md#blueprintmeta) |
 | `.nodes` | `frozenset[NodePath]`: nodes checkmarked one by one |
 | `.subtrees` | `frozenset[NodePath]`: nodes checkmarked together with every non-sidecar descendant, even one added later |
 | `.dependencies` | `tuple[str or Blueprint, ...]`: a `str` names a registered blueprint, resolved at render time; a `Blueprint` is carried as a value |
@@ -519,7 +519,7 @@ Pure functions of a blueprint (or two), none of which mutates it:
 - `diff_blueprints(left, right)`: a `BlueprintDiff` of the `nodes` only `left` holds (`only_left`) and only `right` holds (`only_right`); `subtrees`, meta and dependencies take no part
 - `show_blueprint(bp)`: a `BlueprintSummary` of the meta, `node_count`, `subtree_count`, and dependency names
 - `show_dependencies(bp)`: the dependency names in order; a dependency carried as a value shows as `<blueprint value>`
-- `show_display_name(bp)`, `show_description(bp)`, `show_when_to_use(bp)`, `show_description_and_when_to_use(bp)`, `show_globs(bp)`: the descriptor fields, see [`sidecar-node-doc.md`](sidecar-node-doc.md)
+- `show_display_name(bp)`, `show_description(bp)`, `show_when_to_use(bp)`, `show_description_and_when_to_use(bp)`, `show_globs(bp)`: the descriptor fields, see [`sidecar-doc.md`](sidecar-doc.md)
 
 
 
@@ -631,7 +631,7 @@ In this mode, the output is built from `{avoid}` sidecars:
 - descendants are always walked, so a checkmarked node below an unchecked ancestor still contributes, and the ancestor's heading is printed only for context
 - a node with no `{avoid}` child and no contributing descendant is left out
 
-See [`sidecar-node-doc.md`](sidecar-node-doc.md#negative-instruction-sidecar) for how `{avoid}` differs from a descriptor or conditional sidecar.
+See [`sidecar-doc.md`](sidecar-doc.md#negative-instruction-sidecar) for how `{avoid}` differs from a descriptor or conditional sidecar.
 
 Given a checkmarked tree shaped like this:
 
