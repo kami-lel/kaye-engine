@@ -9,9 +9,7 @@ from kaye_engine import LOGGER_NAME
 # appended to every claude subcommand's help description
 CLAUDE_DOC_DESCRIPTION = """
 
-CLAUDE DOCUMENTATION:
-
-see the claude commands documentation on GitHub:
+see support for Anthropic Claude on Github:
 
     https://github.com/kami-lel/kaye-engine/blob/main/docs/claude-doc.md"""
 
