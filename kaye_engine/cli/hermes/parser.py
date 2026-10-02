@@ -33,9 +33,9 @@ write persona and skills into Hermes home directory:
 FOLDER/  (the Hermes home directory)
 ├── SOUL.md
 ├── skills/
-│   └── <category>/<skill-name>/SKILL.md
+│   └── <consumer name>/<skill name>/SKILL.md
 └── profiles/
-    └── <profile>/SOUL.md
+    └── <profile name>/SOUL.md
 """
 
 
