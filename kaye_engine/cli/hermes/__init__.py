@@ -16,9 +16,6 @@ see support for Hermes on Github:
 
     https://github.com/kami-lel/kaye-engine/blob/main/docs/hermes-doc.md"""
 
-# folder name, under ``skills/``, that holds every exported skill
-_skill_category = None
-
 # registered blueprint name rendered into the root ``SOUL.md``
 _soul_blueprint_name = None
 

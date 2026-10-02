@@ -1,5 +1,5 @@
 """
-tests/cli/claude/setup_test.py
+tests/cli/claude/claude_setup_test.py
 
 test:
 - get_plugin_name, get_marketplace_name, get_marketplace_folder_name
