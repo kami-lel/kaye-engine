@@ -1,4 +1,4 @@
-"""export the vault as a Hermes home directory"""
+"""support Hermes Agent/Desktop"""
 
 from argparse import RawDescriptionHelpFormatter
 from pathlib import Path
@@ -6,10 +6,7 @@ from pathlib import Path
 import kamilog
 from kaye_engine import PACKAGE_NAME
 from kaye_engine.cli import DEFAULT_SPARSENESS
-from kaye_engine.cli.claude.setup import (
-    get_claude_cli_consumer_version,
-    get_surface_profiles,
-)
+from kaye_engine.cli.claude.setup import get_surface_profiles
 from kaye_engine.cli.cli_setup_guard import check_corpus_setup_for_cli
 from kaye_engine.cli.dry_run import (
     apply_dry_run_arg,
@@ -22,6 +19,7 @@ from kaye_engine.cli.render_profile_parser import (
     build_render_profile_parent_parser,
     resolve_render_profile,
 )
+from kaye_engine.consumer import get_consumer_version
 
 # logger  ######################################################################
 logger = kamilog.getLogger(LOGGER_HERMES_NAME)
@@ -30,7 +28,7 @@ logger = kamilog.getLogger(LOGGER_HERMES_NAME)
 
 _DESCRIPTION = """
 
-writes the Hermes persona and skills into a Hermes home directory.
+write persona and skills into Hermes home directory:
 
 FOLDER/  (the Hermes home directory)
 ├── SOUL.md
@@ -86,7 +84,7 @@ def register_hermes_parser(cli_subparser):  ####################################
         )
         export_hermes_folder(
             args.folder,
-            version=get_claude_cli_consumer_version(),
+            version=get_consumer_version(),
             render_profile=render_profile,
         )
 

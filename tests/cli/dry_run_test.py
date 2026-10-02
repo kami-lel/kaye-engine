@@ -154,7 +154,7 @@ class TestWritersUnderDryRun:
         with patch.object(
             plugin_export_zip, "get_plugin_name", lambda: "plug"
         ), patch.object(
-            plugin_export_zip, "get_claude_cli_consumer_version", lambda: "1"
+            plugin_export_zip, "get_consumer_version", lambda: "1"
         ), caplog.at_level("DEBUG"):
             plugin_export_zip.export_plugin_as_zip(destination)
 

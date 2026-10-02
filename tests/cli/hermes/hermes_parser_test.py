@@ -26,7 +26,7 @@ def _build_parser():
 def _no_corpus_setup_guard():
     with patch.object(parser, "check_corpus_setup_for_cli", lambda: None):
         with patch.object(
-            parser, "get_claude_cli_consumer_version", lambda: "1.0"
+            parser, "get_consumer_version", lambda: "1.0"
         ):
             yield
 
