@@ -9,6 +9,13 @@ from kaye_engine import LOGGER_NAME
 # sublogger for the hermes subcommand
 LOGGER_HERMES_NAME = LOGGER_NAME + ".hermes"
 
+# appended to the hermes subcommand's help description
+HERMES_DOC_DESCRIPTION = """
+
+see support for Hermes on Github:
+
+    https://github.com/kami-lel/kaye-engine/blob/main/docs/hermes-doc.md"""
+
 # folder name, under ``skills/``, that holds every exported skill
 _skill_category = None
 
