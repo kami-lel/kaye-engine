@@ -53,7 +53,7 @@ def register_hermes_parser(cli_subparser):  ####################################
             + RENDER_PROFILE_DESCRIPTION
         ),
         formatter_class=RawDescriptionHelpFormatter,
-        aliases=["h"],
+        aliases=["m"],
         parents=[
             build_render_profile_parent_parser(
                 default_surface=(),
