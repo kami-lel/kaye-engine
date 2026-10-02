@@ -1,5 +1,7 @@
 # Kaye Engine: Affordance Documentation
 
+<!-- FIXME mpv doc: affordance -->
+
 **Affordances** are a second, independent auto-checkmark mechanism for a common case: acknowledging whether a platform capability is available at all, rather than splicing in arbitrary named content. Every sidecar name this mechanism derives is still a `{brace}`-headed [sidecar node](sidecar-node-doc.md), checkmarked under the same "only under an already-checkmarked parent" rule — but its names and checkmark rules come from a purpose-built two-level registry (`kaye_engine/prompt/affordance_registry.py`) instead of a flat, caller-supplied name list.
 
 

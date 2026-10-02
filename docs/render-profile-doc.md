@@ -1,8 +1,8 @@
 # Kaye Engine: Render Profile Documentation
 
 <!--
-FIXME CLI provide none and all
-BUG -u & --variant fail get displayed in all docstring
+FIXME FIXME mpv render profile doc
+FIXME FIXME rewrite render profile option description, contains more info
 -->
 
 

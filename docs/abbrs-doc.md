@@ -1,5 +1,7 @@
 # Kaye Engine: Abbreviations Documentation
 
+<!-- FIXME upd abbr doc -->
+
 `abbr_collection` is the package that deals with **abbreviations**: the entry data structures, the store, and the loader that populates it from `abbrs.json`.
 
 Every abbreviation-related *dynamic node* reads through this store rather than parsing the file or holding its own copy of the data.
