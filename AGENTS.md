@@ -44,6 +44,7 @@ merge.
 | `kaye_engine/cli/` | `tests/cli/` |
 | `kaye_engine/cli/blueprint/` | `tests/cli/blueprint/` (drives the real parsers over a small inline corpus; `aux_input_test.py`, `aux_output_test.py` for the helpers) |
 | `kaye_engine/cli/continue_ai/` | `tests/cli/continue_ai/` |
+| `kaye_engine/cli/hermes/` | `tests/cli/hermes/` |
 | `kaye_engine/cli/open_webui/` | `tests/cli/open_webui/` |
 | `kaye_engine/cli/skill/` | `tests/cli/skill/` |
 | `kaye_engine/cli/claude/skills/` | `tests/cli/cli_main_test.py`, `tests/cli/dry_run_test.py` |
@@ -77,8 +78,8 @@ pytest
 
 The editable install registers a `kaye-engine` console script, so
 `kaye-engine ...` and `python -m kaye_engine ...` are equivalent — prefer
-the shorter form. **Thirteen** top-level subcommands exist: `blueprint`,
-`claude`, `continue`, `export-image-prompt`, `dynamic-node`, `dynamic-substitution`,
+the shorter form. **Fourteen** top-level subcommands exist: `blueprint`,
+`claude`, `continue`, `hermes`, `export-image-prompt`, `dynamic-node`, `dynamic-substitution`,
 `exportable`, `export-json`, `affordance`, `variant`,
 `glossary`, `skill`, and `sync-open-webui-skills`:
 
@@ -114,6 +115,8 @@ kaye-engine claude user-system-prompt -c    # append Coder blueprint content
 kaye-engine claude vs-code-extension        # CLAUDE.md + marketplace + settings
 kaye-engine continue                        # export rules + prompts to ~/.continue
 kaye-engine continue FOLDER                 # export to a custom Continue folder
+kaye-engine hermes FOLDER                   # SOUL.md, profiles/, skills/ into a Hermes home
+kaye-engine hermes FOLDER -n                # report every write without touching disk
 kaye-engine export-image-prompt FOLDER          # write every image-prompt-subset exportable to FOLDER
 kaye-engine exportable EXPORTABLE           # print an exportable's content
 kaye-engine exportable ls                   # list every registered exportable name
@@ -130,7 +133,7 @@ kaye-engine o --prune --base-url URL        # also delete remote-only skills; cu
 
 Aliases: `blueprint` → `bp`; `blueprint list` → `bp ls`; `blueprint
 preview` → `bp p`; `blueprint render` → `bp r`; `blueprint validate` →
-`bp v`; `blueprint show` → `bp s`; `continue` → `c`; `export-image-prompt` → `img`; `dynamic-node` →
+`bp v`; `blueprint show` → `bp s`; `continue` → `c`; `hermes` → `m`; `export-image-prompt` → `img`; `dynamic-node` →
 `dn`; `dynamic-substitution` → `ds`; `claude` → `a`; `claude code`
 → `claude c`; `claude
 marketplace` → `claude m`; `claude plugin` → `claude p`; `claude skills` → `claude s`; `skill`
