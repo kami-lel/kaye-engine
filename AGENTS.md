@@ -44,6 +44,7 @@ merge.
 | `kaye_engine/cli/` | `tests/cli/` |
 | `kaye_engine/cli/blueprint/` | `tests/cli/blueprint/` (drives the real parsers over a small inline corpus; `aux_input_test.py`, `aux_output_test.py` for the helpers) |
 | `kaye_engine/cli/continue_ai/` | `tests/cli/continue_ai/` |
+| `kaye_engine/cli/hermes/` | `tests/cli/hermes/` |
 | `kaye_engine/cli/open_webui/` | `tests/cli/open_webui/` |
 | `kaye_engine/cli/skill/` | `tests/cli/skill/` |
 | `kaye_engine/cli/claude/skills/` | `tests/cli/cli_main_test.py`, `tests/cli/dry_run_test.py` |
@@ -77,8 +78,8 @@ pytest
 
 The editable install registers a `kaye-engine` console script, so
 `kaye-engine ...` and `python -m kaye_engine ...` are equivalent — prefer
-the shorter form. **Thirteen** top-level subcommands exist: `blueprint`,
-`claude`, `continue`, `export-image-prompt`, `dynamic-node`, `dynamic-substitution`,
+the shorter form. **Fourteen** top-level subcommands exist: `blueprint`,
+`claude`, `continue`, `hermes`, `export-image-prompt`, `dynamic-node`, `dynamic-substitution`,
 `exportable`, `export-json`, `affordance`, `variant`,
 `glossary`, `skill`, and `sync-open-webui-skills`:
 
@@ -114,6 +115,8 @@ kaye-engine claude user-system-prompt -c    # append Coder blueprint content
 kaye-engine claude vs-code-extension        # CLAUDE.md + marketplace + settings
 kaye-engine continue                        # export rules + prompts to ~/.continue
 kaye-engine continue FOLDER                 # export to a custom Continue folder
+kaye-engine hermes FOLDER                   # SOUL.md, profiles/, skills/ into a Hermes home
+kaye-engine hermes FOLDER -n                # report every write without touching disk
 kaye-engine export-image-prompt FOLDER          # write every image-prompt-subset exportable to FOLDER
 kaye-engine exportable EXPORTABLE           # print an exportable's content
 kaye-engine exportable ls                   # list every registered exportable name
@@ -130,7 +133,7 @@ kaye-engine o --prune --base-url URL        # also delete remote-only skills; cu
 
 Aliases: `blueprint` → `bp`; `blueprint list` → `bp ls`; `blueprint
 preview` → `bp p`; `blueprint render` → `bp r`; `blueprint validate` →
-`bp v`; `blueprint show` → `bp s`; `continue` → `c`; `export-image-prompt` → `img`; `dynamic-node` →
+`bp v`; `blueprint show` → `bp s`; `continue` → `c`; `hermes` → `m`; `export-image-prompt` → `img`; `dynamic-node` →
 `dn`; `dynamic-substitution` → `ds`; `claude` → `a`; `claude code`
 → `claude c`; `claude
 marketplace` → `claude m`; `claude plugin` → `claude p`; `claude skills` → `claude s`; `skill`
@@ -181,11 +184,14 @@ Bash command patterns) into `settings.json`, sourced from
 `kaye_engine/cli/claude/permission_cmds.jsonc` (parsed with `json5`, so
 comments are allowed).
 
-Every `claude` subcommand needs a consumer to call
-`setup_claude_cli(plugin_name, display_name, marketplace_name,
-chat_exportable_name, merged_coder_exportable_name, version,
-marketplace_folder_name)` before invoking the CLI — no default exists for
-any of the seven. On a bare checkout, or when it was never called, the
+Every `claude` and `hermes` subcommand needs a consumer to call
+`register_consumer(display_name, canonical_name, version)` first; `claude`
+also needs `setup_claude_cli(chat_exportable_name,
+merged_coder_exportable_name)` and `hermes` needs
+`setup_hermes_cli(soul_blueprint_name, profile_blueprint_names)` — no
+default exists for any of them. The plugin, marketplace, marketplace folder,
+and hermes skill category names are all the registered canonical name. On a
+bare checkout, or when it was never called, the
 getters log `logger.critical` and raise `SystemExit(1)` — expected, not a
 bug. Full getter list and rationale in `CONTEXT.md`.
 

@@ -34,7 +34,7 @@ def _calls_fixture():
         patch.object(select, "exportable_registry", registry),
         patch.object(skill_cli, "check_corpus_setup_for_cli"),
         patch.object(
-            skill_cli, "get_claude_cli_consumer_version", return_value="1"
+            skill_cli, "get_consumer_version", return_value="1"
         ),
         patch.object(skill_cli, "export_skills_as_folders") as folders,
         patch.object(skill_cli, "export_skills_as_zips") as zips,

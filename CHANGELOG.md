@@ -3,7 +3,6 @@
 [^format]
 
 <!--
-todo support hermes
 todo support mux consumer project
 
 bug continue exporting missing some skills
@@ -26,6 +25,51 @@ manually add chat & coder, instead by data structure
 
 
 ## [Unreleased]
+
+### Hermes Export
+
+**Purpose**: write a Hermes home directory in one command, the way `claude`
+and `continue` already do for their targets.
+
+- new `hermes` subcommand (alias `m`) takes a required `FOLDER` and writes
+  a root `SOUL.md`, `profiles/<name>/SOUL.md` per profile, and every
+  exportable as an Agent Skill under `skills/<category>/`
+- new `setup_hermes_cli(soul_blueprint_name, profile_blueprint_names)` lets a consumer name the soul and profile
+  blueprints; unknown names exit 1
+- `SOUL.md` files render from `blueprint_registry`, so a blueprint kept out
+  of `exportable_registry` can still be a soul or profile without becoming a
+  skill
+- the shared render options and `--dry-run` apply
+- see [`docs/hermes-doc.md`](docs/hermes-doc.md)
+
+### Consumer Registration
+
+**Purpose**: a consumer states its identity once, and the `claude` and
+`hermes` setups derive from it instead of repeating it.
+
+- new `register_consumer(display_name, canonical_name, version)`, exported
+  from `kaye_engine`; `canonical_name` must be kebab case
+- new getters `get_consumer_display_name()`, `get_consumer_canonical_name()`,
+  `get_consumer_version()`; each exits 1 when nothing is registered
+- the canonical name is the plugin name, the marketplace name, the
+  marketplace folder name, and the Hermes skill category
+- `setup_claude_cli(...)` now takes `chat_exportable_name`,
+  `merged_coder_exportable_name`, `affordance_groups`, `surface_profiles`
+- `setup_hermes_cli(...)` now takes `soul_blueprint_name`,
+  `profile_blueprint_names`; `hermes` takes its version from
+  `register_consumer(...)`
+
+> [!WARNING]
+> `setup_claude_cli(...)` no longer accepts `plugin_name`, `display_name`,
+> `marketplace_name`, `version`, or `marketplace_folder_name`; call
+> `register_consumer(...)` instead. `get_claude_cli_consumer_version()` and
+> `get_claude_cli_display_name()` are replaced by `get_consumer_version()`
+> and `get_consumer_display_name()`.
+
+> [!WARNING]
+> `setup_hermes_cli(...)` no longer accepts `skill_category`, and
+> `get_hermes_skill_category()` is removed; the skill folder is named by the
+> registered canonical name.
 
 ### Optimize Blueprint Data Structure
 

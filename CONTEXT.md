@@ -1,6 +1,6 @@
 # kaye-engine CONTEXT
 
-**Last updated:** 2026-10-01
+**Last updated:** 2026-10-02
 
 System knowledge for the **kaye-engine** repository — architecture,
 entities, and boundaries. Read this alongside `AGENTS.md` before making
@@ -18,7 +18,7 @@ through a Python API and a CLI.
 | distribution / import name | `kaye-engine` / `kaye_engine` |
 | dependencies | `anytree`, `json5`, `pyahocorasick`, `pyyaml` |
 | entry point | `kaye-engine` console script → `kaye_engine.__main__:main` |
-| CLI subcommands | `blueprint`, `claude`, `continue`, `export-image-prompt`, `dynamic-node`, `dynamic-substitution`, `exportable`, `export-json`, `affordance`, `variant`, `glossary`, `skill`, `sync-open-webui-skills` |
+| CLI subcommands | `blueprint`, `claude`, `continue`, `hermes`, `export-image-prompt`, `dynamic-node`, `dynamic-substitution`, `exportable`, `export-json`, `affordance`, `variant`, `glossary`, `skill`, `sync-open-webui-skills` |
 
 ## Personalization Boundary
 
@@ -279,6 +279,7 @@ from kaye_engine import (
     register_abbr_glossary,
     register_blueprint,
     register_comment_line,
+    register_consumer,
     register_dynamic_substitution,
     setup_claude_cli,
 )
@@ -294,11 +295,11 @@ submodule (`kaye_engine.abbr_collection`, `kaye_engine.prompt`) instead.
 A caller loads and caches a corpus by name; one tree may be flagged the
 process default, which is what a blueprint resolves against when given no
 explicit tree. A consumer that exports through `claude` subcommands must also
-call `setup_claude_cli(plugin_name, display_name, marketplace_name,
-chat_exportable_name, merged_coder_exportable_name, version,
-marketplace_folder_name)` — none of the seven has a default;
-`display_name` lets each consumer stamp its own `plugin.json`
-`display_name`. Q.v. [Kaye Engine: `prompt` module
+call `register_consumer(display_name, canonical_name, version)` and
+`setup_claude_cli(chat_exportable_name, merged_coder_exportable_name)` — none
+has a default; `display_name` is stamped into `plugin.json`, and the kebab
+`canonical_name` doubles as plugin, marketplace, and marketplace folder
+name. Q.v. [Kaye Engine: `prompt` module
 Documentation](docs/prompt-doc.md).
 
 Every CLI subcommand entrypoint calls a setup guard
@@ -306,12 +307,13 @@ Every CLI subcommand entrypoint calls a setup guard
 `claude` subcommands) that logs an error — never raises — when a consumer
 hasn't loaded a default corpus tree or registered any blueprints. It exists
 to surface a bare-checkout misuse early, not to enforce the boundary. The
-plugin name, display name, marketplace name, Chat/Coder blueprint names,
-version, and marketplace folder name are enforced separately, each by its own
-getter (`get_plugin_name()`, `get_claude_cli_display_name()`,
-`get_marketplace_name()`, `get_claude_chat_exportable()`,
-`get_claude_merged_coder_exportable()`, `get_claude_cli_consumer_version()`,
-`get_marketplace_folder_name()`), which logs `logger.critical` and raises
+consumer identity and the Chat/Coder blueprint names are enforced
+separately, each by its own getter (`get_consumer_display_name()`,
+`get_consumer_canonical_name()`, `get_consumer_version()`,
+`get_claude_chat_exportable()`, `get_claude_merged_coder_exportable()`; the
+plugin, marketplace, and marketplace folder getters `get_plugin_name()`,
+`get_marketplace_name()`, `get_marketplace_folder_name()` return the canonical
+name), which logs `logger.critical` and raises
 `SystemExit(1)` when unset — or, for the blueprint getters, when the
 configured name is not in `blueprint_registry` — rather than letting `None`
 or an unresolved name reach path, manifest, or prompt building.
@@ -359,6 +361,8 @@ kaye_engine/
 │   └── affordance_registry.py  Affordance/Variant two-level registry,
 │                                Usage/Lack/Fallback sidecar names
 ├── abbr_collection/     abbreviation entries, store, JSON loader
+├── consumer.py          register_consumer: display name, canonical name,
+│                        version; getters read by claude and hermes
 ├── exportable/           Exportable base, exportable_registry
 │   └── image_prompt_export.py  image_prompt_exportable_registry,
 │                            register_image_prompt_exportable
@@ -382,6 +386,10 @@ kaye_engine/
 │   │   ├── rule_md.py       ContinueRule frontmatter doc + factory
 │   │   ├── export_rules.py  classify_exportable, export_continue_folder
 │   │   └── parser.py        parser + handler
+│   ├── hermes/          `hermes`/`m` subcommand: a Hermes home directory
+│   │   ├── setup.py     setup_hermes_cli + getters (consumer configuration)
+│   │   ├── export.py    export_hermes_folder: SOUL.md files + skills/
+│   │   └── parser.py    parser + handler
 │   ├── open_webui/      `sync-open-webui-skills`/`o` subcommand: push
 │   │   │                exportables into Open WebUI as skills
 │   │   ├── skill_form.py  build_skill_form: Exportable -> SkillForm dict
@@ -419,6 +427,14 @@ otherwise `llm_invokable` gives a rule, `is_user_invokable` alone gives an
 invokable prompt, and an entry with neither is skipped. Files are named
 `<canonical_name>.md` under `rules/` or `prompts/`. The `--surface` flag
 has no default there.
+
+`hermes` is configured by the consumer through `register_consumer(...)` and
+`setup_hermes_cli(soul_blueprint_name, profile_blueprint_names)`, which checks every name against
+`blueprint_registry` and exits 1 on an unknown one. It renders the soul and
+profile blueprints from `blueprint_registry` (so non-exportable entries work)
+into `SOUL.md` and `profiles/<name>/SOUL.md`, and delegates `skills/<canonical name>/`
+to `export_skills_as_folders`, which only ever sees `exportable_registry`.
+The skill version comes from `register_consumer`. Comments are hidden by default.
 
 ## Testing Strategy
 
