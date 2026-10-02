@@ -9,7 +9,7 @@ Kaye Engine's integration with Anthropic Claude: exporting corpus blueprints as 
 
 ## available CLI commands
 
-`kaye-engine claude` (alias `a`) exposes one subcommand per Claude export target. Every subcommand needs a consumer project to call `setup_claude_cli(...)` first (q.v. [Consumer Requirement](#consumer-requirement)); without it the command logs an error instead of writing files.
+`kaye-engine claude` (alias `a`) exposes one subcommand per Claude export target. Every subcommand needs a consumer project to call `register_consumer(...)` and `setup_claude_cli(...)` first (q.v. [Consumer Requirement](#consumer-requirement)); without it the command logs an error instead of writing files.
 
 > [!TIP]
 > Run `kaye-engine claude [SUBCOMMAND] -h` any time to see the live flags.
@@ -133,7 +133,7 @@ CLAUDE_FOLDER/               (default: ~/.claude)
         └── PLUGIN_NAME/
 ```
 
-The marketplace folder name is set via `setup_claude_cli(~~)`. `settings.json` gains Bash command permissions covering git, system commands (`sudo`, `kill`, `systemctl`), package managers, `pytest`, and `docker`.
+The marketplace folder name is the canonical name given to `register_consumer(~~)`. `settings.json` gains Bash command permissions covering git, system commands (`sudo`, `kill`, `systemctl`), package managers, `pytest`, and `docker`.
 
 To load the marketplace in VS Code:
 
@@ -176,7 +176,7 @@ The merged Coder exportable (`merged_coder_exportable_name`) is expected to carr
 
 ----
 
-A `claude`-exporting consumer must call `setup_claude_cli(~~)` before invoking the CLI. It supplies the plugin name, the marketplace folder name, the Chat and merged Coder exportable names, and the version, which is the consumer's own and is stamped into every `plugin.json`, `marketplace.json`, and `SKILL.md` the CLI writes.
+A `claude`-exporting consumer must call `register_consumer(display_name, canonical_name, version)` and `setup_claude_cli(~~)` before invoking the CLI. `register_consumer` supplies the display name, the version, and the kebab canonical name, which is used as the plugin name, marketplace name, and marketplace folder name; `setup_claude_cli` supplies the Chat and merged Coder exportable names. The version is the consumer's own and is stamped into every `plugin.json`, `marketplace.json`, and `SKILL.md` the CLI writes.
 
 ## Surfaces
 
