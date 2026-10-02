@@ -217,6 +217,12 @@ input type and returns one output type.
   per-file success lines are gone
 - CLI guides merged into `docs/claude-doc.md`, `docs/continue-doc.md`,
   `docs/open-webui-doc.md`, and the `export-json` command help
+- `docs/abbrs-doc.md`, `docs/corpus-doc.md`, `docs/dynamic-content-doc.md`,
+  `docs/exportable-registry-doc.md`, and `docs/prompt-doc.md` rewritten as
+  full references; `docs/affordance-doc.md` and `docs/sidecar-node-doc.md`
+  merged into `docs/sidecar-doc.md`
+- Claude CLI help and docstrings unify on "Chat Blueprint"/"Coder
+  Blueprint" naming and drop the "kaye" prefix from plugin references
 
 - `skill` no longer exports every skill into a default folder; that is now
   `claude skills`. The `skill` command's own FOLDER is required
