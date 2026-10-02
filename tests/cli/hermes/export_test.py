@@ -10,10 +10,12 @@ from unittest.mock import patch
 
 import pytest
 
+from kaye_engine import consumer
 from kaye_engine.cli import hermes
 from kaye_engine.cli.dry_run import disable_dry_run, enable_dry_run
 from kaye_engine.cli.hermes.export import export_hermes_folder
 from kaye_engine.cli.hermes.setup import setup_hermes_cli
+from kaye_engine.consumer import register_consumer
 from kaye_engine.exportable import exportable_registry
 from kaye_engine.prompt.blueprint import BlueprintRegistry, blueprint_registry
 from kaye_engine.prompt.blueprint.data import Blueprint, BlueprintMeta
@@ -41,8 +43,13 @@ def _inline_corpus():
         "kaye-chat": _registry("kaye-chat", is_exportable=False),
         "ria-chat": _registry("ria-chat", is_exportable=False),
     }
+    saved_consumer = (
+        consumer._display_name,
+        consumer._canonical_name,
+        consumer._version,
+    )
+    register_consumer("Kaye", "kaye", "1.0")
     saved = (
-        hermes._skill_category,
         hermes._soul_blueprint_name,
         hermes._profile_blueprint_names,
     )
@@ -50,14 +57,18 @@ def _inline_corpus():
         exportable_registry, {"chat": entries["chat"]}, clear=True
     ):
         setup_hermes_cli(
-            "kaye", "chat", {"kaye": "kaye-chat", "ria": "ria-chat"}
+            "chat", {"kaye": "kaye-chat", "ria": "ria-chat"}
         )
         yield
     (
-        hermes._skill_category,
         hermes._soul_blueprint_name,
         hermes._profile_blueprint_names,
     ) = saved
+    (
+        consumer._display_name,
+        consumer._canonical_name,
+        consumer._version,
+    ) = saved_consumer
     disable_dry_run()
     clear_corpus_tree()
 
@@ -91,7 +102,7 @@ class TestExportHermesFolder:
         assert not (tmp_path / "home").exists()
 
     def test_unset_configuration_exits_one(_, tmp_path):
-        hermes._skill_category = None
+        hermes._soul_blueprint_name = None
         with pytest.raises(SystemExit) as info:
             export_hermes_folder(tmp_path, version="1.0")
         assert info.value.code == 1

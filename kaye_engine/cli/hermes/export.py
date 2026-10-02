@@ -11,9 +11,9 @@ from kaye_engine.cli.dry_run import is_dry_run
 from kaye_engine.cli.hermes import LOGGER_HERMES_NAME
 from kaye_engine.cli.hermes.setup import (
     get_hermes_profile_blueprint_names,
-    get_hermes_skill_category,
     get_hermes_soul_blueprint_name,
 )
+from kaye_engine.consumer import get_consumer_canonical_name
 from kaye_engine.prompt.blueprint import blueprint_registry
 from kaye_engine.skill.export_folders import export_skills_as_folders
 
@@ -79,7 +79,7 @@ def export_hermes_folder(folder, *, version, render_profile=None):
     :raises SystemExit: exit code 1, when no consumer project has called
             ``setup_hermes_cli(...)`` or a file cannot be written
     """
-    category = get_hermes_skill_category()
+    category = get_consumer_canonical_name()
     soul_name = get_hermes_soul_blueprint_name()
     profile_names = get_hermes_profile_blueprint_names()
 
