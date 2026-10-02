@@ -1,6 +1,6 @@
 # kaye-engine CONTEXT
 
-**Last updated:** 2026-10-01
+**Last updated:** 2026-10-02
 
 System knowledge for the **kaye-engine** repository — architecture,
 entities, and boundaries. Read this alongside `AGENTS.md` before making
@@ -18,7 +18,7 @@ through a Python API and a CLI.
 | distribution / import name | `kaye-engine` / `kaye_engine` |
 | dependencies | `anytree`, `json5`, `pyahocorasick`, `pyyaml` |
 | entry point | `kaye-engine` console script → `kaye_engine.__main__:main` |
-| CLI subcommands | `blueprint`, `claude`, `continue`, `export-image-prompt`, `dynamic-node`, `dynamic-substitution`, `exportable`, `export-json`, `affordance`, `variant`, `glossary`, `skill`, `sync-open-webui-skills` |
+| CLI subcommands | `blueprint`, `claude`, `continue`, `hermes`, `export-image-prompt`, `dynamic-node`, `dynamic-substitution`, `exportable`, `export-json`, `affordance`, `variant`, `glossary`, `skill`, `sync-open-webui-skills` |
 
 ## Personalization Boundary
 
@@ -382,6 +382,10 @@ kaye_engine/
 │   │   ├── rule_md.py       ContinueRule frontmatter doc + factory
 │   │   ├── export_rules.py  classify_exportable, export_continue_folder
 │   │   └── parser.py        parser + handler
+│   ├── hermes/          `hermes`/`m` subcommand: a Hermes home directory
+│   │   ├── setup.py     setup_hermes_cli + getters (consumer configuration)
+│   │   ├── export.py    export_hermes_folder: SOUL.md files + skills/
+│   │   └── parser.py    parser + handler
 │   ├── open_webui/      `sync-open-webui-skills`/`o` subcommand: push
 │   │   │                exportables into Open WebUI as skills
 │   │   ├── skill_form.py  build_skill_form: Exportable -> SkillForm dict
@@ -419,6 +423,14 @@ otherwise `llm_invokable` gives a rule, `is_user_invokable` alone gives an
 invokable prompt, and an entry with neither is skipped. Files are named
 `<canonical_name>.md` under `rules/` or `prompts/`. The `--surface` flag
 has no default there.
+
+`hermes` is configured by the consumer through `setup_hermes_cli(skill_category,
+soul_blueprint_name, profile_blueprint_names)`, which checks every name against
+`blueprint_registry` and exits 1 on an unknown one. It renders the soul and
+profile blueprints from `blueprint_registry` (so non-exportable entries work)
+into `SOUL.md` and `profiles/<name>/SOUL.md`, and delegates `skills/<category>/`
+to `export_skills_as_folders`, which only ever sees `exportable_registry`.
+The skill version comes from `setup_claude_cli`. Comments are hidden by default.
 
 ## Testing Strategy
 

@@ -3,8 +3,6 @@
 [^format]
 
 <!--
-TODO support hermes
-
 todo support mux consumer project
 
 bug continue exporting missing some skills
@@ -27,6 +25,23 @@ manually add chat & coder, instead by data structure
 
 
 ## [Unreleased]
+
+### Hermes Export
+
+**Purpose**: write a Hermes home directory in one command, the way `claude`
+and `continue` already do for their targets.
+
+- new `hermes` subcommand (alias `m`) takes a required `FOLDER` and writes
+  a root `SOUL.md`, `profiles/<name>/SOUL.md` per profile, and every
+  exportable as an Agent Skill under `skills/<category>/`
+- new `setup_hermes_cli(skill_category, soul_blueprint_name,
+  profile_blueprint_names)` lets a consumer name the soul and profile
+  blueprints; unknown names exit 1
+- `SOUL.md` files render from `blueprint_registry`, so a blueprint kept out
+  of `exportable_registry` can still be a soul or profile without becoming a
+  skill
+- the shared render options and `--dry-run` apply
+- see [`docs/hermes-doc.md`](docs/hermes-doc.md)
 
 ### Optimize Blueprint Data Structure
 
