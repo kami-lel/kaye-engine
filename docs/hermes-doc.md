@@ -34,16 +34,16 @@ The two `SOUL.md` kinds render from `blueprint_registry`, so a blueprint registe
 ## Consumer Configuration
 
 ```python
-from kaye_engine import setup_hermes_cli
+from kaye_engine import register_consumer, setup_hermes_cli
 
+register_consumer("Kaye", "kaye", "1.0")  # skills/<canonical name>/, version
 setup_hermes_cli(
-    "kaye",                             # skills/<category>/
     "chat",                             # root SOUL.md
     {"kaye": "kaye-chat", "ria": "ria-chat"},  # profiles/<name>/SOUL.md
 )
 ```
 
-Call it after every named blueprint is registered; an unregistered name logs critical and exits 1. Running `hermes` before the call also exits 1. The skill version is the one given to `setup_claude_cli`.
+Call it after every named blueprint is registered; an unregistered name logs critical and exits 1. Running `hermes` before the call also exits 1. The skill folder name and version are the canonical name and version given to `register_consumer`; running `hermes` before that call also exits 1.
 
 ## Dry Run
 
