@@ -20,9 +20,9 @@ The command accepts the shared render options (`--surface` where the consumer co
 FOLDER/
 ├── SOUL.md
 ├── skills/
-│   └── <category>/<skill-name>/SKILL.md
+│   └── <consumer name>/<skill name>/SKILL.md
 └── profiles/
-    └── <profile>/SOUL.md
+    └── <profile name>/SOUL.md
 ```
 
 - `SOUL.md`: the soul blueprint, rendered
