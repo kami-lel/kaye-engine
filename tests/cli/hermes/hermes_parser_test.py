@@ -34,7 +34,7 @@ def _no_corpus_setup_guard():
 # pytest  ######################################################################
 class TestRegisterHermesParser:
 
-    @pytest.mark.parametrize("name", ["hermes", "h"])
+    @pytest.mark.parametrize("name", ["hermes", "m"])
     def test_name_and_alias(_, name, tmp_path):
         args = _build_parser().parse_args([name, str(tmp_path)])
 
@@ -55,7 +55,7 @@ class TestRegisterHermesParser:
 class TestHermesMain:
 
     def test_passes_folder_version_and_render_profile(_, tmp_path):
-        args = _build_parser().parse_args(["h", str(tmp_path)])
+        args = _build_parser().parse_args(["m", str(tmp_path)])
 
         with patch.object(parser, "export_hermes_folder") as export:
             args.func(args)
@@ -66,6 +66,6 @@ class TestHermesMain:
         assert export.call_args.kwargs["render_profile"] is not None
 
     def test_dry_run_flag_parses(_, tmp_path):
-        args = _build_parser().parse_args(["h", str(tmp_path), "-n"])
+        args = _build_parser().parse_args(["m", str(tmp_path), "-n"])
 
         assert args.dry_run is True
