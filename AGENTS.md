@@ -184,11 +184,14 @@ Bash command patterns) into `settings.json`, sourced from
 `kaye_engine/cli/claude/permission_cmds.jsonc` (parsed with `json5`, so
 comments are allowed).
 
-Every `claude` subcommand needs a consumer to call
-`setup_claude_cli(plugin_name, display_name, marketplace_name,
-chat_exportable_name, merged_coder_exportable_name, version,
-marketplace_folder_name)` before invoking the CLI — no default exists for
-any of the seven. On a bare checkout, or when it was never called, the
+Every `claude` and `hermes` subcommand needs a consumer to call
+`register_consumer(display_name, canonical_name, version)` first; `claude`
+also needs `setup_claude_cli(chat_exportable_name,
+merged_coder_exportable_name)` and `hermes` needs
+`setup_hermes_cli(soul_blueprint_name, profile_blueprint_names)` — no
+default exists for any of them. The plugin, marketplace, marketplace folder,
+and hermes skill category names are all the registered canonical name. On a
+bare checkout, or when it was never called, the
 getters log `logger.critical` and raise `SystemExit(1)` — expected, not a
 bug. Full getter list and rationale in `CONTEXT.md`.
 
