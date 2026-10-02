@@ -21,6 +21,7 @@ from kaye_engine.cli.exportable_as_json_parser import (
 )
 from kaye_engine.cli.exportable_parser import register_exportable_parser
 from kaye_engine.cli.glossary_parser import register_glossary_parser
+from kaye_engine.cli.hermes.parser import register_hermes_parser
 from kaye_engine.cli.list_affordance_parser import (
     register_list_affordance_parser,
 )
@@ -41,7 +42,7 @@ PROGRAM_NAME = "kaye-engine"
 def register_cli_subcommands(cli_subparser):
     """
     register every engine-owned subcommand (``blueprint``, ``claude``,
-    ``continue``, the
+    ``continue``, ``hermes``, the
     export-image-prompt command, the dynamic-node command, the
     dynamic-substitution command, the exportable command, the
     export-json command, ``affordance``, ``variant``,
@@ -57,6 +58,7 @@ def register_cli_subcommands(cli_subparser):
     register_cli_blueprint_parser(cli_subparser)
     register_cli_claude_parser(cli_subparser)
     register_continue_parser(cli_subparser)
+    register_hermes_parser(cli_subparser)
     register_export_image_prompt_parser(cli_subparser)
     register_dynamic_node_parser(cli_subparser)
     register_dynamic_substitution_parser(cli_subparser)
