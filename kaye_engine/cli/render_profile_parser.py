@@ -27,10 +27,12 @@ __all__ = (
 # constants  ###################################################################
 RENDER_PROFILE_DESCRIPTION = """
 
-RENDER PROFILE OPTIONS:
+Render Profile Options:
 
 --surface, --comment/--no-comment, --conditional-sidecar, --variant,
---sparseness, and --reverse-order are shared by every rendering command,
+--sparseness, and --reverse-order
+
+shared by every rendering command,
 see the render profile documentation on GitHub:
 
     https://github.com/kami-lel/kaye-engine/blob/main/docs/render-profile-doc.md"""
