@@ -27,8 +27,10 @@ class Exportable(ABC):
     :param canonical_name: kebab-case name, used directly as the
             exported skill name
     :type canonical_name: str
-    :param display_name: human-readable name
-    :type display_name: str
+    :param display_name: human-readable name, ``""`` when the entry has
+            none; an implementer may derive it instead, as
+            `BlueprintRegistry` does from its blueprint's meta
+    :type display_name: str, optional
     :param is_user_invokable: whether a human may deliberately invoke this
             entry by name, rather than it only ever surfacing on its
             own; defaults to True
@@ -48,7 +50,7 @@ class Exportable(ABC):
     """
 
     canonical_name: str
-    display_name: str
+    display_name: str = ""
     is_user_invokable: bool = True
     llm_invokable: bool = True
     always_apply: bool = False

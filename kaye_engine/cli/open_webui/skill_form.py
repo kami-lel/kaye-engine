@@ -4,7 +4,7 @@ skill_form.py
 define ``build_skill_form``
 """
 
-from kaye_engine.cli.skill.skill_md import Skill
+from kaye_engine.skill.skill_md import Skill
 
 __all__ = ("SKILL_FORM_FIELDS", "build_skill_form")
 

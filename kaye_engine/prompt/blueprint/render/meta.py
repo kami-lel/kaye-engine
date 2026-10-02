@@ -1,9 +1,10 @@
 """
 render.meta.py
 
-define ``render_description``, ``render_when_to_use``,
-``render_description_and_when_to_use``, ``extract_globs`` -- what the
-skill and rule exporters read from a blueprint's ``meta``
+define ``show_display_name``, ``show_description``, ``show_when_to_use``,
+``show_description_and_when_to_use``, ``show_globs``,
+``show_dependencies`` -- what the skill and rule exporters, and the CLI,
+read from a blueprint
 """
 
 from ..index import BlueprintSelection, get_corpus_index
@@ -12,11 +13,17 @@ from .lines import render_prompt_lines
 from .util import REPLACEMENT_NEWLINE_SYMBOL
 
 __all__ = (
-    "extract_globs",
-    "render_description",
-    "render_description_and_when_to_use",
-    "render_when_to_use",
+    "show_dependencies",
+    "show_display_name",
+    "show_globs",
+    "show_description",
+    "show_description_and_when_to_use",
+    "show_when_to_use",
 )
+
+
+# constants  ###################################################################
+VALUE_DEPENDENCY_LABEL = "<blueprint value>"
 
 
 # auxiliaries  #################################################################
@@ -47,7 +54,20 @@ def _render_node_lines(path, *, sparseness):
 
 
 # Public API  ##################################################################
-def render_description(blueprint):
+def show_display_name(blueprint):
+    """
+    pure data: touches no corpus
+
+
+    :param blueprint:
+    :type blueprint: Blueprint
+    :return: the meta display name, ``""`` when unnamed
+    :rtype: str
+    """
+    return blueprint.meta.display_name
+
+
+def show_description(blueprint):
     """
     :param blueprint:
     :type blueprint: Blueprint
@@ -63,7 +83,7 @@ def render_description(blueprint):
     return lines[0] if lines else ""
 
 
-def render_when_to_use(blueprint):
+def show_when_to_use(blueprint):
     """
     :param blueprint:
     :type blueprint: Blueprint
@@ -75,7 +95,7 @@ def render_when_to_use(blueprint):
     return lines[0] if lines else ""
 
 
-def render_description_and_when_to_use(blueprint):
+def show_description_and_when_to_use(blueprint):
     """
     :param blueprint:
     :type blueprint: Blueprint
@@ -94,7 +114,24 @@ def render_description_and_when_to_use(blueprint):
     )
 
 
-def extract_globs(blueprint):
+def show_dependencies(blueprint):
+    """
+    pure data: touches no corpus
+
+
+    :param blueprint:
+    :type blueprint: Blueprint
+    :return: the dependency names in order; a dependency carried as a
+            value has no name and shows as ``<blueprint value>``
+    :rtype: tuple[str, ...]
+    """
+    return tuple(
+        dep if isinstance(dep, str) else VALUE_DEPENDENCY_LABEL
+        for dep in blueprint.dependencies
+    )
+
+
+def show_globs(blueprint):
     """
     :param blueprint:
     :type blueprint: Blueprint

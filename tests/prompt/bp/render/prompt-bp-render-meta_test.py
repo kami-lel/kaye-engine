@@ -3,18 +3,20 @@ prompt-bp-render-meta_test.py
 
 Unit Tests (using pytest) for:
 
-render_description, render_when_to_use,
-render_description_and_when_to_use, extract_globs
+show_display_name, show_description, show_when_to_use,
+show_description_and_when_to_use, show_globs
 """
 
 import pytest
 
 from kaye_engine.prompt.blueprint.data import Blueprint, BlueprintMeta
 from kaye_engine.prompt.blueprint.render.meta import (
-    extract_globs,
-    render_description,
-    render_description_and_when_to_use,
-    render_when_to_use,
+    show_dependencies,
+    show_globs,
+    show_description,
+    show_description_and_when_to_use,
+    show_display_name,
+    show_when_to_use,
 )
 from kaye_engine.prompt.blueprint.render.util import (
     REPLACEMENT_NEWLINE_SYMBOL,
@@ -55,33 +57,48 @@ def _bp(**meta):
 
 
 # pytest  ######################################################################
+class TestDisplayName:
+
+    def test_returns_meta_name(_):
+        assert show_display_name(_bp(display_name="Ria")) == "Ria"
+
+    def test_unnamed_is_empty(_):
+        assert show_display_name(_bp()) == ""
+
+    def test_touches_no_corpus(_):
+        # pure data: a dangling meta node path is never looked up
+        bp = _bp(display_name="X", description_node=("Nope",))
+
+        assert show_display_name(bp) == "X"
+
+
 class TestDescription:
 
     def test_from_node(_):
-        assert render_description(_bp(description_node=DESC)) == (
+        assert show_description(_bp(description_node=DESC)) == (
             "Ria is a persona."
         )
 
     def test_literal_has_priority(_):
         bp = _bp(description="Literal", description_node=DESC)
 
-        assert render_description(bp) == "Literal"
+        assert show_description(bp) == "Literal"
 
     def test_none_set(_):
-        assert render_description(_bp()) == ""
+        assert show_description(_bp()) == ""
 
     def test_empty_node(_):
-        assert render_description(_bp(description_node=BARE)) == ""
+        assert show_description(_bp(description_node=BARE)) == ""
 
     def test_unknown_node_raises(_):
         with pytest.raises(ValueError, match="Nope"):
-            render_description(_bp(description_node=("Nope",)))
+            show_description(_bp(description_node=("Nope",)))
 
 
 class TestWhenToUse:
 
     def test_multi_paragraph_joined_on_one_line(_):
-        out = render_when_to_use(_bp(when_to_use_node=WHEN))
+        out = show_when_to_use(_bp(when_to_use_node=WHEN))
 
         assert out == (
             "Use when summoning Ria."
@@ -90,13 +107,13 @@ class TestWhenToUse:
         )
 
     def test_none_set(_):
-        assert render_when_to_use(_bp()) == ""
+        assert show_when_to_use(_bp()) == ""
 
 
 class TestDescriptionAndWhenToUse:
 
     def test_joined(_):
-        out = render_description_and_when_to_use(
+        out = show_description_and_when_to_use(
             _bp(description_node=DESC, when_to_use_node=WHEN)
         )
 
@@ -106,28 +123,44 @@ class TestDescriptionAndWhenToUse:
         )
 
     def test_literal_has_priority(_):
-        out = render_description_and_when_to_use(
+        out = show_description_and_when_to_use(
             _bp(description="Literal", when_to_use_node=WHEN)
         )
 
         assert out == "Literal"
 
     def test_only_when_to_use(_):
-        out = render_description_and_when_to_use(_bp(when_to_use_node=WHEN))
+        out = show_description_and_when_to_use(_bp(when_to_use_node=WHEN))
 
         assert out.startswith("Use when summoning Ria.")
 
     def test_none_set(_):
-        assert render_description_and_when_to_use(_bp()) == ""
+        assert show_description_and_when_to_use(_bp()) == ""
 
 
 class TestGlobs:
 
     def test_extracts_fenced_glob_block(_):
-        assert extract_globs(_bp(globs_node=GLOBS)) == ["**/*.py", "*.md"]
+        assert show_globs(_bp(globs_node=GLOBS)) == ["**/*.py", "*.md"]
 
     def test_none_set(_):
-        assert extract_globs(_bp()) == []
+        assert show_globs(_bp()) == []
 
     def test_node_without_block(_):
-        assert extract_globs(_bp(globs_node=DESC)) == []
+        assert show_globs(_bp(globs_node=DESC)) == []
+
+
+class TestDependencies:
+
+    def test_none(_):
+        assert show_dependencies(Blueprint()) == ()
+
+    def test_names_keep_order(_):
+        bp = Blueprint(dependencies=("b", "a"))
+
+        assert show_dependencies(bp) == ("b", "a")
+
+    def test_value_dependency_shows_as_label(_):
+        bp = Blueprint(dependencies=("a", Blueprint()))
+
+        assert show_dependencies(bp) == ("a", "<blueprint value>")

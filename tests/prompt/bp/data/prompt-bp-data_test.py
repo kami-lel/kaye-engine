@@ -20,8 +20,10 @@ from kaye_engine.prompt.blueprint.data import (
     BlueprintMeta,
     create_blueprint,
     decode_blueprint,
+    dump_blueprint,
     encode_blueprint,
     load_blueprint,
+    parse_blueprint_json,
     save_blueprint,
 )
 
@@ -31,7 +33,9 @@ from kaye_engine.prompt.blueprint.data import (
 def blueprint():
     return Blueprint(
         meta=BlueprintMeta(
-            description="Does things", globs_node=("Style", "{globs}")
+            display_name="Thing Doer",
+            description="Does things",
+            globs_node=("Style", "{globs}"),
         ),
         nodes=frozenset({("A", "B"), ("C",)}),
         subtrees=frozenset({("Amanuensis", "Redactor")}),
@@ -91,7 +95,7 @@ class TestJson:
     def test_round_trip_through_text(_, blueprint):
         text = json.dumps(encode_blueprint(blueprint))
 
-        assert decode_blueprint(text) == blueprint
+        assert parse_blueprint_json(text) == blueprint
 
     def test_envelope_carries_schema(_, blueprint):
         assert encode_blueprint(blueprint)["schema"] == 1
@@ -122,6 +126,20 @@ class TestJson:
     def test_minimal_hand_written(_):
         assert decode_blueprint({"schema": 1}) == Blueprint()
 
+    def test_display_name_round_trips(_, blueprint):
+        encoded = encode_blueprint(blueprint)
+
+        assert encoded["meta"]["display_name"] == "Thing Doer"
+        assert decode_blueprint(encoded).meta.display_name == "Thing Doer"
+
+    def test_absent_display_name_decodes_empty(_):
+        bp = decode_blueprint({"schema": 1, "meta": {"description": "x"}})
+
+        assert bp.meta.display_name == ""
+
+    def test_empty_display_name_not_encoded(_):
+        assert "display_name" not in encode_blueprint(Blueprint())["meta"]
+
     @pytest.mark.parametrize(
         "data",
         [
@@ -130,8 +148,10 @@ class TestJson:
             {"schema": 1, "nodes": [["ok", 3]]},
             {"schema": 1, "nodes": ["flat"]},
             {"schema": 1, "meta": {"description": 4}},
+            {"schema": 1, "meta": {"display_name": 4}},
             [],
             "not json",
+            '{"schema": 1}',
         ],
     )
     def test_malformed_raises(_, data):
@@ -148,6 +168,41 @@ class TestJson:
     def test_decode_needs_no_corpus(_):
         # no corpus is loaded by this suite: decoding must still work
         assert decode_blueprint({"schema": 1, "nodes": [["A"]]}).nodes
+
+
+class TestDump:
+
+    def test_round_trip(_, blueprint):
+        assert parse_blueprint_json(dump_blueprint(blueprint)) == blueprint
+
+    def test_ends_with_newline(_, blueprint):
+        assert dump_blueprint(blueprint).endswith("}\n")
+
+    def test_indent_applies(_):
+        assert '\n    "schema"' in dump_blueprint(Blueprint(), indent=4)
+
+    def test_save_writes_dump(_, blueprint, tmp_path):
+        path = tmp_path / "bp.json"
+        save_blueprint(blueprint, path)
+
+        assert path.read_text(encoding="utf-8") == dump_blueprint(blueprint)
+
+
+class TestParseJson:
+
+    def test_parses_dumped_text(_):
+        blueprint = Blueprint(nodes=frozenset({("A",)}))
+        text = json.dumps(encode_blueprint(blueprint))
+
+        assert parse_blueprint_json(text) == blueprint
+
+    def test_malformed_json_raises(_):
+        with pytest.raises(ValueError, match="not valid JSON"):
+            parse_blueprint_json("{nope")
+
+    def test_unknown_schema_raises(_):
+        with pytest.raises(ValueError, match="schema"):
+            parse_blueprint_json('{"schema": 99}')
 
 
 class TestPickle:

@@ -223,6 +223,14 @@ class TestMerge:
             merge_blueprints(right, left).nodes
         )
 
+    def test_empty_left_display_name_falls_to_right(_):
+        merged = merge_blueprints(
+            Blueprint(),
+            Blueprint(meta=BlueprintMeta(display_name="right")),
+        )
+
+        assert merged.meta.display_name == "right"
+
     def test_meta_left_priority(_):
         left = Blueprint(meta=BlueprintMeta(description="left"))
         right = Blueprint(
@@ -263,6 +271,11 @@ class TestReplaceMeta:
 
         assert bp.meta.globs_node == GLOBS
         assert bp.meta.description_node == INTRO
+
+    def test_display_name(_):
+        bp = replace_meta(create_blueprint(), display_name="X")
+
+        assert bp.meta.display_name == "X"
 
     def test_none_clears(_):
         bp = replace_meta(create_blueprint(), description="x")
@@ -312,7 +325,17 @@ class TestCreateFromNode:
         assert bp.meta.globs_node == GLOBS
         assert bp.meta.description_node is None
 
-    def test_no_sidecar_children_leaves_meta_empty(_):
+    def test_no_sidecar_children_leaves_only_node_name(_):
         bp = create_blueprint_from_node(INTRO)
 
-        assert bp.meta == BlueprintMeta()
+        assert bp.meta == BlueprintMeta(display_name=INTRO[-1])
+
+    def test_defaults_display_name_to_node_name(_):
+        assert create_blueprint_from_node(METHODS).meta.display_name == (
+            METHODS[-1]
+        )
+
+    def test_explicit_meta_keeps_display_name_empty(_):
+        bp = create_blueprint_from_node(INTRO, meta=BlueprintMeta())
+
+        assert bp.meta.display_name == ""

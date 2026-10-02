@@ -36,8 +36,8 @@ logger = kamilog.getLogger(LOGGER_CLAUDE_NAME)
 # constants  ###################################################################
 _DESCRIPTION = __doc__ + """
 
-writes CLAUDE.md as the User System Prompt (Chat + Coder blueprint) and
-exports the kaye plugin into plugins/
+writes CLAUDE.md as the User System Prompt (Chat Blueprint + Coder Blueprint)
+and exports the plugin into plugins/
 
 CLAUDE_FOLDER/  (default: ~/.claude)
 ├── CLAUDE.md  (User System Prompt)
@@ -77,7 +77,7 @@ def register_code_parser(cli_subparser):  ######################################
         metavar="CLAUDE_FOLDER",
         type=Path,
         default=DEFAULT_CLAUDE_FOLDER,
-        help="path to local .claude/ folder; default: ~/.claude",
+        help="path to local .claude/ folder; default: ~/.claude, v.s.",
     )
 
     kamilog.add_verbose_arguments(code_parser)

@@ -10,12 +10,18 @@ Unit Tests (using pytest) for:
 import pytest
 
 from kaye_engine.exportable import exportable_registry
-from kaye_engine.prompt.blueprint.data import Blueprint, create_blueprint
+from kaye_engine.prompt.blueprint.data import (
+    Blueprint,
+    BlueprintMeta,
+    create_blueprint,
+)
+from kaye_engine.prompt.blueprint.edit import replace_meta
 from kaye_engine.prompt.blueprint.registry import (
     BlueprintRegistry,
     register_blueprint,
     blueprint_registry,
 )
+from kaye_engine.prompt.blueprint.render_mode import RenderMode
 from kaye_engine.prompt.blueprint.render_profile import RenderProfile
 from kaye_engine.prompt.prompt_corpus_loader import (
     clear_corpus_tree,
@@ -32,12 +38,61 @@ def registered_names():
         exportable_registry.pop(name, None)
 
 
+class TestDisplayName:  ########################################################
+
+    def test_meta_name_is_the_entry_name(_, registered_names):
+        bp = Blueprint(meta=BlueprintMeta(display_name="From Meta"))
+
+        reg = register_blueprint("test-registry-meta-name", bp)
+        registered_names.append(reg.canonical_name)
+
+        assert reg.display_name == "From Meta"
+
+    def test_meta_name_beats_explicit_argument(_, registered_names):
+        bp = Blueprint(meta=BlueprintMeta(display_name="From Meta"))
+
+        reg = register_blueprint(
+            "test-registry-meta-wins", bp, display_name="Explicit"
+        )
+        registered_names.append(reg.canonical_name)
+
+        assert reg.display_name == "From Meta"
+
+    def test_explicit_argument_is_the_fallback(_, registered_names):
+        reg = register_blueprint(
+            "test-registry-fallback",
+            create_blueprint(),
+            display_name="Explicit",
+        )
+        registered_names.append(reg.canonical_name)
+
+        assert reg.display_name == "Explicit"
+
+    def test_empty_everywhere_is_empty(_, registered_names):
+        reg = register_blueprint("test-registry-unnamed", create_blueprint())
+        registered_names.append(reg.canonical_name)
+
+        assert reg.display_name == ""
+
+    def test_reassigned_blueprint_is_read_live(_, registered_names):
+        reg = register_blueprint("test-registry-live", create_blueprint())
+        registered_names.append(reg.canonical_name)
+
+        reg.blueprint = replace_meta(reg.blueprint, display_name="Later")
+
+        assert reg.display_name == "Later"
+
+
 class TestRegisterBlueprint:  ###################################################
 
     def test_dft(_, registered_names):
         bp = create_blueprint()
 
-        reg = register_blueprint("test-registry-dft", "Test Registry Dft", bp)
+        reg = register_blueprint(
+            "test-registry-dft",
+            bp,
+            display_name="Test Registry Dft",
+        )
         registered_names.append(reg.canonical_name)
 
         assert isinstance(reg, BlueprintRegistry)
@@ -57,8 +112,8 @@ class TestRegisterBlueprint:  ##################################################
 
         reg = register_blueprint(
             "test-registry-flags",
-            "Test Registry Flags",
             bp,
+            display_name="Test Registry Flags",
             is_user_invokable=False,
             llm_invokable=False,
             always_apply=True,
@@ -78,8 +133,8 @@ class TestRegisterBlueprint:  ##################################################
 
         reg = register_blueprint(
             "test-registry-internal",
-            "Test Registry Internal",
             bp,
+            display_name="Test Registry Internal",
             is_exportable=False,
         )
         registered_names.append(reg.canonical_name)
@@ -95,8 +150,8 @@ class TestRegisterBlueprint:  ##################################################
 
         reg = register_blueprint(
             "test-registry-sidecars",
-            "Test Registry Sidecars",
             bp,
+            display_name="Test Registry Sidecars",
             render_profile=RenderProfile(
                 conditional_sidecars=("for Kaye",), variants=()
             ),
@@ -109,11 +164,19 @@ class TestRegisterBlueprint:  ##################################################
     def test_duplicate_name(_, registered_names):
         bp = create_blueprint()
 
-        reg = register_blueprint("test-registry-dup", "Test Registry Dup", bp)
+        reg = register_blueprint(
+            "test-registry-dup",
+            bp,
+            display_name="Test Registry Dup",
+        )
         registered_names.append(reg.canonical_name)
 
         with pytest.raises(ValueError) as exec_info:
-            register_blueprint("test-registry-dup", "Another Name", bp)
+            register_blueprint(
+                "test-registry-dup",
+                bp,
+                display_name="Another Name",
+            )
 
         opt = exec_info.value.args[0]
         print(opt)
@@ -186,7 +249,11 @@ class TestRegisterValidation:  #################################################
         bp = create_blueprint(dependencies=["no-such-blueprint"])
 
         with pytest.raises(ValueError, match="no-such-blueprint"):
-            register_blueprint("test-registry-baddep", "Bad Dep", bp)
+            register_blueprint(
+                "test-registry-baddep",
+                bp,
+                display_name="Bad Dep",
+            )
 
         assert "test-registry-baddep" not in blueprint_registry
 
@@ -195,16 +262,24 @@ class TestRegisterValidation:  #################################################
         bp = Blueprint(dependencies=(inner,))
 
         with pytest.raises(ValueError, match="no-such-blueprint"):
-            register_blueprint("test-registry-nested", "Nested", bp)
+            register_blueprint(
+                "test-registry-nested",
+                bp,
+                display_name="Nested",
+            )
 
     def test_registered_dependency_is_accepted(_, registered_names):
-        dep = register_blueprint("test-registry-dep", "Dep", create_blueprint())
+        dep = register_blueprint(
+            "test-registry-dep",
+            create_blueprint(),
+            display_name="Dep",
+        )
         registered_names.append(dep.canonical_name)
 
         reg = register_blueprint(
             "test-registry-dependent",
-            "Dependent",
             create_blueprint(dependencies=["test-registry-dep"]),
+            display_name="Dependent",
         )
         registered_names.append(reg.canonical_name)
 
@@ -216,7 +291,11 @@ class TestRegisterValidation:  #################################################
         bp = Blueprint(nodes=frozenset({("A", "Nope")}))
 
         with pytest.raises(ValueError, match="Nope"):
-            register_blueprint("test-registry-badpath", "Bad Path", bp)
+            register_blueprint(
+                "test-registry-badpath",
+                bp,
+                display_name="Bad Path",
+            )
 
         assert "test-registry-badpath" not in blueprint_registry
 
@@ -226,8 +305,8 @@ class TestRegisterValidation:  #################################################
 
         reg = register_blueprint(
             "test-registry-goodpath",
-            "Good Path",
             Blueprint(nodes=frozenset({("A",)})),
+            display_name="Good Path",
         )
         registered_names.append(reg.canonical_name)
 
@@ -238,9 +317,45 @@ class TestRegisterValidation:  #################################################
 
         reg = register_blueprint(
             "test-registry-nocorpus",
-            "No Corpus",
             Blueprint(nodes=frozenset({("Anything",)})),
+            display_name="No Corpus",
         )
         registered_names.append(reg.canonical_name)
 
         assert reg.canonical_name in blueprint_registry
+
+
+class TestResolveProfile:  ######################################################
+
+    def test_entry_profile_is_the_base(_, registered_names):
+        reg = register_blueprint(
+            "test-registry-resolve",
+            create_blueprint(),
+            display_name="Resolve",
+            render_profile=RenderProfile(mode=RenderMode.REVERSE_ORDER),
+        )
+        registered_names.append(reg.canonical_name)
+
+        assert reg.resolve_profile().mode == RenderMode.REVERSE_ORDER
+
+    def test_names_the_comment_after_the_entry(_, registered_names):
+        reg = register_blueprint(
+            "test-registry-resolve-name",
+            create_blueprint(),
+            display_name="Entry Name",
+        )
+        registered_names.append(reg.canonical_name)
+
+        assert reg.resolve_profile().display_name == "Entry Name"
+
+    def test_caller_chosen_name_wins(_, registered_names):
+        reg = register_blueprint(
+            "test-registry-resolve-own",
+            create_blueprint(),
+            display_name="Entry Name",
+        )
+        registered_names.append(reg.canonical_name)
+
+        out = reg.resolve_profile(RenderProfile(display_name="Chosen"))
+
+        assert out.display_name == "Chosen"

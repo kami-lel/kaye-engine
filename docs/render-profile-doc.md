@@ -1,8 +1,8 @@
 # Kaye Engine: Render Profile Documentation
 
 <!--
-Fixme CLI provide none and all
-Bug -u & --variant fail get displayed in all docstring
+fixme mpv render profile doc
+fixme rewrite render profile per flag description, contains more info
 -->
 
 
@@ -157,7 +157,7 @@ Each mode changes the walk like this:
 - the tree is always walked all the way down, so a checkmarked node below an unchecked one still contributes
 - a node with no `{avoid}` content anywhere beneath it is left out
 
-Adding `IMAGE` removes every title, leaving only the `{avoid}` text, with its blocks still separated by a blank line. Any other combination, such as `NEGATIVE | POST_ORDER`, keeps its headings. See [Negative-Instruction Sidecar](sidecar-node-doc.md#negative-instruction-sidecar) and [generate negative prompt](prompt-doc.md#generate-negative-prompt). Whether an `Exportable` can render a negative prompt at all is its `supports_negative_content` flag, see [Exportable Registry Documentation](exportable-registry-doc.md).
+Adding `IMAGE` removes every title, leaving only the `{avoid}` text, with its blocks still separated by a blank line. Any other combination, such as `NEGATIVE | POST_ORDER`, keeps its headings. See [Negative-Instruction Sidecar](sidecar-doc.md#negative-instruction-sidecar) and [generate negative prompt](prompt-doc.md#generate-negative-prompt). Whether an `Exportable` can render a negative prompt at all is its `supports_negative_content` flag, see [Exportable Registry Documentation](exportable-registry-doc.md).
 
 
 
@@ -185,7 +185,7 @@ Things to know:
 - any `{name}` sidecar can be requested, including the reserved descriptor names
 - `{avoid}` is normally reached through `RenderMode.NEGATIVE` instead
 
-See [Sidecar Node Documentation](sidecar-node-doc.md#conditional-sidecar-nodes) for the node types.
+See [Sidecar Node Documentation](sidecar-doc.md#conditional-sidecars) for the node types.
 
 ## Variants
 
@@ -205,7 +205,7 @@ The field has three states:
 - `()`: on, with every variant absent, so every `Lack` and `Fallback` sidecar applies
 - `("A", "B")`: on, with `A` and `B` present
 
-See [Affordance Documentation](affordance-doc.md#checkmark-evaluation) for how the sidecars are derived. Conditional sidecars and variants share one step before the tree walk, and both require the sidecar's parent to be checkmarked.
+See [Affordance Documentation](sidecar-doc.md#checkmark-evaluation) for how the sidecars are derived. Conditional sidecars and variants share one step before the tree walk, and both require the sidecar's parent to be checkmarked.
 
 ## Sparseness
 
@@ -292,7 +292,6 @@ from kaye_engine.prompt.blueprint.render_profile import RenderProfile
 
 register_blueprint(
     "coder",
-    "Kaye Peer Coder",
     coder_blueprint,
     render_profile=RenderProfile(conditional_sidecars=("[Claude]",)),
 )
@@ -348,10 +347,10 @@ See also [Claude Documentation](claude-doc.md).
 
 Every **rendering command** takes the same six options. A rendering command is any subcommand that reaches `render_prompt()`, directly or through `Exportable.content()`:
 
-- `blueprint generate`
+- `blueprint render`
 - `dynamic-node`
 - `exportable`
-- `skill`, `claude plugin`, `claude marketplace`, `claude code`
+- `skill`, `claude skills`, `claude plugin`, `claude marketplace`, `claude code`
 - `claude user-system-prompt`, `claude vs-code-extension`
 
 | Flag | Short | Effect |
@@ -368,7 +367,7 @@ A shared parent parser, `build_render_profile_parent_parser()`, registers these 
 Two notes on the flags:
 
 - `claude user-system-prompt` already uses `-c` for `--coder`, so its comment flags have no short form
-- `blueprint show` has the same comment flags but is not a rendering command
+- `blueprint preview` has the same comment flags but is not a rendering command
 
 ### How Flags Resolve
 
@@ -388,10 +387,11 @@ A command supplies its own fallback when a flag is omitted:
 
 | Command | Comment | Surface |
 | --- | --- | --- |
-| `blueprint generate` | on | none |
+| `blueprint render` | on | none |
 | `dynamic-node` | off | none |
 | `exportable` | off | none |
 | `skill` | off | `chat` |
+| `claude skills` | off | `chat` |
 | `claude plugin` | off | `chat`, `cowork` |
 | `claude marketplace` | off | `vsc` |
 | `claude code` | off | `code` |
@@ -402,7 +402,7 @@ A default surface only works when the consumer's `surface_profiles` defines that
 
 `--sparseness` defaults to `DEFAULT_SPARSENESS` (`kaye_engine/cli/__init__.py`, currently `0`), unless a subcommand passes its own `default_sparseness` to `build_render_profile_parent_parser()`.
 
-`blueprint generate` also sets `display_name` to the blueprint's registered name, so the trailing comment names it.
+`blueprint render` also sets `display_name` to the blueprint's registered name (`<stdin>` when read from stdin), so the trailing comment names it. A registered blueprint renders through its registry entry's own `render_profile`, merged under the flags; one read from stdin renders with the flags alone.
 
 ### Handing the Profile Down
 

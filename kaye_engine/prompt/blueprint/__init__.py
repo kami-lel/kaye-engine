@@ -11,10 +11,14 @@ from .data import (
     BlueprintMeta,
     create_blueprint,
     decode_blueprint,
+    dump_blueprint,
     encode_blueprint,
     load_blueprint,
+    parse_blueprint_json,
     save_blueprint,
 )
+from .dependencies import resolve_dependencies, trace_dependencies
+from .diff import BlueprintDiff, diff_blueprints
 from .dynamic_substitution import *
 from .edit import (
     checkmark_nodes,
@@ -31,18 +35,22 @@ from .index import (
     get_corpus_index,
     get_corpus_node,
 )
-from .parser import parse_blueprint_text
+from .parser import parse_blueprint_tree
 from .registry import *
 from .render import (
-    extract_globs,
+    preview_blueprint,
+    preview_blueprint_without_dependencies,
+    preview_selection,
     register_comment_line,
-    render_blueprint,
-    render_blueprint_tree,
-    render_blueprint_without_dependencies,
-    render_description,
-    render_description_and_when_to_use,
     render_prompt,
     render_prompt_without_dependencies,
-    render_when_to_use,
+    show_dependencies,
+    show_description,
+    show_description_and_when_to_use,
+    show_display_name,
+    show_globs,
+    show_when_to_use,
 )
 from .selection import bind_selection, resolve_selection
+from .summary import BlueprintSummary, show_blueprint
+from .validate import validate_blueprint

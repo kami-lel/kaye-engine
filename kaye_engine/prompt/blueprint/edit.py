@@ -28,7 +28,7 @@ __all__ = (
 )
 
 _META_NODE_FIELDS = ("description_node", "when_to_use_node", "globs_node")
-_META_FIELDS = ("description", *_META_NODE_FIELDS)
+_META_FIELDS = ("display_name", "description", *_META_NODE_FIELDS)
 
 
 # auxiliaries  #################################################################
@@ -248,11 +248,12 @@ def merge_blueprints(left, right):
             present
     :rtype: Blueprint
     """
+    # an empty display name counts as unset, like None for the others
     meta = BlueprintMeta(
         **{
             field: (
                 getattr(left.meta, field)
-                if getattr(left.meta, field) is not None
+                if getattr(left.meta, field) not in (None, "")
                 else getattr(right.meta, field)
             )
             for field in _META_FIELDS
@@ -276,9 +277,10 @@ def replace_meta(blueprint, **changes):
     """
     :param blueprint:
     :type blueprint: Blueprint
-    :param changes: any of ``description``, ``description_node``,
-            ``when_to_use_node``, ``globs_node``; ``None`` clears one; a
-            node field takes a node object, name, or ``NodePath``
+    :param changes: any of ``display_name``, ``description``,
+            ``description_node``, ``when_to_use_node``, ``globs_node``;
+            ``None`` clears one (``""`` clears ``display_name``); a node
+            field takes a node object, name, or ``NodePath``
     :raises TypeError: an unknown field
     :raises ValueError: a node field names no node in the loaded corpus
     :return: a new blueprint with those meta fields replaced
@@ -312,9 +314,9 @@ def create_blueprint_from_node(
     :type node: BasePromptNode or str or tuple[str, ...]
     :param is_recursive: whether to select its descendants too
     :type is_recursive: bool, optional
-    :param meta: descriptors; defaults to the ``{description}``,
-            ``{when_to_use}`` and ``{globs}`` sidecar children of ``node``
-            that exist
+    :param meta: descriptors; defaults to the node's own name as
+            ``display_name`` plus the ``{description}``, ``{when_to_use}``
+            and ``{globs}`` sidecar children of ``node`` that exist
     :type meta: BlueprintMeta, optional
     :param dependencies: registered blueprint names or blueprint values
     :type dependencies: Iterable[str or Blueprint], optional
@@ -326,7 +328,9 @@ def create_blueprint_from_node(
     path = _resolve_path(node)
 
     if meta is None:
-        meta = _sidecar_meta(path)
+        meta = dataclasses.replace(
+            _sidecar_meta(path), display_name=path[-1] if path else ""
+        )
 
     return checkmark_nodes(
         create_blueprint(meta=meta, dependencies=dependencies),

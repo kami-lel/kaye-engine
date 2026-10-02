@@ -36,9 +36,9 @@ _DESCRIPTION = """
 
 which performs:
 
-- writes CLAUDE.md as the User System Prompt (Chat + Coder blueprint)
+- writes CLAUDE.md as the User System Prompt (Chat Blueprint + Coder Blueprint)
 - updates settings.json
-- exports the kaye plugin wrapped in a marketplace under
+- exports the plugin wrapped in a marketplace under
   MARKETPLACE_FOLDER_NAME/.
 
 CLAUDE_FOLDER/  (default: ~/.claude)
@@ -104,7 +104,7 @@ def register_vs_code_parser(cli_subparser):  ###################################
         metavar="CLAUDE_FOLDER",
         type=Path,
         default=DEFAULT_CLAUDE_FOLDER,
-        help="path to local .claude/ folder; default: ~/.claude",
+        help="path to local .claude/ folder; default: ~/.claude, v.s.",
     )
 
     kamilog.add_verbose_arguments(vs_code_parser)

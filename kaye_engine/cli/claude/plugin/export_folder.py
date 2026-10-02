@@ -15,7 +15,7 @@ from kaye_engine.cli.claude.setup import (
     get_claude_cli_consumer_version,
     get_claude_cli_display_name,
 )
-from kaye_engine.cli.skill.export_folders import (
+from kaye_engine.skill.export_folders import (
     export_skills_as_folders,
 )
 
