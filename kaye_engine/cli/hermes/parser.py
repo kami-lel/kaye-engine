@@ -20,9 +20,11 @@ from kaye_engine.cli.render_profile_parser import (
     resolve_render_profile,
 )
 from kaye_engine.consumer import get_consumer_version
+from kaye_engine.skill import LOGGER_SKILL_NAME
 
 # logger  ######################################################################
 logger = kamilog.getLogger(LOGGER_HERMES_NAME)
+skill_logger = kamilog.getLogger(LOGGER_SKILL_NAME)
 
 # constants  ===================================================================
 
@@ -73,6 +75,8 @@ def register_hermes_parser(cli_subparser):  ####################################
 
     def _hermes_main(args):
         kamilog.set_logging_level_by_namespace(args, logger=logger)
+        # skills export logs through its own logger
+        kamilog.set_logging_level_by_namespace(args, logger=skill_logger)
         apply_dry_run_arg(args)
         logger.enter("{} hermes".format(PACKAGE_NAME))
         check_corpus_setup_for_cli()
