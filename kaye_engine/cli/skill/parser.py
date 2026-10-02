@@ -1,4 +1,4 @@
-"""export exportables as Agent Skills, by name or all, into a given folder"""
+"""export exportables as Agent Skills"""
 
 from argparse import RawDescriptionHelpFormatter
 from pathlib import Path
@@ -35,9 +35,8 @@ _USAGE = """%(prog)s [-h] [-z] [-n] [NAME ...] FOLDER
 
 _DESCRIPTION = """
 
-writes one SKILL.md per named skill as its own skill folder;
-with --all, writes every skill; with -z, creates a .zip per skill instead.
-unlike `claude skills`, FOLDER is required.
+writes one SKILL.md per named skill as its own skill folder
+by name or all, into a given FOLDER
 
 FOLDER/
 ├── coder-python/
