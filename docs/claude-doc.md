@@ -1,4 +1,4 @@
-# Kaye Engine support for Anthropic Claude
+# Kaye Engine: support for Anthropic Claude
 
 <!-- FIXME mpv support for anthropic claude -->
 
