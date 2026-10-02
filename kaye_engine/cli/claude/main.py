@@ -1,4 +1,4 @@
-"""install into Claude as plugins or marketplaces"""
+"""support Anthropic Claude"""
 
 from argparse import RawDescriptionHelpFormatter
 
@@ -32,7 +32,7 @@ def register_cli_claude_parser(  ###############################################
     claude_parser.set_defaults(func=_claude_parser_main)
 
     claude_subparser = claude_parser.add_subparsers(
-        description="utility functions for the Claude plugin integration"
+        description="export to Claude in various ways:"
     )
 
     register_user_prompt_parser(claude_subparser)

@@ -1,4 +1,4 @@
-"""package the kaye plugin as an installable Claude marketplace"""
+"""package the plugin as an installable Claude marketplace"""
 
 from argparse import RawDescriptionHelpFormatter
 from pathlib import Path

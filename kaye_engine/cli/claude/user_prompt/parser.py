@@ -1,4 +1,4 @@
-"""render the Kaye Chat blueprint as the User System Prompt"""
+"""render the Chat Blueprint as the User System Prompt"""
 
 from argparse import RawDescriptionHelpFormatter
 from pathlib import Path
@@ -24,8 +24,7 @@ logger = kamilog.getLogger(LOGGER_CLAUDE_NAME)
 
 _DESCRIPTION = """
 
-renders the Chat blueprint as the User System Prompt; the result is
-printed to stdout. Optionally appends the Coder blueprint with -c.
+result is printed to stdout
 
     kaye-engine claude usp > ~/.claude/CLAUDE.md
 """
@@ -87,7 +86,7 @@ def register_user_prompt_parser(cli_subparser):  ###############################
         "--coder",
         action="store_true",
         default=False,
-        help="append Kaye Peer Coder content after the main blueprint",
+        help="append Coder Blueprint content after the Chat Blueprint",
     )
 
     kamilog.add_verbose_arguments(user_prompt_parser)

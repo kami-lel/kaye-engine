@@ -36,9 +36,9 @@ _DESCRIPTION = """
 
 which performs:
 
-- writes CLAUDE.md as the User System Prompt (Chat + Coder blueprint)
+- writes CLAUDE.md as the User System Prompt (Chat Blueprint + Coder Blueprint)
 - updates settings.json
-- exports the kaye plugin wrapped in a marketplace under
+- exports the plugin wrapped in a marketplace under
   MARKETPLACE_FOLDER_NAME/.
 
 CLAUDE_FOLDER/  (default: ~/.claude)
