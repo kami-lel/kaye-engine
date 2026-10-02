@@ -1,4 +1,4 @@
-"""install Kaye into Claude as plugins or marketplaces"""
+"""install into Claude as plugins or marketplaces"""
 
 from argparse import RawDescriptionHelpFormatter
 

@@ -1,5 +1,7 @@
 # Kaye Engine support for Anthropic Claude
 
+<!-- FIXME mpv support for anthropic claude -->
+
 Kaye Engine's integration with Anthropic Claude: exporting corpus blueprints as Claude plugins and system prompts and exporting every exportable as Agent Skills into Claude's skills folder (`claude skills`); exporting chosen Agent Skills into any folder is the top-level `kaye-engine skill` command.
 
 > [!NOTE]
