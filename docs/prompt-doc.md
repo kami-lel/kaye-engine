@@ -1,5 +1,7 @@
 # Kaye Engine: `prompt` module Documentation
 
+<!-- FIXME mpv prompt module doc -->
+
 The public programmatic API lives in `kaye_engine.prompt`. It re-exports the prompt tree nodes, the `Blueprint` value and its functions, the corpus loader, and the blueprint registry.
 
 The page has two halves:

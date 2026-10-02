@@ -3,9 +3,6 @@
 [^format]
 
 <!--
-FIXME review all docs/
-TODO review render profile flags
-
 todo support hermes
 
 bug continue exporting missing some skills
