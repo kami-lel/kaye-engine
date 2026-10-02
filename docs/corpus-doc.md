@@ -1,8 +1,6 @@
-# Kaye Engine: `prompt_corpus.md` Format Documentation
+# Kaye Engine: Prompt Corpus Format
 
-<!-- FIXME mpv doc corpus -->
-
-`prompt_corpus.md` is the authoritative Source of Truth for an agent's identity, roles, rules, styles, and references. It describes the logical document format parsed at runtime into a **prompt tree** — `load_corpus_tree` may assemble that logical document from a single file or from an ordered list of sources; either way the parsed result reads as one continuous Markdown document.
+The **prompt corpus** is the authoritative Source of Truth for an agent's identity, roles, rules, styles, and references. It is a logical Markdown document, no longer tied to one file: `load_corpus_tree(sources)` concatenates an ordered list of sources, each a literal `str` or a `Path` to a Markdown file, and parses the result into a **prompt tree**. The parsed result reads as one continuous Markdown document, wherever its pieces came from.
 
 `kaye-engine` bundles no corpus of its own — a consumer package supplies and loads the real content.
 
@@ -41,15 +39,44 @@
 
 ## Format
 
-The file is plain Markdown. Each section heading becomes a node in the prompt
-tree; the text between headings is that node's content.
+The corpus is plain Markdown text. Each section heading becomes a node in the
+prompt tree; the text between headings is that node's content. The text before
+the first heading belongs to the synthetic root.
+
+### Sources
+
+`load_corpus_tree(sources)` takes an ordered list, and each entry is either:
+
+- `str`: literal corpus content, used as given
+- `Path`: a Markdown file, read from disk as UTF-8
+
+Entries are joined in list order, separated by a blank line, into one logical
+document before parsing, so a `##` heading at the start of one source nests under
+the last `#` heading of the previous one. See
+[Creating a Tree](prompt-doc.md#creating-a-tree) for the loader API.
+
+```python
+from pathlib import Path
+
+from kaye_engine.prompt import load_corpus_tree
+
+load_corpus_tree([
+    Path("corpus/identity.md"),
+    "# Extra\ncontent supplied as a literal string",
+])
+```
+
+### Headings
+
+Heading depth maps directly to tree depth. A heading is a line starting with
+`#` marks and one space; it is a child of the nearest preceding heading exactly
+one level shallower. A line such as `### Deep` directly under a `#` heading,
+with no `##` between, is plain content of that `#` node, not a node.
 
 A heading-shaped line inside a fenced code block (` ``` `/`~~~`, with or
 without a language tag such as ` ```cpp `) is not treated as a real
-heading — it stays part of the surrounding node's content, so a code
+heading: it stays part of the surrounding node's content, so a code
 sample can safely contain lines that start with `#`.
-
-Heading depth maps directly to tree depth:
 
 ```md
 # Introduction
@@ -75,40 +102,22 @@ is equivalent to the tree:
 └── Usage
 ```
 
-The root node `○` is synthetic — it is never written in the file.
+The root node `○` is synthetic: it is never written in the corpus.
 
-Consecutive empty lines are collapsed to a single empty line during parsing.
-Leading and trailing empty lines within a node's content are trimmed.
+### Whitespace
 
+Runs of consecutive empty lines are collapsed to a single empty line during
+parsing, except inside fenced code blocks, which stay untouched. Leading and
+trailing empty lines within a node's content are trimmed.
 
+### Dynamic Node Headings
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+A heading wrapped in parentheses, such as `# (today)`, is reserved for
+**dynamic nodes**. Dynamic nodes attach to the tree automatically; authoring the
+heading is optional, and only fixes the node's location and a preface text. The
+corpus load raises `ValueError` for a parenthesized heading that names no known
+dynamic node, or that appears twice for the same node. See
+[Dynamic Node documentation](dynamic-content-doc.md#auto-attachment).
 
 
 
