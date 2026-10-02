@@ -6,10 +6,7 @@ from pathlib import Path
 import kamilog
 from kaye_engine import PACKAGE_NAME
 from kaye_engine.cli import DEFAULT_SPARSENESS
-from kaye_engine.cli.claude.setup import (
-    get_claude_cli_consumer_version,
-    get_surface_profiles,
-)
+from kaye_engine.cli.claude.setup import get_surface_profiles
 from kaye_engine.cli.cli_setup_guard import check_corpus_setup_for_cli
 from kaye_engine.cli.dry_run import (
     apply_dry_run_arg,
@@ -20,6 +17,7 @@ from kaye_engine.cli.render_profile_parser import (
     build_render_profile_parent_parser,
     resolve_render_profile,
 )
+from kaye_engine.consumer import get_consumer_version
 from kaye_engine.skill import LOGGER_SKILL_NAME
 from kaye_engine.skill.export_folders import export_skills_as_folders
 from kaye_engine.skill.export_zips import export_skills_as_zips
@@ -117,7 +115,7 @@ def register_skill_parser(cli_subparser):  #####################################
             surface_profiles=get_surface_profiles(),
             default_show_comment=False,
         )
-        version = get_claude_cli_consumer_version()
+        version = get_consumer_version()
 
         if args.zip:
             logger.debug("export skills as zip packages")

@@ -11,7 +11,7 @@ from pathlib import Path
 import kamilog
 from kaye_engine.cli.claude import LOGGER_CLAUDE_NAME
 from kaye_engine.cli.claude.plugin_marketplace_name import get_plugin_name
-from kaye_engine.cli.claude.setup import get_claude_cli_consumer_version
+from kaye_engine.consumer import get_consumer_version
 from kaye_engine.cli.dry_run import is_dry_run
 
 from .export_folder import (
@@ -76,7 +76,7 @@ def export_plugin_as_zip(
         file_name = plugin_root.name
         if includes_version:
             file_name = "{}-{}".format(
-                file_name, get_claude_cli_consumer_version()
+                file_name, get_consumer_version()
             )
         dest = parent_folder / (file_name + ".zip")
         with logger.track.mv_file(zip_base.name + ".zip", dest):
@@ -93,7 +93,7 @@ def _report_zip_without_writing(parent_folder, includes_version):
     file_name = plugin_name
     if includes_version:
         file_name = "{}-{}".format(
-            file_name, get_claude_cli_consumer_version()
+            file_name, get_consumer_version()
         )
     zip_name = plugin_name + ".zip"
     with logger.track.pack_files(plugin_name, zip_name):
