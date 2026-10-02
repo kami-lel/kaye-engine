@@ -2,7 +2,7 @@
 
 <!-- FIXME mpv doc: dynamic -->
 
-**Dynamic nodes** are prompt corpus nodes whose content is generated at render time instead of being written by hand — today's date, and similar. Unlike [sidecar nodes](sidecar-node-doc.md), dynamic nodes **are** included in the rendered prompt output by default, exactly like a regular corpus section.
+**Dynamic nodes** are prompt corpus nodes whose content is generated at render time instead of being written by hand — today's date, and similar. Unlike [sidecar nodes](sidecar-doc.md), dynamic nodes **are** included in the rendered prompt output by default, exactly like a regular corpus section.
 
 Every dynamic node's identity is a canonical **kebab-case** `NAME` slug; its heading is that slug wrapped in parentheses, e.g. `(today)` — that syntax marks a node as dynamic wherever it appears, whether in a tree preview, a blueprint, or an error message. This same `NAME` is also the CLI's `NODE` argument and the placeholder name inside a `(((name)))` inline substitution (q.v. [Dynamic Substitution](#dynamic-substitution) below) — one canonical name, three surfaces, resolved by a single shared function, `resolve_dynamic_node_factory`. Both structures below also accept the same extra render-time keyword arguments (q.v. [Feeding Render-Time Input](#feeding-render-time-input)).
 
@@ -38,7 +38,7 @@ Every dynamic node auto-attaches when a corpus tree is created via `load_corpus_
 
 Where it attaches depends on whether `prompt_corpus.md` authors that node's `(name)` heading. Authored, at any nesting depth: the dynamic node takes that heading's exact spot in the tree, in place of it, keeping its position among siblings. Not authored: the node falls back to a direct child of root.
 
-There is no special opt-in required — unlike conditional sidecar nodes, which are excluded unless explicitly requested via `profile=RenderProfile(conditional_sidecars=...)`, q.v. [`sidecar-node-doc.md`](sidecar-node-doc.md#conditional-sidecar-nodes).
+There is no special opt-in required — unlike conditional sidecar nodes, which are excluded unless explicitly requested via `profile=RenderProfile(conditional_sidecars=...)`, q.v. [`sidecar-doc.md`](sidecar-doc.md#conditional-sidecars).
 
 
 

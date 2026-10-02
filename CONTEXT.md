@@ -153,7 +153,7 @@ attribute, `False` by default, `True` on `BlueprintRegistry`) is the
 explicit capability flag `export-image-prompt`'s `_avoid_content()` checks
 before calling `content(profile=... RenderMode.NEGATIVE)` to build each
 `<canonical_name>-AVOID.md` sibling. Q.v. [sidecar node
-documentation](docs/sidecar-node-doc.md).
+documentation](docs/sidecar-doc.md).
 
 `affordance_registry`/`variant_registry` form a two-level model: an
 `Affordance` is a conceptual capability family, a `Variant` one concrete
@@ -166,7 +166,7 @@ derives its own `[{name}] Usage` sidecar (checkmarked when at least one
 of its registered variants is present) plus a `[{name}] Fallback`
 sidecar, checkmarked when every variant registered under that affordance
 is absent (and the affordance has ≥1 registered variant). Q.v.
-[affordance documentation](docs/affordance-doc.md). A Kaye-specific,
+[affordance documentation](docs/sidecar-doc.md#affordance). A Kaye-specific,
 consumer-supplied
 `surface_profiles` dict (`dict[str, RenderProfile]`, passed to
 `setup_claude_cli(...)` — kaye-vault owns the actual Claude surface data,
@@ -209,7 +209,7 @@ apply — `BlueprintRegistry.content()` merges them in via
 `self.render_profile.merge(profile)` whenever the caller (`blueprint
 generate`, `Skill.from_exportable()`) passes a `profile=`. Q.v. [Claude
 documentation](docs/claude-doc.md) and [sidecar node
-documentation](docs/sidecar-node-doc.md).
+documentation](docs/sidecar-doc.md).
 
 ### CLI Flag Surface
 
