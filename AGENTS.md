@@ -162,14 +162,10 @@ the latter returning a `RenderProfile` rather than a kwargs dict:
 | `--sparseness` | `-s` | blank-line policy, v.i. |
 | `--reverse-order` | none | reverse sibling order at every level of the tree walk |
 
-`--variant`/`--conditional-sidecar` union additively with whatever
-`--surface` derives; omitting a flag keeps that subcommand's own default
-rather than clobbering a `register_blueprint()` entry's own
-`render_profile`. Merge semantics live in `CONTEXT.md`. `claude
-user-system-prompt` already owns `-c` for `--coder`, so
-`--comment`/`--no-comment` are long-form only there. `kaye-engine
-blueprint preview` is not a rendering command but shares the
-`--comment`/`--no-comment` toggle (`-c`/`-C` included there).
+`claude user-system-prompt` already owns `-c` for `--coder`, so
+`--comment`/`--no-comment` are long-form only there. `blueprint preview`
+is not a rendering command but shares the `--comment`/`--no-comment`
+toggle. Merge semantics live in `CONTEXT.md`.
 
 `--sparseness SPARSENESS` controls blank-line collapsing in the
 rendered output: `-1` joins everything into one line, `0` strips all
@@ -186,22 +182,14 @@ comments are allowed).
 
 Every `claude` and `hermes` subcommand needs a consumer to call
 `register_consumer(display_name, canonical_name, version)` first; `claude`
-also needs `setup_claude_cli(chat_exportable_name,
-merged_coder_exportable_name)` and `hermes` needs
-`setup_hermes_cli(soul_blueprint_name, profile_blueprint_names)` — no
-default exists for any of them. The plugin, marketplace, marketplace folder,
-and hermes skill category names are all the registered canonical name. On a
-bare checkout, or when it was never called, the
-getters log `logger.critical` and raise `SystemExit(1)` — expected, not a
-bug. Full getter list and rationale in `CONTEXT.md`.
+also needs `setup_claude_cli(...)` and `hermes` needs
+`setup_hermes_cli(...)`, none with a default. On a bare checkout the
+getters log `logger.critical` and raise `SystemExit(1)`: expected, not a
+bug. Getter list in `CONTEXT.md`.
 
 `kaye-engine --version` reports the installed distribution's version via
 `importlib.metadata.version(PACKAGE_NAME)` — run against an installed
 package, not a bare checkout.
-
-`--surface` takes combinable names keyed into the consumer-supplied
-`surface_profiles` dict, and is omitted entirely from the parser when no
-consumer project configures it. Mechanics in `CONTEXT.md`.
 
 ## Code Conventions
 
@@ -215,8 +203,10 @@ consumer project configures it. Mechanics in `CONTEXT.md`.
 - log through the `kamilog` package (`import kamilog`; a dependency, not
   vendored): report every file or directory action as a deed
   (`with track(logger).create_file(path)` from `kaye_engine.deed`;
-  also `pack_files`, `mv_file`, `save_config`, ...) rather than a hand-built string, and mark a run mode
-  with a badge (`badges="dry"`); keep `done` for a whole-export summary
+  also `pack_files`, `mv_file`, `save_config`, ...) rather than a
+  hand-built string, and mark a run mode with a badge (`badges="dry"`);
+  keep `done` for a whole-export summary; kamilog 3.0 dropped its own
+  deed feature, so never call `logger.track`
 
 ## Registering a Blueprint
 
@@ -227,7 +217,7 @@ live in the consumer package**, not here. The signature is
 entry's name is `blueprint.meta.display_name`, and `display_name=` only backs
 it when the meta name is empty.
 
-Export policy — one gate plus three independent flags, no allow-list
+Export policy — one gate plus four independent flags, no allow-list
 constant:
 
 | flag | default | effect |
@@ -278,8 +268,7 @@ module builds `AbbrData`. Register a new glossary there when adding one.
 After meaningful changes, keep these in sync:
 
 - `README.md` — human-facing overview and quick start
-- `docs/` — programmatic API, corpus format, sidecar and dynamic nodes,
-  affordances, abbreviations, exportable registry, Claude integration, Open WebUI export
+- `docs/` — one file per topic; update the one a change touches
 - `CONTEXT.md` — architecture, entities, boundaries
 - `CHANGELOG.md` — record notable changes per release
 - this `AGENTS.md` — update agent-specific rules as structure evolves
