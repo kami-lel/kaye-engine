@@ -7,6 +7,7 @@ define ``classify_exportable`` and ``export_continue_folder``
 from pathlib import Path
 
 import kamilog
+from kaye_engine.deed import track
 from kaye_engine.cli.continue_ai import LOGGER_CONTINUE_NAME
 from kaye_engine.cli.dry_run import is_dry_run
 from kaye_engine.cli.continue_ai.rule_md import ContinueRule
@@ -74,7 +75,7 @@ def export_continue_folder(folder, *, render_profile=None):
     try:
         for subfolder in subfolders.values():
             if not subfolder.is_dir():
-                with logger.track.create_dir(subfolder):
+                with track(logger).create_dir(subfolder):
                     if not is_dry_run():
                         subfolder.mkdir(parents=True, exist_ok=True)
     except OSError as err:

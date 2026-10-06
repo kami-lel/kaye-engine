@@ -8,6 +8,7 @@ import os
 from argparse import RawDescriptionHelpFormatter
 
 import kamilog
+from kaye_engine.deed import track
 from kaye_engine import LOGGER_NAME, PACKAGE_NAME
 from kaye_engine.cli.cli_setup_guard import check_corpus_setup_for_cli
 from kaye_engine.exportable import (
@@ -77,8 +78,8 @@ def _avoid_content(exportable):
 
 def _write_text_file(path, content):
     deed = (
-        logger.track.owr_file if os.path.exists(path)
-        else logger.track.create_file
+        track(logger).owr_file if os.path.exists(path)
+        else track(logger).create_file
     )
     with deed(path):
         if not is_dry_run():
@@ -93,7 +94,7 @@ def _export_image_prompt_main(args):
     check_corpus_setup_for_cli()
 
     if not os.path.isdir(args.folder):
-        with logger.track.create_dir(args.folder):
+        with track(logger).create_dir(args.folder):
             if not is_dry_run():
                 os.makedirs(args.folder, exist_ok=True)
 

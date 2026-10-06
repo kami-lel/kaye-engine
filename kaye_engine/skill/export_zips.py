@@ -9,6 +9,7 @@ import tempfile
 from pathlib import Path
 
 import kamilog
+from kaye_engine.deed import track
 from kaye_engine.skill import LOGGER_SKILL_NAME
 from kaye_engine.cli.dry_run import is_dry_run
 
@@ -52,7 +53,7 @@ def export_skills_as_zips(
     exportables = select_exportables(names)
     parent_folder = Path(parent_folder)
     try:
-        with logger.track.create_dir(parent_folder):
+        with track(logger).create_dir(parent_folder):
             if not is_dry_run():
                 parent_folder.mkdir(parents=True, exist_ok=True)
     except OSError as err:
@@ -80,7 +81,7 @@ def export_skills_as_zips(
         for skill_folder in Path(skills_temp).iterdir():
             zip_base = Path(zips_temp) / skill_folder.name
             try:
-                with logger.track.pack_files(
+                with track(logger).pack_files(
                     skill_folder.name, zip_base.name + ".zip"
                 ):
                     shutil.make_archive(
@@ -96,7 +97,7 @@ def export_skills_as_zips(
         for zip_file in Path(zips_temp).iterdir():
             dest = parent_folder / zip_file.name
             try:
-                with logger.track.mv_file(zip_file.name, dest):
+                with track(logger).mv_file(zip_file.name, dest):
                     shutil.move(str(zip_file), str(dest))
             except (OSError, shutil.Error) as err:
                 raise SystemExit(1) from err
@@ -118,7 +119,7 @@ def _report_zips_without_writing(
             ).name
             + ".zip"
         )
-        with logger.track.pack_files(zip_name[:-4], zip_name):
+        with track(logger).pack_files(zip_name[:-4], zip_name):
             pass
-        with logger.track.mv_file(zip_name, parent_folder / zip_name):
+        with track(logger).mv_file(zip_name, parent_folder / zip_name):
             pass

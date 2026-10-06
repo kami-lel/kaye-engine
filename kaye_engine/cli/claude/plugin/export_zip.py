@@ -9,6 +9,7 @@ import tempfile
 from pathlib import Path
 
 import kamilog
+from kaye_engine.deed import track
 from kaye_engine.cli.claude import LOGGER_CLAUDE_NAME
 from kaye_engine.cli.claude.plugin_marketplace_name import get_plugin_name
 from kaye_engine.consumer import get_consumer_version
@@ -47,7 +48,7 @@ def export_plugin_as_zip(
     """
     parent_folder = Path(parent_folder)
     try:
-        with logger.track.create_dir(parent_folder):
+        with track(logger).create_dir(parent_folder):
             if not is_dry_run():
                 parent_folder.mkdir(parents=True, exist_ok=True)
     except OSError as err:
@@ -67,7 +68,7 @@ def export_plugin_as_zip(
         )
 
         zip_base = Path(zip_temp) / plugin_root.name
-        with logger.track.pack_files(
+        with track(logger).pack_files(
             plugin_root.name, zip_base.name + ".zip"
         ):
             shutil.make_archive(str(zip_base), "zip", root_dir=plugin_root)
@@ -79,7 +80,7 @@ def export_plugin_as_zip(
                 file_name, get_consumer_version()
             )
         dest = parent_folder / (file_name + ".zip")
-        with logger.track.mv_file(zip_base.name + ".zip", dest):
+        with track(logger).mv_file(zip_base.name + ".zip", dest):
             shutil.move(str(zip_base.with_suffix(".zip")), str(dest))
 
 
@@ -96,7 +97,7 @@ def _report_zip_without_writing(parent_folder, includes_version):
             file_name, get_consumer_version()
         )
     zip_name = plugin_name + ".zip"
-    with logger.track.pack_files(plugin_name, zip_name):
+    with track(logger).pack_files(plugin_name, zip_name):
         pass
-    with logger.track.mv_file(zip_name, parent_folder / (file_name + ".zip")):
+    with track(logger).mv_file(zip_name, parent_folder / (file_name + ".zip")):
         pass

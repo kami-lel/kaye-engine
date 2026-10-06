@@ -9,6 +9,7 @@ import os
 from argparse import RawDescriptionHelpFormatter
 
 import kamilog
+from kaye_engine.deed import track
 from kaye_engine import LOGGER_NAME, PACKAGE_NAME
 from kaye_engine.cli.cli_setup_guard import check_corpus_setup_for_cli
 from kaye_engine.cli.dry_run import (
@@ -83,9 +84,9 @@ def _exportable_as_json_main(args):
         logger.succ("render exportable:\t" + canonical_name)
 
     deed = (
-        logger.track.owr_file
+        track(logger).owr_file
         if os.path.exists(args.output_file)
-        else logger.track.create_file
+        else track(logger).create_file
     )
     with deed(args.output_file):
         if not is_dry_run():

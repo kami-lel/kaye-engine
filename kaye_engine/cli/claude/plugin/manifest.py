@@ -8,6 +8,7 @@ import json
 from pathlib import Path
 
 import kamilog
+from kaye_engine.deed import track
 from kaye_engine.cli.claude import LOGGER_CLAUDE_NAME
 from kaye_engine.cli.dry_run import is_dry_run
 
@@ -76,12 +77,12 @@ class ManifestPluginJson:  #####################################################
 
         try:
             if not self._manifest_dir.is_dir():
-                with logger.track.create_dir(self._manifest_dir):
+                with track(logger).create_dir(self._manifest_dir):
                     if not is_dry_run():
                         self._manifest_dir.mkdir(
                             parents=True, exist_ok=True
                         )
-            with logger.track.save_config(self.path):
+            with track(logger).save_config(self.path):
                 if not is_dry_run():
                     self.path.write_text(
                         json.dumps(manifest_data, indent=2) + "\n",
