@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "kaye-engine"
-version = "10.0.0-alpha"
+version = "9.1.0-beta"
 description = "parse a plain Markdown file, as the structured single source of truth for LLM instructions, then render scenario-ready prompt assets"
 readme = "README.md"
 authors = [

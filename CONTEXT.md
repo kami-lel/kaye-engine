@@ -1,6 +1,6 @@
 # kaye-engine CONTEXT
 
-**Last updated:** 2026-10-02
+**Last updated:** 2026-10-06
 
 System knowledge for the **kaye-engine** repository — architecture,
 entities, and boundaries. Read this alongside `AGENTS.md` before making
@@ -172,58 +172,38 @@ consumer-supplied
 `setup_claude_cli(...)` — kaye-vault owns the actual Claude surface data,
 q.v. `kaye_vault/claude_render_profiles.py`) maps a surface name to the
 `RenderProfile` carrying that surface's variants/conditional-sidecars.
-Every **rendering command** — any CLI subcommand that reaches
-`render_prompt(...)`, directly or via
-`Exportable.content()` — exposes the same 6 options (`--surface`,
-`--comment`/`--no-comment`, `--conditional-sidecar`, `--variant`,
-`--sparseness`, `--reverse-order`) via one shared parent parser and one
-aux function,
+Every **rendering command** (see `AGENTS.md` for the list and flags) shares
+one parent parser and one aux function,
 `build_render_profile_parent_parser`/`resolve_render_profile`
 (`kaye_engine/cli/render_profile_parser.py`). `resolve_render_profile`
-returns a single `RenderProfile`, built by merging each selected
-surface's profile with one built from the explicit
-`--variant`/`--conditional-sidecar`/`--sparseness`/`--comment`/
-`--reverse-order` flags via
-`RenderProfile.merge()` — `--variant`/`--conditional-sidecar` union
-additively with whatever `--surface` derives, so rendered prompts
-auto-checkmark the sidecars real on that surface plus any named
-explicitly; `--reverse-order` ORs `RenderMode.REVERSE_ORDER` into
-whatever `mode` the profile already carries (`mode` is itself a scalar
-field, so `RenderProfile.merge()` would otherwise let it clobber rather
-than combine — `resolve_render_profile` computes the OR'd value itself
-before the final `.merge()` call, the same pattern
-`export_image_prompt_parser.py`'s `_avoid_content()` uses for `NEGATIVE |
-IMAGE`). `--surface` itself is
-omitted entirely from the parser when
-no consumer project configures `surface_profiles`. Each subcommand keeps
-its own default for `--comment`/`--no-comment` and `--sparseness` when
-the flags are omitted (via `build_sparseness_parent_parser(default=...)`,
-a per-call builder). The resolved `RenderProfile` is carried as a single
-`profile=` object from parser down through every `claude` export chain
-(plugin/marketplace/vs-code/code/user-prompt/skills, plus the top-level `skill`). A `RenderProfile()`
-default (no explicit `--surface`/`--variant`/`--conditional-sidecar`)
-carries `variants=None`/`conditional_sidecars=()`, which
-`RenderProfile.merge()` treats as a no-op contribution, so a
-`register_blueprint()` entry's own `render_profile` defaults still
-apply — `BlueprintRegistry.content()` merges them in via
-`self.render_profile.merge(profile)` whenever the caller (`blueprint
-generate`, `Skill.from_exportable()`) passes a `profile=`. Q.v. [Claude
+returns one `RenderProfile`, merging each selected surface's profile with one
+built from the explicit flags via `RenderProfile.merge()`.
+`--variant`/`--conditional-sidecar` union additively with what `--surface`
+derives; `--reverse-order` ORs `RenderMode.REVERSE_ORDER` into the profile's
+`mode` before the final merge, because `mode` is a scalar field the merge
+would otherwise let clobber (the pattern `_avoid_content()` in
+`export_image_prompt_parser.py` uses for `NEGATIVE | IMAGE`). `--surface`
+keys into the consumer-supplied `surface_profiles` dict
+(`dict[str, RenderProfile]`, passed to `setup_claude_cli(...)`) and is
+omitted from the parser when none is configured. An omitted flag keeps the
+subcommand's own `--comment` and `--sparseness` default
+(`build_sparseness_parent_parser(default=...)`). The resolved profile
+travels as one `profile=` object through every `claude` export chain and the
+top-level `skill`. A default `RenderProfile()` carries
+`variants=None`/`conditional_sidecars=()`, a no-op under `merge()`, so a
+`register_blueprint()` entry's own `render_profile` still applies:
+`BlueprintRegistry.content()` merges it via
+`self.render_profile.merge(profile)`. Q.v. [Claude
 documentation](docs/claude-doc.md) and [sidecar node
 documentation](docs/sidecar-doc.md).
 
 ### CLI Flag Surface
 
-Beyond AGENTS.md's 10-command rendering-command table, several other
-leaf subcommands print rendered or registry content but were never
-wired to `build_render_profile_parent_parser`, so they expose no
-`--surface`/`--variant`/`--conditional-sidecar`/`--sparseness`/
-`--reverse-order`/`--comment` options at all: `export-json` and
-`export-image-prompt` call `.content()`/`render_prompt()` with a
-hardcoded `RenderProfile` rather than a parsed one; `dynamic-
-substitution` and `glossary` print raw registry content with no
-render step to configure; `sync-open-webui-skills` renders internally
-per skill with no exposed profile either. `affordance`/`variant` are
-list-only, so the absence there is expected.
+Several subcommands print rendered or registry content without the
+render-profile options: `export-json` and `export-image-prompt` use a
+hardcoded `RenderProfile`; `dynamic-substitution` and `glossary` print raw
+registry content; `sync-open-webui-skills` renders per skill with no exposed
+profile; `affordance`/`variant` are list-only.
 
 `blueprint preview` is the one asymmetric case inside the rendering set:
 it pulls only `build_comment_parent_parser()` out of the bundle (its
@@ -241,7 +221,8 @@ write command; `claude plugin` spells `--no-version` as `-N`.
 `--dry-run` on the write commands comes from `cli/dry_run.py`: a shared
 `-n/--dry-run` parent parser, plus a run-wide switch (`enable_dry_run()`,
 `is_dry_run()`) that also stamps the `dry` badge on the five engine
-loggers. Writers keep their deed lines and skip only the filesystem call
+loggers. Writers keep their deed lines (`kaye_engine/deed.py`, a local stand-in for
+the deed feature kamilog 3.0 removed) and skip only the filesystem call
 under `is_dry_run()`; the zip exports skip the temporary build and log
 the pack and move deeds directly. `sync-open-webui-skills` keeps its own
 `-n`/`--dry-run` and threads `is_dry_run` as a parameter instead.
@@ -363,6 +344,7 @@ kaye_engine/
 ├── abbr_collection/     abbreviation entries, store, JSON loader
 ├── consumer.py          register_consumer: display name, canonical name,
 │                        version; getters read by claude and hermes
+├── deed.py              track(logger): fixed-wording file/dir action lines
 ├── exportable/           Exportable base, exportable_registry
 │   └── image_prompt_export.py  image_prompt_exportable_registry,
 │                            register_image_prompt_exportable
@@ -405,7 +387,7 @@ kaye_engine/
 │   ├── list_variant_parser.py     `variant`/`var` subcommand: list variant_registry
 │   ├── glossary_parser.py    `glossary`/`g` subcommand: print/list glossaries
 │   ├── comment_parser.py     shared `--comment`/`--no-comment` parent parser
-│   ├── render_profile_parser.py  shared 5-option parent parser + aux fn
+│   ├── render_profile_parser.py  shared 6-option parent parser + aux fn
 │   ├── exportable_parser.py  `exportable`/`x` subcommand: print, list exportables
 │   ├── exportable_as_json_parser.py  `export-json`/`json`
 │   │                                  subcommand: export
@@ -428,8 +410,8 @@ invokable prompt, and an entry with neither is skipped. Files are named
 `<canonical_name>.md` under `rules/` or `prompts/`. The `--surface` flag
 has no default there.
 
-`hermes` is configured by the consumer through `register_consumer(...)` and
-`setup_hermes_cli(soul_blueprint_name, profile_blueprint_names)`, which checks every name against
+`hermes` is configured through `register_consumer(...)` and
+`setup_hermes_cli(...)`, which checks every name against
 `blueprint_registry` and exits 1 on an unknown one. It renders the soul and
 profile blueprints from `blueprint_registry` (so non-exportable entries work)
 into `SOUL.md` and `profiles/<name>/SOUL.md`, and delegates `skills/<canonical name>/`
@@ -447,10 +429,10 @@ Tests mirror the source tree: `tests/prompt/` for the engine, `tests/abbr/`
 for the abbreviation collection. `tests/cli/` stays deliberately thin — it
 holds only the corpus-independent pieces (setup guard, exportable-abbr
 registration, `dynamic-node` parsing, `SKILL.md` rendering, the Open WebUI sync with a
-fake client, the kamilog deed lines of the zip exports, manifests, and
-`FrontmatterDoc.write`), because the
+fake client, the deed lines of the zip exports, manifests, and
+`FrontmatterDoc.write` (`tests/deed_test.py` covers the helper)), because the
 exporters need a corpus to produce output and the consumer package covers
-those. The `blueprint` subcommand parser still has no dedicated tests.
+those.
 
 ## Maintaining This File
 

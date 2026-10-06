@@ -26,80 +26,68 @@ manually add chat & coder, instead by data structure
 
 ## [Unreleased]
 
-### Hermes Export
+### Added
 
-**Purpose**: write a Hermes home directory in one command, the way `claude`
-and `continue` already do for their targets.
+### Changed
 
-- new `hermes` subcommand (alias `m`) takes a required `FOLDER` and writes
-  a root `SOUL.md`, `profiles/<name>/SOUL.md` per profile, and every
-  exportable as an Agent Skill under `skills/<category>/`
-- new `setup_hermes_cli(soul_blueprint_name, profile_blueprint_names)` lets a consumer name the soul and profile
-  blueprints; unknown names exit 1
-- `SOUL.md` files render from `blueprint_registry`, so a blueprint kept out
-  of `exportable_registry` can still be a soul or profile without becoming a
-  skill
-- the shared render options and `--dry-run` apply
-- see [`docs/hermes-doc.md`](docs/hermes-doc.md)
+### Deprecated
 
-### Consumer Registration
+### Removed
 
-**Purpose**: a consumer states its identity once, and the `claude` and
-`hermes` setups derive from it instead of repeating it.
+### Fixed
 
-- new `register_consumer(display_name, canonical_name, version)`, exported
-  from `kaye_engine`; `canonical_name` must be kebab case
-- new getters `get_consumer_display_name()`, `get_consumer_canonical_name()`,
-  `get_consumer_version()`; each exits 1 when nothing is registered
-- the canonical name is the plugin name, the marketplace name, the
-  marketplace folder name, and the Hermes skill category
-- `setup_claude_cli(...)` now takes `chat_exportable_name`,
-  `merged_coder_exportable_name`, `affordance_groups`, `surface_profiles`
-- `setup_hermes_cli(...)` now takes `soul_blueprint_name`,
-  `profile_blueprint_names`; `hermes` takes its version from
-  `register_consumer(...)`
+### Security
 
-> [!WARNING]
-> `setup_claude_cli(...)` no longer accepts `plugin_name`, `display_name`,
-> `marketplace_name`, `version`, or `marketplace_folder_name`; call
-> `register_consumer(...)` instead. `get_claude_cli_consumer_version()` and
-> `get_claude_cli_display_name()` are replaced by `get_consumer_version()`
-> and `get_consumer_display_name()`.
+[unreleased]: https://github.com/kami-lel/kaye-engine/compare/v9.1.0-beta...dev
 
-> [!WARNING]
-> `setup_hermes_cli(...)` no longer accepts `skill_category`, and
-> `get_hermes_skill_category()` is removed; the skill folder is named by the
-> registered canonical name.
 
-### Optimize Blueprint Data Structure
 
-**Purpose**: cut the startup cost of registering blueprints, and make a
-blueprint cheap and portable, while every rendered prompt stays exactly as
-before. A consumer registers about 160 blueprints, and each one deep-copied
-the whole corpus tree (about 690 nodes), so every `kaye` command paid 1.4 to
-1.7 s before doing any work.
 
-**Concept**: a blueprint only needs to say *which* nodes it selects, so it
-stores their paths and never the nodes themselves.
 
-**High-level design**:
 
-- the engine holds **one corpus tree per process** and derives a single
-  index from it
-- a blueprint becomes a **plain frozen value**: the paths of the nodes it
-  selects, plus its descriptors and dependencies, with no tree attached
-- every operation on a blueprint becomes a **function** returning a new
-  blueprint, instead of a method that mutates one
-- rendering binds a blueprint to the index as a bitmask and walks only the
-  selected nodes
 
-**Result**: `kaye --version` drops from 1.375 s to 0.142 s, and rendered
-output is byte-identical for every exportable of the consumer used to
-verify it. The calls that changed are mapped in the warning below.
+
+
+
+
+
+
+## [9.1.0-beta] - 2026-10-06
+
+### Added
+
+- `hermes` subcommand (`m`): writes a Hermes home from a required `FOLDER`: root `SOUL.md`, `profiles/<name>/SOUL.md`, and every exportable as an Agent Skill; `setup_hermes_cli(soul_blueprint_name, profile_blueprint_names)` names the souls, an unknown name exits 1
+- `register_consumer(display_name, canonical_name, version)` and getters `get_consumer_display_name()`, `get_consumer_canonical_name()`, `get_consumer_version()`; the canonical name is the plugin, marketplace, marketplace folder, and Hermes skill folder name
+- `claude skills` (`claude s`): every exportable as Agent Skills into `~/.claude/skills`; `-z` makes one `.zip` per skill
+- `skill NAME... FOLDER` and `skill --all`/`-a FOLDER`: export named Agent Skills into a required FOLDER; an unknown name aborts before anything is written
+- `kaye_engine.skill`: agent-neutral package holding `Skill`, the folder and `.zip` writers, and `select_exportables`
+- `-n`/`--dry-run` on `skill`, `continue`, `export-image-prompt`, `export-json`, and `claude plugin`/`marketplace`/`code`/`vs-code-extension`: reports every file, directory, and archive step with the `dry` badge, writes nothing; `sync-open-webui-skills` lines carry the same badge
+- `Blueprint`: frozen, hashable, picklable value selecting nodes by path, built and shipped without a corpus; edited by pure functions (`create_blueprint`, `create_blueprint_from_node`, `checkmark_nodes`, `uncheckmark_nodes`, `merge_blueprints`, `replace_meta`, `parse_blueprint_tree`, ~~)
+- `BlueprintMeta` for descriptors and `display_name`, read via `show_description()`, `show_when_to_use()`, `show_globs()`, `show_display_name()`
+- JSON blueprint form: `encode_blueprint`, `decode_blueprint`, `parse_blueprint_json`, `dump_blueprint`, `save_blueprint`, `load_blueprint`
+- `CorpusIndex` and `BlueprintSelection`: one index per process, selections bound as bitmasks; `clear_corpus_tree()` and `add_corpus_clear_hook()`
+- late-bound `str` dependencies, validated at `register_blueprint()`
+- `validate_blueprint`, `resolve_dependencies`, `trace_dependencies`, `diff_blueprints`, `show_blueprint`, `show_dependencies`, `BlueprintRegistry.resolve_profile()`
+- `blueprint validate` (`v`), `preview` (`p`), `render` (`r`) take `-D`/`--no-dependencies`; `blueprint show` (`s`) prints a summary or one field with `-d`, `-w`, `-g`, `-p`, `-n`
+- `BLUEPRINT` argument of every blueprint command reads stdin as preview tree or JSON
+- `--help` of every subcommand links its GitHub doc
+
+### Changed
+
+- `kamilog` 3.0 compatibility: file and directory actions log through `kaye_engine.deed`, same wording as before; run-mode badges use `set_persistent_badges()`
+- `kamilog` is a package dependency, not a vendored copy
+- registering about 160 blueprints no longer deep-copies the corpus per blueprint: `kaye --version` drops from 1.375 s to 0.142 s, rendered output is byte-identical
+- rendering walks a selection bitmask; `parse_blueprint_tree` selects only `[x]` lines; `merge_blueprints` is a set union, `left` winning meta
+- `blueprint ls` → `blueprint list` (`ls` kept as alias); `blueprint show` is now the summary, the preview tree moved to `blueprint preview`
+- `blueprint render` of a registered name keeps its registry render profile
+- blueprint errors report as one critical log line and exit code 1
+- `skill` no longer exports everything by default; `claude skills` does
+- `Skill` and its writers moved from `kaye_engine.cli.skill` to `kaye_engine.skill`
+- `claude plugin --no-version` short flag `-n` → `-N`
+- docs: CLI guides merged into the main docs; `docs/sidecar-doc.md` replaces the affordance and sidecar docs
 
 > [!WARNING]
-> The blueprint API is a breaking rework; callers must migrate before
-> upgrading:
+> Blueprint API reworked; migrate before upgrading:
 >
 > | Before | Now |
 > | --- | --- |
@@ -114,55 +102,15 @@ verify it. The calls that changed are mapped in the warning below.
 > | `bp.sidecars`, `BlueprintDescriptorSidecars` | `bp.meta`, `BlueprintMeta`, `show_description()` and friends |
 > | `load_corpus_tree(name, sources, is_default_tree=)`, `get_corpus_tree(name)`, `get_default_corpus_tree()` | `load_corpus_tree(sources)`, `get_corpus_tree()` |
 >
-> A node can no longer be given as a hash integer, a registered blueprint's
-> `.blueprint` must be reassigned rather than mutated, and a second
-> `load_corpus_tree()` call now raises `ValueError`.
-
-### Display Name as Blueprint Meta
-
-**Purpose**: a blueprint carries its own human-facing name, so the name
-travels with it instead of living only on the registry entry.
-
-**High-level design**:
-
-- `BlueprintMeta.display_name` (default `""`, empty is legal) round-trips
-  through the JSON codec as the optional `meta.display_name`; old files
-  without it still load
-- a `BlueprintRegistry` entry reads its `display_name` live from the
-  blueprint meta, falling back to the `display_name=` argument, else `""`
-- `create_blueprint_from_node()` names the blueprint after the node
+> A node can no longer be given as a hash integer, a registered blueprint's `.blueprint` must be reassigned rather than mutated, and a second `load_corpus_tree()` call raises `ValueError`.
 
 > [!WARNING]
-> `register_blueprint(canonical_name, display_name, blueprint)` is now
-> `register_blueprint(canonical_name, blueprint, *, display_name="")`.
-> Callers passing the name positionally must move it into the blueprint
-> meta (`replace_meta(bp, display_name=...)`) or pass `display_name=`.
-
-### Blueprint CLI and API Verbs
-
-**Purpose**: one verb vocabulary for the blueprint API and the CLI, so a
-verb names one kind of operation everywhere and every function takes one
-input type and returns one output type.
-
-**High-level design**:
-
-- API verbs: `parse` and `decode` turn text and dicts into a blueprint,
-  `encode` and `dump` turn it back, `preview` draws a tree, `render`
-  generates the prompt, `show` reads a field, `validate`, `resolve`,
-  `trace`, and `diff` inspect
-- the CLI composes API functions and owns format detection (JSON or
-  preview tree) and stdin handling; the API never sniffs a format
-
-> [!WARNING]
-> The blueprint CLI and API names changed; callers must migrate before
-> upgrading:
+> Blueprint CLI and API names changed; migrate before upgrading:
 >
 > | Before | Now |
 > | --- | --- |
-> | `kaye-engine blueprint ls` | `kaye-engine blueprint list` (`ls` stays an alias) |
 > | `kaye-engine blueprint show` (a preview) | `kaye-engine blueprint preview` (`p`) |
 > | `kaye-engine blueprint generate` (`gen`, `g`) | `kaye-engine blueprint render` (`r`) |
-> | `kaye-engine blueprint show` as summary | new meaning of `show` (`s`) |
 > | `render_blueprint`, `render_blueprint_without_dependencies` | `preview_blueprint`, `preview_blueprint_without_dependencies` |
 > | `render_blueprint_tree` | `preview_selection` |
 > | `render_description`, `render_when_to_use`, `render_description_and_when_to_use` | `show_description`, `show_when_to_use`, `show_description_and_when_to_use` |
@@ -170,184 +118,27 @@ input type and returns one output type.
 > | `parse_blueprint_text` | `parse_blueprint_tree` |
 > | `decode_blueprint(text)` | `parse_blueprint_json(text)`; `decode_blueprint` takes a dict only |
 >
-> `blueprint show` now prints a summary instead of a preview tree, so a
-> script that still calls it gets different output, not an error.
-
-### Added
-
-- `show_display_name()` and `blueprint show -n`/`--display-name`; the
-  `blueprint show` summary leads with a `display name:` line
-- file and directory actions in every export log as fixed-wording kamilog
-  deeds (`create`, `overwrite`, `pack`, `move`, `save`, `load`), with a
-  `fail to ...` line and traceback on error
-- dry-run lines of `sync-open-webui-skills` carry the `dry` badge
-- `-n`/`--dry-run` on `skill`, `continue`, `export-image-prompt`, `export-json`,
-  and `claude plugin`/`marketplace`/`code`/`vs-code-extension`: reports
-  every file, directory, and archive step with the `dry` badge, writes
-  nothing
-- every CLI subcommand's `--help` links its GitHub doc; rendering commands
-  add a shared render-profile options blurb
-- `claude skills` (`claude s`): exports every exportable as Agent Skills,
-  into `~/.claude/skills` by default; `-z` makes one `.zip` per skill
-- `skill NAME... FOLDER` and `skill --all`/`-a FOLDER`: export only the
-  named Agent Skills into a required FOLDER; an unknown name aborts before
-  anything is written
-- `kaye_engine.skill`: the agent-neutral Agent Skills package, holding
-  `Skill`, the folder and `.zip` writers, and `select_exportables`
-
-##### Blueprint CLI and API Verbs
-
-- `blueprint validate` (`v`), `blueprint preview` (`p`), and `blueprint
-  render` (`r`) take `-D`/`--no-dependencies` for a blueprint's own nodes
-  only (`validate` takes none); `blueprint show` (`s`) prints a summary,
-  or one field with `-d`, `-w`, `-g`, or `-p`
-- the `BLUEPRINT` argument of every blueprint command also reads stdin,
-  as a preview tree or as JSON, detected from its first character
-- `parse_blueprint_json`, `dump_blueprint`, `validate_blueprint`,
-  `resolve_dependencies`, `trace_dependencies`, `diff_blueprints`,
-  `show_blueprint` with `BlueprintSummary`, and `show_dependencies`
-- `BlueprintRegistry.resolve_profile()`: the entry's own render profile
-  merged with a caller's, as `content()` renders with it
-
-##### Optimize Blueprint Data Structure
-
-- `Blueprint`, a frozen, hashable, picklable value recording the
-  checkmarked nodes by path (`nodes`, `subtrees`) with its `meta` and
-  `dependencies`; it holds no node object, so it is built, compared, and
-  shipped without a corpus
-- pure blueprint functions, each returning a new blueprint:
-  `create_blueprint` (empty, or full with `is_full=True`),
-  `create_blueprint_from_node`, `checkmark_nodes`, `uncheckmark_nodes`,
-  `is_checkmarked`, `merge_blueprints`, `replace_meta`, and
-  `parse_blueprint_tree`; a node is given as a node object, a name, or a
-  `NodePath`, and an unknown node raises `ValueError` naming it
-- `subtrees` entries: a recursive checkmark covers every non-sidecar
-  descendant, even one added later; unchecking a node under one expands it
-  into explicit nodes first
-- JSON form with a schema number on the envelope: `encode_blueprint`,
-  `decode_blueprint`, `parse_blueprint_json`, `dump_blueprint`,
-  `save_blueprint`, `load_blueprint`; decoding touches no corpus, and pickle and JSON round trips are equal across processes
-  and `PYTHONHASHSEED` values
-- `BlueprintMeta`, a literal `description` plus `description_node`,
-  `when_to_use_node`, and `globs_node` as paths;
-  `create_blueprint_from_node` fills the three node fields from the node's
-  own `{description}`, `{when_to_use}`, and `{globs}` children
-- `show_description`, `show_when_to_use`,
-  `show_description_and_when_to_use`, and `show_globs` read a
-  blueprint's descriptors for the exporters
-- `CorpusIndex`, derived once per process: pre-order node arrays, paths,
-  depths, parent and child indexes, subtree and sidecar masks, and each
-  node's static content block; `get_corpus_index()` and
-  `get_corpus_node(*path)` reach it
-- `BlueprintSelection`, a blueprint bound to the index as one bitmask;
-  `bind_selection` memoizes it per blueprint, `resolve_selection` ORs in
-  the dependencies by name with a cycle guard
-- late-bound dependencies: a `str` dependency is looked up at render time,
-  so a dependency registered after its dependent resolves;
-  `register_blueprint` validates every dependency name up front
-- `clear_corpus_tree()` drops the loaded tree and everything derived from
-  it; `add_corpus_clear_hook()` lets derived data follow
-- `render_prompt`, `render_prompt_without_dependencies`, `preview_blueprint`,
-  and `preview_blueprint_without_dependencies` as functions of a blueprint
-- the breaking-change table and new data-model sections in
-  `docs/prompt-doc.md`
-
-### Changed
-
-- `claude plugin --no-version` short flag `-n` → `-N`, freeing `-n` for
-  `--dry-run`
-- `kamilog` is now a package dependency instead of a vendored copy;
-  modules import it as `import kamilog`
-- export commands report each write once, through its deed; duplicate
-  per-file success lines are gone
-- CLI guides merged into `docs/claude-doc.md`, `docs/continue-doc.md`,
-  `docs/open-webui-doc.md`, and the `export-json` command help
-- `docs/abbrs-doc.md`, `docs/corpus-doc.md`, `docs/dynamic-content-doc.md`,
-  `docs/exportable-registry-doc.md`, and `docs/prompt-doc.md` rewritten as
-  full references; `docs/affordance-doc.md` and `docs/sidecar-node-doc.md`
-  merged into `docs/sidecar-doc.md`
-- Claude CLI help and docstrings unify on "Chat Blueprint"/"Coder
-  Blueprint" naming and drop the "kaye" prefix from plugin references
-
-- `skill` no longer exports every skill into a default folder; that is now
-  `claude skills`. The `skill` command's own FOLDER is required
-- the `Skill` document and its writers moved from `kaye_engine.cli.skill`
-  to `kaye_engine.skill`, logging under `kaye.engine.skill`
+> `blueprint show` now prints a summary, so a script still calling it gets different output, not an error.
 
 > [!WARNING]
-> `kaye-engine claude plugin -n` no longer means `--no-version`; use `-N`.
-> `-n` now means `--dry-run`.
+> `register_blueprint(canonical_name, display_name, blueprint)` is now `register_blueprint(canonical_name, blueprint, *, display_name="")`; move a positional name into the blueprint meta (`replace_meta(bp, display_name=...)`) or pass `display_name=`.
 
 > [!WARNING]
-> `kaye-engine skill FOLDER` and `kaye-engine skill` alone no longer export
-> everything; use `kaye-engine claude skills`, or `kaye-engine skill --all
-> FOLDER`. `export_skills_as_zips` now requires a `version` argument.
+> `setup_claude_cli(...)` no longer accepts `plugin_name`, `display_name`, `marketplace_name`, `version`, or `marketplace_folder_name`; call `register_consumer(...)` instead. `get_claude_cli_consumer_version()` and `get_claude_cli_display_name()` are replaced by `get_consumer_version()` and `get_consumer_display_name()`. `setup_hermes_cli(...)` no longer accepts `skill_category`, and `get_hermes_skill_category()` is removed.
 
-##### Blueprint CLI and API Verbs
-
-- `blueprint ls` is now `blueprint list`, with `ls` kept as its alias;
-  `blueprint show` is the summary, and the preview tree moved to
-  `blueprint preview`
-- `blueprint render` of a registered name keeps its registry entry's
-  render profile, and `blueprint preview` and `render` accept JSON or a
-  preview tree on stdin
-- `decode_blueprint` takes a dict only; JSON text goes through
-  `parse_blueprint_json`
-- the CLI reports a blueprint error as one critical log line and exit
-  code 1
-
-##### Optimize Blueprint Data Structure
-
-- `load_corpus_tree(sources)` takes no name or default flag and raises
-  `ValueError` on a second call; `get_corpus_tree()` takes no name and
-  raises `ValueError` before a load
-- every blueprint function reads that one tree and the `corpus_tree=`
-  argument is gone; the CLI setup guard and `dynamic-node` use
-  `get_corpus_tree()`, and `dynamic-node` with no corpus loads one holding
-  only the dynamic nodes
-- rendering walks the set bits of a selection bitmask instead of copying
-  and re-walking the tree, and a conditional sidecar splices through mask
-  arithmetic with no blueprint copy; startup no longer deep-copies the
-  corpus once per registered blueprint
-- the skill and Continue rule exporters read description, when-to-use, and
-  globs through the new render functions
-- `parse_blueprint_tree` selects only `[x]` lines and ignores unchecked
-  ones; it takes no corpus and no longer prunes
-- `preview_selection` shows the selected nodes plus their ancestors
-- `merge_blueprints` is a set union: `left` wins every meta field it sets,
-  and dependencies keep `left`'s order, then `right`'s not already present
-
-### Deprecated
+> [!WARNING]
+> `kaye-engine claude plugin -n` now means `--dry-run`; use `-N` for `--no-version`. `kaye-engine skill FOLDER` no longer exports everything; use `claude skills` or `skill --all FOLDER`. `export_skills_as_zips` now requires a `version` argument.
 
 ### Removed
 
-- vendored `kaye_engine/kamilog.py`; `from kaye_engine import kamilog` no
-  longer works
-- the `(dry run)` suffix on `sync-open-webui-skills` lines, replaced by the
-  `dry` badge
-- `docs/cli/` task-oriented guides, folded into the main docs
+- `blueprint generate` (`gen`, `g`) and the old blueprint API names, with no alias
+- `PromptBlueprint`, `.prune()`, the `|`, `+=`, `-=` operators, hash-integer node arguments, `BlueprintDescriptorSidecars`, `.sidecars`, `node_resolver.py`
+- `tree_name`, `is_default_tree`, `get_default_corpus_tree`, and the name-keyed tree cache
+- vendored `kaye_engine/kamilog.py`; `from kaye_engine import kamilog` no longer works
+- `(dry run)` suffix on `sync-open-webui-skills` lines, replaced by the `dry` badge
+- `docs/cli/` guides, folded into the main docs
 
-##### Blueprint CLI and API Verbs
-
-- `blueprint generate` (`gen`, `g`), replaced by `blueprint render`
-- the old API names listed in the warning above, with no alias: an old
-  call raises `ImportError`
-
-##### Optimize Blueprint Data Structure
-
-- `PromptBlueprint`, its `.prune()`, the `|`, `+=`, and `-=` operators, and
-  hash-integer node arguments
-- `BlueprintDescriptorSidecars` and the `.sidecars` accessor, replaced by
-  `BlueprintMeta`
-- `node_resolver.py`
-- `tree_name`, `is_default_tree`, and `get_default_corpus_tree`, with the
-  name-keyed tree cache they served
-
-### Fixed
-
-### Security
-
-[unreleased]: https://github.com/kami-lel/kaye-engine/compare/v9.0.0...dev
+[9.1.0-beta]: https://github.com/kami-lel/kaye-engine/compare/v9.0.0...v9.1.0-beta
 
 
 

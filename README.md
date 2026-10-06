@@ -15,7 +15,7 @@ Kaye Engine parses a plain Markdown file, as the structured single source of tru
 - 🪽 Hermes export: write a Hermes home directory in one command: a root `SOUL.md`, one `SOUL.md` per profile, and every exportable as an Agent Skill
 - 🧩 Agent Skills export: write every exportable, or just the ones you name, as Agent Skill folders or `.zip`s
 - 🔄 Open WebUI sync: push every exportable into a running Open WebUI server as an Agent Skill, creating, updating, and (optionally) pruning to match
-- 🔌 pluggable mechanism, ready for a consumer package to plug in its own corpus, abbreviations, and blueprints — including a Flask/HTTP surface, if the consumer chooses to build one
+- 🔌 pluggable mechanism, ready for a consumer package to register its identity (`register_consumer(...)`) and plug in its own corpus, abbreviations, and blueprints — including a Flask/HTTP surface, if the consumer chooses to build one
 
 
 
