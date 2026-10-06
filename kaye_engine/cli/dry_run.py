@@ -71,7 +71,7 @@ def enable_dry_run():
     global _is_dry_run_enabled
     _is_dry_run_enabled = True
     for name in _LOGGER_NAMES:
-        kamilog.getLogger(name).set_badges(DRY_BADGE)
+        kamilog.getLogger(name).set_persistent_badges(DRY_BADGE)
 
 
 def disable_dry_run():
@@ -82,7 +82,7 @@ def disable_dry_run():
     global _is_dry_run_enabled
     _is_dry_run_enabled = False
     for name in _LOGGER_NAMES:
-        kamilog.getLogger(name).clear_badges()
+        kamilog.getLogger(name).clear_persistent_badges()
 
 
 def apply_dry_run_arg(args):

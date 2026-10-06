@@ -7,6 +7,7 @@ define ``export_hermes_folder``
 from pathlib import Path
 
 import kamilog
+from kaye_engine.deed import track
 from kaye_engine.cli.dry_run import is_dry_run
 from kaye_engine.cli.hermes import LOGGER_HERMES_NAME
 from kaye_engine.cli.hermes.setup import (
@@ -40,16 +41,15 @@ def _write_soul(path, blueprint_name, render_profile):
     path = Path(path)
     try:
         if not path.parent.is_dir():
-            with logger.track.create_dir(path.parent):
+            with track(logger).create_dir(path.parent):
                 if not is_dry_run():
                     path.parent.mkdir(parents=True, exist_ok=True)
 
         content = blueprint_registry[blueprint_name].content(
             profile=render_profile
         )
-        deed = (
-            logger.track.owr_file if path.exists() else logger.track.create_file
-        )
+        deeds = track(logger)
+        deed = deeds.owr_file if path.exists() else deeds.create_file
         with deed(path):
             if not is_dry_run():
                 path.write_text(content, encoding=_FILE_ENCODING)

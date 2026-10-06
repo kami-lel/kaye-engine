@@ -75,13 +75,13 @@ class TestSwitch:
     @pytest.mark.parametrize("name", dry_run._LOGGER_NAMES)
     def test_enable_badges_every_engine_logger(_, name):
         enable_dry_run()
-        assert kamilog.getLogger(name)._run_badges == (dry_run.DRY_BADGE,)
+        assert kamilog.getLogger(name)._persistent_badges == (dry_run.DRY_BADGE,)
 
     @pytest.mark.parametrize("name", dry_run._LOGGER_NAMES)
     def test_disable_clears_every_engine_logger(_, name):
         enable_dry_run()
         disable_dry_run()
-        assert kamilog.getLogger(name)._run_badges == ()
+        assert kamilog.getLogger(name)._persistent_badges == ()
 
 
 # TestApplyArg  ##################################################################
