@@ -6,14 +6,20 @@ define ``register_show_parser``
 
 from argparse import RawDescriptionHelpFormatter
 
-from kaye_engine import LOGGER_NAME, kamilog
-from kaye_engine.cli.blueprint.blueprint_io_parser import (
-    blueprint_io_parser,
-    load_blueprint_from_args,
+import kamilog
+from kaye_engine import LOGGER_NAME
+from kaye_engine.cli.blueprint.aux_input import get_cmd_blueprint
+from kaye_engine.cli.blueprint.aux_output import (
+    emit_str,
+    fmt_show_result,
+    pick_show_fx,
+    run_cmd_and_exit,
+)
+from kaye_engine.cli.blueprint.blueprint_arg_parser import (
+    build_blueprint_arg_parser,
 )
 from kaye_engine.cli.cli_setup_guard import check_corpus_setup_for_cli
-from kaye_engine.cli.comment_parser import build_comment_parent_parser
-from kaye_engine.kamilog import (
+from kamilog import (
     add_verbose_arguments,
     set_logging_level_by_namespace,
 )
@@ -23,24 +29,38 @@ logger = kamilog.getLogger(LOGGER_NAME)
 
 # constants  ###################################################################
 
-_HELP = "show content of any of registered blueprints"
+_HELP = "show a blueprint's summary, or one of its fields"
 
 
 _DESCRIPTION = _HELP + """
 
-render blueprint into a preview tree; the result is printed to stdout
+by default, prints the blueprint summary
 
-select blueprint by registry name BLUEPRINT:
+with a field flag, prints only that field; the flags are mutually exclusive
+
+select BLUEPRINT by canonical name in blueprint registry:
 
     kaye-engine blueprint show my-blueprint
+    kaye-engine blueprint show my-blueprint --globs
 
-reading blueprint from stdin:
+reading blueprint from stdin, a preview tree or JSON:
 
-    kaye-engine blueprint show < my-blueprint.yaml
-    cat my-blueprint.yaml | kaye-engine blueprint show
-
-the preview's depth, line count, and line width can be tuned with -t, -l, and -w
+    kaye-engine blueprint show < my-blueprint.json
+    cat my-tree.txt | kaye-engine blueprint show --description
 """
+
+# (short flag or None, field): the field names a key of ``SHOW_FIELD_FXS``
+_FIELD_FLAGS = (
+    ("-a", "display-name"),
+    ("-d", "description"),
+    ("-D", "description-node"),
+    ("-w", "when-to-use"),
+    ("-W", "when-to-use-node"),
+    ("-n", "nodes"),
+    ("-t", "subtrees"),
+    ("-g", "globs"),
+    ("-p", "dependencies"),
+)
 
 
 # auxiliaries  #################################################################
@@ -48,23 +68,10 @@ def _show_main(args):
     set_logging_level_by_namespace(args, logger=logger)
     check_corpus_setup_for_cli()
 
-    blueprint, display_name, _registry = load_blueprint_from_args(args)
+    loaded = get_cmd_blueprint(args.BLUEPRINT)
+    show_fx = pick_show_fx(args.field)
 
-    show_comment = True if args.show_comment is None else args.show_comment
-
-    render_kwargs = {
-        "show_full_tree": args.show_full_tree,
-        "show_comment": show_comment,
-        "display_name": display_name,
-    }
-    if args.preview_line_count is not None:
-        render_kwargs["content_preview_lines"] = args.preview_line_count
-    if args.preview_line_width is not None:
-        render_kwargs["content_preview_width"] = args.preview_line_width
-
-    preview_tree = blueprint.render_blueprint(**render_kwargs)
-
-    print(preview_tree)
+    emit_str(fmt_show_result(show_fx(loaded.blueprint)))
 
 
 # Public API  ##################################################################
@@ -78,36 +85,24 @@ def register_show_parser(cli_subparser):
         description=_DESCRIPTION,
         formatter_class=RawDescriptionHelpFormatter,
         aliases=["s"],
-        parents=[blueprint_io_parser, build_comment_parent_parser()],
+        parents=[build_blueprint_arg_parser()],
     )
 
     # add arguments  -----------------------------------------------------------
-    # options
-    show_parser.add_argument(
-        "-l",
-        "--preview-line-count",
-        metavar="LINE_COUNT",
-        type=int,
-        nargs="?",
-        help="maximum line count for each entry in blueprint preview",
-        default=None,
-    )
-    show_parser.add_argument(
-        "-w",
-        "--preview-line-width",
-        metavar="LINE_WIDTH",
-        type=int,
-        nargs="?",
-        help="maximum line width for each entry in blueprint preview",
-        default=None,
-    )
-    show_parser.add_argument(
-        "-t",
-        "--show-full-tree",
-        action="store_true",
-        help="display the entire preview tree",
-    )
+    field_group = show_parser.add_mutually_exclusive_group()
+    for short_flag, field in _FIELD_FLAGS:
+        field_group.add_argument(
+            *([short_flag] if short_flag else []),
+            "--" + field,
+            dest="field",
+            action="store_const",
+            const=field,
+            default=None,
+            help="show {} alone".format(field),
+        )
 
     add_verbose_arguments(show_parser)
 
-    show_parser.set_defaults(func=_show_main)
+    show_parser.set_defaults(
+        func=lambda args: run_cmd_and_exit(_show_main, args)
+    )

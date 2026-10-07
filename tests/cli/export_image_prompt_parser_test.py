@@ -13,9 +13,12 @@ import pytest
 
 from kaye_engine.cli import export_image_prompt_parser
 from kaye_engine.exportable import Exportable
-from kaye_engine.prompt.blueprint import PromptBlueprint
+from kaye_engine.prompt.blueprint.data import create_blueprint
 from kaye_engine.prompt.blueprint.registry import BlueprintRegistry
-from kaye_engine.prompt.prompt_corpus_node import PromptCorpusNode
+from kaye_engine.prompt.prompt_corpus_loader import (
+    clear_corpus_tree,
+    load_corpus_tree,
+)
 
 
 # auxiliaries  ##################################################################
@@ -36,6 +39,12 @@ def _build_export_image_prompt_parser():
     subparser = root_parser.add_subparsers()
     export_image_prompt_parser.register_export_image_prompt_parser(subparser)
     return root_parser
+
+
+@pytest.fixture(autouse=True)
+def _clear_corpus_after():
+    yield
+    clear_corpus_tree()
 
 
 @pytest.fixture(autouse=True)
@@ -77,10 +86,11 @@ def _fake_registry():
 class TestAvoidContent:
 
     def test_blueprint_with_avoid_content_renders_negative_prompt(_):
-        root = PromptCorpusNode("○", None, [])
-        main = PromptCorpusNode("Main", root, ["Main content."])
-        PromptCorpusNode("{avoid}", main, ["Do not do this."])
-        blueprint = PromptBlueprint.create_full_blueprint(corpus_tree=root)
+        clear_corpus_tree()
+        load_corpus_tree(
+            ["# Main\nMain content.\n## {avoid}\nDo not do this.\n"]
+        )
+        blueprint = create_blueprint(is_full=True)
         reg = BlueprintRegistry(
             canonical_name="test-avoid-with-content",
             display_name="Test",
@@ -92,9 +102,9 @@ class TestAvoidContent:
         assert opt == "Do not do this."
 
     def test_blueprint_without_avoid_content_returns_empty(_):
-        root = PromptCorpusNode("○", None, [])
-        PromptCorpusNode("Main", root, ["Main content."])
-        blueprint = PromptBlueprint.create_full_blueprint(corpus_tree=root)
+        clear_corpus_tree()
+        load_corpus_tree(["# Main\nMain content.\n"])
+        blueprint = create_blueprint(is_full=True)
         reg = BlueprintRegistry(
             canonical_name="test-avoid-without-content",
             display_name="Test",

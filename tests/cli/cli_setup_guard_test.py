@@ -17,7 +17,7 @@ class TestCheckCorpusSetupForCliNoCorpusTree:
 
     def test_logs_error(_, caplog):
         with patch(
-            "kaye_engine.cli.cli_setup_guard.get_default_corpus_tree",
+            "kaye_engine.cli.cli_setup_guard.get_corpus_tree",
             side_effect=ValueError,
         ):
             with patch(
@@ -29,7 +29,9 @@ class TestCheckCorpusSetupForCliNoCorpusTree:
 
         assert any(rec.levelno == logging.ERROR for rec in caplog.records)
         assert any(
-            "no corpus tree loaded" in rec.message for rec in caplog.records
+            "no corpus tree loaded" in rec.message
+            and "load_corpus_tree(sources)" in rec.message
+            for rec in caplog.records
         )
 
 
@@ -37,7 +39,7 @@ class TestCheckCorpusSetupForCliNoBlueprints:
 
     def test_logs_error(_, caplog):
         with patch(
-            "kaye_engine.cli.cli_setup_guard.get_default_corpus_tree",
+            "kaye_engine.cli.cli_setup_guard.get_corpus_tree",
         ):
             with patch(
                 "kaye_engine.cli.cli_setup_guard.blueprint_registry", {}

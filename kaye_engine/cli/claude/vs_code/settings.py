@@ -10,8 +10,10 @@ from pathlib import Path
 
 import json5
 
-from kaye_engine import kamilog
+import kamilog
+from kaye_engine.deed import track
 from kaye_engine.cli.claude import LOGGER_CLAUDE_NAME
+from kaye_engine.cli.dry_run import is_dry_run
 
 # logger  ######################################################################
 logger = kamilog.getLogger(LOGGER_CLAUDE_NAME)
@@ -58,24 +60,27 @@ def update_settings_json(claude_folder):
         permission_cmds = json5.load(f)
 
     settings_path = Path(claude_folder) / _SETTINGS_FILENAME
-    settings_path.parent.mkdir(parents=True, exist_ok=True)
+    if not settings_path.parent.is_dir():
+        with track(logger).create_dir(settings_path.parent):
+            if not is_dry_run():
+                settings_path.parent.mkdir(parents=True, exist_ok=True)
 
     if settings_path.exists():
         try:
-            with open(settings_path, encoding="utf-8") as f:
-                data = json.load(f)
+            with track(logger).load_config(settings_path):
+                with open(settings_path, encoding="utf-8") as f:
+                    data = json.load(f)
         except json.JSONDecodeError as err:
-            logger.critical(
-                "cannot parse existing settings.json:\t" + str(settings_path)
-            )
             raise SystemExit(1) from err
     else:
         data = _build_settings(permission_cmds)
 
     _set_permissions(data, permission_cmds)
 
-    with open(settings_path, "w", encoding="utf-8") as f:
-        json.dump(data, f, indent=2, ensure_ascii=False)
-        f.write("\n")
+    with track(logger).save_config(settings_path):
+        if not is_dry_run():
+            with open(settings_path, "w", encoding="utf-8") as f:
+                json.dump(data, f, indent=2, ensure_ascii=False)
+                f.write("\n")
 
     return settings_path

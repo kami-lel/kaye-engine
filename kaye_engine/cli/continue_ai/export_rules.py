@@ -6,8 +6,10 @@ define ``classify_exportable`` and ``export_continue_folder``
 
 from pathlib import Path
 
-from kaye_engine import kamilog
+import kamilog
+from kaye_engine.deed import track
 from kaye_engine.cli.continue_ai import LOGGER_CONTINUE_NAME
+from kaye_engine.cli.dry_run import is_dry_run
 from kaye_engine.cli.continue_ai.rule_md import ContinueRule
 from kaye_engine.exportable import exportable_registry
 
@@ -72,9 +74,11 @@ def export_continue_folder(folder, *, render_profile=None):
     }
     try:
         for subfolder in subfolders.values():
-            subfolder.mkdir(parents=True, exist_ok=True)
+            if not subfolder.is_dir():
+                with track(logger).create_dir(subfolder):
+                    if not is_dry_run():
+                        subfolder.mkdir(parents=True, exist_ok=True)
     except OSError as err:
-        logger.critical("cannot create folder:\t" + str(folder))
         raise SystemExit(1) from err
 
     for exportable in exportable_registry.values():
@@ -91,6 +95,4 @@ def export_continue_folder(folder, *, render_profile=None):
                 render_profile=render_profile,
             ).write(path)
         except OSError as err:
-            logger.critical("cannot write {}:\t{}".format(kind, path))
             raise SystemExit(1) from err
-        logger.succ("export {}:\t{}".format(kind, path))

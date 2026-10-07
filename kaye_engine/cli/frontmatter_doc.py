@@ -7,7 +7,15 @@ define ``FrontmatterDoc`` and the shared ``dump_yaml`` helper
 import io
 from pathlib import Path
 
+import kamilog
 import yaml
+
+from kaye_engine.deed import track
+from kaye_engine import LOGGER_NAME
+from kaye_engine.cli.dry_run import is_dry_run
+
+# logger  ######################################################################
+logger = kamilog.getLogger(LOGGER_NAME)
 
 _FILE_ENCODING = "utf-8"
 
@@ -64,7 +72,13 @@ class FrontmatterDoc:  # =======================================================
         :param path: output path for the file to write
         :type path: Path-like
         """
-        Path(path).write_text(self.render(), encoding=_FILE_ENCODING)
+        path = Path(path)
+        deed = track(logger).owr_file if path.exists() else (
+            track(logger).create_file
+        )
+        with deed(path):
+            if not is_dry_run():
+                path.write_text(self.render(), encoding=_FILE_ENCODING)
 
     # fields   -----------------------------------------------------------------
 

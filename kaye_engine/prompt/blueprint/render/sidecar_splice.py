@@ -1,16 +1,12 @@
 """
 render.sidecar_splice.py
 
-define ``_splice_conditional_sidecars``
+define ``splice_sidecars``
 """
 
-import copy
+from ..index import BlueprintSelection
 
-from anytree import PreOrderIter
-
-from ...sidecar_node import get_sidecar_name
-
-__all__ = ("_splice_conditional_sidecars",)
+__all__ = ("splice_sidecars",)
 
 
 def _build_variant_sidecar_map(variants):
@@ -21,7 +17,7 @@ def _build_variant_sidecar_map(variants):
     entry pair per ``affordance_registry`` entry, checkmarked when
     any/none of its registered variants are present in ``variants``
 
-    (helper function used in ``_splice_conditional_sidecars()``)
+    (helper function used in ``splice_sidecars()``)
 
 
     :param variants: canonical names of variants available on the
@@ -57,44 +53,53 @@ def _build_variant_sidecar_map(variants):
     return sidecar_map
 
 
-def _splice_conditional_sidecars(
-    blueprint, *, conditional_sidecars, variants
-):
+def splice_sidecars(selection, *, conditional_sidecars, variants):
     """
-    auto-checkmark conditional sidecar nodes ahead of rendering -- both
-    plain ``conditional_sidecars`` name matches and, when ``variants``
-    is given, the ``Usage``/``Lack``/``Fallback`` sidecars derived
-    from ``variant_registry``/``affordance_registry``
+    add the conditional sidecar nodes to ``selection``, as mask arithmetic
+    on the index's ``sidecar_masks`` -- both plain ``conditional_sidecars``
+    name matches and, when ``variants`` is given, the ``Usage``/``Lack``/
+    ``Fallback`` sidecars derived from ``variant_registry`` and
+    ``affordance_registry``; a sidecar is spliced in only when its parent
+    is selected
 
-    (helper function used in ``render_prompt_lines()``)
 
-
-    :param blueprint:
-    :type blueprint: PromptBlueprint
-    :param conditional_sidecars: see ``render_prompt_lines()``
+    :param selection: the selection to splice into; left untouched
+    :type selection: BlueprintSelection
+    :param conditional_sidecars: sidecar names to splice in
     :type conditional_sidecars: collections.abc.Iterable[str]
-    :param variants: see ``render_prompt_lines()``
+    :param variants: canonical names of variants available on the target
+            surface; ``None`` disables the variant mechanism
     :type variants: collections.abc.Iterable[str] or None
-    :return: ``blueprint``, or a checkmark-spliced copy of it when either
-            mechanism has anything to apply
-    :rtype: PromptBlueprint
+    :return: ``selection``, or a new selection with the sidecars spliced
+            in when either mechanism has anything to apply
+    :rtype: BlueprintSelection
     """
     variant_sidecar_names = (
         _build_variant_sidecar_map(variants) if variants is not None else None
     )
 
     if not conditional_sidecars and variant_sidecar_names is None:
-        return blueprint
+        return selection
 
-    working_bp = copy.copy(blueprint)
-    for node in PreOrderIter(working_bp.corpus):
-        sidecar_name = get_sidecar_name(node)
-        if sidecar_name is None or not working_bp.is_checkmarked(node.parent):
-            continue
-        if sidecar_name in conditional_sidecars or (
+    index = selection.index
+    wanted = 0
+    for name, name_mask in index.sidecar_masks.items():
+        if name in conditional_sidecars or (
             variant_sidecar_names is not None
-            and variant_sidecar_names.get(sidecar_name)
+            and variant_sidecar_names.get(name)
         ):
-            working_bp.checkmark(node)
+            wanted |= name_mask
 
-    return working_bp
+    # ascending bit order is pre-order, so a sidecar nested under another
+    # spliced sidecar sees its parent already added
+    mask = selection.mask
+    remaining = wanted
+    while remaining:
+        low = remaining & -remaining
+        idx = low.bit_length() - 1
+        remaining ^= low
+        if mask >> index.parent_idxs[idx] & 1:
+            mask |= low
+
+    return BlueprintSelection(index, mask)
+

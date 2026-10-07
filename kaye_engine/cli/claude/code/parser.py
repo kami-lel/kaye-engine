@@ -3,7 +3,8 @@
 from argparse import RawDescriptionHelpFormatter
 from pathlib import Path
 
-from kaye_engine import PACKAGE_NAME, kamilog
+import kamilog
+from kaye_engine import PACKAGE_NAME
 from kaye_engine.cli import DEFAULT_SPARSENESS
 from kaye_engine.cli.claude import LOGGER_CLAUDE_NAME
 from kaye_engine.cli.claude.plugin.export_folder import export_plugin_as_folder
@@ -18,7 +19,13 @@ from kaye_engine.cli.claude.user_prompt.parser import (
     DEFAULT_CLAUDE_FOLDER,
     find_user_system_prompt_file,
 )
+from kaye_engine.cli.dry_run import (
+    apply_dry_run_arg,
+    build_dry_run_parent_parser,
+)
+from kaye_engine.cli.claude import CLAUDE_DOC_DESCRIPTION
 from kaye_engine.cli.render_profile_parser import (
+    RENDER_PROFILE_DESCRIPTION,
     build_render_profile_parent_parser,
     resolve_render_profile,
 )
@@ -29,8 +36,8 @@ logger = kamilog.getLogger(LOGGER_CLAUDE_NAME)
 # constants  ###################################################################
 _DESCRIPTION = __doc__ + """
 
-writes CLAUDE.md as the User System Prompt (Chat + Coder blueprint) and
-exports the kaye plugin into plugins/
+writes CLAUDE.md as the User System Prompt (Chat Blueprint + Coder Blueprint)
+and exports the plugin into plugins/
 
 CLAUDE_FOLDER/  (default: ~/.claude)
 ├── CLAUDE.md  (User System Prompt)
@@ -50,7 +57,8 @@ def register_code_parser(cli_subparser):  ######################################
     code_parser = cli_subparser.add_parser(
         "code",
         help=__doc__,
-        description=_DESCRIPTION,
+        description=_DESCRIPTION + CLAUDE_DOC_DESCRIPTION
+        + RENDER_PROFILE_DESCRIPTION,
         formatter_class=RawDescriptionHelpFormatter,
         aliases=["c"],
         parents=[
@@ -58,7 +66,8 @@ def register_code_parser(cli_subparser):  ######################################
                 default_surface=("code",),
                 default_sparseness=DEFAULT_SPARSENESS,
                 surface_profiles=get_surface_profiles(),
-            )
+            ),
+            build_dry_run_parent_parser(),
         ],
     )
 
@@ -68,13 +77,14 @@ def register_code_parser(cli_subparser):  ######################################
         metavar="CLAUDE_FOLDER",
         type=Path,
         default=DEFAULT_CLAUDE_FOLDER,
-        help="path to local .claude/ folder; default: ~/.claude",
+        help="path to local .claude/ folder; default: ~/.claude, v.s.",
     )
 
     kamilog.add_verbose_arguments(code_parser)
 
     def _code_main(args):
         kamilog.set_logging_level_by_namespace(args, logger=logger)
+        apply_dry_run_arg(args)
         logger.enter("{} claude code".format(PACKAGE_NAME))
         check_setup_for_claude_cli()
 
@@ -94,7 +104,6 @@ def register_code_parser(cli_subparser):  ######################################
         export_user_system_prompt_file(
             prompt_file, use_coder=True, render_profile=render_profile
         )
-        logger.succ("export user system prompt file:\t" + str(prompt_file))
 
         logger.done("export Claude Code folder:" + "\t" + str(folder))
 

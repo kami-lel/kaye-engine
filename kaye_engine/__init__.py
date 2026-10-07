@@ -8,15 +8,18 @@ __all__ = (
     "AbbrData",
     "DynamicSubstitution",
     "StringDynamicSubstitution",
-    "get_default_corpus_tree",
+    "clear_corpus_tree",
+    "get_corpus_tree",
     "load_corpus_tree",
     "populate_abbr_data_with_json_file",
     "register_abbr_glossary",
     "register_blueprint",
     "register_comment_line",
+    "register_consumer",
     "register_image_prompt_exportable",
     "register_dynamic_substitution",
     "setup_claude_cli",
+    "setup_hermes_cli",
 )
 
 
@@ -32,11 +35,14 @@ from kaye_engine.abbr_collection import (
     register_abbr_glossary,
 )
 from kaye_engine.cli.claude.setup import setup_claude_cli
+from kaye_engine.cli.hermes.setup import setup_hermes_cli
+from kaye_engine.consumer import register_consumer
 from kaye_engine.exportable import register_image_prompt_exportable
 from kaye_engine.prompt import (
     DynamicSubstitution,
     StringDynamicSubstitution,
-    get_default_corpus_tree,
+    clear_corpus_tree,
+    get_corpus_tree,
     load_corpus_tree,
     register_blueprint,
     register_comment_line,

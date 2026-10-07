@@ -6,7 +6,8 @@ group abbreviations for export
 
 import re
 
-from kaye_engine import LOGGER_NAME, kamilog
+import kamilog
+from kaye_engine import LOGGER_NAME
 from kaye_engine.abbr_collection import (
     AbbrTags,
     AbbrWrap,

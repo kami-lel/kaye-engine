@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "kaye-engine"
-version = "9.0.0"
+version = "9.1.0-beta"
 description = "parse a plain Markdown file, as the structured single source of truth for LLM instructions, then render scenario-ready prompt assets"
 readme = "README.md"
 authors = [
@@ -14,6 +14,7 @@ requires-python = ">=3.11"
 dependencies = [
     "anytree",
     "json5",
+    "kamilog @ git+https://github.com/kami-lel/kamilog.git",
     "pyahocorasick",
     "pyyaml",
 ]

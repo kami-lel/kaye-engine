@@ -3,7 +3,8 @@
 from argparse import RawDescriptionHelpFormatter
 from pathlib import Path
 
-from kaye_engine import PACKAGE_NAME, kamilog
+import kamilog
+from kaye_engine import PACKAGE_NAME
 from kaye_engine.cli import DEFAULT_SPARSENESS
 from kaye_engine.cli.claude import LOGGER_CLAUDE_NAME
 from kaye_engine.cli.claude.plugin_marketplace_name import (
@@ -13,7 +14,13 @@ from kaye_engine.cli.claude.setup import get_surface_profiles
 from kaye_engine.cli.claude.user_prompt.parser import (
     DEFAULT_CLAUDE_FOLDER,
 )
+from kaye_engine.cli.dry_run import (
+    apply_dry_run_arg,
+    build_dry_run_parent_parser,
+)
+from kaye_engine.cli.claude import CLAUDE_DOC_DESCRIPTION
 from kaye_engine.cli.render_profile_parser import (
+    RENDER_PROFILE_DESCRIPTION,
     build_render_profile_parent_parser,
     resolve_render_profile,
 )
@@ -29,9 +36,9 @@ _DESCRIPTION = """
 
 which performs:
 
-- writes CLAUDE.md as the User System Prompt (Chat + Coder blueprint)
+- writes CLAUDE.md as the User System Prompt (Chat Blueprint + Coder Blueprint)
 - updates settings.json
-- exports the kaye plugin wrapped in a marketplace under
+- exports the plugin wrapped in a marketplace under
   MARKETPLACE_FOLDER_NAME/.
 
 CLAUDE_FOLDER/  (default: ~/.claude)
@@ -53,6 +60,7 @@ CLAUDE_FOLDER/  (default: ~/.claude)
 
 def _vs_code_main(args):
     kamilog.set_logging_level_by_namespace(args, logger=logger)
+    apply_dry_run_arg(args)
     logger.enter("{} claude vs-code-extension".format(PACKAGE_NAME))
     check_setup_for_claude_cli()
 
@@ -76,7 +84,8 @@ def register_vs_code_parser(cli_subparser):  ###################################
     vs_code_parser = cli_subparser.add_parser(
         "vs-code-extension",
         help=__doc__,
-        description=__doc__ + _DESCRIPTION,
+        description=__doc__ + _DESCRIPTION + CLAUDE_DOC_DESCRIPTION
+        + RENDER_PROFILE_DESCRIPTION,
         formatter_class=RawDescriptionHelpFormatter,
         aliases=["v"],
         parents=[
@@ -84,7 +93,8 @@ def register_vs_code_parser(cli_subparser):  ###################################
                 default_surface=("vsc",),
                 default_sparseness=DEFAULT_SPARSENESS,
                 surface_profiles=get_surface_profiles(),
-            )
+            ),
+            build_dry_run_parent_parser(),
         ],
     )
 
@@ -94,7 +104,7 @@ def register_vs_code_parser(cli_subparser):  ###################################
         metavar="CLAUDE_FOLDER",
         type=Path,
         default=DEFAULT_CLAUDE_FOLDER,
-        help="path to local .claude/ folder; default: ~/.claude",
+        help="path to local .claude/ folder; default: ~/.claude, v.s.",
     )
 
     kamilog.add_verbose_arguments(vs_code_parser)

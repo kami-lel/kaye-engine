@@ -15,8 +15,8 @@ from kaye_engine.exportable import (
     register_image_prompt_exportable,
     register_exportable_entry,
 )
-from kaye_engine.prompt.blueprint import BlueprintRegistry, PromptBlueprint
-from kaye_engine.prompt.prompt_corpus_node import PromptCorpusNode
+from kaye_engine.prompt.blueprint import BlueprintRegistry
+from kaye_engine.prompt.blueprint.data import create_blueprint
 
 
 @pytest.fixture
@@ -31,16 +31,14 @@ def registered_names():
 
 @pytest.fixture
 def empty_corpus():
-    return PromptCorpusNode("○", None, [])
+    return None  # registering needs no corpus: a blueprint is plain data
 
 
 def _dummy_blueprint_registry(canonical_name, empty_corpus, **kwargs):
     return BlueprintRegistry(
         canonical_name=canonical_name,
         display_name="Test " + canonical_name,
-        blueprint=PromptBlueprint.create_empty_blueprint(
-            corpus_tree=empty_corpus
-        ),
+        blueprint=create_blueprint(),
         **kwargs,
     )
 

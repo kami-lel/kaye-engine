@@ -1,14 +1,16 @@
-"""render the Kaye Chat blueprint as the User System Prompt"""
+"""render the Chat Blueprint as the User System Prompt"""
 
 from argparse import RawDescriptionHelpFormatter
 from pathlib import Path
 
-from kaye_engine import kamilog
+import kamilog
 from kaye_engine.cli import DEFAULT_SPARSENESS
 from kaye_engine.cli.claude import LOGGER_CLAUDE_NAME
 from kaye_engine.cli.cli_setup_guard import check_corpus_setup_for_cli
 from kaye_engine.cli.claude.setup import get_surface_profiles
+from kaye_engine.cli.claude import CLAUDE_DOC_DESCRIPTION
 from kaye_engine.cli.render_profile_parser import (
+    RENDER_PROFILE_DESCRIPTION,
     build_render_profile_parent_parser,
     resolve_render_profile,
 )
@@ -22,8 +24,7 @@ logger = kamilog.getLogger(LOGGER_CLAUDE_NAME)
 
 _DESCRIPTION = """
 
-renders the Chat blueprint as the User System Prompt; the result is
-printed to stdout. Optionally appends the Coder blueprint with -c.
+result is printed to stdout
 
     kaye-engine claude usp > ~/.claude/CLAUDE.md
 """
@@ -66,7 +67,8 @@ def register_user_prompt_parser(cli_subparser):  ###############################
     user_prompt_parser = cli_subparser.add_parser(
         "user-system-prompt",
         help=__doc__,
-        description=__doc__ + _DESCRIPTION,
+        description=__doc__ + _DESCRIPTION + CLAUDE_DOC_DESCRIPTION
+        + RENDER_PROFILE_DESCRIPTION,
         formatter_class=RawDescriptionHelpFormatter,
         aliases=["usp"],
         parents=[
@@ -84,7 +86,7 @@ def register_user_prompt_parser(cli_subparser):  ###############################
         "--coder",
         action="store_true",
         default=False,
-        help="append Kaye Peer Coder content after the main blueprint",
+        help="append Coder Blueprint content after the Chat Blueprint",
     )
 
     kamilog.add_verbose_arguments(user_prompt_parser)
