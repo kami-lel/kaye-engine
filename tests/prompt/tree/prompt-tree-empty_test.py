@@ -46,7 +46,7 @@ More text.
 
     with patch("builtins.open", m):
         return load_corpus_tree(
-            "prompt-tree-fenced-test", [Path("dummy-path.md")]
+            [Path("dummy-path.md")]
         )
 
 
@@ -104,7 +104,7 @@ This project is licensed under the MIT License.
 
     with patch("builtins.open", m):
         return load_corpus_tree(
-            "prompt-tree-empty-test", [Path("dummy-path.md")]
+            [Path("dummy-path.md")]
         )
 
 

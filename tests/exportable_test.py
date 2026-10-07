@@ -19,10 +19,15 @@ from kaye_engine.exportable import (
     get_exportable,
     register_exportable_entry,
 )
-from kaye_engine.prompt.blueprint import BlueprintRegistry, PromptBlueprint
+from kaye_engine.prompt.blueprint import BlueprintRegistry
+from kaye_engine.prompt.blueprint.data import create_blueprint
+from kaye_engine.prompt.blueprint.render import render_prompt_without_dependencies
 from kaye_engine.prompt.blueprint.render_mode import RenderMode
 from kaye_engine.prompt.blueprint.render_profile import RenderProfile
-from kaye_engine.prompt.prompt_corpus_node import PromptCorpusNode
+from kaye_engine.prompt.prompt_corpus_loader import (
+    clear_corpus_tree,
+    load_corpus_tree,
+)
 
 
 @pytest.fixture
@@ -35,16 +40,17 @@ def registered_names():
 
 @pytest.fixture
 def empty_corpus():
-    return PromptCorpusNode("○", None, [])
+    clear_corpus_tree()
+    root = load_corpus_tree([])
+    yield root
+    clear_corpus_tree()
 
 
 def _dummy_blueprint_registry(canonical_name, empty_corpus, **kwargs):
     return BlueprintRegistry(
         canonical_name=canonical_name,
         display_name="Test " + canonical_name,
-        blueprint=PromptBlueprint.create_empty_blueprint(
-            corpus_tree=empty_corpus
-        ),
+        blueprint=create_blueprint(),
         **kwargs,
     )
 
@@ -125,7 +131,9 @@ class TestContent:  ############################################################
 
         assert reg.content(
             profile=RenderProfile(sparseness=0)
-        ) == reg.blueprint.generate_prompt_without_dependencies(sparseness=0)
+        ) == render_prompt_without_dependencies(
+            reg.blueprint, profile=RenderProfile(sparseness=0)
+        )
 
     def test_blueprint_registry_content_forwards_render_kwargs(
         _, empty_corpus
@@ -134,7 +142,9 @@ class TestContent:  ############################################################
 
         assert reg.content(
             profile=RenderProfile(sparseness=-1)
-        ) == reg.blueprint.generate_prompt_without_dependencies(sparseness=-1)
+        ) == render_prompt_without_dependencies(
+            reg.blueprint, profile=RenderProfile(sparseness=-1)
+        )
 
     def test_blueprint_registry_content_comment_names_entry(_, empty_corpus):
         reg = _dummy_blueprint_registry("test-exp-name", empty_corpus)
@@ -174,16 +184,15 @@ class TestContent:  ############################################################
 
 class TestNegativeContent:  #####################################################
 
+    @pytest.fixture(autouse=True)
     def _avoid_corpus(_):
-        root = PromptCorpusNode("○", None, [])
-        main = PromptCorpusNode("Main", root, ["Main content."])
-        PromptCorpusNode("{avoid}", main, ["Do not do this."])
-        return root
+        clear_corpus_tree()
+        load_corpus_tree(["# Main\nMain content.\n## {avoid}\nDo not do this.\n"])
+        yield
+        clear_corpus_tree()
 
     def test_blueprint_registry_negative_content(_):
-        blueprint = PromptBlueprint.create_full_blueprint(
-            corpus_tree=_._avoid_corpus()
-        )
+        blueprint = create_blueprint(is_full=True)
         reg = BlueprintRegistry(
             canonical_name="test-exp-negative-content",
             display_name="Test Negative Content",
@@ -196,9 +205,7 @@ class TestNegativeContent:  ####################################################
         )
 
     def test_blueprint_registry_negative_content_forwards_profile(_):
-        blueprint = PromptBlueprint.create_full_blueprint(
-            corpus_tree=_._avoid_corpus()
-        )
+        blueprint = create_blueprint(is_full=True)
         reg = BlueprintRegistry(
             canonical_name="test-exp-negative-content-kw",
             display_name="Test Negative Content Kw",
@@ -208,8 +215,8 @@ class TestNegativeContent:  ####################################################
 
         assert reg.content(
             profile=profile
-        ) == reg.blueprint.generate_prompt_without_dependencies(
-            profile=profile
+        ) == render_prompt_without_dependencies(
+            reg.blueprint, profile=profile
         )
 
 

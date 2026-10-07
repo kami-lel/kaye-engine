@@ -30,24 +30,28 @@ class TestRegisterCliSubcommands:
             ["blueprint"],
             ["claude"],
             ["continue"],
+            ["hermes", "F"],
+            ["m", "F"],
             ["sync-open-webui-skills"],
             ["o"],
-            ["skill"],
-            ["s"],
+            ["skill", "-a", "F"],
+            ["s", "alpha", "F"],
             ["dynamic-node", "decode-only-abbr"],
         ):
             args = parser.parse_args(argv)
             assert callable(args.func)
 
 
-    def test_skill_is_top_level_not_under_claude(_):
+    def test_claude_skills_is_registered_and_singular_is_not(_):
         parser = ArgumentParser()
         subparser = parser.add_subparsers()
         register_cli_subcommands(subparser)
 
-        for argv in (["claude", "skill"], ["claude", "s"]):
-            with pytest.raises(SystemExit):
-                parser.parse_args(argv)
+        for argv in (["claude", "skills"], ["claude", "s"]):
+            assert callable(parser.parse_args(argv).func)
+
+        with pytest.raises(SystemExit):
+            parser.parse_args(["claude", "skill"])
 
 
 class TestRegisterCliMainParser:
@@ -69,10 +73,12 @@ class TestRegisterCliMainParser:
             ["blueprint"],
             ["claude"],
             ["continue"],
+            ["hermes", "F"],
+            ["m", "F"],
             ["sync-open-webui-skills"],
             ["o"],
-            ["skill"],
-            ["s"],
+            ["skill", "-a", "F"],
+            ["s", "alpha", "F"],
             ["dynamic-node", "decode-only-abbr"],
         ):
             args = parser.parse_args(argv)

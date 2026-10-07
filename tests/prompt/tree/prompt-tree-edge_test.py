@@ -20,7 +20,7 @@ class TestEdge:  # various edge cases
         m = mock_open(read_data="")
 
         with patch("builtins.open", m):
-            tree = load_corpus_tree("edge-empty1", [Path("dummy-path.md")])
+            tree = load_corpus_tree([Path("dummy-path.md")])
             assert tree.depth == 0
             assert tree.parent is None
 
@@ -28,7 +28,7 @@ class TestEdge:  # various edge cases
         m = mock_open(read_data="\n")
 
         with patch("builtins.open", m):
-            tree = load_corpus_tree("edge-empty2", [Path("dummy-path.md")])
+            tree = load_corpus_tree([Path("dummy-path.md")])
             assert tree.depth == 0
             assert tree.parent is None
 
@@ -36,6 +36,6 @@ class TestEdge:  # various edge cases
         m = mock_open(read_data="\n" * 10)
 
         with patch("builtins.open", m):
-            tree = load_corpus_tree("edge-empty3", [Path("dummy-path.md")])
+            tree = load_corpus_tree([Path("dummy-path.md")])
             assert tree.depth == 0
             assert tree.parent is None

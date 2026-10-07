@@ -8,20 +8,37 @@ build_skill_form
 
 from unittest.mock import MagicMock
 
+import pytest
+
 from kaye_engine.cli.exportable_abbr import ExportableAbbr
 from kaye_engine.cli.open_webui.skill_form import (
     SKILL_FORM_FIELDS,
     build_skill_form,
 )
 from kaye_engine.prompt.blueprint import BlueprintRegistry
+from kaye_engine.prompt.blueprint.data import Blueprint, BlueprintMeta
+from kaye_engine.prompt.prompt_corpus_loader import (
+    clear_corpus_tree,
+    load_corpus_tree,
+)
 
 
 # auxiliaries  #################################################################
+@pytest.fixture(autouse=True)
+def _corpus():
+    clear_corpus_tree()
+    load_corpus_tree(["# R\n## {when_to_use}\nw\n"])
+    yield
+    clear_corpus_tree()
+
+
 def _build_blueprint_registry(description="d", when_to_use="w"):
-    blueprint = MagicMock()
-    blueprint.sidecars.description = description
-    blueprint.sidecars.when_to_use = when_to_use
-    blueprint.sidecars.globs = None
+    blueprint = Blueprint(
+        meta=BlueprintMeta(
+            description=description,
+            when_to_use_node=("R", "{when_to_use}") if when_to_use else None,
+        )
+    )
     registry = BlueprintRegistry(
         canonical_name="test-skill",
         display_name="Test Skill",

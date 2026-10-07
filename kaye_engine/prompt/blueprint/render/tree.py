@@ -1,16 +1,12 @@
 """
 render.tree.py
 
-define ``render_blueprint_tree``
+define ``preview_selection``
 """
-
-import copy
-
-from anytree import RenderTree
 
 from .comment import render_comment_lines
 
-__all__ = ("render_blueprint_tree",)
+__all__ = ("preview_selection",)
 
 
 # constants  ####################################################################
@@ -18,40 +14,45 @@ CHECKMARKED_PREFIX = "[x] "
 UNCHECKMARKED_PREFIX = "[ ] "
 EMPTY_PREFIX = "    "
 
+# branch drawing, as ``anytree``'s ``ContStyle`` draws it
+_BRANCH_MID = "├── "
+_BRANCH_END = "└── "
+_BRANCH_VERTICAL = "│   "
+_BRANCH_BLANK = "    "
+
 
 # auxiliaries  ###################################################################
-def _create_pruned_tree_for_preview_recursively(blueprint, node):
+def _compute_visible_mask(selection):
     """
-    create a `PromptCorpusNode` as root of a new **pruned** tree such that
-    only nodes contained in `blueprint` is kept.
-    This is done by traverse the tree and check if any nodes is contained
-    in the blueprint
-
-    (helper function used in ``render_blueprint_tree()``)
-
-
-    :param blueprint:
-    :type blueprint: PromptBlueprint
-    :param node:
-    :type node: BasePromptNode
-    :return: root of the filtered node
-    :rtype: PromptCorpusNode
+    :return: mask of every selected node plus all its ancestors, root
+            included
+    :rtype: int
     """
-    new_node = copy.copy(node)  # an copy w/o children
+    index = selection.index
 
-    for child in node.children:
-        if child in blueprint:
-            new_child = _create_pruned_tree_for_preview_recursively(
-                blueprint, child
-            )
-            new_child.parent = new_node
+    visible = 1  # root
+    mask = selection.mask
+    while mask:
+        low = mask & -mask
+        mask ^= low
+        idx = low.bit_length() - 1
+        while idx >= 0 and not visible >> idx & 1:
+            visible |= 1 << idx
+            idx = index.parent_idxs[idx]
 
-    return new_node
+    return visible
+
+
+def _content_preview_lines(index, idx):
+    block = index.blocks[idx]
+    if block is not None:
+        return block[1:]
+    return index.node_objs[idx].content_lines()
 
 
 # Public API  ####################################################################
-def render_blueprint_tree(
-    blueprint,
+def preview_selection(
+    selection,
     *,
     content_preview_lines=3,
     content_preview_width=64,
@@ -60,12 +61,13 @@ def render_blueprint_tree(
     display_name="",
 ):
     """
-    generate **preview tree** of ``blueprint``,
-    an human-readable representation
+    generate **preview tree** of ``selection``,
+    an human-readable representation -- every selected node, with its
+    ancestors so the structure stays readable
 
 
-    :param blueprint:
-    :type blueprint: PromptBlueprint
+    :param selection: nodes to show as checkmarked
+    :type selection: BlueprintSelection
     :param content_preview_lines: set maximum line count of
             *content preview* part, (excluding section heading line);
             defaults to 3
@@ -75,7 +77,7 @@ def render_blueprint_tree(
             defaults to 64.
     :type content_preview_width: int
     :param show_full_tree: whether to show the full corpus tree,
-            regardless of node's inclusion in this blueprint;
+            regardless of node's selection;
     :type show_full_tree: bool, optional
     :param show_comment: show comment part after last line;
             defaults to False
@@ -86,38 +88,44 @@ def render_blueprint_tree(
     :return: the preview tree
     :rtype: str
     """
-    if show_full_tree:
-        preview_tree = blueprint.corpus
-    else:
-        # create a duplicated tree,
-        # but contains only nodes relevant to this blueprint
-        preview_tree = _create_pruned_tree_for_preview_recursively(
-            blueprint, blueprint.corpus
-        )
+    index = selection.index
+    visible = (
+        (1 << len(index.node_objs)) - 1
+        if show_full_tree
+        else _compute_visible_mask(selection)
+    )
 
-    # generate content  --------------------------------------------------------
     lines = []
-    for pre, fill, node in RenderTree(preview_tree):
-        # line for tree structure
-        checkmark_prefix = (
-            CHECKMARKED_PREFIX
-            if blueprint.is_checkmarked(hash(node))
-            else UNCHECKMARKED_PREFIX
-        )
-        if node.is_root:
+
+    def _walk(idx, pre, fill):
+        if idx == 0:
             checkmark_prefix = EMPTY_PREFIX
+        elif selection.mask >> idx & 1:
+            checkmark_prefix = CHECKMARKED_PREFIX
+        else:
+            checkmark_prefix = UNCHECKMARKED_PREFIX
 
         # e.g. "[x] │   └── Style Guide Capitalization Style"
-        node_line = checkmark_prefix + pre + node.name
-        lines.append(node_line)
+        lines.append(checkmark_prefix + pre + index.node_objs[idx].name)
 
         # lines for content preview part
         if content_preview_lines:
             content_fill = EMPTY_PREFIX + fill
             lines.extend(
                 (content_fill + line)[:content_preview_width]
-                for line in node.content_lines()[:content_preview_lines]
+                for line in _content_preview_lines(index, idx)[
+                    :content_preview_lines
+                ]
             )
+
+        children = [c for c in index.child_idxs[idx] if visible >> c & 1]
+        for position, child_idx in enumerate(children):
+            if position == len(children) - 1:
+                _walk(child_idx, fill + _BRANCH_END, fill + _BRANCH_BLANK)
+            else:
+                _walk(child_idx, fill + _BRANCH_MID, fill + _BRANCH_VERTICAL)
+
+    _walk(0, "", "")
 
     # append comment line  -----------------------------------------------------
     if show_comment:

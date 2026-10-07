@@ -1,9 +1,9 @@
 """
 sparseness_parser.py
 
-define ``build_sparseness_parent_parser`` and ``SPARSENESS_DESCRIPTION``
--- the ``-s/--sparseness`` argument shared by any subcommand that calls
-``PromptBlueprint.generate_prompt_without_dependencies(sparseness=...)``
+define ``build_sparseness_parent_parser`` -- the ``-s/--sparseness``
+argument shared by any subcommand that calls
+``render_prompt(blueprint, profile=RenderProfile(sparseness=...))``
 """
 
 from argparse import ArgumentParser, ArgumentTypeError
@@ -11,21 +11,8 @@ from argparse import ArgumentParser, ArgumentTypeError
 from kaye_engine.cli import DEFAULT_SPARSENESS
 
 __all__ = (
-    "SPARSENESS_DESCRIPTION",
     "build_sparseness_parent_parser",
 )
-
-
-# constants  ###################################################################
-SPARSENESS_DESCRIPTION = """\
-SPARSENESS:
-
-- -1 collapses the whole output into a single line
-- 0 removes all blank lines
-- 1 collapses every run of blank lines to a single blank line (default)
-- 2 caps runs at two blank lines, and so on
-- 〃
-- 99 disables trimming entirely"""
 
 
 # auxiliaries  #################################################################

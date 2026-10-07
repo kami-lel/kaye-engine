@@ -7,8 +7,10 @@ define ``ManifestPluginJson``
 import json
 from pathlib import Path
 
-from kaye_engine import kamilog
+import kamilog
+from kaye_engine.deed import track
 from kaye_engine.cli.claude import LOGGER_CLAUDE_NAME
+from kaye_engine.cli.dry_run import is_dry_run
 
 # logger  ######################################################################
 logger = kamilog.getLogger(LOGGER_CLAUDE_NAME)
@@ -74,11 +76,17 @@ class ManifestPluginJson:  #####################################################
         }
 
         try:
-            self._manifest_dir.mkdir(parents=True, exist_ok=True)
-            self.path.write_text(
-                json.dumps(manifest_data, indent=2) + "\n",
-                encoding="utf-8",
-            )
+            if not self._manifest_dir.is_dir():
+                with track(logger).create_dir(self._manifest_dir):
+                    if not is_dry_run():
+                        self._manifest_dir.mkdir(
+                            parents=True, exist_ok=True
+                        )
+            with track(logger).save_config(self.path):
+                if not is_dry_run():
+                    self.path.write_text(
+                        json.dumps(manifest_data, indent=2) + "\n",
+                        encoding="utf-8",
+                    )
         except OSError as err:
-            logger.critical("cannot write plugin manifest:\t" + str(self.path))
             raise SystemExit(1) from err

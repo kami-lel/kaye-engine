@@ -11,7 +11,10 @@ from kaye_engine.prompt import (
     GlossaryNode,
     TodayNode,
 )
-from kaye_engine.prompt.prompt_corpus_loader import load_corpus_tree
+from kaye_engine.prompt.prompt_corpus_loader import (
+    clear_corpus_tree,
+    load_corpus_tree,
+)
 from kaye_engine.prompt.prompt_corpus_node import PromptCorpusNode
 
 
@@ -24,6 +27,14 @@ def _loaded_abbr_data():
         )
 
     return get_abbr_data()
+
+
+@pytest.fixture(autouse=True)
+def _fresh_corpus_tree():
+    # one corpus per process: each test starts and ends with none loaded
+    clear_corpus_tree()
+    yield
+    clear_corpus_tree()
 
 
 @pytest.fixture(scope="session")
@@ -169,7 +180,5 @@ Licensed under the MIT License.
 
     with patch("builtins.open", m):
         return load_corpus_tree(
-            "prompt-conftest-default",
-            [Path("dummy-path.md")],
-            is_default_tree=True,
+            [Path("dummy-path.md")]
         )

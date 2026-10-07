@@ -13,6 +13,7 @@ from unittest.mock import patch
 import pytest
 
 from kaye_engine.cli import exportable_as_json_parser
+from kaye_engine.cli.dry_run import disable_dry_run
 from kaye_engine.exportable import Exportable
 
 
@@ -140,3 +141,19 @@ class TestExportableAsJsonMainFullExport:
         args.func(args)
 
         assert output_file.is_file()
+
+
+class TestExportableAsJsonMainDryRun:
+
+    def test_dry_run_writes_nothing(self, _fake_registry, tmp_path):
+        output_file = tmp_path / "out.json"
+        parser = _build_exportable_as_json_parser()
+        args = parser.parse_args(
+            ["export-json", "-f", str(output_file), "--dry-run"]
+        )
+        try:
+            args.func(args)
+        finally:
+            disable_dry_run()
+
+        assert not output_file.exists()

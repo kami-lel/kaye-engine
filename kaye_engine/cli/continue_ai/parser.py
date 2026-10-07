@@ -3,13 +3,22 @@
 from argparse import RawDescriptionHelpFormatter
 from pathlib import Path
 
-from kaye_engine import PACKAGE_NAME, kamilog
+import kamilog
+from kaye_engine import PACKAGE_NAME
 from kaye_engine.cli import DEFAULT_SPARSENESS
 from kaye_engine.cli.claude.setup import get_surface_profiles
 from kaye_engine.cli.cli_setup_guard import check_corpus_setup_for_cli
-from kaye_engine.cli.continue_ai import LOGGER_CONTINUE_NAME
+from kaye_engine.cli.continue_ai import (
+    CONTINUE_DOC_DESCRIPTION,
+    LOGGER_CONTINUE_NAME,
+)
 from kaye_engine.cli.continue_ai.export_rules import export_continue_folder
+from kaye_engine.cli.dry_run import (
+    apply_dry_run_arg,
+    build_dry_run_parent_parser,
+)
 from kaye_engine.cli.render_profile_parser import (
+    RENDER_PROFILE_DESCRIPTION,
     build_render_profile_parent_parser,
     resolve_render_profile,
 )
@@ -40,7 +49,12 @@ def register_continue_parser(cli_subparser):  ##################################
     continue_parser = cli_subparser.add_parser(
         "continue",
         help=__doc__,
-        description=__doc__ + _DESCRIPTION,
+        description=(
+            __doc__
+            + _DESCRIPTION
+            + CONTINUE_DOC_DESCRIPTION
+            + RENDER_PROFILE_DESCRIPTION
+        ),
         formatter_class=RawDescriptionHelpFormatter,
         aliases=["c"],
         parents=[
@@ -48,7 +62,8 @@ def register_continue_parser(cli_subparser):  ##################################
                 default_surface=(),
                 default_sparseness=DEFAULT_SPARSENESS,
                 surface_profiles=get_surface_profiles(),
-            )
+            ),
+            build_dry_run_parent_parser(),
         ],
     )
 
@@ -65,6 +80,7 @@ def register_continue_parser(cli_subparser):  ##################################
 
     def _continue_main(args):
         kamilog.set_logging_level_by_namespace(args, logger=logger)
+        apply_dry_run_arg(args)
         logger.enter("{} continue".format(PACKAGE_NAME))
         check_corpus_setup_for_cli()
 

@@ -1,6 +1,6 @@
 # kaye-engine CONTEXT
 
-**Last updated:** 2026-09-27
+**Last updated:** 2026-10-06
 
 System knowledge for the **kaye-engine** repository — architecture,
 entities, and boundaries. Read this alongside `AGENTS.md` before making
@@ -18,7 +18,7 @@ through a Python API and a CLI.
 | distribution / import name | `kaye-engine` / `kaye_engine` |
 | dependencies | `anytree`, `json5`, `pyahocorasick`, `pyyaml` |
 | entry point | `kaye-engine` console script → `kaye_engine.__main__:main` |
-| CLI subcommands | `blueprint`, `claude`, `continue`, `export-image-prompt`, `dynamic-node`, `dynamic-substitution`, `exportable`, `export-json`, `affordance`, `variant`, `glossary`, `skill`, `sync-open-webui-skills` |
+| CLI subcommands | `blueprint`, `claude`, `continue`, `hermes`, `export-image-prompt`, `dynamic-node`, `dynamic-substitution`, `exportable`, `export-json`, `affordance`, `variant`, `glossary`, `skill`, `sync-open-webui-skills` |
 
 ## Personalization Boundary
 
@@ -37,9 +37,11 @@ not a gap to fill.
 
 | entity | what it is |
 |---|---|
-| **Prompt Corpus** | a structured Markdown document (one file, or several sources concatenated by `load_corpus_tree`); the authoritative source of truth |
+| **Prompt Corpus** | a structured Markdown document (one file, or several sources concatenated by `load_corpus_tree`); a process holds one; the authoritative source of truth |
 | **Prompt Tree** | the parsed corpus; every heading a `BasePromptNode` |
-| **Blueprint** | a selection spec marking which tree nodes render |
+| **Blueprint** | a frozen value (`Blueprint`) recording which tree nodes render, by path (`nodes`, `subtrees`), plus `meta` and `dependencies`; pure data, edited only through functions that return a new one |
+| **Corpus Index** | `CorpusIndex`, derived once per process from the one loaded tree: pre-order node arrays, paths, depths, child indexes, subtree and sidecar masks, static content blocks |
+| **Blueprint Selection** | `BlueprintSelection`, a blueprint bound to the index as one bitmask; what the renderers walk |
 | **Blueprint Registry** | name → blueprint plus its export policy |
 | **Exportable** | common base for anything `exportable_registry` holds — `BlueprintRegistry` and `ExportableAbbr` are its two implementers |
 | **Role** | a task-specific behavior profile held inside the corpus |
@@ -55,20 +57,26 @@ Heading syntax carries node type: plain text is an ordinary corpus node,
 `{braces}` a sidecar, `(parentheses)` a dynamic node.
 
 ```
-sources ────load_corpus_tree()──> Prompt Tree ─┐
-                                                 ├─render_prompt()─> text
-blueprint text ──PromptBlueprint.parse()─────────┘
+sources ────load_corpus_tree()──> Prompt Tree ──> CorpusIndex ─┐
+                                                                ├─render_prompt()─> text
+blueprint text ──parse_blueprint_tree()──> Blueprint ───────────┘
 ```
 
-`render_prompt()`/`render_blueprint()` are the dependency-resolving
-entry points: each first merges the blueprint with the full transitive
-closure of its `.dependencies` (via `.merge()`, so a diamond dependency
-converges without duplicating shared content), then delegates to the
-own-content-only `generate_prompt_without_dependencies()`/
-`generate_blueprint_without_dependencies()` below. A `dependencies` entry
-may be a `PromptBlueprint` or a `str`; `_resolve_dependency()` resolves
-each `str` to the blueprint registered under that name via
-`register_blueprint()`, at `PromptBlueprint.__init__` time.
+The process holds exactly one corpus tree: `load_corpus_tree(sources)`
+raises `ValueError` on a second call, `get_corpus_tree()` raises before a
+load, and `clear_corpus_tree()` drops the tree together with everything
+derived from it (the `CorpusIndex`, bound selections) through clear hooks.
+
+`render_prompt()`/`preview_blueprint()` are the dependency-resolving
+entry points: each first resolves the blueprint's selection with the full
+transitive closure of its `.dependencies` (`resolve_selection()`, a bitmask
+OR, so a diamond dependency converges without duplicating shared content),
+then delegates to the own-content-only `render_prompt_without_dependencies()`/
+`preview_blueprint_without_dependencies()` below. A `dependencies` entry
+may be a `Blueprint` value or a `str`; each `str` is resolved to the
+blueprint registered under that name at render time (late binding), and
+`register_blueprint()` validates every name at registration. A cycle or
+unknown name raises `ValueError`.
 
 Rendering takes a `sparseness` parameter governing how runs of blank lines
 collapse in the output, from `-1` (whole output joined onto one line) through
@@ -81,7 +89,7 @@ heading parser (`_split_sections` in `prompt_corpus_node.py`), and the
 load-time blank-line cleanup in `load_corpus_tree`
 (`_collapse_unfenced_blank_runs` in `prompt_corpus_loader.py`) all rely on
 to stay out of fenced regions.
-`PromptBlueprint.generate_prompt_without_dependencies()` applies `sparseness` last: it renders
+`render_prompt()` applies `sparseness` last: it renders
 the tree unsparse, then `apply_dynamic_substitutions()`, then applies the
 caller's `sparseness` to the substituted result, so a substitution's own
 blank lines are shaped by the same policy. Because that unsparse render
@@ -92,7 +100,8 @@ hides the real `sparseness`, the generated-by comment's compact form
 `display_name` is set, then `Kaye Engine vX`) plus client lines from
 `register_comment_line()`, and is appended after image-mode heading
 flattening. `BlueprintRegistry.content()` fills an empty `display_name`
-from the entry's own.
+from the entry's own, which `BlueprintRegistry` reads live from
+`blueprint.meta.display_name`, else its explicit fallback, else `""`.
 
 Sidecars split by usage rather than by class. *Descriptor* sidecars
 (`{description}`, `{when_to_use}`, `{globs}`) are consumed as blueprint
@@ -100,13 +109,13 @@ metadata and never rendered; every other name is a *conditional* sidecar,
 real content spliced in only when its name is on a `RenderProfile`'s
 `conditional_sidecars`, or matched via that same profile's `variants`
 field against `variant_registry`. `{avoid}` (negative-instruction/example
-content) is neither: it carries no `.sidecars` accessor and is never
+content) is neither: it carries no `BlueprintMeta` field and is never
 manually spliced by name, but is discovered automatically, at any depth,
 by `render.render_negative_prompt_lines()`, reached via the single
 `RenderMode`-driven entry point — `RenderProfile(mode=RenderMode.NEGATIVE)`
-passed to `render_prompt()`/`generate_prompt_without_dependencies()` (or
+passed to `render_prompt()`/`render_prompt_without_dependencies()` (or
 merged into a caller's profile) picks it in place of the positive
-`render_prompt_lines()`, at every layer: `PromptBlueprint`,
+`render_prompt_lines()`, at every layer: the render functions,
 `BlueprintRegistry.content()`, and any other `Exportable.content()`.
 A node's own `{avoid}` child contributes only when that node itself is
 checkmarked, under its own heading (never the literal `{avoid}`
@@ -144,7 +153,7 @@ attribute, `False` by default, `True` on `BlueprintRegistry`) is the
 explicit capability flag `export-image-prompt`'s `_avoid_content()` checks
 before calling `content(profile=... RenderMode.NEGATIVE)` to build each
 `<canonical_name>-AVOID.md` sibling. Q.v. [sidecar node
-documentation](docs/sidecar-node-doc.md).
+documentation](docs/sidecar-doc.md).
 
 `affordance_registry`/`variant_registry` form a two-level model: an
 `Affordance` is a conceptual capability family, a `Variant` one concrete
@@ -157,50 +166,66 @@ derives its own `[{name}] Usage` sidecar (checkmarked when at least one
 of its registered variants is present) plus a `[{name}] Fallback`
 sidecar, checkmarked when every variant registered under that affordance
 is absent (and the affordance has ≥1 registered variant). Q.v.
-[affordance documentation](docs/affordance-doc.md). A Kaye-specific,
+[affordance documentation](docs/sidecar-doc.md#affordance). A Kaye-specific,
 consumer-supplied
 `surface_profiles` dict (`dict[str, RenderProfile]`, passed to
 `setup_claude_cli(...)` — kaye-vault owns the actual Claude surface data,
 q.v. `kaye_vault/claude_render_profiles.py`) maps a surface name to the
 `RenderProfile` carrying that surface's variants/conditional-sidecars.
-Every **rendering command** — any CLI subcommand that reaches
-`PromptBlueprint.render_prompt(...)`, directly or via
-`Exportable.content()` — exposes the same 6 options (`--surface`,
-`--comment`/`--no-comment`, `--conditional-sidecar`, `--variant`,
-`--sparseness`, `--reverse-order`) via one shared parent parser and one
-aux function,
+Every **rendering command** (see `AGENTS.md` for the list and flags) shares
+one parent parser and one aux function,
 `build_render_profile_parent_parser`/`resolve_render_profile`
 (`kaye_engine/cli/render_profile_parser.py`). `resolve_render_profile`
-returns a single `RenderProfile`, built by merging each selected
-surface's profile with one built from the explicit
-`--variant`/`--conditional-sidecar`/`--sparseness`/`--comment`/
-`--reverse-order` flags via
-`RenderProfile.merge()` — `--variant`/`--conditional-sidecar` union
-additively with whatever `--surface` derives, so rendered prompts
-auto-checkmark the sidecars real on that surface plus any named
-explicitly; `--reverse-order` ORs `RenderMode.REVERSE_ORDER` into
-whatever `mode` the profile already carries (`mode` is itself a scalar
-field, so `RenderProfile.merge()` would otherwise let it clobber rather
-than combine — `resolve_render_profile` computes the OR'd value itself
-before the final `.merge()` call, the same pattern
-`export_image_prompt_parser.py`'s `_avoid_content()` uses for `NEGATIVE |
-IMAGE`). `--surface` itself is
-omitted entirely from the parser when
-no consumer project configures `surface_profiles`. Each subcommand keeps
-its own default for `--comment`/`--no-comment` and `--sparseness` when
-the flags are omitted (via `build_sparseness_parent_parser(default=...)`,
-a per-call builder). The resolved `RenderProfile` is carried as a single
-`profile=` object from parser down through every `claude` export chain
-(plugin/marketplace/vs-code/code/user-prompt, plus the top-level `skill`). A `RenderProfile()`
-default (no explicit `--surface`/`--variant`/`--conditional-sidecar`)
-carries `variants=None`/`conditional_sidecars=()`, which
-`RenderProfile.merge()` treats as a no-op contribution, so a
-`register_blueprint()` entry's own `render_profile` defaults still
-apply — `BlueprintRegistry.content()` merges them in via
-`self.render_profile.merge(profile)` whenever the caller (`blueprint
-generate`, `Skill.from_exportable()`) passes a `profile=`. Q.v. [Claude
+returns one `RenderProfile`, merging each selected surface's profile with one
+built from the explicit flags via `RenderProfile.merge()`.
+`--variant`/`--conditional-sidecar` union additively with what `--surface`
+derives; `--reverse-order` ORs `RenderMode.REVERSE_ORDER` into the profile's
+`mode` before the final merge, because `mode` is a scalar field the merge
+would otherwise let clobber (the pattern `_avoid_content()` in
+`export_image_prompt_parser.py` uses for `NEGATIVE | IMAGE`). `--surface`
+keys into the consumer-supplied `surface_profiles` dict
+(`dict[str, RenderProfile]`, passed to `setup_claude_cli(...)`) and is
+omitted from the parser when none is configured. An omitted flag keeps the
+subcommand's own `--comment` and `--sparseness` default
+(`build_sparseness_parent_parser(default=...)`). The resolved profile
+travels as one `profile=` object through every `claude` export chain and the
+top-level `skill`. A default `RenderProfile()` carries
+`variants=None`/`conditional_sidecars=()`, a no-op under `merge()`, so a
+`register_blueprint()` entry's own `render_profile` still applies:
+`BlueprintRegistry.content()` merges it via
+`self.render_profile.merge(profile)`. Q.v. [Claude
 documentation](docs/claude-doc.md) and [sidecar node
-documentation](docs/sidecar-node-doc.md).
+documentation](docs/sidecar-doc.md).
+
+### CLI Flag Surface
+
+Several subcommands print rendered or registry content without the
+render-profile options: `export-json` and `export-image-prompt` use a
+hardcoded `RenderProfile`; `dynamic-substitution` and `glossary` print raw
+registry content; `sync-open-webui-skills` renders per skill with no exposed
+profile; `affordance`/`variant` are list-only.
+
+`blueprint preview` is the one asymmetric case inside the rendering set:
+it pulls only `build_comment_parent_parser()` out of the bundle (its
+own `-c`/`--comment`, `-C`/`--no-comment`), plus its own
+`-l/--preview-line-count`, `-w/--preview-line-width`,
+`-t/--show-full-tree` — no `--surface`/`--variant`/`--sparseness`,
+since it renders a preview tree, not a prompt.
+
+`-z/--zip` is genuinely shared behavior (`claude plugin`, `claude skills`,
+`skill`) but
+is hand-duplicated per parser rather than pulled into its own builder,
+unlike the render-profile options. `-n` means `--dry-run` on every
+write command; `claude plugin` spells `--no-version` as `-N`.
+
+`--dry-run` on the write commands comes from `cli/dry_run.py`: a shared
+`-n/--dry-run` parent parser, plus a run-wide switch (`enable_dry_run()`,
+`is_dry_run()`) that also stamps the `dry` badge on the five engine
+loggers. Writers keep their deed lines (`kaye_engine/deed.py`, a local stand-in for
+the deed feature kamilog 3.0 removed) and skip only the filesystem call
+under `is_dry_run()`; the zip exports skip the temporary build and log
+the pack and move deeds directly. `sync-open-webui-skills` keeps its own
+`-n`/`--dry-run` and threads `is_dry_run` as a parameter instead.
 
 Dynamic nodes auto-attach to every tree at load time — no authored
 heading required for existence — and cover today's date plus the
@@ -209,7 +234,7 @@ fixes the node's preface and tree location in place of the heading
 itself, else it falls back to a direct child of root. A second,
 independent mechanism, inline `(((name)))` substitution, resolves
 canonical names anywhere inside rendered prompt text at
-`generate_prompt_without_dependencies()` (and, transitively,
+`render_prompt_without_dependencies()` (and, transitively,
 `render_prompt()`) time, against two sources in order: first
 `dynamic_substitution_registry` (populated via
 `register_dynamic_substitution(name, substitution)`, where
@@ -229,12 +254,13 @@ collection documentation](docs/abbrs-doc.md).
 ```python
 from kaye_engine import (
     PACKAGE_NAME, LOGGER_NAME,
-    load_corpus_tree, get_default_corpus_tree,
+    load_corpus_tree,
     AbbrData,
     DynamicSubstitution, StringDynamicSubstitution,
     register_abbr_glossary,
     register_blueprint,
     register_comment_line,
+    register_consumer,
     register_dynamic_substitution,
     setup_claude_cli,
 )
@@ -250,11 +276,11 @@ submodule (`kaye_engine.abbr_collection`, `kaye_engine.prompt`) instead.
 A caller loads and caches a corpus by name; one tree may be flagged the
 process default, which is what a blueprint resolves against when given no
 explicit tree. A consumer that exports through `claude` subcommands must also
-call `setup_claude_cli(plugin_name, display_name, marketplace_name,
-chat_exportable_name, merged_coder_exportable_name, version,
-marketplace_folder_name)` — none of the seven has a default;
-`display_name` lets each consumer stamp its own `plugin.json`
-`display_name`. Q.v. [Kaye Engine: `prompt` module
+call `register_consumer(display_name, canonical_name, version)` and
+`setup_claude_cli(chat_exportable_name, merged_coder_exportable_name)` — none
+has a default; `display_name` is stamped into `plugin.json`, and the kebab
+`canonical_name` doubles as plugin, marketplace, and marketplace folder
+name. Q.v. [Kaye Engine: `prompt` module
 Documentation](docs/prompt-doc.md).
 
 Every CLI subcommand entrypoint calls a setup guard
@@ -262,47 +288,90 @@ Every CLI subcommand entrypoint calls a setup guard
 `claude` subcommands) that logs an error — never raises — when a consumer
 hasn't loaded a default corpus tree or registered any blueprints. It exists
 to surface a bare-checkout misuse early, not to enforce the boundary. The
-plugin name, display name, marketplace name, Chat/Coder blueprint names,
-version, and marketplace folder name are enforced separately, each by its own
-getter (`get_plugin_name()`, `get_claude_cli_display_name()`,
-`get_marketplace_name()`, `get_claude_chat_exportable()`,
-`get_claude_merged_coder_exportable()`, `get_claude_cli_consumer_version()`,
-`get_marketplace_folder_name()`), which logs `logger.critical` and raises
+consumer identity and the Chat/Coder blueprint names are enforced
+separately, each by its own getter (`get_consumer_display_name()`,
+`get_consumer_canonical_name()`, `get_consumer_version()`,
+`get_claude_chat_exportable()`, `get_claude_merged_coder_exportable()`; the
+plugin, marketplace, and marketplace folder getters `get_plugin_name()`,
+`get_marketplace_name()`, `get_marketplace_folder_name()` return the canonical
+name), which logs `logger.critical` and raises
 `SystemExit(1)` when unset — or, for the blueprint getters, when the
 configured name is not in `blueprint_registry` — rather than letting `None`
 or an unresolved name reach path, manifest, or prompt building.
+
+## Blueprint API Verbs
+
+Every blueprint function takes exactly one input type and returns exactly
+one output type: no format sniffing, no union inputs, no mode flag that
+changes the output type. A verb names one kind of operation everywhere:
+
+| verb | meaning | functions |
+|---|---|---|
+| parse | text → `Blueprint` | `parse_blueprint_tree`, `parse_blueprint_json` |
+| decode / encode | dict ↔ `Blueprint` | `decode_blueprint`, `encode_blueprint` |
+| load / save | JSON file ↔ `Blueprint` | `load_blueprint`, `save_blueprint` |
+| dump | `Blueprint` → JSON text | `dump_blueprint` |
+| validate | same `Blueprint`, or `ValueError` | `validate_blueprint` |
+| resolve / trace | direct / transitive dependencies as values | `resolve_dependencies`, `trace_dependencies` |
+| merge / diff | two blueprints → one / their node difference | `merge_blueprints`, `diff_blueprints` |
+| show | read one field or a summary | `show_blueprint`, `show_description`, `show_when_to_use`, `show_description_and_when_to_use`, `show_globs`, `show_dependencies` |
+| preview | preview tree | `preview_blueprint`, `preview_blueprint_without_dependencies`, `preview_selection` |
+| render | prompt | `render_prompt`, `render_prompt_without_dependencies` |
+
+The CLI (`kaye_engine/cli/blueprint/`) only composes these. Format
+detection (JSON when the first non-blank character is `{`, otherwise a
+preview tree) lives in `aux_input.py`, never in the API; a registered name
+renders through its registry entry (`BlueprintRegistry.resolve_profile()`),
+a blueprint read from stdin renders plain. `run_cmd` turns a `ValueError`,
+`KeyError`, or `FileNotFoundError` into one critical log line and exit
+code 1.
 
 ## Repository Layout
 
 ```
 kaye_engine/
 ├── prompt/              parse, model, select, render
-│   ├── blueprint/       PromptBlueprint, registry, rendering
+│   ├── blueprint/       Blueprint value (data/edit/parser), CorpusIndex
+│   │                    (index), selection binding, registry, rendering
 │   │   ├── render_mode.py      RenderMode: NORMAL/NEGATIVE/POST_ORDER/
 │   │   │                        REVERSE_ORDER/IMAGE flag enum
 │   │   ├── render_profile.py   RenderProfile: layerable render-kwargs bundle
-│   │   └── render/             render_*_lines()/render_blueprint_tree(),
+│   │   └── render/             render_*_lines()/preview_selection(),
 │   │       split by concern (tree/lines/sidecar_splice/util)
 │   ├── dynamic_nodes/   render-time generated node types
 │   └── affordance_registry.py  Affordance/Variant two-level registry,
 │                                Usage/Lack/Fallback sidecar names
 ├── abbr_collection/     abbreviation entries, store, JSON loader
+├── consumer.py          register_consumer: display name, canonical name,
+│                        version; getters read by claude and hermes
+├── deed.py              track(logger): fixed-wording file/dir action lines
 ├── exportable/           Exportable base, exportable_registry
 │   └── image_prompt_export.py  image_prompt_exportable_registry,
 │                            register_image_prompt_exportable
+├── skill/               Agent Skills standard, agent-neutral: `Skill`
+│                        document, folder/.zip writers, `select_exportables`
 ├── cli/
-│   ├── blueprint/       `blueprint`/`bp` subcommand: ls, show, generate
+│   ├── blueprint/       `blueprint`/`bp` subcommand: list, preview, render,
+│   │                    validate, show; `aux_input.py`/`aux_output.py`
+│   │                    hold the glue (stdin, format detection, formatting)
 │   ├── claude/          plugins, marketplaces, CLAUDE.md
 │   │   ├── setup.py               setup_claude_cli(...); registers
 │   │   │                          consumer-supplied affordance_groups,
 │   │   │                          stores surface_profiles
+│   │   ├── skills/                `claude skills`/`claude s`: every skill
+│   │   │                          into ~/.claude/skills (`-z` for .zips)
 │   │   └── surface_parser.py      shared `--surface` parent parser --
 │   │                              choices from consumer's surface_profiles
-│   ├── skill/           `skill`/`s` subcommand: Agent Skill folders/.zips
+│   ├── skill/           `skill`/`s` subcommand: named Agent Skills into a
+│   │                    required FOLDER (`--all` for every one)
 │   ├── continue_ai/    `continue`/`c` subcommand: rules/ + prompts/ for Continue
 │   │   ├── rule_md.py       ContinueRule frontmatter doc + factory
 │   │   ├── export_rules.py  classify_exportable, export_continue_folder
 │   │   └── parser.py        parser + handler
+│   ├── hermes/          `hermes`/`m` subcommand: a Hermes home directory
+│   │   ├── setup.py     setup_hermes_cli + getters (consumer configuration)
+│   │   ├── export.py    export_hermes_folder: SOUL.md files + skills/
+│   │   └── parser.py    parser + handler
 │   ├── open_webui/      `sync-open-webui-skills`/`o` subcommand: push
 │   │   │                exportables into Open WebUI as skills
 │   │   ├── skill_form.py  build_skill_form: Exportable -> SkillForm dict
@@ -318,7 +387,7 @@ kaye_engine/
 │   ├── list_variant_parser.py     `variant`/`var` subcommand: list variant_registry
 │   ├── glossary_parser.py    `glossary`/`g` subcommand: print/list glossaries
 │   ├── comment_parser.py     shared `--comment`/`--no-comment` parent parser
-│   ├── render_profile_parser.py  shared 5-option parent parser + aux fn
+│   ├── render_profile_parser.py  shared 6-option parent parser + aux fn
 │   ├── exportable_parser.py  `exportable`/`x` subcommand: print, list exportables
 │   ├── exportable_as_json_parser.py  `export-json`/`json`
 │   │                                  subcommand: export
@@ -326,9 +395,7 @@ kaye_engine/
 │   └── export_image_prompt_parser.py  `export-image-prompt`/`img` subcommand:
 │                                    write the image-prompt subset as
 │                                    `<name>.md`/`<name>-AVOID.md` pairs
-└── kamilog.py           logging, shared across the package
 docs/                    per-topic reference, linked above
-docs/cli/                end-user guides for CLI subcommands
 tests/                   prompt/, abbr/, cli/ — mirrors the source
 ```
 
@@ -343,6 +410,14 @@ invokable prompt, and an entry with neither is skipped. Files are named
 `<canonical_name>.md` under `rules/` or `prompts/`. The `--surface` flag
 has no default there.
 
+`hermes` is configured through `register_consumer(...)` and
+`setup_hermes_cli(...)`, which checks every name against
+`blueprint_registry` and exits 1 on an unknown one. It renders the soul and
+profile blueprints from `blueprint_registry` (so non-exportable entries work)
+into `SOUL.md` and `profiles/<name>/SOUL.md`, and delegates `skills/<canonical name>/`
+to `export_skills_as_folders`, which only ever sees `exportable_registry`.
+The skill version comes from `register_consumer`. Comments are hidden by default.
+
 ## Testing Strategy
 
 `pytest`, run **serially by design** — cases are cheap in-process
@@ -354,9 +429,10 @@ Tests mirror the source tree: `tests/prompt/` for the engine, `tests/abbr/`
 for the abbreviation collection. `tests/cli/` stays deliberately thin — it
 holds only the corpus-independent pieces (setup guard, exportable-abbr
 registration, `dynamic-node` parsing, `SKILL.md` rendering, the Open WebUI sync with a
-fake client), because the
+fake client, the deed lines of the zip exports, manifests, and
+`FrontmatterDoc.write` (`tests/deed_test.py` covers the helper)), because the
 exporters need a corpus to produce output and the consumer package covers
-those. The `blueprint` subcommand parser still has no dedicated tests.
+those.
 
 ## Maintaining This File
 

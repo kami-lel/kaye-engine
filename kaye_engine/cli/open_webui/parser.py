@@ -8,9 +8,13 @@ import os
 import sys
 from argparse import RawDescriptionHelpFormatter
 
-from kaye_engine import PACKAGE_NAME, kamilog
+import kamilog
+from kaye_engine import PACKAGE_NAME
 from kaye_engine.cli.cli_setup_guard import check_corpus_setup_for_cli
-from kaye_engine.cli.open_webui import LOGGER_OPEN_WEBUI_NAME
+from kaye_engine.cli.open_webui import (
+    LOGGER_OPEN_WEBUI_NAME,
+    OPEN_WEBUI_DOC_DESCRIPTION,
+)
 from kaye_engine.cli.open_webui.client import (
     DEFAULT_BASE_URL,
     OpenWebUIClient,
@@ -72,7 +76,8 @@ def _build_main(parser):
                 len(summary.skipped),
                 len(summary.pruned),
                 len(summary.failed),
-            )
+            ),
+            badges="dry" if args.dry_run else None,
         )
         if summary.failed:
             sys.exit(1)
@@ -88,7 +93,7 @@ def register_sync_open_webui_skills_parser(cli_subparser):
     owu_parser = cli_subparser.add_parser(
         "sync-open-webui-skills",
         help=_HELP,
-        description=_DESCRIPTION,
+        description=_DESCRIPTION + OPEN_WEBUI_DOC_DESCRIPTION,
         formatter_class=RawDescriptionHelpFormatter,
         aliases=["o"],
     )
