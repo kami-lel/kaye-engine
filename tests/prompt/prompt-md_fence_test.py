@@ -76,3 +76,61 @@ class TestComputeFencedLineMask:
             True,
             True,
         ]
+
+
+class TestComputeFencedLineMaskTagBlock:
+
+    def test_plain_tag_block_with_inner_blank(_):
+        lines = ["a", "<some-tag>", "x", "", "y", "</some-tag>", "b"]
+        assert compute_fenced_line_mask(lines) == [
+            False,
+            True,
+            True,
+            True,
+            True,
+            True,
+            False,
+        ]
+
+    def test_tag_with_attributes(_):
+        lines = ['<note kind="x">', "", "</note>"]
+        assert compute_fenced_line_mask(lines) == [True, True, True]
+
+    def test_indented_tag(_):
+        lines = ["    <t>", "", "    </t>", ""]
+        assert compute_fenced_line_mask(lines) == [True, True, True, False]
+
+    def test_unclosed_tag_marks_nothing(_):
+        lines = ["<your description text>", "", "prose"]
+        assert compute_fenced_line_mask(lines) == [False, False, False]
+        assert compute_fenced_line_mask(["<t>", "", "x"]) == [False] * 3
+
+    def test_tag_inside_fence_is_plain_fenced_text(_):
+        lines = ["```", "<t>", "```", "", "</t>"]
+        assert compute_fenced_line_mask(lines) == [
+            True,
+            True,
+            True,
+            False,
+            False,
+        ]
+
+    def test_fence_inside_tag_is_masked(_):
+        lines = ["<t>", "```", "", "```", "", "</t>", ""]
+        assert compute_fenced_line_mask(lines) == [True] * 6 + [False]
+
+    def test_two_sequential_blocks(_):
+        lines = ["<a>", "", "</a>", "", "<b>", "", "</b>"]
+        assert compute_fenced_line_mask(lines) == [
+            True,
+            True,
+            True,
+            False,
+            True,
+            True,
+            True,
+        ]
+
+    def test_inline_tag_is_not_a_block(_):
+        lines = ["<a>x</a>", "", "<a>", "y"]
+        assert compute_fenced_line_mask(lines) == [False] * 4
