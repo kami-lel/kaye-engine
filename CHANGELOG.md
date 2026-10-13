@@ -30,6 +30,8 @@ manually add chat & coder, instead by data structure
 
 ### Changed
 
+- `compute_fenced_line_mask` also marks markdown tag blocks (`<name>` to `</name>`), so sparseness, heading split, and load-time blank-line collapse leave them untouched like fenced code blocks
+
 ### Deprecated
 
 ### Removed
