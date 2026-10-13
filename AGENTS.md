@@ -172,8 +172,9 @@ rendered output: `-1` joins everything into one line, `0` strips all
 blank lines, `1` collapses every run to a single blank line, up through
 `99` which disables trimming entirely. The default lives in
 `DEFAULT_SPARSENESS` (`kaye_engine/cli/__init__.py`) unless a caller
-overrides it. Blank lines inside a fenced code block are never collapsed
-or stripped by any sparseness level, including `-1`.
+overrides it. Blank lines inside a fenced code block or a tag block
+(`<name>` to `</name>`, each on its own line) are never collapsed or
+stripped by any sparseness level, including `-1`.
 
 `claude vs-code-extension` also writes `permissions` (`allow`/`ask`/`deny`
 Bash command patterns) into `settings.json`, sourced from
