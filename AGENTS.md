@@ -38,7 +38,7 @@ merge.
 
 | changed source | test scope |
 |---|---|
-| `kaye_engine/prompt/` | `tests/prompt/` (`tests/prompt/tree/` for the loader, `tests/prompt/index/` for `CorpusIndex`, `tests/prompt/bp/data/` for `Blueprint` and its functions) |
+| `kaye_engine/prompt/` | `tests/prompt/` (`tests/prompt/tree/` for the loader, `tests/prompt/index/` for `CorpusIndex`, `tests/prompt/bp/data/` for `Blueprint` and its functions, `prompt-md_comment_test.py` and `prompt-md_fence_test.py` for the line helpers) |
 | `kaye_engine/prompt/blueprint/render/` | `tests/prompt/`, plus `tests/cli/export_image_prompt_parser_test.py` (asserts rendered negative-prompt text) |
 | `kaye_engine/abbr_collection/` | `tests/abbr/` |
 | `kaye_engine/cli/` | `tests/cli/` |

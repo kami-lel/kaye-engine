@@ -92,6 +92,13 @@ to stay out of those regions. A tag block opens on a line holding only
 `<name>` or `<name attrs>` and closes on the nearest following `</name>`
 line (indentation allowed, delimiters included); an unclosed opening line
 exempts nothing, and fences take priority over tags.
+Corpus comments never render: `load_corpus_tree` runs `strip_comment_blocks`
+(`kaye_engine/prompt/md_comment.py`) on the split lines, before the blank-line
+collapse, dropping every line-anchored comment (a line starting `<!--`, through
+the first line ending `-->`). Lines inside a fence or tag block are exempt via
+the same mask; an unclosed opener, an inline-code mention, or a comment trailing
+prose stays. The generated-by comment is appended at render time, so it is
+the only comment a render carries.
 `render_prompt()` applies `sparseness` last: it renders
 the tree unsparse, then `apply_dynamic_substitutions()`, then applies the
 caller's `sparseness` to the substituted result, so a substitution's own
