@@ -24,6 +24,7 @@ from .dynamic_nodes import (
     GlossaryNode,
     resolve_dynamic_node_factory,
 )
+from .md_comment import strip_comment_blocks
 from .md_fence import compute_fenced_line_mask
 from .prompt_corpus_node import PromptCorpusNode
 
@@ -148,6 +149,9 @@ def load_corpus_tree(sources):  # ==============================================
     place of the heading -- else it falls back to a direct child of
     root
 
+    a line-anchored markdown comment (``<!-- ... -->``) outside a fenced
+    code block or tag block is dropped on load, so it never renders
+
     Prerequisite: :func:`register_abbr_glossary` for every glossary
     named in a ``(name)`` heading of ``sources``
 
@@ -179,9 +183,12 @@ def load_corpus_tree(sources):  # ==============================================
     )
 
     # text split & clean up  ---------------------------------------------------
-    # split to lines, then reduce 2+ empty lines into single empty line,
-    # skipping lines inside a fenced code block
-    text_lines = _collapse_unfenced_blank_runs(prompt_corpus_text.split("\n"))
+    # split to lines, drop markdown comment blocks so authoring notes never
+    # render, then reduce 2+ empty lines into single empty line, skipping
+    # lines inside a fenced code block
+    text_lines = _collapse_unfenced_blank_runs(
+        strip_comment_blocks(prompt_corpus_text.split("\n"))
+    )
 
     # create prompt corpus nodes  ----------------------------------------------
     tree = PromptCorpusNode.parse(ROOT_NODE_NAME, None, text_lines)
