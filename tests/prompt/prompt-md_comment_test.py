@@ -47,3 +47,22 @@ class TestStripMultiLine:
     def test_close_on_prose_line_ends_block(_):
         lines = ["<!-- start", "end -->", "After."]
         assert strip_comment_blocks(lines) == ["After."]
+
+
+class TestFenceAndTagExemption:
+
+    def test_comment_in_fence_kept(_):
+        lines = ["```md", "<!-- Endnotes -->", "```", "<!-- gone -->"]
+        assert strip_comment_blocks(lines) == lines[:3]
+
+    def test_comment_in_tag_block_kept(_):
+        lines = ["<example>", "<!-- note -->", "</example>"]
+        assert strip_comment_blocks(lines) == lines
+
+    def test_comment_beside_fence_dropped(_):
+        lines = ["<!-- gone -->", "```", "code", "```", "<!--", "x", "-->"]
+        assert strip_comment_blocks(lines) == ["```", "code", "```"]
+
+    def test_closer_inside_fence_ignored(_):
+        lines = ["<!--", "```", "-->", "```", "-->", "After."]
+        assert strip_comment_blocks(lines) == ["After."]
