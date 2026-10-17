@@ -30,6 +30,7 @@ manually add chat & coder, instead by data structure
 
 ### Changed
 
+- `load_corpus_tree` drops line-anchored markdown comments (`<!-- ... -->`, single or multi-line) from the corpus, so authoring notes never render; fenced code blocks and tag blocks keep theirs, and the generated blueprint-info comment is unaffected
 - `compute_fenced_line_mask` also marks markdown tag blocks (`<name>` to `</name>`), so sparseness, heading split, and load-time blank-line collapse leave them untouched like fenced code blocks
 
 ### Deprecated
