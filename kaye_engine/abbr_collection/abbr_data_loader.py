@@ -31,6 +31,16 @@ def populate_abbr_data_with_json_file(file_path):  # ===========================
     :func:`kaye_engine.cli.exportable_abbr.register_exportable_abbrs`, so
     callers need not register those groups themselves
 
+    each call is one layer: called once per consumer, a later file adds
+    to the earlier ones, and may repeat an (abbreviation, meaning) pair
+    to add its own tags and glossaries to it (``priority`` and ``wrap``
+    restated unchanged, a ``remark`` either omitted, matching, or filling
+    in a missing one); flag rule for a pair 2 consumers share: a flag
+    that changes how the entry renders (``term_definition``, the case and
+    character set flags) travels with the first file's copy, a habit flag
+    (``always_understand``, ``common``) with the file of the consumer
+    holding the habit
+
     Prerequisite: :func:`register_abbr_glossary` for every glossary
     name referenced by an entry's ``glossaries`` field
 
@@ -38,8 +48,8 @@ def populate_abbr_data_with_json_file(file_path):  # ===========================
     :param file_path: path of the ``abbrs.json`` file to load
     :type file_path: Path or str
     :raises json.JSONDecodeError:
-    :raises ValueError: malformed content, or an entry duplicating one
-            already added
+    :raises ValueError: malformed content, or a repeated entry whose
+            ``priority``, ``wrap`` or ``remark`` conflicts
     :raises TypeError: a meaning or abbrs value is not a JSON object
     """
     with open(file_path, "r", encoding="utf-8") as file:  # read only
