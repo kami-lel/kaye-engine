@@ -111,7 +111,14 @@ populate_abbr_data_with_json_file("abbrs.json")
 
 The automaton is rebuilt once, after the whole file is applied. The function then re-registers every exportable abbreviation group, so callers need not do that themselves, see [Exportable Groups](#exportable-groups). See [entries `json` file schema](#entries-json-file-schema) for the file's format.
 
-The function raises `json.JSONDecodeError` for malformed JSON, `TypeError` when a meaning or `abbrs` value is not an object, and `ValueError` for a meaning without `abbrs`, a malformed entry, or a duplicate entry.
+Each call is one layer, so several consumers each load their own file, one call per file. A later file adds to the earlier ones and may repeat an (abbreviation, meaning) pair to add its own tags and glossaries to it:
+
+- `priority` and `wrap` are restated unchanged; a differing value raises `ValueError`
+- a `remark` is omitted, matches, or fills in one missing at the meaning or the entry level; a conflicting one raises `ValueError`
+- a rendering flag (`term_definition`, the case and character-set flags) travels with the first file's copy; a habit flag (`always_understand`, `common`) travels with the file of the consumer holding the habit
+- an empty file adds nothing and registers no group
+
+The function raises `json.JSONDecodeError` for malformed JSON, `TypeError` when a meaning or `abbrs` value is not an object, and `ValueError` for a meaning without `abbrs`, a malformed entry, or a repeated entry whose `priority`, `wrap`, or `remark` conflicts.
 
 > [!IMPORTANT]
 > Every glossary name any entry's `tags` array uses (any item that is not a fixed `AbbrTags` value) must already be registered via `register_abbr_glossary` before that entry is added. Otherwise `add_entry` and `populate_abbr_data_with_json_file` raise `ValueError`.
@@ -132,17 +139,22 @@ Register a glossary name so entries may reference it via `tags`, and set that gl
 - `is_remark_disabled`: omit the `(...)` remark suffix from every entry in this glossary by default; defaults to `False`
 - `is_term_definition_forced`: render every entry as a term definition (the meaning alone, no `abbr:` prefix), regardless of whether it carries the `term_definition` tag; defaults to `False`
 - `is_dyn_substitution`: whether the glossary is reachable as a `(((name)))` dynamic substitution placeholder, see [Dynamic Substitution](dynamic-content-doc.md#dynamic-substitution); defaults to `False`
+- `consumer`: keyword only, the canonical name of the registered consumer owning the glossary and its `glossary-NAME` group; required when `is_exportable` is true
 
 ```python
 from kaye_engine.abbr_collection import register_abbr_glossary
 
-register_abbr_glossary("coding-terms", True)
+register_abbr_glossary("coding-terms", True, consumer="some-pkg")
 register_abbr_glossary(
-    "plan-step-by-step-abbr", True, is_numbered_list=True, is_sorted=True
+    "plan-step-by-step-abbr",
+    True,
+    is_numbered_list=True,
+    is_sorted=True,
+    consumer="some-pkg",
 )
 ```
 
-It returns the created `AbbrGlossaryRegistry` entry, and raises `ValueError` if `name` is already registered. `abbr_glossary_registry` is the dictionary of every entry, and `get_abbr_glossary(name)` retrieves one, raising `KeyError` for an unknown name.
+It returns the created `AbbrGlossaryRegistry` entry, and raises `ValueError` if `name` is already registered or an exportable glossary names no registered consumer. `abbr_glossary_registry` is the dictionary of every entry, and `get_abbr_glossary(name)` retrieves one, raising `KeyError` for an unknown name.
 
 The four rendering flags are also render-time overrides, see [`GlossaryNode`](#abbreviation-dynamic-nodes).
 
@@ -286,6 +298,8 @@ Loading `abbrs.json` also registers abbreviation groups into `exportable_registr
 - by first character: `Abbr Starts with Digits 0~9`, one per letter `A` to `Z`, and `Abbr Starts with Non-Alphanumeric`
 
 Only a glossary group can be user-invokable, following its `is_user_invokable` flag; every other group is llm-only.
+
+A glossary group belongs to its glossary's consumer. The tag, wrap, and first-character groups are built from the merged data of every file, so one consumer claims them with `set_abbr_group_consumer(canonical_name)`; until one does, they are not exported. While the loaded data is still empty, no group is registered at all.
 
 
 

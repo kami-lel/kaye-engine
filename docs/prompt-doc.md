@@ -753,13 +753,14 @@ canonical_name = registry.canonical_name  # kebab-case slug, e.g. "chat"
 text = registry.content(query="hello")  # rendered prompt
 ```
 
-`register_blueprint()` raises `ValueError` for a duplicate name, an unregistered dependency name, or, while a corpus is loaded, a path it does not contain.
+`register_blueprint()` raises `ValueError` for a duplicate name, an unregistered dependency name, an exportable entry naming no registered `consumer=`, or, while a corpus is loaded, a path it does not contain. To replace an exportable another consumer registered, call `override_exportable()`, see [Exportable Registry Documentation](exportable-registry-doc.md#overriding-an-exportable).
 
 Each entry carries:
 
 - `.blueprint`: the underlying `Blueprint`; assign a new value to edit it, as a blueprint is immutable
 - `.canonical_name` and `.display_name`: the name is read live from `.blueprint.meta.display_name`, so reassigning `.blueprint` with a new meta name changes it; when the meta name is empty it falls back to the optional `display_name=` argument of `register_blueprint()`, else `""`
 - `.is_exportable`: whether it is exported as an Agent Skill
+- `.consumer`: the canonical name of the consumer owning the entry, whose plugin exports it
 - `.is_user_invokable`, `.llm_invokable` and `.always_apply`: the export-policy flags
 - `.render_profile`: the entry's default `RenderProfile`
 - `.supports_negative_content`: `True`, since an entry carries a blueprint to render a negative prompt from
