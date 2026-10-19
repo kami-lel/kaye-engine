@@ -78,6 +78,20 @@ manually add chat & coder, instead by data structure
 - `claude plugin` and the other `claude` exports exit 1 w/ clear message when no consumer is registered
 - abbr groups no longer registered while the loaded abbr data is still empty
 
+[10.0.0]: https://github.com/kami-lel/kaye-engine/compare/v9.1.0-beta...v10.0.0
+
+
+
+
+
+
+
+
+
+
+
+
+
 ## [9.1.0-beta] - 2026-10-06
 
 ### Added
@@ -164,7 +178,6 @@ manually add chat & coder, instead by data structure
 - `(dry run)` suffix on `sync-open-webui-skills` lines, replaced by the `dry` badge
 - `docs/cli/` guides, folded into the main docs
 
-[10.0.0]: https://github.com/kami-lel/kaye-engine/compare/v9.1.0-beta...v10.0.0
 [9.1.0-beta]: https://github.com/kami-lel/kaye-engine/compare/v9.0.0...v9.1.0-beta
 
 
