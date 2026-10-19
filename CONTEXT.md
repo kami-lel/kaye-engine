@@ -53,7 +53,7 @@ no fallback; a `glossary-*` group takes its glossary's consumer:
 | `populate_abbr_data_with_json_file` | additive | one call per file, one layer each; a later layer may repeat an (abbreviation, meaning) pair to add tags, glossaries, or a missing remark, a conflict raises |
 | `register_blueprint` | guarded | |
 | `register_image_prompt_exportable` | guarded | name must already be exportable |
-| `override_exportable` | guarded | the only way a consumer replaces another's exportable; validates names, paths and cycles, moves the skill to the overriding consumer's plugin; an unregistered or non-exportable name raises |
+| `override_exportable` | guarded | the only way a consumer replaces another's exportable; validates names, paths and cycles, moves the skill to the overriding consumer's plugin, and may set `always_apply`; an unregistered or non-exportable name raises |
 | `register_exportable_entry` | guarded | |
 | `register_exportable_abbrs` | additive | rebuilds the abbr groups on every populate, replacing earlier abbr groups only; a name held by another exportable raises |
 | `register_dynamic_substitution` | guarded | |
