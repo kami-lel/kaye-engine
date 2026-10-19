@@ -10,7 +10,7 @@ define ``setup_claude_cli``, ``get_marketplace_folder_name``,
 
 import kamilog
 from kaye_engine.cli import claude
-from kaye_engine.consumer import get_consumer_canonical_name
+from kaye_engine import PACKAGE_NAME
 from kaye_engine.prompt.affordance_registry import (
     register_variant,
     variant_registry,
@@ -30,8 +30,8 @@ logger = kamilog.getLogger(claude.LOGGER_CLAUDE_NAME)
 
 
 def setup_claude_cli(
-    chat_exportable_name,
-    merged_coder_exportable_name,
+    chat_exportable_name=None,
+    merged_coder_exportable_name=None,
     affordance_groups=None,
     surface_profiles=None,
 ):
@@ -39,22 +39,23 @@ def setup_claude_cli(
     set every consumer-configurable value used by the ``claude`` CLI
     subcommand family in one call
 
-    Prerequisite: :func:`register_consumer` (plugin, marketplace, and
-    marketplace folder names, display name, and version derive from it),
-    and :func:`register_exportable_entry` (or
+    Prerequisite: :func:`register_consumer` for each consumer and
+    :func:`set_entry_consumer`, and :func:`register_exportable_entry` (or
     :func:`register_blueprint`) for ``chat_exportable_name`` and
-    ``merged_coder_exportable_name``
+    ``merged_coder_exportable_name`` when given; a subcommand needing an
+    unset name (``code``, ``user-system-prompt``, ``vs-code-extension``)
+    exits 1 with a clear message
 
 
     :param chat_exportable_name: registered name, in
             `exportable_registry`, of the Chat exportable
-    :type chat_exportable_name: str
+    :type chat_exportable_name: str or None, optional
     :param merged_coder_exportable_name: registered name, in
             `exportable_registry`, of the Coder exportable carrying
             Chat as a dependency, used to build the final ``-c``
             prompt (``usp -c``, ``claude code``, ``claude
             vs-code-extension``)
-    :type merged_coder_exportable_name: str
+    :type merged_coder_exportable_name: str or None, optional
     :param affordance_groups: affordance canonical name -> its variant
             canonical names, registered via
             `register_claude_affordances`; a singleton affordance is
@@ -89,12 +90,10 @@ def register_claude_affordances():
 
 def get_marketplace_folder_name():
     """
-    :raises SystemExit: exit code 1, when no consumer project has called
-            ``register_consumer(...)``
-    :return: marketplace folder name, the registered canonical name
+    :return: marketplace folder name, the marketplace name
     :rtype: str
     """
-    return get_consumer_canonical_name()
+    return PACKAGE_NAME
 
 
 def get_surface_profiles():

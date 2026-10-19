@@ -27,7 +27,7 @@ FOLDER/
 
 - `SOUL.md`: the soul blueprint, rendered
 - `profiles/<profile>/SOUL.md`: the blueprint mapped to that profile, rendered
-- `skills/<category>/`: one folder per entry of `exportable_registry`, as `skill` does (q.v. [`exportable-registry-doc.md`](exportable-registry-doc.md))
+- `skills/<consumer>/`: one folder per entry of `exportable_registry` of that consumer, as `skill` does (q.v. [`exportable-registry-doc.md`](exportable-registry-doc.md))
 
 The two `SOUL.md` kinds render from `blueprint_registry`, so a blueprint registered with `is_exportable=False` can still be a soul or a profile; it never becomes a skill. An existing file is overwritten.
 
@@ -36,14 +36,14 @@ The two `SOUL.md` kinds render from `blueprint_registry`, so a blueprint registe
 ```python
 from kaye_engine import register_consumer, setup_hermes_cli
 
-register_consumer("Kaye", "kaye", "1.0")  # skills/<canonical name>/, version
+register_consumer("Some Proj", "some-proj", "1.0")  # skills/<canonical name>/
 setup_hermes_cli(
     "chat",                             # root SOUL.md
-    {"kaye": "kaye-chat", "ria": "ria-chat"},  # profiles/<name>/SOUL.md
+    {"one": "one-chat", "two": "two-chat"},  # profiles/<name>/SOUL.md
 )
 ```
 
-Call it after every named blueprint is registered; an unregistered name logs critical and exits 1. Running `hermes` before the call also exits 1. The skill folder name and version are the canonical name and version given to `register_consumer`; running `hermes` before that call also exits 1.
+Call it after every named blueprint is registered; an unregistered name logs critical and exits 1. Running `hermes` before the call also exits 1. Each consumer's skills sit in `skills/<canonical name>/` and carry that consumer's version. Both arguments are optional; running `hermes` without a soul name exits 1 with a clear message.
 
 ## Dry Run
 

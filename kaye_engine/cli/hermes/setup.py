@@ -23,28 +23,33 @@ logger = kamilog.getLogger(hermes.LOGGER_HERMES_NAME)
 # Public API  ##################################################################
 
 
-def setup_hermes_cli(soul_blueprint_name, profile_blueprint_names):
+def setup_hermes_cli(soul_blueprint_name=None, profile_blueprint_names=None):
     """
     set every consumer-configurable value used by the ``hermes`` CLI
     subcommand in one call
 
-    Prerequisite: :func:`register_consumer` (its canonical name is the
-    folder, under ``skills/``, that holds every exported skill), and
-    :func:`register_blueprint` for ``soul_blueprint_name``
-    and every value of ``profile_blueprint_names``
+    Prerequisite: :func:`register_consumer` (each consumer's canonical
+    name is the folder, under ``skills/``, that holds its exported
+    skills), and :func:`register_blueprint` for ``soul_blueprint_name``
+    and every value of ``profile_blueprint_names`` when given; a name left
+    unset makes ``hermes`` exit 1 with a clear message
 
 
     :param soul_blueprint_name: registered name, in `blueprint_registry`,
             of the blueprint rendered into the root ``SOUL.md``
-    :type soul_blueprint_name: str
+    :type soul_blueprint_name: str or None, optional
     :param profile_blueprint_names: profile name -> registered name, in
             `blueprint_registry`, of the blueprint rendered into
             ``profiles/<profile name>/SOUL.md``
-    :type profile_blueprint_names: dict[str, str]
+    :type profile_blueprint_names: dict[str, str] or None, optional
     :raises SystemExit: exit code 1, when a blueprint name is not
             registered
     """
-    for name in (soul_blueprint_name, *profile_blueprint_names.values()):
+    profile_blueprint_names = profile_blueprint_names or {}
+    names = [*profile_blueprint_names.values()]
+    if soul_blueprint_name is not None:
+        names.insert(0, soul_blueprint_name)
+    for name in names:
         if name not in blueprint_registry:
             logger.critical(
                 "unknown blueprint %r\n"

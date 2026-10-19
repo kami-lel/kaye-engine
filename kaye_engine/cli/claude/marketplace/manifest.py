@@ -5,6 +5,7 @@ define ``MarketplaceJson``
 """
 
 import json
+from dataclasses import dataclass, field
 from pathlib import Path
 
 import kamilog
@@ -16,12 +17,63 @@ from kaye_engine.cli.dry_run import is_dry_run
 logger = kamilog.getLogger(LOGGER_CLAUDE_NAME)
 
 
+@dataclass
+class MarketplacePlugin:
+    """
+    one plugin entry of a marketplace; optional fields are omitted from
+    the file when empty
+    """
+
+    name: str
+    source: str
+    display_name: str = ""
+    description: str = ""
+    version: str = ""
+    author_name: str = ""
+    author_email: str = ""
+    homepage: str = ""
+    repository: str = ""
+    license: str = ""
+    keywords: list = field(default_factory=list)
+    category: str = ""
+    tags: list = field(default_factory=list)
+
+    def as_dict(self):
+        """
+        :return: the JSON object of this entry
+        :rtype: dict
+        """
+        entry = {"name": self.name, "source": self.source}
+        if self.display_name:
+            entry["displayName"] = self.display_name
+        if self.description:
+            entry["description"] = self.description
+        if self.version:
+            entry["version"] = self.version
+        if self.author_name:
+            author = {"name": self.author_name}
+            if self.author_email:
+                author["email"] = self.author_email
+            entry["author"] = author
+        for key, val in (
+            ("homepage", self.homepage),
+            ("repository", self.repository),
+            ("license", self.license),
+            ("keywords", self.keywords),
+            ("category", self.category),
+            ("tags", self.tags),
+        ):
+            if val:
+                entry[key] = val
+        return entry
+
+
 class MarketplaceJson:  #########################################################
     """
     manage metadata and content writing for a Claude plugin marketplace file
 
     writes a ``.claude-plugin/marketplace.json`` at the marketplace root,
-    listing a single plugin entry; optional fields are omitted when empty
+    listing one entry per added plugin; optional fields are omitted when empty
 
 
     :param folder_path: marketplace root directory to write
@@ -32,7 +84,7 @@ class MarketplaceJson:  ########################################################
     ...     market.name = "kaye"
     ...     market.description = "Prompt engineering toolkit"
     ...     market.version = "1.0.0"
-    ...     ~~
+    ...     market.plugins.append(MarketplacePlugin("kaye", "./plugins/kaye"))
     """
 
     # constants  ===============================================================
@@ -56,21 +108,7 @@ class MarketplaceJson:  ########################################################
         self.owner_name = ""
         self.owner_email = ""
 
-        # plugin entry fields  -------------------------------------------------
-
-        self.plugin_name = ""
-        self.plugin_source = ""
-        self.plugin_display_name = ""
-        self.plugin_description = ""
-        self.plugin_version = ""
-        self.plugin_author_name = ""
-        self.plugin_author_email = ""
-        self.plugin_homepage = ""
-        self.plugin_repository = ""
-        self.plugin_license = ""
-        self.plugin_keywords = []
-        self.plugin_category = ""
-        self.plugin_tags = []
+        self.plugins = []
 
     # support context manager  =================================================
 
@@ -82,41 +120,13 @@ class MarketplaceJson:  ########################################################
         if self.owner_email:
             owner["email"] = self.owner_email
 
-        plugin_entry = {
-            "name": self.plugin_name,
-            "source": self.plugin_source,
-        }
-        if self.plugin_display_name:
-            plugin_entry["displayName"] = self.plugin_display_name
-        if self.plugin_description:
-            plugin_entry["description"] = self.plugin_description
-        if self.plugin_version:
-            plugin_entry["version"] = self.plugin_version
-        if self.plugin_author_name:
-            author = {"name": self.plugin_author_name}
-            if self.plugin_author_email:
-                author["email"] = self.plugin_author_email
-            plugin_entry["author"] = author
-        if self.plugin_homepage:
-            plugin_entry["homepage"] = self.plugin_homepage
-        if self.plugin_repository:
-            plugin_entry["repository"] = self.plugin_repository
-        if self.plugin_license:
-            plugin_entry["license"] = self.plugin_license
-        if self.plugin_keywords:
-            plugin_entry["keywords"] = self.plugin_keywords
-        if self.plugin_category:
-            plugin_entry["category"] = self.plugin_category
-        if self.plugin_tags:
-            plugin_entry["tags"] = self.plugin_tags
-
         marketplace_data = {"$schema": self._SCHEMA, "name": self.name}
         if self.description:
             marketplace_data["description"] = self.description
         if self.version:
             marketplace_data["version"] = self.version
         marketplace_data["owner"] = owner
-        marketplace_data["plugins"] = [plugin_entry]
+        marketplace_data["plugins"] = [p.as_dict() for p in self.plugins]
 
         if not self._manifest_dir.is_dir():
             with track(logger).create_dir(self._manifest_dir):

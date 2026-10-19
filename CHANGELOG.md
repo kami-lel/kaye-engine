@@ -28,10 +28,16 @@ manually add chat & coder, instead by data structure
 
 ### Added
 
+- `claude plugin` writes one plugin per registered consumer holding exportables (`-z`: one `.zip` each); `claude marketplace` always carries the name `kaye-engine` and lists one plugin per consumer; `hermes` writes `skills/<consumer>/` per consumer
+- every consumer registers its own record via `register_consumer` (a repeated canonical name raises), `set_entry_consumer` names the one owning the process-wide CLI identity, and `get_consumer`, `iter_consumers` serve per-consumer export
+- every exportable names its owning consumer at registration (`consumer=`), with no fallback; a `glossary-*` abbr group takes its glossary's consumer, and `set_abbr_group_consumer` claims the remaining abbr groups
+- `setup_claude_cli` chat and coder names, and `setup_hermes_cli` soul name, are optional; a subcommand needing an unset one exits 1 with a clear message
 - `register_corpus_under_node(node_path, source)` records a corpus source under a node of the tree, the root (`()`) included; several consumers may contribute to one tree, in any order
 
 ### Changed
 
+- **Breaking**: the marketplace written by `claude marketplace` and `claude vs-code-extension` is renamed from the consumer's name to `kaye-engine`, and the plugin export is now per consumer; no migration code ships. Uninstall the marketplace previously named after your consumer, then install the new `kaye-engine` marketplace and remove the stale `@<old marketplace>` keys from `enabledPlugins` in your Claude settings by hand
+- **Breaking**: `register_consumer` is additive and raises on a repeated canonical name; the `get_consumer_*` getters read the entry consumer set by `set_entry_consumer`; `register_blueprint` and exportable `register_abbr_glossary` require a registered `consumer`; `get_plugin_name` is removed; `export_hermes_folder` takes no `version`
 - `load_corpus_tree` drops line-anchored markdown comments (`<!-- ... -->`, single or multi-line) from the corpus, so authoring notes never render; fenced code blocks and tag blocks keep theirs, and the generated blueprint-info comment is unaffected
 - `compute_fenced_line_mask` also marks markdown tag blocks (`<name>` to `</name>`), so sparseness, heading split, and load-time blank-line collapse leave them untouched like fenced code blocks
 - **Breaking**: `load_corpus_tree()` takes no argument and builds the tree from the registrations, parsing each source on its own; a source's top headings must sit one level below its target, and a duplicate sibling heading raises. Migrate `load_corpus_tree([a, b])` to `register_corpus_under_node((), a)`, `register_corpus_under_node((), b)`, then `load_corpus_tree()`; a source that relied on concatenation to nest under the previous file registers under that node instead

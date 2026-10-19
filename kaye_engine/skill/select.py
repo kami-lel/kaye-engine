@@ -10,7 +10,7 @@ __all__ = ("select_exportables",)
 
 
 # Public API  ##################################################################
-def select_exportables(names=None):
+def select_exportables(names=None, *, consumer=None):
     """
     pick the `exportable_registry` entries to export as skills
 
@@ -20,6 +20,9 @@ def select_exportables(names=None):
 
     :param names: canonical names to select; ``None`` selects every entry
     :type names: Iterable[str], optional
+    :param consumer: canonical name of a consumer; when given, only its
+            entries are selected
+    :type consumer: str, optional
     :raises ValueError: 1+ names are not registered; the message lists
             every unknown name
     :return: selected entries, in the order named (registry order when
@@ -29,7 +32,11 @@ def select_exportables(names=None):
     >>> select_exportables(["coder", "chat"])
     """
     if names is None:
-        return list(exportable_registry.values())
+        return [
+            e
+            for e in exportable_registry.values()
+            if consumer is None or e.consumer == consumer
+        ]
 
     unique_names = list(dict.fromkeys(names))
     unknown = [n for n in unique_names if n not in exportable_registry]

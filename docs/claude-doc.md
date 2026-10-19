@@ -31,13 +31,13 @@ Kaye Engine's integration with Anthropic Claude: exporting corpus blueprints as 
 
 ### plugin
 
-Writes one plugin, with one `SKILL.md` per exportable.
+Writes one plugin per registered consumer holding exportables, each with one `SKILL.md` per exportable of that consumer.
 
 ```bash
-kaye-engine claude plugin              # ~/.claude/plugins/PLUGIN_NAME/
-kaye-engine claude plugin FOLDER       # FOLDER/PLUGIN_NAME/
-kaye-engine claude plugin -z           # upload-ready .zip in the current directory
-kaye-engine claude plugin -z -N ZIPS   # ZIPS/, filename without the version
+kaye-engine claude plugin              # ~/.claude/plugins/PLUGIN_NAME/ per consumer
+kaye-engine claude plugin FOLDER       # FOLDER/PLUGIN_NAME/ per consumer
+kaye-engine claude plugin -z           # one upload-ready .zip per consumer, in the current directory
+kaye-engine claude plugin -z -N ZIPS   # ZIPS/, filenames without the version
 ```
 
 ```text
@@ -50,8 +50,10 @@ FOLDER/                      (default: ~/.claude/plugins/)
             └── SKILL.md
 ```
 
-- `-z`, `--zip`: create an upload-ready `.zip` for Claude Desktop instead of a folder; FOLDER then defaults to the current directory
-- `-N`, `--no-version`: leave the version out of the `.zip` filename, `.zip` only
+- `-z`, `--zip`: create upload-ready `.zip` files for Claude Desktop instead of folders, one per consumer; FOLDER then defaults to the current directory
+- `-N`, `--no-version`: leave each consumer's version out of its `.zip` filename, `.zip` only
+
+PLUGIN_NAME, the display name, the version and the manifest metadata (summary, author, URLs, read from the consumer's own installed distribution) come from each consumer's record; `skills/` holds only that consumer's skills.
 
 #### Claude Desktop
 
@@ -80,7 +82,7 @@ For a chosen subset, or a folder that is not Claude's, use `kaye-engine skill NA
 
 ### marketplace
 
-Wraps the plugin in a marketplace that Claude can add as a source.
+Wraps every consumer's plugin in one marketplace that Claude can add as a source. The marketplace is always named `kaye-engine` and lists one plugin per consumer; an export writes the whole marketplace from its process's consumers, so the last export wins.
 
 ```bash
 kaye-engine claude marketplace         # ~/.claude/<marketplace folder name>/
@@ -92,7 +94,7 @@ MARKETPLACE/
 ├── .claude-plugin/
 │   └── marketplace.json
 └── plugins/
-    └── PLUGIN_NAME/          (same layout as plugin)
+    └── PLUGIN_NAME/          (same layout as plugin, one per consumer)
 ```
 
 Add the resulting folder in Claude's marketplace settings.
@@ -133,7 +135,7 @@ CLAUDE_FOLDER/               (default: ~/.claude)
         └── PLUGIN_NAME/
 ```
 
-The marketplace folder name is the canonical name given to `register_consumer(~~)`. `settings.json` gains Bash command permissions covering git, system commands (`sudo`, `kill`, `systemctl`), package managers, `pytest`, and `docker`.
+The marketplace folder name is `kaye-engine`. `settings.json` gains Bash command permissions covering git, system commands (`sudo`, `kill`, `systemctl`), package managers, `pytest`, and `docker`.
 
 To load the marketplace in VS Code:
 
@@ -176,7 +178,7 @@ The merged Coder exportable (`merged_coder_exportable_name`) is expected to carr
 
 ----
 
-A `claude`-exporting consumer must call `register_consumer(display_name, canonical_name, version)` and `setup_claude_cli(~~)` before invoking the CLI. `register_consumer` supplies the display name, the version, and the kebab canonical name, which is used as the plugin name, marketplace name, and marketplace folder name; `setup_claude_cli` supplies the Chat and merged Coder exportable names. The version is the consumer's own and is stamped into every `plugin.json`, `marketplace.json`, and `SKILL.md` the CLI writes.
+Every package exporting through `claude` calls `register_consumer(display_name, canonical_name, version)` once, and every exportable names its consumer at registration. The kebab canonical name is the plugin name and must equal the package's installed distribution name; the version is stamped into that consumer's `plugin.json`, marketplace entry and `SKILL.md` files. The setup a console command runs also calls `set_entry_consumer(canonical_name)` and `setup_claude_cli(~~)`: the entry consumer owns the process-wide CLI identity, and `setup_claude_cli` supplies the Chat and merged Coder exportable names, both optional. A subcommand needing an unset name (`code`, `user-system-prompt`, `vs-code-extension`) exits 1 with a clear message.
 
 ## Surfaces
 
