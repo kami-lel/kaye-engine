@@ -23,12 +23,14 @@ from kaye_engine.prompt.prompt_corpus_loader import (
     load_corpus_tree,
 )
 
+from tests.corpus_helper import load_corpus_from_sources
+
 
 @pytest.fixture(autouse=True)
 def _corpus():
     # exporting renders every entry, which needs the one corpus
     clear_corpus_tree()
-    load_corpus_tree(["# R\n"])
+    load_corpus_from_sources(["# R\n"])
     yield
     clear_corpus_tree()
 

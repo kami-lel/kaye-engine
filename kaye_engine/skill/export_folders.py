@@ -16,7 +16,7 @@ logger = kamilog.getLogger(LOGGER_SKILL_NAME)
 
 
 def export_skills_as_folders(
-    parent_folder, *, version, render_profile=None, names=None
+    parent_folder, *, version, render_profile=None, names=None, consumer=None
 ):
     """
     export `exportable_registry` entries as skill folders: every entry, or
@@ -35,9 +35,12 @@ def export_skills_as_folders(
     :type render_profile: RenderProfile, optional
     :param names: canonical names to export; ``None`` exports every entry
     :type names: Iterable[str], optional
+    :param consumer: canonical name of a consumer; when given, only its
+            entries are exported
+    :type consumer: str, optional
     :raises ValueError: 1+ names are not registered; nothing is written
     """
-    exportables = select_exportables(names)
+    exportables = select_exportables(names, consumer=consumer)
     logger.enter("exporting exportables as skills")
 
     for exportable in exportables:

@@ -7,7 +7,9 @@ import kamilog
 from kaye_engine import PACKAGE_NAME
 from kaye_engine.cli import DEFAULT_SPARSENESS
 from kaye_engine.cli.claude import LOGGER_CLAUDE_NAME
-from kaye_engine.cli.claude.plugin.export_folder import export_plugin_as_folder
+from kaye_engine.cli.claude.plugin.export_folder import (
+    export_plugins_as_folders,
+)
 from kaye_engine.cli.claude.plugin_marketplace_name import (
     check_setup_for_claude_cli,
 )
@@ -37,7 +39,7 @@ logger = kamilog.getLogger(LOGGER_CLAUDE_NAME)
 _DESCRIPTION = __doc__ + """
 
 writes CLAUDE.md as the User System Prompt (Chat Blueprint + Coder Blueprint)
-and exports the plugin into plugins/
+and exports each consumer's plugin into plugins/
 
 CLAUDE_FOLDER/  (default: ~/.claude)
 ├── CLAUDE.md  (User System Prompt)
@@ -95,9 +97,9 @@ def register_code_parser(cli_subparser):  ######################################
             default_show_comment=False,
         )
 
-        logger.debug("export plugin as folder")
+        logger.debug("export plugins as folders")
         plugin_folder = folder / "plugins"
-        export_plugin_as_folder(plugin_folder, render_profile=render_profile)
+        export_plugins_as_folders(plugin_folder, render_profile=render_profile)
 
         logger.debug("export user system prompt file")
         prompt_file = find_user_system_prompt_file(folder)

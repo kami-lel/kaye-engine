@@ -3,6 +3,7 @@ Kaye Python Package API
 """
 
 __all__ = (
+    "KAYE_ENGINE_DISPLAY_NAME",
     "LOGGER_NAME",
     "PACKAGE_NAME",
     "AbbrData",
@@ -12,10 +13,14 @@ __all__ = (
     "get_corpus_tree",
     "load_corpus_tree",
     "populate_abbr_data_with_json_file",
+    "override_exportable",
     "register_abbr_glossary",
     "register_blueprint",
     "register_comment_line",
     "register_consumer",
+    "set_abbr_group_consumer",
+    "set_entry_consumer",
+    "register_corpus_under_node",
     "register_image_prompt_exportable",
     "register_dynamic_substitution",
     "setup_claude_cli",
@@ -25,6 +30,7 @@ __all__ = (
 
 # installed distribution name, for importlib.metadata lookups
 PACKAGE_NAME = "kaye-engine"
+KAYE_ENGINE_DISPLAY_NAME = "Kaye Engine"
 LOGGER_NAME = "kaye.engine"
 
 
@@ -36,7 +42,8 @@ from kaye_engine.abbr_collection import (
 )
 from kaye_engine.cli.claude.setup import setup_claude_cli
 from kaye_engine.cli.hermes.setup import setup_hermes_cli
-from kaye_engine.consumer import register_consumer
+from kaye_engine.cli.exportable_abbr import set_abbr_group_consumer
+from kaye_engine.consumer import register_consumer, set_entry_consumer
 from kaye_engine.exportable import register_image_prompt_exportable
 from kaye_engine.prompt import (
     DynamicSubstitution,
@@ -44,7 +51,9 @@ from kaye_engine.prompt import (
     clear_corpus_tree,
     get_corpus_tree,
     load_corpus_tree,
+    override_exportable,
     register_blueprint,
     register_comment_line,
+    register_corpus_under_node,
     register_dynamic_substitution,
 )

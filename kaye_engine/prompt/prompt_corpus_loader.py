@@ -1,9 +1,10 @@
 """
 prompt_corpus_loader.py
 
-define ``load_corpus_tree``, ``get_corpus_tree`` and
-``clear_corpus_tree`` -- the one parsed prompt corpus tree a process
-holds
+define ``register_corpus_under_node``, ``load_corpus_tree``,
+``get_corpus_tree`` and ``clear_corpus_tree`` -- the one parsed prompt
+corpus tree a process holds, built from the sources registered under
+its nodes
 
 Every dynamic node auto-attaches; an authored ``(name)`` heading, at
 any depth, fixes its location and preface -- else it falls back to root.
@@ -26,18 +27,25 @@ from .dynamic_nodes import (
 )
 from .md_comment import strip_comment_blocks
 from .md_fence import compute_fenced_line_mask
-from .prompt_corpus_node import PromptCorpusNode
+from .prompt_corpus_node import (
+    HEADING_PREFIX_ELEMENT,
+    PromptCorpusNode,
+    split_sections,
+)
 
 __all__ = (
     "add_corpus_clear_hook",
     "clear_corpus_tree",
     "get_corpus_tree",
     "load_corpus_tree",
+    "register_corpus_under_node",
 )
 
 
 # constants  ###################################################################
 ROOT_NODE_NAME = "○"
+
+_HEADING_PATTERN = re.compile(r"(#+) ")
 
 
 # auxiliaries  #################################################################
@@ -90,9 +98,9 @@ def _collapse_unfenced_blank_runs(text_lines):
 
 def _read_content_source(source):
     """
-    resolve one entry of ``load_corpus_tree``'s ``sources`` list --
-    ``source`` a :class:`Path` is opened and read as a file; ``source``
-    a ``str`` is used directly, as literal content
+    resolve one registered source -- ``source`` a :class:`Path` is
+    opened and read as a file; ``source`` a ``str`` is used directly, as
+    literal content
 
 
     :param source: file to read, or literal content
@@ -128,8 +136,216 @@ def _resolve_dynamic_heading(heading):
     return factory, {}
 
 
+def _normalize_node_path(node_path):
+    """
+    :return: ``node_path`` as a tuple of headings from the root
+    :rtype: tuple[str, ...]
+    :raises TypeError: ``node_path`` is neither a tuple nor a ``str``
+    :raises ValueError: a heading is empty, a bare ``str`` looks like a
+            file path, or a heading names a sidecar or dynamic node
+    """
+    if isinstance(node_path, str):
+        if "/" in node_path or node_path.strip().endswith(".md"):
+            raise ValueError(
+                "node_path looks like a file path, not a heading: {!r}; "
+                "pass (node_path, source) in that order".format(node_path)
+            )
+        node_path = (node_path,)
+
+    if not isinstance(node_path, tuple):
+        raise TypeError(
+            "node_path must be a tuple of headings or a str, got {}".format(
+                type(node_path).__name__
+            )
+        )
+
+    for heading in node_path:
+        if not isinstance(heading, str) or not heading.strip():
+            raise ValueError(
+                "node_path heading must be a non-empty str: {!r}".format(
+                    node_path
+                )
+            )
+        if heading.startswith("{") or _is_parenthesized_heading(heading):
+            raise ValueError(
+                "cannot register corpus under a sidecar or dynamic node: "
+                "{!r}".format(node_path)
+            )
+
+    return node_path
+
+
+def _check_source(source):
+    """
+    :raises TypeError: ``source`` is neither a ``Path`` nor a ``str``
+    :raises ValueError: a ``str`` source looks like a file name
+    """
+    if isinstance(source, Path):
+        return
+    if not isinstance(source, str):
+        raise TypeError(
+            "source must be a Path or a str, got {}".format(
+                type(source).__name__
+            )
+        )
+    if source.strip().endswith(".md"):
+        raise ValueError(
+            "str source ending in .md is read as literal content; "
+            "pass a Path to read a file: {!r}".format(source)
+        )
+
+
+def _describe_source(source, idx):
+    if isinstance(source, Path):
+        return str(source)
+    return "literal source #{}".format(idx)
+
+
+def _read_source_lines(source):
+    """
+    :return: ``source``'s lines, markdown comment blocks dropped and
+            unfenced blank runs collapsed, on its own so no fence or
+            comment leaks into another source
+    :rtype: list[str]
+    """
+    return _collapse_unfenced_blank_runs(
+        strip_comment_blocks(_read_content_source(source).split("\n"))
+    )
+
+
+def _check_heading_level(text_lines, depth, label):
+    """
+    :raises ValueError: a heading of ``text_lines`` sits shallower or,
+            at the top, deeper than one level below a node at ``depth``
+    """
+    fenced_mask = compute_fenced_line_mask(text_lines)
+    levels = [
+        len(match.group(1))
+        for idx, line in enumerate(text_lines)
+        if not fenced_mask[idx]
+        and (match := _HEADING_PATTERN.match(line)) is not None
+    ]
+    if levels and min(levels) != depth + 1:
+        raise ValueError(
+            "{}: top headings must be {!r}, one level below the target, "
+            "found {!r}".format(
+                label,
+                HEADING_PREFIX_ELEMENT * (depth + 1),
+                HEADING_PREFIX_ELEMENT * min(levels),
+            )
+        )
+
+
+def _find_node(tree, node_path):
+    """
+    :return: the node at ``node_path`` under ``tree``, or ``None``
+    """
+    node = tree
+    for heading in node_path:
+        node = next(
+            (child for child in node.children if child.name == heading),
+            None,
+        )
+        if node is None:
+            return None
+    return node
+
+
+def _check_unique_siblings(node, owner_by_node, label):
+    """
+    :raises ValueError: 2 children of ``node`` or of any descendant share
+            a heading
+    """
+    seen = {}
+    for child in node.children:
+        if child.name in seen:
+            raise ValueError(
+                "duplicate heading {!r} under {!r}: from {} and {}".format(
+                    child.name,
+                    "/".join(node.generate_lineage()) or ROOT_NODE_NAME,
+                    owner_by_node.get(id(seen[child.name]), label),
+                    owner_by_node.get(id(child), label),
+                )
+            )
+        seen[child.name] = child
+        _check_unique_siblings(child, owner_by_node, label)
+
+
+def _graft(target, source_lines, label, owner_by_node):
+    """
+    parse ``source_lines`` as children of ``target``, appending any
+    leading content before the first heading to ``target``'s own content
+    """
+    _check_heading_level(source_lines, target.depth, label)
+
+    leading_lines, child_specs = split_sections(source_lines, target.depth)
+    if any(line.strip() for line in leading_lines):
+        # one blank line between the target's own text and the addition
+        own_lines = list(target.content_lines())
+        while own_lines and not own_lines[-1].strip():
+            own_lines.pop()
+        if own_lines:
+            own_lines.append("")
+        target._content_lines = [  # pylint: disable=protected-access
+            *own_lines,
+            *leading_lines,
+        ]
+
+    for heading, child_lines in child_specs:
+        child = PromptCorpusNode.parse(heading, target, child_lines)
+        for node in PreOrderIter(child):
+            owner_by_node[id(node)] = label
+
+    _check_unique_siblings(target, owner_by_node, label)
+
+
+def _build_static_tree(registrations):
+    """
+    graft every registration, in passes: each pass grafts, in
+    registration order, every registration whose target exists, until
+    none is left
+
+
+    :raises ValueError: a target that never appears, or any error of
+            :func:`_graft`
+    :return: the root of the static tree, before dynamic nodes attach
+    :rtype: PromptCorpusNode
+    """
+    tree = PromptCorpusNode(ROOT_NODE_NAME, None, [])
+    owner_by_node = {}
+
+    pending = [
+        (node_path, source, _describe_source(source, idx))
+        for idx, (node_path, source) in enumerate(registrations)
+    ]
+    while pending:
+        left = []
+        for node_path, source, label in pending:
+            target = _find_node(tree, node_path)
+            if target is None:
+                left.append((node_path, source, label))
+                continue
+            _graft(
+                target, _read_source_lines(source), label, owner_by_node
+            )
+
+        if len(left) == len(pending):
+            raise ValueError(
+                "no corpus node at path {} for {}".format(
+                    ", ".join(repr(list(p)) for p, _, _ in left),
+                    ", ".join(label for _, _, label in left),
+                )
+            )
+        pending = left
+
+    return tree
+
+
 # the one parsed prompt corpus tree of this process
 _corpus_tree = None
+
+# (node path, source) pairs the tree is built from, in registration order
+_corpus_registrations = []
 
 # callbacks run by clear_corpus_tree(), dropping data derived from the tree
 _clear_hooks = []
@@ -138,33 +354,68 @@ _clear_hooks = []
 # Public API  ##################################################################
 
 
-def load_corpus_tree(sources):  # ==============================================
+def register_corpus_under_node(node_path, source):  # =========================
     """
-    concatenate ``sources``, in order, into one logical document, parse
-    it into the process's **prompt corpus tree**, and hold it -- every
-    dynamic node (each ``DYNAMIC_NODE_TYPES`` member, each
-    ``ABBR_TAG_NODE_MEMBERS`` tag, and every registered glossary)
-    auto-attaches unconditionally; an authored ``(name)`` heading, at
-    any depth in ``sources``, fixes its preface and tree location in
-    place of the heading -- else it falls back to a direct child of
-    root
+    record ``source`` to be parsed under the node at ``node_path`` when
+    :func:`load_corpus_tree` builds the tree; nothing is read or parsed
+    now
+
+    ``source``'s top headings must sit exactly one level below the
+    target: ``#`` under the root, ``###`` under a ``## a`` node; any
+    content before its first heading is appended to the target's own
+    content
+
+
+    :param node_path: headings from the root to the target node; ``()``
+            is the root; a bare ``str`` without ``/`` or ``.md`` is a
+            one-heading path
+    :type node_path: tuple[str, ...] or str
+    :param source: markdown file to read, or literal content
+    :type source: Path or str
+    :raises TypeError: ``node_path`` or ``source`` has the wrong type
+    :raises ValueError: a corpus tree is already loaded, ``node_path``
+            names a sidecar or dynamic node or looks like a file path,
+            or a ``str`` ``source`` ends in ``.md``
+    """
+    if _corpus_tree is not None:
+        raise ValueError(
+            "a corpus tree is already loaded; register corpus before "
+            "load_corpus_tree(), or call clear_corpus_tree() first"
+        )
+
+    node_path = _normalize_node_path(node_path)
+    _check_source(source)
+    _corpus_registrations.append((node_path, source))
+
+
+def load_corpus_tree():  # =====================================================
+    """
+    parse every source registered via :func:`register_corpus_under_node`
+    on its own and graft it under its target node, building the
+    process's **prompt corpus tree**, and hold it -- every dynamic node
+    (each ``DYNAMIC_NODE_TYPES`` member, each ``ABBR_TAG_NODE_MEMBERS``
+    tag, and every registered glossary) auto-attaches unconditionally;
+    an authored ``(name)`` heading, at any depth of any source, fixes its
+    preface and tree location in place of the heading -- else it falls
+    back to a direct child of root
+
+    registrations graft in passes, so they may come in any order; only
+    sibling order under one node follows registration order
 
     a line-anchored markdown comment (``<!-- ... -->``) outside a fenced
-    code block or tag block is dropped on load, so it never renders
+    code block or tag block is dropped on load, per source, so it never
+    renders and never reaches another source
 
     Prerequisite: :func:`register_abbr_glossary` for every glossary
-    named in a ``(name)`` heading of ``sources``
+    named in a ``(name)`` heading of a source
 
 
-    :param sources: ordered sources to concatenate into one logical
-            document -- each ``str`` entry is literal content, each
-            ``Path`` entry is a markdown file to read
-    :type sources: list[str or Path]
-    :raises ValueError: a corpus tree is already loaded,
-            ``sources`` contain a heading wrapped in
-            parentheses -- reserved for dynamic nodes -- that resolves
-            to no known dynamic node, or two headings resolve to the
-            same dynamic node
+    :raises ValueError: a corpus tree is already loaded, a registered
+            target never appears, a source's top headings sit at the
+            wrong level, 2 siblings share a heading, a heading wrapped in
+            parentheses -- reserved for dynamic nodes -- resolves to no
+            known dynamic node, or two headings resolve to the same
+            dynamic node
     :raises FileNotFoundError:
     :raises IOError:
     :return: **root** node of the parsed *prompt corpus tree*
@@ -177,21 +428,7 @@ def load_corpus_tree(sources):  # ==============================================
             "a corpus tree is already loaded; call clear_corpus_tree() first"
         )
 
-    # read corpus content from sources, concatenated as if one file
-    prompt_corpus_text = "\n\n".join(
-        _read_content_source(source) for source in sources
-    )
-
-    # text split & clean up  ---------------------------------------------------
-    # split to lines, drop markdown comment blocks so authoring notes never
-    # render, then reduce 2+ empty lines into single empty line, skipping
-    # lines inside a fenced code block
-    text_lines = _collapse_unfenced_blank_runs(
-        strip_comment_blocks(prompt_corpus_text.split("\n"))
-    )
-
-    # create prompt corpus nodes  ----------------------------------------------
-    tree = PromptCorpusNode.parse(ROOT_NODE_NAME, None, text_lines)
+    tree = _build_static_tree(_corpus_registrations)
 
     # add dynamic nodes  -------------------------------------------------------
     # locate every "(name)" heading that resolves to a dynamic node;
@@ -266,7 +503,7 @@ def get_corpus_tree():  # ======================================================
     """
     if _corpus_tree is None:
         raise ValueError(
-            "no corpus tree loaded; call load_corpus_tree(sources) first"
+            "no corpus tree loaded; call load_corpus_tree() first"
         )
 
     return _corpus_tree
@@ -274,12 +511,14 @@ def get_corpus_tree():  # ======================================================
 
 def clear_corpus_tree():  # ====================================================
     """
-    drop the loaded corpus tree so :func:`load_corpus_tree` may run
-    again; a no-op when none is loaded
+    drop the loaded corpus tree and every corpus registration, so
+    sources may be registered and :func:`load_corpus_tree` run again; a
+    no-op when none is loaded
     """
     global _corpus_tree  # pylint: disable=global-statement
 
     _corpus_tree = None
+    _corpus_registrations.clear()
     for hook in _clear_hooks:
         hook()
 

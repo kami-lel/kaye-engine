@@ -58,6 +58,7 @@ The package exports `Exportable`, `exportable_registry`, `register_exportable_en
 | Field | Default | Meaning |
 | --- | --- | --- |
 | `canonical_name` | required | kebab-case name, used directly as the exported skill name |
+| `consumer` | `""` | canonical name of the registered consumer owning the entry; it decides which plugin the skill is exported in |
 | `display_name` | `""` | human-readable name; an implementer may derive it, as `BlueprintRegistry` does from its blueprint's meta |
 | `is_user_invokable` | `True` | a human may invoke it by name |
 | `llm_invokable` | `True` | the assistant may bring it into play on its own judgment |
@@ -144,8 +145,9 @@ Two kinds of exportable registration feed `exportable_registry`:
 
 - [engine registered exportable](#engine-registered-exportable): registered by the engine itself, from the abbreviation data
 - **consumer registered exportable**:
-  - blueprint: `register_blueprint(name, blueprint)` creates a `BlueprintRegistry`, inserts it into `blueprint_registry`, and, when `is_exportable` is true (the default), into `exportable_registry` too. Its display name comes from `blueprint.meta.display_name`, with the optional `display_name=` argument as fallback, else `""`. It accepts `is_user_invokable`, `llm_invokable`, `always_apply` and `render_profile`, see [`prompt-doc.md`](prompt-doc.md#blueprint-registry)
-  - glossary: `register_abbr_glossary()` registers the glossary's name and settings into `abbr_glossary_registry`; with `is_exportable=True`, its group is inserted into `exportable_registry` the next time the abbreviation groups are registered, as `glossary-NAME`. Its `is_user_invokable` flag decides whether a human may invoke that group
+  - blueprint: `register_blueprint(name, blueprint, consumer=...)` creates a `BlueprintRegistry`, inserts it into `blueprint_registry`, and, when `is_exportable` is true (the default), into `exportable_registry` too; an exportable entry must name a registered consumer, with no fallback. Its display name comes from `blueprint.meta.display_name`, with the optional `display_name=` argument as fallback, else `""`. It accepts `is_user_invokable`, `llm_invokable`, `always_apply` and `render_profile`, see [`prompt-doc.md`](prompt-doc.md#blueprint-registry)
+  - glossary: `register_abbr_glossary(name, ..., consumer=...)` registers the glossary's name and settings into `abbr_glossary_registry`; with `is_exportable=True`, its group is inserted into `exportable_registry` the next time the abbreviation groups are registered, as `glossary-NAME`, owned by the glossary's consumer. Its `is_user_invokable` flag decides whether a human may invoke that group
+  - override: `override_exportable(name, blueprint, *, consumer, ...)` replaces another consumer's exportable blueprint, see [Overriding an Exportable](#overriding-an-exportable)
   - image-prompt subset: `register_image_prompt_exportable(canonical_name)` marks a name already in `exportable_registry` as a member of the image-prompt export subset, appending it to `image_prompt_exportable_registry`. It never creates an exportable itself: an unregistered `canonical_name` raises `KeyError`, and a name already in the subset raises `ValueError`
 
 Usage:
@@ -190,11 +192,33 @@ Usage:
 
 
 
+## Overriding an Exportable
+
+`override_exportable(name, blueprint, *, consumer, render_profile=None, always_apply=None)` is the one way a consumer takes over an exportable blueprint another consumer registered. It validates `blueprint` (every dependency name registered, every path present in the loaded corpus, no cycle back through `name`), then sets the blueprint, the render profile when given, and the new `consumer` on the same registry entry, so the skill moves to the overriding consumer's plugin. The other export flags are kept, `always_apply` excepted when given. An unregistered or non-exportable `name`, or an unregistered `consumer`, raises `ValueError`, and nothing changes.
+
+```python
+from kaye_engine import override_exportable
+from kaye_engine.prompt.blueprint import create_blueprint, get_blueprint, replace_meta
+
+meta = get_blueprint("commit-sense").blueprint.meta
+bp = replace_meta(
+    create_blueprint(dependencies=["commit-sense-core", "my-trailer-rules"]),
+    display_name=meta.display_name,
+    description_node=meta.description_node,
+    when_to_use_node=meta.when_to_use_node,
+)
+override_exportable("commit-sense", bp, consumer="my-package")
+```
+
+The overridden skill keeps its canonical name, so a skill always sits in exactly one plugin.
+
 ## Engine Registered Exportable
 
 The engine registers abbreviation groups from `get_abbr_data()`, as `ExportableAbbr` entries defined in `kaye_engine/cli/exportable_abbr.py`. `populate_abbr_data_with_json_file()` calls `register_exportable_abbrs()` itself, which recomputes every group fresh and re-inserts each, replacing any earlier entry under the same name. Call it yourself only after adding entries by hand with `add_entry`. While the abbreviation data is empty, no group is registered.
 
 Every engine group is llm-only: `is_user_invokable` is `False` and `llm_invokable` is `True`. A glossary group is the one exception, following its glossary's own flag.
+
+A glossary group belongs to its glossary's consumer. The tag, wrap, and starts-with groups belong to the consumer named by `set_abbr_group_consumer(canonical_name)`; while none is named, they are not registered, so they are not exported.
 
 Abbreviation Group by Tag:
 

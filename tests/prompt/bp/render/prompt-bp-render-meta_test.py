@@ -23,6 +23,8 @@ from kaye_engine.prompt.blueprint.render.util import (
 )
 from kaye_engine.prompt.prompt_corpus_loader import load_corpus_tree
 
+from tests.corpus_helper import load_corpus_from_sources
+
 _SOURCE = """# Personality
 ## Ria
 ### {description}
@@ -49,7 +51,7 @@ BARE = ("Personality", "Bare")
 # pytest fixtures  #############################################################
 @pytest.fixture(autouse=True)
 def corpus():
-    load_corpus_tree([_SOURCE])
+    load_corpus_from_sources([_SOURCE])
 
 
 def _bp(**meta):

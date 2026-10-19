@@ -23,8 +23,9 @@ from kaye_engine.prompt.blueprint import (
     Blueprint,
     blueprint_registry,
     encode_blueprint,
-    register_blueprint,
 )
+
+from tests.consumer_helper import register_blueprint
 
 TREE = "    ○\n[x] └── A\n"
 

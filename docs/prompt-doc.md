@@ -1,6 +1,6 @@
 # Kaye Engine: `prompt` module Documentation
 
-The public programmatic API lives in `kaye_engine.prompt`. It re-exports the prompt tree nodes, the `Blueprint` value and its functions, the corpus loader, the dynamic nodes, the affordance registry, and the blueprint registry. The `kaye_engine` package itself also re-exports `load_corpus_tree`, `get_corpus_tree`, `clear_corpus_tree`, `register_blueprint`, `register_comment_line` and `register_dynamic_substitution`.
+The public programmatic API lives in `kaye_engine.prompt`. It re-exports the prompt tree nodes, the `Blueprint` value and its functions, the corpus loader, the dynamic nodes, the affordance registry, and the blueprint registry. The `kaye_engine` package itself also re-exports `register_corpus_under_node`, `load_corpus_tree`, `get_corpus_tree`, `clear_corpus_tree`, `register_blueprint`, `register_comment_line` and `register_dynamic_substitution`.
 
 The page has two halves:
 
@@ -99,18 +99,23 @@ classDiagram
 
 ### Creating a Tree
 
-Creating individual nodes by hand is rare. To create the whole tree, call `load_corpus_tree(sources)`.
+Creating individual nodes by hand is rare. To create the whole tree, register each corpus source under its node with `register_corpus_under_node(node_path, source)`, then call `load_corpus_tree()`.
 
-`kaye_engine` bundles no corpus file of its own, so the caller supplies `sources`: an ordered list of corpus pieces, where a `str` is literal content and a `Path` is a Markdown file read from disk (UTF-8).
+`kaye_engine` bundles no corpus file of its own, so callers register the sources: a `str` is literal content and a `Path` is a Markdown file read from disk (UTF-8), see [Sources](corpus-doc.md#sources) for paths, heading levels and errors.
 
-The pieces are joined in list order into one document. Runs of blank lines collapse to one, except inside fenced code blocks. The text is then parsed under a root node named `○`, and every dynamic node is attached once, see [Dynamic Node Documentation](dynamic-content-doc.md#auto-attachment). A `(name)` heading in `sources` that resolves to no known dynamic node, or that appears twice for the same node, raises `ValueError`.
+Each source is parsed on its own: comments drop, runs of blank lines collapse to one, except inside fenced code blocks, and its sections graft under the target node, the root being a node named `○`. Every dynamic node is then attached once, see [Dynamic Node Documentation](dynamic-content-doc.md#auto-attachment). A `(name)` heading in any source that resolves to no known dynamic node, or that appears twice for the same node, raises `ValueError`.
 
 ```python
 from pathlib import Path
 
-from kaye_engine.prompt import load_corpus_tree, get_corpus_tree
+from kaye_engine.prompt import (
+    get_corpus_tree,
+    load_corpus_tree,
+    register_corpus_under_node,
+)
 
-tree_root = load_corpus_tree([Path("path/to/corpus.md")])
+register_corpus_under_node((), Path("path/to/corpus.md"))
+tree_root = load_corpus_tree()
 
 tree_root is get_corpus_tree()  # True
 ```
@@ -119,9 +124,10 @@ A process holds **one** corpus tree:
 
 | Call | Result |
 | --- | --- |
-| `load_corpus_tree(sources)` | loads the tree; raises `ValueError` when one is already loaded |
+| `register_corpus_under_node(node_path, source)` | records a source under a node; raises `ValueError` once a tree is loaded |
+| `load_corpus_tree()` | builds the tree from the registrations; raises `ValueError` when one is already loaded |
 | `get_corpus_tree()` | returns the loaded root; raises `ValueError` before any load |
-| `clear_corpus_tree()` | drops the tree and everything derived from it, so `load_corpus_tree()` may run again; a no-op when none is loaded |
+| `clear_corpus_tree()` | drops the tree, the registrations and everything derived from the tree, so sources may register and `load_corpus_tree()` run again; a no-op when none is loaded |
 
 Every blueprint function reads this one tree. There is no tree argument, no tree name, and no default-tree flag.
 
@@ -747,13 +753,14 @@ canonical_name = registry.canonical_name  # kebab-case slug, e.g. "chat"
 text = registry.content(query="hello")  # rendered prompt
 ```
 
-`register_blueprint()` raises `ValueError` for a duplicate name, an unregistered dependency name, or, while a corpus is loaded, a path it does not contain.
+`register_blueprint()` raises `ValueError` for a duplicate name, an unregistered dependency name, an exportable entry naming no registered `consumer=`, or, while a corpus is loaded, a path it does not contain. To replace an exportable another consumer registered, call `override_exportable()`, see [Exportable Registry Documentation](exportable-registry-doc.md#overriding-an-exportable).
 
 Each entry carries:
 
 - `.blueprint`: the underlying `Blueprint`; assign a new value to edit it, as a blueprint is immutable
 - `.canonical_name` and `.display_name`: the name is read live from `.blueprint.meta.display_name`, so reassigning `.blueprint` with a new meta name changes it; when the meta name is empty it falls back to the optional `display_name=` argument of `register_blueprint()`, else `""`
 - `.is_exportable`: whether it is exported as an Agent Skill
+- `.consumer`: the canonical name of the consumer owning the entry, whose plugin exports it
 - `.is_user_invokable`, `.llm_invokable` and `.always_apply`: the export-policy flags
 - `.render_profile`: the entry's default `RenderProfile`
 - `.supports_negative_content`: `True`, since an entry carries a blueprint to render a negative prompt from

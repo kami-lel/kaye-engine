@@ -11,6 +11,8 @@ import pytest
 
 from kaye_engine.prompt.blueprint.data import Blueprint, create_blueprint
 
+from tests.corpus_helper import load_corpus_from_sources
+
 
 class TestRemovedMethods:
 
@@ -72,7 +74,7 @@ class TestRemovedNames:
         )
 
         clear_corpus_tree()
-        load_corpus_tree(["# A\n"])
+        load_corpus_from_sources(["# A\n"])
         try:
             with pytest.raises(TypeError):
                 checkmark_nodes(Blueprint(), hash("A"))

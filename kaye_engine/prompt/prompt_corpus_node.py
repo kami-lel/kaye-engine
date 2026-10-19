@@ -10,15 +10,27 @@ from .md_fence import compute_fenced_line_mask
 # section heading prefix used for parsing .md file of prompt corpus
 HEADING_PREFIX_ELEMENT = "#"
 
-__all__ = ("PromptCorpusNode",)
+__all__ = ("PromptCorpusNode", "split_sections")
 
 
 # auxiliaries  #################################################################
 
 
-def _split_sections(text_lines, parent):
-    # find every sub-section heading lines one level below parent
-    prefix_element_cnt = 1 if parent is None else parent.depth + 2
+def split_sections(text_lines, depth):
+    """
+    split ``text_lines`` of a node at ``depth`` into its own content and
+    its child sections, one heading level below it
+
+
+    :param text_lines: raw markdown lines of the node
+    :type text_lines: list[str]
+    :param depth: depth of the node, 0 at root
+    :type depth: int
+    :return: the content lines before the first child heading, and each
+            child's ``(heading, text_lines)``
+    :rtype: tuple[list[str], list[tuple[str, list[str]]]]
+    """
+    prefix_element_cnt = depth + 1
     heading_prefix = HEADING_PREFIX_ELEMENT * prefix_element_cnt + " "
 
     fenced_mask = compute_fenced_line_mask(text_lines)
@@ -99,7 +111,8 @@ class PromptCorpusNode(BasePromptNode):  #######################################
         :return: the built node, already attached to ``parent``
         :rtype: PromptCorpusNode
         """
-        content_lines, child_specs = _split_sections(text_lines, parent)
+        depth = 0 if parent is None else parent.depth + 1
+        content_lines, child_specs = split_sections(text_lines, depth)
 
         node = cls(name, parent, content_lines)
 

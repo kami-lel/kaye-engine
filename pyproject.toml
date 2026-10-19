@@ -5,7 +5,7 @@ build-backend = "setuptools.build_meta"
 [project]
 name = "kaye-engine"
 version = "9.1.1-alpha"
-description = "parse a plain Markdown file, as the structured single source of truth for LLM instructions, then render scenario-ready prompt assets"
+description = "A Markdown-to-prompt engine: parse any number of plain Markdown sources into one structured tree, select the parts a scenario needs through blueprints, and render them as prompts, Agent Skills, and plugins for the tools you use, so your instructions keep a single source of truth and never drift apart"
 readme = "README.md"
 authors = [
     { name = "kamiLeL", email = "77594253+kami-lel@users.noreply.github.com" },
