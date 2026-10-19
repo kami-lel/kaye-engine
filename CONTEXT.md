@@ -121,133 +121,69 @@ blueprint registered under that name at render time (late binding), and
 unknown name raises `ValueError`.
 
 Rendering takes a `sparseness` parameter governing how runs of blank lines
-collapse in the output, from `-1` (whole output joined onto one line) through
-`99` (no trimming); descriptor sidecar rendering always renders at `-1` so a
-multi-line description or when-to-use collapses to one string. Blank lines
-inside a fenced code block or a tag block are exempt from collapsing
-everywhere such content might get compressed, via the shared
-`compute_fenced_line_mask` (`kaye_engine/prompt/md_fence.py`) that `apply_sparseness`, the corpus-tree
-heading parser (`split_sections` in `prompt_corpus_node.py`), and the
-per-source blank-line cleanup in `load_corpus_tree`
-(`_collapse_unfenced_blank_runs` in `prompt_corpus_loader.py`) all rely on
-to stay out of those regions. A tag block opens on a line holding only
-`<name>` or `<name attrs>` and closes on the nearest following `</name>`
-line (indentation allowed, delimiters included); an unclosed opening line
-exempts nothing, and fences take priority over tags.
+collapse, from `-1` (whole output on one line) through `99` (no trimming);
+descriptor sidecars always render at `-1`. Blank lines inside a fenced code
+block or a tag block (`<name>` to `</name>`, each on its own line; fences win
+over tags) are exempt, via the shared `compute_fenced_line_mask`
+(`kaye_engine/prompt/md_fence.py`) used by `apply_sparseness`, the heading
+parser, and the per-source blank-line cleanup in `load_corpus_tree`.
 Corpus comments never render: `load_corpus_tree` runs `strip_comment_blocks`
-(`kaye_engine/prompt/md_comment.py`) on each source's lines, before the blank-line
-collapse, dropping every line-anchored comment (a line starting `<!--`, through
-the first line ending `-->`). Lines inside a fence or tag block are exempt via
-the same mask; an unclosed opener, an inline-code mention, or a comment trailing
-prose stays. The generated-by comment is appended at render time, so it is
-the only comment a render carries.
-`render_prompt()` applies `sparseness` last: it renders
-the tree unsparse, then `apply_dynamic_substitutions()`, then applies the
-caller's `sparseness` to the substituted result, so a substitution's own
-blank lines are shaped by the same policy. Because that unsparse render
-hides the real `sparseness`, the generated-by comment's compact form
-(one `↵`-joined line iff `sparseness == -1`) travels as an explicit
-`is_comment_compact` keyword to the line renderers. The comment
-(`render/comment.py`) is default lines (`blueprint: NAME` when
-`display_name` is set, then `Kaye Engine vX`) plus client lines from
-`register_comment_line()`, and is appended after image-mode heading
-flattening. `BlueprintRegistry.content()` fills an empty `display_name`
-from the entry's own, which `BlueprintRegistry` reads live from
+(`kaye_engine/prompt/md_comment.py`) per source, dropping line-anchored
+`<!-- ... -->` comments outside fences and tag blocks. The generated-by
+comment (`render/comment.py`: `blueprint: NAME`, `Kaye Engine vX`, plus
+lines from `register_comment_line()`) is appended at render time and is the
+only comment a render carries.
+
+`render_prompt()` renders the tree unsparse, applies
+`apply_dynamic_substitutions()`, then applies the caller's `sparseness` last,
+so substituted blank lines obey the same policy. Since the real `sparseness`
+is hidden meanwhile, the comment's compact form (one `↵`-joined line iff
+`sparseness == -1`) travels as the `is_comment_compact` keyword.
+`BlueprintRegistry.content()` fills an empty `display_name` from
 `blueprint.meta.display_name`, else its explicit fallback, else `""`.
 
-Sidecars split by usage rather than by class. *Descriptor* sidecars
-(`{description}`, `{when_to_use}`, `{globs}`) are consumed as blueprint
-metadata and never rendered; every other name is a *conditional* sidecar,
-real content spliced in only when its name is on a `RenderProfile`'s
-`conditional_sidecars`, or matched via that same profile's `variants`
-field against `variant_registry`. `{avoid}` (negative-instruction/example
-content) is neither: it carries no `BlueprintMeta` field and is never
-manually spliced by name, but is discovered automatically, at any depth,
-by `render.render_negative_prompt_lines()`, reached via the single
-`RenderMode`-driven entry point — `RenderProfile(mode=RenderMode.NEGATIVE)`
-passed to `render_prompt()`/`render_prompt_without_dependencies()` (or
-merged into a caller's profile) picks it in place of the positive
-`render_prompt_lines()`, at every layer: the render functions,
-`BlueprintRegistry.content()`, and any other `Exportable.content()`.
-A node's own `{avoid}` child contributes only when that node itself is
-checkmarked, under its own heading (never the literal `{avoid}`
-heading); descendants are always walked regardless of an ancestor's
-own checkmark, so a checkmarked descendant several levels below an
-unchecked ancestor still contributes. A node with no `{avoid}` content
-of its own is transparent: its contributing descendants' rendered
-blocks splice in directly, with no heading of this node's own, even
-though the node is checkmarked and the walk still visits it. A branch
-with no `{avoid}` content anywhere in it is omitted entirely. A 3rd
-`RenderMode` member, `POST_ORDER`, reorders every
-subtree to children-before-parent — each child's full subtree first
-(recursively, same rule), siblings kept in their original relative
-order, then the node's own heading and content last — with no other
-change (`sparseness` and heading markdown are untouched). A 4th member,
-`REVERSE_ORDER`, reverses sibling order at every level of the walk
-instead (independent of `POST_ORDER`; wired into all 4 walk paths
-`render_prompt_lines`/`render_negative_prompt_lines` can take — plain
-pre-order and `POST_ORDER`, positive and negative). `IMAGE` is a
-*composite* built from `POST_ORDER` | `REVERSE_ORDER` plus a private
-flatten-heading flag (`IMAGE = POST_ORDER | REVERSE_ORDER | _IMAGE`,
-mirroring the `WORD_CHARACTER`/`ASCII` composite pattern in
-`AbbrTags`): it flattens every heading line to a
-bare `title:` (regardless of nesting depth), forces `sparseness=1`, and
-(via the bits it carries) also reorders to post-order with reversed
-siblings. Every
-`RenderMode` member composes freely (`RenderMode.NEGATIVE |
-RenderMode.POST_ORDER`, `RenderMode.NEGATIVE | RenderMode.IMAGE`, ...).
-`NEGATIVE | IMAGE` alone prints no title at any depth — only `{avoid}`
-content remains, blocks still blank-line separated
-(`render_negative_prompt_lines()` passes `is_title_shown=False` to its
-recursive helpers).
-`Exportable.supports_negative_content` (class
-attribute, `False` by default, `True` on `BlueprintRegistry`) is the
-explicit capability flag `export-image-prompt`'s `_avoid_content()` checks
-before calling `content(profile=... RenderMode.NEGATIVE)` to build each
-`<canonical_name>-AVOID.md` sibling. Q.v. [sidecar node
+Sidecars split by usage. *Descriptor* sidecars (`{description}`,
+`{when_to_use}`, `{globs}`) are blueprint metadata and never render; every
+other name is a *conditional* sidecar, spliced in only when named on a
+`RenderProfile`'s `conditional_sidecars` or matched through its `variants`
+against `variant_registry`. `{avoid}` is neither: it is discovered at any
+depth by `render.render_negative_prompt_lines()` when
+`RenderProfile(mode=RenderMode.NEGATIVE)` reaches any render function or
+`Exportable.content()`. A checkmarked node's `{avoid}` child renders under
+that node's heading; a node without one is transparent to its contributing
+descendants; a branch without any is omitted. `RenderMode` members compose
+freely: `POST_ORDER` puts children before parent, `REVERSE_ORDER` reverses
+siblings at every level, `IMAGE` is the composite `POST_ORDER | REVERSE_ORDER
+| _IMAGE` that also flattens headings to `title:` and forces `sparseness=1`.
+`NEGATIVE | IMAGE` prints no titles, only `{avoid}` blocks.
+`Exportable.supports_negative_content` (`True` on `BlueprintRegistry` only)
+gates the `-AVOID.md` siblings of `export-image-prompt`. Q.v. [sidecar node
 documentation](docs/sidecar-doc.md).
 
 `affordance_registry`/`variant_registry` form a two-level model: an
-`Affordance` is a conceptual capability family, a `Variant` one concrete
-implementation of it, registered via the single `register_variant
-(canonical_name, affordance_name)` entry point (auto-creating its
-affordance on first use). Each variant derives its own `[{name}] Usage`
-sidecar (checkmarked when that variant is present) plus a mirror
-`[{name}] Lack` sidecar (checkmarked when it is absent); each affordance
-derives its own `[{name}] Usage` sidecar (checkmarked when at least one
-of its registered variants is present) plus a `[{name}] Fallback`
-sidecar, checkmarked when every variant registered under that affordance
-is absent (and the affordance has ≥1 registered variant). Q.v.
-[affordance documentation](docs/sidecar-doc.md#affordance). A
-consumer-supplied
-`surface_profiles` dict (`dict[str, RenderProfile]`, passed to
-`setup_claude_cli(...)`; the consumer owns the actual Claude surface data)
-maps a surface name to the
-`RenderProfile` carrying that surface's variants/conditional-sidecars.
-Every **rendering command** (see `AGENTS.md` for the list and flags) shares
-one parent parser and one aux function,
-`build_render_profile_parent_parser`/`resolve_render_profile`
-(`kaye_engine/cli/render_profile_parser.py`). `resolve_render_profile`
-returns one `RenderProfile`, merging each selected surface's profile with one
-built from the explicit flags via `RenderProfile.merge()`.
-`--variant`/`--conditional-sidecar` union additively with what `--surface`
-derives; `--reverse-order` ORs `RenderMode.REVERSE_ORDER` into the profile's
-`mode` before the final merge, because `mode` is a scalar field the merge
-would otherwise let clobber (the pattern `_avoid_content()` in
-`export_image_prompt_parser.py` uses for `NEGATIVE | IMAGE`). `--surface`
-keys into the consumer-supplied `surface_profiles` dict
-(`dict[str, RenderProfile]`, passed to `setup_claude_cli(...)`) and is
-omitted from the parser when none is configured. An omitted flag keeps the
-subcommand's own `--comment` and `--sparseness` default
-(`build_sparseness_parent_parser(default=...)`). The resolved profile
-travels as one `profile=` object through every `claude` export chain and the
-top-level `skill`. A default `RenderProfile()` carries
-`variants=None`/`conditional_sidecars=()`, a no-op under `merge()`, so a
-`register_blueprint()` entry's own `render_profile` still applies:
-`BlueprintRegistry.content()` merges it via
-`self.render_profile.merge(profile)`. Q.v. [Claude
-documentation](docs/claude-doc.md) and [sidecar node
-documentation](docs/sidecar-doc.md).
+`Affordance` is a capability family, a `Variant` one implementation of it,
+registered via `register_variant(canonical_name, affordance_name)` (the
+affordance is auto-created on first use). Each variant derives
+`[{name}] Usage` (checkmarked when present) and `[{name}] Lack` (when
+absent) sidecars; each affordance derives `[{name}] Usage` (at least one
+variant present) and `[{name}] Fallback` (every variant absent, ≥1
+registered). Q.v. [affordance documentation](docs/sidecar-doc.md#affordance).
+
+Every **rendering command** (list and flags in `AGENTS.md`) shares one parent
+parser and one aux function, `build_render_profile_parent_parser`/
+`resolve_render_profile` (`kaye_engine/cli/render_profile_parser.py`), which
+returns one `RenderProfile` by merging each `--surface` profile (from the
+consumer-supplied `surface_profiles` dict of `setup_claude_cli(...)`; the
+option is omitted when none is configured) with one built from the explicit
+flags via `RenderProfile.merge()`. `--variant`/`--conditional-sidecar` union
+with what `--surface` derives; `--reverse-order` ORs into `mode` before the
+merge, because `mode` is scalar and would otherwise be clobbered. An omitted
+flag keeps the subcommand's own `--comment`/`--sparseness` default. The
+resolved profile travels as one `profile=` object through every `claude`
+export chain and `skill`; a default `RenderProfile()` is a no-op under
+`merge()`, so a registry entry's own `render_profile` still applies. Q.v.
+[Claude documentation](docs/claude-doc.md) and [render profile
+documentation](docs/render-profile-doc.md).
 
 ### CLI Flag Surface
 
