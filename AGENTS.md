@@ -55,6 +55,8 @@ merge.
 | `kaye_engine/cli/claude/skills/` | `tests/cli/cli_main_test.py`, `tests/cli/dry_run_test.py` |
 | `kaye_engine/skill/` | `tests/skill/`, plus `tests/cli/open_webui/skill_form_test.py` (reads `Skill`) |
 | `kaye_engine/exportable/` | `tests/exportable_test.py`, `tests/image_prompt_export_test.py` |
+| `kaye_engine/consumer.py` | `tests/consumer_test.py`, `tests/cli/claude/plugin_consumers_test.py`, `tests/cli/exportable_abbr_consumer_test.py` |
+| `kaye_engine/deed.py` | `tests/deed_test.py` |
 
 ```bash
 pytest tests/prompt/
@@ -68,6 +70,14 @@ exportable-abbr registration, `dynamic-node` parsing, and `SKILL.md`
 rendering. The exporters themselves need a corpus to produce output, so the
 consumer package's suite covers those; do not scaffold corpus fixtures here
 to widen the directory. Known test gaps are tracked in `CONTEXT.md`.
+
+Test fixtures go through the shared helpers, never the raw APIs:
+
+- `tests/consumer_helper.py`: `register_blueprint` and
+  `register_abbr_glossary` bound to `TEST_CONSUMER`, plus
+  `isolated_consumers()` for a test that registers its own consumers
+- `tests/corpus_helper.py`: `load_corpus_from_sources(sources)` registers
+  each source under the root, then loads the tree
 
 **Do not parallelize** — no `pytest-xdist`, no `-n auto`. The suite is
 already fast, worker startup cancels out any gain, and splitting across
@@ -221,9 +231,17 @@ package, not a bare checkout.
 `register_blueprint()` in `kaye_engine/prompt/blueprint/registry.py` is the
 only gate — every exporter reads `blueprint_registry` directly. **Calls
 live in the consumer package**, not here. The signature is
-`register_blueprint(canonical_name, blueprint, *, display_name="", ...)`: the
-entry's name is `blueprint.meta.display_name`, and `display_name=` only backs
-it when the meta name is empty.
+`register_blueprint(canonical_name, blueprint, *, display_name="",
+consumer="", ...)`: the entry's name is `blueprint.meta.display_name`, and
+`display_name=` only backs it when the meta name is empty. An exportable
+entry must name a registered `consumer=`, with no fallback; the consumer
+decides which plugin the skill lands in.
+
+A consumer replaces another consumer's exportable only through
+`override_exportable(name, blueprint, *, consumer, render_profile=None,
+always_apply=None)`; never reassign `.blueprint` or `.consumer` on a
+registry entry from a consumer package, since that skips the dependency,
+path, and cycle checks.
 
 Export policy — one gate plus four independent flags, no allow-list
 constant:
@@ -276,7 +294,27 @@ module builds `AbbrData`. Register a new glossary there when adding one.
 After meaningful changes, keep these in sync:
 
 - `README.md` — human-facing overview and quick start
-- `docs/` — one file per topic; update the one a change touches
-- `CONTEXT.md` — architecture, entities, boundaries
+- `CONTEXT.md` — architecture, entities, boundaries; a new registering API
+  takes a row in its Registration Policy table
+- `docs/` — one file per topic; update the one a change touches:
+  - the corpus Markdown format and `register_corpus_under_node` rules:
+    [docs/corpus-doc.md](docs/corpus-doc.md)
+  - the `prompt` module, blueprints, and the blueprint registry:
+    [docs/prompt-doc.md](docs/prompt-doc.md)
+  - `exportable_registry`, export flags, and `override_exportable`:
+    [docs/exportable-registry-doc.md](docs/exportable-registry-doc.md)
+  - abbreviation entries, layered files, and glossaries:
+    [docs/abbrs-doc.md](docs/abbrs-doc.md)
+  - dynamic nodes and `(((name)))` substitutions:
+    [docs/dynamic-content-doc.md](docs/dynamic-content-doc.md)
+  - sidecars, affordances, and variants:
+    [docs/sidecar-doc.md](docs/sidecar-doc.md)
+  - `RenderProfile`, render modes, surfaces, and the shared render flags:
+    [docs/render-profile-doc.md](docs/render-profile-doc.md)
+  - the `claude` subcommands and per-consumer plugins:
+    [docs/claude-doc.md](docs/claude-doc.md)
+  - the `continue` export: [docs/continue-doc.md](docs/continue-doc.md)
+  - the `hermes` export: [docs/hermes-doc.md](docs/hermes-doc.md)
+  - the Open WebUI sync: [docs/open-webui-doc.md](docs/open-webui-doc.md)
 - `CHANGELOG.md` — record notable changes per release
 - this `AGENTS.md` — update agent-specific rules as structure evolves
