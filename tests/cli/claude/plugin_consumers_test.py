@@ -6,11 +6,12 @@ with 2 registered consumers, each with its own name, version and skills
 """
 
 import json
+import logging
 import zipfile
 from unittest.mock import patch
 
 import pytest
-from kaye_engine.cli.claude import package_meta
+from kaye_engine.cli.claude import LOGGER_CLAUDE_NAME, package_meta
 from kaye_engine.cli.claude.marketplace.export import export_marketplace
 from kaye_engine.cli.claude.plugin.export_folder import (
     export_plugins_as_folders,
@@ -182,3 +183,34 @@ class TestMarketplace:
 
         assert data["name"] == "kaye-engine"
         assert [p["name"] for p in data["plugins"]] == ["pkg-one"]
+
+
+class TestClaudeCode:
+
+    def test_code_exports_every_consumer_plugin(_, tmp_path):
+        from argparse import ArgumentParser
+
+        from kaye_engine.cli.claude.code import parser as code_parser
+
+        root = ArgumentParser()
+        code_parser.register_code_parser(root.add_subparsers())
+        args = root.parse_args(["code", str(tmp_path)])
+
+        claude_logger = logging.getLogger(LOGGER_CLAUDE_NAME)
+        saved_level = claude_logger.level
+        try:
+            with patch.object(
+                code_parser, "check_setup_for_claude_cli", lambda: None
+            ), patch.object(
+                code_parser, "export_user_system_prompt_file"
+            ), patch.object(
+                code_parser, "find_user_system_prompt_file"
+            ):
+                args.func(args)
+        finally:
+            claude_logger.setLevel(saved_level)
+
+        assert sorted(p.name for p in (tmp_path / "plugins").iterdir()) == [
+            "pkg-one",
+            "pkg-two",
+        ]
