@@ -20,6 +20,10 @@ class AbbrData:
     additively, one :class:`AbbrEntry` at a time, via :meth:`add_entry`,
     called within a ``with`` block
 
+    one ``with`` block is one layer, e.g. one ``abbrs.json`` file; a later
+    layer may repeat an (abbreviation, meaning) pair to add tags and
+    glossaries to it, see :meth:`add_entry`
+
 
     :example:
     >>> data = AbbrData()
@@ -38,7 +42,9 @@ class AbbrData:
         """
         self.meanings = []
         self.abbrs = []
-        self._seen_entries = set()
+        self._entry_by_key = {}
+        self._meaning_by_key = {}
+        self._layer_entries = set()
         self._editing = False
 
         self.automaton = (
@@ -55,7 +61,12 @@ class AbbrData:
         - ``self.meanings`` (``mean`` itself, if not already tracked)
         - ``self.abbrs``
 
-        the automaton is rebuilt on ``with`` block exit, not per call
+        a pair (``abbr``, ``mean``) added by an earlier layer is merged
+        instead of added: its tags and glossaries gain the new ones, a
+        repeated tag or glossary is ignored, ``priority`` and ``wrap`` must
+        match, and a ``remark`` missing at the meaning or entry level is
+        filled in; the automaton is rebuilt on ``with`` block exit, not per
+        call
 
 
         :param mean: the meaning this entry belongs to
@@ -66,22 +77,72 @@ class AbbrData:
                 :class:`AbbrEntry`
         :type abbr_obj: dict
         :raises ValueError: malformed ``abbr_obj``, an entry duplicating one
-                already added, or an entry referencing a glossary name
-                never registered via ``register_abbr_glossary``
+                of the same layer, a repeat whose ``priority`` or ``wrap``
+                differs, a ``remark`` conflicting at either level, or an
+                entry referencing a glossary name never registered via
+                ``register_abbr_glossary``
         """
         entry = AbbrEntry(mean, abbr, abbr_obj)
-        if entry in self._seen_entries:
+        if entry in self._layer_entries:
             raise ValueError("duplicate abbr entry: {}".format(repr(entry)))
         for glossary in entry.glossaries:
             if glossary not in abbr_glossary_registry:
                 raise ValueError(
                     "unregistered abbr glossary: {}".format(repr(glossary))
                 )
-        self._seen_entries.add(entry)
+
+        entry.mean = self._merge_meaning(mean)
+        self._layer_entries.add(entry)
+
+        existing = self._entry_by_key.get(entry)
+        if existing is not None:
+            self._merge_entry(existing, entry)
+            return
+
+        self._entry_by_key[entry] = entry
         self.abbrs.append(entry)
 
-        if mean not in self.meanings:
+    def _merge_meaning(self, mean):
+        """
+        :return: the tracked meaning equal to ``mean``, its missing remark
+                filled from ``mean``; ``mean`` itself, now tracked, if new
+        :rtype: AbbrMeaning
+        :raises ValueError: both carry a remark, and they differ
+        """
+        tracked = self._meaning_by_key.get(mean.mean)
+        if tracked is None:
+            self._meaning_by_key[mean.mean] = mean
             self.meanings.append(mean)
+            return mean
+
+        tracked.remark = _merge_remark(tracked.remark, mean.remark, mean)
+        return tracked
+
+    @staticmethod
+    def _merge_entry(existing, entry):
+        """
+        fold the repeated ``entry`` into ``existing``
+
+        :raises ValueError: ``priority`` or ``wrap`` differ, or both carry
+                a remark, and they differ
+        """
+        for field in ("priority", "wrap"):
+            if getattr(existing, field) != getattr(entry, field):
+                raise ValueError(
+                    "repeated abbr entry {} changes {}: {} -> {}".format(
+                        repr(entry),
+                        field,
+                        repr(getattr(existing, field)),
+                        repr(getattr(entry, field)),
+                    )
+                )
+
+        existing.remark = _merge_remark(existing.remark, entry.remark, entry)
+        existing.tags |= entry.tags
+        existing.glossaries = (
+            *existing.glossaries,
+            *(g for g in entry.glossaries if g not in existing.glossaries),
+        )
 
     def _rebuild_automaton(self):
         # fixme fixme abbr data: use pickle.loads/dumps to save a local automaton, with hash
@@ -103,6 +164,7 @@ class AbbrData:
 
     def __enter__(self):
         self._editing = True
+        self._layer_entries = set()
         return self
 
     def __exit__(self, *args):
@@ -118,6 +180,23 @@ class AbbrData:
         :rtype: bool
         """
         return bool(self.abbrs)
+
+
+def _merge_remark(old, new, owner):
+    """
+    :return: ``old``, or ``new`` when ``old`` is missing
+    :rtype: str or None
+    :raises ValueError: both are set, and they differ
+    """
+    if old is None:
+        return new
+    if new is not None and new != old:
+        raise ValueError(
+            "conflicting remark for {}: {} -> {}".format(
+                repr(owner), repr(old), repr(new)
+            )
+        )
+    return old
 
 
 # single, always-present singleton instance  ###################################
