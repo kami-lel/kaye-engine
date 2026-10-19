@@ -69,7 +69,7 @@ pytest tests/prompt/bp/data/prompt-bp-edit_test.py::TestCreateFromNode
 exportable-abbr registration, `dynamic-node` parsing, and `SKILL.md`
 rendering. The exporters themselves need a corpus to produce output, so the
 consumer package's suite covers those; do not scaffold corpus fixtures here
-to widen the directory. Known test gaps are tracked in `CONTEXT.md`.
+to widen the directory.
 
 Test fixtures go through the shared helpers, never the raw APIs:
 
