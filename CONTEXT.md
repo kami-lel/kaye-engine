@@ -16,7 +16,7 @@ through a Python API and a CLI.
 |---|---|
 | language | Python `>=3.11` |
 | distribution / import name | `kaye-engine` / `kaye_engine` |
-| dependencies | `anytree`, `json5`, `pyahocorasick`, `pyyaml` |
+| dependencies | `anytree`, `json5`, `kamilog`, `pyahocorasick`, `pyyaml` |
 | entry point | `kaye-engine` console script → `kaye_engine.__main__:main` |
 | CLI subcommands | `blueprint`, `claude`, `continue`, `hermes`, `export-image-prompt`, `dynamic-node`, `dynamic-substitution`, `exportable`, `export-json`, `affordance`, `variant`, `glossary`, `skill`, `sync-open-webui-skills` |
 
@@ -305,52 +305,60 @@ collection documentation](docs/abbrs-doc.md).
 
 ```python
 from kaye_engine import (
-    PACKAGE_NAME, LOGGER_NAME,
-    register_corpus_under_node,
-    load_corpus_tree,
-    AbbrData,
+    PACKAGE_NAME, KAYE_ENGINE_DISPLAY_NAME, LOGGER_NAME,
+    register_consumer, set_entry_consumer,
+    register_corpus_under_node, load_corpus_tree,
+    get_corpus_tree, clear_corpus_tree,
+    AbbrData, populate_abbr_data_with_json_file,
+    register_abbr_glossary, set_abbr_group_consumer,
     DynamicSubstitution, StringDynamicSubstitution,
-    register_abbr_glossary,
-    register_blueprint,
-    register_comment_line,
-    register_consumer,
     register_dynamic_substitution,
-    setup_claude_cli,
+    register_blueprint, override_exportable,
+    register_image_prompt_exportable,
+    register_comment_line,
+    setup_claude_cli, setup_hermes_cli,
 )
 ```
 
-`get_abbr_data`, `get_abbr_glossary`, `get_blueprint`, and `get_corpus_tree`
-are not exported at this top level — reach them through their owning
-submodule (`kaye_engine.abbr_collection`, `kaye_engine.prompt`) instead.
+`get_abbr_data`, `get_abbr_glossary`, and `get_blueprint` are not exported
+at this top level — reach them through their owning submodule
+(`kaye_engine.abbr_collection`, `kaye_engine.prompt`) instead.
 `Exportable`, `exportable_registry`, `register_exportable_entry`, and
 `get_exportable` (`kaye_engine.exportable`) round out the registry every
 `BlueprintRegistry` and `ExportableAbbr` entry is inserted into.
 
-A caller loads and caches a corpus by name; one tree may be flagged the
-process default, which is what a blueprint resolves against when given no
-explicit tree. A consumer that exports through `claude` subcommands must also
-call `register_consumer(display_name, canonical_name, version)` and
-`setup_claude_cli(chat_exportable_name, merged_coder_exportable_name)` — none
-has a default; `display_name` is stamped into `plugin.json`, and the kebab
-`canonical_name` doubles as plugin, marketplace, and marketplace folder
-name. Q.v. [Kaye Engine: `prompt` module
-Documentation](docs/prompt-doc.md).
+Every consumer package calls `register_consumer(display_name,
+canonical_name, version)` for itself before it registers any exportable;
+the kebab `canonical_name` is its plugin name and equals its installed
+distribution name, whose metadata fills that plugin's manifest. The setup
+a console command runs then names one entry consumer
+(`set_entry_consumer`), which owns the process-wide CLI identity, and calls
+`setup_claude_cli(...)`/`setup_hermes_cli(...)`, whose Chat, Coder, and
+soul names are all optional. The marketplace is always named
+`kaye-engine` (`PACKAGE_NAME`) and lists one plugin per consumer holding
+an exportable (`get_plugin_consumers()`). A consumer console script builds
+on `register_cli_main_parser(package_name, program_name)`, so every script
+shares one `--help` text and only the usage line and `--version` name the
+package. Q.v. [Kaye Engine: `prompt` module
+Documentation](docs/prompt-doc.md) and [Claude
+documentation](docs/claude-doc.md#consumer-requirement).
 
 Every CLI subcommand entrypoint calls a setup guard
 (`check_corpus_setup_for_cli()`, or `check_setup_for_claude_cli()` for
-`claude` subcommands) that logs an error — never raises — when a consumer
-hasn't loaded a default corpus tree or registered any blueprints. It exists
-to surface a bare-checkout misuse early, not to enforce the boundary. The
-consumer identity and the Chat/Coder blueprint names are enforced
-separately, each by its own getter (`get_consumer_display_name()`,
-`get_consumer_canonical_name()`, `get_consumer_version()`,
-`get_claude_chat_exportable()`, `get_claude_merged_coder_exportable()`; the
-plugin, marketplace, and marketplace folder getters `get_plugin_name()`,
-`get_marketplace_name()`, `get_marketplace_folder_name()` return the canonical
-name), which logs `logger.critical` and raises
-`SystemExit(1)` when unset — or, for the blueprint getters, when the
-configured name is not in `blueprint_registry` — rather than letting `None`
-or an unresolved name reach path, manifest, or prompt building.
+`claude` subcommands) that logs an error when a consumer hasn't loaded a
+corpus tree or registered any blueprints; it exists to surface a
+bare-checkout misuse early, not to enforce the boundary.
+`check_setup_for_claude_cli()` also exits 1 when no consumer is
+registered, since there is no plugin to write. The entry consumer and the
+Chat/Coder names are enforced separately, each by its own getter
+(`get_consumer_display_name()`, `get_consumer_canonical_name()`,
+`get_consumer_version()`, `get_claude_chat_exportable()`,
+`get_claude_merged_coder_exportable()`), which logs `logger.critical` and
+raises `SystemExit(1)` when unset — or, for the blueprint getters, when
+the configured name is not in `blueprint_registry` — rather than letting
+`None` or an unresolved name reach path, manifest, or prompt building.
+`get_marketplace_name()` and `get_marketplace_folder_name()` always return
+`kaye-engine`.
 
 ## Blueprint API Verbs
 
@@ -395,8 +403,9 @@ kaye_engine/
 │   └── affordance_registry.py  Affordance/Variant two-level registry,
 │                                Usage/Lack/Fallback sidecar names
 ├── abbr_collection/     abbreviation entries, store, JSON loader
-├── consumer.py          register_consumer: display name, canonical name,
-│                        version; getters read by claude and hermes
+├── consumer.py          consumer registry: register_consumer,
+│                        set_entry_consumer, iter_consumers, and the
+│                        entry consumer getters read by claude and hermes
 ├── deed.py              track(logger): fixed-wording file/dir action lines
 ├── exportable/           Exportable base, exportable_registry
 │   └── image_prompt_export.py  image_prompt_exportable_registry,
@@ -408,6 +417,10 @@ kaye_engine/
 │   │                    validate, show; `aux_input.py`/`aux_output.py`
 │   │                    hold the glue (stdin, format detection, formatting)
 │   ├── claude/          plugins, marketplaces, CLAUDE.md
+│   │   ├── plugin_marketplace_name.py  marketplace name, plugin
+│   │   │                          consumers, claude setup guard
+│   │   ├── package_meta.py        manifest metadata read from a
+│   │   │                          consumer's installed distribution
 │   │   ├── setup.py               setup_claude_cli(...); registers
 │   │   │                          consumer-supplied affordance_groups,
 │   │   │                          stores surface_profiles
@@ -467,9 +480,10 @@ has no default there.
 `setup_hermes_cli(...)`, which checks every name against
 `blueprint_registry` and exits 1 on an unknown one. It renders the soul and
 profile blueprints from `blueprint_registry` (so non-exportable entries work)
-into `SOUL.md` and `profiles/<name>/SOUL.md`, and delegates `skills/<canonical name>/`
-to `export_skills_as_folders`, which only ever sees `exportable_registry`.
-The skill version comes from `register_consumer`. Comments are hidden by default.
+into `SOUL.md` and `profiles/<name>/SOUL.md`, and delegates
+`skills/<consumer>/<canonical name>/` to `export_skills_as_folders`, which
+only ever sees `exportable_registry`. Each skill carries its own consumer's
+version. Comments are hidden by default.
 
 ## Testing Strategy
 
