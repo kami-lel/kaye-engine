@@ -19,7 +19,6 @@ from kaye_engine.cli.render_profile_parser import (
     build_render_profile_parent_parser,
     resolve_render_profile,
 )
-from kaye_engine.consumer import get_consumer_version
 from kaye_engine.skill import LOGGER_SKILL_NAME
 
 # logger  ######################################################################
@@ -87,9 +86,7 @@ def register_hermes_parser(cli_subparser):  ####################################
             default_show_comment=False,
         )
         export_hermes_folder(
-            args.folder,
-            version=get_consumer_version(),
-            render_profile=render_profile,
+            args.folder, render_profile=render_profile
         )
 
         logger.done("export Hermes home directory\t" + str(args.folder))

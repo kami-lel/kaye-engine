@@ -16,11 +16,13 @@ from kaye_engine.prompt.prompt_corpus_loader import (
     load_corpus_tree,
 )
 
+from tests.corpus_helper import load_corpus_from_sources
+
 
 # pytest  ######################################################################
 def _load(text="# Title\n"):
     with patch("builtins.open", mock_open(read_data=text)):
-        return load_corpus_tree([Path("dummy-path.md")])
+        return load_corpus_from_sources([Path("dummy-path.md")])
 
 
 class TestSingleton:

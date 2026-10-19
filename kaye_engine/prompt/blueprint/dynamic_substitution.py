@@ -79,12 +79,17 @@ def register_dynamic_substitution(name, substitution):
     :param substitution: the substitution source to register
     :type substitution: DynamicSubstitution
     :raise TypeError: ``substitution`` is not a ``DynamicSubstitution``
+    :raise ValueError: ``name`` is already registered
     """
     if not isinstance(substitution, DynamicSubstitution):
         raise TypeError(
             "substitution must be a DynamicSubstitution, got: {}".format(
                 type(substitution)
             )
+        )
+    if name in dynamic_substitution_registry:
+        raise ValueError(
+            "dynamic substitution already registered: {}".format(name)
         )
 
     dynamic_substitution_registry[name] = substitution

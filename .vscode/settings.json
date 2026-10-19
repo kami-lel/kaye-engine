@@ -1,6 +1,7 @@
 {
   "better-todo-tree.filtering.excludeGlobs": [
     "*.yml",
+    "tests/prompt/tree/prompt-tree-comment_test.py"
   ],
   "cSpell.words": [
     "ahocorasick",

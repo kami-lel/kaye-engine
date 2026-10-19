@@ -38,7 +38,47 @@ manually add chat & coder, instead by data structure
 
 ### Security
 
-[unreleased]: https://github.com/kami-lel/kaye-engine/compare/v9.1.0-beta...dev
+[unreleased]: https://github.com/kami-lel/kaye-engine/compare/v10.0.0...dev
+
+## [10.0.0] - 2026-10-19
+
+### Added
+
+- `claude plugin` writes one plugin per registered consumer holding exportables (`-z`: one `.zip` each); `claude marketplace` always carries the name `kaye-engine` and lists one plugin per consumer; `hermes` writes `skills/<consumer>/` per consumer
+- every consumer registers its own record via `register_consumer` (a repeated canonical name raises), `set_entry_consumer` names the one owning the process-wide CLI identity, and `get_consumer`, `iter_consumers` serve per-consumer export
+- every exportable names its owning consumer at registration (`consumer=`), with no fallback; a `glossary-*` abbr group takes its glossary's consumer, and `set_abbr_group_consumer` claims the remaining abbr groups
+- `override_exportable(name, blueprint, *, consumer, render_profile=None, always_apply=None)` lets one consumer replace another's exportable: it validates the blueprint (unknown names, cycles), sets blueprint and render profile together, and moves the skill to the overriding consumer's plugin
+- `setup_claude_cli` chat and coder names, and `setup_hermes_cli` soul name, are optional; a subcommand needing an unset one exits 1 with a clear message
+- `register_corpus_under_node(node_path, source)` records a corpus source under a node of the tree, the root (`()`) included; several consumers may contribute to one tree, in any order
+- `register_cli_main_parser(package_name, program_name)` lets a consumer console script build on the engine parser: one shared `--help` text, its own usage line and `--version`
+- `KAYE_ENGINE_DISPLAY_NAME` names the engine once, for the CLI description and the generated-by comment line
+- marketplace manifest carries the engine version
+- docs: `override_exportable`, `consumer=` on registrations, abbr layering, and abbr group ownership documented in `exportable-registry-doc.md`, `prompt-doc.md` and `abbrs-doc.md`
+
+### Changed
+
+- `load_corpus_tree` drops line-anchored markdown comments (`<!-- ... -->`, single or multi-line) from the corpus, so authoring notes never render; fenced code blocks and tag blocks keep theirs, and the generated blueprint-info comment is unaffected
+- `compute_fenced_line_mask` also marks markdown tag blocks (`<name>` to `</name>`), so sparseness, heading split, and load-time blank-line collapse leave them untouched like fenced code blocks
+- `register_dynamic_substitution` raises `ValueError` on a duplicate name instead of overwriting
+- `populate_abbr_data_with_json_file` layers: a later file may repeat an (abbreviation, meaning) pair to add tags, glossaries or a missing remark; `priority` and `wrap` must match, a conflicting remark raises
+- CLI description reworded: compile a Markdown prompt corpus into agent skills; package description rewritten
+
+> [!WARNING]
+> The marketplace written by `claude marketplace` and `claude vs-code-extension` is renamed from the consumer's name to `kaye-engine`, and the plugin export is now per consumer; no migration code ships. Uninstall the marketplace previously named after your consumer, install the new `kaye-engine` marketplace, and remove the stale `@<old marketplace>` keys from `enabledPlugins` in your Claude settings by hand.
+
+> [!WARNING]
+> `register_consumer` is additive and raises on a repeated canonical name; the `get_consumer_*` getters read the entry consumer set by `set_entry_consumer`; `register_blueprint` and exportable `register_abbr_glossary` require a registered `consumer`; `get_plugin_name` is removed; `export_hermes_folder` takes no `version`.
+
+> [!WARNING]
+> `load_corpus_tree()` takes no argument and builds the tree from the registrations, parsing each source on its own; a source's top headings must sit one level below its target, and a duplicate sibling heading raises. Migrate `load_corpus_tree([a, b])` to `register_corpus_under_node((), a)`, `register_corpus_under_node((), b)`, then `load_corpus_tree()`; a source that relied on concatenation to nest under the previous file registers under that node instead.
+
+### Fixed
+
+- `claude code` exports every consumer's plugin, not the entry consumer's alone
+- `claude plugin` and the other `claude` exports exit 1 w/ clear message when no consumer is registered
+- abbr groups no longer registered while the loaded abbr data is still empty
+
+[10.0.0]: https://github.com/kami-lel/kaye-engine/compare/v9.1.0-beta...v10.0.0
 
 
 

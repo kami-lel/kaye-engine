@@ -18,6 +18,8 @@ from kaye_engine.prompt.blueprint.render.sidecar_splice import splice_sidecars
 from kaye_engine.prompt.blueprint.selection import bind_selection
 from kaye_engine.prompt.prompt_corpus_loader import load_corpus_tree
 
+from tests.corpus_helper import load_corpus_from_sources
+
 _SOURCE = """# Section
 intro
 ## {[Claude Tool:TestVariant] Usage}
@@ -52,7 +54,7 @@ CHILD = ("Section", "Child")
 # pytest fixtures  #############################################################
 @pytest.fixture(autouse=True)
 def corpus():
-    load_corpus_tree([_SOURCE])
+    load_corpus_from_sources([_SOURCE])
 
 
 @pytest.fixture

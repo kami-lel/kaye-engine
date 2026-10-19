@@ -16,12 +16,15 @@ from kaye_engine.cli.blueprint.main_parser import register_cli_blueprint_parser
 from kaye_engine.prompt.blueprint import (
     Blueprint,
     blueprint_registry,
-    register_blueprint,
 )
 from kaye_engine.prompt.prompt_corpus_loader import (
     clear_corpus_tree,
     load_corpus_tree,
 )
+
+from tests.corpus_helper import load_corpus_from_sources
+
+from tests.consumer_helper import register_blueprint
 
 CORPUS = """# Project
 Overview text.
@@ -60,7 +63,7 @@ def keep_logger_state():
 @pytest.fixture
 def corpus():
     clear_corpus_tree()
-    load_corpus_tree([CORPUS])
+    load_corpus_from_sources([CORPUS])
     yield
     clear_corpus_tree()
 
