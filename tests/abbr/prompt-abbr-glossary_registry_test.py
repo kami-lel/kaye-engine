@@ -17,9 +17,10 @@ from kaye_engine.abbr_collection.abbr_glossary_registry import (
     AbbrGlossaryRegistry,
     abbr_glossary_registry,
     get_abbr_glossary,
-    register_abbr_glossary,
 )
 from kaye_engine.prompt.dynamic_nodes import GlossaryNode
+
+from tests.consumer_helper import register_abbr_glossary
 
 
 @pytest.fixture

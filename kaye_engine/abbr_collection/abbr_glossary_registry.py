@@ -57,6 +57,9 @@ class AbbrGlossaryRegistry:
             reachable via a ``(((name)))`` dynamic substitution
             placeholder; defaults to False
     :type is_dyn_substitution: bool, optional
+    :param consumer: canonical name of the registered consumer owning
+            the glossary's exportable group; ``""`` when not exportable
+    :type consumer: str, optional
     """
 
     name: str
@@ -67,6 +70,7 @@ class AbbrGlossaryRegistry:
     is_remark_disabled: bool = False
     is_term_definition_forced: bool = False
     is_dyn_substitution: bool = False
+    consumer: str = ""
 
 
 # Main Entry Point  ############################################################
@@ -83,6 +87,8 @@ def register_abbr_glossary(
     is_remark_disabled=False,
     is_term_definition_forced=False,
     is_dyn_substitution=False,
+    *,
+    consumer="",
 ):
     """
     create an `AbbrGlossaryRegistry` and insert it into
@@ -103,7 +109,12 @@ def register_abbr_glossary(
             term definition, regardless of its own ``term_definition``
             tag; defaults to False
     :type is_term_definition_forced: bool, optional
-    :raise ValueError: ``name`` is already registered
+    :param consumer: canonical name of the registered consumer owning
+            the glossary's exportable group; required when
+            ``is_exportable``
+    :type consumer: str, optional
+    :raise ValueError: ``name`` is already registered, or an exportable
+            glossary names no registered ``consumer``
     :return: the created registry entry
     :rtype: AbbrGlossaryRegistry
     """
@@ -111,6 +122,11 @@ def register_abbr_glossary(
         raise ValueError(
             "duplicate abbr glossary registry name: {}".format(name)
         )
+    if is_exportable:
+        # pylint: disable-next=import-outside-toplevel
+        from kaye_engine.consumer import check_consumer
+
+        check_consumer(consumer)
 
     reg = AbbrGlossaryRegistry(
         name,
@@ -121,6 +137,7 @@ def register_abbr_glossary(
         is_remark_disabled,
         is_term_definition_forced,
         is_dyn_substitution,
+        consumer,
     )
     abbr_glossary_registry[name] = reg
 

@@ -15,9 +15,10 @@ from kaye_engine import LOGGER_NAME
 from kaye_engine.abbr_collection import AbbrData, AbbrMeaning
 from kaye_engine.abbr_collection.abbr_glossary_registry import (
     abbr_glossary_registry,
-    register_abbr_glossary,
 )
 from kaye_engine.cli.exportable_abbr import get_exportable_abbrs
+
+from tests.consumer_helper import register_abbr_glossary
 
 
 class TestGetExportableAbbrsEmpty:

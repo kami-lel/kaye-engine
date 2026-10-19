@@ -18,7 +18,6 @@ from kaye_engine.prompt.blueprint.data import (
 from kaye_engine.prompt.blueprint.edit import replace_meta
 from kaye_engine.prompt.blueprint.registry import (
     BlueprintRegistry,
-    register_blueprint,
     blueprint_registry,
 )
 from kaye_engine.prompt.blueprint.render_mode import RenderMode
@@ -29,6 +28,8 @@ from kaye_engine.prompt.prompt_corpus_loader import (
 )
 
 from tests.corpus_helper import load_corpus_from_sources
+
+from tests.consumer_helper import register_blueprint
 
 
 @pytest.fixture

@@ -6,6 +6,7 @@ define `BlueprintRegistry`, `register_blueprint`, `blueprint_registry`
 
 from dataclasses import dataclass, replace
 
+from kaye_engine.consumer import check_consumer
 from kaye_engine.exportable import Exportable, register_exportable_entry
 
 from .data import Blueprint
@@ -112,6 +113,7 @@ def register_blueprint(
     llm_invokable=True,
     always_apply=False,
     render_profile=RenderProfile(),
+    consumer="",
 ):
     """
     create a `BlueprintRegistry` and insert it into `blueprint_registry`;
@@ -148,13 +150,18 @@ def register_blueprint(
             passes its own value explicitly; defaults to a plain
             `RenderProfile()`
     :type render_profile: RenderProfile, optional
+    :param consumer: canonical name of the registered consumer owning
+            the entry; required when ``is_exportable``, since its plugin
+            holds the skill
+    :type consumer: str, optional
     :raises ValueError: ``canonical_name`` is already registered, a
-            dependency name is not registered, or (while a corpus is
-            loaded) a node path is not in it
+            dependency name is not registered, an exportable names no
+            registered ``consumer``, or (while a corpus is loaded) a node
+            path is not in it
     :return: the created registry entry
     :rtype: BlueprintRegistry
     :example:
-    >>> register_blueprint("coder", coder_blueprint)
+    >>> register_blueprint("coder", coder_blueprint, consumer="some-pkg")
     >>> register_blueprint("chat", chat_blueprint, is_exportable=False)
     """
     if canonical_name in blueprint_registry:
@@ -163,6 +170,8 @@ def register_blueprint(
         )
 
     validate_blueprint(blueprint)
+    if is_exportable:
+        check_consumer(consumer)
 
     reg = BlueprintRegistry(
         canonical_name=canonical_name,
@@ -173,6 +182,7 @@ def register_blueprint(
         llm_invokable=llm_invokable,
         always_apply=always_apply,
         render_profile=render_profile,
+        consumer=consumer,
     )
     blueprint_registry[canonical_name] = reg
 
