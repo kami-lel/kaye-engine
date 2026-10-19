@@ -16,7 +16,6 @@ from kaye_engine.cli.blueprint.main_parser import register_cli_blueprint_parser
 from kaye_engine.prompt.blueprint import (
     Blueprint,
     blueprint_registry,
-    register_blueprint,
 )
 from kaye_engine.prompt.prompt_corpus_loader import (
     clear_corpus_tree,
@@ -24,6 +23,8 @@ from kaye_engine.prompt.prompt_corpus_loader import (
 )
 
 from tests.corpus_helper import load_corpus_from_sources
+
+from tests.consumer_helper import register_blueprint
 
 CORPUS = """# Project
 Overview text.

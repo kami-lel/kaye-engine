@@ -11,7 +11,6 @@ import pytest
 from kaye_engine.prompt.blueprint.data import Blueprint, create_blueprint
 from kaye_engine.prompt.blueprint.registry import (
     blueprint_registry,
-    register_blueprint,
 )
 from kaye_engine.prompt.blueprint.validate import validate_blueprint
 from kaye_engine.prompt.prompt_corpus_loader import (
@@ -20,6 +19,8 @@ from kaye_engine.prompt.prompt_corpus_loader import (
 )
 
 from tests.corpus_helper import load_corpus_from_sources
+
+from tests.consumer_helper import register_blueprint
 
 
 @pytest.fixture(autouse=True)

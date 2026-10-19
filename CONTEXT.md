@@ -37,7 +37,10 @@ not a gap to fill.
 ### Registration Policy
 
 Every public registering API takes one of three policies, so consumers
-sharing a process never overwrite each other silently:
+sharing a process never overwrite each other silently. Every exportable
+names its owning consumer at registration (`consumer=` on
+`register_blueprint` and on an exportable `register_abbr_glossary`), with
+no fallback; a `glossary-*` group takes its glossary's consumer:
 
 - Additive: each call adds to what earlier calls left
 - Guarded: a repeated name raises `ValueError`
@@ -51,14 +54,16 @@ sharing a process never overwrite each other silently:
 | `register_blueprint` | guarded | |
 | `register_image_prompt_exportable` | guarded | name must already be exportable |
 | `register_exportable_entry` | guarded | |
-| `register_exportable_abbrs` | additive | rebuilds the abbr groups on every populate, replacing earlier abbr groups only |
+| `register_exportable_abbrs` | additive | rebuilds the abbr groups on every populate, replacing earlier abbr groups only; a name held by another exportable raises |
 | `register_dynamic_substitution` | guarded | |
 | `register_variant` | guarded | an unknown affordance is created on first use |
 | `register_comment_line` | additive | a repeated line is ignored; first-seen order |
 | `add_corpus_clear_hook` | additive | |
-| `register_consumer` | entry-point | Fixme one identity per process today, repeated calls overwrite; to become guarded, one record per consumer |
+| `register_consumer` | guarded | one record per consumer package; a repeated canonical name raises |
+| `set_abbr_group_consumer` | guarded | names the consumer owning the abbr tag, wrap and first-char groups; unclaimed, they are not exported |
 | `register_corpus_under_node` | additive | registrations graft in passes, any order; a duplicate sibling heading raises; refused once the tree is loaded |
 | `load_corpus_tree` | guarded | one tree per process; a second load raises until `clear_corpus_tree()` |
+| `set_entry_consumer` | entry-point | names the consumer owning the process-wide CLI identity, read by every `get_consumer_*` getter |
 | `setup_claude_cli` | entry-point | |
 | `setup_hermes_cli` | entry-point | |
 

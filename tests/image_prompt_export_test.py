@@ -18,6 +18,8 @@ from kaye_engine.exportable import (
 from kaye_engine.prompt.blueprint import BlueprintRegistry
 from kaye_engine.prompt.blueprint.data import create_blueprint
 
+from tests.consumer_helper import TEST_CONSUMER
+
 
 @pytest.fixture
 def registered_names():
@@ -39,6 +41,7 @@ def _dummy_blueprint_registry(canonical_name, empty_corpus, **kwargs):
         canonical_name=canonical_name,
         display_name="Test " + canonical_name,
         blueprint=create_blueprint(),
+        consumer=TEST_CONSUMER,
         **kwargs,
     )
 
