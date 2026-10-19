@@ -64,3 +64,22 @@ class TestOptionalNames:
 
         assert info.value.code == 1
         assert "setup_claude_cli" in caplog.text
+
+
+class TestBareCheckout:
+
+    def test_check_exits_one_without_consumer(_, caplog):
+        from kaye_engine.cli.claude.plugin_marketplace_name import (
+            check_setup_for_claude_cli,
+        )
+
+        from tests.consumer_helper import isolated_consumers
+        from kaye_engine import consumer as consumer_module
+
+        with isolated_consumers():
+            consumer_module._consumers.clear()
+            with pytest.raises(SystemExit) as info:
+                check_setup_for_claude_cli()
+
+        assert info.value.code == 1
+        assert "no consumer registered" in caplog.text
