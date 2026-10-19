@@ -5,7 +5,7 @@ main parser for Kaye Python CLI
 from argparse import ArgumentParser
 from importlib.metadata import version
 
-from kaye_engine import PACKAGE_NAME
+from kaye_engine import KAYE_ENGINE_DISPLAY_NAME, PACKAGE_NAME
 from kaye_engine.cli.blueprint.main_parser import register_cli_blueprint_parser
 from kaye_engine.cli.claude.main import register_cli_claude_parser
 from kaye_engine.cli.continue_ai.parser import register_continue_parser
@@ -36,7 +36,10 @@ __all__ = ("register_cli_main_parser", "register_cli_subcommands")
 
 # constants  ###################################################################
 PROGRAM_NAME = "kaye-engine"
-DESCRIPTION = "Kaye Engine CLI: render, export and manage prompt skills"
+DESCRIPTION = (
+    KAYE_ENGINE_DISPLAY_NAME
+    + " CLI: compile a Markdown prompt corpus into agent skills"
+)
 
 
 # Public API  ##################################################################
