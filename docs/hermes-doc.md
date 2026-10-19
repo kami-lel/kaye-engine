@@ -34,9 +34,10 @@ The two `SOUL.md` kinds render from `blueprint_registry`, so a blueprint registe
 ## Consumer Configuration
 
 ```python
-from kaye_engine import register_consumer, setup_hermes_cli
+from kaye_engine import register_consumer, set_entry_consumer, setup_hermes_cli
 
 register_consumer("Some Proj", "some-proj", "1.0")  # skills/<canonical name>/
+set_entry_consumer("some-proj")
 setup_hermes_cli(
     "chat",                             # root SOUL.md
     {"one": "one-chat", "two": "two-chat"},  # profiles/<name>/SOUL.md

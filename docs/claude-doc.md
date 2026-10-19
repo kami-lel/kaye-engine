@@ -9,7 +9,7 @@ Kaye Engine's integration with Anthropic Claude: exporting corpus blueprints as 
 
 ## available CLI commands
 
-`kaye-engine claude` (alias `a`) exposes one subcommand per Claude export target. Every subcommand needs a consumer project to call `register_consumer(...)` and `setup_claude_cli(...)` first (q.v. [Consumer Requirement](#consumer-requirement)); without it the command logs an error instead of writing files.
+`kaye-engine claude` (alias `a`) exposes one subcommand per Claude export target. Every subcommand needs each consumer package to call `register_consumer(...)`, and the console command's setup to call `set_entry_consumer(...)` and `setup_claude_cli(...)`, first (q.v. [Consumer Requirement](#consumer-requirement)); with no consumer registered, the command logs a critical error and exits 1 without writing files.
 
 > [!TIP]
 > Run `kaye-engine claude [SUBCOMMAND] -h` any time to see the live flags.
@@ -101,7 +101,7 @@ Add the resulting folder in Claude's marketplace settings.
 
 ### code
 
-Sets up Claude Code in one step: writes `CLAUDE.md` as the User System Prompt (the Chat blueprint plus the Coder blueprint), and exports the plugin into `plugins/`.
+Sets up Claude Code in one step: writes `CLAUDE.md` as the User System Prompt (the Chat blueprint plus the Coder blueprint), and exports every consumer's plugin into `plugins/`.
 
 ```bash
 kaye-engine claude code                # into ~/.claude
@@ -112,7 +112,7 @@ kaye-engine claude code CLAUDE_FOLDER  # into another .claude/ folder
 CLAUDE_FOLDER/               (default: ~/.claude)
 ├── CLAUDE.md
 └── plugins/
-    └── PLUGIN_NAME/
+    └── PLUGIN_NAME/          (one per consumer)
 ```
 
 ### vs-code-extension
