@@ -1,4 +1,4 @@
-"""export all exportable as a single Claude plugin"""
+"""export each consumer's exportables as its own Claude plugin"""
 
 from argparse import RawDescriptionHelpFormatter
 from pathlib import Path
@@ -22,8 +22,8 @@ from kaye_engine.cli.render_profile_parser import (
     resolve_render_profile,
 )
 
-from .export_folder import export_plugin_as_folder
-from .export_zip import export_plugin_as_zip
+from .export_folder import export_plugins_as_folders
+from .export_zip import export_plugins_as_zips
 
 # logger  ######################################################################
 logger = kamilog.getLogger(LOGGER_CLAUDE_NAME)
@@ -34,9 +34,9 @@ _DEFAULT_PLUGINS_FOLDER = Path.home() / ".claude" / "plugins"
 
 _DESCRIPTION = """
 
-writes plugin.json and one SKILL.md per exportable under PLUGIN_NAME/skills/;
-with -z, creates an upload-ready .zip for
-Claude Desktop instead.
+writes, per consumer, plugin.json and one SKILL.md per exportable of that
+consumer under PLUGIN_NAME/skills/; with -z, creates one upload-ready .zip
+per consumer for Claude Desktop instead.
 
 FOLDER/  (default: ~/.claude/plugins/)
 └── PLUGIN_NAME/
@@ -83,7 +83,7 @@ def register_plugin_parser(cli_subparser):  ####################################
         action="store_true",
         dest="zip",
         help=(
-            "create an upload-ready .zip plugin (for Claude Desktop); "
+            "create upload-ready .zip plugins, 1 per consumer (for Claude Desktop); "
             "FOLDER default: current directory"
         ),
     )
@@ -93,7 +93,7 @@ def register_plugin_parser(cli_subparser):  ####################################
         "--no-version",
         action="store_false",
         dest="includes_version",
-        help="omit the current version from the .zip filename (zip only)",
+        help="omit each version from the .zip filename (zip only)",
     )
 
     kamilog.add_verbose_arguments(plugin_parser)
@@ -115,7 +115,7 @@ def register_plugin_parser(cli_subparser):  ####################################
 
         if args.zip:
             logger.debug("export plugin as zip")
-            export_plugin_as_zip(
+            export_plugins_as_zips(
                 folder,
                 includes_version=args.includes_version,
                 render_profile=render_profile,
@@ -123,7 +123,7 @@ def register_plugin_parser(cli_subparser):  ####################################
             done_msg = "export plugin as zip"
         else:
             logger.debug("export plugin as folder")
-            export_plugin_as_folder(folder, render_profile=render_profile)
+            export_plugins_as_folders(folder, render_profile=render_profile)
             done_msg = "export plugin as folder"
 
         logger.done(done_msg + "\t" + str(folder))

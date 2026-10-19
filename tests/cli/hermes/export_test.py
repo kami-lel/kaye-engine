@@ -81,25 +81,25 @@ def _list_files(folder):
 class TestExportHermesFolder:
 
     def test_writes_the_three_file_kinds(_, tmp_path):
-        export_hermes_folder(tmp_path, version="1.0")
+        export_hermes_folder(tmp_path)
         assert _list_files(tmp_path) == [
             "SOUL.md",
             "profiles/kaye/SOUL.md",
             "profiles/ria/SOUL.md",
-            "skills/some-proj/chat/SKILL.md",
+            "skills/test-consumer/chat/SKILL.md",
         ]
 
     def test_internal_blueprint_never_becomes_a_skill(_, tmp_path):
-        export_hermes_folder(tmp_path, version="1.0")
-        assert not (tmp_path / "skills" / "some-proj" / "kaye-chat").exists()
+        export_hermes_folder(tmp_path)
+        assert not (tmp_path / "skills" / "test-consumer" / "kaye-chat").exists()
 
     def test_dry_run_writes_nothing(_, tmp_path):
         enable_dry_run()
-        export_hermes_folder(tmp_path / "home", version="1.0")
+        export_hermes_folder(tmp_path / "home")
         assert not (tmp_path / "home").exists()
 
     def test_unset_configuration_exits_one(_, tmp_path):
         hermes._soul_blueprint_name = None
         with pytest.raises(SystemExit) as info:
-            export_hermes_folder(tmp_path, version="1.0")
+            export_hermes_folder(tmp_path)
         assert info.value.code == 1

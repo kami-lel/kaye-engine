@@ -1,19 +1,14 @@
 """
 export_plugin_as_folder.py
 
-define ``export_plugin_as_folder``
+define ``export_plugin_as_folder``, ``export_plugins_as_folders``
 """
 
-from email.utils import parseaddr
-from importlib.metadata import PackageNotFoundError, metadata
-
 import kamilog
-from kaye_engine import PACKAGE_NAME
 from kaye_engine.cli.claude import LOGGER_CLAUDE_NAME
-from kaye_engine.cli.claude.plugin_marketplace_name import get_plugin_name
-from kaye_engine.consumer import (
-    get_consumer_display_name,
-    get_consumer_version,
+from kaye_engine.cli.claude.package_meta import read_package_meta
+from kaye_engine.cli.claude.plugin_marketplace_name import (
+    get_plugin_consumers,
 )
 from kaye_engine.skill.export_folders import (
     export_skills_as_folders,
@@ -31,63 +26,74 @@ _SKILLS_DIR = "skills"
 # entry point  #################################################################
 
 
-def export_plugin_as_folder(parent_folder, *, render_profile=None):
+def export_plugin_as_folder(parent_folder, consumer, *, render_profile=None):
     """
-    export all Kaye blueprints as a single Anthropic Claude plugin folder
+    export one consumer's exportables as an Anthropic Claude plugin folder
 
-    writes a ``<parent_folder>/<PLUGIN_NAME>/`` plugin directory containing
-    a ``.claude-plugin/plugin.json`` manifest and a ``skills/`` directory
-    with one skill folder per blueprint, prompt, and abbreviation group
+    writes a ``<parent_folder>/<consumer name>/`` plugin directory
+    containing a ``.claude-plugin/plugin.json`` manifest, built from the
+    consumer's record and its own distribution metadata, and a ``skills/``
+    directory with one skill folder per exportable of that consumer
 
 
     :param parent_folder: destination directory to write the plugin into
     :type parent_folder: Path-like
+    :param consumer: the consumer the plugin belongs to
+    :type consumer: Consumer
     :param render_profile: render profile forwarded to
             :func:`export_skills_as_folders`
     :type render_profile: RenderProfile, optional
     :return: path to the created plugin directory
     :rtype: Path
     """
-    plugin_name = get_plugin_name()
-    plugin_keywords = [
-        "prompt-engineering",
-        "persona",
-        "agent",
-        plugin_name,
-    ]
+    plugin_name = consumer.canonical_name
     plugin_root = parent_folder / plugin_name
-
-    try:
-        meta = metadata(PACKAGE_NAME)
-    except PackageNotFoundError as err:
-        logger.critical("package metadata not found:\t" + PACKAGE_NAME)
-        raise SystemExit(1) from err
-    pkg_version = get_consumer_version()
-    pkg_author, pkg_author_email = parseaddr(meta.get("Author-email") or "")
-    pkg_urls = dict(
-        _url.split(", ", 1) for _url in meta.get_all("Project-URL") or []
-    )
-    pkg_homepage = pkg_urls.get("homepage", "")
-    pkg_repository = pkg_urls.get("Repository", "")
+    meta = read_package_meta(plugin_name)
 
     with ManifestPluginJson(plugin_root) as manifest:
         manifest.name = plugin_name
-        manifest.display_name = get_consumer_display_name()
-        manifest.version = pkg_version
-        manifest.description = meta["Summary"]
-        manifest.author_name = pkg_author
-        manifest.author_email = pkg_author_email
-        manifest.homepage = pkg_homepage
-        manifest.repository = pkg_repository
-        manifest.keywords = plugin_keywords
+        manifest.display_name = consumer.display_name
+        manifest.version = consumer.version
+        manifest.description = meta.summary
+        manifest.author_name = meta.author_name
+        manifest.author_email = meta.author_email
+        manifest.homepage = meta.homepage
+        manifest.repository = meta.repository
+        manifest.keywords = [
+            "prompt-engineering",
+            "persona",
+            "agent",
+            plugin_name,
+        ]
 
-    logger.debug("exporting blueprints as plugin skills")
+    logger.debug("exporting exportables as plugin skills: " + plugin_name)
     export_skills_as_folders(
         plugin_root / _SKILLS_DIR,
-        version=pkg_version,
+        version=consumer.version,
         render_profile=render_profile,
+        consumer=plugin_name,
     )
 
     logger.succ("export plugin:\t" + str(plugin_root))
 
     return plugin_root
+
+
+def export_plugins_as_folders(parent_folder, *, render_profile=None):
+    """
+    export every consumer holding an exportable as its own plugin folder
+
+
+    :param parent_folder: destination directory to write the plugins into
+    :type parent_folder: Path-like
+    :param render_profile: forwarded to :func:`export_plugin_as_folder`
+    :type render_profile: RenderProfile, optional
+    :return: path of each created plugin directory
+    :rtype: list[Path]
+    """
+    return [
+        export_plugin_as_folder(
+            parent_folder, consumer, render_profile=render_profile
+        )
+        for consumer in get_plugin_consumers()
+    ]

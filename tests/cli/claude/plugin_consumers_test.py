@@ -1,0 +1,184 @@
+"""
+tests/cli/claude/plugin_consumers_test.py
+
+test: one plugin per consumer -- folders, zips and the marketplace --
+with 2 registered consumers, each with its own name, version and skills
+"""
+
+import json
+import zipfile
+from unittest.mock import patch
+
+import pytest
+from kaye_engine.cli.claude import package_meta
+from kaye_engine.cli.claude.marketplace.export import export_marketplace
+from kaye_engine.cli.claude.plugin.export_folder import (
+    export_plugins_as_folders,
+)
+from kaye_engine.cli.claude.plugin.export_zip import export_plugins_as_zips
+from kaye_engine.consumer import register_consumer
+from kaye_engine.exportable import exportable_registry
+from kaye_engine.prompt.blueprint import BlueprintRegistry, create_blueprint
+from kaye_engine.prompt.prompt_corpus_loader import clear_corpus_tree
+
+from tests.consumer_helper import isolated_consumers
+from tests.corpus_helper import load_corpus_from_sources
+
+
+def _entry(name, consumer):
+    return BlueprintRegistry(
+        canonical_name=name,
+        blueprint=create_blueprint(),
+        consumer=consumer,
+    )
+
+
+@pytest.fixture(autouse=True)
+def _two_consumers():
+    clear_corpus_tree()
+    load_corpus_from_sources(["# R\n"])
+    entries = {
+        "lib-skill": _entry("lib-skill", "pkg-one"),
+        "app-skill": _entry("app-skill", "pkg-two"),
+        "app-other": _entry("app-other", "pkg-two"),
+    }
+    with isolated_consumers(), patch.dict(
+        exportable_registry, entries, clear=True
+    ), patch.object(package_meta, "metadata") as meta_mock:
+        register_consumer("Package One", "pkg-one", "1.1.0")
+        register_consumer("Package Two", "pkg-two", "2.2.0")
+        register_consumer("Idle Package", "pkg-idle", "9.9.9")
+        meta_mock.side_effect = lambda name: _FakeMetadata(name)
+        yield
+    clear_corpus_tree()
+
+
+class _FakeMetadata:
+    def __init__(self, name):
+        self._name = name
+
+    def get(self, key, default=None):
+        if key == "Author-email":
+            return "Author {0} <{0}@example.com>".format(self._name)
+        return default
+
+    def get_all(self, key):
+        if key == "Project-URL":
+            return [
+                "homepage, https://example.com/" + self._name,
+                "Repository, https://example.com/" + self._name + ".git",
+            ]
+        return None
+
+    def __getitem__(self, key):
+        return "summary of " + self._name
+
+
+def _skills(plugin_root):
+    return sorted(p.name for p in (plugin_root / "skills").iterdir())
+
+
+class TestPluginFolders:
+
+    def test_one_folder_per_consumer_holding_skills(_, tmp_path):
+        export_plugins_as_folders(tmp_path)
+
+        assert sorted(p.name for p in tmp_path.iterdir()) == [
+            "pkg-one",
+            "pkg-two",
+        ]
+
+    def test_each_plugin_holds_only_its_skills(_, tmp_path):
+        export_plugins_as_folders(tmp_path)
+
+        assert _skills(tmp_path / "pkg-one") == ["lib-skill"]
+        assert _skills(tmp_path / "pkg-two") == ["app-other", "app-skill"]
+
+    def test_manifest_from_own_record_and_distribution(_, tmp_path):
+        export_plugins_as_folders(tmp_path)
+
+        manifest = json.loads(
+            (
+                tmp_path / "pkg-two" / ".claude-plugin" / "plugin.json"
+            ).read_text(encoding="utf-8")
+        )
+        assert manifest["name"] == "pkg-two"
+        assert manifest["displayName"] == "Package Two"
+        assert manifest["version"] == "2.2.0"
+        assert manifest["description"] == "summary of pkg-two"
+        assert manifest["homepage"] == "https://example.com/pkg-two"
+
+    def test_skill_md_carries_consumer_version(_, tmp_path):
+        export_plugins_as_folders(tmp_path)
+
+        text = (tmp_path / "pkg-one" / "skills" / "lib-skill" / "SKILL.md")
+        assert "1.1.0" in text.read_text(encoding="utf-8")
+
+
+class TestPluginZips:
+
+    def test_two_zips_each_with_own_version(_, tmp_path):
+        export_plugins_as_zips(tmp_path)
+
+        assert sorted(p.name for p in tmp_path.iterdir()) == [
+            "pkg-one-1.1.0.zip",
+            "pkg-two-2.2.0.zip",
+        ]
+
+    def test_no_version_drops_version_from_names(_, tmp_path):
+        export_plugins_as_zips(tmp_path, includes_version=False)
+
+        assert sorted(p.name for p in tmp_path.iterdir()) == [
+            "pkg-one.zip",
+            "pkg-two.zip",
+        ]
+
+    def test_zip_holds_only_own_skills(_, tmp_path):
+        export_plugins_as_zips(tmp_path)
+
+        with zipfile.ZipFile(tmp_path / "pkg-one-1.1.0.zip") as archive:
+            names = archive.namelist()
+        assert any(n.startswith("skills/lib-skill/") for n in names)
+        assert not any("app-skill" in n for n in names)
+
+
+class TestMarketplace:
+
+    def test_named_for_engine_listing_both_plugins(_, tmp_path):
+        path = export_marketplace(tmp_path)
+
+        data = json.loads(path.read_text(encoding="utf-8"))
+        assert data["name"] == "kaye-engine"
+        assert [p["name"] for p in data["plugins"]] == ["pkg-one", "pkg-two"]
+        assert [p["source"] for p in data["plugins"]] == [
+            "./plugins/pkg-one",
+            "./plugins/pkg-two",
+        ]
+        assert [p["version"] for p in data["plugins"]] == ["1.1.0", "2.2.0"]
+
+    def test_plugins_written_under_plugins_folder(_, tmp_path):
+        export_marketplace(tmp_path)
+
+        assert _skills(tmp_path / "plugins" / "pkg-one") == ["lib-skill"]
+        assert _skills(tmp_path / "plugins" / "pkg-two") == [
+            "app-other",
+            "app-skill",
+        ]
+
+    def test_no_skill_in_both_plugins(_, tmp_path):
+        export_marketplace(tmp_path)
+
+        one = set(_skills(tmp_path / "plugins" / "pkg-one"))
+        two = set(_skills(tmp_path / "plugins" / "pkg-two"))
+        assert not one & two
+
+    def test_single_consumer_lists_one_plugin(_, tmp_path):
+        for name in ("app-skill", "app-other"):
+            exportable_registry.pop(name)
+
+        data = json.loads(
+            export_marketplace(tmp_path).read_text(encoding="utf-8")
+        )
+
+        assert data["name"] == "kaye-engine"
+        assert [p["name"] for p in data["plugins"]] == ["pkg-one"]

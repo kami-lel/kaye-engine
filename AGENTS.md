@@ -63,7 +63,7 @@ pytest tests/prompt/bp/data/prompt-bp-edit_test.py
 pytest tests/prompt/bp/data/prompt-bp-edit_test.py::TestCreateFromNode
 ```
 
-`tests/cli/` covers only what runs without a vault-sized corpus — the setup guard,
+`tests/cli/` covers only what runs without a full-sized corpus — the setup guard,
 exportable-abbr registration, `dynamic-node` parsing, and `SKILL.md`
 rendering. The exporters themselves need a corpus to produce output, so the
 consumer package's suite covers those; do not scaffold corpus fixtures here
@@ -186,10 +186,12 @@ Bash command patterns) into `settings.json`, sourced from
 `kaye_engine/cli/claude/permission_cmds.jsonc` (parsed with `json5`, so
 comments are allowed).
 
-Every `claude` and `hermes` subcommand needs a consumer to call
-`register_consumer(display_name, canonical_name, version)` first; `claude`
-also needs `setup_claude_cli(...)` and `hermes` needs
-`setup_hermes_cli(...)`, none with a default. On a bare checkout the
+Every `claude` and `hermes` subcommand needs each consumer package to call
+`register_consumer(display_name, canonical_name, version)` and the
+console command's setup to call `set_entry_consumer(canonical_name)`
+first; `claude` also needs `setup_claude_cli(...)` and `hermes` needs
+`setup_hermes_cli(...)`, whose names are optional: a subcommand needing an
+unset one exits 1 with a clear message. On a bare checkout the
 getters log `logger.critical` and raise `SystemExit(1)`: expected, not a
 bug. Getter list in `CONTEXT.md`.
 
