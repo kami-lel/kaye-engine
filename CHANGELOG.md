@@ -34,6 +34,10 @@ manually add chat & coder, instead by data structure
 - `override_exportable(name, blueprint, *, consumer, render_profile=None, always_apply=None)` lets one consumer replace another's exportable: it validates the blueprint (unknown names, cycles), sets blueprint and render profile together, and moves the skill to the overriding consumer's plugin
 - `setup_claude_cli` chat and coder names, and `setup_hermes_cli` soul name, are optional; a subcommand needing an unset one exits 1 with a clear message
 - `register_corpus_under_node(node_path, source)` records a corpus source under a node of the tree, the root (`()`) included; several consumers may contribute to one tree, in any order
+- `register_cli_main_parser(package_name, program_name)` lets a consumer console script build on the engine parser: one shared `--help` text, its own usage line and `--version`
+- `KAYE_ENGINE_DISPLAY_NAME` names the engine once, for the CLI description and the generated-by comment line
+- marketplace manifest carries the engine version
+- docs: `override_exportable`, `consumer=` on registrations, abbr layering, and abbr group ownership documented in `exportable-registry-doc.md`, `prompt-doc.md` and `abbrs-doc.md`
 
 ### Changed
 
@@ -44,12 +48,17 @@ manually add chat & coder, instead by data structure
 - **Breaking**: `load_corpus_tree()` takes no argument and builds the tree from the registrations, parsing each source on its own; a source's top headings must sit one level below its target, and a duplicate sibling heading raises. Migrate `load_corpus_tree([a, b])` to `register_corpus_under_node((), a)`, `register_corpus_under_node((), b)`, then `load_corpus_tree()`; a source that relied on concatenation to nest under the previous file registers under that node instead
 - `register_dynamic_substitution` raises `ValueError` on a duplicate name instead of overwriting
 - `populate_abbr_data_with_json_file` layers: a later file may repeat an (abbreviation, meaning) pair to add tags, glossaries or a missing remark; `priority` and `wrap` must match, a conflicting remark raises
+- CLI description reworded: compile a Markdown prompt corpus into agent skills; package description rewritten
 
 ### Deprecated
 
 ### Removed
 
 ### Fixed
+
+- `claude code` exports every consumer's plugin, not the entry consumer's alone
+- `claude plugin` and the other `claude` exports exit 1 w/ clear message when no consumer is registered
+- abbr groups no longer registered while the loaded abbr data is still empty
 
 ### Security
 
