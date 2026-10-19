@@ -280,8 +280,14 @@ def _graft(target, source_lines, label, owner_by_node):
 
     leading_lines, child_specs = split_sections(source_lines, target.depth)
     if any(line.strip() for line in leading_lines):
+        # one blank line between the target's own text and the addition
+        own_lines = list(target.content_lines())
+        while own_lines and not own_lines[-1].strip():
+            own_lines.pop()
+        if own_lines:
+            own_lines.append("")
         target._content_lines = [  # pylint: disable=protected-access
-            *target.content_lines(),
+            *own_lines,
             *leading_lines,
         ]
 
