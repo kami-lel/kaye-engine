@@ -24,6 +24,7 @@ class PackageMeta:
     summary, author and project URLs of an installed distribution
     """
 
+    version: str
     summary: str
     author_name: str
     author_email: str
@@ -52,6 +53,7 @@ def read_package_meta(distribution_name):
         _url.split(", ", 1) for _url in meta.get_all("Project-URL") or []
     )
     return PackageMeta(
+        version=meta["Version"] or "",
         summary=meta["Summary"] or "",
         author_name=author_name,
         author_email=author_email,

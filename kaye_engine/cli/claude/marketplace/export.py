@@ -87,6 +87,7 @@ def export_marketplace(marketplace_folder, *, render_profile=None):
     with MarketplaceJson(marketplace_folder) as market:
         market.name = get_marketplace_name()
         market.description = engine_meta.summary
+        market.version = engine_meta.version
         market.owner_name = engine_meta.author_name
         market.owner_email = engine_meta.author_email
         market.plugins = plugins
