@@ -23,6 +23,8 @@ from kaye_engine.prompt.prompt_corpus_loader import (
     load_corpus_tree,
 )
 
+from tests.corpus_helper import load_corpus_from_sources
+
 CORPUS = """# Project
 Overview text.
 ## Install
@@ -60,7 +62,7 @@ def keep_logger_state():
 @pytest.fixture
 def corpus():
     clear_corpus_tree()
-    load_corpus_tree([CORPUS])
+    load_corpus_from_sources([CORPUS])
     yield
     clear_corpus_tree()
 

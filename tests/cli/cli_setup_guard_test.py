@@ -30,7 +30,7 @@ class TestCheckCorpusSetupForCliNoCorpusTree:
         assert any(rec.levelno == logging.ERROR for rec in caplog.records)
         assert any(
             "no corpus tree loaded" in rec.message
-            and "load_corpus_tree(sources)" in rec.message
+            and "load_corpus_tree()" in rec.message
             for rec in caplog.records
         )
 

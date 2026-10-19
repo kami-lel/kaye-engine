@@ -22,12 +22,14 @@ from kaye_engine.prompt.prompt_corpus_loader import (
     load_corpus_tree,
 )
 
+from tests.corpus_helper import load_corpus_from_sources
+
 
 # auxiliaries  #################################################################
 @pytest.fixture(autouse=True)
 def _corpus():
     clear_corpus_tree()
-    load_corpus_tree(["# R\n## {when_to_use}\nw\n"])
+    load_corpus_from_sources(["# R\n## {when_to_use}\nw\n"])
     yield
     clear_corpus_tree()
 

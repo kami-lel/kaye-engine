@@ -20,6 +20,8 @@ from kaye_engine.prompt.prompt_corpus_loader import (
     load_corpus_tree,
 )
 
+from tests.corpus_helper import load_corpus_from_sources
+
 _SOURCE = """# Project Title
 ## Description
 Brief overview of the project and its purpose.
@@ -43,7 +45,7 @@ SIDECAR = (*LICENSE, "{description}")
 # pytest fixtures  #############################################################
 @pytest.fixture(autouse=True)
 def corpus():
-    load_corpus_tree([_SOURCE])
+    load_corpus_from_sources([_SOURCE])
 
 
 def _render(*paths, **profile_kwargs):
@@ -189,19 +191,19 @@ class TestTagBlockExemptFromSparseness:
 
     def test_load_collapse_spares_tag_block_not_outside(_):
         clear_corpus_tree()
-        load_corpus_tree([_._TAG_SOURCE])
+        load_corpus_from_sources([_._TAG_SOURCE])
         lines = _render(("Doc",), sparseness=99)
         start = lines.index("<some-tag>")
         assert lines[start : start + len(_._BLOCK)] == _._BLOCK
 
     def test_sparseness_zero_keeps_tag_block_blank_lines(_):
         clear_corpus_tree()
-        load_corpus_tree([_._TAG_SOURCE])
+        load_corpus_from_sources([_._TAG_SOURCE])
         lines = _render(("Doc",), sparseness=0)
         assert lines == ["# Doc", *_._BLOCK, "end"]
 
     def test_sparseness_minus_one_joins_without_touching_block(_):
         clear_corpus_tree()
-        load_corpus_tree([_._TAG_SOURCE])
+        load_corpus_from_sources([_._TAG_SOURCE])
         opt = _render(("Doc",), sparseness=-1)
         assert "↵".join(_._BLOCK) in opt[0]

@@ -16,6 +16,8 @@ from kaye_engine.prompt.blueprint.render.tree import preview_selection
 from kaye_engine.prompt.blueprint.selection import bind_selection
 from kaye_engine.prompt.prompt_corpus_loader import load_corpus_tree
 
+from tests.corpus_helper import load_corpus_from_sources
+
 _SOURCE = """# Project Title
 ## Description
 Brief overview of the project and its purpose.
@@ -34,7 +36,7 @@ LICENSE = (*TITLE, "License")
 # pytest fixtures  #############################################################
 @pytest.fixture(autouse=True)
 def corpus():
-    load_corpus_tree([_SOURCE])
+    load_corpus_from_sources([_SOURCE])
 
 
 def _select(*paths):
