@@ -95,6 +95,26 @@ class TestOverride:
         assert entry.render_profile.sparseness == 3
         assert entry.always_apply is True
 
+    def test_always_apply_set_when_given(_):
+        entry = override_exportable(
+            "ovr-top",
+            create_blueprint(),
+            consumer="other-pkg",
+            always_apply=True,
+        )
+
+        assert entry.always_apply is True
+
+    def test_always_apply_can_be_cleared(_):
+        entry = override_exportable(
+            "ovr-base",
+            create_blueprint(),
+            consumer="other-pkg",
+            always_apply=False,
+        )
+
+        assert entry.always_apply is False
+
     def test_dependents_see_the_new_blueprint(_):
         new = create_blueprint(dependencies=["ovr-core"])
 

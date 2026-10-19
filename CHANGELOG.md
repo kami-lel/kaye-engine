@@ -31,7 +31,7 @@ manually add chat & coder, instead by data structure
 - `claude plugin` writes one plugin per registered consumer holding exportables (`-z`: one `.zip` each); `claude marketplace` always carries the name `kaye-engine` and lists one plugin per consumer; `hermes` writes `skills/<consumer>/` per consumer
 - every consumer registers its own record via `register_consumer` (a repeated canonical name raises), `set_entry_consumer` names the one owning the process-wide CLI identity, and `get_consumer`, `iter_consumers` serve per-consumer export
 - every exportable names its owning consumer at registration (`consumer=`), with no fallback; a `glossary-*` abbr group takes its glossary's consumer, and `set_abbr_group_consumer` claims the remaining abbr groups
-- `override_exportable(name, blueprint, *, consumer, render_profile=None)` lets one consumer replace another's exportable: it validates the blueprint (unknown names, cycles), sets blueprint and render profile together, and moves the skill to the overriding consumer's plugin
+- `override_exportable(name, blueprint, *, consumer, render_profile=None, always_apply=None)` lets one consumer replace another's exportable: it validates the blueprint (unknown names, cycles), sets blueprint and render profile together, and moves the skill to the overriding consumer's plugin
 - `setup_claude_cli` chat and coder names, and `setup_hermes_cli` soul name, are optional; a subcommand needing an unset one exits 1 with a clear message
 - `register_corpus_under_node(node_path, source)` records a corpus source under a node of the tree, the root (`()`) included; several consumers may contribute to one tree, in any order
 

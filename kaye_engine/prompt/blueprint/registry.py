@@ -238,7 +238,9 @@ def _check_no_cycle_through(blueprint, name):
                 stack.append(blueprint_registry[dep].blueprint)
 
 
-def override_exportable(name, blueprint, *, consumer, render_profile=None):
+def override_exportable(
+    name, blueprint, *, consumer, render_profile=None, always_apply=None
+):
     """
     replace the exportable registered under ``name`` with ``blueprint``,
     owned by ``consumer``: the one way a consumer takes over a skill
@@ -247,7 +249,7 @@ def override_exportable(name, blueprint, *, consumer, render_profile=None):
 
     blueprint, render profile and consumer change together, on the same
     registry entry, so every registry holding it sees the new content; the
-    other export flags are kept
+    other export flags are kept, ``always_apply`` excepted when given
 
 
     :param name: canonical name of the registered exportable to replace
@@ -260,6 +262,9 @@ def override_exportable(name, blueprint, *, consumer, render_profile=None):
     :param render_profile: the entry's new default render settings;
             ``None`` keeps the current ones
     :type render_profile: RenderProfile, optional
+    :param always_apply: the entry's new ``always_apply`` flag; ``None``
+            keeps the current one
+    :type always_apply: bool, optional
     :raises ValueError: ``name`` is not registered or not exportable,
             ``consumer`` is not registered, ``blueprint`` names an
             unregistered dependency or a path the loaded corpus lacks, or
@@ -284,5 +289,7 @@ def override_exportable(name, blueprint, *, consumer, render_profile=None):
     if render_profile is not None:
         entry.render_profile = render_profile
     entry.consumer = consumer
+    if always_apply is not None:
+        entry.always_apply = always_apply
 
     return entry
