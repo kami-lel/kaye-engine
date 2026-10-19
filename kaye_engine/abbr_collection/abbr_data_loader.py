@@ -31,7 +31,8 @@ def populate_abbr_data_with_json_file(file_path):  # ===========================
     :func:`kaye_engine.cli.exportable_abbr.register_exportable_abbrs`, so
     callers need not register those groups themselves
 
-    each call is one layer: called once per consumer, a later file adds
+    each call is one layer: called once per consumer, an empty file adding
+    nothing and registering no groups; a later file adds
     to the earlier ones, and may repeat an (abbreviation, meaning) pair
     to add its own tags and glossaries to it (``priority`` and ``wrap``
     restated unchanged, a ``remark`` either omitted, matching, or filling
@@ -86,6 +87,9 @@ def populate_abbr_data_with_json_file(file_path):  # ===========================
 
             for abbr, abbr_obj in abbrs_obj.items():
                 data.add_entry(mean, abbr, abbr_obj)
+
+    if not data:
+        return  # an empty first layer: nothing to group yet
 
     # pylint: disable-next=import-outside-toplevel
     from kaye_engine.cli.exportable_abbr import register_exportable_abbrs

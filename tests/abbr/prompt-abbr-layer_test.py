@@ -85,6 +85,22 @@ class TestAdditive:
         assert data.automaton.exists("vs.")
 
 
+class TestEmptyLayer:
+
+    def test_empty_first_layer_adds_nothing_and_logs_no_error(_, caplog):
+        data = _populate_layers({})
+
+        assert not data
+        assert not [r for r in caplog.records if r.levelname == "ERROR"]
+
+    def test_empty_layer_then_real_layer(_):
+        data = _populate_layers(
+            {}, {"for example": {"abbrs": {"e.g.": _entry()}}}
+        )
+
+        assert [e.abbr for e in data.abbrs] == ["e.g."]
+
+
 class TestTagMerge:
 
     def test_repeat_adds_glossary(_):
