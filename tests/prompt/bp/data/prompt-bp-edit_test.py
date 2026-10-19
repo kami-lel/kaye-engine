@@ -28,6 +28,8 @@ from kaye_engine.prompt.prompt_corpus_loader import (
     load_corpus_tree,
 )
 
+from tests.corpus_helper import load_corpus_from_sources
+
 _SOURCE = """# Main
 ## Intro
 ### Background
@@ -54,7 +56,7 @@ CONCLUSION = ("Conclusion",)
 # pytest fixtures  #############################################################
 @pytest.fixture(autouse=True)
 def corpus():
-    load_corpus_tree([_SOURCE])
+    load_corpus_from_sources([_SOURCE])
 
 
 # pytest  ######################################################################
@@ -130,7 +132,7 @@ class TestCheckmark:
     def test_node_of_another_tree_rejected(_):
         node = get_corpus_node(*INTRO)
         clear_corpus_tree()
-        load_corpus_tree([_SOURCE])
+        load_corpus_from_sources([_SOURCE])
 
         with pytest.raises(ValueError, match="does not belong"):
             checkmark_nodes(create_blueprint(), node)

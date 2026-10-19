@@ -15,7 +15,7 @@ Kaye Engine parses a plain Markdown file, as the structured single source of tru
 - 🪽 Hermes export: write a Hermes home directory in one command: a root `SOUL.md`, one `SOUL.md` per profile, and every exportable as an Agent Skill
 - 🧩 Agent Skills export: write every exportable, or just the ones you name, as Agent Skill folders or `.zip`s
 - 🔄 Open WebUI sync: push every exportable into a running Open WebUI server as an Agent Skill, creating, updating, and (optionally) pruning to match
-- 🔌 pluggable mechanism, ready for a consumer package to register its identity (`register_consumer(...)`) and plug in its own corpus, abbreviations, and blueprints — including a Flask/HTTP surface, if the consumer chooses to build one
+- 🔌 pluggable mechanism: any number of consumer packages share one process, each registering its identity (`register_consumer(...)`), its corpus, abbreviations, and blueprints, and exporting as its own plugin under one `kaye-engine` marketplace
 
 
 
@@ -32,7 +32,7 @@ Kaye Engine parses a plain Markdown file, as the structured single source of tru
 
 ### 📄 Prompt Corpus
 
-The **Prompt Corpus** is a structured Markdown document that defines identity, roles, rules, styles, and references — the authoritative Source Of Truth used to generate prompts for different scenarios. `kaye-engine` does not bundle one itself; it only provides the parsing mechanism (`load_corpus_tree()` / `get_corpus_tree()`) that any caller uses to load — from an ordered list of file and/or literal-content sources — and hold the one corpus a process uses.
+The **Prompt Corpus** is a structured Markdown document that defines identity, roles, rules, styles, and references — the authoritative Source Of Truth used to generate prompts for different scenarios. `kaye-engine` does not bundle one itself; it only provides the parsing mechanism (`register_corpus_under_node()` / `load_corpus_tree()` / `get_corpus_tree()`) that callers use to register file and/or literal-content sources under nodes of the tree, then build and hold the one corpus a process uses.
 
 Q.v. [Prompt Corpus Format documentation](docs/corpus-doc.md) for the heading-to-tree mapping and full Markdown syntax.
 
@@ -160,3 +160,19 @@ Q.v. [Using Kaye Engine with Claude documentation](docs/claude-doc.md)
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+## Contributing
+
+Install a working copy with `pip install -e ".[dev]"` and run `pytest` scoped to the area you touch. Commands, conventions, and the test map for agents and contributors are in [AGENTS.md](AGENTS.md); the architecture, the registration policy every public API follows, and the domain model are in [CONTEXT.md](CONTEXT.md). Notable changes per release are in [CHANGELOG.md](CHANGELOG.md).

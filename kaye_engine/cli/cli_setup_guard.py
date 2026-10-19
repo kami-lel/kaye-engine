@@ -29,7 +29,7 @@ def check_corpus_setup_for_cli():
         logger.error(
             "no corpus tree loaded\n"
             "a consumer project should call "
-            "load_corpus_tree(sources) "
+            "register_corpus_under_node(...) and load_corpus_tree() "
             "before invoking this CLI"
         )
 

@@ -6,6 +6,7 @@ define `BlueprintRegistry`, `register_blueprint`, `blueprint_registry`
 
 from dataclasses import dataclass, replace
 
+from kaye_engine.consumer import check_consumer
 from kaye_engine.exportable import Exportable, register_exportable_entry
 
 from .data import Blueprint
@@ -17,6 +18,7 @@ __all__ = (
     "BlueprintRegistry",
     "blueprint_registry",
     "get_blueprint",
+    "override_exportable",
     "register_blueprint",
 )
 
@@ -112,6 +114,7 @@ def register_blueprint(
     llm_invokable=True,
     always_apply=False,
     render_profile=RenderProfile(),
+    consumer="",
 ):
     """
     create a `BlueprintRegistry` and insert it into `blueprint_registry`;
@@ -148,13 +151,18 @@ def register_blueprint(
             passes its own value explicitly; defaults to a plain
             `RenderProfile()`
     :type render_profile: RenderProfile, optional
+    :param consumer: canonical name of the registered consumer owning
+            the entry; required when ``is_exportable``, since its plugin
+            holds the skill
+    :type consumer: str, optional
     :raises ValueError: ``canonical_name`` is already registered, a
-            dependency name is not registered, or (while a corpus is
-            loaded) a node path is not in it
+            dependency name is not registered, an exportable names no
+            registered ``consumer``, or (while a corpus is loaded) a node
+            path is not in it
     :return: the created registry entry
     :rtype: BlueprintRegistry
     :example:
-    >>> register_blueprint("coder", coder_blueprint)
+    >>> register_blueprint("coder", coder_blueprint, consumer="some-pkg")
     >>> register_blueprint("chat", chat_blueprint, is_exportable=False)
     """
     if canonical_name in blueprint_registry:
@@ -163,6 +171,8 @@ def register_blueprint(
         )
 
     validate_blueprint(blueprint)
+    if is_exportable:
+        check_consumer(consumer)
 
     reg = BlueprintRegistry(
         canonical_name=canonical_name,
@@ -173,6 +183,7 @@ def register_blueprint(
         llm_invokable=llm_invokable,
         always_apply=always_apply,
         render_profile=render_profile,
+        consumer=consumer,
     )
     blueprint_registry[canonical_name] = reg
 
@@ -199,3 +210,86 @@ def get_blueprint(canonical_name):
         raise KeyError(
             "no blueprint registered under name: {}".format(canonical_name)
         ) from e
+
+
+def _check_no_cycle_through(blueprint, name):
+    """
+    :param blueprint: blueprint about to replace the one named ``name``
+    :type blueprint: Blueprint
+    :param name: the registered name being replaced
+    :type name: str
+    :raises ValueError: a transitive dependency of ``blueprint`` is
+            ``name`` itself
+    """
+    stack = [blueprint]
+    seen = set()
+    while stack:
+        current = stack.pop()
+        for dep in current.dependencies:
+            if isinstance(dep, Blueprint):
+                stack.append(dep)
+                continue
+            if dep == name:
+                raise ValueError(
+                    "dependency cycle detected at blueprint: {}".format(name)
+                )
+            if dep not in seen:
+                seen.add(dep)
+                stack.append(blueprint_registry[dep].blueprint)
+
+
+def override_exportable(
+    name, blueprint, *, consumer, render_profile=None, always_apply=None
+):
+    """
+    replace the exportable registered under ``name`` with ``blueprint``,
+    owned by ``consumer``: the one way a consumer takes over a skill
+    another consumer registered, which then sits in the overriding
+    consumer's plugin
+
+    blueprint, render profile and consumer change together, on the same
+    registry entry, so every registry holding it sees the new content; the
+    other export flags are kept, ``always_apply`` excepted when given
+
+
+    :param name: canonical name of the registered exportable to replace
+    :type name: str
+    :param blueprint: the replacement blueprint
+    :type blueprint: Blueprint
+    :param consumer: canonical name of the registered consumer taking the
+            skill over
+    :type consumer: str
+    :param render_profile: the entry's new default render settings;
+            ``None`` keeps the current ones
+    :type render_profile: RenderProfile, optional
+    :param always_apply: the entry's new ``always_apply`` flag; ``None``
+            keeps the current one
+    :type always_apply: bool, optional
+    :raises ValueError: ``name`` is not registered or not exportable,
+            ``consumer`` is not registered, ``blueprint`` names an
+            unregistered dependency or a path the loaded corpus lacks, or
+            it depends, however indirectly, on ``name`` itself; nothing
+            changes
+    :return: the updated registry entry
+    :rtype: BlueprintRegistry
+    :example:
+    >>> override_exportable("commit-sense", bp, consumer="some-pkg")
+    """
+    entry = blueprint_registry.get(name)
+    if entry is None or not entry.is_exportable:
+        raise ValueError(
+            "no exportable blueprint registered under name: {}".format(name)
+        )
+
+    check_consumer(consumer)
+    validate_blueprint(blueprint)
+    _check_no_cycle_through(blueprint, name)
+
+    entry.blueprint = blueprint
+    if render_profile is not None:
+        entry.render_profile = render_profile
+    entry.consumer = consumer
+    if always_apply is not None:
+        entry.always_apply = always_apply
+
+    return entry

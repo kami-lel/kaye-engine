@@ -18,6 +18,8 @@ from kaye_engine.prompt.prompt_corpus_loader import (
     load_corpus_tree,
 )
 
+from tests.corpus_helper import load_corpus_from_sources
+
 
 # auxiliaries  ##################################################################
 def _build_dn_parser():
@@ -51,7 +53,7 @@ class TestDynamicNodeMain:
     def test_uses_default_corpus_tree_preface_when_heading_authored(
         self, monkeypatch, capsys
     ):
-        load_corpus_tree(
+        load_corpus_from_sources(
             ["# (some-glossary)\nThis is the authored preface line.\n"]
         )
 
@@ -87,7 +89,7 @@ class TestDynamicNodeMain:
         # NODE arg instead of by the canonical NAME used to falsely
         # conclude no authored heading existed, so a second TodayNode
         # got attached alongside the real one and both rendered
-        load_corpus_tree(["# (today)\nThis is the authored Today preface.\n"])
+        load_corpus_from_sources(["# (today)\nThis is the authored Today preface.\n"])
 
         parser = _build_dn_parser()
         args = parser.parse_args(["dynamic-node", "today"])
@@ -100,7 +102,7 @@ class TestDynamicNodeMain:
     def test_falls_back_when_heading_not_authored_in_default_tree(
         self, monkeypatch, capsys
     ):
-        load_corpus_tree(["# Unrelated\nplain\n"])
+        load_corpus_from_sources(["# Unrelated\nplain\n"])
 
         parser = _build_dn_parser()
         args = parser.parse_args(["dynamic-node", "some-glossary"])
@@ -176,7 +178,7 @@ class TestMultipleNodes:  ######################################################
     def test_renders_every_given_node_in_one_merged_output(
         self, monkeypatch, capsys
     ):
-        load_corpus_tree(
+        load_corpus_from_sources(
             ["# (some-glossary)\nThis is the some-glossary preface line.\n"]
         )
 
@@ -193,7 +195,7 @@ class TestMultipleNodes:  ######################################################
     def test_renders_two_glossaries_sharing_one_corpus_tree(
         self, monkeypatch, capsys
     ):
-        load_corpus_tree(
+        load_corpus_from_sources(
             [
                 "# (some-glossary)\nThis is the some-glossary preface line.\n",
                 "# (other-glossary)\nThis is the other-glossary preface line.\n",
@@ -222,7 +224,7 @@ class TestSparsenessFlag:  #####################################################
 
     @pytest.fixture(autouse=True)
     def _two_glossaries(self, monkeypatch):
-        load_corpus_tree(
+        load_corpus_from_sources(
             [
                 "# (some-glossary)\nThis is the some-glossary preface line.\n",
                 "# (other-glossary)\nThis is the other-glossary preface line.\n",

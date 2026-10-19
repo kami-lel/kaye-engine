@@ -13,6 +13,8 @@ from unittest.mock import patch
 import kamilog
 import pytest
 
+from kaye_engine.consumer import Consumer
+
 from kaye_engine.cli import dry_run
 from kaye_engine.cli.claude.plugin import export_zip as plugin_export_zip
 from kaye_engine.cli.claude.plugin.manifest import ManifestPluginJson
@@ -151,12 +153,9 @@ class TestWritersUnderDryRun:
     def test_plugin_zip_creates_nothing(_, tmp_path, caplog):
         enable_dry_run()
         destination = tmp_path / "out"
-        with patch.object(
-            plugin_export_zip, "get_plugin_name", lambda: "plug"
-        ), patch.object(
-            plugin_export_zip, "get_consumer_version", lambda: "1"
-        ), caplog.at_level("DEBUG"):
-            plugin_export_zip.export_plugin_as_zip(destination)
+        consumer = Consumer("Plug", "plug", "1")
+        with caplog.at_level("DEBUG"):
+            plugin_export_zip.export_plugin_as_zip(destination, consumer)
 
         assert not destination.exists()
         assert "plug-1.zip" in caplog.text

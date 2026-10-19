@@ -11,7 +11,7 @@ define:
 import importlib.metadata
 from datetime import datetime
 
-from kaye_engine import PACKAGE_NAME
+from kaye_engine import KAYE_ENGINE_DISPLAY_NAME, PACKAGE_NAME
 
 from .util import REPLACEMENT_NEWLINE_SYMBOL
 
@@ -71,7 +71,9 @@ def get_default_comment_lines(display_name=""):
     lines = []
     if display_name:
         lines.append("blueprint: {}".format(display_name))
-    lines.append("Kaye Engine v{}".format(kaye_version))
+    lines.append(
+        "{} v{}".format(KAYE_ENGINE_DISPLAY_NAME, kaye_version)
+    )
     return lines
 
 

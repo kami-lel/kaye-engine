@@ -14,6 +14,8 @@ from kaye_engine.prompt.blueprint.render_profile import RenderProfile
 from kaye_engine.prompt.blueprint.selection import bind_selection
 from kaye_engine.prompt.prompt_corpus_loader import load_corpus_tree
 
+from tests.corpus_helper import load_corpus_from_sources
+
 _SOURCE = """# Title
 
 <!--
@@ -38,7 +40,7 @@ TITLE = ("Title",)
 
 
 def _body():
-    tree = load_corpus_tree([_SOURCE])
+    tree = load_corpus_from_sources([_SOURCE])
     return list(tree.children[0].content_lines())
 
 
@@ -66,7 +68,7 @@ class TestRenderedComment:
 
     @pytest.mark.parametrize("show_comment", [True, False])
     def test_only_generated_comment_renders(_, show_comment):
-        load_corpus_tree([_SOURCE.split("```md")[0]])
+        load_corpus_from_sources([_SOURCE.split("```md")[0]])
         selection = bind_selection(Blueprint(nodes=frozenset({TITLE})))
         lines = render_prompt_lines(
             selection,

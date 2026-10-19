@@ -88,6 +88,7 @@ class ExportableAbbr(list, Exportable):  #######################################
         display_name="",
         is_user_invokable=False,
         llm_invokable=True,
+        consumer="",
     ):
         list.__init__(self, entries)
         Exportable.__init__(
@@ -96,6 +97,7 @@ class ExportableAbbr(list, Exportable):  #######################################
             display_name=display_name,
             is_user_invokable=is_user_invokable,
             llm_invokable=llm_invokable,
+            consumer=consumer,
         )
 
     def content(self, **_kwargs):
@@ -127,13 +129,18 @@ def _sort_entries(entries):
 
 
 def _make_group(
-    display_name, entries, canonical_name=None, is_user_invokable=False
+    display_name,
+    entries,
+    canonical_name=None,
+    is_user_invokable=False,
+    consumer=None,
 ):
     return ExportableAbbr(
         entries,
         canonical_name=canonical_name or _to_skill_name(display_name),
         display_name=display_name,
         is_user_invokable=is_user_invokable,
+        consumer=_abbr_group_consumer if consumer is None else consumer,
     )
 
 
@@ -155,7 +162,10 @@ def _get_abbrs_by_glossaries(abbr_data):
                 e for e in abbr_data.abbrs if glossary_name in e.glossaries
             ),
             canonical_name="glossary-" + glossary_name,
-            is_user_invokable=abbr_glossary_registry[glossary_name].is_user_invokable,
+            is_user_invokable=abbr_glossary_registry[
+                glossary_name
+            ].is_user_invokable,
+            consumer=abbr_glossary_registry[glossary_name].consumer,
         )
         for glossary_name in sorted(abbr_glossary_registry)
         if abbr_glossary_registry[glossary_name].is_exportable
@@ -201,7 +211,40 @@ def _get_abbrs_by_first_char(abbrs):
     return result
 
 
+# consumer owning the tag, wrap and first-char groups; "" until claimed
+_abbr_group_consumer = ""
+
+
 # Public API  ##################################################################
+def set_abbr_group_consumer(canonical_name):
+    """
+    name the consumer owning the abbr tag, wrap and first-char groups,
+    built from the merged data of every consumer; until named, those
+    groups are not exported -- a ``glossary-*`` group always belongs to
+    its glossary's consumer
+
+
+    :param canonical_name: a registered consumer
+    :type canonical_name: str
+    :raises ValueError: no consumer is registered under
+            ``canonical_name``, or the groups are already claimed
+    """
+    global _abbr_group_consumer  # pylint: disable=global-statement
+
+    # pylint: disable-next=import-outside-toplevel
+    from kaye_engine.consumer import check_consumer
+
+    check_consumer(canonical_name)
+    if _abbr_group_consumer:
+        raise ValueError(
+            "abbr groups already claimed by consumer: {}".format(
+                _abbr_group_consumer
+            )
+        )
+    _abbr_group_consumer = canonical_name
+    register_exportable_abbrs()
+
+
 def get_exportable_abbrs():
     """
     build every exportable abbreviation group, computed fresh on each
@@ -230,15 +273,26 @@ def register_exportable_abbrs():
     """
     register every exportable abbreviation group (see
     :func:`get_exportable_abbrs`) into `exportable_registry`, replacing
-    any previously-registered group under the same key -- unlike
+    any previously-registered abbr group under the same key -- unlike
     blueprints, which register once, abbr groups are recomputed fresh
     each call, so a stale entry from an earlier abbr data state must
-    not linger
+    not linger; a group whose consumer is not yet named is left out
 
 
+    :raises ValueError: a group's name is held by an exportable that is
+            not an abbr group
     :example:
     >>> register_exportable_abbrs()
     """
     for group in get_exportable_abbrs():
+        if not group.consumer:
+            continue
+        held = exportable_registry.get(group.canonical_name)
+        if held is not None and not isinstance(held, ExportableAbbr):
+            raise ValueError(
+                "abbr group {!r} collides with a registered exportable".format(
+                    group.canonical_name
+                )
+            )
         exportable_registry.pop(group.canonical_name, None)
         register_exportable_entry(group)

@@ -29,6 +29,10 @@ from kaye_engine.prompt.prompt_corpus_loader import (
     load_corpus_tree,
 )
 
+from tests.corpus_helper import load_corpus_from_sources
+
+from tests.consumer_helper import TEST_CONSUMER
+
 
 @pytest.fixture
 def registered_names():
@@ -41,7 +45,7 @@ def registered_names():
 @pytest.fixture
 def empty_corpus():
     clear_corpus_tree()
-    root = load_corpus_tree([])
+    root = load_corpus_from_sources([])
     yield root
     clear_corpus_tree()
 
@@ -51,6 +55,7 @@ def _dummy_blueprint_registry(canonical_name, empty_corpus, **kwargs):
         canonical_name=canonical_name,
         display_name="Test " + canonical_name,
         blueprint=create_blueprint(),
+        consumer=TEST_CONSUMER,
         **kwargs,
     )
 
@@ -187,7 +192,7 @@ class TestNegativeContent:  ####################################################
     @pytest.fixture(autouse=True)
     def _avoid_corpus(_):
         clear_corpus_tree()
-        load_corpus_tree(["# Main\nMain content.\n## {avoid}\nDo not do this.\n"])
+        load_corpus_from_sources(["# Main\nMain content.\n## {avoid}\nDo not do this.\n"])
         yield
         clear_corpus_tree()
 
