@@ -18,7 +18,6 @@ from kaye_engine.prompt.blueprint.data import (
 from kaye_engine.prompt.blueprint.edit import replace_meta
 from kaye_engine.prompt.blueprint.registry import (
     BlueprintRegistry,
-    register_blueprint,
     blueprint_registry,
 )
 from kaye_engine.prompt.blueprint.render_mode import RenderMode
@@ -27,6 +26,10 @@ from kaye_engine.prompt.prompt_corpus_loader import (
     clear_corpus_tree,
     load_corpus_tree,
 )
+
+from tests.corpus_helper import load_corpus_from_sources
+
+from tests.consumer_helper import register_blueprint
 
 
 @pytest.fixture
@@ -287,7 +290,7 @@ class TestRegisterValidation:  #################################################
 
     def test_unknown_path_fails_while_corpus_loaded(_):
         clear_corpus_tree()
-        load_corpus_tree(["# A\n"])
+        load_corpus_from_sources(["# A\n"])
         bp = Blueprint(nodes=frozenset({("A", "Nope")}))
 
         with pytest.raises(ValueError, match="Nope"):
@@ -301,7 +304,7 @@ class TestRegisterValidation:  #################################################
 
     def test_known_path_is_accepted(_, registered_names):
         clear_corpus_tree()
-        load_corpus_tree(["# A\n"])
+        load_corpus_from_sources(["# A\n"])
 
         reg = register_blueprint(
             "test-registry-goodpath",

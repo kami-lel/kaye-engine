@@ -6,7 +6,9 @@ so it runs at collection time, before any test module (some of which
 build ``AbbrData`` at class-body scope) is imported
 """
 
-from kaye_engine.abbr_collection import register_abbr_glossary
+from tests.consumer_helper import ensure_test_consumer, register_abbr_glossary
+
+ensure_test_consumer()
 
 for _glossary_name in (
     "coding-terms",

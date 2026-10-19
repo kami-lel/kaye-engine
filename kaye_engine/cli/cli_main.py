@@ -5,7 +5,7 @@ main parser for Kaye Python CLI
 from argparse import ArgumentParser
 from importlib.metadata import version
 
-from kaye_engine import PACKAGE_NAME
+from kaye_engine import KAYE_ENGINE_DISPLAY_NAME, PACKAGE_NAME
 from kaye_engine.cli.blueprint.main_parser import register_cli_blueprint_parser
 from kaye_engine.cli.claude.main import register_cli_claude_parser
 from kaye_engine.cli.continue_ai.parser import register_continue_parser
@@ -36,6 +36,10 @@ __all__ = ("register_cli_main_parser", "register_cli_subcommands")
 
 # constants  ###################################################################
 PROGRAM_NAME = "kaye-engine"
+DESCRIPTION = (
+    KAYE_ENGINE_DISPLAY_NAME
+    + " CLI: compile a Markdown prompt corpus into agent skills"
+)
 
 
 # Public API  ##################################################################
@@ -72,21 +76,27 @@ def register_cli_subcommands(cli_subparser):
 
 
 # Main Entry Point  ############################################################
-def register_cli_main_parser(program_name=PROGRAM_NAME):
+def register_cli_main_parser(
+    package_name=PACKAGE_NAME, program_name=PROGRAM_NAME
+):
     """
     build the top-level Kaye CLI parser and register its subcommands
 
-    :param program_name: name shown as the CLI's ``prog`` in ``--help``
-            output
+    every console script built on this parser shows the same ``--help``
+    text; only the usage line and ``--version`` name the given package
+
+    :param package_name: distribution whose version ``--version`` prints
+    :type package_name: str
+    :param program_name: name shown as the CLI's ``prog`` in the usage line
     :type program_name: str
     :return: top-level parser and its subparsers action
     :rtype: tuple(ArgumentParser, argparse._SubParsersAction)
     """
-    parser = ArgumentParser(prog=program_name, description=__doc__)
+    parser = ArgumentParser(prog=program_name, description=DESCRIPTION)
     parser.add_argument(
         "--version",
         action="version",
-        version=str(version(PACKAGE_NAME)),
+        version=str(version(package_name)),
     )
     parser.set_defaults(func=lambda _: parser.print_help())
     subparser = parser.add_subparsers(title="subcommands")

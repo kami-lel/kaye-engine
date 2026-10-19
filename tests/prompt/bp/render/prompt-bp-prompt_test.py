@@ -29,6 +29,8 @@ from kaye_engine.prompt.blueprint.render_mode import RenderMode
 from kaye_engine.prompt.blueprint.render_profile import RenderProfile
 from kaye_engine.prompt.prompt_corpus_loader import load_corpus_tree
 
+from tests.corpus_helper import load_corpus_from_sources
+
 _SOURCE = """# Some
 Intro line.
 ## Prompt
@@ -47,7 +49,7 @@ OTHER = ("Some", "Other")
 # pytest fixtures  #############################################################
 @pytest.fixture(autouse=True)
 def corpus():
-    load_corpus_tree([_SOURCE])
+    load_corpus_from_sources([_SOURCE])
 
 
 @pytest.fixture

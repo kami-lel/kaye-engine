@@ -13,6 +13,8 @@ import pytest
 
 from kaye_engine.prompt.prompt_corpus_loader import load_corpus_tree
 
+from tests.corpus_helper import load_corpus_from_sources
+
 
 # pytest fixtures  #############################################################
 @pytest.fixture(scope="session")
@@ -30,7 +32,7 @@ Licensed under the MIT License.
 """)
 
     with patch("builtins.open", m):
-        return load_corpus_tree(
+        return load_corpus_from_sources(
             [Path("dummy-path-1.md")]
         )
 
@@ -60,7 +62,7 @@ This project is licensed under the MIT License.
 """)
 
     with patch("builtins.open", m):
-        return load_corpus_tree(
+        return load_corpus_from_sources(
             [Path("dummy-path-2.md")]
         )
 
@@ -99,7 +101,7 @@ Summarizing the findings and implications.
 """)
 
     with patch("builtins.open", m):
-        return load_corpus_tree(
+        return load_corpus_from_sources(
             [Path("dummy-path-3.md")]
         )
 
@@ -113,7 +115,7 @@ class TestParse1:  # ===========================================================
 
         assert prompt_tree1.depth == 0
         assert prompt_tree1.parent is None
-        assert prompt_tree1._content_lines == [""]
+        assert prompt_tree1._content_lines == []  # blank leading content is dropped
 
     def test_project(self, prompt_tree1):
         project = prompt_tree1.children[0]
@@ -171,7 +173,7 @@ class TestParse2:  # ===========================================================
 
         assert prompt_tree2.depth == 0
         assert prompt_tree2.parent is None
-        assert prompt_tree2._content_lines == [""]
+        assert prompt_tree2._content_lines == []  # blank leading content is dropped
 
     def test_project(self, prompt_tree2):
         project = prompt_tree2.children[0]
@@ -256,7 +258,7 @@ class TestParse3:  # ===========================================================
     def test_root(self, prompt_tree3):
         assert prompt_tree3.depth == 0
         assert prompt_tree3.parent is None
-        assert prompt_tree3._content_lines == [""]
+        assert prompt_tree3._content_lines == []  # blank leading content is dropped
 
     def test_project(self, prompt_tree3):
         project = prompt_tree3.children[0]

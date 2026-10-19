@@ -15,7 +15,12 @@ from kaye_engine.prompt.blueprint.index import get_corpus_index
 from kaye_engine.prompt.blueprint.render.lines import render_prompt_lines
 from kaye_engine.prompt.blueprint.render_profile import RenderProfile
 from kaye_engine.prompt.blueprint.selection import bind_selection
-from kaye_engine.prompt.prompt_corpus_loader import load_corpus_tree
+from kaye_engine.prompt.prompt_corpus_loader import (
+    clear_corpus_tree,
+    load_corpus_tree,
+)
+
+from tests.corpus_helper import load_corpus_from_sources
 
 _SOURCE = """# Project Title
 ## Description
@@ -40,7 +45,7 @@ SIDECAR = (*LICENSE, "{description}")
 # pytest fixtures  #############################################################
 @pytest.fixture(autouse=True)
 def corpus():
-    load_corpus_tree([_SOURCE])
+    load_corpus_from_sources([_SOURCE])
 
 
 def _render(*paths, **profile_kwargs):
@@ -175,3 +180,30 @@ class TestSidecarsSpliced:
         assert "Sidecar text." not in _render(
             DESC, conditional_sidecars=("description",)
         )
+
+
+class TestTagBlockExemptFromSparseness:
+
+    _TAG_SOURCE = (
+        "# Doc\n\n<some-tag>\naaa\n\n\n\naaa\n</some-tag>\n\n\n\nend\n"
+    )
+    _BLOCK = ["<some-tag>", "aaa", "", "", "", "aaa", "</some-tag>"]
+
+    def test_load_collapse_spares_tag_block_not_outside(_):
+        clear_corpus_tree()
+        load_corpus_from_sources([_._TAG_SOURCE])
+        lines = _render(("Doc",), sparseness=99)
+        start = lines.index("<some-tag>")
+        assert lines[start : start + len(_._BLOCK)] == _._BLOCK
+
+    def test_sparseness_zero_keeps_tag_block_blank_lines(_):
+        clear_corpus_tree()
+        load_corpus_from_sources([_._TAG_SOURCE])
+        lines = _render(("Doc",), sparseness=0)
+        assert lines == ["# Doc", *_._BLOCK, "end"]
+
+    def test_sparseness_minus_one_joins_without_touching_block(_):
+        clear_corpus_tree()
+        load_corpus_from_sources([_._TAG_SOURCE])
+        opt = _render(("Doc",), sparseness=-1)
+        assert "↵".join(_._BLOCK) in opt[0]

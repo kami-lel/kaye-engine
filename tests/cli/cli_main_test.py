@@ -65,6 +65,7 @@ class TestRegisterCliMainParser:
             program_name="my-program"
         )
         assert parser.prog == "my-program"
+        assert "Kaye Engine CLI: " in parser.format_help()
 
     def test_subcommands_still_registered(_):
         parser, _subparser = register_cli_main_parser()

@@ -14,7 +14,9 @@ from kaye_engine.cli.hermes.setup import (
     get_hermes_profile_blueprint_names,
     get_hermes_soul_blueprint_name,
 )
-from kaye_engine.consumer import get_consumer_canonical_name
+from kaye_engine.cli.claude.plugin_marketplace_name import (
+    get_plugin_consumers,
+)
 from kaye_engine.prompt.blueprint import blueprint_registry
 from kaye_engine.skill.export_folders import export_skills_as_folders
 
@@ -61,25 +63,23 @@ def _write_soul(path, blueprint_name, render_profile):
 # entry point  #################################################################
 
 
-def export_hermes_folder(folder, *, version, render_profile=None):
+def export_hermes_folder(folder, *, render_profile=None):
     """
-    export the vault into a Hermes home directory
+    export the registered prompts into a Hermes home directory
 
     writes the root ``SOUL.md``, one ``profiles/<name>/SOUL.md`` per
     configured profile, and every exportable as a skill folder under
-    ``skills/<category>/``; configured by ``setup_hermes_cli(...)``
+    ``skills/<consumer>/``, one per consumer holding any; configured by
+    ``setup_hermes_cli(...)``
 
 
     :param folder: Hermes home directory
     :type folder: Path-like
-    :param version: installed package version, stamped into every skill
-    :type version: str
     :param render_profile: render options forwarded to every render
     :type render_profile: RenderProfile, optional
     :raises SystemExit: exit code 1, when no consumer project has called
             ``setup_hermes_cli(...)`` or a file cannot be written
     """
-    category = get_consumer_canonical_name()
     soul_name = get_hermes_soul_blueprint_name()
     profile_names = get_hermes_profile_blueprint_names()
 
@@ -93,8 +93,10 @@ def export_hermes_folder(folder, *, version, render_profile=None):
             blueprint_name,
             render_profile,
         )
-    export_skills_as_folders(
-        folder / SKILLS_SUBFOLDER / category,
-        version=version,
-        render_profile=render_profile,
-    )
+    for consumer in get_plugin_consumers():
+        export_skills_as_folders(
+            folder / SKILLS_SUBFOLDER / consumer.canonical_name,
+            version=consumer.version,
+            render_profile=render_profile,
+            consumer=consumer.canonical_name,
+        )

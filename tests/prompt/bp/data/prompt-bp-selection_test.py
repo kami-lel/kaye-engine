@@ -23,6 +23,8 @@ from kaye_engine.prompt.prompt_corpus_loader import (
     load_corpus_tree,
 )
 
+from tests.corpus_helper import load_corpus_from_sources
+
 _SOURCE = """# Main
 ## Intro
 ### Background
@@ -45,7 +47,7 @@ CONCLUSION = ("Conclusion",)
 # pytest fixtures  #############################################################
 @pytest.fixture(autouse=True)
 def corpus():
-    load_corpus_tree([_SOURCE])
+    load_corpus_from_sources([_SOURCE])
 
 
 @pytest.fixture
@@ -113,7 +115,7 @@ class TestBind:
         before = _bits(bind_selection(bp))
 
         clear_corpus_tree()
-        load_corpus_tree([_SOURCE.replace("### {description}", "### New")])
+        load_corpus_from_sources([_SOURCE.replace("### {description}", "### New")])
         after = _bits(bind_selection(bp))
 
         assert before == {INTRO, BACK}
@@ -144,7 +146,7 @@ class TestBind:
         first = bind_selection(bp)
 
         clear_corpus_tree()
-        load_corpus_tree([_SOURCE])
+        load_corpus_from_sources([_SOURCE])
 
         assert bind_selection(bp) is not first
 

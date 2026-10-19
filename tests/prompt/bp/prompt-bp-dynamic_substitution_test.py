@@ -6,15 +6,47 @@ Unit Tests (using pytest) for: apply_dynamic_substitutions
 
 import logging
 
+import pytest
+
 from kaye_engine import LOGGER_NAME
 from kaye_engine.abbr_collection.abbr_data import _abbr_data
 from kaye_engine.abbr_collection.abbr_meaning import AbbrMeaning
 from kaye_engine.prompt.blueprint.dynamic_substitution import (
+    StringDynamicSubstitution,
     apply_dynamic_substitutions,
+    dynamic_substitution_registry,
+    register_dynamic_substitution,
 )
 
 
 # pytest  ######################################################################
+class TestRegister:
+
+    @pytest.fixture(autouse=True)
+    def _cleanup(_):
+        yield
+        dynamic_substitution_registry.pop("dup-sub", None)
+
+    def test_registers_under_name(_):
+        sub = StringDynamicSubstitution("x")
+        register_dynamic_substitution("dup-sub", sub)
+
+        assert dynamic_substitution_registry["dup-sub"] is sub
+
+    def test_duplicate_name_raises(_):
+        register_dynamic_substitution("dup-sub", StringDynamicSubstitution("a"))
+
+        with pytest.raises(ValueError, match="dup-sub"):
+            register_dynamic_substitution(
+                "dup-sub", StringDynamicSubstitution("b")
+            )
+        assert dynamic_substitution_registry["dup-sub"].content == "a"
+
+    def test_non_substitution_raises(_):
+        with pytest.raises(TypeError):
+            register_dynamic_substitution("dup-sub", "plain text")
+
+
 class TestNoPlaceholder:
 
     def test_returns_text_unchanged(_):

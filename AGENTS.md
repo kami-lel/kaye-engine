@@ -10,14 +10,19 @@ Read this file alongside `CONTEXT.md` before making changes, and follow the
 exact commands and conventions below.
 
 **kaye-engine ships mechanism only.** It bundles no prompt corpus, no
-abbreviation database, and no blueprint registrations — a consumer package
-such as `kaye-vault` supplies all three. Never add that content here to make
-something work; fix the mechanism or fix the consumer.
+abbreviation database, and no blueprint registrations — consumer packages
+supply all three. Never add that content here to make something work; fix
+the mechanism or fix the consumer.
 
 **kaye-engine is consumed by multiple projects.** Never name any specific
 consumer project anywhere in this repository's content (code, comments,
 docs, or tests) — doing so would leak one consumer's identity into a
 mechanism meant to stay consumer-agnostic.
+
+**Several consumers may share one process.** Every public registering API
+declares one policy (additive, guarded, or entry-point) in the
+`CONTEXT.md` Registration Policy table; a new API takes a row there in the
+same change, and none overwrites silently.
 
 ## Setup
 
@@ -38,7 +43,7 @@ merge.
 
 | changed source | test scope |
 |---|---|
-| `kaye_engine/prompt/` | `tests/prompt/` (`tests/prompt/tree/` for the loader, `tests/prompt/index/` for `CorpusIndex`, `tests/prompt/bp/data/` for `Blueprint` and its functions) |
+| `kaye_engine/prompt/` | `tests/prompt/` (`tests/prompt/tree/` for the loader, `tests/prompt/index/` for `CorpusIndex`, `tests/prompt/bp/data/` for `Blueprint` and its functions, `prompt-md_comment_test.py` and `prompt-md_fence_test.py` for the line helpers) |
 | `kaye_engine/prompt/blueprint/render/` | `tests/prompt/`, plus `tests/cli/export_image_prompt_parser_test.py` (asserts rendered negative-prompt text) |
 | `kaye_engine/abbr_collection/` | `tests/abbr/` |
 | `kaye_engine/cli/` | `tests/cli/` |
@@ -50,6 +55,8 @@ merge.
 | `kaye_engine/cli/claude/skills/` | `tests/cli/cli_main_test.py`, `tests/cli/dry_run_test.py` |
 | `kaye_engine/skill/` | `tests/skill/`, plus `tests/cli/open_webui/skill_form_test.py` (reads `Skill`) |
 | `kaye_engine/exportable/` | `tests/exportable_test.py`, `tests/image_prompt_export_test.py` |
+| `kaye_engine/consumer.py` | `tests/consumer_test.py`, `tests/cli/claude/plugin_consumers_test.py`, `tests/cli/exportable_abbr_consumer_test.py` |
+| `kaye_engine/deed.py` | `tests/deed_test.py` |
 
 ```bash
 pytest tests/prompt/
@@ -58,11 +65,19 @@ pytest tests/prompt/bp/data/prompt-bp-edit_test.py
 pytest tests/prompt/bp/data/prompt-bp-edit_test.py::TestCreateFromNode
 ```
 
-`tests/cli/` covers only what runs without a vault-sized corpus — the setup guard,
+`tests/cli/` covers only what runs without a full-sized corpus — the setup guard,
 exportable-abbr registration, `dynamic-node` parsing, and `SKILL.md`
 rendering. The exporters themselves need a corpus to produce output, so the
 consumer package's suite covers those; do not scaffold corpus fixtures here
-to widen the directory. Known test gaps are tracked in `CONTEXT.md`.
+to widen the directory.
+
+Test fixtures go through the shared helpers, never the raw APIs:
+
+- `tests/consumer_helper.py`: `register_blueprint` and
+  `register_abbr_glossary` bound to `TEST_CONSUMER`, plus
+  `isolated_consumers()` for a test that registers its own consumers
+- `tests/corpus_helper.py`: `load_corpus_from_sources(sources)` registers
+  each source under the root, then loads the tree
 
 **Do not parallelize** — no `pytest-xdist`, no `-n auto`. The suite is
 already fast, worker startup cancels out any gain, and splitting across
@@ -172,18 +187,21 @@ rendered output: `-1` joins everything into one line, `0` strips all
 blank lines, `1` collapses every run to a single blank line, up through
 `99` which disables trimming entirely. The default lives in
 `DEFAULT_SPARSENESS` (`kaye_engine/cli/__init__.py`) unless a caller
-overrides it. Blank lines inside a fenced code block are never collapsed
-or stripped by any sparseness level, including `-1`.
+overrides it. Blank lines inside a fenced code block or a tag block
+(`<name>` to `</name>`, each on its own line) are never collapsed or
+stripped by any sparseness level, including `-1`.
 
 `claude vs-code-extension` also writes `permissions` (`allow`/`ask`/`deny`
 Bash command patterns) into `settings.json`, sourced from
 `kaye_engine/cli/claude/permission_cmds.jsonc` (parsed with `json5`, so
 comments are allowed).
 
-Every `claude` and `hermes` subcommand needs a consumer to call
-`register_consumer(display_name, canonical_name, version)` first; `claude`
-also needs `setup_claude_cli(...)` and `hermes` needs
-`setup_hermes_cli(...)`, none with a default. On a bare checkout the
+Every `claude` and `hermes` subcommand needs each consumer package to call
+`register_consumer(display_name, canonical_name, version)` and the
+console command's setup to call `set_entry_consumer(canonical_name)`
+first; `claude` also needs `setup_claude_cli(...)` and `hermes` needs
+`setup_hermes_cli(...)`, whose names are optional: a subcommand needing an
+unset one exits 1 with a clear message. On a bare checkout the
 getters log `logger.critical` and raise `SystemExit(1)`: expected, not a
 bug. Getter list in `CONTEXT.md`.
 
@@ -213,9 +231,17 @@ package, not a bare checkout.
 `register_blueprint()` in `kaye_engine/prompt/blueprint/registry.py` is the
 only gate — every exporter reads `blueprint_registry` directly. **Calls
 live in the consumer package**, not here. The signature is
-`register_blueprint(canonical_name, blueprint, *, display_name="", ...)`: the
-entry's name is `blueprint.meta.display_name`, and `display_name=` only backs
-it when the meta name is empty.
+`register_blueprint(canonical_name, blueprint, *, display_name="",
+consumer="", ...)`: the entry's name is `blueprint.meta.display_name`, and
+`display_name=` only backs it when the meta name is empty. An exportable
+entry must name a registered `consumer=`, with no fallback; the consumer
+decides which plugin the skill lands in.
+
+A consumer replaces another consumer's exportable only through
+`override_exportable(name, blueprint, *, consumer, render_profile=None,
+always_apply=None)`; never reassign `.blueprint` or `.consumer` on a
+registry entry from a consumer package, since that skips the dependency,
+path, and cycle checks.
 
 Export policy — one gate plus four independent flags, no allow-list
 constant:
@@ -268,7 +294,27 @@ module builds `AbbrData`. Register a new glossary there when adding one.
 After meaningful changes, keep these in sync:
 
 - `README.md` — human-facing overview and quick start
-- `docs/` — one file per topic; update the one a change touches
-- `CONTEXT.md` — architecture, entities, boundaries
+- `CONTEXT.md` — architecture, entities, boundaries; a new registering API
+  takes a row in its Registration Policy table
+- `docs/` — one file per topic; update the one a change touches:
+  - the corpus Markdown format and `register_corpus_under_node` rules:
+    [docs/corpus-doc.md](docs/corpus-doc.md)
+  - the `prompt` module, blueprints, and the blueprint registry:
+    [docs/prompt-doc.md](docs/prompt-doc.md)
+  - `exportable_registry`, export flags, and `override_exportable`:
+    [docs/exportable-registry-doc.md](docs/exportable-registry-doc.md)
+  - abbreviation entries, layered files, and glossaries:
+    [docs/abbrs-doc.md](docs/abbrs-doc.md)
+  - dynamic nodes and `(((name)))` substitutions:
+    [docs/dynamic-content-doc.md](docs/dynamic-content-doc.md)
+  - sidecars, affordances, and variants:
+    [docs/sidecar-doc.md](docs/sidecar-doc.md)
+  - `RenderProfile`, render modes, surfaces, and the shared render flags:
+    [docs/render-profile-doc.md](docs/render-profile-doc.md)
+  - the `claude` subcommands and per-consumer plugins:
+    [docs/claude-doc.md](docs/claude-doc.md)
+  - the `continue` export: [docs/continue-doc.md](docs/continue-doc.md)
+  - the `hermes` export: [docs/hermes-doc.md](docs/hermes-doc.md)
+  - the Open WebUI sync: [docs/open-webui-doc.md](docs/open-webui-doc.md)
 - `CHANGELOG.md` — record notable changes per release
 - this `AGENTS.md` — update agent-specific rules as structure evolves

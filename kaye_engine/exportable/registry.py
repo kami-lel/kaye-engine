@@ -22,18 +22,28 @@ def register_exportable_entry(exportable):
 
     :param exportable: entry to register
     :type exportable: Exportable
-    :raises ValueError: `canonical_name` is already registered
+    :raises ValueError: `canonical_name` is already registered, or
+            `consumer` names no registered consumer
     :return: ``exportable``, unchanged
     :rtype: Exportable
     :example:
     >>> register_exportable_entry(my_exportable)
     """
+    # pylint: disable-next=import-outside-toplevel
+    from kaye_engine.consumer import check_consumer
+
     if exportable.canonical_name in exportable_registry:
         raise ValueError(
             "duplicate exportable registry name: {}".format(
                 exportable.canonical_name
             )
         )
+    try:
+        check_consumer(exportable.consumer)
+    except ValueError as err:
+        raise ValueError(
+            "exportable {!r}: {}".format(exportable.canonical_name, err)
+        ) from err
 
     exportable_registry[exportable.canonical_name] = exportable
 

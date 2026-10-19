@@ -47,10 +47,15 @@ class Exportable(ABC):
             merged with any caller-supplied profile rather than
             replaced by it; defaults to a plain `RenderProfile()`
     :type render_profile: RenderProfile, optional
+    :param consumer: canonical name of the registered consumer owning
+            this entry, whose plugin holds it; ``""`` for an entry never
+            exported
+    :type consumer: str, optional
     """
 
     canonical_name: str
     display_name: str = ""
+    consumer: str = ""
     is_user_invokable: bool = True
     llm_invokable: bool = True
     always_apply: bool = False

@@ -17,6 +17,8 @@ from kaye_engine.prompt.prompt_corpus_loader import (
 )
 from kaye_engine.prompt.prompt_corpus_node import PromptCorpusNode
 
+from tests.corpus_helper import load_corpus_from_sources
+
 
 @pytest.fixture(scope="session", autouse=True)
 def _loaded_abbr_data():
@@ -179,6 +181,6 @@ Licensed under the MIT License.
 """)
 
     with patch("builtins.open", m):
-        return load_corpus_tree(
+        return load_corpus_from_sources(
             [Path("dummy-path.md")]
         )
