@@ -1,8 +1,8 @@
 # Kaye Engine: Prompt Corpus Format
 
-The **prompt corpus** is the authoritative Source of Truth for an agent's identity, roles, rules, styles, and references. It is a logical Markdown document, no longer tied to one file: `load_corpus_tree(sources)` concatenates an ordered list of sources, each a literal `str` or a `Path` to a Markdown file, and parses the result into a **prompt tree**. The parsed result reads as one continuous Markdown document, wherever its pieces came from.
+The **prompt corpus** is the authoritative Source of Truth for an agent's identity, roles, rules, styles, and references. It is a logical Markdown document assembled from many sources: each source, a literal `str` or a `Path` to a Markdown file, is registered under a node of the tree with `register_corpus_under_node(node_path, source)`, and `load_corpus_tree()` parses every source on its own and grafts it under its node, building one **prompt tree**.
 
-`kaye-engine` bundles no corpus of its own — a consumer package supplies and loads the real content.
+`kaye-engine` bundles no corpus of its own — consumer packages supply and register the real content, several of them in one process if need be.
 
 
 
@@ -45,26 +45,49 @@ the first heading belongs to the synthetic root.
 
 ### Sources
 
-`load_corpus_tree(sources)` takes an ordered list, and each entry is either:
+`register_corpus_under_node(node_path, source)` records one source under one
+target node; nothing is read until `load_corpus_tree()`.
 
-- `str`: literal corpus content, used as given
-- `Path`: a Markdown file, read from disk as UTF-8
+- `node_path`: tuple of headings from the root; `()` is the root; a bare `str`
+  without `/` or `.md` is a one-heading path, so `"a"` means `("a",)`
+- `source`: a `Path` to a Markdown file, read as UTF-8, or a literal `str`; a
+  `str` ending in `.md` raises, since it reads like a file name passed as text
 
-Entries are joined in list order, separated by a blank line, into one logical
-document before parsing, so a `##` heading at the start of one source nests under
-the last `#` heading of the previous one. See
-[Creating a Tree](prompt-doc.md#creating-a-tree) for the loader API.
+A source's top headings sit exactly one level below its target: `#` under the
+root, `###` under a `## a` node. Text before a source's first heading is
+appended to the target's own content, after one blank line.
 
 ```python
 from pathlib import Path
 
-from kaye_engine.prompt import load_corpus_tree
+from kaye_engine.prompt import load_corpus_tree, register_corpus_under_node
 
-load_corpus_tree([
-    Path("corpus/identity.md"),
-    "# Extra\ncontent supplied as a literal string",
-])
+register_corpus_under_node((), Path("corpus/a.md"))  # "# a" ...
+register_corpus_under_node(("a",), "### b\ncontent of b")
+load_corpus_tree()
 ```
+
+```mermaid
+graph TD
+  R["○ root"] --> A["# a (corpus/a.md)"]
+  A --> B["## b (literal source)"]
+```
+
+`load_corpus_tree()` builds the tree in passes: each pass grafts, in
+registration order, every source whose target already exists, until none is
+left. Sources may therefore register in any order; only the order of siblings
+under one node follows registration order. Each source is cleaned on its own,
+so a fence, tag block, or unclosed comment never reaches another source.
+
+| Case | Result |
+| --- | --- |
+| target path never appears | `ValueError` naming the path and source |
+| top headings too deep or too shallow for the target | `ValueError` naming the source |
+| 2 siblings share a heading, within or across sources | `ValueError` naming both sources |
+| target is a `{sidecar}` or `(dynamic)` node | `ValueError` at registration |
+| registering after the tree is loaded | `ValueError`; `clear_corpus_tree()` drops tree and registrations |
+
+See [Creating a Tree](prompt-doc.md#creating-a-tree) for the loader API.
 
 ### Headings
 

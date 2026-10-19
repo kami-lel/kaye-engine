@@ -28,10 +28,15 @@ manually add chat & coder, instead by data structure
 
 ### Added
 
+- `register_corpus_under_node(node_path, source)` records a corpus source under a node of the tree, the root (`()`) included; several consumers may contribute to one tree, in any order
+
 ### Changed
 
 - `load_corpus_tree` drops line-anchored markdown comments (`<!-- ... -->`, single or multi-line) from the corpus, so authoring notes never render; fenced code blocks and tag blocks keep theirs, and the generated blueprint-info comment is unaffected
 - `compute_fenced_line_mask` also marks markdown tag blocks (`<name>` to `</name>`), so sparseness, heading split, and load-time blank-line collapse leave them untouched like fenced code blocks
+- **Breaking**: `load_corpus_tree()` takes no argument and builds the tree from the registrations, parsing each source on its own; a source's top headings must sit one level below its target, and a duplicate sibling heading raises. Migrate `load_corpus_tree([a, b])` to `register_corpus_under_node((), a)`, `register_corpus_under_node((), b)`, then `load_corpus_tree()`; a source that relied on concatenation to nest under the previous file registers under that node instead
+- `register_dynamic_substitution` raises `ValueError` on a duplicate name instead of overwriting
+- `populate_abbr_data_with_json_file` layers: a later file may repeat an (abbreviation, meaning) pair to add tags, glossaries or a missing remark; `priority` and `wrap` must match, a conflicting remark raises
 
 ### Deprecated
 

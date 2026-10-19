@@ -57,6 +57,7 @@ sharing a process never overwrite each other silently:
 | `register_comment_line` | additive | a repeated line is ignored; first-seen order |
 | `add_corpus_clear_hook` | additive | |
 | `register_consumer` | entry-point | Fixme one identity per process today, repeated calls overwrite; to become guarded, one record per consumer |
+| `register_corpus_under_node` | additive | registrations graft in passes, any order; a duplicate sibling heading raises; refused once the tree is loaded |
 | `load_corpus_tree` | guarded | one tree per process; a second load raises until `clear_corpus_tree()` |
 | `setup_claude_cli` | entry-point | |
 | `setup_hermes_cli` | entry-point | |
@@ -65,7 +66,7 @@ sharing a process never overwrite each other silently:
 
 | entity | what it is |
 |---|---|
-| **Prompt Corpus** | a structured Markdown document (one file, or several sources concatenated by `load_corpus_tree`); a process holds one; the authoritative source of truth |
+| **Prompt Corpus** | a structured Markdown document, assembled from sources each registered under a node by `register_corpus_under_node`; a process holds one; the authoritative source of truth |
 | **Prompt Tree** | the parsed corpus; every heading a `BasePromptNode` |
 | **Blueprint** | a frozen value (`Blueprint`) recording which tree nodes render, by path (`nodes`, `subtrees`), plus `meta` and `dependencies`; pure data, edited only through functions that return a new one |
 | **Corpus Index** | `CorpusIndex`, derived once per process from the one loaded tree: pre-order node arrays, paths, depths, child indexes, subtree and sidecar masks, static content blocks |
@@ -85,15 +86,22 @@ Heading syntax carries node type: plain text is an ordinary corpus node,
 `{braces}` a sidecar, `(parentheses)` a dynamic node.
 
 ```
-sources ────load_corpus_tree()──> Prompt Tree ──> CorpusIndex ─┐
+registrations ─load_corpus_tree()─> Prompt Tree ──> CorpusIndex ─┐
                                                                 ├─render_prompt()─> text
 blueprint text ──parse_blueprint_tree()──> Blueprint ───────────┘
 ```
 
-The process holds exactly one corpus tree: `load_corpus_tree(sources)`
-raises `ValueError` on a second call, `get_corpus_tree()` raises before a
-load, and `clear_corpus_tree()` drops the tree together with everything
-derived from it (the `CorpusIndex`, bound selections) through clear hooks.
+The process holds exactly one corpus tree, built from registrations:
+`register_corpus_under_node(node_path, source)` records a source under a
+target node (`()` the root), and `load_corpus_tree()` parses each source on
+its own and grafts it in passes, so several consumers may register in any
+order. A source's top headings sit exactly one level below its target; a
+wrong level, an unresolved target, a duplicate sibling heading, or a
+`{sidecar}`/`(dynamic)` target raises `ValueError`. `load_corpus_tree()`
+raises on a second call, registering after a load raises,
+`get_corpus_tree()` raises before a load, and `clear_corpus_tree()` drops
+the tree and the registrations together with everything derived from it
+(the `CorpusIndex`, bound selections) through clear hooks.
 
 `render_prompt()`/`preview_blueprint()` are the dependency-resolving
 entry points: each first resolves the blueprint's selection with the full
@@ -113,15 +121,15 @@ multi-line description or when-to-use collapses to one string. Blank lines
 inside a fenced code block or a tag block are exempt from collapsing
 everywhere such content might get compressed, via the shared
 `compute_fenced_line_mask` (`kaye_engine/prompt/md_fence.py`) that `apply_sparseness`, the corpus-tree
-heading parser (`_split_sections` in `prompt_corpus_node.py`), and the
-load-time blank-line cleanup in `load_corpus_tree`
+heading parser (`split_sections` in `prompt_corpus_node.py`), and the
+per-source blank-line cleanup in `load_corpus_tree`
 (`_collapse_unfenced_blank_runs` in `prompt_corpus_loader.py`) all rely on
 to stay out of those regions. A tag block opens on a line holding only
 `<name>` or `<name attrs>` and closes on the nearest following `</name>`
 line (indentation allowed, delimiters included); an unclosed opening line
 exempts nothing, and fences take priority over tags.
 Corpus comments never render: `load_corpus_tree` runs `strip_comment_blocks`
-(`kaye_engine/prompt/md_comment.py`) on the split lines, before the blank-line
+(`kaye_engine/prompt/md_comment.py`) on each source's lines, before the blank-line
 collapse, dropping every line-anchored comment (a line starting `<!--`, through
 the first line ending `-->`). Lines inside a fence or tag block are exempt via
 the same mask; an unclosed opener, an inline-code mention, or a comment trailing
@@ -292,6 +300,7 @@ collection documentation](docs/abbrs-doc.md).
 ```python
 from kaye_engine import (
     PACKAGE_NAME, LOGGER_NAME,
+    register_corpus_under_node,
     load_corpus_tree,
     AbbrData,
     DynamicSubstitution, StringDynamicSubstitution,

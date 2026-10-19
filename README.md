@@ -32,7 +32,7 @@ Kaye Engine parses a plain Markdown file, as the structured single source of tru
 
 ### 📄 Prompt Corpus
 
-The **Prompt Corpus** is a structured Markdown document that defines identity, roles, rules, styles, and references — the authoritative Source Of Truth used to generate prompts for different scenarios. `kaye-engine` does not bundle one itself; it only provides the parsing mechanism (`load_corpus_tree()` / `get_corpus_tree()`) that any caller uses to load — from an ordered list of file and/or literal-content sources — and hold the one corpus a process uses.
+The **Prompt Corpus** is a structured Markdown document that defines identity, roles, rules, styles, and references — the authoritative Source Of Truth used to generate prompts for different scenarios. `kaye-engine` does not bundle one itself; it only provides the parsing mechanism (`register_corpus_under_node()` / `load_corpus_tree()` / `get_corpus_tree()`) that callers use to register file and/or literal-content sources under nodes of the tree, then build and hold the one corpus a process uses.
 
 Q.v. [Prompt Corpus Format documentation](docs/corpus-doc.md) for the heading-to-tree mapping and full Markdown syntax.
 
