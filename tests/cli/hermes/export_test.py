@@ -24,6 +24,8 @@ from kaye_engine.prompt.prompt_corpus_loader import (
     load_corpus_tree,
 )
 
+from tests.corpus_helper import load_corpus_from_sources
+
 
 def _registry(name, **kwargs):
     return BlueprintRegistry(
@@ -37,7 +39,7 @@ def _registry(name, **kwargs):
 @pytest.fixture(autouse=True)
 def _inline_corpus():
     clear_corpus_tree()
-    load_corpus_tree(["# R\n"])
+    load_corpus_from_sources(["# R\n"])
     entries = {
         "chat": _registry("chat"),
         "kaye-chat": _registry("kaye-chat", is_exportable=False),

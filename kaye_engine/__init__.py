@@ -16,6 +16,7 @@ __all__ = (
     "register_blueprint",
     "register_comment_line",
     "register_consumer",
+    "register_corpus_under_node",
     "register_image_prompt_exportable",
     "register_dynamic_substitution",
     "setup_claude_cli",
@@ -46,5 +47,6 @@ from kaye_engine.prompt import (
     load_corpus_tree,
     register_blueprint,
     register_comment_line,
+    register_corpus_under_node,
     register_dynamic_substitution,
 )

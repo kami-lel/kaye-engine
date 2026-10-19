@@ -13,6 +13,8 @@ import pytest
 
 from kaye_engine.prompt.prompt_corpus_loader import load_corpus_tree
 
+from tests.corpus_helper import load_corpus_from_sources
+
 # pytest fixtures  #############################################################
 
 
@@ -45,7 +47,7 @@ More text.
     )
 
     with patch("builtins.open", m):
-        return load_corpus_tree(
+        return load_corpus_from_sources(
             [Path("dummy-path.md")]
         )
 
@@ -103,7 +105,7 @@ This project is licensed under the MIT License.
 """)
 
     with patch("builtins.open", m):
-        return load_corpus_tree(
+        return load_corpus_from_sources(
             [Path("dummy-path.md")]
         )
 
@@ -116,7 +118,7 @@ class TestEmptyLine:  # source material contains various empty lines
     def test_root(self, prompt_tree_empty):
         assert prompt_tree_empty.depth == 0
         assert prompt_tree_empty.parent is None
-        assert prompt_tree_empty._content_lines == ["", ""]
+        assert prompt_tree_empty._content_lines == []  # blank leading content is dropped
 
     def test_project(self, prompt_tree_empty):
         project = prompt_tree_empty.children[0]

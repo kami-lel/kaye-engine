@@ -22,13 +22,15 @@ from kaye_engine.prompt.prompt_corpus_loader import (
     load_corpus_tree,
 )
 
+from tests.corpus_helper import load_corpus_from_sources
+
 _REGISTRY_RENDER_PROMPT = "kaye_engine.prompt.blueprint.registry.render_prompt"
 
 
 @pytest.fixture(autouse=True)
 def _corpus_with_globs():
     clear_corpus_tree()
-    load_corpus_tree(["# R\n## {globs}\n```glob\n*.py\n```\n"])
+    load_corpus_from_sources(["# R\n## {globs}\n```glob\n*.py\n```\n"])
     yield
     clear_corpus_tree()
 

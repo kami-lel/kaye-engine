@@ -18,6 +18,8 @@ from kaye_engine.prompt.dynamic_nodes import TodayNode
 from kaye_engine.prompt.dynamic_nodes.dynamic_node import DynamicNode
 from kaye_engine.prompt.prompt_corpus_loader import load_corpus_tree
 
+from tests.corpus_helper import load_corpus_from_sources
+
 _SOURCE = """# A
 A body.
 more.
@@ -35,7 +37,7 @@ Other.
 # pytest fixtures  #############################################################
 @pytest.fixture
 def index():
-    load_corpus_tree([_SOURCE])
+    load_corpus_from_sources([_SOURCE])
     return get_corpus_index()
 
 

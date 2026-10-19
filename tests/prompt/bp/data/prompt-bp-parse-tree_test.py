@@ -15,6 +15,8 @@ from kaye_engine.prompt.blueprint.data import (
 from kaye_engine.prompt.blueprint.parser import parse_blueprint_tree
 from kaye_engine.prompt.prompt_corpus_loader import load_corpus_tree
 
+from tests.corpus_helper import load_corpus_from_sources
+
 _SOURCE = """# Project Title
 ## Description
 Brief overview.
@@ -48,7 +50,7 @@ TITLE = ("Project Title",)
 # pytest fixtures  #############################################################
 @pytest.fixture
 def corpus():
-    return load_corpus_tree([_SOURCE])
+    return load_corpus_from_sources([_SOURCE])
 
 
 # pytest  ######################################################################

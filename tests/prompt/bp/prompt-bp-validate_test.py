@@ -19,6 +19,8 @@ from kaye_engine.prompt.prompt_corpus_loader import (
     load_corpus_tree,
 )
 
+from tests.corpus_helper import load_corpus_from_sources
+
 
 @pytest.fixture(autouse=True)
 def no_corpus():
@@ -72,14 +74,14 @@ class TestDependencies:
 class TestPaths:
 
     def test_unknown_path_raises_while_corpus_loaded(_):
-        load_corpus_tree(["# A\n"])
+        load_corpus_from_sources(["# A\n"])
         bp = Blueprint(nodes=frozenset({("A", "Nope")}))
 
         with pytest.raises(ValueError, match="Nope"):
             validate_blueprint(bp)
 
     def test_known_path_is_accepted(_):
-        load_corpus_tree(["# A\n"])
+        load_corpus_from_sources(["# A\n"])
         bp = Blueprint(nodes=frozenset({("A",)}))
 
         assert validate_blueprint(bp) is bp

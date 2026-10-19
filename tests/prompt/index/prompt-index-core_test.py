@@ -16,6 +16,8 @@ from kaye_engine.prompt.prompt_corpus_loader import (
     load_corpus_tree,
 )
 
+from tests.corpus_helper import load_corpus_from_sources
+
 _STATIC = "# A\nA body.\n## B\n## C\n### D\n# E\n"
 
 
@@ -27,7 +29,7 @@ def tree(request):
         "singleton": ["# Only\n"],
         "empty": [],
     }[request.param]
-    return load_corpus_tree(sources)
+    return load_corpus_from_sources(sources)
 
 
 # pytest  ######################################################################
@@ -75,7 +77,7 @@ class TestAgreesWithWalk:
 class TestStaticShape:
 
     def test_named_paths(_):
-        load_corpus_tree([_STATIC])
+        load_corpus_from_sources([_STATIC])
         index = get_corpus_index()
 
         assert ("A",) in index.idx_by_path
@@ -94,11 +96,11 @@ class TestLifetime:
             get_corpus_index()
 
     def test_clear_drops_index(_):
-        load_corpus_tree(["# One\n"])
+        load_corpus_from_sources(["# One\n"])
         first = get_corpus_index()
 
         clear_corpus_tree()
-        load_corpus_tree(["# Two\n## Child\n"])
+        load_corpus_from_sources(["# Two\n## Child\n"])
         second = get_corpus_index()
 
         assert second is not first

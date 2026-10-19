@@ -93,7 +93,7 @@ def _get_shared_corpus_tree():
     try:
         return get_corpus_tree()
     except ValueError:
-        return load_corpus_tree([])
+        return load_corpus_tree()
 
 
 def _node_name_in(corpus_tree, node_name_arg, node_cls, kwargs):
