@@ -72,6 +72,8 @@ class _FakeMetadata:
         return None
 
     def __getitem__(self, key):
+        if key == "Version":
+            return "0.0.1"
         return "summary of " + self._name
 
 
@@ -150,6 +152,7 @@ class TestMarketplace:
 
         data = json.loads(path.read_text(encoding="utf-8"))
         assert data["name"] == "kaye-engine"
+        assert data["version"] == "0.0.1"
         assert [p["name"] for p in data["plugins"]] == ["pkg-one", "pkg-two"]
         assert [p["source"] for p in data["plugins"]] == [
             "./plugins/pkg-one",
