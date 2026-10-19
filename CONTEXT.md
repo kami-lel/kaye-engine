@@ -1,6 +1,6 @@
 # kaye-engine CONTEXT
 
-**Last updated:** 2026-10-06
+**Last updated:** 2026-10-19
 
 System knowledge for the **kaye-engine** repository — architecture,
 entities, and boundaries. Read this alongside `AGENTS.md` before making
@@ -22,16 +22,44 @@ through a Python API and a CLI.
 
 ## Personalization Boundary
 
-`kaye-engine` is a public mechanism package, extended by a separate private
-repository that supplies the actual identity content, abbreviations, and
-blueprint registrations the mechanism operates on. The dependency runs one
-direction only: a personalized consumer project depends on `kaye-engine`;
-`kaye-engine` must build, test, and export with no knowledge of what any
-such project supplies.
+`kaye-engine` is a public mechanism package, extended by any number of
+consumer packages that supply the actual corpus, abbreviations, and
+blueprint registrations the mechanism operates on. Several consumers may
+share one process, each layering its own content over the ones it builds
+on. The dependency runs one direction only: a consumer depends on
+`kaye-engine`; `kaye-engine` must build, test, and export with no knowledge
+of what any consumer supplies.
 
 Three things are therefore absent by design — a corpus file, an
 `abbrs.json`, and any `register_blueprint()` call. Absence is the contract,
 not a gap to fill.
+
+### Registration Policy
+
+Every public registering API takes one of three policies, so consumers
+sharing a process never overwrite each other silently:
+
+- Additive: each call adds to what earlier calls left
+- Guarded: a repeated name raises `ValueError`
+- Entry-point: last call wins, by design; only the setup a console command
+  runs calls it, once
+
+| API | policy | note |
+|---|---|---|
+| `register_abbr_glossary` | guarded | |
+| `populate_abbr_data_with_json_file` | additive | one call per file, one layer each; a later layer may repeat an (abbreviation, meaning) pair to add tags, glossaries, or a missing remark, a conflict raises |
+| `register_blueprint` | guarded | |
+| `register_image_prompt_exportable` | guarded | name must already be exportable |
+| `register_exportable_entry` | guarded | |
+| `register_exportable_abbrs` | additive | rebuilds the abbr groups on every populate, replacing earlier abbr groups only |
+| `register_dynamic_substitution` | guarded | |
+| `register_variant` | guarded | an unknown affordance is created on first use |
+| `register_comment_line` | additive | a repeated line is ignored; first-seen order |
+| `add_corpus_clear_hook` | additive | |
+| `register_consumer` | entry-point | Fixme one identity per process today, repeated calls overwrite; to become guarded, one record per consumer |
+| `load_corpus_tree` | guarded | one tree per process; a second load raises until `clear_corpus_tree()` |
+| `setup_claude_cli` | entry-point | |
+| `setup_hermes_cli` | entry-point | |
 
 ## Domain Model
 
@@ -176,11 +204,11 @@ derives its own `[{name}] Usage` sidecar (checkmarked when at least one
 of its registered variants is present) plus a `[{name}] Fallback`
 sidecar, checkmarked when every variant registered under that affordance
 is absent (and the affordance has ≥1 registered variant). Q.v.
-[affordance documentation](docs/sidecar-doc.md#affordance). A Kaye-specific,
+[affordance documentation](docs/sidecar-doc.md#affordance). A
 consumer-supplied
 `surface_profiles` dict (`dict[str, RenderProfile]`, passed to
-`setup_claude_cli(...)` — kaye-vault owns the actual Claude surface data,
-q.v. `kaye_vault/claude_render_profiles.py`) maps a surface name to the
+`setup_claude_cli(...)`; the consumer owns the actual Claude surface data)
+maps a surface name to the
 `RenderProfile` carrying that surface's variants/conditional-sidecars.
 Every **rendering command** (see `AGENTS.md` for the list and flags) shares
 one parent parser and one aux function,

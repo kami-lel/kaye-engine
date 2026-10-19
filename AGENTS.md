@@ -10,14 +10,19 @@ Read this file alongside `CONTEXT.md` before making changes, and follow the
 exact commands and conventions below.
 
 **kaye-engine ships mechanism only.** It bundles no prompt corpus, no
-abbreviation database, and no blueprint registrations — a consumer package
-such as `kaye-vault` supplies all three. Never add that content here to make
-something work; fix the mechanism or fix the consumer.
+abbreviation database, and no blueprint registrations — consumer packages
+supply all three. Never add that content here to make something work; fix
+the mechanism or fix the consumer.
 
 **kaye-engine is consumed by multiple projects.** Never name any specific
 consumer project anywhere in this repository's content (code, comments,
 docs, or tests) — doing so would leak one consumer's identity into a
 mechanism meant to stay consumer-agnostic.
+
+**Several consumers may share one process.** Every public registering API
+declares one policy (additive, guarded, or entry-point) in the
+`CONTEXT.md` Registration Policy table; a new API takes a row there in the
+same change, and none overwrites silently.
 
 ## Setup
 
