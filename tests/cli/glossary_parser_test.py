@@ -55,6 +55,11 @@ class TestRegisterGlossaryParser:
 
         assert args.GLOSSARY == "some-glossary"
 
+    def test_bare_command_defaults_to_ls(self):
+        parser = _build_glossary_parser()
+
+        assert parser.parse_args(["g"]).GLOSSARY == "ls"
+
 
 class TestGlossaryMainLs:
 

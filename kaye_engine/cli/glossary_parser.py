@@ -69,7 +69,9 @@ def register_glossary_parser(cli_subparser):
     # add arguments  -------------------------------------------------------
     glossary_parser.add_argument(
         "GLOSSARY",
-        help="abbr glossary name; GLOSSARY=ls: list all glossaries",
+        nargs="?",
+        default="ls",
+        help="abbr glossary name; GLOSSARY=ls (default): list all glossaries",
     )
     add_verbose_arguments(glossary_parser)
 
