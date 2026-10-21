@@ -38,7 +38,6 @@ from kaye_engine.cli.render_profile_parser import (
 # logger  ######################################################################
 logger = kamilog.getLogger(LOGGER_NAME)
 
-# TODO cli prompt generate: allow sidecars be arg
 
 # constants  ###################################################################
 _HELP = "render a blueprint into a concrete prompt"
