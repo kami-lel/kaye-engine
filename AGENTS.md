@@ -146,6 +146,9 @@ kaye-engine o -n                            # report create/update/skip without 
 kaye-engine o --prune --base-url URL        # also delete remote-only skills; custom server
 ```
 
+Bare `blueprint`, `exportable`, `dynamic-node` and `glossary` (and their
+aliases `bp`, `x`, `dn`, `g`) behave as the same command followed by `ls`.
+
 Aliases: `blueprint` → `bp`; `blueprint list` → `bp ls`; `blueprint
 preview` → `bp p`; `blueprint render` → `bp r`; `blueprint validate` →
 `bp v`; `blueprint show` → `bp s`; `continue` → `c`; `hermes` → `m`; `export-image-prompt` → `img`; `dynamic-node` →
