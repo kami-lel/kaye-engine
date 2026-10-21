@@ -285,7 +285,7 @@ The two mechanisms are independent and both fully functional: `DynamicNode` tree
 Two commands print dynamic content without a corpus export:
 
 - `kaye-engine dynamic-node NODE...` (alias `dn`): render one or more dynamic nodes merged into one output; `NODE=ls` lists every available value, and `-t THRESHOLD` hides glossary entries whose priority exceeds it
-- `kaye-engine dynamic-substitution NAME` (alias `ds`): print a directly registered substitution's content; `NAME=ls` lists every registered name
+- `kaye-engine dynamic-substitution NAME` (alias `ds`): print a directly registered substitution's content; `NAME=ls` (default when omitted) lists every registered name
 
 
 
