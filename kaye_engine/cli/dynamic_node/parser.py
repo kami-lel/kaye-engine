@@ -196,8 +196,9 @@ def register_dynamic_node_parser(cli_subparser):
     # positional
     dynamic_node_parser.add_argument(
         "NODE",
-        nargs="+",
-        help="dynamic nodes to render; NODE=ls: list available node values, v.s.",
+        nargs="*",
+        default=["ls"],
+        help="dynamic nodes to render; NODE=ls (default): list available node values, v.s.",
     )
     dynamic_node_parser.add_argument(
         "-t",
