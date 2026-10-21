@@ -1,8 +1,8 @@
 # Kaye Engine: Render Profile Documentation
 
 <!--
-fixme mpv render profile doc
-fixme rewrite render profile per flag description, contains more info
+Fixme mpv render profile doc
+Fixme rewrite render profile per flag description, contains more info
 -->
 
 

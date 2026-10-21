@@ -14,8 +14,6 @@ from kaye_engine.cli.blueprint.aux_output import (
 from kaye_engine.cli.cli_setup_guard import check_corpus_setup_for_cli
 from kaye_engine.prompt.blueprint import blueprint_registry
 
-# todo cli prompt ls additional filtering/groups
-
 # constants  ###################################################################
 
 _HELP = "list all registered blueprints by canonical name"

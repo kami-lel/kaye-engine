@@ -58,7 +58,7 @@ def export_vs_code_extension(claude_folder, *, render_profile=None):
     )
     logger.succ("export marketplace:\t" + str(marketplace_folder))
 
-    # hack disabled permission override, reverted to system default
+    # hack hack disabled permission override, reverted to system default
     # logger.debug("update settings for git command permissions")
     # settings_path = update_settings_json(claude_folder)
     # logger.succ(
