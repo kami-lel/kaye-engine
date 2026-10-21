@@ -15,8 +15,10 @@ from kaye_engine.cli.claude.setup import get_surface_profiles
 from kaye_engine.cli.dynamic_node.node_type_choices import (
     list_all_node_type_names,
 )
-from kaye_engine.cli.render_profile_parser import (
+from kaye_engine.cli.render_profile_description import (
     RENDER_PROFILE_DESCRIPTION,
+)
+from kaye_engine.cli.render_profile_parser import (
     build_render_profile_parent_parser,
     resolve_render_profile,
 )
