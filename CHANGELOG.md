@@ -31,7 +31,8 @@ manually add chat & coder, instead by data structure
 
 - bare `blueprint` (`bp`) now lists blueprints like `blueprint ls`
   instead of printing usage; bare `exportable` (`x`), `dynamic-node`
-  (`dn`) and `glossary` (`g`) likewise default to `ls`
+  (`dn`), `glossary` (`g`) and `dynamic-substitution` (`ds`) likewise
+  default to `ls`
 
 ### Deprecated
 

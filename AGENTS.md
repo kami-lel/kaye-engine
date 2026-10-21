@@ -113,7 +113,7 @@ kaye-engine dynamic-node NODE...            # render 1+ dynamic nodes merged int
 kaye-engine dynamic-node NODE -t THRESHOLD  # for a glossary NODE, hide entries with priority > THRESHOLD
 kaye-engine dynamic-node ls                 # list every available NODE value: today, decode-only-abbr, every AbbrTags-derived name, then glossary names alphabetically
 kaye-engine dynamic-substitution NAME       # print a registered dynamic substitution's content
-kaye-engine dynamic-substitution ls         # list every registered dynamic substitution name
+kaye-engine dynamic-substitution [ls]       # list every registered dynamic substitution name (default)
 kaye-engine skill NAME... FOLDER            # export the named Agent Skills into FOLDER (required)
 kaye-engine skill --all FOLDER              # export every Agent Skill; -a short
 kaye-engine skill -z NAME... FOLDER         # create .zip Agent Skill packages
