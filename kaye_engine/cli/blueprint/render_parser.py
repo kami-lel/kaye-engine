@@ -8,6 +8,11 @@ import dataclasses
 from argparse import RawDescriptionHelpFormatter
 
 import kamilog
+from kamilog import (
+    add_verbose_arguments,
+    set_logging_level_by_namespace,
+)
+
 from kaye_engine import LOGGER_NAME
 from kaye_engine.cli import DEFAULT_SPARSENESS
 from kaye_engine.cli.blueprint.aux_input import get_cmd_blueprint
@@ -20,18 +25,14 @@ from kaye_engine.cli.blueprint.blueprint_arg_parser import (
     build_blueprint_arg_parser,
     build_no_dependencies_arg_parser,
 )
-from kaye_engine.cli.cli_setup_guard import check_corpus_setup_for_cli
 from kaye_engine.cli.claude.setup import get_surface_profiles
+from kaye_engine.cli.cli_setup_guard import check_corpus_setup_for_cli
 from kaye_engine.cli.render_profile_description import (
     RENDER_PROFILE_DESCRIPTION,
 )
 from kaye_engine.cli.render_profile_parser import (
     build_render_profile_parent_parser,
     resolve_render_profile,
-)
-from kamilog import (
-    add_verbose_arguments,
-    set_logging_level_by_namespace,
 )
 
 # logger  ######################################################################

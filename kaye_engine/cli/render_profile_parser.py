@@ -10,10 +10,10 @@ behind the 6 render options (``--surface``, ``--comment``/
 
 from argparse import ArgumentParser
 
-from kaye_engine.cli.comment_parser import build_comment_parent_parser
-from kaye_engine.cli.sparseness_parser import build_sparseness_parent_parser
 from kaye_engine.cli import DEFAULT_SPARSENESS
 from kaye_engine.cli.claude.surface_parser import build_surface_parent_parser
+from kaye_engine.cli.comment_parser import build_comment_parent_parser
+from kaye_engine.cli.sparseness_parser import build_sparseness_parent_parser
 from kaye_engine.prompt.blueprint.render_mode import RenderMode
 from kaye_engine.prompt.blueprint.render_profile import RenderProfile
 
@@ -71,7 +71,7 @@ def build_render_profile_parent_parser(
         nargs="+",
         metavar="VARIANT",
         default=(),
-        help="variant name(s) to include, unioned with --surface, v.s.",
+        help="variant name(s) to include, v.s.",
     )
     parent.add_argument(
         "-i",
@@ -79,17 +79,14 @@ def build_render_profile_parent_parser(
         nargs="+",
         metavar="SIDECAR",
         default=(),
-        help=(
-            "conditional-sidecar name(s) to include, unioned with "
-            "--surface, v.s."
-        ),
+        help="conditional-sidecar name(s) to include, v.s.",
     )
     parent.add_argument(
         "--reverse-order",
         dest="reverse_sibling_order",
         action="store_true",
         default=False,
-        help="reverse sibling order at every level of the tree walk, v.s.",
+        help="reverse sibling order, v.s.",
     )
     return parent
 
@@ -98,28 +95,20 @@ def resolve_render_profile(
     args, *, surface_profiles=None, default_show_comment=False
 ):
     """
-    resolve a parsed ``Namespace`` carrying the 6 render options into a
-    `RenderProfile`, directly ``**``-splattable via ``as_kwargs()`` or
-    passable as ``profile=`` into ``generate_prompt_without_dependencies(...)``/
-    ``BlueprintRegistry.content(...)``
+    resolve the parsed render options into a ``RenderProfile``
 
 
-    :param args: namespace parsed from a parser built by
+    :param args: namespace from a parser built by
             ``build_render_profile_parent_parser``
     :type args: argparse.Namespace
-    :param surface_profiles: same dict passed to
-            ``build_render_profile_parent_parser``, used to resolve
-            ``args.surface`` names into their `RenderProfile`; unused
-            (and ``args`` has no ``surface`` attribute) when
-            ``--surface`` was omitted
-    :type surface_profiles: dict[str, RenderProfile] or None, optional
-    :param default_show_comment: fallback used when neither
-            ``--comment`` nor ``--no-comment`` was passed -- each
-            call site states its own pre-existing default
-    :type default_show_comment: bool
-    :return: resolved render profile; a caller-side registry's own
-            `render_profile` is still merged in on top rather than
-            being replaced (see ``BlueprintRegistry.content()``)
+    :param surface_profiles: profiles keyed by ``--surface`` name;
+            same dict given to the parser builder
+    :type surface_profiles: dict{str: RenderProfile}, optional
+    :param default_show_comment: whether to show the comment when
+            neither ``--comment`` nor ``--no-comment`` was passed;
+            default=False
+    :type default_show_comment: bool, optional
+    :return: resolved render profile
     :rtype: RenderProfile
     """
     show_comment = (

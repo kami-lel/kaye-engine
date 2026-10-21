@@ -1,11 +1,5 @@
 # Kaye Engine: Render Profile Documentation
 
-<!--
-FIXME mpv render profile doc
-FIXME rewrite render profile per flag description, contains more info
--->
-
-
 A **`RenderProfile`** holds the settings for one render of a prompt. It answers questions such as:
 
 - which optional sidecars and affordance variants to include
@@ -223,7 +217,7 @@ Good to know:
 
 - blank lines at the start and end are always removed, except at `99`
 - blank lines inside a fenced code block are never touched, at any level
-- the dataclass default is `1`, while the CLI default is `DEFAULT_SPARSENESS` (`0`), see [CLI Options](#cli-options)
+- the dataclass default is `1`, while the CLI default is `DEFAULT_SPARSENESS` (`0`), see `--help` of any rendering command
 - `IMAGE` mode overrides any `sparseness` with `1`
 - the trailing comment follows `sparseness`: a block by default, one line at `-1`, see [Comment](#comment)
 - `{description}` and `{when_to_use}` always render at `-1`, so a multi-line value becomes one string
@@ -327,83 +321,6 @@ Then `--surface NAME [NAME ...]` (`-u`) selects one or more surfaces:
 - several surfaces merge in the order given, so `--surface chat code` unions both profiles' collections
 - the allowed names are the dict's keys
 - `--surface` is absent from the CLI when no `surface_profiles` were configured
-- each `claude` subcommand preselects a surface when the flag is omitted, see [Per-Command Defaults](#per-command-defaults)
+- each `claude` subcommand preselects a surface when the flag is omitted, see `--help` of any rendering command
 
 See also [Claude Documentation](claude-doc.md).
-
-
-
-
-
-
-
-
-
-
-
-
-
-## CLI Options
-
-Every **rendering command** takes the same six options. A rendering command is any subcommand that reaches `render_prompt()`, directly or through `Exportable.content()`:
-
-- `blueprint render`
-- `dynamic-node`
-- `exportable`
-- `skill`, `claude skills`, `claude plugin`, `claude marketplace`, `claude code`
-- `claude user-system-prompt`, `claude vs-code-extension`
-
-| Flag | Short | Effect |
-| --- | --- | --- |
-| `--surface` | `-u` | surface(s) to render for, see [Surfaces](#surfaces) |
-| `--comment` / `--no-comment` | `-c` / `-C` | turn `show_comment` on or off |
-| `--conditional-sidecar` | `-i` | extra sidecar names, added to the surface's |
-| `--variant` | ➖ | extra variant names, added to the surface's |
-| `--sparseness` | `-s` | set `sparseness`, see [Sparseness](#sparseness) |
-| `--reverse-order` | ➖ | add `RenderMode.REVERSE_ORDER` to the mode |
-
-A shared parent parser, `build_render_profile_parent_parser()`, registers these flags, and `resolve_render_profile()` turns the parsed arguments into one `RenderProfile`. Both are in `kaye_engine/cli/render_profile_parser.py`.
-
-Two notes on the flags:
-
-- `claude user-system-prompt` already uses `-c` for `--coder`, so its comment flags have no short form
-- `blueprint preview` has the same comment flags but is not a rendering command
-
-### How Flags Resolve
-
-`resolve_render_profile()` works in this order:
-
-1. start from `RenderProfile()` and merge in each selected surface's profile
-2. if `--variant` was given or any surface is selected, merge in the `--variant` names; this switches `variants` **on**, so a surface with no listed variants yields `()` instead of `None`
-3. if `--conditional-sidecar` was given, merge those names in
-4. work out `mode`, adding `REVERSE_ORDER` when `--reverse-order` was passed
-5. merge in `sparseness`, `show_comment`, and `mode` last
-
-Two consequences follow. `--variant` and `--conditional-sidecar` only add to what a surface provides. And `sparseness` and `show_comment` always come from the flag or the command's own default, never from a surface profile.
-
-### Per-Command Defaults
-
-A command supplies its own fallback when a flag is omitted:
-
-| Command | Comment | Surface |
-| --- | --- | --- |
-| `blueprint render` | on | none |
-| `dynamic-node` | off | none |
-| `exportable` | off | none |
-| `skill` | off | `chat` |
-| `claude skills` | off | `chat` |
-| `claude plugin` | off | `chat`, `cowork` |
-| `claude marketplace` | off | `vsc` |
-| `claude code` | off | `code` |
-| `claude vs-code-extension` | on | `vsc` |
-| `claude user-system-prompt` | on | `chat`, `cowork` |
-
-A default surface only works when the consumer's `surface_profiles` defines that name.
-
-`--sparseness` defaults to `DEFAULT_SPARSENESS` (`kaye_engine/cli/__init__.py`, currently `0`), unless a subcommand passes its own `default_sparseness` to `build_render_profile_parent_parser()`.
-
-`blueprint render` also sets `display_name` to the blueprint's registered name (`<stdin>` when read from stdin), so the trailing comment names it. A registered blueprint renders through its registry entry's own `render_profile`, merged under the flags; one read from stdin renders with the flags alone.
-
-### Handing the Profile Down
-
-The resolved profile travels as a single `render_profile=` argument through every `claude` export, from skill to user prompt, and reaches `Skill.from_exportable()`, which calls `exportable.content(profile=...)`. The entry's own default is merged in at that point, not replaced.
