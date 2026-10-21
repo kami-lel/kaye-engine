@@ -52,6 +52,8 @@ def _merge_variants(*selections):
 
 # FIXME more org render profile
 
+# TODO all registry should be printable by CLI
+
 
 @dataclass(kw_only=True)
 class RenderProfile:

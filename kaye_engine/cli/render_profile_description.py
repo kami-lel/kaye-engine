@@ -46,7 +46,7 @@ notes:
     blueprint preview has the same comment flags but is not a
     rendering command
 
-How Flags Resolve  -------------------------------------------------------------
+How Flags Resolve:
 
     1. start from an empty profile, merge in each selected surface
     2. if --variant was given or any surface is selected, merge in the
@@ -60,7 +60,7 @@ How Flags Resolve  -------------------------------------------------------------
 sparseness and comment always come from the flag or the command's own
 default, never from a surface.
 
-Per-Command Defaults  ----------------------------------------------------------
+Per-Command Defaults:
 
 used when a flag is omitted
 
