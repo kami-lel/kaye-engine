@@ -18,24 +18,9 @@ from kaye_engine.prompt.blueprint.render_mode import RenderMode
 from kaye_engine.prompt.blueprint.render_profile import RenderProfile
 
 __all__ = (
-    "RENDER_PROFILE_DESCRIPTION",
     "build_render_profile_parent_parser",
     "resolve_render_profile",
 )
-
-
-# constants  ###################################################################
-RENDER_PROFILE_DESCRIPTION = """
-
-Render Profile Options:
-
---surface, --comment/--no-comment, --conditional-sidecar, --variant,
---sparseness, and --reverse-order
-
-shared by every rendering command,
-see the render profile documentation on GitHub:
-
-    https://github.com/kami-lel/kaye-engine/blob/main/docs/render-profile-doc.md"""
 
 
 # Main Entry Point  ############################################################
@@ -138,9 +123,7 @@ def resolve_render_profile(
     :rtype: RenderProfile
     """
     show_comment = (
-        default_show_comment
-        if args.show_comment is None
-        else args.show_comment
+        default_show_comment if args.show_comment is None else args.show_comment
     )
 
     surface_names = getattr(args, "surface", None) or ()
@@ -153,9 +136,7 @@ def resolve_render_profile(
         profile = profile.merge(RenderProfile(variants=tuple(args.variant)))
     if args.conditional_sidecar:
         profile = profile.merge(
-            RenderProfile(
-                conditional_sidecars=tuple(args.conditional_sidecar)
-            )
+            RenderProfile(conditional_sidecars=tuple(args.conditional_sidecar))
         )
 
     mode = profile.mode

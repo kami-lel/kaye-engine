@@ -14,8 +14,10 @@ from kaye_engine.cli.dry_run import (
 )
 from kaye_engine.cli.hermes import HERMES_DOC_DESCRIPTION, LOGGER_HERMES_NAME
 from kaye_engine.cli.hermes.export import export_hermes_folder
-from kaye_engine.cli.render_profile_parser import (
+from kaye_engine.cli.render_profile_description import (
     RENDER_PROFILE_DESCRIPTION,
+)
+from kaye_engine.cli.render_profile_parser import (
     build_render_profile_parent_parser,
     resolve_render_profile,
 )
