@@ -35,7 +35,7 @@ from kamilog import (
 # logger  ######################################################################
 logger = kamilog.getLogger(LOGGER_NAME)
 
-# todo cli prompt generate: allow sidecars be arg
+# Todo cli prompt generate: allow sidecars be arg
 
 # constants  ###################################################################
 _HELP = "render a blueprint into a concrete prompt"

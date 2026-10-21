@@ -3,12 +3,11 @@
 [^format]
 
 <!--
-todo support mux consumer project
-
-bug continue exporting missing some skills
 todo organize exportable registry,
 such that not all calling export all exportable
-fixme always apply is unique to continue:
+
+bug bug continue exporting missing some skills
+fixme fixme always apply is unique to continue:
 manually add chat & coder, instead by data structure
 -->
 
