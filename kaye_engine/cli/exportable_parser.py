@@ -88,7 +88,9 @@ def register_exportable_parser(cli_subparser):
     # add arguments  -------------------------------------------------------
     export_parser.add_argument(
         "EXPORTABLE",
-        help="exportable canonical name; EXPORTABLE=ls: list all exportables, v.s.",
+        nargs="?",
+        default="ls",
+        help="exportable canonical name; EXPORTABLE=ls (default): list all exportables, v.s.",
     )
     add_verbose_arguments(export_parser)
 
