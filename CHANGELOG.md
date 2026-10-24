@@ -3,6 +3,7 @@
 [^format]
 
 <!--
+Fixme re-org surfaces: esp claude no longer has so many surfaces
 todo organize exportable registry,
 such that not all calling export all exportable
 
