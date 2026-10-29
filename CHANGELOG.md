@@ -5,6 +5,8 @@
 <!--
 Todo kaye build/gh release command
 Fixme re-org surfaces: esp claude no longer has so many surfaces
+Fixme kaye a p -z need better print out
+
 todo organize exportable registry,
 such that not all calling export all exportable
 
