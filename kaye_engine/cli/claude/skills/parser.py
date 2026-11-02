@@ -101,17 +101,15 @@ def register_skills_parser(cli_subparser):  ####################################
 
         if args.zip:
             logger.debug("export skills as zip packages")
-            export_skills_as_zips(
+            count = export_skills_as_zips(
                 folder, version=version, render_profile=render_profile
             )
-            done_msg = "export skills as zip packages"
+            logger.done("export skills as {} zips".format(count))
         else:
             logger.debug("export skills as folders")
             export_skills_as_folders(
                 folder, version=version, render_profile=render_profile
             )
-            done_msg = "export skills as folders"
-
-        logger.done(done_msg + "\t" + str(folder))
+            logger.done("export skills as folders\t" + str(folder))
 
     skills_parser.set_defaults(func=_skills_main)

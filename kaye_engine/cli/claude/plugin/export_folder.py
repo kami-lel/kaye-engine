@@ -26,7 +26,9 @@ _SKILLS_DIR = "skills"
 # entry point  #################################################################
 
 
-def export_plugin_as_folder(parent_folder, consumer, *, render_profile=None):
+def export_plugin_as_folder(
+    parent_folder, consumer, *, render_profile=None, quiet=False
+):
     """
     export one consumer's exportables as an Anthropic Claude plugin folder
 
@@ -43,6 +45,9 @@ def export_plugin_as_folder(parent_folder, consumer, *, render_profile=None):
     :param render_profile: render profile forwarded to
             :func:`export_skills_as_folders`
     :type render_profile: RenderProfile, optional
+    :param quiet: whether to log the finished plugin at ``DEBUG`` rather
+            than ``SUCC``, for a caller that reports the result itself
+    :type quiet: bool
     :return: path to the created plugin directory
     :rtype: Path
     """
@@ -74,7 +79,8 @@ def export_plugin_as_folder(parent_folder, consumer, *, render_profile=None):
         consumer=plugin_name,
     )
 
-    logger.succ("export plugin:\t" + str(plugin_root))
+    report = logger.debug if quiet else logger.succ
+    report("export plugin:\t" + str(plugin_root))
 
     return plugin_root
 
