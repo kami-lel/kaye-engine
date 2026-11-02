@@ -10,6 +10,7 @@ import logging
 import zipfile
 from unittest.mock import patch
 
+import kamilog
 import pytest
 from kaye_engine.cli.claude import LOGGER_CLAUDE_NAME, package_meta
 from kaye_engine.cli.claude.marketplace.export import export_marketplace
@@ -17,7 +18,10 @@ from kaye_engine.cli.claude.plugin.export_folder import (
     export_plugins_as_folders,
 )
 from kaye_engine.cli.claude.plugin.export_zip import export_plugins_as_zips
+from kaye_engine.deed import format_size
 from kaye_engine.consumer import register_consumer
+from kaye_engine.cli.dry_run import disable_dry_run, enable_dry_run
+from kaye_engine.skill import LOGGER_SKILL_NAME
 from kaye_engine.exportable import exportable_registry
 from kaye_engine.prompt.blueprint import BlueprintRegistry, create_blueprint
 from kaye_engine.prompt.prompt_corpus_loader import clear_corpus_tree
@@ -143,6 +147,71 @@ class TestPluginZips:
             names = archive.namelist()
         assert any(n.startswith("skills/lib-skill/") for n in names)
         assert not any("app-skill" in n for n in names)
+
+
+def _capture(caplog, level):
+    for name in (LOGGER_CLAUDE_NAME, LOGGER_SKILL_NAME):
+        caplog.set_level(level, logger=name)
+
+
+class TestPluginZipOutput:
+
+    def test_default_level_shows_a_result_line_per_plugin(
+        _, tmp_path, caplog
+    ):
+        _capture(caplog, kamilog.DONE)
+        export_plugins_as_zips(tmp_path)
+
+        assert [r.message for r in caplog.records] == [
+            "export plugin (1 skill, {}): {}".format(
+                _size_of(tmp_path / "pkg-one-1.1.0.zip"),
+                tmp_path / "pkg-one-1.1.0.zip",
+            ),
+            "export plugin (2 skills, {}): {}".format(
+                _size_of(tmp_path / "pkg-two-2.2.0.zip"),
+                tmp_path / "pkg-two-2.2.0.zip",
+            ),
+        ]
+
+    def test_info_level_hides_inner_per_file_deeds(_, tmp_path, caplog):
+        _capture(caplog, logging.INFO)
+        export_plugins_as_zips(tmp_path)
+
+        text = caplog.text
+        assert "SKILL.md" not in text
+        assert "plugin.json" not in text
+        assert "-> " not in text
+
+    def test_debug_level_lists_archive_entries(_, tmp_path, caplog):
+        _capture(caplog, logging.DEBUG)
+        export_plugins_as_zips(tmp_path)
+
+        assert "  skills/lib-skill/SKILL.md" in caplog.text
+        assert "pkg-one-1.1.0.zip: " in caplog.text
+
+    def test_returns_zip_count(_, tmp_path):
+        assert export_plugins_as_zips(tmp_path) == 2
+
+    def test_dry_run_reports_size_na_and_writes_nothing(_, tmp_path, caplog):
+        enable_dry_run()
+        try:
+            _capture(caplog, kamilog.DONE)
+            destination = tmp_path / "out"
+            export_plugins_as_zips(destination)
+        finally:
+            disable_dry_run()
+
+        assert not destination.exists()
+        assert (
+            "export plugin (1 skill, size n/a): {}".format(
+                destination / "pkg-one-1.1.0.zip"
+            )
+            in caplog.text
+        )
+
+
+def _size_of(path):
+    return format_size(path.stat().st_size)
 
 
 class TestMarketplace:
