@@ -115,17 +115,15 @@ def register_plugin_parser(cli_subparser):  ####################################
 
         if args.zip:
             logger.debug("export plugin as zip")
-            export_plugins_as_zips(
+            count = export_plugins_as_zips(
                 folder,
                 includes_version=args.includes_version,
                 render_profile=render_profile,
             )
-            done_msg = "export plugin as zip"
+            logger.done("export plugin as {} zips".format(count))
         else:
             logger.debug("export plugin as folder")
             export_plugins_as_folders(folder, render_profile=render_profile)
-            done_msg = "export plugin as folder"
-
-        logger.done(done_msg + "\t" + str(folder))
+            logger.done("export plugin as folder\t" + str(folder))
 
     plugin_parser.set_defaults(func=_plugin_main)

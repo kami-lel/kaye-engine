@@ -4,17 +4,20 @@ export_plugin_as_zip.py
 define ``export_plugin_as_zip``, ``export_plugins_as_zips``
 """
 
+import logging
 import shutil
 import tempfile
+import zipfile
 from pathlib import Path
 
 import kamilog
-from kaye_engine.deed import track
+from kaye_engine.deed import format_size, quiet_deeds, track
 from kaye_engine.cli.claude import LOGGER_CLAUDE_NAME
 from kaye_engine.cli.claude.plugin_marketplace_name import (
     get_plugin_consumers,
 )
 from kaye_engine.cli.dry_run import is_dry_run
+from kaye_engine.skill.select import select_exportables
 
 from .export_folder import (
     export_plugin_as_folder,
@@ -41,14 +44,18 @@ def export_plugins_as_zips(
     :type includes_version: bool
     :param render_profile: forwarded to :func:`export_plugin_as_zip`
     :type render_profile: RenderProfile, optional
+    :return: number of ``.zip`` plugins exported
+    :rtype: int
     """
-    for consumer in get_plugin_consumers():
+    consumers = get_plugin_consumers()
+    for consumer in consumers:
         export_plugin_as_zip(
             parent_folder,
             consumer,
             includes_version=includes_version,
             render_profile=render_profile,
         )
+    return len(consumers)
 
 
 def export_plugin_as_zip(
@@ -83,46 +90,78 @@ def export_plugin_as_zip(
     except OSError as err:
         raise SystemExit(1) from err
 
+    dest = parent_folder / (
+        _zip_file_name(consumer, includes_version) + ".zip"
+    )
     if is_dry_run():
-        _report_zip_without_writing(parent_folder, consumer, includes_version)
+        _report_zip_without_writing(dest, consumer)
         return
 
     with (
         tempfile.TemporaryDirectory() as plugin_temp,
         tempfile.TemporaryDirectory() as zip_temp,
     ):
-        logger.debug("building plugin folder in temporary directory")
-        plugin_root = export_plugin_as_folder(
-            Path(plugin_temp), consumer, render_profile=render_profile
-        )
+        logger.enter("build plugin folder: " + consumer.canonical_name)
+        with quiet_deeds():
+            plugin_root = export_plugin_as_folder(
+                Path(plugin_temp),
+                consumer,
+                render_profile=render_profile,
+                quiet=True,
+            )
 
-        zip_base = Path(zip_temp) / plugin_root.name
-        with track(logger).pack_files(
-            plugin_root.name, zip_base.name + ".zip"
-        ):
+        # one line for the finished archive, shown at default verbosity
+        with track(logger).create_zip("plugin", dest) as deed:
+            deed.level = kamilog.DONE
+            logger.enter("archive plugin at zip root, no wrapper folder")
+            zip_base = Path(zip_temp) / plugin_root.name
             shutil.make_archive(str(zip_base), "zip", root_dir=plugin_root)
-
-        logger.debug("moving archived plugin to destination folder")
-        file_name = plugin_root.name
-        if includes_version:
-            file_name = "{}-{}".format(file_name, consumer.version)
-        dest = parent_folder / (file_name + ".zip")
-        with track(logger).mv_file(zip_base.name + ".zip", dest):
             shutil.move(str(zip_base.with_suffix(".zip")), str(dest))
+            deed.stats = "{}, {}".format(
+                _count_skills(len(list((plugin_root / "skills").iterdir()))),
+                format_size(dest.stat().st_size),
+            )
+        _log_zip_entries(dest)
 
 
 # auxiliaries  #################################################################
-def _report_zip_without_writing(parent_folder, consumer, includes_version):
+def _zip_file_name(consumer, includes_version):
     """
-    log the pack and move deeds of the plugin archive, building and
-    writing nothing -- the dry-run stand-in for the archive steps
+    :return: archive file name of the consumer's plugin, w/o extension
+    :rtype: str
     """
-    plugin_name = consumer.canonical_name
-    file_name = plugin_name
     if includes_version:
-        file_name = "{}-{}".format(file_name, consumer.version)
-    zip_name = plugin_name + ".zip"
-    with track(logger).pack_files(plugin_name, zip_name):
-        pass
-    with track(logger).mv_file(zip_name, parent_folder / (file_name + ".zip")):
-        pass
+        return "{}-{}".format(consumer.canonical_name, consumer.version)
+    return consumer.canonical_name
+
+
+def _count_skills(count):
+    """
+    :return: skill count with its noun, eg ``1 skill``, ``23 skills``
+    :rtype: str
+    """
+    return "{} skill{}".format(count, "" if count == 1 else "s")
+
+
+def _log_zip_entries(zip_path):
+    """
+    log every archive entry at ``DEBUG``, read back from the written file
+    """
+    if not logger.isEnabledFor(logging.DEBUG):
+        return
+    with zipfile.ZipFile(zip_path) as archive:
+        names = archive.namelist()
+    for name in names:
+        logger.debug("  " + name)
+    logger.debug("{}: {} entries".format(zip_path.name, len(names)))
+
+
+def _report_zip_without_writing(dest, consumer):
+    """
+    log the result line of the plugin archive, building and writing
+    nothing -- the dry-run stand-in for the archive steps
+    """
+    skills = select_exportables(consumer=consumer.canonical_name)
+    with track(logger).create_zip("plugin", dest) as deed:
+        deed.level = kamilog.DONE
+        deed.stats = "{}, size n/a".format(_count_skills(len(skills)))

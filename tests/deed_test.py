@@ -12,7 +12,7 @@ import kamilog
 import pytest
 
 from kaye_engine.badge import MV_BADGE, NEW_BADGE, OWR_BADGE
-from kaye_engine.deed import format_size, track
+from kaye_engine.deed import format_size, quiet_deeds, track
 
 _NAME = "kaye.engine.deed-test"
 _LOGGER = kamilog.getLogger(_NAME)
@@ -109,6 +109,79 @@ class TestCreateZip:
             "fail to export skill: a.zip: OSError: full"
         )
         assert caplog.records[0].levelno == logging.ERROR
+
+
+class TestLevelOverride:
+
+    def test_scope_level_replaces_table_level(_, caplog):
+        with caplog.at_level(logging.DEBUG, logger=_NAME):
+            with track(_LOGGER).create_zip("plugin", "a.zip") as deed:
+                deed.level = kamilog.DONE
+
+        assert caplog.records[0].levelno == kamilog.DONE
+
+    def test_failure_keeps_error_level(_, caplog):
+        with caplog.at_level(logging.DEBUG, logger=_NAME):
+            with pytest.raises(OSError):
+                with track(_LOGGER).create_zip("plugin", "a.zip") as deed:
+                    deed.level = kamilog.DONE
+                    raise OSError("full")
+
+        assert caplog.records[0].levelno == logging.ERROR
+
+
+class TestQuietDeeds:
+
+    def test_success_inside_block_logs_at_debug(_, caplog):
+        with caplog.at_level(logging.DEBUG, logger=_NAME):
+            with quiet_deeds():
+                with track(_LOGGER).create_file("f"):
+                    pass
+
+        assert caplog.records[0].levelno == logging.DEBUG
+
+    def test_success_after_block_logs_at_normal_level(_, caplog):
+        with caplog.at_level(logging.DEBUG, logger=_NAME):
+            with quiet_deeds():
+                pass
+            with track(_LOGGER).create_file("f"):
+                pass
+
+        assert caplog.records[0].levelno == logging.INFO
+
+    def test_nested_blocks_stay_quiet_until_outer_exits(_, caplog):
+        with caplog.at_level(logging.DEBUG, logger=_NAME):
+            with quiet_deeds():
+                with quiet_deeds():
+                    pass
+                with track(_LOGGER).create_file("inner"):
+                    pass
+            with track(_LOGGER).create_file("outer"):
+                pass
+
+        assert [r.levelno for r in caplog.records] == [
+            logging.DEBUG,
+            logging.INFO,
+        ]
+
+    def test_failure_inside_block_stays_error(_, caplog):
+        with caplog.at_level(logging.DEBUG, logger=_NAME):
+            with pytest.raises(OSError):
+                with quiet_deeds():
+                    with track(_LOGGER).create_file("f"):
+                        raise OSError("denied")
+
+        assert caplog.records[0].levelno == logging.ERROR
+
+    def test_error_in_block_restores_normal_level(_, caplog):
+        with caplog.at_level(logging.DEBUG, logger=_NAME):
+            with pytest.raises(RuntimeError):
+                with quiet_deeds():
+                    raise RuntimeError("boom")
+            with track(_LOGGER).create_file("f"):
+                pass
+
+        assert caplog.records[0].levelno == logging.INFO
 
 
 class TestFormatSize:
