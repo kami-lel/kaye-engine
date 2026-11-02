@@ -46,7 +46,8 @@ class _DeedScope:  # ***********************************************************
     def __init__(self, logger, template, level, err_level, badge, args):
         self._logger = logger
         self._template = template
-        self._level = level
+        # success level; a caller may raise it before the block exits
+        self.level = level
         self._err_level = err_level
         self._badge = badge
         self._args = tuple(map(str, args))
@@ -63,7 +64,7 @@ class _DeedScope:  # ***********************************************************
 
     def __exit__(self, exc_type, exc_value, traceback):
         if exc_type is None:
-            self._emit(self._level, self._message, badges=self._badge)
+            self._emit(self.level, self._message, badges=self._badge)
         elif issubclass(exc_type, Exception):
             cause = exc_type.__name__
             if str(exc_value):
@@ -134,9 +135,10 @@ def track(logger):  # ==========================================================
     :type logger: logging.Logger
     :return: namespace with one method per deed (``create_file``,
             ``owr_file``, ``create_dir``, ``pack_files``, ``mv_file``,
-            ``create_zip``, ``load_config``, ``save_config``); the
-            ``create_zip`` scope takes a ``stats`` attribute, shown in
-            brackets
+            ``create_zip``, ``load_config``, ``save_config``); every
+            scope takes a ``level`` attribute to override its success
+            level, and the ``create_zip`` scope a ``stats`` attribute,
+            shown in brackets
     :rtype: _DeedTrack
     """
     return _DeedTrack(logger)
