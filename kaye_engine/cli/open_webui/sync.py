@@ -8,6 +8,7 @@ from dataclasses import dataclass, field
 from functools import partial
 
 import kamilog
+from kaye_engine.badge import DRY_BADGE
 from kaye_engine.cli.open_webui import LOGGER_OPEN_WEBUI_NAME
 from kaye_engine.cli.open_webui.client import OpenWebUIError
 from kaye_engine.cli.open_webui.plan import plan_skill_sync
@@ -96,7 +97,7 @@ def sync_skills(client, is_dry_run=False, should_prune=False):
 
 # auxiliaries  #################################################################
 def _apply(bucket, summary, verb, skill_id, is_dry_run, request):
-    badges = "dry" if is_dry_run else None
+    badges = DRY_BADGE if is_dry_run else None
     if not is_dry_run:
         try:
             request()
