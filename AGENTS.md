@@ -224,8 +224,11 @@ package, not a bare checkout.
 - log through the `kamilog` package (`import kamilog`; a dependency, not
   vendored): report every file or directory action as a deed
   (`with track(logger).create_file(path)` from `kaye_engine.deed`;
-  also `pack_files`, `mv_file`, `save_config`, ...) rather than a
-  hand-built string, and mark a run mode with a badge (`badges="dry"`);
+  also `create_zip`, `mv_file`, `save_config`, ...) rather than a
+  hand-built string; wrap a temporary inner build in `quiet_deeds()` so
+  only the final result line shows, and mark a run mode with a badge; take every badge name from
+  `kaye_engine.badge` (e.g. `badges=DRY_BADGE`), never an ad hoc string,
+  since a misspelled native name prints as a magenta custom badge;
   keep `done` for a whole-export summary; kamilog 3.0 dropped its own
   deed feature, so never call `logger.track`
 

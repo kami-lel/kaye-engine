@@ -11,8 +11,11 @@ import shutil
 from types import SimpleNamespace
 from unittest.mock import patch
 
+import kamilog
 import pytest
 
+from kaye_engine.cli.dry_run import disable_dry_run, enable_dry_run
+from kaye_engine.deed import format_size
 from kaye_engine.skill import LOGGER_SKILL_NAME
 from kaye_engine.skill import export_zips
 from kaye_engine.skill.export_zips import export_skills_as_zips
@@ -40,17 +43,54 @@ def _patched_fixture():
 # pytest  ######################################################################
 class TestExportSkillsAsZips:
 
-    def test_logs_create_dir_pack_and_move(_, _patched, tmp_path, caplog):
+    def test_logs_create_dir_and_one_result_line(_, _patched, tmp_path, caplog):
         dest = tmp_path / "out"
         with caplog.at_level(logging.INFO, logger=LOGGER_SKILL_NAME):
-            export_skills_as_zips(dest, version="1")
+            count = export_skills_as_zips(dest, version="1")
 
+        assert count == 1
         assert (dest / "alpha.zip").is_file()
         assert [rec.message for rec in caplog.records] == [
             "create dir {}".format(dest),
-            "pack alpha -> alpha.zip",
-            "move alpha.zip -> {}".format(dest / "alpha.zip"),
+            "export skill ({}): {}".format(
+                format_size((dest / "alpha.zip").stat().st_size),
+                dest / "alpha.zip",
+            ),
         ]
+
+    def test_result_line_hidden_at_default_level(_, _patched, tmp_path, caplog):
+        with caplog.at_level(kamilog.DONE, logger=LOGGER_SKILL_NAME):
+            export_skills_as_zips(tmp_path / "out", version="1")
+
+        assert not caplog.records
+
+    def test_dry_run_reports_size_na_and_writes_nothing(
+        _, _patched, tmp_path, caplog
+    ):
+        dest = tmp_path / "out"
+        entries = [SimpleNamespace(canonical_name="alpha")]
+        enable_dry_run()
+        try:
+            with (
+                patch.object(
+                    export_zips, "select_exportables", return_value=entries
+                ),
+                patch.object(
+                    export_zips.Skill,
+                    "from_exportable",
+                    return_value=SimpleNamespace(name="alpha"),
+                ),
+                caplog.at_level(logging.INFO, logger=LOGGER_SKILL_NAME),
+            ):
+                count = export_skills_as_zips(dest, version="1")
+        finally:
+            disable_dry_run()
+
+        assert count == 1
+        assert not dest.exists()
+        assert "export skill (size n/a): {}".format(
+            dest / "alpha.zip"
+        ) in caplog.text
 
     def test_unwritable_destination_exits_1(_, _patched, tmp_path, caplog):
         blocker = tmp_path / "file"
@@ -71,7 +111,7 @@ class TestExportSkillsAsZips:
                     export_skills_as_zips(tmp_path / "out", version="1")
 
         assert info.value.code == 1
-        assert caplog.records[-1].message.startswith("fail to pack alpha")
+        assert caplog.records[-1].message.startswith("fail to export skill")
 
 
 class TestExportSkillsAsZipsNames:

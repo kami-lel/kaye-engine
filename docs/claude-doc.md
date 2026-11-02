@@ -53,6 +53,16 @@ FOLDER/                      (default: ~/.claude/plugins/)
 - `-z`, `--zip`: create upload-ready `.zip` files for Claude Desktop instead of folders, one per consumer; FOLDER then defaults to the current directory
 - `-N`, `--no-version`: leave each consumer's version out of its `.zip` filename, `.zip` only
 
+With `-z`, each zip prints 1 line at the default verbosity, then a count:
+
+```text
+DONE new	export plugin (23 skills, 412 KB): /home/me/out/kaye-library-1.1.2.zip
+DONE	export plugin as 1 zips
+```
+
+`-vv` adds the build steps, `-vvv` the archive's entries, and `-n` prints
+the same lines with size `n/a` and writes nothing.
+
 PLUGIN_NAME, the display name, the version and the manifest metadata (summary, author, URLs, read from the consumer's own installed distribution) come from each consumer's record; `skills/` holds only that consumer's skills.
 
 #### Claude Desktop
@@ -77,6 +87,8 @@ FOLDER/                      (default: ~/.claude/skills/)
 ```
 
 - `-z`, `--zip`: create a `.zip` per skill instead of folders; FOLDER then defaults to the current directory
+
+With `-z`, the default verbosity prints only the count (`DONE	export skills as 23 zips`); `-v` adds 1 line per zip, such as `INFO new	export skill (3 KB): /home/me/out/coder-python.zip`.
 
 For a chosen subset, or a folder that is not Claude's, use `kaye-engine skill NAME... FOLDER` instead; FOLDER is required there.
 

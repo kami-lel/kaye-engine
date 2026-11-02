@@ -212,8 +212,27 @@ write command; `claude plugin` spells `--no-version` as `-N`.
 loggers. Writers keep their deed lines (`kaye_engine/deed.py`, a local stand-in for
 the deed feature kamilog 3.0 removed) and skip only the filesystem call
 under `is_dry_run()`; the zip exports skip the temporary build and log
-the pack and move deeds directly. `sync-open-webui-skills` keeps its own
+their one `create_zip` result line with size `n/a`. `sync-open-webui-skills` keeps its own
 `-n`/`--dry-run` and threads `is_dry_run` as a parameter instead.
+
+Badge names live in `kaye_engine/badge.py` (a leaf module, so
+`dry_run` and the `open_webui` package share it without an import
+cycle). Deeds stamp a native badge on the success line: `create_file`,
+`create_dir`, `create_zip`, `pack_files` carry `new`, `owr_file` carries
+`owr`, `mv_file` carries `mv`, config deeds none; a failure line carries
+none.
+
+A zip export logs 1 `create_zip` line per archive (`export plugin
+(23 skills, 412 KB): PATH`, `export skill (3 KB): PATH`): the plugin line
+at the default level (`DONE`), the skill lines at `-v` (`INFO`), so a full
+skill export stays quiet by default and its summary counts the zips. The
+inner build of the temporary folder runs inside `quiet_deeds()`, which
+logs every deed success at `DEBUG` (`-vvv`); a failure keeps its error
+level. A deed scope may override its success level (`deed.level`) and, for
+`create_zip`, fill the bracket late (`deed.stats`).
+`sync-open-webui-skills` stamps `new`, `owr`, `del` for create, update,
+prune. A badge from the run-wide switch leads the per-line one, so a dry
+run prints `dry new`.
 
 Dynamic nodes auto-attach to every tree at load time — no authored
 heading required for existence — and cover today's date plus the

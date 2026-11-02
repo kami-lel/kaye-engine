@@ -13,6 +13,7 @@ from unittest.mock import patch
 import kamilog
 import pytest
 
+from kaye_engine.badge import NEW_BADGE
 from kaye_engine.consumer import Consumer
 
 from kaye_engine.cli import dry_run
@@ -125,7 +126,9 @@ class TestWritersUnderDryRun:
             _Doc().write(tmp_path / "doc.md")
 
         assert not (tmp_path / "doc.md").exists()
-        assert (dry_run.DRY_BADGE,) in TestWritersUnderDryRun._badges(caplog)
+        assert (dry_run.DRY_BADGE, NEW_BADGE) in (
+            TestWritersUnderDryRun._badges(caplog)
+        )
 
     def test_frontmatter_doc_writes_when_live(_, tmp_path):
         class _Doc(FrontmatterDoc):
