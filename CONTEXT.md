@@ -215,6 +215,15 @@ under `is_dry_run()`; the zip exports skip the temporary build and log
 the pack and move deeds directly. `sync-open-webui-skills` keeps its own
 `-n`/`--dry-run` and threads `is_dry_run` as a parameter instead.
 
+Badge names live in `kaye_engine/badge.py` (a leaf module, so
+`dry_run` and the `open_webui` package share it without an import
+cycle). Deeds stamp a native badge on the success line: `create_file`,
+`create_dir`, `pack_files` carry `new`, `owr_file` carries `owr`,
+`mv_file` carries `mv`, config deeds none; a failure line carries none.
+`sync-open-webui-skills` stamps `new`, `owr`, `del` for create, update,
+prune. A badge from the run-wide switch leads the per-line one, so a dry
+run prints `dry new`.
+
 Dynamic nodes auto-attach to every tree at load time — no authored
 heading required for existence — and cover today's date plus the
 abbreviation glossaries; an authored `(name)` heading, at any depth,

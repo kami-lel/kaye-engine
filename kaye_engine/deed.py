@@ -8,19 +8,21 @@ dropped from kamilog 3.0.0
 
 import logging
 
+from kaye_engine.badge import MV_BADGE, NEW_BADGE, OWR_BADGE
+
 __all__ = ("track",)
 
 
 # constants  ###################################################################
-# deed name → (wording template, success level, failure level)
+# deed name → (wording template, success level, failure level, success badge)
 _DEEDS = {
-    "create_file": ("create {}", logging.INFO, logging.ERROR),
-    "owr_file": ("overwrite {}", logging.WARNING, logging.ERROR),
-    "create_dir": ("create dir {}", logging.INFO, logging.ERROR),
-    "pack_files": ("pack {} -> {}", logging.INFO, logging.ERROR),
-    "mv_file": ("move {} -> {}", logging.INFO, logging.ERROR),
-    "load_config": ("load {}", logging.INFO, logging.ERROR),
-    "save_config": ("save {}", logging.INFO, logging.ERROR),
+    "create_file": ("create {}", logging.INFO, logging.ERROR, NEW_BADGE),
+    "owr_file": ("overwrite {}", logging.WARNING, logging.ERROR, OWR_BADGE),
+    "create_dir": ("create dir {}", logging.INFO, logging.ERROR, NEW_BADGE),
+    "pack_files": ("pack {} -> {}", logging.INFO, logging.ERROR, NEW_BADGE),
+    "mv_file": ("move {} -> {}", logging.INFO, logging.ERROR, MV_BADGE),
+    "load_config": ("load {}", logging.INFO, logging.ERROR, None),
+    "save_config": ("save {}", logging.INFO, logging.ERROR, None),
 }
 
 # frames from ``Logger.log`` up to the code holding the ``with``:
@@ -34,10 +36,11 @@ class _DeedScope:  # ***********************************************************
     with traceback when the block raised an ``Exception``
     """
 
-    def __init__(self, logger, template, level, err_level, args):
+    def __init__(self, logger, template, level, err_level, badge, args):
         self._logger = logger
         self._level = level
         self._err_level = err_level
+        self._badge = badge
         self._message = template.format(*map(str, args))
 
     def __enter__(self):
@@ -45,7 +48,7 @@ class _DeedScope:  # ***********************************************************
 
     def __exit__(self, exc_type, exc_value, traceback):
         if exc_type is None:
-            self._emit(self._level, self._message)
+            self._emit(self._level, self._message, badges=self._badge)
         elif issubclass(exc_type, Exception):
             cause = exc_type.__name__
             if str(exc_value):
@@ -57,10 +60,11 @@ class _DeedScope:  # ***********************************************************
             )
         return False
 
-    def _emit(self, level, message, exc_info=None):
+    def _emit(self, level, message, exc_info=None, badges=None):
         if self._logger.isEnabledFor(level):
             self._logger.log(
-                level, message, exc_info=exc_info, stacklevel=_STACKLEVEL
+                level, message, exc_info=exc_info, stacklevel=_STACKLEVEL,
+                badges=badges,
             )
 
 
@@ -75,12 +79,14 @@ class _DeedTrack:  # ***********************************************************
 
     def __getattr__(self, name):
         try:
-            template, level, err_level = _DEEDS[name]
+            template, level, err_level, badge = _DEEDS[name]
         except KeyError:
             raise AttributeError(name) from None
 
         def deed(*args):
-            return _DeedScope(self._logger, template, level, err_level, args)
+            return _DeedScope(
+                self._logger, template, level, err_level, badge, args
+            )
 
         return deed
 
