@@ -1,7 +1,7 @@
 """
 deed.py
 
-define ``track`` -- report a file or directory action as one fixed-wording
+define ``track``, ``format_size`` -- report a file or directory action as one fixed-wording
 log line at block exit, success or failure; stands in for the deed feature
 dropped from kamilog 3.0.0
 """
@@ -10,7 +10,7 @@ import logging
 
 from kaye_engine.badge import MV_BADGE, NEW_BADGE, OWR_BADGE
 
-__all__ = ("track",)
+__all__ = ("format_size", "track")
 
 
 # constants  ###################################################################
@@ -21,9 +21,16 @@ _DEEDS = {
     "create_dir": ("create dir {}", logging.INFO, logging.ERROR, NEW_BADGE),
     "pack_files": ("pack {} -> {}", logging.INFO, logging.ERROR, NEW_BADGE),
     "mv_file": ("move {} -> {}", logging.INFO, logging.ERROR, MV_BADGE),
+    # args: kind, path; ``stats`` set on the scope fills the bracket
+    "create_zip": (
+        "export {}{stats}: {}", logging.INFO, logging.ERROR, NEW_BADGE,
+    ),
     "load_config": ("load {}", logging.INFO, logging.ERROR, None),
     "save_config": ("save {}", logging.INFO, logging.ERROR, None),
 }
+
+# unit steps for ``format_size``
+_SIZE_STEP = 1024
 
 # frames from ``Logger.log`` up to the code holding the ``with``:
 # _emit, __exit__, the with statement
@@ -38,10 +45,18 @@ class _DeedScope:  # ***********************************************************
 
     def __init__(self, logger, template, level, err_level, badge, args):
         self._logger = logger
+        self._template = template
         self._level = level
         self._err_level = err_level
         self._badge = badge
-        self._message = template.format(*map(str, args))
+        self._args = tuple(map(str, args))
+        # detail shown in brackets once known, eg ``23 skills, 412 KB``
+        self.stats = ""
+
+    @property
+    def _message(self):
+        stats = " ({})".format(self.stats) if self.stats else ""
+        return self._template.format(*self._args, stats=stats)
 
     def __enter__(self):
         return self
@@ -66,6 +81,25 @@ class _DeedScope:  # ***********************************************************
                 level, message, exc_info=exc_info, stacklevel=_STACKLEVEL,
                 badges=badges,
             )
+
+
+def format_size(size):  # ======================================================
+    """
+    format a byte count as short text, eg ``412 KB``, ``1.1 MB``
+
+
+    :param size: byte count
+    :type size: int
+    :return: size with the largest fitting unit; whole number below 1 MB,
+            1 decimal from 1 MB up
+    :rtype: str
+    """
+    if size < _SIZE_STEP:
+        return "{} B".format(size)
+    kilo = size / _SIZE_STEP
+    if kilo < _SIZE_STEP:
+        return "{} KB".format(round(kilo))
+    return "{:.1f} MB".format(kilo / _SIZE_STEP)
 
 
 class _DeedTrack:  # ***********************************************************
@@ -100,7 +134,9 @@ def track(logger):  # ==========================================================
     :type logger: logging.Logger
     :return: namespace with one method per deed (``create_file``,
             ``owr_file``, ``create_dir``, ``pack_files``, ``mv_file``,
-            ``load_config``, ``save_config``)
+            ``create_zip``, ``load_config``, ``save_config``); the
+            ``create_zip`` scope takes a ``stats`` attribute, shown in
+            brackets
     :rtype: _DeedTrack
     """
     return _DeedTrack(logger)
