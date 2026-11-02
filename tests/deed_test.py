@@ -111,6 +111,25 @@ class TestCreateZip:
         assert caplog.records[0].levelno == logging.ERROR
 
 
+class TestLevelOverride:
+
+    def test_scope_level_replaces_table_level(_, caplog):
+        with caplog.at_level(logging.DEBUG, logger=_NAME):
+            with track(_LOGGER).create_zip("plugin", "a.zip") as deed:
+                deed.level = kamilog.DONE
+
+        assert caplog.records[0].levelno == kamilog.DONE
+
+    def test_failure_keeps_error_level(_, caplog):
+        with caplog.at_level(logging.DEBUG, logger=_NAME):
+            with pytest.raises(OSError):
+                with track(_LOGGER).create_zip("plugin", "a.zip") as deed:
+                    deed.level = kamilog.DONE
+                    raise OSError("full")
+
+        assert caplog.records[0].levelno == logging.ERROR
+
+
 class TestFormatSize:
 
     @pytest.mark.parametrize(
