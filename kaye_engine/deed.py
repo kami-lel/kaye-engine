@@ -1,16 +1,17 @@
 """
 deed.py
 
-define ``track``, ``format_size`` -- report a file or directory action as one fixed-wording
+define ``track``, ``format_size``, ``quiet_deeds`` -- report a file or directory action as one fixed-wording
 log line at block exit, success or failure; stands in for the deed feature
 dropped from kamilog 3.0.0
 """
 
+import contextlib
 import logging
 
 from kaye_engine.badge import MV_BADGE, NEW_BADGE, OWR_BADGE
 
-__all__ = ("format_size", "track")
+__all__ = ("format_size", "quiet_deeds", "track")
 
 
 # constants  ###################################################################
@@ -28,6 +29,9 @@ _DEEDS = {
     "load_config": ("load {}", logging.INFO, logging.ERROR, None),
     "save_config": ("save {}", logging.INFO, logging.ERROR, None),
 }
+
+# open ``quiet_deeds`` blocks; success lines drop to DEBUG while above 0
+_quiet_depth = 0
 
 # unit steps for ``format_size``
 _SIZE_STEP = 1024
@@ -64,7 +68,8 @@ class _DeedScope:  # ***********************************************************
 
     def __exit__(self, exc_type, exc_value, traceback):
         if exc_type is None:
-            self._emit(self.level, self._message, badges=self._badge)
+            level = logging.DEBUG if _quiet_depth else self.level
+            self._emit(level, self._message, badges=self._badge)
         elif issubclass(exc_type, Exception):
             cause = exc_type.__name__
             if str(exc_value):
@@ -82,6 +87,22 @@ class _DeedScope:  # ***********************************************************
                 level, message, exc_info=exc_info, stacklevel=_STACKLEVEL,
                 badges=badges,
             )
+
+
+@contextlib.contextmanager
+def quiet_deeds():  # ==========================================================
+    """
+    log every deed success inside the block at ``DEBUG``, whatever its own
+    level; failure lines stay at their error level
+
+    blocks nest: lines stay quiet until the outermost block exits
+    """
+    global _quiet_depth  # pylint: disable=global-statement
+    _quiet_depth += 1
+    try:
+        yield
+    finally:
+        _quiet_depth -= 1
 
 
 def format_size(size):  # ======================================================
