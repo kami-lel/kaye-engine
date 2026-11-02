@@ -4,7 +4,7 @@
 
 <!--
 Todo kaye build/gh release command
-Fixme re-org surfaces: esp claude no longer has so many surfaces
+FIXME re-org surfaces: esp claude no longer has so many surfaces
 FIXME image profile -> comfy ui
 
 TODO organize exportable registry,
