@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "kaye-engine"
-version = "10.0.0"
+version = "10.0.1-alpha"
 description = "A Markdown-to-prompt engine: parse any number of plain Markdown sources into one structured tree, select the parts a scenario needs through blueprints, and render them as prompts, Agent Skills, and plugins for the tools you use, so your instructions keep a single source of truth and never drift apart"
 readme = "README.md"
 authors = [
@@ -13,6 +13,7 @@ authors = [
 requires-python = ">=3.11"
 dependencies = [
     "anytree",
+    "flask",
     "json5",
     "kamilog @ git+https://github.com/kami-lel/kamilog.git",
     "pyahocorasick",
