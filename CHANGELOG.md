@@ -31,7 +31,12 @@ manually add chat & coder, instead by data structure
 
 ### Added
 
+- file and directory deed lines carry native badges on success: `new` (create file or dir, pack), `owr` (overwrite), `mv` (move); `sync-open-webui-skills` lines carry `new`, `owr`, `del` by verb, after `dry` under `-n`
+- `kaye_engine.badge` holds the native badge names the engine stamps (`DRY_BADGE`, `NEW_BADGE`, `OWR_BADGE`, `MV_BADGE`, `DEL_BADGE`)
+
 ### Changed
+
+- `DRY_BADGE` lives in `kaye_engine.badge`; `cli.dry_run` still re-exports it
 
 ### Deprecated
 
