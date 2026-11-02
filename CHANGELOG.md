@@ -5,7 +5,6 @@
 <!--
 Todo kaye build/gh release command
 Fixme re-org surfaces: esp claude no longer has so many surfaces
-Fixme kaye a p -z need better print out
 
 todo organize exportable registry,
 such that not all calling export all exportable
@@ -37,6 +36,9 @@ manually add chat & coder, instead by data structure
 ### Changed
 
 - `DRY_BADGE` lives in `kaye_engine.badge`; `cli.dry_run` still re-exports it
+- `claude plugin -z` prints 1 line per zip at the default verbosity, `export plugin (23 skills, 412 KB): PATH`, then `export plugin as N zips`; `skill -z` and `claude skills -z` print the count by default and 1 line per zip at `-v`; the temporary build no longer leaks its paths, `-vv` adds the steps and `-vvv` the archive entries
+- `kaye_engine.deed` gains the `create_zip` deed, `format_size`, the `quiet_deeds()` context manager, and a settable `level` on a deed scope; the zip exports no longer use `pack_files` and `mv_file`
+- `export_skills_as_zips` returns the zip count and drops its unused `verbose` argument; `export_plugins_as_zips` returns the zip count
 
 ### Deprecated
 
