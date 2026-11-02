@@ -5,7 +5,6 @@
 <!--
 Todo kaye build/gh release command
 Fixme re-org surfaces: esp claude no longer has so many surfaces
-Fixme kaye a p -z need better print out
 
 todo organize exportable registry,
 such that not all calling export all exportable
@@ -32,15 +31,22 @@ manually add chat & coder, instead by data structure
 ### Added
 
 - file and directory deed lines carry native badges on success: `new` (create file or dir, pack), `owr` (overwrite), `mv` (move); `sync-open-webui-skills` lines carry `new`, `owr`, `del` by verb, after `dry` under `-n`
+- `kaye_engine.deed` gains the `create_zip` deed, `format_size`, `quiet_deeds()` (log deed successes at `DEBUG`), and a settable `level` on a deed scope
 - `kaye_engine.badge` holds the native badge names the engine stamps (`DRY_BADGE`, `NEW_BADGE`, `OWR_BADGE`, `MV_BADGE`, `DEL_BADGE`)
 
 ### Changed
 
 - `DRY_BADGE` lives in `kaye_engine.badge`; `cli.dry_run` still re-exports it
+- `claude plugin -z` prints 1 line per zip at default verbosity (`export plugin (23 skills, 412 KB): PATH`), then `export plugin as N zips`
+- `skill -z`, `claude skills -z` print `export skills as N zips` by default, 1 line per zip at `-v`
+- zip exports hide temp-dir build paths; `-vv` shows steps, `-vvv` archive entries
+- `export_plugins_as_zips`, `export_skills_as_zips` return the zip count; the zip exports no longer use the `pack_files`, `mv_file` deeds
 
 ### Deprecated
 
 ### Removed
+
+- `verbose` argument of `export_skills_as_zips`, unused
 
 ### Fixed
 
