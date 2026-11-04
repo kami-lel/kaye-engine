@@ -310,6 +310,8 @@ Kaye Engine ships 8 surfaces, registered with a remark when `kaye_engine.prompt`
 | `hermes` | Hermes Agents |
 | `comfy` | Comfy Org ComfyUI image prompts |
 
+`kaye-engine render-profile` (alias `rp`) prints one registered profile per line, sorted, as `NAME:<TAB>REMARK`; `-R` prints names only and `-r` turns remarks back on, which is the default. A profile registered with no remark prints its bare name.
+
 A consumer adds its own with `register_render_profile(name, profile, remark="")`; a repeated name raises `ValueError`, and a `remark` that is not a `str` raises `TypeError`:
 
 ```python

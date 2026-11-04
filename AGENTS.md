@@ -96,9 +96,9 @@ pytest
 
 The editable install registers a `kaye-engine` console script, so
 `kaye-engine ...` and `python -m kaye_engine ...` are equivalent — prefer
-the shorter form. **Fourteen** top-level subcommands exist: `blueprint`,
+the shorter form. **Fifteen** top-level subcommands exist: `blueprint`,
 `claude`, `continue`, `hermes`, `export-image-prompt`, `dynamic-node`, `dynamic-substitution`,
-`exportable`, `export-json`, `affordance`, `variant`,
+`exportable`, `export-json`, `affordance`, `variant`, `render-profile`,
 `glossary`, `skill`, and `sync-open-webui-skills`:
 
 ```bash
@@ -142,6 +142,8 @@ kaye-engine export-json              # export exportable_registry as flat JSON
 kaye-engine export-json -f FILE      # write to FILE instead of the default
 kaye-engine affordance                 # list affordance_registry names, sorted
 kaye-engine variant                    # list variant_registry canonical names, sorted
+kaye-engine render-profile             # list render_profile_registry names with remarks, `NAME:<TAB>REMARK`, sorted
+kaye-engine rp -R                      # names only; -r turns remarks back on (default)
 kaye-engine glossary GLOSSARY               # print a glossary's content
 kaye-engine glossary ls                     # list every registered glossary name
 OWU_API_KEY=sk-... kaye-engine sync-open-webui-skills  # push every exportable into Open WebUI as a skill
@@ -161,7 +163,7 @@ marketplace` → `claude m`; `claude plugin` → `claude p`; `claude skills` →
 → `s`; `claude user-system-prompt` → `claude usp`;
 `claude vs-code-extension` → `claude v`; `exportable` → `x`;
 `export-json` → `json`; `affordance` → `afd`; `variant`
-→ `var`; `glossary` → `g`; `sync-open-webui-skills` → `o`.
+→ `var`; `render-profile` → `rp`; `glossary` → `g`; `sync-open-webui-skills` → `o`.
 
 **Rendering commands** — any subcommand that reaches
 `render_prompt(...)`, directly or via
