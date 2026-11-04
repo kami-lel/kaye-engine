@@ -42,7 +42,6 @@ manually add chat & coder, instead by data structure
 
 ### Changed
 
-- `export-image-prompt` (`img`) subcommand renamed to `export-comfy-ui-prompt` (`comfy`); the old name and alias are removed, with no deprecated shim
 - `--surface` takes its choices from `render_profile_registry` and is always offered on every rendering command; `resolve_render_profile` and `build_render_profile_parent_parser` no longer take `surface_profiles`
 - bare `blueprint` (`bp`) now lists blueprints like `blueprint ls` instead of printing usage; bare `exportable` (`x`), `dynamic-node` (`dn`), `glossary` (`g`) and `dynamic-substitution` (`ds`) likewise default to `ls`
 - `DRY_BADGE` lives in `kaye_engine.badge`; `cli.dry_run` still re-exports it
@@ -55,6 +54,7 @@ manually add chat & coder, instead by data structure
 
 ### Removed
 
+- `export-image-prompt` (`img`) subcommand and its parser module; `image_prompt_exportable_registry` and `register_image_prompt_exportable()` remain, but no engine command reads them
 - `setup_claude_cli(affordance_groups=, surface_profiles=)`, `register_claude_affordances()` and `get_surface_profiles()`; the engine now registers its own affordance variants and surface profiles, and a consumer adds more with `register_variant()` and `register_render_profile()`
 - `verbose` argument of `export_skills_as_zips`, unused
 

@@ -47,7 +47,7 @@ merge.
 | changed source | test scope |
 |---|---|
 | `kaye_engine/prompt/` | `tests/prompt/` (`tests/prompt/tree/` for the loader, `tests/prompt/index/` for `CorpusIndex`, `tests/prompt/bp/data/` for `Blueprint` and its functions, `prompt-md_comment_test.py` and `prompt-md_fence_test.py` for the line helpers) |
-| `kaye_engine/prompt/blueprint/render/` | `tests/prompt/`, plus `tests/cli/export_image_prompt_parser_test.py` (asserts rendered negative-prompt text) |
+| `kaye_engine/prompt/blueprint/render/` | `tests/prompt/` |
 | `kaye_engine/abbr_collection/` | `tests/abbr/` |
 | `kaye_engine/cli/` | `tests/cli/` |
 | `kaye_engine/cli/blueprint/` | `tests/cli/blueprint/` (drives the real parsers over a small inline corpus; `aux_input_test.py`, `aux_output_test.py` for the helpers) |
@@ -96,8 +96,8 @@ pytest
 
 The editable install registers a `kaye-engine` console script, so
 `kaye-engine ...` and `python -m kaye_engine ...` are equivalent — prefer
-the shorter form. **Fifteen** top-level subcommands exist: `blueprint`,
-`claude`, `continue`, `hermes`, `export-comfy-ui-prompt`, `dynamic-node`, `dynamic-substitution`,
+the shorter form. **Fourteen** top-level subcommands exist: `blueprint`,
+`claude`, `continue`, `hermes`, `dynamic-node`, `dynamic-substitution`,
 `exportable`, `export-json`, `affordance`, `variant`, `render-profile`,
 `glossary`, `skill`, and `sync-open-webui-skills`:
 
@@ -135,7 +135,6 @@ kaye-engine continue                        # export rules + prompts to ~/.conti
 kaye-engine continue FOLDER                 # export to a custom Continue folder
 kaye-engine hermes FOLDER                   # SOUL.md, profiles/, skills/ into a Hermes home
 kaye-engine hermes FOLDER -n                # report every write without touching disk
-kaye-engine export-comfy-ui-prompt FOLDER          # write every image-prompt-subset exportable to FOLDER
 kaye-engine exportable EXPORTABLE           # print an exportable's content
 kaye-engine exportable ls                   # list every registered exportable name
 kaye-engine export-json              # export exportable_registry as flat JSON
@@ -156,7 +155,7 @@ aliases `bp`, `x`, `dn`, `g`) behave as the same command followed by `ls`.
 
 Aliases: `blueprint` → `bp`; `blueprint list` → `bp ls`; `blueprint
 preview` → `bp p`; `blueprint render` → `bp r`; `blueprint validate` →
-`bp v`; `blueprint show` → `bp s`; `continue` → `c`; `hermes` → `m`; `export-comfy-ui-prompt` → `comfy`; `dynamic-node` →
+`bp v`; `blueprint show` → `bp s`; `continue` → `c`; `hermes` → `m`; `dynamic-node` →
 `dn`; `dynamic-substitution` → `ds`; `claude` → `a`; `claude code`
 → `claude c`; `claude
 marketplace` → `claude m`; `claude plugin` → `claude p`; `claude skills` → `claude s`; `skill`
@@ -273,7 +272,7 @@ via `RenderProfile.merge()`.
 `register_image_prompt_exportable(canonical_name)`
 (`kaye_engine/exportable/image_prompt_export.py`) marks an already-registered
 `exportable_registry` entry as a member of the image-prompt export subset
-(`image_prompt_exportable_registry`) that `export-comfy-ui-prompt`/`comfy` reads.
+(`image_prompt_exportable_registry`), which no engine command reads.
 **Calls live in the consumer package**, same as `register_blueprint()`;
 it raises `KeyError` if `canonical_name` is not already registered,
 `ValueError` on a duplicate.
