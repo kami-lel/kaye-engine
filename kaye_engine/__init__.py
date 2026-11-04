@@ -22,6 +22,7 @@ __all__ = (
     "set_entry_consumer",
     "register_corpus_under_node",
     "register_image_prompt_exportable",
+    "register_render_profile",
     "register_dynamic_substitution",
     "setup_claude_cli",
     "setup_hermes_cli",
@@ -56,4 +57,5 @@ from kaye_engine.prompt import (
     register_comment_line,
     register_corpus_under_node,
     register_dynamic_substitution,
+    register_render_profile,
 )

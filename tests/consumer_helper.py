@@ -16,11 +16,15 @@ from kaye_engine.consumer import iter_consumers, register_consumer
 from kaye_engine.prompt.blueprint.registry import (
     register_blueprint as _register_blueprint,
 )
+from kaye_engine.prompt.blueprint.render_profile_registry import (
+    render_profile_registry,
+)
 
 __all__ = (
     "TEST_CONSUMER",
     "ensure_test_consumer",
     "isolated_consumers",
+    "isolated_render_profiles",
     "register_abbr_glossary",
     "register_blueprint",
 )
@@ -58,3 +62,18 @@ def isolated_consumers():
         consumer._consumers.clear()
         consumer._consumers.update(saved[0])
         consumer._entry_canonical_name = saved[1]
+
+
+@contextlib.contextmanager
+def isolated_render_profiles():
+    """
+    swap in an empty render profile registry, restoring the earlier
+    entries on exit, so a test registers profiles on a clean slate
+    """
+    saved = dict(render_profile_registry)
+    render_profile_registry.clear()
+    try:
+        yield
+    finally:
+        render_profile_registry.clear()
+        render_profile_registry.update(saved)

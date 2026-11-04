@@ -58,6 +58,7 @@ no fallback; a `glossary-*` group takes its glossary's consumer:
 | `register_exportable_abbrs` | additive | rebuilds the abbr groups on every populate, replacing earlier abbr groups only; a name held by another exportable raises |
 | `register_dynamic_substitution` | guarded | |
 | `register_variant` | guarded | an unknown affordance is created on first use |
+| `register_render_profile` | guarded | name is also the `--surface` choice; `remark` must be a `str`, `""` when omitted |
 | `register_comment_line` | additive | a repeated line is ignored; first-seen order |
 | `add_corpus_clear_hook` | additive | |
 | `register_consumer` | guarded | one record per consumer package; a repeated canonical name raises |
