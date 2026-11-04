@@ -18,7 +18,7 @@ through a Python API and a CLI.
 | distribution / import name | `kaye-engine` / `kaye_engine` |
 | dependencies | `anytree`, `json5`, `kamilog`, `pyahocorasick`, `pyyaml` |
 | entry point | `kaye-engine` console script → `kaye_engine.__main__:main` |
-| CLI subcommands | `blueprint`, `claude`, `continue`, `hermes`, `export-comfy-ui-prompt`, `dynamic-node`, `dynamic-substitution`, `exportable`, `export-json`, `affordance`, `variant`, `render-profile`, `glossary`, `skill`, `sync-open-webui-skills` |
+| CLI subcommands | `blueprint`, `claude`, `continue`, `hermes`, `dynamic-node`, `dynamic-substitution`, `exportable`, `export-json`, `affordance`, `variant`, `render-profile`, `glossary`, `skill`, `sync-open-webui-skills` |
 
 ## Personalization Boundary
 
@@ -164,7 +164,7 @@ siblings at every level, `IMAGE` is the composite `POST_ORDER | REVERSE_ORDER
 | _IMAGE` that also flattens headings to `title:` and forces `sparseness=1`.
 `NEGATIVE | IMAGE` prints no titles, only `{avoid}` blocks.
 `Exportable.supports_negative_content` (`True` on `BlueprintRegistry` only)
-gates the `-AVOID.md` siblings of `export-comfy-ui-prompt`. Q.v. [sidecar node
+gates whether a negative prompt can be rendered. Q.v. [sidecar node
 documentation](docs/sidecar-doc.md).
 
 `affordance_registry`/`variant_registry` form a two-level model: an
@@ -195,7 +195,7 @@ documentation](docs/render-profile-doc.md).
 ### CLI Flag Surface
 
 Several subcommands print rendered or registry content without the
-render-profile options: `export-json` and `export-comfy-ui-prompt` use a
+render-profile options: `export-json` uses a
 hardcoded `RenderProfile`; `dynamic-substitution` and `glossary` print raw
 registry content; `sync-open-webui-skills` renders per skill with no exposed
 profile; `affordance`/`variant`/`render-profile` are list-only.
@@ -422,12 +422,9 @@ kaye_engine/
 │   ├── comment_parser.py     shared `--comment`/`--no-comment` parent parser
 │   ├── render_profile_parser.py  shared 6-option parent parser + aux fn
 │   ├── exportable_parser.py  `exportable`/`x` subcommand: print, list exportables
-│   ├── exportable_as_json_parser.py  `export-json`/`json`
-│   │                                  subcommand: export
-│   │                                  exportable_registry as flat JSON
-│   └── export_image_prompt_parser.py  `export-comfy-ui-prompt`/`comfy` subcommand:
-│                                    write the image-prompt subset as
-│                                    `<name>.md`/`<name>-AVOID.md` pairs
+│   └── exportable_as_json_parser.py  `export-json`/`json`
+│                                      subcommand: export
+│                                      exportable_registry as flat JSON
 docs/                    per-topic reference, linked above
 tests/                   prompt/, abbr/, cli/ — mirrors the source
 ```
