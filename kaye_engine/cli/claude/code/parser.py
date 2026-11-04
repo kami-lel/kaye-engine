@@ -16,7 +16,6 @@ from kaye_engine.cli.claude.plugin_marketplace_name import (
 from kaye_engine.cli.claude.user_prompt.export import (
     export_user_system_prompt_file,
 )
-from kaye_engine.cli.claude.setup import get_surface_profiles
 from kaye_engine.cli.claude.user_prompt.parser import (
     DEFAULT_CLAUDE_FOLDER,
     find_user_system_prompt_file,
@@ -69,7 +68,6 @@ def register_code_parser(cli_subparser):  ######################################
             build_render_profile_parent_parser(
                 default_surface=("code",),
                 default_sparseness=DEFAULT_SPARSENESS,
-                surface_profiles=get_surface_profiles(),
             ),
             build_dry_run_parent_parser(),
         ],
@@ -95,7 +93,6 @@ def register_code_parser(cli_subparser):  ######################################
         folder = args.folder
         render_profile = resolve_render_profile(
             args,
-            surface_profiles=get_surface_profiles(),
             default_show_comment=False,
         )
 

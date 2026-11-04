@@ -16,6 +16,9 @@ from kaye_engine.cli.comment_parser import build_comment_parent_parser
 from kaye_engine.cli.sparseness_parser import build_sparseness_parent_parser
 from kaye_engine.prompt.blueprint.render_mode import RenderMode
 from kaye_engine.prompt.blueprint.render_profile import RenderProfile
+from kaye_engine.prompt.blueprint.render_profile_registry import (
+    render_profile_registry,
+)
 
 __all__ = (
     "build_render_profile_parent_parser",
@@ -29,7 +32,6 @@ def build_render_profile_parent_parser(
     default_surface=(),
     default_sparseness=DEFAULT_SPARSENESS,
     comment_short_flags=True,
-    surface_profiles=None,
 ):
     """
     build a fresh, help-suppressed ``ArgumentParser`` carrying all 6
@@ -48,18 +50,13 @@ def build_render_profile_parent_parser(
             also register ``-c``/``-C``, v.s. ``build_comment_parent_
             parser``
     :type comment_short_flags: bool
-    :param surface_profiles: populates the ``--surface`` flag's
-            choices; ``None`` or empty omits ``--surface`` entirely
-    :type surface_profiles: dict[str, RenderProfile] or None, optional
     :return: the parent parser
     :rtype: ArgumentParser
     """
     parent = ArgumentParser(
         add_help=False,
         parents=[
-            build_surface_parent_parser(
-                default_surface, surface_profiles=surface_profiles
-            ),
+            build_surface_parent_parser(default_surface),
             build_sparseness_parent_parser(default_sparseness),
             build_comment_parent_parser(
                 short_flags=comment_short_flags, is_render_profile=True
@@ -91,9 +88,7 @@ def build_render_profile_parent_parser(
     return parent
 
 
-def resolve_render_profile(
-    args, *, surface_profiles=None, default_show_comment=False
-):
+def resolve_render_profile(args, *, default_show_comment=False):
     """
     resolve the parsed render options into a ``RenderProfile``
 
@@ -101,9 +96,6 @@ def resolve_render_profile(
     :param args: namespace from a parser built by
             ``build_render_profile_parent_parser``
     :type args: argparse.Namespace
-    :param surface_profiles: profiles keyed by ``--surface`` name;
-            same dict given to the parser builder
-    :type surface_profiles: dict{str: RenderProfile}, optional
     :param default_show_comment: whether to show the comment when
             neither ``--comment`` nor ``--no-comment`` was passed;
             default=False
@@ -119,7 +111,7 @@ def resolve_render_profile(
 
     profile = RenderProfile()
     for name in surface_names:
-        profile = profile.merge(surface_profiles[name])
+        profile = profile.merge(render_profile_registry[name].profile)
 
     if args.variant or surface_names:
         profile = profile.merge(RenderProfile(variants=tuple(args.variant)))

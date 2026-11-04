@@ -462,4 +462,4 @@ Every rendering command inherits `--variant VARIANT [VARIANT ...]`, see [`render
 | `kaye-engine affordance` | `afd` | `affordance_registry` names |
 | `kaye-engine variant` | `var` | `variant_registry` names |
 
-Which variants apply to an invocation is decided by the consumer's surface profiles, see [`render-profile-doc.md`](render-profile-doc.md#surfaces).
+Which variants apply to an invocation is decided by the registered surface profiles, see [`render-profile-doc.md`](render-profile-doc.md#surfaces).

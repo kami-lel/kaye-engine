@@ -11,7 +11,6 @@ from argparse import RawDescriptionHelpFormatter
 import kamilog
 from kaye_engine import LOGGER_NAME
 from kaye_engine.cli import DEFAULT_SPARSENESS
-from kaye_engine.cli.claude.setup import get_surface_profiles
 from kaye_engine.cli.dynamic_node.node_type_choices import (
     list_all_node_type_names,
 )
@@ -162,7 +161,6 @@ def _dynamic_node_main(args):
             glossary_priority_threshold=args.priority_threshold,
             profile=resolve_render_profile(
                 args,
-                surface_profiles=get_surface_profiles(),
                 default_show_comment=False,
             ),
         )
@@ -187,7 +185,6 @@ def register_dynamic_node_parser(cli_subparser):
         parents=[
             build_render_profile_parent_parser(
                 default_sparseness=DEFAULT_SPARSENESS,
-                surface_profiles=get_surface_profiles(),
             )
         ],
     )

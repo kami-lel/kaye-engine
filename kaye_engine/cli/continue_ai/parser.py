@@ -6,7 +6,6 @@ from pathlib import Path
 import kamilog
 from kaye_engine import PACKAGE_NAME
 from kaye_engine.cli import DEFAULT_SPARSENESS
-from kaye_engine.cli.claude.setup import get_surface_profiles
 from kaye_engine.cli.cli_setup_guard import check_corpus_setup_for_cli
 from kaye_engine.cli.continue_ai import (
     CONTINUE_DOC_DESCRIPTION,
@@ -63,7 +62,6 @@ def register_continue_parser(cli_subparser):  ##################################
             build_render_profile_parent_parser(
                 default_surface=(),
                 default_sparseness=DEFAULT_SPARSENESS,
-                surface_profiles=get_surface_profiles(),
             ),
             build_dry_run_parent_parser(),
         ],
@@ -88,7 +86,6 @@ def register_continue_parser(cli_subparser):  ##################################
 
         render_profile = resolve_render_profile(
             args,
-            surface_profiles=get_surface_profiles(),
             default_show_comment=False,
         )
         export_continue_folder(args.folder, render_profile=render_profile)
