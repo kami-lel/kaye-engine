@@ -6,14 +6,14 @@
 FIXME re-org surfaces: esp claude no longer has so many surfaces
 FIXME image profile -> comfy ui
 
-TODO organize exportable registry,
-such that not all calling export all exportable
 TODO profile w/ description
 TODO command to show profile registry
 
 Todo kaye build/gh release command
 
 todo support Codex
+todo organize exportable registry,
+such that not all calling export all exportable
 
 bug bug continue exporting missing some skills
 fixme fixme always apply is unique to continue:
