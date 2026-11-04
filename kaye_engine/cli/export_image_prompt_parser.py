@@ -40,15 +40,16 @@ _IMAGE_PROMPT_SPARSE_RENDER_PROFILE = RenderProfile(
 )
 _AVOID_FILE_SUFFIX = "-AVOID"
 
-_HELP = "export the image-prompt exportable subset as Markdown files"
+_HELP = "export the image-prompt subset as ComfyUI prompt Markdown files"
 
 _DESCRIPTION = _HELP + """
 
-writes every exportable in the image-prompt export subset to FOLDER, one
+writes every exportable in the image-prompt export subset to FOLDER as
+ComfyUI prompts, one
 Markdown file per canonical name, plus a "<canonical_name>-AVOID.md"
 sibling wherever that entry has real {avoid} content:
 
-    kaye-engine export-image-prompt FOLDER
+    kaye-engine export-comfy-ui-prompt FOLDER
 """
 
 
@@ -90,7 +91,7 @@ def _write_text_file(path, content):
 def _export_image_prompt_main(args):
     set_logging_level_by_namespace(args, logger=logger)
     apply_dry_run_arg(args)
-    logger.enter("{} export-image-prompt".format(PACKAGE_NAME))
+    logger.enter("{} export-comfy-ui-prompt".format(PACKAGE_NAME))
     check_corpus_setup_for_cli()
 
     if not os.path.isdir(args.folder):
@@ -114,20 +115,20 @@ def _export_image_prompt_main(args):
             )
             _write_text_file(negative_path, avoid_content)
 
-    logger.done("export export-image-prompt:\t" + str(args.folder))
+    logger.done("export export-comfy-ui-prompt:\t" + str(args.folder))
 
 
 # Public API  ##################################################################
 def register_export_image_prompt_parser(cli_subparser):
     """
-    register the ``kaye-engine export-image-prompt`` subcommand parser
+    register the ``kaye-engine export-comfy-ui-prompt`` subcommand parser
     """
     export_image_prompt_parser = cli_subparser.add_parser(
-        "export-image-prompt",
+        "export-comfy-ui-prompt",
         help=_HELP,
         description=_DESCRIPTION,
         formatter_class=RawDescriptionHelpFormatter,
-        aliases=["img"],
+        aliases=["comfy"],
         parents=[build_dry_run_parent_parser()],
     )
 

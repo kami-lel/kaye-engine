@@ -50,7 +50,7 @@ def register_cli_subcommands(cli_subparser):
     """
     register every engine-owned subcommand (``blueprint``, ``claude``,
     ``continue``, ``hermes``, the
-    export-image-prompt command, the dynamic-node command, the
+    export-comfy-ui-prompt command, the dynamic-node command, the
     dynamic-substitution command, the exportable command, the
     export-json command, ``affordance``, ``variant``,
     ``render-profile``, ``glossary``, ``skill``, and the

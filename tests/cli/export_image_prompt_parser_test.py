@@ -129,17 +129,24 @@ class TestAvoidContent:
 
 class TestRegisterExportImagePromptParser:
 
-    def test_registers_export_image_prompt_subcommand(self):
+    def test_registers_export_comfy_ui_prompt_subcommand(self):
         parser = _build_export_image_prompt_parser()
-        args = parser.parse_args(["export-image-prompt", "some-dir"])
+        args = parser.parse_args(["export-comfy-ui-prompt", "some-dir"])
 
         assert (
             args.func is export_image_prompt_parser._export_image_prompt_main
         )
 
-    def test_registers_img_alias(self):
+    def test_rejects_old_names(self):
         parser = _build_export_image_prompt_parser()
-        args = parser.parse_args(["img", "some-dir"])
+
+        for old_name in ("export-image-prompt", "img"):
+            with pytest.raises(SystemExit):
+                parser.parse_args([old_name, "some-dir"])
+
+    def test_registers_comfy_alias(self):
+        parser = _build_export_image_prompt_parser()
+        args = parser.parse_args(["comfy", "some-dir"])
 
         assert (
             args.func is export_image_prompt_parser._export_image_prompt_main
@@ -160,7 +167,7 @@ class TestExportImagePromptMain:
     ):
         folder = tmp_path / "out"
         parser = _build_export_image_prompt_parser()
-        args = parser.parse_args(["export-image-prompt", str(folder)])
+        args = parser.parse_args(["export-comfy-ui-prompt", str(folder)])
         args.func(args)
 
         assert (folder / "some-exportable.md").read_text(
@@ -175,7 +182,7 @@ class TestExportImagePromptMain:
     ):
         folder = tmp_path / "out"
         parser = _build_export_image_prompt_parser()
-        args = parser.parse_args(["export-image-prompt", str(folder)])
+        args = parser.parse_args(["export-comfy-ui-prompt", str(folder)])
         args.func(args)
 
         assert (folder / "some-exportable-AVOID.md").read_text(
@@ -186,7 +193,7 @@ class TestExportImagePromptMain:
     def test_y_alias_writes_same_output(self, _fake_registry, tmp_path):
         folder = tmp_path / "out"
         parser = _build_export_image_prompt_parser()
-        args = parser.parse_args(["img", str(folder)])
+        args = parser.parse_args(["comfy", str(folder)])
         args.func(args)
 
         assert (folder / "some-exportable.md").is_file()
@@ -195,7 +202,7 @@ class TestExportImagePromptMain:
     def test_creates_folder_when_missing(self, _fake_registry, tmp_path):
         folder = tmp_path / "does" / "not" / "exist"
         parser = _build_export_image_prompt_parser()
-        args = parser.parse_args(["export-image-prompt", str(folder)])
+        args = parser.parse_args(["export-comfy-ui-prompt", str(folder)])
         args.func(args)
 
         assert folder.is_dir()
@@ -210,7 +217,7 @@ class TestExportImagePromptMain:
             ["some-exportable"],
         ):
             parser = _build_export_image_prompt_parser()
-            args = parser.parse_args(["export-image-prompt", str(folder)])
+            args = parser.parse_args(["export-comfy-ui-prompt", str(folder)])
             args.func(args)
 
         assert (folder / "some-exportable.md").is_file()
