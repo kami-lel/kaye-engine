@@ -178,13 +178,17 @@ def register_builtin_render_profiles():
             RenderProfile(variants=(), conditional_sidecars=(_AVOID_SIDECAR,)),
             "Continue.dev rules",
         ),
-        # no affordance variants, but the Hermes identity marker is on
+        # the image model alone, no Claude affordance variants (so every
+        # Fallback renders), plus the Hermes identity marker
         (
             "hermes",
             RenderProfile(
-                variants=(),
-                conditional_sidecars=("[{}]".format(_HERMES_SIDECAR),)
-                + (_AVOID_SIDECAR,),
+                variants=("QwenImage",),
+                conditional_sidecars=(
+                    "[QwenImage]",
+                    "[{}]".format(_HERMES_SIDECAR),
+                    _AVOID_SIDECAR,
+                ),
             ),
             "Hermes Agents",
         ),

@@ -12,7 +12,7 @@ kaye-engine hermes FOLDER -s 0 -C     # the shared render options apply
 
 `FOLDER` is required; there is no default location.
 
-The command accepts the shared render options (`--surface`, `--comment`/`--no-comment`, `--conditional-sidecar`, `--variant`, `--sparseness`, `--reverse-order`; q.v. [`render-profile-doc.md`](render-profile-doc.md)) and `-n`/`--dry-run`. Comments are hidden by default and the `hermes` surface is selected by default: it carries no affordance variants, so every `Fallback` sidecar renders (e.g. `file-edit`, where the agent has no file-editing tool).
+The command accepts the shared render options (`--surface`, `--comment`/`--no-comment`, `--conditional-sidecar`, `--variant`, `--sparseness`, `--reverse-order`; q.v. [`render-profile-doc.md`](render-profile-doc.md)) and `-n`/`--dry-run`. Comments are hidden by default and the `hermes` surface is selected by default: its only variant is the image model `QwenImage`, so image-prompt `{[QwenImage] Usage}` sidecars render, and every Claude-tool affordance falls back (e.g. `file-edit`, where the agent has no file-editing tool).
 
 ## Output Tree
 

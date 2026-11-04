@@ -299,11 +299,12 @@ class TestContinueProfile:
 
 class TestHermesProfile:
 
-    def test_no_variants_but_gating_on(_):
-        assert HERMES_PROFILE.variants == ()
+    def test_image_model_is_the_only_variant(_):
+        assert HERMES_PROFILE.variants == ("QwenImage",)
 
-    def test_identity_and_avoid_sidecars(_):
+    def test_image_model_identity_and_avoid_sidecars(_):
         assert HERMES_PROFILE.conditional_sidecars == (
+            "[QwenImage]",
             "[for Hermes]",
             "avoid",
         )
