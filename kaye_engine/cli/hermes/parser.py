@@ -56,7 +56,7 @@ def register_hermes_parser(cli_subparser):  ####################################
         aliases=["m"],
         parents=[
             build_render_profile_parent_parser(
-                default_surface=(),
+                default_surface=("hermes",),
                 default_sparseness=DEFAULT_SPARSENESS,
             ),
             build_dry_run_parent_parser(),
