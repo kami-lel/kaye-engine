@@ -7,7 +7,6 @@ import kamilog
 from kaye_engine import PACKAGE_NAME
 from kaye_engine.cli import DEFAULT_SPARSENESS
 from kaye_engine.cli.claude import CLAUDE_DOC_DESCRIPTION, LOGGER_CLAUDE_NAME
-from kaye_engine.cli.claude.setup import get_surface_profiles
 from kaye_engine.cli.cli_setup_guard import check_corpus_setup_for_cli
 from kaye_engine.cli.dry_run import (
     apply_dry_run_arg,
@@ -58,7 +57,6 @@ def register_skills_parser(cli_subparser):  ####################################
             build_render_profile_parent_parser(
                 default_surface=("chat",),
                 default_sparseness=DEFAULT_SPARSENESS,
-                surface_profiles=get_surface_profiles(),
             ),
             build_dry_run_parent_parser(),
         ],
@@ -94,7 +92,6 @@ def register_skills_parser(cli_subparser):  ####################################
             folder = Path.cwd() if args.zip else _DEFAULT_SKILLS_FOLDER
         render_profile = resolve_render_profile(
             args,
-            surface_profiles=get_surface_profiles(),
             default_show_comment=False,
         )
         version = get_consumer_version()

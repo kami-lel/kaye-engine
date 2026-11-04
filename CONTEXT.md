@@ -179,9 +179,9 @@ registered). Q.v. [affordance documentation](docs/sidecar-doc.md#affordance).
 Every **rendering command** (list and flags in `AGENTS.md`) shares one parent
 parser and one aux function, `build_render_profile_parent_parser`/
 `resolve_render_profile` (`kaye_engine/cli/render_profile_parser.py`), which
-returns one `RenderProfile` by merging each `--surface` profile (from the
-consumer-supplied `surface_profiles` dict of `setup_claude_cli(...)`; the
-option is omitted when none is configured) with one built from the explicit
+returns one `RenderProfile` by merging each `--surface` profile (from
+`render_profile_registry`; the option is omitted when it is empty) with one
+built from the explicit
 flags via `RenderProfile.merge()`. `--variant`/`--conditional-sidecar` union
 with what `--surface` derives; `--reverse-order` ORs into `mode` before the
 merge, because `mode` is scalar and would otherwise be clobbered. An omitted
@@ -387,13 +387,12 @@ kaye_engine/
 │   │   │                          consumers, claude setup guard
 │   │   ├── package_meta.py        manifest metadata read from a
 │   │   │                          consumer's installed distribution
-│   │   ├── setup.py               setup_claude_cli(...); registers
-│   │   │                          consumer-supplied affordance_groups,
-│   │   │                          stores surface_profiles
+│   │   ├── setup.py               setup_claude_cli(...): stores the Chat and
+│   │   │                          merged Coder exportable names
 │   │   ├── skills/                `claude skills`/`claude s`: every skill
 │   │   │                          into ~/.claude/skills (`-z` for .zips)
 │   │   └── surface_parser.py      shared `--surface` parent parser --
-│   │                              choices from consumer's surface_profiles
+│   │                              choices from render_profile_registry
 │   ├── skill/           `skill`/`s` subcommand: named Agent Skills into a
 │   │                    required FOLDER (`--all` for every one)
 │   ├── continue_ai/    `continue`/`c` subcommand: rules/ + prompts/ for Continue

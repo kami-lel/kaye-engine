@@ -267,7 +267,7 @@ register_comment_line("My Project v0.1.0")
 A render can draw on three sources, from the most general to the most specific:
 
 1. **Entry default**: the `render_profile` given to `register_blueprint()`, the baseline for that one blueprint
-2. **Surface**: a named profile from the consumer's `surface_profiles`, chosen with `--surface`
+2. **Surface**: a named profile from `render_profile_registry`, chosen with `--surface`
 3. **Command-line flags**: `--variant`, `--conditional-sidecar`, `--sparseness`, `--comment`, `--reverse-order`
 
 The command line merges sources 2 and 3 into one profile with `resolve_render_profile()`. Then `BlueprintRegistry.content(profile=...)` merges it onto the entry's default, like this:
@@ -297,30 +297,39 @@ Calling `render_prompt(bp, profile=...)` or `render_prompt_without_dependencies(
 
 A **surface** is a named render target, such as `chat`, `code`, or the VS Code extension. Surfaces support different tools, so one corpus should render differently for each. A surface with Bash access gets the Bash usage sidecar, and one without does not.
 
-Kaye Engine defines no surfaces itself. A consumer passes a `dict[str, RenderProfile]` to `setup_claude_cli(surface_profiles=...)`, where each profile lists that surface's `variants` and `conditional_sidecars`:
+Kaye Engine ships 8 surfaces, registered with a remark when `kaye_engine.prompt` is imported, and `kaye-engine render-profile` lists them. Each is a `RenderProfile` in `render_profile_registry` that lists that surface's `variants` and `conditional_sidecars`:
+
+| surface | remark |
+|---|---|
+| `chat` | Anthropic Claude chat app on web and desktop |
+| `cowork` | Anthropic Claude Cowork desktop agent |
+| `code` | Anthropic Claude Code in the terminal |
+| `vsc` | Anthropic Claude Code extension for Microsoft Visual Studio Code |
+| `ioschat` | Anthropic Claude chat app on Apple iOS |
+| `continue` | Continue.dev rules |
+| `hermes` | Hermes Agents |
+| `comfy` | Comfy Org ComfyUI image prompts |
+
+A consumer adds its own with `register_render_profile(name, profile, remark="")`; a repeated name raises `ValueError`, and a `remark` that is not a `str` raises `TypeError`:
 
 ```python
+from kaye_engine import register_render_profile
 from kaye_engine.prompt.blueprint.render_profile import RenderProfile
 
-SURFACE_PROFILES = {
-    "chat": RenderProfile(
-        variants=("ClaudeChat:ask_user_input_v0", ...),
-        conditional_sidecars=("[ClaudeChat]", "[Claude]"),
-    ),
-    "code": RenderProfile(
+register_render_profile(
+    "my-surface",
+    RenderProfile(
         variants=("ClaudeCode:AskUserQuestion", ...),
         conditional_sidecars=("[ClaudeCode]", "[Claude]"),
     ),
-}
-
-setup_claude_cli(..., surface_profiles=SURFACE_PROFILES)
+    "my own target",
+)
 ```
 
-Then `--surface NAME [NAME ...]` (`-u`) selects one or more surfaces:
+Register before the parsers are built, since `--surface NAME [NAME ...]` (`-u`) takes its choices from the registry when a command's parser is constructed, and selects one or more surfaces:
 
 - several surfaces merge in the order given, so `--surface chat code` unions both profiles' collections
-- the allowed names are the dict's keys
-- `--surface` is absent from the CLI when no `surface_profiles` were configured
+- the allowed names are the registry's keys
 - each `claude` subcommand preselects a surface when the flag is omitted, see `--help` of any rendering command
 
 See also [Claude Documentation](claude-doc.md).

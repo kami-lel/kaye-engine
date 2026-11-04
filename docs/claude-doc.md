@@ -178,7 +178,7 @@ Every subcommand except `user-system-prompt` writes files, and all of them take 
 - `--variant`: variant names to include
 - `-i`, `--conditional-sidecar`: conditional-sidecar names to include
 - `--reverse-order`: reverse sibling order at every level
-- `--surface`, `-u`: present only when the consumer configured surfaces; each subcommand preselects its own surface when omitted
+- `--surface`, `-u`: one of the registered render profiles, see `kaye-engine render-profile`; each subcommand preselects its own surface when omitted
 - `-n`, `--dry-run`: report every file, directory, and archive step with the `dry` badge and write nothing
 - `-v`, `-q`, `-V`, `-Q`: verbosity
 
@@ -196,4 +196,4 @@ Every package exporting through `claude` calls `register_consumer(display_name, 
 
 A **surface** is a named target Kaye Engine renders for — `chat`, `code`, the VS Code extension, and so on. Different surfaces support different tools, so the same corpus should render differently for each: a Bash-capable surface gets the Bash usage sidecar, a surface without file access does not.
 
-A consumer defines its surfaces as a `dict[str, RenderProfile]` and passes it to `setup_claude_cli(surface_profiles=...)`; every rendering command then accepts `--surface NAME` (`-u`) to render for one or more of them. How surfaces are configured, selected, and merged with `--variant` and `--conditional-sidecar` is documented in [`render-profile-doc.md`](render-profile-doc.md#surfaces).
+The engine registers its surfaces as named render profiles in `render_profile_registry`, and a consumer may add more with `register_render_profile(...)`; every rendering command accepts `--surface NAME` (`-u`) to render for one or more of them. How surfaces are configured, selected, and merged with `--variant` and `--conditional-sidecar` is documented in [`render-profile-doc.md`](render-profile-doc.md#surfaces).

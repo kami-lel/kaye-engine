@@ -10,7 +10,6 @@ from kaye_engine.cli.claude import LOGGER_CLAUDE_NAME
 from kaye_engine.cli.claude.plugin_marketplace_name import (
     check_setup_for_claude_cli,
 )
-from kaye_engine.cli.claude.setup import get_surface_profiles
 from kaye_engine.cli.dry_run import (
     apply_dry_run_arg,
     build_dry_run_parent_parser,
@@ -64,7 +63,6 @@ def register_plugin_parser(cli_subparser):  ####################################
             build_render_profile_parent_parser(
                 default_surface=("chat", "cowork"),
                 default_sparseness=DEFAULT_SPARSENESS,
-                surface_profiles=get_surface_profiles(),
             ),
             build_dry_run_parent_parser(),
         ],
@@ -111,7 +109,6 @@ def register_plugin_parser(cli_subparser):  ####################################
             folder = Path.cwd() if args.zip else _DEFAULT_PLUGINS_FOLDER
         render_profile = resolve_render_profile(
             args,
-            surface_profiles=get_surface_profiles(),
             default_show_comment=False,
         )
 

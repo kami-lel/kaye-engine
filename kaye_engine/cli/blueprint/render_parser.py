@@ -25,7 +25,6 @@ from kaye_engine.cli.blueprint.blueprint_arg_parser import (
     build_blueprint_arg_parser,
     build_no_dependencies_arg_parser,
 )
-from kaye_engine.cli.claude.setup import get_surface_profiles
 from kaye_engine.cli.cli_setup_guard import check_corpus_setup_for_cli
 from kaye_engine.cli.render_profile_description import (
     RENDER_PROFILE_DESCRIPTION,
@@ -65,7 +64,6 @@ def _render_main(args):
     loaded = get_cmd_blueprint(args.BLUEPRINT)
     render_profile = resolve_render_profile(
         args,
-        surface_profiles=get_surface_profiles(),
         default_show_comment=True,
     )
     render_profile = dataclasses.replace(
@@ -97,7 +95,6 @@ def register_render_parser(cli_subparser):
             build_no_dependencies_arg_parser(),
             build_render_profile_parent_parser(
                 default_sparseness=DEFAULT_SPARSENESS,
-                surface_profiles=get_surface_profiles(),
             ),
         ],
     )

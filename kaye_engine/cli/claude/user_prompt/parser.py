@@ -7,7 +7,6 @@ import kamilog
 from kaye_engine.cli import DEFAULT_SPARSENESS
 from kaye_engine.cli.claude import LOGGER_CLAUDE_NAME
 from kaye_engine.cli.cli_setup_guard import check_corpus_setup_for_cli
-from kaye_engine.cli.claude.setup import get_surface_profiles
 from kaye_engine.cli.claude import CLAUDE_DOC_DESCRIPTION
 from kaye_engine.cli.render_profile_description import (
     RENDER_PROFILE_DESCRIPTION,
@@ -42,7 +41,6 @@ def _user_prompt_main(args):
 
     render_profile = resolve_render_profile(
         args,
-        surface_profiles=get_surface_profiles(),
         default_show_comment=True,
     )
 
@@ -78,7 +76,6 @@ def register_user_prompt_parser(cli_subparser):  ###############################
                 default_surface=("chat", "cowork"),
                 default_sparseness=DEFAULT_SPARSENESS,
                 comment_short_flags=False,
-                surface_profiles=get_surface_profiles(),
             )
         ],
     )

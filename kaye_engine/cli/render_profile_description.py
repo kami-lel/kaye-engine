@@ -25,7 +25,7 @@ flags:
 
     --surface NAME [NAME ...], -u
         surface(s) to render for; several merge in the order given;
-        absent when the consumer configured no surface profiles
+        names are those of `kaye-engine render-profile`
     --comment, -c / --no-comment, -C
         turn the trailing generated-by comment on or off
     --conditional-sidecar NAME [NAME ...], -i
@@ -75,8 +75,6 @@ used when a flag is omitted
     claude code                off      code
     claude vs-code-extension   on       vsc
     claude user-system-prompt  on       chat, cowork
-
-a default surface only works when the consumer defines that surface name
 
 --sparseness defaults to DEFAULT_SPARSENESS (currently 0), unless the
 subcommand passes its own default
