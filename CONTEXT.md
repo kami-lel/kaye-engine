@@ -18,7 +18,7 @@ through a Python API and a CLI.
 | distribution / import name | `kaye-engine` / `kaye_engine` |
 | dependencies | `anytree`, `json5`, `kamilog`, `pyahocorasick`, `pyyaml` |
 | entry point | `kaye-engine` console script → `kaye_engine.__main__:main` |
-| CLI subcommands | `blueprint`, `claude`, `continue`, `hermes`, `export-image-prompt`, `dynamic-node`, `dynamic-substitution`, `exportable`, `export-json`, `affordance`, `variant`, `glossary`, `skill`, `sync-open-webui-skills` |
+| CLI subcommands | `blueprint`, `claude`, `continue`, `hermes`, `export-image-prompt`, `dynamic-node`, `dynamic-substitution`, `exportable`, `export-json`, `affordance`, `variant`, `render-profile`, `glossary`, `skill`, `sync-open-webui-skills` |
 
 ## Personalization Boundary
 
@@ -198,7 +198,7 @@ Several subcommands print rendered or registry content without the
 render-profile options: `export-json` and `export-image-prompt` use a
 hardcoded `RenderProfile`; `dynamic-substitution` and `glossary` print raw
 registry content; `sync-open-webui-skills` renders per skill with no exposed
-profile; `affordance`/`variant` are list-only.
+profile; `affordance`/`variant`/`render-profile` are list-only.
 
 `blueprint preview` is the one asymmetric case inside the rendering set:
 it pulls only `build_comment_parent_parser()` out of the bundle (its
@@ -416,6 +416,8 @@ kaye_engine/
 │   │                                    dynamic_substitution_registry
 │   ├── list_affordance_parser.py  `affordance`/`afd` subcommand: list affordance_registry
 │   ├── list_variant_parser.py     `variant`/`var` subcommand: list variant_registry
+│   ├── render_profile_list_parser.py  `render-profile`/`rp` subcommand: list
+│   │                                   render_profile_registry, `-r`/`-R` remarks
 │   ├── glossary_parser.py    `glossary`/`g` subcommand: print/list glossaries
 │   ├── comment_parser.py     shared `--comment`/`--no-comment` parent parser
 │   ├── render_profile_parser.py  shared 6-option parent parser + aux fn
