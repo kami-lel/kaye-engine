@@ -4,10 +4,7 @@
 
 <!--
 FIXME re-org surfaces: esp claude no longer has so many surfaces
-FIXME image profile -> comfy ui
 
-TODO profile w/ description
-TODO command to show profile registry
 
 Todo kaye build/gh release command
 
