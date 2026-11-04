@@ -36,6 +36,7 @@ manually add chat & coder, instead by data structure
 
 ### Added
 
+- the engine now ships 8 built-in render profiles, registered with a remark when `kaye_engine.prompt` is imported: `chat`, `cowork`, `code`, `vsc`, `ioschat`, `continue`, `hermes`, `comfy`; the affordance variants they name (`AFFORDANCE_GROUPS`) register with them
 - `register_render_profile(name, profile, remark="")` and `render_profile_registry`: named render profiles, each with an optional `remark` (a short description, `""` when omitted); a repeated name raises `ValueError`, a non-`str` remark `TypeError`
 - file and directory deed lines carry native badges on success: `new` (create file or dir, pack), `owr` (overwrite), `mv` (move); `sync-open-webui-skills` lines carry `new`, `owr`, `del` by verb, after `dry` under `-n`
 - `kaye_engine.deed` gains the `create_zip` deed, `format_size`, `quiet_deeds()` (log deed successes at `DEBUG`), and a settable `level` on a deed scope

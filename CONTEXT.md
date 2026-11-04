@@ -34,6 +34,12 @@ Three things are therefore absent by design — a corpus file, an
 `abbrs.json`, and any `register_blueprint()` call. Absence is the contract,
 not a gap to fill.
 
+The engine does ship one registered set of its own: the 8 built-in render
+profiles (`chat`, `cowork`, `code`, `vsc`, `ioschat`, `continue`, `hermes`,
+`comfy`) and the affordance variants they name, registered into
+`render_profile_registry` and `variant_registry` when `kaye_engine.prompt`
+is imported. They describe platform targets, not corpus content.
+
 ### Registration Policy
 
 Every public registering API takes one of three policies, so consumers
@@ -353,11 +359,15 @@ kaye_engine/
 │   │   ├── render_mode.py      RenderMode: NORMAL/NEGATIVE/POST_ORDER/
 │   │   │                        REVERSE_ORDER/IMAGE flag enum
 │   │   ├── render_profile.py   RenderProfile: layerable render-kwargs bundle
+│   │   ├── render_profile_registry.py  render_profile_registry,
+│   │   │                        register_render_profile(name, profile, remark)
 │   │   └── render/             render_*_lines()/preview_selection(),
 │   │       split by concern (tree/lines/sidecar_splice/util)
 │   ├── dynamic_nodes/   render-time generated node types
-│   └── affordance_registry.py  Affordance/Variant two-level registry,
+│   ├── affordance_registry.py  Affordance/Variant two-level registry,
 │                                Usage/Lack/Fallback sidecar names
+│   ├── builtin_affordances.py  AFFORDANCE_GROUPS, registered at import
+│   └── builtin_render_profiles.py  the 8 built-in render profiles + remarks
 ├── abbr_collection/     abbreviation entries, store, JSON loader
 ├── consumer.py          consumer registry: register_consumer,
 │                        set_entry_consumer, iter_consumers, and the
