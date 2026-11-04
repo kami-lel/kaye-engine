@@ -12,7 +12,10 @@ exact commands and conventions below.
 **kaye-engine ships mechanism only.** It bundles no prompt corpus, no
 abbreviation database, and no blueprint registrations — consumer packages
 supply all three. Never add that content here to make something work; fix
-the mechanism or fix the consumer.
+the mechanism or fix the consumer. The one thing it does ship is the
+built-in render profiles and the affordance names they refer to
+(`kaye_engine/prompt/builtin_render_profiles.py`,
+`builtin_affordances.py`): platform targets, not corpus content.
 
 **kaye-engine is consumed by multiple projects.** Never name any specific
 consumer project anywhere in this repository's content (code, comments,

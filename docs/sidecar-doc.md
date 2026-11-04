@@ -263,7 +263,7 @@ A family may hold a single variant, standing in for a one-off capability, and a 
 
 `Affordance` is a keyword-only dataclass with one attribute, `canonical_name`, the unique identifier. `affordance_registry` is a module-level `dict[str, Affordance]` keyed by it. It starts empty and fills only through `register_variant()`; there is no direct-insert API.
 
-`kaye_engine` registers none itself. The consumer populates the registry, and `setup_claude_cli(affordance_groups=...)` registers a consumer-configured set for the Claude commands, see [`claude-doc.md`](claude-doc.md).
+`kaye_engine` registers the variants of `AFFORDANCE_GROUPS` (`kaye_engine/prompt/builtin_affordances.py`) when `kaye_engine.prompt` is imported, the set the built-in render profiles refer to, see [`render-profile-doc.md`](render-profile-doc.md). A consumer adds its own with `register_variant()`.
 
 
 
