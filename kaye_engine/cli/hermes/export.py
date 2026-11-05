@@ -9,6 +9,7 @@ from pathlib import Path
 import kamilog
 from kaye_engine.deed import track
 from kaye_engine.cli.dry_run import is_dry_run
+from kaye_engine.cli.file_write import write_text_if_changed
 from kaye_engine.cli.hermes import LOGGER_HERMES_NAME
 from kaye_engine.cli.hermes.setup import (
     get_hermes_profile_blueprint_names,
@@ -50,11 +51,9 @@ def _write_soul(path, blueprint_name, render_profile):
         content = blueprint_registry[blueprint_name].content(
             profile=render_profile
         )
-        deeds = track(logger)
-        deed = deeds.owr_file if path.exists() else deeds.create_file
-        with deed(path):
-            if not is_dry_run():
-                path.write_text(content, encoding=_FILE_ENCODING)
+        write_text_if_changed(
+            logger, path, content, encoding=_FILE_ENCODING
+        )
     except OSError as err:
         logger.critical("cannot write:\t" + str(path))
         raise SystemExit(1) from err
