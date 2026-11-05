@@ -4,6 +4,9 @@ rule_md.py
 define ``ContinueRule``
 """
 
+import kamilog
+
+from kaye_engine.cli.continue_ai import LOGGER_CONTINUE_NAME
 from kaye_engine.cli.exportable_abbr import ExportableAbbr
 from kaye_engine.cli.frontmatter_doc import FrontmatterDoc, dump_yaml
 from kaye_engine.prompt.blueprint import BlueprintRegistry
@@ -11,6 +14,9 @@ from kaye_engine.prompt.blueprint.render import (
     show_globs,
     show_description_and_when_to_use,
 )
+
+# logger  ######################################################################
+logger = kamilog.getLogger(LOGGER_CONTINUE_NAME)
 
 
 class ContinueRule(FrontmatterDoc):
@@ -54,6 +60,8 @@ class ContinueRule(FrontmatterDoc):
         return dump_yaml(fields)
 
     # fields  ------------------------------------------------------------------
+
+    _logger = logger
 
     def __init__(
         self,
