@@ -7,6 +7,9 @@ FrontmatterDoc.write() deed logging
 """
 
 import logging
+import os
+
+import kamilog
 
 from kaye_engine import LOGGER_NAME
 from kaye_engine.cli.frontmatter_doc import FrontmatterDoc
@@ -43,3 +46,15 @@ class TestWriteDeeds:
 
         assert _messages(caplog) == ["overwrite {}".format(path)]
         assert caplog.records[0].levelno == logging.WARNING
+
+    def test_identical_file_logs_skip_and_is_untouched(_, tmp_path, caplog):
+        path = tmp_path / "doc.md"
+        _Doc().write(path)
+        os.utime(path, (1_000_000, 1_000_000))
+        caplog.clear()
+        with caplog.at_level(logging.DEBUG, logger=LOGGER_NAME):
+            _Doc().write(path)
+
+        assert path.stat().st_mtime == 1_000_000
+        assert _messages(caplog) == ["unchanged {}".format(path)]
+        assert caplog.records[0].levelno == kamilog.SKIP
