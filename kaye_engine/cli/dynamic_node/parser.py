@@ -48,9 +48,8 @@ logger = kamilog.getLogger(LOGGER_NAME)
 _HELP = "render 1 or more dynamic nodes"
 
 
-# auxiliaries  #################################################################
-def _build_description():
-    return _HELP + """
+_DESCRIPTION = (
+    _HELP + """
 
 renders a single blueprint merged from every given NODE dynamic node,
 result is printed to stdout
@@ -63,8 +62,15 @@ run to list available NODE values:
 
     kaye-engine dynamic-node ls
 """
+    + RENDER_PROFILE_DESCRIPTION
+    + """
+
+render defaults: surface=none, comment=False, sparseness=0
+"""
+)
 
 
+# auxiliaries  #################################################################
 def _resolve_node_type(name):
     """
     resolve ``name`` via :func:`resolve_dynamic_node_factory` against
@@ -179,7 +185,7 @@ def register_dynamic_node_parser(cli_subparser):
     dynamic_node_parser = cli_subparser.add_parser(
         "dynamic-node",
         help=_HELP,
-        description=_build_description() + RENDER_PROFILE_DESCRIPTION,
+        description=_DESCRIPTION,
         formatter_class=RawDescriptionHelpFormatter,
         aliases=["dn"],
         parents=[

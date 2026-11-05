@@ -31,7 +31,8 @@ logger = kamilog.getLogger(LOGGER_CONTINUE_NAME)
 
 _DEFAULT_CONTINUE_FOLDER = Path.home() / ".continue"
 
-_DESCRIPTION = """
+_DESCRIPTION = (
+    __doc__ + """
 
 writes one .md per exportable, as a rule or as a prompt;
 always-apply and LLM-invokable entries are rules,
@@ -43,6 +44,13 @@ FOLDER/  (default: ~/.continue/)
 └── prompts/
     └── ~~  (one file per prompt)
 """
+    + CONTINUE_DOC_DESCRIPTION
+    + RENDER_PROFILE_DESCRIPTION
+    + """
+
+render defaults: surface=none, comment=False, sparseness=0
+"""
+)
 
 
 # pylint: disable=missing-function-docstring
@@ -50,12 +58,7 @@ def register_continue_parser(cli_subparser):  ##################################
     continue_parser = cli_subparser.add_parser(
         "continue",
         help=__doc__,
-        description=(
-            __doc__
-            + _DESCRIPTION
-            + CONTINUE_DOC_DESCRIPTION
-            + RENDER_PROFILE_DESCRIPTION
-        ),
+        description=_DESCRIPTION,
         formatter_class=RawDescriptionHelpFormatter,
         aliases=["c"],
         parents=[

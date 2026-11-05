@@ -32,7 +32,8 @@ logger = kamilog.getLogger(LOGGER_SKILL_NAME)
 _USAGE = """%(prog)s [-h] [-z] [-n] [NAME ...] FOLDER
        %(prog)s [-h] [-z] [-n] --all FOLDER"""
 
-_DESCRIPTION = """
+_DESCRIPTION = (
+    __doc__ + """
 
 writes one SKILL.md per named skill as its own skill folder
 by name or all, into a given FOLDER
@@ -42,6 +43,12 @@ FOLDER/
 │   └── SKILL.md
 └── ~~  (one folder per remaining NAME)
 """
+    + RENDER_PROFILE_DESCRIPTION
+    + """
+
+render defaults: surface=chat, comment=False, sparseness=0
+"""
+)
 
 
 # pylint: disable=missing-function-docstring
@@ -50,7 +57,7 @@ def register_skill_parser(cli_subparser):  #####################################
         "skill",
         help=__doc__,
         usage=_USAGE,
-        description=__doc__ + _DESCRIPTION + RENDER_PROFILE_DESCRIPTION,
+        description=_DESCRIPTION,
         formatter_class=RawDescriptionHelpFormatter,
         aliases=["s"],
         parents=[

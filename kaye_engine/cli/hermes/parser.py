@@ -28,7 +28,8 @@ skill_logger = kamilog.getLogger(LOGGER_SKILL_NAME)
 
 # constants  ===================================================================
 
-_DESCRIPTION = """
+_DESCRIPTION = (
+    __doc__ + """
 
 write persona and skills into Hermes home directory:
 
@@ -39,6 +40,13 @@ FOLDER/  (the Hermes home directory)
 └── profiles/
     └── <profile name>/SOUL.md
 """
+    + HERMES_DOC_DESCRIPTION
+    + RENDER_PROFILE_DESCRIPTION
+    + """
+
+render defaults: surface=hermes, comment=False, sparseness=0
+"""
+)
 
 
 # pylint: disable=missing-function-docstring
@@ -46,12 +54,7 @@ def register_hermes_parser(cli_subparser):  ####################################
     hermes_parser = cli_subparser.add_parser(
         "hermes",
         help=__doc__,
-        description=(
-            __doc__
-            + _DESCRIPTION
-            + HERMES_DOC_DESCRIPTION
-            + RENDER_PROFILE_DESCRIPTION
-        ),
+        description=_DESCRIPTION,
         formatter_class=RawDescriptionHelpFormatter,
         aliases=["m"],
         parents=[

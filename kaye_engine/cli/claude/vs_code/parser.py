@@ -33,7 +33,8 @@ logger = kamilog.getLogger(LOGGER_CLAUDE_NAME)
 
 # constants  ===================================================================
 
-_DESCRIPTION = """
+_DESCRIPTION = (
+    __doc__ + """
 
 which performs:
 
@@ -57,6 +58,13 @@ CLAUDE_FOLDER/  (default: ~/.claude)
                 │   └── SKILL.md
                 └── ~~  (one folder per remaining skill)
 """
+    + CLAUDE_DOC_DESCRIPTION
+    + RENDER_PROFILE_DESCRIPTION
+    + """
+
+render defaults: surface=vsc, comment=True, sparseness=0
+"""
+)
 
 
 def _vs_code_main(args):
@@ -84,8 +92,7 @@ def register_vs_code_parser(cli_subparser):  ###################################
     vs_code_parser = cli_subparser.add_parser(
         "vs-code-extension",
         help=__doc__,
-        description=__doc__ + _DESCRIPTION + CLAUDE_DOC_DESCRIPTION
-        + RENDER_PROFILE_DESCRIPTION,
+        description=_DESCRIPTION,
         formatter_class=RawDescriptionHelpFormatter,
         aliases=["v"],
         parents=[

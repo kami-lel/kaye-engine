@@ -29,8 +29,6 @@ shared by every rendering command:
     --reverse-order
         reverse sibling order at every level of the tree walk
 
-an omitted flag falls back to the render defaults named above
-
 For how the flags resolve into one profile, see the render profile
 documentation on GitHub:
 
