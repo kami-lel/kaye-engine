@@ -63,8 +63,7 @@ content(); there is no whitelist or blacklist yet.
 content is rendered with sparseness 0, which collapses every blank-line run
 to nothing, while each entry's own profile still governs everything else.
 {avoid} content is folded inline into each value rather than split into a
-sibling entry, unlike export-image-prompt, which writes it to separate
--AVOID files.
+sibling entry.
 """
 
 

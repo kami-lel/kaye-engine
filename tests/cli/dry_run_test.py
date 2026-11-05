@@ -173,7 +173,6 @@ class TestWiring:
             ["claude", "skills"],
             ["continue"],
             ["hermes", "F"],
-            ["export-image-prompt", "F"],
             ["export-json"],
             ["claude", "plugin"],
             ["claude", "marketplace"],

@@ -18,7 +18,7 @@ through a Python API and a CLI.
 | distribution / import name | `kaye-engine` / `kaye_engine` |
 | dependencies | `anytree`, `json5`, `kamilog`, `pyahocorasick`, `pyyaml` |
 | entry point | `kaye-engine` console script → `kaye_engine.__main__:main` |
-| CLI subcommands | `blueprint`, `claude`, `continue`, `hermes`, `export-image-prompt`, `dynamic-node`, `dynamic-substitution`, `exportable`, `export-json`, `affordance`, `variant`, `glossary`, `skill`, `sync-open-webui-skills` |
+| CLI subcommands | `blueprint`, `claude`, `continue`, `hermes`, `dynamic-node`, `dynamic-substitution`, `exportable`, `export-json`, `affordance`, `variant`, `render-profile`, `glossary`, `skill`, `sync-open-webui-skills` |
 
 ## Personalization Boundary
 
@@ -33,6 +33,12 @@ of what any consumer supplies.
 Three things are therefore absent by design — a corpus file, an
 `abbrs.json`, and any `register_blueprint()` call. Absence is the contract,
 not a gap to fill.
+
+The engine does ship one registered set of its own: the 8 built-in render
+profiles (`chat`, `cowork`, `code`, `vsc`, `ioschat`, `continue`, `hermes`,
+`comfy`) and the affordance variants they name, registered into
+`render_profile_registry` and `variant_registry` when `kaye_engine.prompt`
+is imported. They describe platform targets, not corpus content.
 
 ### Registration Policy
 
@@ -58,6 +64,7 @@ no fallback; a `glossary-*` group takes its glossary's consumer:
 | `register_exportable_abbrs` | additive | rebuilds the abbr groups on every populate, replacing earlier abbr groups only; a name held by another exportable raises |
 | `register_dynamic_substitution` | guarded | |
 | `register_variant` | guarded | an unknown affordance is created on first use |
+| `register_render_profile` | guarded | name is also the `--surface` choice; `remark` must be a `str`, `""` when omitted |
 | `register_comment_line` | additive | a repeated line is ignored; first-seen order |
 | `add_corpus_clear_hook` | additive | |
 | `register_consumer` | guarded | one record per consumer package; a repeated canonical name raises |
@@ -157,7 +164,7 @@ siblings at every level, `IMAGE` is the composite `POST_ORDER | REVERSE_ORDER
 | _IMAGE` that also flattens headings to `title:` and forces `sparseness=1`.
 `NEGATIVE | IMAGE` prints no titles, only `{avoid}` blocks.
 `Exportable.supports_negative_content` (`True` on `BlueprintRegistry` only)
-gates the `-AVOID.md` siblings of `export-image-prompt`. Q.v. [sidecar node
+gates whether a negative prompt can be rendered. Q.v. [sidecar node
 documentation](docs/sidecar-doc.md).
 
 `affordance_registry`/`variant_registry` form a two-level model: an
@@ -172,9 +179,9 @@ registered). Q.v. [affordance documentation](docs/sidecar-doc.md#affordance).
 Every **rendering command** (list and flags in `AGENTS.md`) shares one parent
 parser and one aux function, `build_render_profile_parent_parser`/
 `resolve_render_profile` (`kaye_engine/cli/render_profile_parser.py`), which
-returns one `RenderProfile` by merging each `--surface` profile (from the
-consumer-supplied `surface_profiles` dict of `setup_claude_cli(...)`; the
-option is omitted when none is configured) with one built from the explicit
+returns one `RenderProfile` by merging each `--surface` profile (from
+`render_profile_registry`; the option is omitted when it is empty) with one
+built from the explicit
 flags via `RenderProfile.merge()`. `--variant`/`--conditional-sidecar` union
 with what `--surface` derives; `--reverse-order` ORs into `mode` before the
 merge, because `mode` is scalar and would otherwise be clobbered. An omitted
@@ -188,10 +195,10 @@ documentation](docs/render-profile-doc.md).
 ### CLI Flag Surface
 
 Several subcommands print rendered or registry content without the
-render-profile options: `export-json` and `export-image-prompt` use a
+render-profile options: `export-json` uses a
 hardcoded `RenderProfile`; `dynamic-substitution` and `glossary` print raw
 registry content; `sync-open-webui-skills` renders per skill with no exposed
-profile; `affordance`/`variant` are list-only.
+profile; `affordance`/`variant`/`render-profile` are list-only.
 
 `blueprint preview` is the one asymmetric case inside the rendering set:
 it pulls only `build_comment_parent_parser()` out of the bundle (its
@@ -352,11 +359,15 @@ kaye_engine/
 │   │   ├── render_mode.py      RenderMode: NORMAL/NEGATIVE/POST_ORDER/
 │   │   │                        REVERSE_ORDER/IMAGE flag enum
 │   │   ├── render_profile.py   RenderProfile: layerable render-kwargs bundle
+│   │   ├── render_profile_registry.py  render_profile_registry,
+│   │   │                        register_render_profile(name, profile, remark)
 │   │   └── render/             render_*_lines()/preview_selection(),
 │   │       split by concern (tree/lines/sidecar_splice/util)
 │   ├── dynamic_nodes/   render-time generated node types
-│   └── affordance_registry.py  Affordance/Variant two-level registry,
+│   ├── affordance_registry.py  Affordance/Variant two-level registry,
 │                                Usage/Lack/Fallback sidecar names
+│   ├── builtin_affordances.py  AFFORDANCE_GROUPS, registered at import
+│   └── builtin_render_profiles.py  the 8 built-in render profiles + remarks
 ├── abbr_collection/     abbreviation entries, store, JSON loader
 ├── consumer.py          consumer registry: register_consumer,
 │                        set_entry_consumer, iter_consumers, and the
@@ -376,13 +387,12 @@ kaye_engine/
 │   │   │                          consumers, claude setup guard
 │   │   ├── package_meta.py        manifest metadata read from a
 │   │   │                          consumer's installed distribution
-│   │   ├── setup.py               setup_claude_cli(...); registers
-│   │   │                          consumer-supplied affordance_groups,
-│   │   │                          stores surface_profiles
+│   │   ├── setup.py               setup_claude_cli(...): stores the Chat and
+│   │   │                          merged Coder exportable names
 │   │   ├── skills/                `claude skills`/`claude s`: every skill
 │   │   │                          into ~/.claude/skills (`-z` for .zips)
 │   │   └── surface_parser.py      shared `--surface` parent parser --
-│   │                              choices from consumer's surface_profiles
+│   │                              choices from render_profile_registry
 │   ├── skill/           `skill`/`s` subcommand: named Agent Skills into a
 │   │                    required FOLDER (`--all` for every one)
 │   ├── continue_ai/    `continue`/`c` subcommand: rules/ + prompts/ for Continue
@@ -406,16 +416,15 @@ kaye_engine/
 │   │                                    dynamic_substitution_registry
 │   ├── list_affordance_parser.py  `affordance`/`afd` subcommand: list affordance_registry
 │   ├── list_variant_parser.py     `variant`/`var` subcommand: list variant_registry
+│   ├── render_profile_list_parser.py  `render-profile`/`rp` subcommand: list
+│   │                                   render_profile_registry, `-r`/`-R` remarks
 │   ├── glossary_parser.py    `glossary`/`g` subcommand: print/list glossaries
 │   ├── comment_parser.py     shared `--comment`/`--no-comment` parent parser
 │   ├── render_profile_parser.py  shared 6-option parent parser + aux fn
 │   ├── exportable_parser.py  `exportable`/`x` subcommand: print, list exportables
-│   ├── exportable_as_json_parser.py  `export-json`/`json`
-│   │                                  subcommand: export
-│   │                                  exportable_registry as flat JSON
-│   └── export_image_prompt_parser.py  `export-image-prompt`/`img` subcommand:
-│                                    write the image-prompt subset as
-│                                    `<name>.md`/`<name>-AVOID.md` pairs
+│   └── exportable_as_json_parser.py  `export-json`/`json`
+│                                      subcommand: export
+│                                      exportable_registry as flat JSON
 docs/                    per-topic reference, linked above
 tests/                   prompt/, abbr/, cli/ — mirrors the source
 ```

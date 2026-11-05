@@ -37,6 +37,7 @@ from .index import (
 )
 from .parser import parse_blueprint_tree
 from .registry import *
+from .render_profile_registry import *
 from .render import (
     preview_blueprint,
     preview_blueprint_without_dependencies,

@@ -12,7 +12,10 @@ exact commands and conventions below.
 **kaye-engine ships mechanism only.** It bundles no prompt corpus, no
 abbreviation database, and no blueprint registrations — consumer packages
 supply all three. Never add that content here to make something work; fix
-the mechanism or fix the consumer.
+the mechanism or fix the consumer. The one thing it does ship is the
+built-in render profiles and the affordance names they refer to
+(`kaye_engine/prompt/builtin_render_profiles.py`,
+`builtin_affordances.py`): platform targets, not corpus content.
 
 **kaye-engine is consumed by multiple projects.** Never name any specific
 consumer project anywhere in this repository's content (code, comments,
@@ -44,7 +47,7 @@ merge.
 | changed source | test scope |
 |---|---|
 | `kaye_engine/prompt/` | `tests/prompt/` (`tests/prompt/tree/` for the loader, `tests/prompt/index/` for `CorpusIndex`, `tests/prompt/bp/data/` for `Blueprint` and its functions, `prompt-md_comment_test.py` and `prompt-md_fence_test.py` for the line helpers) |
-| `kaye_engine/prompt/blueprint/render/` | `tests/prompt/`, plus `tests/cli/export_image_prompt_parser_test.py` (asserts rendered negative-prompt text) |
+| `kaye_engine/prompt/blueprint/render/` | `tests/prompt/` |
 | `kaye_engine/abbr_collection/` | `tests/abbr/` |
 | `kaye_engine/cli/` | `tests/cli/` |
 | `kaye_engine/cli/blueprint/` | `tests/cli/blueprint/` (drives the real parsers over a small inline corpus; `aux_input_test.py`, `aux_output_test.py` for the helpers) |
@@ -94,8 +97,8 @@ pytest
 The editable install registers a `kaye-engine` console script, so
 `kaye-engine ...` and `python -m kaye_engine ...` are equivalent — prefer
 the shorter form. **Fourteen** top-level subcommands exist: `blueprint`,
-`claude`, `continue`, `hermes`, `export-image-prompt`, `dynamic-node`, `dynamic-substitution`,
-`exportable`, `export-json`, `affordance`, `variant`,
+`claude`, `continue`, `hermes`, `dynamic-node`, `dynamic-substitution`,
+`exportable`, `export-json`, `affordance`, `variant`, `render-profile`,
 `glossary`, `skill`, and `sync-open-webui-skills`:
 
 ```bash
@@ -113,7 +116,7 @@ kaye-engine dynamic-node NODE...            # render 1+ dynamic nodes merged int
 kaye-engine dynamic-node NODE -t THRESHOLD  # for a glossary NODE, hide entries with priority > THRESHOLD
 kaye-engine dynamic-node ls                 # list every available NODE value: today, decode-only-abbr, every AbbrTags-derived name, then glossary names alphabetically
 kaye-engine dynamic-substitution NAME       # print a registered dynamic substitution's content
-kaye-engine dynamic-substitution ls         # list every registered dynamic substitution name
+kaye-engine dynamic-substitution [ls]       # list every registered dynamic substitution name (default)
 kaye-engine skill NAME... FOLDER            # export the named Agent Skills into FOLDER (required)
 kaye-engine skill --all FOLDER              # export every Agent Skill; -a short
 kaye-engine skill -z NAME... FOLDER         # create .zip Agent Skill packages
@@ -132,13 +135,14 @@ kaye-engine continue                        # export rules + prompts to ~/.conti
 kaye-engine continue FOLDER                 # export to a custom Continue folder
 kaye-engine hermes FOLDER                   # SOUL.md, profiles/, skills/ into a Hermes home
 kaye-engine hermes FOLDER -n                # report every write without touching disk
-kaye-engine export-image-prompt FOLDER          # write every image-prompt-subset exportable to FOLDER
 kaye-engine exportable EXPORTABLE           # print an exportable's content
 kaye-engine exportable ls                   # list every registered exportable name
 kaye-engine export-json              # export exportable_registry as flat JSON
 kaye-engine export-json -f FILE      # write to FILE instead of the default
 kaye-engine affordance                 # list affordance_registry names, sorted
 kaye-engine variant                    # list variant_registry canonical names, sorted
+kaye-engine render-profile             # list render_profile_registry names with remarks, `NAME:<TAB>REMARK`, sorted
+kaye-engine rp -R                      # names only; -r turns remarks back on (default)
 kaye-engine glossary GLOSSARY               # print a glossary's content
 kaye-engine glossary ls                     # list every registered glossary name
 OWU_API_KEY=sk-... kaye-engine sync-open-webui-skills  # push every exportable into Open WebUI as a skill
@@ -146,16 +150,19 @@ kaye-engine o -n                            # report create/update/skip without 
 kaye-engine o --prune --base-url URL        # also delete remote-only skills; custom server
 ```
 
+Bare `blueprint`, `exportable`, `dynamic-node` and `glossary` (and their
+aliases `bp`, `x`, `dn`, `g`) behave as the same command followed by `ls`.
+
 Aliases: `blueprint` → `bp`; `blueprint list` → `bp ls`; `blueprint
 preview` → `bp p`; `blueprint render` → `bp r`; `blueprint validate` →
-`bp v`; `blueprint show` → `bp s`; `continue` → `c`; `hermes` → `m`; `export-image-prompt` → `img`; `dynamic-node` →
+`bp v`; `blueprint show` → `bp s`; `continue` → `c`; `hermes` → `m`; `dynamic-node` →
 `dn`; `dynamic-substitution` → `ds`; `claude` → `a`; `claude code`
 → `claude c`; `claude
 marketplace` → `claude m`; `claude plugin` → `claude p`; `claude skills` → `claude s`; `skill`
 → `s`; `claude user-system-prompt` → `claude usp`;
 `claude vs-code-extension` → `claude v`; `exportable` → `x`;
 `export-json` → `json`; `affordance` → `afd`; `variant`
-→ `var`; `glossary` → `g`; `sync-open-webui-skills` → `o`.
+→ `var`; `render-profile` → `rp`; `glossary` → `g`; `sync-open-webui-skills` → `o`.
 
 **Rendering commands** — any subcommand that reaches
 `render_prompt(...)`, directly or via
@@ -265,7 +272,7 @@ via `RenderProfile.merge()`.
 `register_image_prompt_exportable(canonical_name)`
 (`kaye_engine/exportable/image_prompt_export.py`) marks an already-registered
 `exportable_registry` entry as a member of the image-prompt export subset
-(`image_prompt_exportable_registry`) that `export-image-prompt`/`img` reads.
+(`image_prompt_exportable_registry`), which no engine command reads.
 **Calls live in the consumer package**, same as `register_blueprint()`;
 it raises `KeyError` if `canonical_name` is not already registered,
 `ValueError` on a duplicate.

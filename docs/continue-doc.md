@@ -14,7 +14,7 @@ kaye-engine c FOLDER -s 0 -C          # the shared render options apply
 
 Use the default when Continue runs on this machine. Pass a custom `FOLDER` to inspect the output first, or to export into a project-local Continue folder.
 
-The command accepts the shared render options (`--surface` where the consumer configured surfaces, `--comment`/`--no-comment`, `--conditional-sidecar`, `--variant`, `--sparseness`, `--reverse-order`; q.v. [`render-profile-doc.md`](render-profile-doc.md)). Comments are hidden by default and no surface is selected by default.
+The command accepts the shared render options (`--surface`, `--comment`/`--no-comment`, `--conditional-sidecar`, `--variant`, `--sparseness`, `--reverse-order`; q.v. [`render-profile-doc.md`](render-profile-doc.md)). Comments are hidden by default and no surface is selected by default.
 
 ## Output Tree
 
@@ -55,7 +55,7 @@ The body is the entry's `content()`, rendered with the resolved render profile.
 
 ## Surface Behaviour
 
-`--surface` exists only when the consumer project configured surface profiles, and it is repeatable across names like the other rendering commands. With no `--surface`, only the entry's own `render_profile` and the explicit flags shape the output.
+`--surface` takes the registered surface profile names, and it is repeatable across names like the other rendering commands. With no `--surface`, only the entry's own `render_profile` and the explicit flags shape the output.
 
 ## Dry Run
 

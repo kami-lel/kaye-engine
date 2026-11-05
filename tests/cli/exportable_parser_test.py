@@ -73,6 +73,11 @@ class TestRegisterExportableParser:
 
         assert args.EXPORTABLE == "some-exportable"
 
+    def test_bare_command_defaults_to_ls(self):
+        parser = _build_exportable_parser()
+
+        assert parser.parse_args(["x"]).EXPORTABLE == "ls"
+
 
 class TestExportableMainLs:
 

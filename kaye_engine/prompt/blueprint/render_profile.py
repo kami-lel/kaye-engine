@@ -53,62 +53,9 @@ def _merge_variants(*selections):
 @dataclass(kw_only=True)
 class RenderProfile:
     """
-    named, layerable bundle of render kwargs threaded through
-    ``render_prompt_lines`` / ``generate_prompt_without_dependencies`` /
-    ``BlueprintRegistry.content`` -- ``.merge()`` overrides scalar fields
-    and unions the collection fields
+    named, layerable bundle of render settings
 
-
-    :param show_comment: show comment part after last line;
-            defaults to False
-    :type show_comment: bool, optional
-    :param disable_first_heading: whether disable showing top heading;
-            defaults to False
-    :type disable_first_heading: bool, optional
-    :param conditional_sidecars: auto-checkmark conditional sidecar nodes
-            whose name is in this collection and whose parent is
-            checkmarked; defaults to ``()`` (disabled)
-    :type conditional_sidecars: Iterable[str], optional
-    :param variants: canonical names present here checkmark their
-            ``Usage`` node and leave their ``Lack`` node unmarked (and
-            vice versa when absent); an affordance with ≥1 present
-            variant checkmarks its ``Usage`` node, one whose variants
-            are all absent checkmarks its ``Fallback`` node instead.
-            ``None``: off (default). ``()``: on, everything absent.
-    :type variants: Iterable[str] or None, optional
-    :param display_name: blueprint's human-readable name, included in
-            the comment when ``show_comment`` is set; defaults to ""
-    :type display_name: str, optional
-    :param sparseness: controls how runs of blank lines collapse;
-            defaults to 1
-    :type sparseness: int, optional
-    :param glossary_priority_threshold: forwarded to
-            ``GlossaryNode.content_lines()``; defaults to None
-    :type glossary_priority_threshold: int, optional
-    :param is_sorted: forwarded to ``GlossaryNode.content_lines()``;
-            defaults to None
-    :type is_sorted: bool, optional
-    :param is_numbered_list: forwarded to
-            ``GlossaryNode.content_lines()``; defaults to None
-    :type is_numbered_list: bool, optional
-    :param mode: switches the unified prompt entry point between its
-            rendering behaviors -- ``RenderMode.NEGATIVE`` renders the
-            negative prompt in place of the positive one,
-            ``RenderMode.POST_ORDER`` reorders every subtree to
-            children-before-parent (siblings keep their original
-            relative order), ``RenderMode.REVERSE_ORDER`` reverses
-            sibling order at every level of the walk instead (e.g.
-            ``# A`` / ``## B`` / ``## C`` renders as ``# A`` / ``## C``
-            / ``## B``; nothing is dropped, only reordered), and
-            ``RenderMode.IMAGE`` -- a composite of ``POST_ORDER`` |
-            ``REVERSE_ORDER`` plus a private flatten-heading flag --
-            flattens headings to a ``title:`` line, forces
-            ``sparseness=1``, and reorders to post-order with reversed
-            siblings; combined as ``RenderMode.NEGATIVE |
-            RenderMode.IMAGE``, the negative prompt prints no title at
-            all, only the ``{avoid}`` content; defaults to
-            ``RenderMode.NORMAL``
-    :type mode: RenderMode, optional
+    ※ `Render Profile Documentation <../../../docs/render-profile-doc.md>`__
     """
 
     show_comment: bool = False
