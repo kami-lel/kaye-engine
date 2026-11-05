@@ -405,6 +405,8 @@ kaye_engine/
 │   │                              choices from render_profile_registry
 │   ├── skill/           `skill`/`s` subcommand: named Agent Skills into a
 │   │                    required FOLDER (`--all` for every one)
+│   ├── file_write.py    write_text_if_changed: create / skip identical /
+│   │                    overwrite, one path for every text-file writer
 │   ├── continue_ai/    `continue`/`c` subcommand: rules/ + prompts/ for Continue
 │   │   ├── rule_md.py       ContinueRule frontmatter doc + factory
 │   │   ├── export_rules.py  classify_exportable, export_continue_folder
