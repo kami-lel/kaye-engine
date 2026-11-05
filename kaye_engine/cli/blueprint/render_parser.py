@@ -41,7 +41,8 @@ logger = kamilog.getLogger(LOGGER_NAME)
 # constants  ###################################################################
 _HELP = "render a blueprint into a concrete prompt"
 
-_DESCRIPTION = _HELP + """
+_DESCRIPTION = (
+    _HELP + """
 
 renders blueprint into a final system prompt; the result is printed to stdout
 
@@ -54,6 +55,17 @@ reading blueprint from stdin, a preview tree or JSON:
     kaye-engine blueprint render < my-blueprint.json
     cat my-tree.txt | kaye-engine blueprint render
 """
+    + RENDER_PROFILE_DESCRIPTION
+    + """
+
+render defaults: surface=none, comment=True, sparseness=0
+
+the comment names the blueprint by its registered name (<stdin> when read
+from stdin); a registered blueprint renders through its registry entry's own
+render profile, merged under the flags, one read from stdin with the flags
+alone
+"""
+)
 
 
 # auxiliaries  #################################################################
@@ -87,7 +99,7 @@ def register_render_parser(cli_subparser):
     render_parser = cli_subparser.add_parser(
         "render",
         help=_HELP,
-        description=_DESCRIPTION + RENDER_PROFILE_DESCRIPTION,
+        description=_DESCRIPTION,
         formatter_class=RawDescriptionHelpFormatter,
         aliases=["r"],
         parents=[

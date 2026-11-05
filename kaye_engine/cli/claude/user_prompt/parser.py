@@ -23,12 +23,22 @@ logger = kamilog.getLogger(LOGGER_CLAUDE_NAME)
 
 # constants  ===================================================================
 
-_DESCRIPTION = """
+_DESCRIPTION = (
+    __doc__ + """
 
 result is printed to stdout
 
     kaye-engine claude usp > ~/.claude/CLAUDE.md
 """
+    + CLAUDE_DOC_DESCRIPTION
+    + RENDER_PROFILE_DESCRIPTION
+    + """
+
+render defaults: surface=chat cowork, comment=True, sparseness=0
+
+-c is taken by --coder, so the comment flags have no short form
+"""
+)
 
 # helper  ######################################################################
 
@@ -67,8 +77,7 @@ def register_user_prompt_parser(cli_subparser):  ###############################
     user_prompt_parser = cli_subparser.add_parser(
         "user-system-prompt",
         help=__doc__,
-        description=__doc__ + _DESCRIPTION + CLAUDE_DOC_DESCRIPTION
-        + RENDER_PROFILE_DESCRIPTION,
+        description=_DESCRIPTION,
         formatter_class=RawDescriptionHelpFormatter,
         aliases=["usp"],
         parents=[

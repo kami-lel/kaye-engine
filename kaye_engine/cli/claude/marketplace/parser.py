@@ -31,7 +31,8 @@ logger = kamilog.getLogger(LOGGER_CLAUDE_NAME)
 
 # constants  ===================================================================
 
-_DESCRIPTION = """
+_DESCRIPTION = (
+    __doc__ + """
 
 writes marketplace.json and exports into plugins/;
 the resulting folder can be added directly in Claude's marketplace settings.
@@ -48,6 +49,13 @@ MARKETPLACE/  (default: ~/.claude/MARKETPLACE_FOLDER_NAME)
             │   └── SKILL.md
             └── ~~  (one folder per remaining skill)
 """
+    + CLAUDE_DOC_DESCRIPTION
+    + RENDER_PROFILE_DESCRIPTION
+    + """
+
+render defaults: surface=vsc, comment=False, sparseness=0
+"""
+)
 
 
 # pylint: disable=missing-function-docstring
@@ -55,8 +63,7 @@ def register_marketplace_parser(cli_subparser):  ###############################
     marketplace_parser = cli_subparser.add_parser(
         "marketplace",
         help=__doc__,
-        description=__doc__ + _DESCRIPTION + CLAUDE_DOC_DESCRIPTION
-        + RENDER_PROFILE_DESCRIPTION,
+        description=_DESCRIPTION,
         formatter_class=RawDescriptionHelpFormatter,
         aliases=["m"],
         parents=[

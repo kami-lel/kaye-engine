@@ -30,7 +30,8 @@ logger = kamilog.getLogger(LOGGER_CLAUDE_NAME)
 
 _DEFAULT_SKILLS_FOLDER = Path.home() / ".claude" / "skills"
 
-_DESCRIPTION = """
+_DESCRIPTION = (
+    __doc__ + """
 
 writes one SKILL.md per exportable as its own skill folder;
 with -z, creates a .zip per skill instead.
@@ -40,6 +41,13 @@ FOLDER/  (default: ~/.claude/skills/)
 │   └── SKILL.md
 └── ~~  (one folder per remaining exportable)
 """
+    + CLAUDE_DOC_DESCRIPTION
+    + RENDER_PROFILE_DESCRIPTION
+    + """
+
+render defaults: surface=chat, comment=False, sparseness=0
+"""
+)
 
 
 # pylint: disable=missing-function-docstring
@@ -47,10 +55,7 @@ def register_skills_parser(cli_subparser):  ####################################
     skills_parser = cli_subparser.add_parser(
         "skills",
         help=__doc__,
-        description=__doc__
-        + _DESCRIPTION
-        + CLAUDE_DOC_DESCRIPTION
-        + RENDER_PROFILE_DESCRIPTION,
+        description=_DESCRIPTION,
         formatter_class=RawDescriptionHelpFormatter,
         aliases=["s"],
         parents=[

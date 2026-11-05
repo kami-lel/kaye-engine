@@ -29,7 +29,8 @@ logger = kamilog.getLogger(LOGGER_NAME)
 # constants  ###################################################################
 _HELP = "print an exportable's content, or list all exportables"
 
-_DESCRIPTION = _HELP + """
+_DESCRIPTION = (
+    _HELP + """
 
 prints the content of the exportable registered under EXPORTABLE:
 
@@ -39,6 +40,12 @@ list every registered exportable, sorted alphabetically:
 
     kaye-engine exportable ls
 """
+    + RENDER_PROFILE_DESCRIPTION
+    + """
+
+render defaults: surface=none, comment=False, sparseness=0
+"""
+)
 
 
 # auxiliaries  #################################################################
@@ -72,7 +79,7 @@ def register_exportable_parser(cli_subparser):
     export_parser = cli_subparser.add_parser(
         "exportable",
         help=_HELP,
-        description=_DESCRIPTION + RENDER_PROFILE_DESCRIPTION,
+        description=_DESCRIPTION,
         formatter_class=RawDescriptionHelpFormatter,
         aliases=["x"],
         parents=[

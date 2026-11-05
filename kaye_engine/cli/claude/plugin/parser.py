@@ -33,7 +33,8 @@ logger = kamilog.getLogger(LOGGER_CLAUDE_NAME)
 
 _DEFAULT_PLUGINS_FOLDER = Path.home() / ".claude" / "plugins"
 
-_DESCRIPTION = """
+_DESCRIPTION = (
+    __doc__ + """
 
 writes, per consumer, plugin.json and one SKILL.md per exportable of that
 consumer under PLUGIN_NAME/skills/; with -z, creates one upload-ready .zip
@@ -48,6 +49,13 @@ FOLDER/  (default: ~/.claude/plugins/)
         │   └── SKILL.md
         └── ~~  (one folder per remaining skill)
 """
+    + CLAUDE_DOC_DESCRIPTION
+    + RENDER_PROFILE_DESCRIPTION
+    + """
+
+render defaults: surface=chat cowork, comment=False, sparseness=0
+"""
+)
 
 
 # pylint: disable=missing-function-docstring
@@ -55,8 +63,7 @@ def register_plugin_parser(cli_subparser):  ####################################
     plugin_parser = cli_subparser.add_parser(
         "plugin",
         help=__doc__,
-        description=__doc__ + _DESCRIPTION + CLAUDE_DOC_DESCRIPTION
-        + RENDER_PROFILE_DESCRIPTION,
+        description=_DESCRIPTION,
         formatter_class=RawDescriptionHelpFormatter,
         aliases=["p"],
         parents=[
