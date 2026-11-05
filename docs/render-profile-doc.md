@@ -278,6 +278,20 @@ entry.render_profile.merge(profile)
 
 The caller's profile is on the right, so its collections add to the entry's and its other fields overwrite the entry's, defaults included, see [Merging](#merging). When no `profile=` is passed, the entry's default is used as is.
 
+### Resolving Command-Line Flags
+
+`resolve_render_profile()` builds the command-line profile in 5 steps:
+
+1. start from an empty profile, merge in each selected surface
+2. if `--variant` was given or any surface is selected, merge in the `--variant` names; this switches `variants` on, so a surface that lists no variants yields `()` instead of `None`
+3. if `--conditional-sidecar` was given, merge those names in
+4. add `REVERSE_ORDER` to the mode when `--reverse-order` was passed
+5. merge in `sparseness`, `show_comment`, and `mode` last
+
+`--variant` and `--conditional-sidecar` only add to what a surface provides. `sparseness` and `show_comment` always come from the flag or the command's own default, never from a surface, and each command names its own defaults in its `--help`.
+
+The resolved profile travels as one `render_profile=` argument through every `claude` export and reaches `Skill.from_exportable()`, where the entry's own default is merged in, not replaced.
+
 Set an entry default when registering:
 
 ```python
