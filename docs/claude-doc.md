@@ -179,7 +179,7 @@ Every subcommand except `user-system-prompt` writes files, and all of them take 
 - `-i`, `--conditional-sidecar`: conditional-sidecar names to include
 - `--reverse-order`: reverse sibling order at every level
 - `--surface`, `-u`: one of the registered render profiles, see `kaye-engine render-profile`; each subcommand preselects its own surface when omitted
-- `-n`, `--dry-run`: report every file, directory, and archive step with the `dry` badge and write nothing
+- `-n`, `--dry-run`: report every file, directory, and archive step with the `dry` badge and write nothing; a file that already holds the text to write is reported as `unchanged` (level `SKIP`, shown from `-vv`) in a live and a dry run alike, and is never rewritten
 - `-v`, `-q`, `-V`, `-Q`: verbosity
 
 ## Consumer Requirement

@@ -222,6 +222,16 @@ under `is_dry_run()`; the zip exports skip the temporary build and log
 their one `create_zip` result line with size `n/a`. `sync-open-webui-skills` keeps its own
 `-n`/`--dry-run` and threads `is_dry_run` as a parameter instead.
 
+Every text-file writer goes through `write_text_if_changed`
+(`kaye_engine/cli/file_write.py`): a missing file takes the `create_file`
+deed, a file already holding the exact text takes a `SKIP`-level line
+(`unchanged PATH`) and no write, a differing file takes the `owr_file`
+deed and is overwritten. The read and compare run under a dry run too, so
+the dry verdict equals the live one; only the write is skipped. `SKIP` is
+level 16, below `INFO`, so it prints from `-vv` up. Zip archives are not
+byte-reproducible and keep overwriting; `save_blueprint` is a library API
+with no logger and keeps its plain write.
+
 Badge names live in `kaye_engine/badge.py` (a leaf module, so
 `dry_run` and the `open_webui` package share it without an import
 cycle). Deeds stamp a native badge on the success line: `create_file`,
