@@ -7,13 +7,14 @@ _exportable_as_json_main, register_exportable_as_json_parser
 """
 
 import json
+import os
 from argparse import ArgumentParser
 from unittest.mock import patch
 
 import pytest
 
 from kaye_engine.cli import exportable_as_json_parser
-from kaye_engine.cli.dry_run import disable_dry_run
+from kaye_engine.cli.dry_run import disable_dry_run, enable_dry_run
 from kaye_engine.exportable import Exportable
 
 
@@ -157,3 +158,42 @@ class TestExportableAsJsonMainDryRun:
             disable_dry_run()
 
         assert not output_file.exists()
+
+
+class TestExportableAsJsonMainExistingFile:
+
+    @staticmethod
+    def _run(output_file, *flags):
+        parser = _build_exportable_as_json_parser()
+        args = parser.parse_args(
+            ["export-json", "-f", str(output_file), *flags]
+        )
+        args.func(args)
+
+    def test_identical_file_is_untouched(_, _fake_registry, tmp_path):
+        output_file = tmp_path / "out.json"
+        TestExportableAsJsonMainExistingFile._run(output_file)
+        os.utime(output_file, (1_000_000, 1_000_000))
+
+        TestExportableAsJsonMainExistingFile._run(output_file)
+        assert output_file.stat().st_mtime == 1_000_000
+
+    def test_changed_file_is_overwritten(_, _fake_registry, tmp_path):
+        output_file = tmp_path / "out.json"
+        output_file.write_text("{}", encoding="utf-8")
+
+        TestExportableAsJsonMainExistingFile._run(output_file)
+        assert set(json.loads(output_file.read_text("utf-8"))) == {
+            "some-exportable",
+            "other-exportable",
+        }
+
+    def test_dry_run_leaves_changed_file_alone(_, _fake_registry, tmp_path):
+        output_file = tmp_path / "out.json"
+        output_file.write_text("{}", encoding="utf-8")
+
+        try:
+            TestExportableAsJsonMainExistingFile._run(output_file, "-n")
+        finally:
+            disable_dry_run()
+        assert output_file.read_text(encoding="utf-8") == "{}"

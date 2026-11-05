@@ -5,14 +5,12 @@ define ``FrontmatterDoc`` and the shared ``dump_yaml`` helper
 """
 
 import io
-from pathlib import Path
 
 import kamilog
 import yaml
 
-from kaye_engine.deed import track
 from kaye_engine import LOGGER_NAME
-from kaye_engine.cli.dry_run import is_dry_run
+from kaye_engine.cli.file_write import write_text_if_changed
 
 # logger  ######################################################################
 logger = kamilog.getLogger(LOGGER_NAME)
@@ -66,25 +64,24 @@ class FrontmatterDoc:  # =======================================================
 
     def write(self, path):
         """
-        render the document and write it to ``path``
+        render the document and write it to ``path``, unless the file
+        already holds that exact text (skipped and reported)
 
 
         :param path: output path for the file to write
         :type path: Path-like
         """
-        path = Path(path)
-        deed = (
-            track(logger).owr_file
-            if path.exists()
-            else (track(logger).create_file)
+        write_text_if_changed(
+            self._logger, path, self.render(), encoding=_FILE_ENCODING
         )
-        with deed(path):
-            if not is_dry_run():
-                path.write_text(self.render(), encoding=_FILE_ENCODING)
 
     # fields   -----------------------------------------------------------------
 
     body = ""  # default; dataclass subclasses override as a field
+
+    # logger of the command that owns the document; a subclass overrides it
+    # so its write lines follow that command's -v/-q level
+    _logger = logger
 
     # Abstract Method  ---------------------------------------------------------
 

@@ -3,6 +3,8 @@
 [^format]
 
 <!--
+Bug hermes profile also need skills
+
 Fixme re-org surfaces: esp claude no longer has so many surfaces
 
 Todo kaye build/gh release command
@@ -41,6 +43,8 @@ manually add chat & coder, instead by data structure
 
 ### Changed
 
+- every text-file export (`skill`, `claude skills`, `claude plugin`, `claude marketplace`, `claude code`, `claude vs-code-extension`, `continue`, `hermes`, `export-json`) compares an existing file with the text to write: an identical file is reported as `unchanged` at level `SKIP` (shown from `-vv`) and left alone, a differing one is overwritten; `--dry-run` reaches the same verdict; zip exports still overwrite
+- `exporting exportables as skills` line names the consumer when the export is per consumer (e.g. each `hermes` skills section)
 - `hermes` defaults to the `hermes` surface instead of none, so affordance `Fallback` sidecars (e.g. `{[file-edit] Fallback}`) render in the exported skills and `SOUL.md`
 - the `hermes` render profile carries the `QwenImage` variant, so `{[QwenImage] Usage}` sidecars render in a Hermes export
 - `--surface` takes its choices from `render_profile_registry` and is always offered on every rendering command; `resolve_render_profile` and `build_render_profile_parent_parser` no longer take `surface_profiles`
@@ -60,6 +64,8 @@ manually add chat & coder, instead by data structure
 - `verbose` argument of `export_skills_as_zips`, unused
 
 ### Fixed
+
+- `SKILL.md` and Continue rule write lines (`create`, `overwrite`, `unchanged`) respect the command's `-v`/`-q` level: they log through the owning command's logger, no longer the shared `kaye.engine` one that `-v` never reached
 
 ### Security
 

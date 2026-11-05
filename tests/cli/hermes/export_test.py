@@ -6,6 +6,7 @@ Unit Tests (using pytest) for:
 - export_hermes_folder
 """
 
+import os
 from unittest.mock import patch
 
 import pytest
@@ -97,6 +98,35 @@ class TestExportHermesFolder:
         enable_dry_run()
         export_hermes_folder(tmp_path / "home")
         assert not (tmp_path / "home").exists()
+
+    def test_second_run_leaves_every_file_untouched(_, tmp_path):
+        export_hermes_folder(tmp_path)
+        files = [tmp_path / name for name in _list_files(tmp_path)]
+        for file in files:
+            os.utime(file, (1_000_000, 1_000_000))
+
+        export_hermes_folder(tmp_path)
+        assert {f.stat().st_mtime for f in files} == {1_000_000}
+
+    def test_changed_file_is_overwritten_alone(_, tmp_path):
+        export_hermes_folder(tmp_path)
+        soul = tmp_path / "SOUL.md"
+        ria = tmp_path / "profiles" / "ria" / "SOUL.md"
+        soul.write_text("stale", encoding="utf-8")
+        os.utime(ria, (1_000_000, 1_000_000))
+
+        export_hermes_folder(tmp_path)
+        assert soul.read_text(encoding="utf-8") != "stale"
+        assert ria.stat().st_mtime == 1_000_000
+
+    def test_dry_run_leaves_changed_file_alone(_, tmp_path):
+        export_hermes_folder(tmp_path)
+        soul = tmp_path / "SOUL.md"
+        soul.write_text("stale", encoding="utf-8")
+
+        enable_dry_run()
+        export_hermes_folder(tmp_path)
+        assert soul.read_text(encoding="utf-8") == "stale"
 
     def test_unset_configuration_exits_one(_, tmp_path):
         hermes._soul_blueprint_name = None

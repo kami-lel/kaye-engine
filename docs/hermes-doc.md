@@ -29,7 +29,7 @@ FOLDER/
 - `profiles/<profile>/SOUL.md`: the blueprint mapped to that profile, rendered
 - `skills/<consumer>/`: one folder per entry of `exportable_registry` of that consumer, as `skill` does (q.v. [`exportable-registry-doc.md`](exportable-registry-doc.md))
 
-The two `SOUL.md` kinds render from `blueprint_registry`, so a blueprint registered with `is_exportable=False` can still be a soul or a profile; it never becomes a skill. An existing file is overwritten.
+The two `SOUL.md` kinds render from `blueprint_registry`, so a blueprint registered with `is_exportable=False` can still be a soul or a profile; it never becomes a skill. An existing file is overwritten only when its content differs; an identical one is reported as `unchanged` and left alone.
 
 ## Consumer Configuration
 
@@ -48,4 +48,4 @@ Call it after every named blueprint is registered; an unregistered name logs cri
 
 ## Dry Run
 
-With `-n`, every folder and file is reported with the `dry` badge and nothing is written.
+With `-n`, every folder and file is reported with the `dry` badge and nothing is written; an unchanged file is reported as `unchanged`, a differing one as `overwrite`, as a live run would.
