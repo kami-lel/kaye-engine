@@ -13,7 +13,7 @@ from unittest.mock import patch
 import kamilog
 import pytest
 
-from kaye_engine.badge import NEW_BADGE
+from kaye_engine.badge import NEW_BADGE, OWR_BADGE
 from kaye_engine.consumer import Consumer
 
 from kaye_engine.cli import dry_run
@@ -162,6 +162,48 @@ class TestWritersUnderDryRun:
 
         assert not destination.exists()
         assert "plug-1.zip" in caplog.text
+
+
+# TestExistingFileUnderDryRun  ###################################################
+class TestExistingFileUnderDryRun:
+    """a dry run reaches the verdict a live run would, writing nothing"""
+
+    class _Doc(FrontmatterDoc):
+        body = "body"
+
+        def _render_frontmatter(self):
+            return "a: 1\n"
+
+    @staticmethod
+    def _badges(caplog):
+        return [rec.badges for rec in caplog.records if hasattr(rec, "badges")]
+
+    def test_identical_file_is_skipped_under_dry_badge(_, tmp_path, caplog):
+        path = tmp_path / "doc.md"
+        TestExistingFileUnderDryRun._Doc().write(path)
+
+        enable_dry_run()
+        with caplog.at_level("DEBUG"):
+            TestExistingFileUnderDryRun._Doc().write(path)
+
+        assert [rec.levelno for rec in caplog.records] == [kamilog.SKIP]
+        assert not any(
+            OWR_BADGE in (badges or ())
+            for badges in TestExistingFileUnderDryRun._badges(caplog)
+        )
+
+    def test_changed_file_is_overwrite_under_dry_badge(_, tmp_path, caplog):
+        path = tmp_path / "doc.md"
+        path.write_text("stale", encoding="utf-8")
+
+        enable_dry_run()
+        with caplog.at_level("DEBUG"):
+            TestExistingFileUnderDryRun._Doc().write(path)
+
+        assert path.read_text(encoding="utf-8") == "stale"
+        assert (dry_run.DRY_BADGE, OWR_BADGE) in (
+            TestExistingFileUnderDryRun._badges(caplog)
+        )
 
 
 # TestWiring  ####################################################################

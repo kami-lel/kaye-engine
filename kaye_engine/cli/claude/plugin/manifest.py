@@ -11,6 +11,7 @@ import kamilog
 from kaye_engine.deed import track
 from kaye_engine.cli.claude import LOGGER_CLAUDE_NAME
 from kaye_engine.cli.dry_run import is_dry_run
+from kaye_engine.cli.file_write import write_text_if_changed
 
 # logger  ######################################################################
 logger = kamilog.getLogger(LOGGER_CLAUDE_NAME)
@@ -82,11 +83,8 @@ class ManifestPluginJson:  #####################################################
                         self._manifest_dir.mkdir(
                             parents=True, exist_ok=True
                         )
-            with track(logger).save_config(self.path):
-                if not is_dry_run():
-                    self.path.write_text(
-                        json.dumps(manifest_data, indent=2) + "\n",
-                        encoding="utf-8",
-                    )
+            write_text_if_changed(
+                logger, self.path, json.dumps(manifest_data, indent=2) + "\n"
+            )
         except OSError as err:
             raise SystemExit(1) from err

@@ -26,7 +26,7 @@ FOLDER/
     └── <canonical_name>.md
 ```
 
-Both subfolders are always created. A file is named after its entry's `canonical_name`; an existing file of the same name is overwritten.
+Both subfolders are always created. A file is named after its entry's `canonical_name`; an existing file of the same name is overwritten only when its content differs; an identical one is reported as `unchanged` and left alone.
 
 ## Classification
 

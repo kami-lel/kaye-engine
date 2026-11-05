@@ -222,6 +222,18 @@ under `is_dry_run()`; the zip exports skip the temporary build and log
 their one `create_zip` result line with size `n/a`. `sync-open-webui-skills` keeps its own
 `-n`/`--dry-run` and threads `is_dry_run` as a parameter instead.
 
+Every text-file writer goes through `write_text_if_changed`
+(`kaye_engine/cli/file_write.py`): a missing file takes the `create_file`
+deed, a file already holding the exact text takes a `SKIP`-level line
+(`unchanged PATH`) and no write, a differing file takes the `owr_file`
+deed and is overwritten. The read and compare run under a dry run too, so
+the dry verdict equals the live one; only the write is skipped. `SKIP` is
+level 16, below `INFO`, so it prints from `-vv` up. A `FrontmatterDoc`
+subclass names its command's logger in `_logger` (`Skill`: skill,
+`ContinueRule`: continue), so its write lines follow that command's `-v`/`-q`. Zip archives are not
+byte-reproducible and keep overwriting; `save_blueprint` is a library API
+with no logger and keeps its plain write.
+
 Badge names live in `kaye_engine/badge.py` (a leaf module, so
 `dry_run` and the `open_webui` package share it without an import
 cycle). Deeds stamp a native badge on the success line: `create_file`,
@@ -395,6 +407,8 @@ kaye_engine/
 │   │                              choices from render_profile_registry
 │   ├── skill/           `skill`/`s` subcommand: named Agent Skills into a
 │   │                    required FOLDER (`--all` for every one)
+│   ├── file_write.py    write_text_if_changed: create / skip identical /
+│   │                    overwrite, one path for every text-file writer
 │   ├── continue_ai/    `continue`/`c` subcommand: rules/ + prompts/ for Continue
 │   │   ├── rule_md.py       ContinueRule frontmatter doc + factory
 │   │   ├── export_rules.py  classify_exportable, export_continue_folder
