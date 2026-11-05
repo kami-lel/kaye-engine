@@ -26,6 +26,13 @@ class TestList:
         assert exit_code == 0
         assert out.splitlines() == sorted(blueprint_registry)
 
+    def test_bare_command_equals_list(_, run):
+        bare_exit, bare_out = run([])
+        list_exit, list_out = run(["list"])
+
+        assert bare_exit == list_exit == 0
+        assert bare_out == list_out
+
     def test_names_registered_blueprints(_, run):
         _exit, out = run(["list"])
 

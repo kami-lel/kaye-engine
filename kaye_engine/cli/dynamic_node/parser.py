@@ -11,12 +11,13 @@ from argparse import RawDescriptionHelpFormatter
 import kamilog
 from kaye_engine import LOGGER_NAME
 from kaye_engine.cli import DEFAULT_SPARSENESS
-from kaye_engine.cli.claude.setup import get_surface_profiles
 from kaye_engine.cli.dynamic_node.node_type_choices import (
     list_all_node_type_names,
 )
-from kaye_engine.cli.render_profile_parser import (
+from kaye_engine.cli.render_profile_description import (
     RENDER_PROFILE_DESCRIPTION,
+)
+from kaye_engine.cli.render_profile_parser import (
     build_render_profile_parent_parser,
     resolve_render_profile,
 )
@@ -47,9 +48,8 @@ logger = kamilog.getLogger(LOGGER_NAME)
 _HELP = "render 1 or more dynamic nodes"
 
 
-# auxiliaries  #################################################################
-def _build_description():
-    return _HELP + """
+_DESCRIPTION = (
+    _HELP + """
 
 renders a single blueprint merged from every given NODE dynamic node,
 result is printed to stdout
@@ -62,8 +62,15 @@ run to list available NODE values:
 
     kaye-engine dynamic-node ls
 """
+    + RENDER_PROFILE_DESCRIPTION
+    + """
+
+render defaults: surface=none, comment=False, sparseness=0
+"""
+)
 
 
+# auxiliaries  #################################################################
 def _resolve_node_type(name):
     """
     resolve ``name`` via :func:`resolve_dynamic_node_factory` against
@@ -160,7 +167,6 @@ def _dynamic_node_main(args):
             glossary_priority_threshold=args.priority_threshold,
             profile=resolve_render_profile(
                 args,
-                surface_profiles=get_surface_profiles(),
                 default_show_comment=False,
             ),
         )
@@ -179,13 +185,12 @@ def register_dynamic_node_parser(cli_subparser):
     dynamic_node_parser = cli_subparser.add_parser(
         "dynamic-node",
         help=_HELP,
-        description=_build_description() + RENDER_PROFILE_DESCRIPTION,
+        description=_DESCRIPTION,
         formatter_class=RawDescriptionHelpFormatter,
         aliases=["dn"],
         parents=[
             build_render_profile_parent_parser(
                 default_sparseness=DEFAULT_SPARSENESS,
-                surface_profiles=get_surface_profiles(),
             )
         ],
     )
@@ -194,8 +199,9 @@ def register_dynamic_node_parser(cli_subparser):
     # positional
     dynamic_node_parser.add_argument(
         "NODE",
-        nargs="+",
-        help="dynamic nodes to render; NODE=ls: list available node values, v.s.",
+        nargs="*",
+        default=["ls"],
+        help="dynamic nodes to render; NODE=ls (default): list available node values, v.s.",
     )
     dynamic_node_parser.add_argument(
         "-t",

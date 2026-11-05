@@ -9,9 +9,6 @@ from kaye_engine import KAYE_ENGINE_DISPLAY_NAME, PACKAGE_NAME
 from kaye_engine.cli.blueprint.main_parser import register_cli_blueprint_parser
 from kaye_engine.cli.claude.main import register_cli_claude_parser
 from kaye_engine.cli.continue_ai.parser import register_continue_parser
-from kaye_engine.cli.export_image_prompt_parser import (
-    register_export_image_prompt_parser,
-)
 from kaye_engine.cli.dynamic_node.parser import register_dynamic_node_parser
 from kaye_engine.cli.dynamic_substitution_parser import (
     register_dynamic_substitution_parser,
@@ -26,6 +23,9 @@ from kaye_engine.cli.list_affordance_parser import (
     register_list_affordance_parser,
 )
 from kaye_engine.cli.list_variant_parser import register_list_variant_parser
+from kaye_engine.cli.render_profile_list_parser import (
+    register_render_profile_list_parser,
+)
 from kaye_engine.cli.open_webui.parser import (
     register_sync_open_webui_skills_parser,
 )
@@ -46,11 +46,11 @@ DESCRIPTION = (
 def register_cli_subcommands(cli_subparser):
     """
     register every engine-owned subcommand (``blueprint``, ``claude``,
-    ``continue``, ``hermes``, the
-    export-image-prompt command, the dynamic-node command, the
+    ``continue``, ``hermes``, the dynamic-node command, the
     dynamic-substitution command, the exportable command, the
     export-json command, ``affordance``, ``variant``,
-    ``glossary``, ``skill``, and the sync-open-webui-skills command) onto an
+    ``render-profile``, ``glossary``, ``skill``, and the
+    sync-open-webui-skills command) onto an
     existing subparsers action, so sibling packages can compose their own
     top-level parser
     with engine's subcommands mixed in, instead of only being able to
@@ -63,13 +63,13 @@ def register_cli_subcommands(cli_subparser):
     register_cli_claude_parser(cli_subparser)
     register_continue_parser(cli_subparser)
     register_hermes_parser(cli_subparser)
-    register_export_image_prompt_parser(cli_subparser)
     register_dynamic_node_parser(cli_subparser)
     register_dynamic_substitution_parser(cli_subparser)
     register_exportable_as_json_parser(cli_subparser)
     register_exportable_parser(cli_subparser)
     register_list_affordance_parser(cli_subparser)
     register_list_variant_parser(cli_subparser)
+    register_render_profile_list_parser(cli_subparser)
     register_glossary_parser(cli_subparser)
     register_sync_open_webui_skills_parser(cli_subparser)
     register_skill_parser(cli_subparser)

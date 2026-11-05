@@ -48,6 +48,19 @@ def _no_stdin_query(monkeypatch):
 
 
 # pytest  ######################################################################
+class TestBareCommand:
+
+    def test_defaults_node_to_ls(self):
+        parser = _build_dn_parser()
+
+        assert parser.parse_args(["dn"]).NODE == ["ls"]
+
+    def test_defaults_node_to_ls_with_option_only(self):
+        parser = _build_dn_parser()
+
+        assert parser.parse_args(["dn", "-t", "3"]).NODE == ["ls"]
+
+
 class TestDynamicNodeMain:
 
     def test_uses_default_corpus_tree_preface_when_heading_authored(

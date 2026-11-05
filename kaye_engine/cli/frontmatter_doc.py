@@ -73,8 +73,10 @@ class FrontmatterDoc:  # =======================================================
         :type path: Path-like
         """
         path = Path(path)
-        deed = track(logger).owr_file if path.exists() else (
-            track(logger).create_file
+        deed = (
+            track(logger).owr_file
+            if path.exists()
+            else (track(logger).create_file)
         )
         with deed(path):
             if not is_dry_run():

@@ -16,7 +16,6 @@ from kaye_engine.cli.claude.plugin_marketplace_name import (
 from kaye_engine.cli.claude.user_prompt.export import (
     export_user_system_prompt_file,
 )
-from kaye_engine.cli.claude.setup import get_surface_profiles
 from kaye_engine.cli.claude.user_prompt.parser import (
     DEFAULT_CLAUDE_FOLDER,
     find_user_system_prompt_file,
@@ -26,8 +25,10 @@ from kaye_engine.cli.dry_run import (
     build_dry_run_parent_parser,
 )
 from kaye_engine.cli.claude import CLAUDE_DOC_DESCRIPTION
-from kaye_engine.cli.render_profile_parser import (
+from kaye_engine.cli.render_profile_description import (
     RENDER_PROFILE_DESCRIPTION,
+)
+from kaye_engine.cli.render_profile_parser import (
     build_render_profile_parent_parser,
     resolve_render_profile,
 )
@@ -36,7 +37,8 @@ from kaye_engine.cli.render_profile_parser import (
 logger = kamilog.getLogger(LOGGER_CLAUDE_NAME)
 
 # constants  ###################################################################
-_DESCRIPTION = __doc__ + """
+_DESCRIPTION = (
+    __doc__ + """
 
 writes CLAUDE.md as the User System Prompt (Chat Blueprint + Coder Blueprint)
 and exports each consumer's plugin into plugins/
@@ -52,6 +54,13 @@ CLAUDE_FOLDER/  (default: ~/.claude)
             │   └── SKILL.md
             └── ~~  (one folder per remaining skill)
 """
+    + CLAUDE_DOC_DESCRIPTION
+    + RENDER_PROFILE_DESCRIPTION
+    + """
+
+render defaults: surface=code, comment=False, sparseness=0
+"""
+)
 
 
 # pylint: disable=missing-function-docstring
@@ -59,15 +68,13 @@ def register_code_parser(cli_subparser):  ######################################
     code_parser = cli_subparser.add_parser(
         "code",
         help=__doc__,
-        description=_DESCRIPTION + CLAUDE_DOC_DESCRIPTION
-        + RENDER_PROFILE_DESCRIPTION,
+        description=_DESCRIPTION,
         formatter_class=RawDescriptionHelpFormatter,
         aliases=["c"],
         parents=[
             build_render_profile_parent_parser(
                 default_surface=("code",),
                 default_sparseness=DEFAULT_SPARSENESS,
-                surface_profiles=get_surface_profiles(),
             ),
             build_dry_run_parent_parser(),
         ],
@@ -93,7 +100,6 @@ def register_code_parser(cli_subparser):  ######################################
         folder = args.folder
         render_profile = resolve_render_profile(
             args,
-            surface_profiles=get_surface_profiles(),
             default_show_comment=False,
         )
 

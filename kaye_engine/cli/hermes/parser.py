@@ -6,7 +6,6 @@ from pathlib import Path
 import kamilog
 from kaye_engine import PACKAGE_NAME
 from kaye_engine.cli import DEFAULT_SPARSENESS
-from kaye_engine.cli.claude.setup import get_surface_profiles
 from kaye_engine.cli.cli_setup_guard import check_corpus_setup_for_cli
 from kaye_engine.cli.dry_run import (
     apply_dry_run_arg,
@@ -14,8 +13,10 @@ from kaye_engine.cli.dry_run import (
 )
 from kaye_engine.cli.hermes import HERMES_DOC_DESCRIPTION, LOGGER_HERMES_NAME
 from kaye_engine.cli.hermes.export import export_hermes_folder
-from kaye_engine.cli.render_profile_parser import (
+from kaye_engine.cli.render_profile_description import (
     RENDER_PROFILE_DESCRIPTION,
+)
+from kaye_engine.cli.render_profile_parser import (
     build_render_profile_parent_parser,
     resolve_render_profile,
 )
@@ -27,7 +28,8 @@ skill_logger = kamilog.getLogger(LOGGER_SKILL_NAME)
 
 # constants  ===================================================================
 
-_DESCRIPTION = """
+_DESCRIPTION = (
+    __doc__ + """
 
 write persona and skills into Hermes home directory:
 
@@ -38,6 +40,13 @@ FOLDER/  (the Hermes home directory)
 └── profiles/
     └── <profile name>/SOUL.md
 """
+    + HERMES_DOC_DESCRIPTION
+    + RENDER_PROFILE_DESCRIPTION
+    + """
+
+render defaults: surface=hermes, comment=False, sparseness=0
+"""
+)
 
 
 # pylint: disable=missing-function-docstring
@@ -45,19 +54,13 @@ def register_hermes_parser(cli_subparser):  ####################################
     hermes_parser = cli_subparser.add_parser(
         "hermes",
         help=__doc__,
-        description=(
-            __doc__
-            + _DESCRIPTION
-            + HERMES_DOC_DESCRIPTION
-            + RENDER_PROFILE_DESCRIPTION
-        ),
+        description=_DESCRIPTION,
         formatter_class=RawDescriptionHelpFormatter,
         aliases=["m"],
         parents=[
             build_render_profile_parent_parser(
-                default_surface=(),
+                default_surface=("hermes",),
                 default_sparseness=DEFAULT_SPARSENESS,
-                surface_profiles=get_surface_profiles(),
             ),
             build_dry_run_parent_parser(),
         ],
@@ -82,7 +85,6 @@ def register_hermes_parser(cli_subparser):  ####################################
 
         render_profile = resolve_render_profile(
             args,
-            surface_profiles=get_surface_profiles(),
             default_show_comment=False,
         )
         export_hermes_folder(
