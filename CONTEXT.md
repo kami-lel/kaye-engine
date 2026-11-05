@@ -228,7 +228,9 @@ deed, a file already holding the exact text takes a `SKIP`-level line
 (`unchanged PATH`) and no write, a differing file takes the `owr_file`
 deed and is overwritten. The read and compare run under a dry run too, so
 the dry verdict equals the live one; only the write is skipped. `SKIP` is
-level 16, below `INFO`, so it prints from `-vv` up. Zip archives are not
+level 16, below `INFO`, so it prints from `-vv` up. A `FrontmatterDoc`
+subclass names its command's logger in `_logger` (`Skill`: skill,
+`ContinueRule`: continue), so its write lines follow that command's `-v`/`-q`. Zip archives are not
 byte-reproducible and keep overwriting; `save_blueprint` is a library API
 with no logger and keeps its plain write.
 
