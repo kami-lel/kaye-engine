@@ -41,7 +41,10 @@ def export_skills_as_folders(
     :raises ValueError: 1+ names are not registered; nothing is written
     """
     exportables = select_exportables(names, consumer=consumer)
-    logger.enter("exporting exportables as skills")
+    logger.enter(
+        "exporting exportables as skills"
+        + ("" if consumer is None else ":\t" + consumer)
+    )
 
     for exportable in exportables:
         try:
