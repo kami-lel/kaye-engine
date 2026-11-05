@@ -238,7 +238,9 @@ package, not a bare checkout.
   already exist through `write_text_if_changed`
   (`kaye_engine/cli/file_write.py`), never a bare `write_text`, so an
   identical file is skipped and reported at `SKIP` and a dry run
-  agrees; kamilog 3.0 dropped its own deed feature, so never call `logger.track`
+  agrees; a `FrontmatterDoc` subclass sets `_logger` to its command's logger,
+  since `-v`/`-q` reach only that one; kamilog 3.0 dropped its own deed
+  feature, so never call `logger.track`
 
 ## Registering a Blueprint
 
