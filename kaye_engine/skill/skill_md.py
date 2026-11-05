@@ -109,6 +109,8 @@ class Skill(FrontmatterDoc):
 
     # fields  ------------------------------------------------------------------
 
+    _logger = logger
+
     _FILENAME = "SKILL.md"
 
     _DEFAULT_FRONTMATTER = {

@@ -72,12 +72,16 @@ class FrontmatterDoc:  # =======================================================
         :type path: Path-like
         """
         write_text_if_changed(
-            logger, path, self.render(), encoding=_FILE_ENCODING
+            self._logger, path, self.render(), encoding=_FILE_ENCODING
         )
 
     # fields   -----------------------------------------------------------------
 
     body = ""  # default; dataclass subclasses override as a field
+
+    # logger of the command that owns the document; a subclass overrides it
+    # so its write lines follow that command's -v/-q level
+    _logger = logger
 
     # Abstract Method  ---------------------------------------------------------
 
