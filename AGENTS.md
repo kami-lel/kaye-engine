@@ -59,6 +59,7 @@ merge.
 | `kaye_engine/skill/` | `tests/skill/`, plus `tests/cli/open_webui/skill_form_test.py` (reads `Skill`) |
 | `kaye_engine/exportable/` | `tests/exportable_test.py`, `tests/image_prompt_export_test.py` |
 | `kaye_engine/consumer.py` | `tests/consumer_test.py`, `tests/cli/claude/plugin_consumers_test.py`, `tests/cli/exportable_abbr_consumer_test.py` |
+| `kaye_engine/cli/file_write.py` | `tests/cli/file_write_test.py`, then every writer's test: `tests/cli/frontmatter_doc_test.py`, `tests/cli/hermes/`, `tests/cli/claude/`, `tests/cli/exportable_as_json_parser_test.py`, `tests/cli/dry_run_test.py` |
 | `kaye_engine/deed.py` | `tests/deed_test.py` |
 
 ```bash
@@ -233,8 +234,11 @@ package, not a bare checkout.
   only the final result line shows, and mark a run mode with a badge; take every badge name from
   `kaye_engine.badge` (e.g. `badges=DRY_BADGE`), never an ad hoc string,
   since a misspelled native name prints as a magenta custom badge;
-  keep `done` for a whole-export summary; kamilog 3.0 dropped its own
-  deed feature, so never call `logger.track`
+  keep `done` for a whole-export summary; write every text file that may
+  already exist through `write_text_if_changed`
+  (`kaye_engine/cli/file_write.py`), never a bare `write_text`, so an
+  identical file is skipped and reported at `SKIP` and a dry run
+  agrees; kamilog 3.0 dropped its own deed feature, so never call `logger.track`
 
 ## Registering a Blueprint
 
