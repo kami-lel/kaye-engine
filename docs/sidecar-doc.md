@@ -245,7 +245,7 @@ There is no fixed set of conditional names: any `{name}` heading can be requeste
 
 An **affordance** is a capability family, such as `ask-user-question`: the common case of acknowledging whether a platform capability is available at all. It is a second, independent route to the [conditional splice](#conditional-sidecars). Its sidecar names come from a purpose-built two-level registry in `kaye_engine/prompt/affordance_registry.py`, not from a caller-supplied name list. The second level is the [Variant](#variant).
 
-A family may hold a single variant, standing in for a one-off capability, and a variant belongs to exactly one affordance. An affordance is registered only as a side effect of [registering a variant](#registering-a-variant); there is no separate call for it.
+A family may hold a single variant, standing in for a one-off capability, and a variant belongs to exactly one affordance. An affordance is registered first, with [`register_affordance()`](#registering-an-affordance), and a variant then names it through [`register_variant()`](#registering-a-variant).
 
 
 
@@ -261,9 +261,33 @@ A family may hold a single variant, standing in for a one-off capability, and a 
 
 ### Affordance Registry
 
-`Affordance` is a keyword-only dataclass with one attribute, `canonical_name`, the unique identifier. `affordance_registry` is a module-level `dict[str, Affordance]` keyed by it. It starts empty and fills only through `register_variant()`; there is no direct-insert API.
+`Affordance` is a keyword-only dataclass with `canonical_name`, the unique identifier, and `remark`, a short description of the capability. `affordance_registry` is a module-level `dict[str, Affordance]` keyed by `canonical_name`. It starts empty and fills only through `register_affordance()`; there is no direct-insert API.
 
-`kaye_engine` registers the variants of `AFFORDANCE_GROUPS` (`kaye_engine/prompt/builtin_affordances.py`) when `kaye_engine.prompt` is imported, the set the built-in render profiles refer to, see [`render-profile-doc.md`](render-profile-doc.md). A consumer adds its own with `register_variant()`.
+The `remark` is the affordance's documentation: start it with a verb, keep it to a few words, and omit the trailing period, e.g. `run shell commands`. `kaye-engine affordance` lists every affordance with its remark, see [CLI](#cli).
+
+`kaye_engine` registers the affordances and variants of `BUILTIN_AFFORDANCES` (`kaye_engine/prompt/builtin_affordances.py`), remarks included, when `kaye_engine.prompt` is imported, the set the built-in render profiles refer to, see [`render-profile-doc.md`](render-profile-doc.md). A consumer adds its own with `register_affordance()` and `register_variant()`.
+
+
+
+
+
+
+
+
+
+
+
+
+
+### Registering an Affordance
+
+`register_affordance(canonical_name, remark="")` creates an `Affordance` in `affordance_registry`. A repeated name raises `ValueError`, and a `remark` that is not a `str` raises `TypeError`. Register an affordance before any variant names it.
+
+```python
+from kaye_engine.prompt import register_affordance
+
+register_affordance("ask-user-question", "ask multiple-choice questions")
+```
 
 
 
@@ -339,20 +363,26 @@ A **variant** is one concrete implementation of an affordance, such as `ask_user
 
 ### Registering a Variant
 
-`register_variant(canonical_name, affordance_name)` is the **single** entry point for both registries. It creates a `Variant` in `variant_registry`, and first creates the `Affordance` in `affordance_registry` when that name is not yet registered. A duplicate variant name raises `ValueError`.
+`register_variant(canonical_name, affordance_name, remark="")` creates a `Variant` in `variant_registry`, linked to the `Affordance` named `affordance_name`, which must already be [registered](#registering-an-affordance). An unregistered `affordance_name` raises `KeyError`, a duplicate variant name `ValueError`, and a `remark` that is not a `str` `TypeError`.
 
 ```python
-from kaye_engine.prompt import register_variant
+from kaye_engine.prompt import register_affordance, register_variant
 
 # a two-variant affordance
-register_variant("ask_user_input_v0", "ask-user-question")
-register_variant("AskUserQuestion", "ask-user-question")
+register_affordance("ask-user-question", "ask multiple-choice questions")
+register_variant(
+    "ask_user_input_v0", "ask-user-question", "show tappable multiple-choice"
+)
+register_variant(
+    "AskUserQuestion", "ask-user-question", "ask selectable-option question"
+)
 
 # a single-variant affordance
+register_affordance("ClaudeCode:TodoWrite", "keep session to-do list")
 register_variant("ClaudeCode:TodoWrite", "ClaudeCode:TodoWrite")
 ```
 
-`Variant` is a keyword-only dataclass with `canonical_name` and `affordance_name`. `variant_registry` is a module-level `dict[str, Variant]` keyed by `canonical_name`, filled only through `register_variant()`.
+`Variant` is a keyword-only dataclass with `canonical_name`, `affordance_name`, and `remark`, a short verb-first description of the implementation, its documentation like an affordance's. `variant_registry` is a module-level `dict[str, Variant]` keyed by `canonical_name`, filled only through `register_variant()`.
 
 > [!WARNING]
 > Both levels use the literal suffix `Usage`. An affordance and a variant sharing one `canonical_name` collide on a single sidecar key, so keep the names unique across both registries.
@@ -422,9 +452,15 @@ A sidecar is spliced in when its name matches either this map or `conditional_si
 ### Example
 
 ```python
-from kaye_engine.prompt import register_variant, render_prompt
+from kaye_engine.prompt import (
+    register_affordance,
+    register_variant,
+    render_prompt,
+)
 from kaye_engine.prompt.blueprint.render_profile import RenderProfile
 
+register_affordance("ClaudeCode:TodoWrite")
+register_affordance("ask-user-question")
 register_variant("ClaudeCode:TodoWrite", "ClaudeCode:TodoWrite")
 register_variant("ask_user_input_v0", "ask-user-question")
 register_variant("AskUserQuestion", "ask-user-question")
@@ -455,11 +491,13 @@ With only `ClaudeCode:TodoWrite` present:
 
 ### CLI
 
-Every rendering command inherits `--variant VARIANT [VARIANT ...]`, see [`render-profile-doc.md`](render-profile-doc.md#cli-options). Two read-only subcommands print the registries' canonical names, sorted, one per line:
+Every rendering command inherits `--variant VARIANT [VARIANT ...]`, see [`render-profile-doc.md`](render-profile-doc.md#cli-options). Two read-only subcommands list the registries as tab-separated columns under a heading line that names each column:
 
-| Command | Alias | Prints |
-| --- | --- | --- |
-| `kaye-engine affordance` | `afd` | `affordance_registry` names |
-| `kaye-engine variant` | `var` | `variant_registry` names |
+| Command | Alias | Columns | Order |
+| --- | --- | --- | --- |
+| `kaye-engine affordance` | `afd` | `affordance`, `remark` | by name |
+| `kaye-engine variant` | `var` | `variant`, `affordance`, `remark` | by affordance, then by variant name |
+
+`-i/--info` shows every info column, the default; `-I/--no-info` prints names only, with no heading line. `variant` also takes `-r/--remark` and `-a/--affordance`, each turning on its own column, so `-i` equals `-ra`. Flags apply in the order given and the last one wins: `-I -r` shows the remark only, `-r -I` shows none. `variant` keeps its by-affordance order whether or not the `affordance` column shows.
 
 Which variants apply to an invocation is decided by the registered surface profiles, see [`render-profile-doc.md`](render-profile-doc.md#surfaces).
