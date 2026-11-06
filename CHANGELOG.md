@@ -3,8 +3,6 @@
 [^format]
 
 <!--
-BUG hermes profile also need skills
-
 Fixme re-org surfaces: esp claude no longer has so many surfaces
 
 Todo kaye build/gh release command
@@ -65,6 +63,7 @@ manually add chat & coder, instead by data structure
 
 ### Fixed
 
+- `hermes` writes every exportable skill into each `profiles/<name>/skills/<consumer>/` too, so a named profile holds the same skills as the default profile
 - `SKILL.md` and Continue rule write lines (`create`, `overwrite`, `unchanged`) respect the command's `-v`/`-q` level: they log through the owning command's logger, no longer the shared `kaye.engine` one that `-v` never reached
 
 ### Security

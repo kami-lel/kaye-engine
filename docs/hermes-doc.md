@@ -1,6 +1,6 @@
 # Kaye Engine: support for Hermes
 
-`kaye-engine hermes` (alias `m`) writes a Hermes home directory: a root `SOUL.md`, one `SOUL.md` per profile, and every entry of `exportable_registry` as an Agent Skill. The command is mechanism only; the consumer project names which blueprints become the soul and the profiles.
+`kaye-engine hermes` (alias `m`) writes a Hermes home directory: a root `SOUL.md`, one `SOUL.md` per profile, and every entry of `exportable_registry` as an Agent Skill, in the root and in each profile. The command is mechanism only; the consumer project names which blueprints become the soul and the profiles.
 
 ## Usage
 
@@ -22,12 +22,16 @@ FOLDER/
 ├── skills/
 │   └── <consumer name>/<skill name>/SKILL.md
 └── profiles/
-    └── <profile name>/SOUL.md
+    └── <profile name>/
+        ├── SOUL.md
+        └── skills/
+            └── <consumer name>/<skill name>/SKILL.md
 ```
 
 - `SOUL.md`: the soul blueprint, rendered
 - `profiles/<profile>/SOUL.md`: the blueprint mapped to that profile, rendered
 - `skills/<consumer>/`: one folder per entry of `exportable_registry` of that consumer, as `skill` does (q.v. [`exportable-registry-doc.md`](exportable-registry-doc.md))
+- `profiles/<profile>/skills/<consumer>/`: the same skill folders again, so every profile holds all skills, just like the default profile
 
 The two `SOUL.md` kinds render from `blueprint_registry`, so a blueprint registered with `is_exportable=False` can still be a soul or a profile; it never becomes a skill. An existing file is overwritten only when its content differs; an identical one is reported as `unchanged` and left alone.
 
