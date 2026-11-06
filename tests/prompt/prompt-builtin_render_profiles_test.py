@@ -6,16 +6,23 @@ Unit Tests (using pytest) for:
 - the built-in chat / cowork / code / vsc / ioschat profiles
 - the built-in continue, hermes and comfy profiles
 - AFFORDANCE_GROUPS
+- BUILTIN_AFFORDANCES remarks
 - register_builtin_render_profiles()
 """
 
 import pytest
 
-from kaye_engine.prompt.affordance_registry import variant_registry
+from kaye_engine.prompt.affordance_registry import (
+    affordance_registry,
+    variant_registry,
+)
 from kaye_engine.prompt.blueprint.render_profile_registry import (
     render_profile_registry,
 )
-from kaye_engine.prompt.builtin_affordances import AFFORDANCE_GROUPS
+from kaye_engine.prompt.builtin_affordances import (
+    AFFORDANCE_GROUPS,
+    BUILTIN_AFFORDANCES,
+)
 from kaye_engine.prompt.builtin_render_profiles import (
     register_builtin_render_profiles,
 )
@@ -283,6 +290,37 @@ class TestAffordanceGroups:
     def test_identity_names_never_registered(_):
         for name in _IDENTITY_NAMES:
             assert name not in AFFORDANCE_GROUPS
+
+
+class TestBuiltinRemarks:
+
+    def test_counts(_):
+        assert len(BUILTIN_AFFORDANCES) == 41
+        assert sum(len(v) for _, v in BUILTIN_AFFORDANCES.values()) == 56
+
+    def test_affordance_groups_derived_from_data(_):
+        assert AFFORDANCE_GROUPS == {
+            name: tuple(variants)
+            for name, (_, variants) in BUILTIN_AFFORDANCES.items()
+        }
+
+    def test_registered_remarks_match_data(_):
+        for name, (remark, variants) in BUILTIN_AFFORDANCES.items():
+            assert affordance_registry[name].remark == remark
+            for variant_name, variant_remark in variants.items():
+                assert variant_registry[variant_name].remark == variant_remark
+
+    def test_every_remark_is_short_lowercase_text_without_period(_):
+        remarks = []
+        for remark, variants in BUILTIN_AFFORDANCES.values():
+            remarks.append(remark)
+            remarks.extend(variants.values())
+
+        for remark in remarks:
+            assert remark, remark
+            assert remark[0].islower(), remark
+            assert not remark.endswith("."), remark
+            assert len(remark) <= 40, remark
 
 
 class TestContinueProfile:
