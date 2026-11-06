@@ -324,7 +324,18 @@ Kaye Engine ships 8 surfaces, registered with a remark when `kaye_engine.prompt`
 | `hermes` | Hermes Agents |
 | `comfy` | Comfy Org ComfyUI image prompts |
 
-`kaye-engine render-profile` (alias `rp`) prints one registered profile per line, sorted by name, as tab-separated columns under a heading line: `profile`, `remark`, `mode`, `sparseness`, `variants`, `sidecars`. `variants` and `sidecars` are comma-joined names, empty when the profile has none. `-i` shows every info column, the default; `-I` prints names only, with no heading line; `-r`, `-m`, `-s`, `-v`, `-c` turn on the remark, mode, sparseness, variants, and sidecars column. Flags apply in the order given, so the last one wins: `-I -r` shows the remark only, `-r -I` shows none. A profile registered with no remark prints an empty remark cell.
+`kaye-engine render-profile` (alias `rp`) prints one registered profile per line, sorted by name. On a terminal it is an aligned table: `profile`, then `variants` and `sidecars` as counts, then `remark`; piped, it is tab-separated rows under a heading line with the lists comma-joined, empty when the profile has none. A profile registered with no remark prints an empty remark cell. It takes flags only, each with a short and a long form:
+
+| Flag | Effect |
+| --- | --- |
+| `-r PATTERN`, `--regex` | keep profiles whose name matches the regex; repeat to match any of several |
+| `-c COLS`, `--columns` | comma-separated columns to show, from `remark`, `mode`, `sparseness`, `variants`, `sidecars`; `mode` and `sparseness` show only this way or under `-l` |
+| `-l`, `--long` | one card per profile: mode, sparseness, and `variants` and `sidecars` in full; sidecars that only echo a variant as `[variant]` fold into one phrase, so the names below it are the ones the variants do not imply |
+| `-N`, `--names-only` | names only, one per line, no heading |
+| `-f FORMAT`, `--format` | `table` (the terminal default), `tsv` (the piped default) or `json`, an array of objects with the lists whole |
+| `-C`, `--no-color` | plain output; `NO_COLOR` does the same |
+
+Color comes from kamilog and is off for `-N`, `tsv`, `json`, `-C`, `NO_COLOR` and any non-terminal output.
 
 A consumer adds its own with `register_render_profile(name, profile, remark="")`; a repeated name raises `ValueError`, and a `remark` that is not a `str` raises `TypeError`:
 
