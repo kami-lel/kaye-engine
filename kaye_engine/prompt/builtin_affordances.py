@@ -58,6 +58,7 @@ BUILTIN_AFFORDANCES = {
             "Claude:Bash": "run shell command",
             "Claude:PowerShell": "run PowerShell command",
             "Claude:bash_tool": "run sandbox shell command",
+            "Claude:Terminal~": "drive in-app terminal tabs",
         },
     ),
     "agent": (
@@ -322,6 +323,27 @@ BUILTIN_AFFORDANCES = {
         "display PDF files",
         {
             "Claude:PDFViewer~": "list and display PDFs",
+        },
+    ),
+    "browser": (
+        "drive a web browser",
+        {
+            "Claude:Browser~": "control built-in browser",
+            "Claude:Chrome~": "control Chrome via extension",
+            "Claude:RemoteBrowser~": "control browser on remote device",
+        },
+    ),
+    "computer-use": (
+        "control a desktop by screen",
+        {
+            "Claude:ComputerUse~": "control local desktop apps",
+            "Claude:RemoteDevice~": "control remote device desktop and files",
+        },
+    ),
+    "ide-diagnostics": (
+        "read IDE diagnostics",
+        {
+            "Claude:getDiagnostics": "read editor errors and warnings",
         },
     ),
     "git": (
