@@ -242,11 +242,12 @@ class TestAffordanceGroups:
                     affordance_name
                 )
 
-    def test_cli_registers_all_three_variants(_):
+    def test_cli_registers_all_variants(_):
         assert set(AFFORDANCE_GROUPS["cli"]) == {
             "Claude:Bash",
             "Claude:PowerShell",
             "Claude:bash_tool",
+            "Claude:Terminal~",
         }
 
     def test_ask_user_question_registers_both_variants(_):
@@ -311,11 +312,30 @@ class TestContentAndInteractionVariants:
         assert variant_registry[variant].affordance_name == affordance
 
 
+class TestBrowserAndDeviceVariants:
+
+    @pytest.mark.parametrize(
+        "affordance, variant",
+        [
+            ("cli", "Claude:Terminal~"),
+            ("browser", "Claude:Browser~"),
+            ("browser", "Claude:Chrome~"),
+            ("browser", "Claude:RemoteBrowser~"),
+            ("computer-use", "Claude:ComputerUse~"),
+            ("computer-use", "Claude:RemoteDevice~"),
+            ("ide-diagnostics", "Claude:getDiagnostics"),
+        ],
+    )
+    def test_variant_registered_under_affordance(_, affordance, variant):
+        assert variant in AFFORDANCE_GROUPS[affordance]
+        assert variant_registry[variant].affordance_name == affordance
+
+
 class TestBuiltinRemarks:
 
     def test_counts(_):
-        assert len(BUILTIN_AFFORDANCES) == 49
-        assert sum(len(v) for _, v in BUILTIN_AFFORDANCES.values()) == 61
+        assert len(BUILTIN_AFFORDANCES) == 52
+        assert sum(len(v) for _, v in BUILTIN_AFFORDANCES.values()) == 68
 
     def test_affordance_groups_derived_from_data(_):
         assert AFFORDANCE_GROUPS == {
