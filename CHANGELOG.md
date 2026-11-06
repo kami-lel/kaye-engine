@@ -4,7 +4,9 @@
 
 <!--
 TODO add description for afd/var
+FIXME rp command contains more col
 FIXME re-org surfaces: esp claude no longer has so many surfaces
+TODO hermes variant & update corpus
 
 Todo kaye build/gh release command
 
