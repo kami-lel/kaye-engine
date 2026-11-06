@@ -2,7 +2,8 @@
 list_view.py
 
 define ``add_list_flags``, ``filter_rows``, ``select_columns``,
-``print_rows``, ``print_cards`` and ``print_groups`` -- the shared
+``print_rows``, ``print_cards``, ``print_groups``, ``parse_regex`` and
+``resolve_format`` -- the shared
 mechanism of the list commands (``affordance``, ``variant``,
 ``render-profile``): one flag set, one name filter, and table, tsv, json,
 card and grouped views, colored only through kamilog
@@ -23,9 +24,11 @@ __all__ = (
     "FMT_TSV",
     "add_list_flags",
     "filter_rows",
+    "parse_regex",
     "print_cards",
     "print_groups",
     "print_rows",
+    "resolve_format",
     "select_columns",
 )
 
@@ -47,7 +50,7 @@ _STYLE_GROUP = AnsiStyle.BOLD | AnsiStyle.BRIGHT_BLUE
 
 
 # auxiliaries  #################################################################
-def _parse_regex(text):
+def parse_regex(text):
     """
     :return: the compiled pattern; used as an argparse ``type``
     :rtype: re.Pattern
@@ -101,7 +104,7 @@ def _is_color_off(args, fmt):
     )
 
 
-def _resolve_format(args, stream):
+def resolve_format(args, stream):
     """
     :return: ``-f`` when given; otherwise table on a TTY, tsv off one
     :rtype: str
@@ -235,7 +238,7 @@ def add_list_flags(parser, columns):
         "--regex",
         action="append",
         default=[],
-        type=_parse_regex,
+        type=parse_regex,
         metavar="PATTERN",
         help="only names matching PATTERN (regex search); repeat to match "
         "any of several",
@@ -325,7 +328,7 @@ def print_rows(args, name_heading, columns, rows, stream=None):
     :type stream: IO or None
     """
     stream = stream or sys.stdout
-    fmt = _resolve_format(args, stream)
+    fmt = resolve_format(args, stream)
     rows = filter_rows(args, rows)
 
     if args.names_only:
