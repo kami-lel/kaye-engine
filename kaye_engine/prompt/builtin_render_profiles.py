@@ -23,86 +23,86 @@ __all__ = ("register_builtin_render_profiles",)
 _COMMON_AFFORDANCES = ("git", "QwenImage")
 
 _CHAT_AFFORDANCES = (
-    "ClaudeChat:ask_user_input_v0",
-    "ClaudeChat:places_map_display_v0",
-    "ClaudeChat:places_list_display_v0",
-    "ClaudeChat:recipe_display_v0",
-    "ClaudeChat:itinerary_display_v0",
-    "ClaudeChat:step_card_display_v0",
-    "ClaudeChat:options_card_display_v0",
-    "ClaudeChat:comparison_card_display_v0",
-    "ClaudeChat:featured_card_display_v0",
-    "ClaudeChat:product_carousel_display_v0",
-    "ClaudeChat:link_preview_display_v0",
-    "ClaudeChat:visualize:show_widget",
-    "ClaudeChat:memory~",
-    "ClaudeChat:weather_fetch",
-    "ClaudeChat:places_search",
-    "ClaudeChat:message_compose_v1",
-    "ClaudeChat:view/str_replace/create_file~",
-    "ClaudeChat:present_files",
-    "ClaudeChat:bash_tool",
-    "ClaudeChat:Gmail",
-    "ClaudeChat:GoogleCalendar:EventEdit",
-    "ClaudeChat:GoogleCalendar:EventInfo",
-    "ClaudeChat:GoogleCalendar:Subcalendar",
-    "ClaudeChat:web_~",
-    "ClaudeChat:TickTick",
+    "Claude:ask_user_input_v0",
+    "Claude:places_map_display_v0",
+    "Claude:places_list_display_v0",
+    "Claude:recipe_display_v0",
+    "Claude:itinerary_display_v0",
+    "Claude:step_card_display_v0",
+    "Claude:options_card_display_v0",
+    "Claude:comparison_card_display_v0",
+    "Claude:featured_card_display_v0",
+    "Claude:product_carousel_display_v0",
+    "Claude:link_preview_display_v0",
+    "Claude:visualize:show_widget",
+    "Claude:memory~",
+    "Claude:weather_fetch",
+    "Claude:places_search",
+    "Claude:message_compose_v1",
+    "Claude:view/str_replace/create_file~",
+    "Claude:present_files",
+    "Claude:bash_tool",
+    "Claude:Gmail",
+    "Claude:GoogleCalendar:EventEdit",
+    "Claude:GoogleCalendar:EventInfo",
+    "Claude:GoogleCalendar:Subcalendar",
+    "Claude:Web~",
+    "Claude:TickTick",
 ) + _COMMON_AFFORDANCES
 
 _IOSCHAT_AFFORDANCES = _CHAT_AFFORDANCES + (
-    "ClaudeiOSChat:Calendar:EventEdit",
-    "ClaudeiOSChat:Calendar:EventInfo",
-    "ClaudeiOSChat:Calendar:Subcalendar",
+    "Claude:iOS:Calendar:EventEdit",
+    "Claude:iOS:Calendar:EventInfo",
+    "Claude:iOS:Calendar:Subcalendar",
 )
 
 _COWORK_TIER_AFFORDANCES = (
-    "ClaudeCode:AskUserQuestion",
-    "ClaudeCode:Skill",
-    "ClaudeCode:Read/Write/Edit~",
-    "ClaudeCode:SendUserFile",
-    "ClaudeCode:Bash",
-    "ClaudeCode:Web~",
+    "Claude:AskUserQuestion",
+    "Claude:Skill",
+    "Claude:Read/Write/Edit~",
+    "Claude:SendUserFile",
+    "Claude:Bash",
+    "Claude:Web~",
 ) + _COMMON_AFFORDANCES
 
 _COWORK_AFFORDANCES = _COWORK_TIER_AFFORDANCES + (
-    "ClaudeCowork:Gmail",
-    "ClaudeCowork:TickTick",
-    "ClaudeCowork:GoogleCalendar:EventEdit",
-    "ClaudeCowork:GoogleCalendar:EventInfo",
-    "ClaudeCowork:GoogleCalendar:Subcalendar",
+    "Claude:Gmail",
+    "Claude:TickTick",
+    "Claude:GoogleCalendar:EventEdit",
+    "Claude:GoogleCalendar:EventInfo",
+    "Claude:GoogleCalendar:Subcalendar",
 )
 
 _CODE_TIER_AFFORDANCES = (
-    "ClaudeCode:Artifact",
-    "ClaudeCode:PushNotification",
-    "ClaudeCode:NotebookEdit",
-    "ClaudeCode:RemoteTrigger",
-    "ClaudeCode:DesignSync",
-    "ClaudeCode:ReportFindings",
-    "ClaudeCode:Enter/ExitPlanMode",
-    "ClaudeCode:Enter/ExitWorktree",
-    "ClaudeCode:ScheduleWakeup",
-    "ClaudeCode:CronCreate/Delete/List",
-    "ClaudeCode:Monitor",
-    "ClaudeCode:Task~",
-    "ClaudeCode:PowerShell",
+    "Claude:Artifact",
+    "Claude:PushNotification",
+    "Claude:NotebookEdit",
+    "Claude:RemoteTrigger",
+    "Claude:DesignSync",
+    "Claude:ReportFindings",
+    "Claude:Enter/ExitPlanMode",
+    "Claude:Enter/ExitWorktree",
+    "Claude:ScheduleWakeup",
+    "Claude:CronCreate/Delete/List",
+    "Claude:Monitor",
+    "Claude:Task~",
+    "Claude:PowerShell",
 )
 
 _CODE_AFFORDANCES = _COWORK_TIER_AFFORDANCES + _CODE_TIER_AFFORDANCES
 
 _VSC_EXCLUDED_AFFORDANCES = (
-    "ClaudeCode:SendUserFile",
-    "ClaudeCode:ReportFindings",
-    "ClaudeCode:PowerShell",
+    "Claude:SendUserFile",
+    "Claude:ReportFindings",
+    "Claude:PowerShell",
 )
 
 _VSC_AFFORDANCES = tuple(
     name
     for name in _CODE_AFFORDANCES
     + (
-        "ClaudeCode:Agent~",
-        "ClaudeCode:TodoWrite",
+        "Claude:Agent~",
+        "Claude:TodoWrite",
     )
     if name not in _VSC_EXCLUDED_AFFORDANCES
 )

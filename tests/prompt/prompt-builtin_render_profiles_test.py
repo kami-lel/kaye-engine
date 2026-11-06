@@ -56,19 +56,19 @@ COMFY_PROFILE = _profile("comfy")
 class TestAffordances:
 
     def test_single_surface(_):
-        assert "ClaudeCode:Skill" in COWORK_PROFILE.variants
-        assert "ClaudeChat:weather_fetch" not in COWORK_PROFILE.variants
+        assert "Claude:Skill" in COWORK_PROFILE.variants
+        assert "Claude:weather_fetch" not in COWORK_PROFILE.variants
 
     def test_combined_surfaces(_):
         result = CODE_PROFILE.merge(VSC_PROFILE).variants
 
-        assert "ClaudeCode:ReportFindings" in result
-        assert "ClaudeCode:TodoWrite" in result
+        assert "Claude:ReportFindings" in result
+        assert "Claude:TodoWrite" in result
 
     def test_deduplicates_when_available_on_two_requested_surfaces(_):
         result = CODE_PROFILE.merge(VSC_PROFILE).variants
 
-        assert result.count("ClaudeCode:Skill") == 1
+        assert result.count("Claude:Skill") == 1
 
     @pytest.mark.parametrize(
         "profile",
@@ -85,28 +85,29 @@ class TestAffordances:
         assert "QwenImage" in profile.variants
 
     def test_powershell_present_on_code_absent_on_vsc(_):
-        assert "ClaudeCode:PowerShell" in CODE_PROFILE.variants
-        assert "ClaudeCode:PowerShell" not in VSC_PROFILE.variants
+        assert "Claude:PowerShell" in CODE_PROFILE.variants
+        assert "Claude:PowerShell" not in VSC_PROFILE.variants
 
-    def test_web_bundles_split_chat_from_the_other_surfaces(_):
-        assert "ClaudeChat:web_~" in CHAT_PROFILE.variants
-        assert "ClaudeChat:web_~" not in CODE_PROFILE.variants
-        assert "ClaudeCode:Web~" not in CHAT_PROFILE.variants
-        assert "ClaudeCode:Web~" in COWORK_PROFILE.variants
-        assert "ClaudeCode:Web~" in CODE_PROFILE.variants
-        assert "ClaudeCode:Web~" in VSC_PROFILE.variants
+    def test_web_bundle_on_every_surface(_):
+        for profile in (
+            CHAT_PROFILE,
+            COWORK_PROFILE,
+            CODE_PROFILE,
+            VSC_PROFILE,
+        ):
+            assert "Claude:Web~" in profile.variants
 
     def test_agent_bundle_present_only_on_vsc(_):
-        assert "ClaudeCode:Agent~" in VSC_PROFILE.variants
-        assert "ClaudeCode:Agent~" not in CODE_PROFILE.variants
-        assert "ClaudeCode:Agent~" not in COWORK_PROFILE.variants
-        assert "ClaudeCode:Agent~" not in CHAT_PROFILE.variants
+        assert "Claude:Agent~" in VSC_PROFILE.variants
+        assert "Claude:Agent~" not in CODE_PROFILE.variants
+        assert "Claude:Agent~" not in COWORK_PROFILE.variants
+        assert "Claude:Agent~" not in CHAT_PROFILE.variants
 
     def test_ioschat_calendar_variants_present_only_on_ioschat(_):
         for name in (
-            "ClaudeiOSChat:Calendar:EventEdit",
-            "ClaudeiOSChat:Calendar:EventInfo",
-            "ClaudeiOSChat:Calendar:Subcalendar",
+            "Claude:iOS:Calendar:EventEdit",
+            "Claude:iOS:Calendar:EventInfo",
+            "Claude:iOS:Calendar:Subcalendar",
         ):
             assert name in IOSCHAT_PROFILE.variants
             assert name not in CHAT_PROFILE.variants
@@ -136,7 +137,7 @@ class TestIdentityNamesAreNotVariants:
 class TestConditionalSidecars:
 
     def test_bracket_wraps_affordance_names(_):
-        assert "[ClaudeCode:Skill]" in COWORK_PROFILE.conditional_sidecars
+        assert "[Claude:Skill]" in COWORK_PROFILE.conditional_sidecars
 
     def test_universal_identity_present_for_any_single_surface(_):
         assert "[Claude]" in CHAT_PROFILE.conditional_sidecars
@@ -157,7 +158,7 @@ class TestConditionalSidecars:
     def test_identity_names_do_not_collide_with_tool_affordance_names(_):
         sidecars = COWORK_PROFILE.conditional_sidecars
 
-        assert "[ClaudeCode:Skill]" in sidecars
+        assert "[Claude:Skill]" in sidecars
         assert sidecars.count("[ClaudeCowork]") == 1
 
     def test_vsc_has_no_identity_sidecar_of_its_siblings(_):
@@ -243,22 +244,19 @@ class TestAffordanceGroups:
 
     def test_cli_registers_all_three_variants(_):
         assert set(AFFORDANCE_GROUPS["cli"]) == {
-            "ClaudeCode:Bash",
-            "ClaudeCode:PowerShell",
-            "ClaudeChat:bash_tool",
+            "Claude:Bash",
+            "Claude:PowerShell",
+            "Claude:bash_tool",
         }
 
     def test_ask_user_question_registers_both_variants(_):
         assert set(AFFORDANCE_GROUPS["ask-user-question"]) == {
-            "ClaudeChat:ask_user_input_v0",
-            "ClaudeCode:AskUserQuestion",
+            "Claude:ask_user_input_v0",
+            "Claude:AskUserQuestion",
         }
 
-    def test_web_registers_both_variants(_):
-        assert set(AFFORDANCE_GROUPS["web"]) == {
-            "ClaudeChat:web_~",
-            "ClaudeCode:Web~",
-        }
+    def test_web_registers_one_variant(_):
+        assert set(AFFORDANCE_GROUPS["web"]) == {"Claude:Web~"}
 
     @pytest.mark.parametrize(
         "group, suffix",
@@ -268,20 +266,18 @@ class TestAffordanceGroups:
             ("calendar-subcalendar", "Subcalendar"),
         ],
     )
-    def test_calendar_groups_register_all_three_variants(_, group, suffix):
+    def test_calendar_groups_register_both_variants(_, group, suffix):
         variants = AFFORDANCE_GROUPS[group]
 
-        assert len(variants) == 3
+        assert len(variants) == 2
         assert all(name.endswith(suffix) for name in variants)
 
-    def test_email_and_gtd_register_both_variants(_):
+    def test_email_and_gtd_register_one_variant(_):
         assert set(AFFORDANCE_GROUPS["email-management"]) == {
-            "ClaudeChat:Gmail",
-            "ClaudeCowork:Gmail",
+            "Claude:Gmail",
         }
         assert set(AFFORDANCE_GROUPS["getting-things-done"]) == {
-            "ClaudeChat:TickTick",
-            "ClaudeCowork:TickTick",
+            "Claude:TickTick",
         }
 
     def test_image_model_registers_qwen_image(_):
@@ -296,7 +292,7 @@ class TestBuiltinRemarks:
 
     def test_counts(_):
         assert len(BUILTIN_AFFORDANCES) == 41
-        assert sum(len(v) for _, v in BUILTIN_AFFORDANCES.values()) == 56
+        assert sum(len(v) for _, v in BUILTIN_AFFORDANCES.values()) == 50
 
     def test_affordance_groups_derived_from_data(_):
         assert AFFORDANCE_GROUPS == {
