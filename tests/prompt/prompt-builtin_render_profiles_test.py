@@ -331,11 +331,39 @@ class TestBrowserAndDeviceVariants:
         assert variant_registry[variant].affordance_name == affordance
 
 
+class TestSessionAndSchedulingVariants:
+
+    @pytest.mark.parametrize(
+        "affordance, variant",
+        [
+            ("cron", "Claude:CodeRemote~"),
+            ("cron", "Claude:ScheduledTasks~"),
+            ("artifact", "Claude:RemoteArtifact~"),
+            ("connector", "Claude:ccd_connectors~"),
+            ("agent", "Claude:ccd_session~"),
+            ("agent", "Claude:ccd_session_mgmt~"),
+            ("app-management", "Claude:ccd_directory~"),
+            ("app-management", "Claude:ccd_host~"),
+            ("app-management", "Claude:ccd_pr~"),
+            ("app-management", "Claude:ccd_settings~"),
+            ("app-management", "Claude:ccd_sidebar~"),
+            ("app-management", "Claude:ccd_turn~"),
+            ("app-management", "Claude:ccd_view~"),
+            ("app-management", "Claude:ccd_window~"),
+            ("chat-utility", "Claude:claude_ai~"),
+            ("chat-utility", "Claude:widgets~"),
+        ],
+    )
+    def test_variant_registered_under_affordance(_, affordance, variant):
+        assert variant in AFFORDANCE_GROUPS[affordance]
+        assert variant_registry[variant].affordance_name == affordance
+
+
 class TestBuiltinRemarks:
 
     def test_counts(_):
-        assert len(BUILTIN_AFFORDANCES) == 52
-        assert sum(len(v) for _, v in BUILTIN_AFFORDANCES.values()) == 68
+        assert len(BUILTIN_AFFORDANCES) == 54
+        assert sum(len(v) for _, v in BUILTIN_AFFORDANCES.values()) == 84
 
     def test_affordance_groups_derived_from_data(_):
         assert AFFORDANCE_GROUPS == {
