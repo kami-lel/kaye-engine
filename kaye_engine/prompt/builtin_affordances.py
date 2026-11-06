@@ -27,6 +27,7 @@ BUILTIN_AFFORDANCES = {
         {
             "Claude:ask_user_input_v0": "show tappable multiple-choice",
             "Claude:AskUserQuestion": "ask selectable-option question",
+            "Hermes:clarify": "ask question, get decision",
         },
     ),
     "file-edit": (
@@ -36,6 +37,9 @@ BUILTIN_AFFORDANCES = {
                 "edit sandbox files"
             ),
             "Claude:Read/Write/Edit~": "edit local files",
+            "Hermes:read_file": "read file with line numbers",
+            "Hermes:write_file": "write or overwrite file",
+            "Hermes:patch": "find-and-replace edit in file",
         },
     ),
     "task-tracking": (
@@ -43,6 +47,7 @@ BUILTIN_AFFORDANCES = {
         {
             "Claude:TodoWrite": "keep session to-do list",
             "Claude:Task~": "manage background tasks",
+            "Hermes:todo_list": "track multi-step task list",
         },
     ),
     "file-delivery": (
@@ -59,6 +64,11 @@ BUILTIN_AFFORDANCES = {
             "Claude:PowerShell": "run PowerShell command",
             "Claude:bash_tool": "run sandbox shell command",
             "Claude:Terminal~": "drive in-app terminal tabs",
+            "Hermes:terminal": "run shell commands",
+            "Hermes:process_manage": "poll, wait on, kill processes",
+            "Hermes:execute_code": "run Python calling Hermes tools",
+            "Hermes:read_terminal": "read in-app terminal pane",
+            "Hermes:close_terminal": "hide process terminal tab",
         },
     ),
     "agent": (
@@ -67,6 +77,7 @@ BUILTIN_AFFORDANCES = {
             "Claude:Agent~": "manage subagents and sessions",
             "Claude:ccd_session~": "start and hand off sessions",
             "Claude:ccd_session_mgmt~": "list, edit, stop sessions",
+            "Hermes:delegate_task": "spawn isolated subagents",
         },
     ),
     "plan-mode": (
@@ -87,12 +98,14 @@ BUILTIN_AFFORDANCES = {
             "Claude:CronCreate/Delete/List": "manage scheduled agents",
             "Claude:CodeRemote~": "manage remote repos and triggers",
             "Claude:ScheduledTasks~": "manage scheduled local tasks",
+            "Hermes:cronjob_manage": "schedule and manage cron jobs",
         },
     ),
     "memory": (
         "store persistent memory",
         {
             "Claude:memory~": "read and write memory files",
+            "Hermes:memory": "save durable facts across sessions",
         },
     ),
     "places-map-display": (
@@ -199,6 +212,8 @@ BUILTIN_AFFORDANCES = {
         "search and fetch web pages",
         {
             "Claude:Web~": "search and fetch web pages",
+            "Hermes:web_search": "search the web",
+            "Hermes:web_extract": "extract page or PDF content",
         },
     ),
     "email-management": (
@@ -255,6 +270,9 @@ BUILTIN_AFFORDANCES = {
         {
             "Claude:Skill": "invoke `/skill-name`",
             "Claude:~Skills": "list, search, suggest skills",
+            "Hermes:skills_list": "list available skills",
+            "Hermes:skill_view": "load skill content and files",
+            "Hermes:skill_manage": "create, patch, delete skills",
         },
     ),
     "design-sync": (
@@ -285,12 +303,16 @@ BUILTIN_AFFORDANCES = {
         "search files by name or content",
         {
             "Claude:FileSearch~": "glob and grep local files",
+            "Hermes:search_files": "search contents or find files by name",
         },
     ),
     "tool": (
         "discover deferred tools",
         {
             "Claude:ToolSearch": "load deferred tool schemas",
+            "Hermes:tool_search": "search deferred tool catalog",
+            "Hermes:tool_describe": "load deferred tool schema",
+            "Hermes:tool_call": "invoke deferred tool",
         },
     ),
     "user-message": (
@@ -337,6 +359,16 @@ BUILTIN_AFFORDANCES = {
             "Claude:Browser~": "control built-in browser",
             "Claude:Chrome~": "control Chrome via extension",
             "Claude:RemoteBrowser~": "control browser on remote device",
+            "Hermes:browser_navigate": "navigate to URL",
+            "Hermes:browser_back": "go back in history",
+            "Hermes:browser_click": "click element by ref ID",
+            "Hermes:browser_type": "type text into field",
+            "Hermes:browser_press": "press keyboard key",
+            "Hermes:browser_scroll": "scroll page up or down",
+            "Hermes:browser_snapshot": "snapshot page text with ref IDs",
+            "Hermes:browser_console": "read console, evaluate JS",
+            "Hermes:browser_get_images": "list page images with URLs",
+            "Hermes:browser_vision": "screenshot page for inspection",
         },
     ),
     "computer-use": (
@@ -370,6 +402,46 @@ BUILTIN_AFFORDANCES = {
         {
             "Claude:claude_ai~": "time, location, image search, research",
             "Claude:widgets~": "sports data, quiz, translation, chart",
+        },
+    ),
+    "browser-vault": (
+        "use browser password vault",
+        {
+            "Hermes:browser_vault_list": "list saved logins, cards, addresses",
+            "Hermes:browser_vault_fill": "fill page from vault item",
+            "Hermes:browser_vault_save_login": "save site login to vault",
+            "Hermes:browser_vault_enter_code": "enter one-time or 2FA code",
+            "Hermes:browser_vault_unlock": "prompt user to unlock vault",
+        },
+    ),
+    "image-vision": (
+        "look at images",
+        {
+            "Hermes:vision_analyze": "load image to view it",
+        },
+    ),
+    "text-to-speech": (
+        "speak text aloud",
+        {
+            "Hermes:text_to_speech": "convert text to speech audio",
+        },
+    ),
+    "session-search": (
+        "search past sessions",
+        {
+            "Hermes:session_search": "search or read past sessions",
+        },
+    ),
+    "desktop": (
+        "drive desktop app panes",
+        {
+            "Hermes:desktop_preview": "open, close, read preview pane",
+            "Hermes:drive_preview": "interact with preview page",
+            "Hermes:annotate_preview": "highlight preview elements",
+            "Hermes:focus_pane": "reveal and focus pane",
+            "Hermes:apply_layout": "apply saved layout preset",
+            "Hermes:desktop_project": "create or switch Projects",
+            "Hermes:read_window_below": "identify window behind app",
         },
     ),
     "git": (

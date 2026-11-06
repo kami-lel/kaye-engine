@@ -248,16 +248,26 @@ class TestAffordanceGroups:
             "Claude:PowerShell",
             "Claude:bash_tool",
             "Claude:Terminal~",
+            "Hermes:terminal",
+            "Hermes:process_manage",
+            "Hermes:execute_code",
+            "Hermes:read_terminal",
+            "Hermes:close_terminal",
         }
 
     def test_ask_user_question_registers_both_variants(_):
         assert set(AFFORDANCE_GROUPS["ask-user-question"]) == {
             "Claude:ask_user_input_v0",
             "Claude:AskUserQuestion",
+            "Hermes:clarify",
         }
 
     def test_web_registers_one_variant(_):
-        assert set(AFFORDANCE_GROUPS["web"]) == {"Claude:Web~"}
+        assert set(AFFORDANCE_GROUPS["web"]) == {
+            "Claude:Web~",
+            "Hermes:web_search",
+            "Hermes:web_extract",
+        }
 
     @pytest.mark.parametrize(
         "group, suffix",
@@ -359,11 +369,51 @@ class TestSessionAndSchedulingVariants:
         assert variant_registry[variant].affordance_name == affordance
 
 
+class TestHermesVariants:
+
+    def test_47_hermes_variants_each_with_own_affordance(_):
+        names = [
+            name
+            for variants in AFFORDANCE_GROUPS.values()
+            for name in variants
+            if name.startswith("Hermes:")
+        ]
+
+        assert len(names) == 47
+        assert len(set(names)) == 47
+
+    @pytest.mark.parametrize(
+        "affordance, variant",
+        [
+            ("ask-user-question", "Hermes:clarify"),
+            ("file-edit", "Hermes:patch"),
+            ("cli", "Hermes:terminal"),
+            ("web", "Hermes:web_extract"),
+            ("skill", "Hermes:skill_manage"),
+            ("agent", "Hermes:delegate_task"),
+            ("memory", "Hermes:memory"),
+            ("cron", "Hermes:cronjob_manage"),
+            ("task-tracking", "Hermes:todo_list"),
+            ("file-search", "Hermes:search_files"),
+            ("tool", "Hermes:tool_call"),
+            ("browser", "Hermes:browser_vision"),
+            ("browser-vault", "Hermes:browser_vault_unlock"),
+            ("image-vision", "Hermes:vision_analyze"),
+            ("text-to-speech", "Hermes:text_to_speech"),
+            ("session-search", "Hermes:session_search"),
+            ("desktop", "Hermes:read_window_below"),
+        ],
+    )
+    def test_variant_registered_under_affordance(_, affordance, variant):
+        assert variant in AFFORDANCE_GROUPS[affordance]
+        assert variant_registry[variant].affordance_name == affordance
+
+
 class TestBuiltinRemarks:
 
     def test_counts(_):
-        assert len(BUILTIN_AFFORDANCES) == 54
-        assert sum(len(v) for _, v in BUILTIN_AFFORDANCES.values()) == 84
+        assert len(BUILTIN_AFFORDANCES) == 59
+        assert sum(len(v) for _, v in BUILTIN_AFFORDANCES.values()) == 131
 
     def test_affordance_groups_derived_from_data(_):
         assert AFFORDANCE_GROUPS == {
