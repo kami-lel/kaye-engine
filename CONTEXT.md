@@ -63,7 +63,8 @@ no fallback; a `glossary-*` group takes its glossary's consumer:
 | `register_exportable_entry` | guarded | |
 | `register_exportable_abbrs` | additive | rebuilds the abbr groups on every populate, replacing earlier abbr groups only; a name held by another exportable raises |
 | `register_dynamic_substitution` | guarded | |
-| `register_variant` | guarded | an unknown affordance is created on first use |
+| `register_affordance` | guarded | a repeated name raises; `remark` must be a `str`, `""` when omitted |
+| `register_variant` | guarded | its affordance must be registered first, an unknown one raises `KeyError`; `remark` must be a `str`, `""` when omitted |
 | `register_render_profile` | guarded | name is also the `--surface` choice; `remark` must be a `str`, `""` when omitted |
 | `register_comment_line` | additive | a repeated line is ignored; first-seen order |
 | `add_corpus_clear_hook` | additive | |
@@ -90,8 +91,8 @@ no fallback; a `glossary-*` group takes its glossary's consumer:
 | **Sidecar Node** | a `{name}` subnode; metadata or conditional content |
 | **Dynamic Node** | a `(name)` node (canonical kebab-case `NAME`) whose content is generated at render |
 | **Dynamic Substitution** | a directly-registered `DynamicSubstitution` held in `dynamic_substitution_registry`, resolved by a `(((name)))` placeholder ahead of the dynamic-node/glossary universe |
-| **Affordance** | a conceptual capability family, tracked in `affordance_registry`; auto-created on first `register_variant()` call naming it |
-| **Variant** | one concrete implementation of an affordance, tracked in `variant_registry` via `register_variant(canonical_name, affordance_name)` |
+| **Affordance** | a conceptual capability family, tracked in `affordance_registry` via `register_affordance(canonical_name, remark)`; its `remark` is its documentation |
+| **Variant** | one concrete implementation of an affordance, tracked in `variant_registry` via `register_variant(canonical_name, affordance_name, remark)`; its `remark` is its documentation |
 | **RenderProfile** | a `kw_only` dataclass bundling render settings (`conditional_sidecars`, `variants`, `sparseness`, ...); `.merge()` overrides scalar fields and unions the collection fields |
 | **Image-Prompt Export Subset** | `image_prompt_exportable_registry`, a list of `exportable_registry` canonical names opted into image-prompt export via `register_image_prompt_exportable(canonical_name)` |
 
@@ -169,8 +170,11 @@ documentation](docs/sidecar-doc.md).
 
 `affordance_registry`/`variant_registry` form a two-level model: an
 `Affordance` is a capability family, a `Variant` one implementation of it,
-registered via `register_variant(canonical_name, affordance_name)` (the
-affordance is auto-created on first use). Each variant derives
+registered via `register_affordance(canonical_name, remark)` then
+`register_variant(canonical_name, affordance_name, remark)` (an unregistered
+affordance raises `KeyError`). Each carries a `remark`, a short verb-first
+description that is its documentation, listed by `affordance` and `variant`.
+Each variant derives
 `[{name}] Usage` (checkmarked when present) and `[{name}] Lack` (when
 absent) sidecars; each affordance derives `[{name}] Usage` (at least one
 variant present) and `[{name}] Fallback` (every variant absent, ≥1
@@ -376,9 +380,11 @@ kaye_engine/
 │   │   └── render/             render_*_lines()/preview_selection(),
 │   │       split by concern (tree/lines/sidecar_splice/util)
 │   ├── dynamic_nodes/   render-time generated node types
-│   ├── affordance_registry.py  Affordance/Variant two-level registry,
+│   ├── affordance_registry.py  Affordance/Variant two-level registry w/
+│                                remarks, register_affordance/_variant,
 │                                Usage/Lack/Fallback sidecar names
-│   ├── builtin_affordances.py  AFFORDANCE_GROUPS, registered at import
+│   ├── builtin_affordances.py  BUILTIN_AFFORDANCES (remarks) and derived
+│                                AFFORDANCE_GROUPS, registered at import
 │   └── builtin_render_profiles.py  the 8 built-in render profiles + remarks
 ├── abbr_collection/     abbreviation entries, store, JSON loader
 ├── consumer.py          consumer registry: register_consumer,
@@ -428,10 +434,13 @@ kaye_engine/
 │   ├── dynamic_substitution_parser.py  `dynamic-substitution`/`ds`
 │   │                                    subcommand: print/list
 │   │                                    dynamic_substitution_registry
+│   ├── list_table.py          shared `-i`/`-I`/column flags, heading line and
+│   │                           tab-separated rows of the 3 list commands
 │   ├── list_affordance_parser.py  `affordance`/`afd` subcommand: list affordance_registry
-│   ├── list_variant_parser.py     `variant`/`var` subcommand: list variant_registry
+│   ├── list_variant_parser.py     `variant`/`var` subcommand: list variant_registry,
+│   │                               grouped by affordance
 │   ├── render_profile_list_parser.py  `render-profile`/`rp` subcommand: list
-│   │                                   render_profile_registry, `-r`/`-R` remarks
+│   │                                   render_profile_registry, 6 columns
 │   ├── glossary_parser.py    `glossary`/`g` subcommand: print/list glossaries
 │   ├── comment_parser.py     shared `--comment`/`--no-comment` parent parser
 │   ├── render_profile_parser.py  shared 6-option parent parser + aux fn

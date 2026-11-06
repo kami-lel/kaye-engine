@@ -3,8 +3,6 @@
 [^format]
 
 <!--
-TODO add description for afd/var
-FIXME rp command contains more col
 FIXME re-org surfaces: esp claude no longer has so many surfaces
 TODO hermes variant & update corpus
 
@@ -35,7 +33,10 @@ manually add chat & coder, instead by data structure
 
 ### Added
 
-- `render-profile` (`rp`) subcommand lists every registered render profile, one per line, sorted: `NAME:<TAB>REMARK` by default, `-R` for names only, `-r` for remarks again
+- `render-profile` (`rp`) subcommand lists every registered render profile, sorted by name, as tab-separated columns under a heading line: `profile`, `remark`, `mode`, `sparseness`, `variants`, `sidecars`; `-i` shows every info column (default), `-I` names only, `-r -m -s -v -c` pick columns, applied in order so the last flag wins
+- `register_affordance(canonical_name, remark="")`: registers an affordance on its own; `Affordance` and `Variant` carry a `remark` (a short verb-first description, the entry's documentation, `""` when omitted), and `register_variant()` takes `remark=`; a repeated affordance name raises `ValueError`, a non-`str` remark `TypeError`
+- every built-in affordance (41) and variant (56) carries a remark; `BUILTIN_AFFORDANCES` holds them with their names, and `AFFORDANCE_GROUPS` is derived from it
+- `kaye_engine.cli.list_table`: the shared `-i`/`-I`/column flags, heading line and tab-separated rows of the `affordance`, `variant`, and `render-profile` list commands
 - the engine now ships 8 built-in render profiles, registered with a remark when `kaye_engine.prompt` is imported: `chat`, `cowork`, `code`, `vsc`, `ioschat`, `continue`, `hermes`, `comfy`; the affordance variants they name (`AFFORDANCE_GROUPS`) register with them
 - `register_render_profile(name, profile, remark="")` and `render_profile_registry`: named render profiles, each with an optional `remark` (a short description, `""` when omitted); a repeated name raises `ValueError`, a non-`str` remark `TypeError`
 - file and directory deed lines carry native badges on success: `new` (create file or dir, pack), `owr` (overwrite), `mv` (move); `sync-open-webui-skills` lines carry `new`, `owr`, `del` by verb, after `dry` under `-n`
@@ -56,6 +57,10 @@ manually add chat & coder, instead by data structure
 - `skill -z`, `claude skills -z` print `export skills as N zips` by default, 1 line per zip at `-v`
 - zip exports hide temp-dir build paths; `-vv` shows steps, `-vvv` archive entries
 - `export_plugins_as_zips`, `export_skills_as_zips` return the zip count; the zip exports no longer use the `pack_files`, `mv_file` deeds
+- `affordance` (`afd`) and `variant` (`var`) print tab-separated columns under a heading line (`affordance`, `remark`; `variant`, `affordance`, `remark`); `-i` shows every info column (default), `-I` names only; `variant` also takes `-r` and `-a` for its remark and affordance columns, and sorts by affordance, then variant name
+
+> [!WARNING]
+> `register_variant()` no longer creates a missing affordance: register it first with `register_affordance()`, or `KeyError` is raised. `affordance` and `variant` print a heading line before the rows, and `variant` groups its rows by affordance: pass `-I` for names only, with no heading line.
 
 ### Deprecated
 

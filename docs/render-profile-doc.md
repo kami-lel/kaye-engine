@@ -324,7 +324,7 @@ Kaye Engine ships 8 surfaces, registered with a remark when `kaye_engine.prompt`
 | `hermes` | Hermes Agents |
 | `comfy` | Comfy Org ComfyUI image prompts |
 
-`kaye-engine render-profile` (alias `rp`) prints one registered profile per line, sorted, as `NAME:<TAB>REMARK`; `-R` prints names only and `-r` turns remarks back on, which is the default. A profile registered with no remark prints its bare name.
+`kaye-engine render-profile` (alias `rp`) prints one registered profile per line, sorted by name, as tab-separated columns under a heading line: `profile`, `remark`, `mode`, `sparseness`, `variants`, `sidecars`. `variants` and `sidecars` are comma-joined names, empty when the profile has none. `-i` shows every info column, the default; `-I` prints names only, with no heading line; `-r`, `-m`, `-s`, `-v`, `-c` turn on the remark, mode, sparseness, variants, and sidecars column. Flags apply in the order given, so the last one wins: `-I -r` shows the remark only, `-r -I` shows none. A profile registered with no remark prints an empty remark cell.
 
 A consumer adds its own with `register_render_profile(name, profile, remark="")`; a repeated name raises `ValueError`, and a `remark` that is not a `str` raises `TypeError`:
 

@@ -140,10 +140,12 @@ kaye-engine exportable EXPORTABLE           # print an exportable's content
 kaye-engine exportable ls                   # list every registered exportable name
 kaye-engine export-json              # export exportable_registry as flat JSON
 kaye-engine export-json -f FILE      # write to FILE instead of the default
-kaye-engine affordance                 # list affordance_registry names, sorted
-kaye-engine variant                    # list variant_registry canonical names, sorted
-kaye-engine render-profile             # list render_profile_registry names with remarks, `NAME:<TAB>REMARK`, sorted
-kaye-engine rp -R                      # names only; -r turns remarks back on (default)
+kaye-engine affordance                 # list affordance_registry: heading, then `affordance`, `remark` columns, sorted by name
+kaye-engine afd -I                     # names only, no heading; -i shows the remark column again (default)
+kaye-engine variant                    # list variant_registry: `variant`, `affordance`, `remark` columns, grouped by affordance, then by name
+kaye-engine var -r                     # remark column only; -a affordance column only; -i both (default, = -ra); -I names only
+kaye-engine render-profile             # list render_profile_registry: `profile`, `remark`, `mode`, `sparseness`, `variants`, `sidecars` columns, sorted by name
+kaye-engine rp -I                      # names only, no heading; -r -m -s -v -c pick columns; -i all (default)
 kaye-engine glossary GLOSSARY               # print a glossary's content
 kaye-engine glossary ls                     # list every registered glossary name
 OWU_API_KEY=sk-... kaye-engine sync-open-webui-skills  # push every exportable into Open WebUI as a skill
@@ -153,6 +155,17 @@ kaye-engine o --prune --base-url URL        # also delete remote-only skills; cu
 
 Bare `blueprint`, `exportable`, `dynamic-node` and `glossary` (and their
 aliases `bp`, `x`, `dn`, `g`) behave as the same command followed by `ls`.
+
+**List commands** — `affordance`, `variant` and `render-profile` share one
+mechanism, `kaye_engine/cli/list_table.py`: tab-separated columns, the name
+column always first, and a heading line naming each column unless no info
+column shows. `-i/--info` turns every info column on (the default),
+`-I/--no-info` turns every one off, and a column flag (`variant`: `-r`
+remark, `-a` affordance; `render-profile`: `-r` remark, `-m` mode, `-s`
+sparseness, `-v` variants, `-c` sidecars) turns on its own column. Flags apply
+in the order given, so the last one wins: `-I -r` shows remark only, `-r -I`
+shows none. `affordance` has one info column and no column flag. `variant`
+sorts by affordance, then variant name, whichever columns show.
 
 Aliases: `blueprint` → `bp`; `blueprint list` → `bp ls`; `blueprint
 preview` → `bp p`; `blueprint render` → `bp r`; `blueprint validate` →
