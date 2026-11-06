@@ -206,7 +206,7 @@ Name the sidecars in a render profile's `conditional_sidecars`, a plain collecti
 render_prompt(bp, profile=RenderProfile(conditional_sidecars=("avoid",)))
 ```
 
-There is no fixed set of conditional names: any `{name}` heading can be requested this way, reserved descriptor names included. The profile field, its merging, and its CLI flag are in [`render-profile-doc.md`](render-profile-doc.md#conditional-sidecars). The `{[ClaudeCode:...]}` and `{[ClaudeChat:...]}` sidecars, and the Claude export surfaces that include them, are in [`claude-doc.md`](claude-doc.md).
+There is no fixed set of conditional names: any `{name}` heading can be requested this way, reserved descriptor names included. The profile field, its merging, and its CLI flag are in [`render-profile-doc.md`](render-profile-doc.md#conditional-sidecars). The `{[Claude:...]}` sidecars, and the Claude export surfaces that include them, are in [`claude-doc.md`](claude-doc.md).
 
 
 
@@ -378,8 +378,8 @@ register_variant(
 )
 
 # a single-variant affordance
-register_affordance("ClaudeCode:TodoWrite", "keep session to-do list")
-register_variant("ClaudeCode:TodoWrite", "ClaudeCode:TodoWrite")
+register_affordance("Claude:TodoWrite", "keep session to-do list")
+register_variant("Claude:TodoWrite", "Claude:TodoWrite")
 ```
 
 `Variant` is a keyword-only dataclass with `canonical_name`, `affordance_name`, and `remark`, a short verb-first description of the implementation, its documentation like an affordance's. `variant_registry` is a module-level `dict[str, Variant]` keyed by `canonical_name`, filled only through `register_variant()`.
@@ -459,21 +459,21 @@ from kaye_engine.prompt import (
 )
 from kaye_engine.prompt.blueprint.render_profile import RenderProfile
 
-register_affordance("ClaudeCode:TodoWrite")
+register_affordance("Claude:TodoWrite")
 register_affordance("ask-user-question")
-register_variant("ClaudeCode:TodoWrite", "ClaudeCode:TodoWrite")
+register_variant("Claude:TodoWrite", "Claude:TodoWrite")
 register_variant("ask_user_input_v0", "ask-user-question")
 register_variant("AskUserQuestion", "ask-user-question")
 
 prompt = render_prompt(
-    bp, profile=RenderProfile(variants=("ClaudeCode:TodoWrite",))
+    bp, profile=RenderProfile(variants=("Claude:TodoWrite",))
 )
 ```
 
-With only `ClaudeCode:TodoWrite` present:
+With only `Claude:TodoWrite` present:
 
-- the variant `ClaudeCode:TodoWrite` fires its `Usage` sidecar, not its `Lack`
-- the affordance `ClaudeCode:TodoWrite` fires its `Usage`, having one present variant, never its `Fallback`
+- the variant `Claude:TodoWrite` fires its `Usage` sidecar, not its `Lack`
+- the affordance `Claude:TodoWrite` fires its `Usage`, having one present variant, never its `Fallback`
 - `ask_user_input_v0` and `AskUserQuestion` are both absent, so each fires its `Lack` sidecar
 - the affordance `ask-user-question` fires its `Fallback`, and not its `Usage`, having no present variant
 

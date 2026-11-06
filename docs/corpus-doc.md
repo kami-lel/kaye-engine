@@ -174,7 +174,7 @@ This node indicates when to use the parent.
 
 What the parent's content should not produce.
 
-## {[ClaudeCode:TodoWrite] Usage}
+## {[Claude:TodoWrite] Usage}
 
 This node contains TodoWrite-specific instructions.
 ````

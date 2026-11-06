@@ -3,8 +3,6 @@
 [^format]
 
 <!--
-FIXME re-org surfaces: esp claude no longer has so many surfaces
-TODO hermes variant & update corpus
 
 Todo kaye build/gh release command
 
@@ -35,10 +33,10 @@ manually add chat & coder, instead by data structure
 
 - `render-profile` (`rp`) subcommand lists every registered render profile, sorted by name: an aligned table on a terminal (`profile`, `variants` and `sidecars` as counts, `remark`), tab-separated rows under a heading line when piped; `-l` prints one detail card per profile, with sidecars that only echo a variant folded into one phrase; `mode` and `sparseness` show under `-c` or `-l`
 - `register_affordance(canonical_name, remark="")`: registers an affordance on its own; `Affordance` and `Variant` carry a `remark` (a short verb-first description, the entry's documentation, `""` when omitted), and `register_variant()` takes `remark=`; a repeated affordance name raises `ValueError`, a non-`str` remark `TypeError`
-- every built-in affordance (41) and variant (56) carries a remark; `BUILTIN_AFFORDANCES` holds them with their names, and `AFFORDANCE_GROUPS` is derived from it
+- every built-in affordance (59) and variant (131) carries a remark; `BUILTIN_AFFORDANCES` holds them with their names, and `AFFORDANCE_GROUPS` is derived from it
 - `kaye_engine.cli.list_view`: the shared flag set of the `affordance`, `variant`, and `render-profile` list commands, all flags and no positional argument, each with a short and a long form: `-r/--regex` name filter, `-c/--columns`, `-l/--long`, `-N/--names-only`, `-f/--format table|tsv|json`, `-C/--no-color`; table, tsv, json, card, and grouped views, colored only through kamilog's `AnsiRenderer` (off under `-C`, `NO_COLOR`, or a non-terminal)
 - `note_empty_registry_for_cli(kind)` in `kaye_engine.cli.cli_setup_guard`: logs one `NOTE` when the registry a list command reads is empty
-- the engine now ships 8 built-in render profiles, registered with a remark when `kaye_engine.prompt` is imported: `chat`, `cowork`, `code`, `vsc`, `ioschat`, `continue`, `hermes`, `comfy`; the affordance variants they name (`AFFORDANCE_GROUPS`) register with them
+- the engine now ships 5 built-in render profiles, registered with a remark when `kaye_engine.prompt` is imported: `claude` (Chat and Code tools, iOS calendar included), `claude-vsc`, `continue`, `hermes` (every `Hermes:` variant), `comfy`; the affordance variants they name (`AFFORDANCE_GROUPS`) register with them
 - `register_render_profile(name, profile, remark="")` and `render_profile_registry`: named render profiles, each with an optional `remark` (a short description, `""` when omitted); a repeated name raises `ValueError`, a non-`str` remark `TypeError`
 - file and directory deed lines carry native badges on success: `new` (create file or dir, pack), `owr` (overwrite), `mv` (move); `sync-open-webui-skills` lines carry `new`, `owr`, `del` by verb, after `dry` under `-n`
 - `kaye_engine.deed` gains the `create_zip` deed, `format_size`, `quiet_deeds()` (log deed successes at `DEBUG`), and a settable `level` on a deed scope
@@ -64,6 +62,12 @@ manually add chat & coder, instead by data structure
 
 > [!WARNING]
 > `register_variant()` no longer creates a missing affordance: register it first with `register_affordance()`, or `KeyError` is raised. `affordance`, `variant`, and `render-profile` take flags only; the column flags `-r` (remark), `-m`, `-s`, `-v`, `-a` (affordance column), the `-i`/`-I` info switches, and their long forms are gone. Use `-c/--columns` to pick columns, `-N/--names-only` for names only, and `-r/--regex` to filter names (`-r` and `-a` now take a regex, not switch a column on). A `variant` run on a terminal groups by affordance: pass `-F` for the flat table.
+
+- every Claude affordance variant takes one `Claude:` prefix (`Claude:Edit`-style names, `Claude:Web~`, `Claude:iOS:Calendar:*`); Chat and Cowork twins of `Gmail`, `TickTick` and `GoogleCalendar:*` merge into one variant each
+- variants added for every tool family that had none (search, skills, connectors, plugins, docs, PDF viewer, browsers, devices, terminal, diagnostics, session and app management), and 47 `Hermes:` variants, one per Hermes tool
+
+> [!CAUTION]
+> Break: render profiles `chat`, `cowork`, `code`, `vsc` and `ioschat` are gone, replaced by `claude` and `claude-vsc`; `--surface` names and every `claude` subcommand default follow. Variant names `ClaudeChat:*`, `ClaudeCode:*`, `ClaudeCowork:*` and `ClaudeiOSChat:*` become `Claude:*`, and the identity markers `[ClaudeChat]`, `[ClaudeCode]`, `[ClaudeCowork]` and `[ClaudeiOSChat]` retire. Corpus sidecar references to the old names stop matching until renamed.
 
 ### Deprecated
 
