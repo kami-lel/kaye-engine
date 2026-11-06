@@ -5,7 +5,12 @@ define ``AFFORDANCE_GROUPS`` and ``register_builtin_affordances`` -- the
 affordance families the built-in render profiles refer to
 """
 
-from .affordance_registry import register_variant, variant_registry
+from .affordance_registry import (
+    affordance_registry,
+    register_affordance,
+    register_variant,
+    variant_registry,
+)
 
 __all__ = (
     "AFFORDANCE_GROUPS",
@@ -106,6 +111,8 @@ def register_builtin_affordances():
     call stays idempotent instead of raising
     """
     for affordance_name, variant_names in AFFORDANCE_GROUPS.items():
+        if affordance_name not in affordance_registry:
+            register_affordance(affordance_name)
         for canonical_name in variant_names:
             if canonical_name in variant_registry:
                 continue
