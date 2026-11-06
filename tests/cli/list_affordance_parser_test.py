@@ -12,6 +12,7 @@ from unittest.mock import patch
 import pytest
 
 from kaye_engine.cli import list_affordance_parser
+from kaye_engine.prompt.affordance_registry import Affordance
 
 
 # auxiliaries  ##################################################################
@@ -32,7 +33,12 @@ def _no_corpus_setup_guard():
 
 @pytest.fixture
 def _fake_registry():
-    registry = {"some-affordance": object(), "other-affordance": object()}
+    registry = {
+        "some-affordance": Affordance(
+            canonical_name="some-affordance", remark="do some"
+        ),
+        "other-affordance": Affordance(canonical_name="other-affordance"),
+    }
     with patch.object(list_affordance_parser, "affordance_registry", registry):
         yield registry
 
@@ -60,21 +66,63 @@ class TestRegisterListAffordanceParser:
         assert args.func is list_affordance_parser._list_affordance_main
 
 
+def _run(argv):
+    parser = _build_list_affordance_parser()
+    args = parser.parse_args(argv)
+    args.func(args)
+
+
 class TestListAffordanceMain:
 
-    def test_lists_registered_affordances_sorted(self, _fake_registry, capsys):
-        parser = _build_list_affordance_parser()
-        args = parser.parse_args(["affordance"])
-        args.func(args)
+    def test_default_prints_heading_and_sorted_rows(
+        self, _fake_registry, capsys
+    ):
+        _run(["affordance"])
 
-        out = capsys.readouterr().out
-        assert out.splitlines() == ["other-affordance", "some-affordance"]
+        assert capsys.readouterr().out == (
+            "affordance\tremark\n"
+            "other-affordance\t\n"
+            "some-affordance\tdo some\n"
+        )
+
+    def test_info_matches_default(self, _fake_registry, capsys):
+        _run(["afd", "-i"])
+        with_info = capsys.readouterr().out
+        _run(["afd"])
+
+        assert with_info == capsys.readouterr().out
+
+    def test_no_info_prints_names_only_without_heading(
+        self, _fake_registry, capsys
+    ):
+        _run(["afd", "-I"])
+
+        assert capsys.readouterr().out == (
+            "other-affordance\nsome-affordance\n"
+        )
+
+    def test_long_flag(self, _fake_registry, capsys):
+        _run(["afd", "--no-info"])
+
+        assert capsys.readouterr().out == (
+            "other-affordance\nsome-affordance\n"
+        )
+
+    def test_rejects_old_remark_flags(self, _fake_registry):
+        parser = _build_list_affordance_parser()
+
+        for old_flag in ("-r", "-R", "--remark", "--no-remark"):
+            with pytest.raises(SystemExit):
+                parser.parse_args(["afd", old_flag])
 
     def test_lists_nothing_when_registry_empty(self, capsys):
         with patch.object(list_affordance_parser, "affordance_registry", {}):
-            parser = _build_list_affordance_parser()
-            args = parser.parse_args(["affordance"])
-            args.func(args)
+            _run(["affordance", "-I"])
 
-        out = capsys.readouterr().out
-        assert out == ""
+        assert capsys.readouterr().out == ""
+
+    def test_empty_registry_still_prints_heading(self, capsys):
+        with patch.object(list_affordance_parser, "affordance_registry", {}):
+            _run(["affordance"])
+
+        assert capsys.readouterr().out == "affordance\tremark\n"
