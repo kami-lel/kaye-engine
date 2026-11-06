@@ -65,6 +65,8 @@ BUILTIN_AFFORDANCES = {
         "launch and message subagents",
         {
             "Claude:Agent~": "manage subagents and sessions",
+            "Claude:ccd_session~": "start and hand off sessions",
+            "Claude:ccd_session_mgmt~": "list, edit, stop sessions",
         },
     ),
     "plan-mode": (
@@ -83,6 +85,8 @@ BUILTIN_AFFORDANCES = {
         "schedule cloud agents",
         {
             "Claude:CronCreate/Delete/List": "manage scheduled agents",
+            "Claude:CodeRemote~": "manage remote repos and triggers",
+            "Claude:ScheduledTasks~": "manage scheduled local tasks",
         },
     ),
     "memory": (
@@ -163,6 +167,7 @@ BUILTIN_AFFORDANCES = {
         "publish shareable web page",
         {
             "Claude:Artifact": "publish HTML page",
+            "Claude:RemoteArtifact~": "manage remote device artifacts",
         },
     ),
     "push-notification": (
@@ -299,6 +304,7 @@ BUILTIN_AFFORDANCES = {
         "find and enable connectors",
         {
             "Claude:Connector~": "list, search, suggest connectors",
+            "Claude:ccd_connectors~": "manage session connectors",
         },
     ),
     "plugin": (
@@ -344,6 +350,26 @@ BUILTIN_AFFORDANCES = {
         "read IDE diagnostics",
         {
             "Claude:getDiagnostics": "read editor errors and warnings",
+        },
+    ),
+    "app-management": (
+        "manage the desktop app",
+        {
+            "Claude:ccd_directory~": "change and propose directories",
+            "Claude:ccd_host~": "manage host worktrees and storage",
+            "Claude:ccd_pr~": "bind pull requests, set auto-merge",
+            "Claude:ccd_settings~": "read and set app settings",
+            "Claude:ccd_sidebar~": "organize sidebar groups, sections",
+            "Claude:ccd_turn~": "update plan, wrap up turn",
+            "Claude:ccd_view~": "show and close panes",
+            "Claude:ccd_window~": "manage window splits and layout",
+        },
+    ),
+    "chat-utility": (
+        "use chat app utilities",
+        {
+            "Claude:claude_ai~": "time, location, image search, research",
+            "Claude:widgets~": "sports data, quiz, translation, chart",
         },
     ),
     "git": (
