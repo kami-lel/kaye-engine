@@ -459,8 +459,9 @@ has no default there.
 `blueprint_registry` and exits 1 on an unknown one. It renders the soul and
 profile blueprints from `blueprint_registry` (so non-exportable entries work)
 into `SOUL.md` and `profiles/<name>/SOUL.md`, and delegates
-`skills/<consumer>/<canonical name>/` to `export_skills_as_folders`, which
-only ever sees `exportable_registry`. Each skill carries its own consumer's
+`skills/<consumer>/<canonical name>/` (root and each profile, one render
+written to all) to `export_skills_as_folders`, which only ever sees
+`exportable_registry`. Each skill carries its own consumer's
 version. Comments are hidden by default.
 
 ## Testing Strategy
