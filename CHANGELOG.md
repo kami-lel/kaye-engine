@@ -3,7 +3,7 @@
 [^format]
 
 <!--
-Bug hermes profile also need skills
+BUG hermes profile also need skills
 
 Fixme re-org surfaces: esp claude no longer has so many surfaces
 
