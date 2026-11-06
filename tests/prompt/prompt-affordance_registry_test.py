@@ -3,6 +3,7 @@ prompt-affordance_registry_test.py
 
 Unit Tests (using pytest) for:
 
+- register_affordance()
 - register_variant()
 - Affordance.usage_sidecar_name
 - Affordance.fallback_sidecar_name
@@ -15,6 +16,7 @@ from kaye_engine.prompt.affordance_registry import (
     Affordance,
     Variant,
     affordance_registry,
+    register_affordance,
     register_variant,
     variant_registry,
 )
@@ -36,11 +38,20 @@ def registered_affordance_names():
         affordance_registry.pop(name, None)
 
 
+def _register(variant_name, affordance_name, **kwargs):
+    """
+    register `affordance_name` unless present, then the variant
+    """
+    if affordance_name not in affordance_registry:
+        register_affordance(affordance_name)
+    return register_variant(variant_name, affordance_name, **kwargs)
+
+
 # Pytest unit tests  ###########################################################
 class TestRegisterVariant:
 
     def test_dft(_, registered_names, registered_affordance_names):
-        entry = register_variant("Claude Tool:Test", "Claude Tool:Family")
+        entry = _register("Claude Tool:Test", "Claude Tool:Family")
         registered_names.append(entry.canonical_name)
         registered_affordance_names.append(entry.affordance_name)
 
@@ -49,24 +60,49 @@ class TestRegisterVariant:
         assert entry.affordance_name == "Claude Tool:Family"
         assert variant_registry["Claude Tool:Test"] is entry
 
-    def test_auto_creates_missing_affordance(
+    def test_remark(_, registered_names, registered_affordance_names):
+        register_affordance("Claude Tool:FamilyRemark")
+        registered_affordance_names.append("Claude Tool:FamilyRemark")
+        entry = register_variant(
+            "Claude Tool:TestRemark", "Claude Tool:FamilyRemark", "do a thing"
+        )
+        registered_names.append(entry.canonical_name)
+
+        assert entry.remark == "do a thing"
+
+    def test_remark_dft_empty(
         _, registered_names, registered_affordance_names
     ):
-        entry = register_variant(
-            "Claude Tool:TestAuto", "Claude Tool:FamilyAuto"
-        )
+        entry = _register("Claude Tool:TestNoRemark", "Claude Tool:FamilyNR")
         registered_names.append(entry.canonical_name)
         registered_affordance_names.append(entry.affordance_name)
 
-        assert isinstance(
-            affordance_registry["Claude Tool:FamilyAuto"], Affordance
-        )
+        assert entry.remark == ""
+
+    def test_remark_not_str(_, registered_affordance_names):
+        register_affordance("Claude Tool:FamilyBadRemark")
+        registered_affordance_names.append("Claude Tool:FamilyBadRemark")
+
+        with pytest.raises(TypeError):
+            register_variant(
+                "Claude Tool:TestBadRemark", "Claude Tool:FamilyBadRemark", 1
+            )
+
+        assert "Claude Tool:TestBadRemark" not in variant_registry
+
+    def test_unregistered_affordance(_):
+        with pytest.raises(KeyError) as exec_info:
+            register_variant("Claude Tool:TestNoAff", "Claude Tool:NoSuchAff")
+
+        assert "Claude Tool:NoSuchAff" in exec_info.value.args[0]
+        assert "Claude Tool:TestNoAff" not in variant_registry
+        assert "Claude Tool:NoSuchAff" not in affordance_registry
 
     def test_reuses_existing_affordance(
         _, registered_names, registered_affordance_names
     ):
-        first = register_variant("Claude Tool:TestA", "Claude Tool:FamilyB")
-        second = register_variant("Claude Tool:TestB", "Claude Tool:FamilyB")
+        first = _register("Claude Tool:TestA", "Claude Tool:FamilyB")
+        second = _register("Claude Tool:TestB", "Claude Tool:FamilyB")
         registered_names.extend([first.canonical_name, second.canonical_name])
         registered_affordance_names.append("Claude Tool:FamilyB")
 
@@ -74,7 +110,7 @@ class TestRegisterVariant:
         assert list(affordance_registry).count("Claude Tool:FamilyB") == 1
 
     def test_duplicate_name(_, registered_names, registered_affordance_names):
-        entry = register_variant("Claude Tool:TestDup", "Claude Tool:FamilyDup")
+        entry = _register("Claude Tool:TestDup", "Claude Tool:FamilyDup")
         registered_names.append(entry.canonical_name)
         registered_affordance_names.append(entry.affordance_name)
 
@@ -86,12 +122,47 @@ class TestRegisterVariant:
         assert opt == "duplicate variant registry name: Claude Tool:TestDup"
 
 
+class TestRegisterAffordance:
+
+    def test_dft(_, registered_affordance_names):
+        entry = register_affordance("Claude Tool:FamilyAff")
+        registered_affordance_names.append(entry.canonical_name)
+
+        assert isinstance(entry, Affordance)
+        assert entry.canonical_name == "Claude Tool:FamilyAff"
+        assert entry.remark == ""
+        assert affordance_registry["Claude Tool:FamilyAff"] is entry
+
+    def test_remark(_, registered_affordance_names):
+        entry = register_affordance("Claude Tool:FamilyAffR", "do things")
+        registered_affordance_names.append(entry.canonical_name)
+
+        assert entry.remark == "do things"
+
+    def test_remark_not_str(_):
+        with pytest.raises(TypeError):
+            register_affordance("Claude Tool:FamilyAffBad", None)
+
+        assert "Claude Tool:FamilyAffBad" not in affordance_registry
+
+    def test_duplicate_name(_, registered_affordance_names):
+        entry = register_affordance("Claude Tool:FamilyAffDup")
+        registered_affordance_names.append(entry.canonical_name)
+
+        with pytest.raises(ValueError) as exec_info:
+            register_affordance("Claude Tool:FamilyAffDup")
+
+        assert exec_info.value.args[0] == (
+            "duplicate affordance registry name: Claude Tool:FamilyAffDup"
+        )
+
+
 class TestSidecarNames:
 
     def test_usage_sidecar_name(
         _, registered_names, registered_affordance_names
     ):
-        entry = register_variant(
+        entry = _register(
             "Claude Tool:TestSidecar", "Claude Tool:FamilySidecar"
         )
         registered_names.append(entry.canonical_name)
@@ -102,7 +173,7 @@ class TestSidecarNames:
     def test_fallback_sidecar_name(
         _, registered_names, registered_affordance_names
     ):
-        entry = register_variant(
+        entry = _register(
             "Claude Tool:TestFallback", "Claude Tool:FamilyFallback"
         )
         registered_names.append(entry.canonical_name)
@@ -117,7 +188,7 @@ class TestSidecarNames:
     def test_affordance_usage_sidecar_name(
         _, registered_names, registered_affordance_names
     ):
-        entry = register_variant(
+        entry = _register(
             "Claude Tool:TestAffUsage", "Claude Tool:FamilyAffUsage"
         )
         registered_names.append(entry.canonical_name)
@@ -132,7 +203,7 @@ class TestSidecarNames:
     def test_variant_lack_sidecar_name(
         _, registered_names, registered_affordance_names
     ):
-        entry = register_variant(
+        entry = _register(
             "Claude Tool:TestLack", "Claude Tool:FamilyLack"
         )
         registered_names.append(entry.canonical_name)
