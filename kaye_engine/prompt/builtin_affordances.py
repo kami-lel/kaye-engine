@@ -168,6 +168,7 @@ BUILTIN_AFFORDANCES = {
         "send push notification",
         {
             "Claude:PushNotification": "send push notification",
+            "Claude:Inbox~": "read inbox and notifications",
         },
     ),
     "weather-fetch": (
@@ -247,6 +248,7 @@ BUILTIN_AFFORDANCES = {
         "invoke skills",
         {
             "Claude:Skill": "invoke `/skill-name`",
+            "Claude:~Skills": "list, search, suggest skills",
         },
     ),
     "design-sync": (
@@ -271,6 +273,55 @@ BUILTIN_AFFORDANCES = {
         "stream background events",
         {
             "Claude:Monitor": "stream process events",
+        },
+    ),
+    "file-search": (
+        "search files by name or content",
+        {
+            "Claude:FileSearch~": "glob and grep local files",
+        },
+    ),
+    "tool": (
+        "discover deferred tools",
+        {
+            "Claude:ToolSearch": "load deferred tool schemas",
+        },
+    ),
+    "user-message": (
+        "message the user directly",
+        {
+            "Claude:SendUserMessage": "send message to user",
+            "Claude:ShowOnboardingRolePicker": "show onboarding role picker",
+        },
+    ),
+    "connector": (
+        "find and enable connectors",
+        {
+            "Claude:Connector~": "list, search, suggest connectors",
+        },
+    ),
+    "plugin": (
+        "find and install plugins",
+        {
+            "Claude:Plugin~": "list, search, suggest plugins",
+        },
+    ),
+    "mcp-resource": (
+        "read MCP server resources",
+        {
+            "Claude:McpResource~": "list and read MCP resources",
+        },
+    ),
+    "doc": (
+        "create and edit living docs",
+        {
+            "Claude:Docs~": "create, query, edit docs",
+        },
+    ),
+    "pdf-viewer": (
+        "display PDF files",
+        {
+            "Claude:PDFViewer~": "list and display PDFs",
         },
     ),
     "git": (

@@ -288,11 +288,34 @@ class TestAffordanceGroups:
             assert name not in AFFORDANCE_GROUPS
 
 
+class TestContentAndInteractionVariants:
+
+    @pytest.mark.parametrize(
+        "affordance, variant",
+        [
+            ("file-search", "Claude:FileSearch~"),
+            ("skill", "Claude:~Skills"),
+            ("tool", "Claude:ToolSearch"),
+            ("push-notification", "Claude:Inbox~"),
+            ("user-message", "Claude:SendUserMessage"),
+            ("user-message", "Claude:ShowOnboardingRolePicker"),
+            ("connector", "Claude:Connector~"),
+            ("plugin", "Claude:Plugin~"),
+            ("mcp-resource", "Claude:McpResource~"),
+            ("doc", "Claude:Docs~"),
+            ("pdf-viewer", "Claude:PDFViewer~"),
+        ],
+    )
+    def test_variant_registered_under_affordance(_, affordance, variant):
+        assert variant in AFFORDANCE_GROUPS[affordance]
+        assert variant_registry[variant].affordance_name == affordance
+
+
 class TestBuiltinRemarks:
 
     def test_counts(_):
-        assert len(BUILTIN_AFFORDANCES) == 41
-        assert sum(len(v) for _, v in BUILTIN_AFFORDANCES.values()) == 50
+        assert len(BUILTIN_AFFORDANCES) == 49
+        assert sum(len(v) for _, v in BUILTIN_AFFORDANCES.values()) == 61
 
     def test_affordance_groups_derived_from_data(_):
         assert AFFORDANCE_GROUPS == {
