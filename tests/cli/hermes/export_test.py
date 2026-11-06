@@ -86,9 +86,28 @@ class TestExportHermesFolder:
         assert _list_files(tmp_path) == [
             "SOUL.md",
             "profiles/kaye/SOUL.md",
+            "profiles/kaye/skills/test-consumer/chat/SKILL.md",
             "profiles/ria/SOUL.md",
+            "profiles/ria/skills/test-consumer/chat/SKILL.md",
             "skills/test-consumer/chat/SKILL.md",
         ]
+
+    def test_profile_skills_match_default_profile(_, tmp_path):
+        export_hermes_folder(tmp_path)
+        rel = "skills/test-consumer/chat/SKILL.md"
+        root = (tmp_path / rel).read_text(encoding="utf-8")
+        for name in ("kaye", "ria"):
+            copy = tmp_path / "profiles" / name / rel
+            assert copy.read_text(encoding="utf-8") == root
+
+    def test_each_skill_renders_once_for_all_profiles(_, tmp_path):
+        from kaye_engine.skill.skill_md import Skill
+
+        with patch.object(
+            Skill, "from_exportable", wraps=Skill.from_exportable
+        ) as build:
+            export_hermes_folder(tmp_path)
+        assert build.call_count == 1
 
     def test_internal_blueprint_never_becomes_a_skill(_, tmp_path):
         export_hermes_folder(tmp_path)

@@ -92,3 +92,24 @@ class TestEnterLine:
         messages = TestEnterLine._enter_messages(caplog)
 
         assert messages == ["exporting exportables as skills"]
+
+
+class TestMultipleDestinations:
+
+    def test_single_render_writes_every_destination(_, tmp_path):
+        skill = export_folders.Skill(name="alpha", body="b", version="1")
+        dests = [tmp_path / "a", tmp_path / "b"]
+        with patch.object(
+            export_folders.Skill, "render", wraps=skill.render
+        ) as render:
+            folders = skill.write(dests)
+
+        assert render.call_count == 1
+        assert folders == [d / "alpha" for d in dests]
+        texts = {(f / "SKILL.md").read_text(encoding="utf-8") for f in folders}
+        assert len(texts) == 1
+
+    def test_path_still_accepted(_, tmp_path):
+        skill = export_folders.Skill(name="alpha", body="b", version="1")
+
+        assert skill.write(tmp_path) == [tmp_path / "alpha"]
