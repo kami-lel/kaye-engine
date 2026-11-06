@@ -68,8 +68,8 @@ def export_hermes_folder(folder, *, render_profile=None):
 
     writes the root ``SOUL.md``, one ``profiles/<name>/SOUL.md`` per
     configured profile, and every exportable as a skill folder under
-    ``skills/<consumer>/``, one per consumer holding any; configured by
-    ``setup_hermes_cli(...)``
+    ``skills/<consumer>/``, one per consumer holding any, in the root and
+    in each profile folder; configured by ``setup_hermes_cli(...)``
 
 
     :param folder: Hermes home directory
@@ -92,9 +92,17 @@ def export_hermes_folder(folder, *, render_profile=None):
             blueprint_name,
             render_profile,
         )
+    # default profile (root) and every named profile each hold all skills;
+    # each skill renders once and lands in every home, interlaced
+    homes = [folder]
+    homes += [folder / PROFILES_SUBFOLDER / name for name in profile_names]
     for consumer in get_plugin_consumers():
+        destinations = [
+            home / SKILLS_SUBFOLDER / consumer.canonical_name
+            for home in homes
+        ]
         export_skills_as_folders(
-            folder / SKILLS_SUBFOLDER / consumer.canonical_name,
+            destinations,
             version=consumer.version,
             render_profile=render_profile,
             consumer=consumer.canonical_name,

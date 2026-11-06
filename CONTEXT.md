@@ -415,7 +415,7 @@ kaye_engine/
 │   │   └── parser.py        parser + handler
 │   ├── hermes/          `hermes`/`m` subcommand: a Hermes home directory
 │   │   ├── setup.py     setup_hermes_cli + getters (consumer configuration)
-│   │   ├── export.py    export_hermes_folder: SOUL.md files + skills/
+│   │   ├── export.py    export_hermes_folder: SOUL.md + skills/, root & per profile
 │   │   └── parser.py    parser + handler
 │   ├── open_webui/      `sync-open-webui-skills`/`o` subcommand: push
 │   │   │                exportables into Open WebUI as skills
@@ -459,8 +459,9 @@ has no default there.
 `blueprint_registry` and exits 1 on an unknown one. It renders the soul and
 profile blueprints from `blueprint_registry` (so non-exportable entries work)
 into `SOUL.md` and `profiles/<name>/SOUL.md`, and delegates
-`skills/<consumer>/<canonical name>/` to `export_skills_as_folders`, which
-only ever sees `exportable_registry`. Each skill carries its own consumer's
+`skills/<consumer>/<canonical name>/` (root and each profile, one render
+written to all) to `export_skills_as_folders`, which only ever sees
+`exportable_registry`. Each skill carries its own consumer's
 version. Comments are hidden by default.
 
 ## Testing Strategy
