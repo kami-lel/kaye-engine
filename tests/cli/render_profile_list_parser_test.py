@@ -249,18 +249,15 @@ class TestEmptyRegistry:
 
 class TestBuiltIns:
 
-    def test_names_only_lists_the_eight_built_ins(_, capsys):
+    def test_names_only_lists_the_five_built_ins(_, capsys):
         _run(["rp", "-N"])
 
         assert capsys.readouterr().out.splitlines() == [
-            "chat",
-            "code",
+            "claude",
+            "claude-vsc",
             "comfy",
             "continue",
-            "cowork",
             "hermes",
-            "ioschat",
-            "vsc",
         ]
 
     def test_remark_column_lists_the_built_in_remarks(_, capsys):
@@ -268,15 +265,12 @@ class TestBuiltIns:
 
         assert capsys.readouterr().out == (
             "profile\tremark\n"
-            "chat\tAnthropic Claude chat app on web and desktop\n"
-            "code\tAnthropic Claude Code in the terminal\n"
+            "claude\tAnthropic Claude apps: chat, Cowork, Code, iOS\n"
+            "claude-vsc\tAnthropic Claude Code extension for Microsoft"
+            " Visual Studio Code\n"
             "comfy\tComfy Org ComfyUI image prompts\n"
             "continue\tContinue.dev rules\n"
-            "cowork\tAnthropic Claude Cowork desktop agent\n"
             "hermes\tHermes Agents\n"
-            "ioschat\tAnthropic Claude chat app on Apple iOS\n"
-            "vsc\tAnthropic Claude Code extension for Microsoft Visual"
-            " Studio Code\n"
         )
 
     def test_every_built_in_row_has_4_columns(_, capsys):
@@ -284,11 +278,11 @@ class TestBuiltIns:
         heading, *rows = capsys.readouterr().out.splitlines()
 
         assert heading == _HEADING
-        assert len(rows) == 8
+        assert len(rows) == 5
         assert all(row.count("\t") == 3 for row in rows)
 
     def test_long_card_of_every_built_in_prints(_, capsys):
         _run(["rp", "-l"])
         out = capsys.readouterr().out
 
-        assert out.count("  sparseness  ") == 8
+        assert out.count("  sparseness  ") == 5

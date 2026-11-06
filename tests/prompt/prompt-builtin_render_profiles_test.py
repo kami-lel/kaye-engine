@@ -3,7 +3,7 @@ prompt-builtin_render_profiles_test.py
 
 Unit Tests (using pytest) for:
 
-- the built-in chat / cowork / code / vsc / ioschat profiles
+- the built-in claude and claude-vsc profiles
 - the built-in continue, hermes and comfy profiles
 - AFFORDANCE_GROUPS
 - BUILTIN_AFFORDANCES remarks
@@ -28,25 +28,16 @@ from kaye_engine.prompt.builtin_render_profiles import (
 )
 from tests.consumer_helper import isolated_render_profiles
 
-_IDENTITY_NAMES = (
-    "Claude",
-    "ClaudeChat",
-    "ClaudeCowork",
-    "ClaudeCode",
-    "ClaudeVSC",
-    "ClaudeiOSChat",
-)
+_IDENTITY_NAMES = ("Claude", "ClaudeVSC")
+_RETIRED_NAMES = ("chat", "cowork", "code", "vsc", "ioschat")
 
 
 def _profile(name):
     return render_profile_registry[name].profile
 
 
-CHAT_PROFILE = _profile("chat")
-COWORK_PROFILE = _profile("cowork")
-CODE_PROFILE = _profile("code")
-VSC_PROFILE = _profile("vsc")
-IOSCHAT_PROFILE = _profile("ioschat")
+CLAUDE_PROFILE = _profile("claude")
+VSC_PROFILE = _profile("claude-vsc")
 CONTINUE_PROFILE = _profile("continue")
 HERMES_PROFILE = _profile("hermes")
 COMFY_PROFILE = _profile("comfy")
@@ -55,69 +46,41 @@ COMFY_PROFILE = _profile("comfy")
 # Pytest unit tests  ###########################################################
 class TestAffordances:
 
-    def test_single_surface(_):
-        assert "Claude:Skill" in COWORK_PROFILE.variants
-        assert "Claude:weather_fetch" not in COWORK_PROFILE.variants
+    def test_claude_profile_carries_chat_and_code_tools(_):
+        assert "Claude:Skill" in CLAUDE_PROFILE.variants
+        assert "Claude:weather_fetch" in CLAUDE_PROFILE.variants
+        assert "Claude:ReportFindings" in CLAUDE_PROFILE.variants
 
-    def test_combined_surfaces(_):
-        result = CODE_PROFILE.merge(VSC_PROFILE).variants
-
-        assert "Claude:ReportFindings" in result
-        assert "Claude:TodoWrite" in result
-
-    def test_deduplicates_when_available_on_two_requested_surfaces(_):
-        result = CODE_PROFILE.merge(VSC_PROFILE).variants
-
-        assert result.count("Claude:Skill") == 1
-
-    @pytest.mark.parametrize(
-        "profile",
-        [
-            CHAT_PROFILE,
-            COWORK_PROFILE,
-            CODE_PROFILE,
-            VSC_PROFILE,
-            IOSCHAT_PROFILE,
-        ],
-    )
-    def test_git_and_image_model_on_every_claude_surface(_, profile):
-        assert "git" in profile.variants
-        assert "QwenImage" in profile.variants
-
-    def test_powershell_present_on_code_absent_on_vsc(_):
-        assert "Claude:PowerShell" in CODE_PROFILE.variants
-        assert "Claude:PowerShell" not in VSC_PROFILE.variants
-
-    def test_web_bundle_on_every_surface(_):
-        for profile in (
-            CHAT_PROFILE,
-            COWORK_PROFILE,
-            CODE_PROFILE,
-            VSC_PROFILE,
-        ):
-            assert "Claude:Web~" in profile.variants
-
-    def test_agent_bundle_present_only_on_vsc(_):
-        assert "Claude:Agent~" in VSC_PROFILE.variants
-        assert "Claude:Agent~" not in CODE_PROFILE.variants
-        assert "Claude:Agent~" not in COWORK_PROFILE.variants
-        assert "Claude:Agent~" not in CHAT_PROFILE.variants
-
-    def test_ioschat_calendar_variants_present_only_on_ioschat(_):
+    def test_claude_profile_carries_ios_calendar(_):
         for name in (
             "Claude:iOS:Calendar:EventEdit",
             "Claude:iOS:Calendar:EventInfo",
             "Claude:iOS:Calendar:Subcalendar",
         ):
-            assert name in IOSCHAT_PROFILE.variants
-            assert name not in CHAT_PROFILE.variants
-            assert name not in COWORK_PROFILE.variants
-            assert name not in CODE_PROFILE.variants
-            assert name not in VSC_PROFILE.variants
+            assert name in CLAUDE_PROFILE.variants
 
-    def test_ioschat_carries_every_chat_variant_too(_):
-        for name in CHAT_PROFILE.variants:
-            assert name in IOSCHAT_PROFILE.variants
+    def test_claude_profile_has_no_vsc_only_or_hermes_variant(_):
+        assert "Claude:getDiagnostics" not in CLAUDE_PROFILE.variants
+        assert not any(
+            name.startswith("Hermes:") for name in CLAUDE_PROFILE.variants
+        )
+
+    def test_vsc_profile_tools(_):
+        assert "Claude:getDiagnostics" in VSC_PROFILE.variants
+        assert "Claude:Agent~" in VSC_PROFILE.variants
+        assert "Claude:PowerShell" not in VSC_PROFILE.variants
+        assert "Claude:weather_fetch" not in VSC_PROFILE.variants
+
+    @pytest.mark.parametrize("profile", [CLAUDE_PROFILE, VSC_PROFILE])
+    def test_git_and_image_model_on_every_claude_surface(_, profile):
+        assert "git" in profile.variants
+        assert "QwenImage" in profile.variants
+
+    def test_combined_surfaces_deduplicate(_):
+        result = CLAUDE_PROFILE.merge(VSC_PROFILE).variants
+
+        assert result.count("Claude:Skill") == 1
+        assert "Claude:getDiagnostics" in result
 
 
 class TestIdentityNamesAreNotVariants:
@@ -127,57 +90,34 @@ class TestIdentityNamesAreNotVariants:
             for entry in render_profile_registry.values():
                 assert name not in entry.profile.variants
 
-    def test_identity_names_absent_after_merge(_):
-        combined = CODE_PROFILE.merge(VSC_PROFILE)
-
-        assert "ClaudeCode" not in combined.variants
-        assert "ClaudeVSC" not in combined.variants
-
 
 class TestConditionalSidecars:
 
     def test_bracket_wraps_affordance_names(_):
-        assert "[Claude:Skill]" in COWORK_PROFILE.conditional_sidecars
+        assert "[Claude:Skill]" in CLAUDE_PROFILE.conditional_sidecars
 
-    def test_universal_identity_present_for_any_single_surface(_):
-        assert "[Claude]" in CHAT_PROFILE.conditional_sidecars
+    def test_universal_identity_on_both_claude_profiles(_):
+        assert "[Claude]" in CLAUDE_PROFILE.conditional_sidecars
         assert "[Claude]" in VSC_PROFILE.conditional_sidecars
-
-    def test_single_surface_includes_own_identity_name_only(_):
-        sidecars = CODE_PROFILE.conditional_sidecars
-
-        assert "[ClaudeCode]" in sidecars
-        assert "[ClaudeChat]" not in sidecars
-
-    def test_combined_surfaces_include_each_identity_name(_):
-        sidecars = CODE_PROFILE.merge(CHAT_PROFILE).conditional_sidecars
-
-        assert "[ClaudeCode]" in sidecars
-        assert "[ClaudeChat]" in sidecars
-
-    def test_identity_names_do_not_collide_with_tool_affordance_names(_):
-        sidecars = COWORK_PROFILE.conditional_sidecars
-
-        assert "[Claude:Skill]" in sidecars
-        assert sidecars.count("[ClaudeCowork]") == 1
-
-    def test_vsc_has_no_identity_sidecar_of_its_siblings(_):
-        sidecars = VSC_PROFILE.conditional_sidecars
-
-        assert "[ClaudeChat]" not in sidecars
-        assert "[ClaudeCowork]" not in sidecars
-        assert "[ClaudeCode]" not in sidecars
 
     def test_claude_vsc_present_only_on_vsc(_):
         assert "[ClaudeVSC]" in VSC_PROFILE.conditional_sidecars
-        assert "[ClaudeVSC]" not in CODE_PROFILE.conditional_sidecars
-        assert "[ClaudeVSC]" not in COWORK_PROFILE.conditional_sidecars
-        assert "[ClaudeVSC]" not in CHAT_PROFILE.conditional_sidecars
+        assert "[ClaudeVSC]" not in CLAUDE_PROFILE.conditional_sidecars
 
     def test_claude_vsc_survives_merge(_):
-        combined = CODE_PROFILE.merge(VSC_PROFILE)
+        combined = CLAUDE_PROFILE.merge(VSC_PROFILE)
 
         assert "[ClaudeVSC]" in combined.conditional_sidecars
+
+    def test_retired_identity_markers_gone(_):
+        for entry in render_profile_registry.values():
+            for marker in (
+                "[ClaudeChat]",
+                "[ClaudeCode]",
+                "[ClaudeCowork]",
+                "[ClaudeiOSChat]",
+            ):
+                assert marker not in entry.profile.conditional_sidecars
 
     def test_avoid_sidecar_on_every_profile(_):
         for entry in render_profile_registry.values():
@@ -187,28 +127,26 @@ class TestConditionalSidecars:
 class TestRegistry:
 
     def test_every_built_in_name_present_in_order(_):
-        assert list(render_profile_registry)[:8] == [
-            "chat",
-            "cowork",
-            "code",
-            "vsc",
-            "ioschat",
+        assert list(render_profile_registry)[:5] == [
+            "claude",
+            "claude-vsc",
             "continue",
             "hermes",
             "comfy",
         ]
+
+    def test_retired_names_are_gone(_):
+        for name in _RETIRED_NAMES:
+            assert name not in render_profile_registry
 
     def test_remarks(_):
         assert {
             name: entry.remark
             for name, entry in render_profile_registry.items()
         } == {
-            "chat": "Anthropic Claude chat app on web and desktop",
-            "cowork": "Anthropic Claude Cowork desktop agent",
-            "code": "Anthropic Claude Code in the terminal",
-            "vsc": "Anthropic Claude Code extension for Microsoft Visual"
-            " Studio Code",
-            "ioschat": "Anthropic Claude chat app on Apple iOS",
+            "claude": "Anthropic Claude apps: chat, Cowork, Code, iOS",
+            "claude-vsc": "Anthropic Claude Code extension for Microsoft"
+            " Visual Studio Code",
             "continue": "Continue.dev rules",
             "hermes": "Hermes Agents",
             "comfy": "Comfy Org ComfyUI image prompts",
@@ -230,7 +168,7 @@ class TestRegistry:
     def test_registers_into_an_empty_registry(_):
         with isolated_render_profiles():
             register_builtin_render_profiles()
-            assert len(render_profile_registry) == 8
+            assert len(render_profile_registry) == 5
 
 
 class TestAffordanceGroups:
@@ -454,15 +392,29 @@ class TestContinueProfile:
 
 class TestHermesProfile:
 
-    def test_image_model_is_the_only_variant(_):
-        assert HERMES_PROFILE.variants == ("QwenImage",)
+    def test_carries_every_hermes_variant_and_the_image_model(_):
+        hermes = [
+            name
+            for name in HERMES_PROFILE.variants
+            if name.startswith("Hermes:")
+        ]
 
-    def test_image_model_identity_and_avoid_sidecars(_):
-        assert HERMES_PROFILE.conditional_sidecars == (
-            "[QwenImage]",
-            "[for Hermes]",
-            "avoid",
+        assert len(hermes) == 47
+        assert "QwenImage" in HERMES_PROFILE.variants
+        assert len(HERMES_PROFILE.variants) == 48
+
+    def test_no_claude_variant(_):
+        assert not any(
+            name.startswith("Claude:") for name in HERMES_PROFILE.variants
         )
+
+    def test_identity_and_avoid_sidecars(_):
+        sidecars = HERMES_PROFILE.conditional_sidecars
+
+        assert "[for Hermes]" in sidecars
+        assert "[Hermes:terminal]" in sidecars
+        assert "[QwenImage]" in sidecars
+        assert "avoid" in sidecars
 
 
 class TestComfyProfile:
