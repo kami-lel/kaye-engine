@@ -33,10 +33,11 @@ manually add chat & coder, instead by data structure
 
 ### Added
 
-- `render-profile` (`rp`) subcommand lists every registered render profile, sorted by name, as tab-separated columns under a heading line: `profile`, `remark`, `mode`, `sparseness`, `variants`, `sidecars`; `-i` shows every info column (default), `-I` names only, `-r -m -s -v -c` pick columns, applied in order so the last flag wins
+- `render-profile` (`rp`) subcommand lists every registered render profile, sorted by name: an aligned table on a terminal (`profile`, `variants` and `sidecars` as counts, `remark`), tab-separated rows under a heading line when piped; `-l` prints one detail card per profile, with sidecars that only echo a variant folded into one phrase; `mode` and `sparseness` show under `-c` or `-l`
 - `register_affordance(canonical_name, remark="")`: registers an affordance on its own; `Affordance` and `Variant` carry a `remark` (a short verb-first description, the entry's documentation, `""` when omitted), and `register_variant()` takes `remark=`; a repeated affordance name raises `ValueError`, a non-`str` remark `TypeError`
 - every built-in affordance (41) and variant (56) carries a remark; `BUILTIN_AFFORDANCES` holds them with their names, and `AFFORDANCE_GROUPS` is derived from it
-- `kaye_engine.cli.list_table`: the shared `-i`/`-I`/column flags, heading line and tab-separated rows of the `affordance`, `variant`, and `render-profile` list commands
+- `kaye_engine.cli.list_view`: the shared flag set of the `affordance`, `variant`, and `render-profile` list commands, all flags and no positional argument, each with a short and a long form: `-r/--regex` name filter, `-c/--columns`, `-l/--long`, `-N/--names-only`, `-f/--format table|tsv|json`, `-C/--no-color`; table, tsv, json, card, and grouped views, colored only through kamilog's `AnsiRenderer` (off under `-C`, `NO_COLOR`, or a non-terminal)
+- `note_empty_registry_for_cli(kind)` in `kaye_engine.cli.cli_setup_guard`: logs one `NOTE` when the registry a list command reads is empty
 - the engine now ships 8 built-in render profiles, registered with a remark when `kaye_engine.prompt` is imported: `chat`, `cowork`, `code`, `vsc`, `ioschat`, `continue`, `hermes`, `comfy`; the affordance variants they name (`AFFORDANCE_GROUPS`) register with them
 - `register_render_profile(name, profile, remark="")` and `render_profile_registry`: named render profiles, each with an optional `remark` (a short description, `""` when omitted); a repeated name raises `ValueError`, a non-`str` remark `TypeError`
 - file and directory deed lines carry native badges on success: `new` (create file or dir, pack), `owr` (overwrite), `mv` (move); `sync-open-webui-skills` lines carry `new`, `owr`, `del` by verb, after `dry` under `-n`
@@ -57,10 +58,12 @@ manually add chat & coder, instead by data structure
 - `skill -z`, `claude skills -z` print `export skills as N zips` by default, 1 line per zip at `-v`
 - zip exports hide temp-dir build paths; `-vv` shows steps, `-vvv` archive entries
 - `export_plugins_as_zips`, `export_skills_as_zips` return the zip count; the zip exports no longer use the `pack_files`, `mv_file` deeds
-- `affordance` (`afd`) and `variant` (`var`) print tab-separated columns under a heading line (`affordance`, `remark`; `variant`, `affordance`, `remark`); `-i` shows every info column (default), `-I` names only; `variant` also takes `-r` and `-a` for its remark and affordance columns, and sorts by affordance, then variant name
+- `affordance` (`afd`) prints an aligned table on a terminal (`affordance`, `variants` as a count, `remark`) and tab-separated rows under a heading line when piped; `-l` lists each affordance's variants and their remarks beneath it
+- `variant` (`var`) prints rows grouped under a bold header per affordance on a terminal, a flat tab-separated table when piped, sorted by affordance, then variant name; `-F` forces the flat table with an `affordance` column, `-a/--affordance` keeps variants of matching affordances, `-l` prints a card with the variant's `Usage` and `Lack` sidecar names
+- `affordance` and `variant` log one `NOTE` when their registry is empty, instead of the corpus setup `ERROR` pair
 
 > [!WARNING]
-> `register_variant()` no longer creates a missing affordance: register it first with `register_affordance()`, or `KeyError` is raised. `affordance` and `variant` print a heading line before the rows, and `variant` groups its rows by affordance: pass `-I` for names only, with no heading line.
+> `register_variant()` no longer creates a missing affordance: register it first with `register_affordance()`, or `KeyError` is raised. `affordance`, `variant`, and `render-profile` take flags only; the column flags `-r` (remark), `-m`, `-s`, `-v`, `-a` (affordance column), the `-i`/`-I` info switches, and their long forms are gone. Use `-c/--columns` to pick columns, `-N/--names-only` for names only, and `-r/--regex` to filter names (`-r` and `-a` now take a regex, not switch a column on). A `variant` run on a terminal groups by affordance: pass `-F` for the flat table.
 
 ### Deprecated
 

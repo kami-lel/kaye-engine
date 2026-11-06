@@ -491,13 +491,26 @@ With only `ClaudeCode:TodoWrite` present:
 
 ### CLI
 
-Every rendering command inherits `--variant VARIANT [VARIANT ...]`, see [`render-profile-doc.md`](render-profile-doc.md#cli-options). Two read-only subcommands list the registries as tab-separated columns under a heading line that names each column:
+Every rendering command inherits `--variant VARIANT [VARIANT ...]`, see [`render-profile-doc.md`](render-profile-doc.md#cli-options). Two read-only subcommands list the registries. On a terminal they print an aligned, colored table or grouping; piped, they print tab-separated columns under a heading line, with lists comma-joined:
 
 | Command | Alias | Columns | Order |
 | --- | --- | --- | --- |
-| `kaye-engine affordance` | `afd` | `affordance`, `remark` | by name |
+| `kaye-engine affordance` | `afd` | `affordance`, `variants` (a count), `remark` | by name |
 | `kaye-engine variant` | `var` | `variant`, `affordance`, `remark` | by affordance, then by variant name |
 
-`-i/--info` shows every info column, the default; `-I/--no-info` prints names only, with no heading line. `variant` also takes `-r/--remark` and `-a/--affordance`, each turning on its own column, so `-i` equals `-ra`. Flags apply in the order given and the last one wins: `-I -r` shows the remark only, `-r -I` shows none. `variant` keeps its by-affordance order whether or not the `affordance` column shows.
+Both take flags only, each with a short and a long form, no positional argument:
+
+| Flag | Effect |
+| --- | --- |
+| `-r PATTERN`, `--regex` | keep names matching the regex; repeat to match any of several |
+| `-c COLS`, `--columns` | comma-separated columns to show, from the table above; on `variant` it implies a flat table |
+| `-l`, `--long` | one card per row: `afd` lists the affordance's variants and their remarks beneath it; `var` shows the variant's affordance and its `Usage` and `Lack` sidecar names |
+| `-N`, `--names-only` | names only, one per line, no heading |
+| `-f FORMAT`, `--format` | `table` (the terminal default), `tsv` (the piped default) or `json` |
+| `-C`, `--no-color` | plain output; `NO_COLOR` does the same |
+| `-a PATTERN`, `--affordance` | `variant` only: keep variants of affordances matching the regex |
+| `-F`, `--flat` | `variant` only: one flat table with an `affordance` column instead of one bold header per affordance |
+
+`variant` keeps its by-affordance order in every view. An empty registry logs one `NOTE` instead of the corpus setup errors.
 
 Which variants apply to an invocation is decided by the registered surface profiles, see [`render-profile-doc.md`](render-profile-doc.md#surfaces).

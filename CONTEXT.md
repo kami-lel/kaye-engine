@@ -434,13 +434,15 @@ kaye_engine/
 │   ├── dynamic_substitution_parser.py  `dynamic-substitution`/`ds`
 │   │                                    subcommand: print/list
 │   │                                    dynamic_substitution_registry
-│   ├── list_table.py          shared `-i`/`-I`/column flags, heading line and
-│   │                           tab-separated rows of the 3 list commands
-│   ├── list_affordance_parser.py  `affordance`/`afd` subcommand: list affordance_registry
+│   ├── list_view.py           shared flags (`-r -c -l -N -f -C`), name filter and
+│   │                           table/tsv/json/card/group views of the 3 list
+│   │                           commands; colors only through kamilog
+│   ├── list_affordance_parser.py  `affordance`/`afd` subcommand: list
+│   │                               affordance_registry, variant counts
 │   ├── list_variant_parser.py     `variant`/`var` subcommand: list variant_registry,
 │   │                               grouped by affordance
 │   ├── render_profile_list_parser.py  `render-profile`/`rp` subcommand: list
-│   │                                   render_profile_registry, 6 columns
+│   │                                   render_profile_registry, counts or cards
 │   ├── glossary_parser.py    `glossary`/`g` subcommand: print/list glossaries
 │   ├── comment_parser.py     shared `--comment`/`--no-comment` parent parser
 │   ├── render_profile_parser.py  shared 6-option parent parser + aux fn
