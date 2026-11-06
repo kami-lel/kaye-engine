@@ -60,13 +60,13 @@ manually add chat & coder, instead by data structure
 - `variant` (`var`) prints rows grouped under a bold header per affordance on a terminal, a flat tab-separated table when piped, sorted by affordance, then variant name; `-F` forces the flat table with an `affordance` column, `-a/--affordance` keeps variants of matching affordances, `-l` prints a card with the variant's `Usage` and `Lack` sidecar names
 - `affordance` and `variant` log one `NOTE` when their registry is empty, instead of the corpus setup `ERROR` pair
 
-> [!WARNING]
-> `register_variant()` no longer creates a missing affordance: register it first with `register_affordance()`, or `KeyError` is raised. `affordance`, `variant`, and `render-profile` take flags only; the column flags `-r` (remark), `-m`, `-s`, `-v`, `-a` (affordance column), the `-i`/`-I` info switches, and their long forms are gone. Use `-c/--columns` to pick columns, `-N/--names-only` for names only, and `-r/--regex` to filter names (`-r` and `-a` now take a regex, not switch a column on). A `variant` run on a terminal groups by affordance: pass `-F` for the flat table.
-
 - every Claude affordance variant takes one `Claude:` prefix (`Claude:Edit`-style names, `Claude:Web~`, `Claude:iOS:Calendar:*`); Chat and Cowork twins of `Gmail`, `TickTick` and `GoogleCalendar:*` merge into one variant each
 - variants added for every tool family that had none (search, skills, connectors, plugins, docs, PDF viewer, browsers, devices, terminal, diagnostics, session and app management), and 47 `Hermes:` variants, one per Hermes tool
 
-> [!CAUTION]
+> [!WARNING]
+> `register_variant()` no longer creates a missing affordance: register it first with `register_affordance()`, or `KeyError` is raised. `affordance`, `variant`, and `render-profile` take flags only; the column flags `-r` (remark), `-m`, `-s`, `-v`, `-a` (affordance column), the `-i`/`-I` info switches, and their long forms are gone. Use `-c/--columns` to pick columns, `-N/--names-only` for names only, and `-r/--regex` to filter names (`-r` and `-a` now take a regex, not switch a column on). A `variant` run on a terminal groups by affordance: pass `-F` for the flat table.
+
+> [!WARNING]
 > Break: render profiles `chat`, `cowork`, `code`, `vsc` and `ioschat` are gone, replaced by `claude` and `claude-vsc`; `--surface` names and every `claude` subcommand default follow. Variant names `ClaudeChat:*`, `ClaudeCode:*`, `ClaudeCowork:*` and `ClaudeiOSChat:*` become `Claude:*`, and the identity markers `[ClaudeChat]`, `[ClaudeCode]`, `[ClaudeCowork]` and `[ClaudeiOSChat]` retire. Corpus sidecar references to the old names stop matching until renamed.
 
 ### Deprecated
