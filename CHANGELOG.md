@@ -3,7 +3,8 @@
 [^format]
 
 <!--
-Fixme re-org surfaces: esp claude no longer has so many surfaces
+TODO add description for afd/var
+FIXME re-org surfaces: esp claude no longer has so many surfaces
 
 Todo kaye build/gh release command
 
