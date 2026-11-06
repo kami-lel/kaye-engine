@@ -6,6 +6,7 @@ Unit Tests (using pytest) for:
 _list_render_profile_main, register_render_profile_list_parser
 """
 
+import json
 from argparse import ArgumentParser
 
 import pytest
@@ -18,15 +19,19 @@ from kaye_engine.prompt.blueprint.render_profile_registry import (
 )
 from tests.consumer_helper import isolated_render_profiles
 
-_HEADING = "profile\tremark\tmode\tsparseness\tvariants\tsidecars"
+_HEADING = "profile\tvariants\tsidecars\tremark"
 
 
 # auxiliaries  #################################################################
-def _run(argv):
+def _build_parser():
     root_parser = ArgumentParser()
     subparser = root_parser.add_subparsers()
     render_profile_list_parser.register_render_profile_list_parser(subparser)
-    args = root_parser.parse_args(argv)
+    return root_parser
+
+
+def _run(argv):
+    args = _build_parser().parse_args(argv)
     args.func(args)
 
 
@@ -48,106 +53,183 @@ def fixture_profiles():
         yield
 
 
+@pytest.fixture(autouse=True)
+def _fixed_width(monkeypatch):
+    monkeypatch.setenv("COLUMNS", "80")
+
+
 # pytest  ######################################################################
 class TestRegister:
 
     @pytest.mark.parametrize("name", ["render-profile", "rp"])
     def test_registers_names(_, name):
-        root_parser = ArgumentParser()
-        subparser = root_parser.add_subparsers()
-        render_profile_list_parser.register_render_profile_list_parser(
-            subparser
-        )
-
-        args = root_parser.parse_args([name])
+        args = _build_parser().parse_args([name])
 
         assert args.func is render_profile_list_parser._list_render_profile_main
 
-    def test_rejects_old_no_remark_flags(_):
-        root_parser = ArgumentParser()
-        subparser = root_parser.add_subparsers()
-        render_profile_list_parser.register_render_profile_list_parser(
-            subparser
-        )
+    @pytest.mark.parametrize(
+        "old_flag",
+        ["-i", "-I", "-m", "-s", "-v", "-R", "--info", "--no-info", "--remark"],
+    )
+    def test_rejects_old_flags(_, old_flag):
+        with pytest.raises(SystemExit):
+            _build_parser().parse_args(["rp", old_flag])
 
-        for old_flag in ("-R", "--no-remark"):
-            with pytest.raises(SystemExit):
-                root_parser.parse_args(["rp", old_flag])
+    def test_rejects_positional_argument(_):
+        with pytest.raises(SystemExit):
+            _build_parser().parse_args(["rp", "zeta"])
 
 
 @pytest.mark.usefixtures("profiles")
 class TestOutput:
 
-    def test_default_prints_heading_and_every_column(_, capsys):
+    def test_default_prints_heading_and_count_columns_piped_as_names(
+        _, capsys
+    ):
         _run(["rp"])
 
         assert capsys.readouterr().out == (
             _HEADING + "\n"
-            "alpha\tfirst one\tNORMAL\t1\t\t\n"
-            "bare\t\tNORMAL\t1\t\t\n"
-            "zeta\tlast one\tNEGATIVE\t3\tv1,v2\t[v1],avoid\n"
+            "alpha\t\t\tfirst one\n"
+            "bare\t\t\t\n"
+            "zeta\tv1,v2\t[v1],avoid\tlast one\n"
         )
 
-    def test_info_matches_default(_, capsys):
-        _run(["rp", "-i"])
-        with_info = capsys.readouterr().out
-        _run(["rp"])
-
-        assert with_info == capsys.readouterr().out
-
-    def test_no_info_prints_names_only_without_heading(_, capsys):
-        _run(["rp", "-I"])
+    def test_names_only(_, capsys):
+        _run(["rp", "-N"])
 
         assert capsys.readouterr().out == "alpha\nbare\nzeta\n"
 
-    def test_long_flag(_, capsys):
-        _run(["render-profile", "--no-info"])
+    def test_long_names_only_flag(_, capsys):
+        _run(["render-profile", "--names-only"])
 
         assert capsys.readouterr().out == "alpha\nbare\nzeta\n"
 
-    def test_remark_only(_, capsys):
-        _run(["rp", "-r"])
+    def test_columns_pick_and_order(_, capsys):
+        _run(["rp", "-c", "sparseness,mode"])
 
         assert capsys.readouterr().out == (
-            "profile\tremark\nalpha\tfirst one\nbare\t\nzeta\tlast one\n"
+            "profile\tsparseness\tmode\n"
+            "alpha\t1\tNORMAL\n"
+            "bare\t1\tNORMAL\n"
+            "zeta\t3\tNEGATIVE\n"
         )
 
-    def test_each_column_flag_selects_its_column(_, capsys):
-        for flag, heading, zeta_cell in (
-            ("-m", "mode", "NEGATIVE"),
-            ("-s", "sparseness", "3"),
-            ("-v", "variants", "v1,v2"),
-            ("-c", "sidecars", "[v1],avoid"),
-        ):
-            _run(["rp", flag])
-            lines = capsys.readouterr().out.splitlines()
+    @pytest.mark.parametrize(
+        ("column", "zeta_cell"),
+        [
+            ("remark", "last one"),
+            ("mode", "NEGATIVE"),
+            ("sparseness", "3"),
+            ("variants", "v1,v2"),
+            ("sidecars", "[v1],avoid"),
+        ],
+    )
+    def test_each_column_is_reachable(_, capsys, column, zeta_cell):
+        _run(["rp", "--columns", column])
+        lines = capsys.readouterr().out.splitlines()
 
-            assert lines[0] == "profile\t" + heading
-            assert lines[-1] == "zeta\t" + zeta_cell
+        assert lines[0] == "profile\t" + column
+        assert lines[-1] == "zeta\t" + zeta_cell
 
-    def test_columns_keep_table_order_not_flag_order(_, capsys):
-        _run(["rp", "-c", "-m"])
+    def test_unknown_column_is_rejected(_):
+        with pytest.raises(SystemExit):
+            _build_parser().parse_args(["rp", "-c", "nope"])
 
-        assert capsys.readouterr().out.splitlines()[0] == (
-            "profile\tmode\tsidecars"
-        )
+    def test_regex_filters_names(_, capsys):
+        _run(["rp", "-r", "^[ab]", "-N"])
 
-    def test_last_flag_wins(_, capsys):
-        _run(["rp", "-r", "-I"])
-        nothing = capsys.readouterr().out
-        _run(["rp", "-I", "-r"])
-        remark_only = capsys.readouterr().out
+        assert capsys.readouterr().out == "alpha\nbare\n"
 
-        assert nothing == "alpha\nbare\nzeta\n"
-        assert remark_only.splitlines()[0] == "profile\tremark"
+    def test_json_keeps_lists_whole(_, capsys):
+        _run(["rp", "-f", "json", "-r", "zeta"])
+
+        assert json.loads(capsys.readouterr().out) == [
+            {
+                "profile": "zeta",
+                "variants": ["v1", "v2"],
+                "sidecars": ["[v1]", "avoid"],
+                "remark": "last one",
+            }
+        ]
 
     def test_no_variants_prints_empty_cell(_, capsys):
         with isolated_render_profiles():
             register_render_profile("off", RenderProfile(variants=None))
             register_render_profile("none", RenderProfile(variants=()))
-            _run(["rp", "-v"])
+            _run(["rp", "-c", "variants"])
 
         assert capsys.readouterr().out == "profile\tvariants\nnone\t\noff\t\n"
+
+
+@pytest.mark.usefixtures("profiles")
+class TestLong:
+
+    def test_card_folds_echoed_sidecars_into_one_phrase(_, capsys):
+        _run(["rp", "-l", "-r", "zeta"])
+
+        assert capsys.readouterr().out == (
+            "zeta: last one\n"
+            "  mode        NEGATIVE\n"
+            "  sparseness  3\n"
+            "  variants    (2)\n"
+            "    v1   v2\n"
+            "  sidecars    (2): the variants in [ ], plus\n"
+            "    avoid\n"
+        )
+
+    def test_empty_lists_print_zero_counts(_, capsys):
+        _run(["rp", "--long", "-r", "^alpha$"])
+
+        assert capsys.readouterr().out == (
+            "alpha: first one\n"
+            "  mode        NORMAL\n"
+            "  sparseness  1\n"
+            "  variants    (0)\n"
+            "  sidecars    (0)\n"
+        )
+
+    def test_columns_narrow_the_card(_, capsys):
+        _run(["rp", "-l", "-r", "zeta", "-c", "variants"])
+
+        assert capsys.readouterr().out == (
+            "zeta: last one\n  variants  (2)\n    v1   v2\n"
+        )
+
+    def test_sidecars_all_echoed_print_the_phrase_alone(_, capsys):
+        with isolated_render_profiles():
+            register_render_profile(
+                "echo",
+                RenderProfile(
+                    variants=("v1",), conditional_sidecars=("[v1]",)
+                ),
+            )
+            _run(["rp", "-l", "-c", "sidecars"])
+
+        assert capsys.readouterr().out == (
+            "echo\n  sidecars  (1): the variants in [ ]\n"
+        )
+
+    def test_sidecars_none_echoed_list_every_name(_, capsys):
+        with isolated_render_profiles():
+            register_render_profile(
+                "plain", RenderProfile(conditional_sidecars=("avoid",))
+            )
+            _run(["rp", "-l", "-c", "sidecars"])
+
+        assert capsys.readouterr().out == (
+            "plain\n  sidecars  (1)\n    avoid\n"
+        )
+
+    def test_names_only_beats_long(_, capsys):
+        _run(["rp", "-l", "-N"])
+
+        assert capsys.readouterr().out == "alpha\nbare\nzeta\n"
+
+    def test_json_beats_long(_, capsys):
+        _run(["rp", "-l", "-f", "json", "-r", "bare"])
+
+        assert json.loads(capsys.readouterr().out)[0]["profile"] == "bare"
 
 
 class TestEmptyRegistry:
@@ -158,17 +240,17 @@ class TestEmptyRegistry:
 
         assert capsys.readouterr().out == _HEADING + "\n"
 
-    def test_no_info_prints_nothing(_, capsys):
+    def test_names_only_prints_nothing(_, capsys):
         with isolated_render_profiles():
-            _run(["rp", "-I"])
+            _run(["rp", "-N"])
 
         assert capsys.readouterr().out == ""
 
 
 class TestBuiltIns:
 
-    def test_no_info_lists_the_eight_built_ins(_, capsys):
-        _run(["rp", "-I"])
+    def test_names_only_lists_the_eight_built_ins(_, capsys):
+        _run(["rp", "-N"])
 
         assert capsys.readouterr().out.splitlines() == [
             "chat",
@@ -182,7 +264,7 @@ class TestBuiltIns:
         ]
 
     def test_remark_column_lists_the_built_in_remarks(_, capsys):
-        _run(["rp", "-r"])
+        _run(["rp", "-c", "remark"])
 
         assert capsys.readouterr().out == (
             "profile\tremark\n"
@@ -197,10 +279,16 @@ class TestBuiltIns:
             " Studio Code\n"
         )
 
-    def test_every_built_in_row_has_6_columns(_, capsys):
+    def test_every_built_in_row_has_4_columns(_, capsys):
         _run(["rp"])
         heading, *rows = capsys.readouterr().out.splitlines()
 
         assert heading == _HEADING
         assert len(rows) == 8
-        assert all(row.count("\t") == 5 for row in rows)
+        assert all(row.count("\t") == 3 for row in rows)
+
+    def test_long_card_of_every_built_in_prints(_, capsys):
+        _run(["rp", "-l"])
+        out = capsys.readouterr().out
+
+        assert out.count("  sparseness  ") == 8

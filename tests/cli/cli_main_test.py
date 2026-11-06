@@ -38,7 +38,7 @@ class TestRegisterCliSubcommands:
             ["s", "alpha", "F"],
             ["dynamic-node", "decode-only-abbr"],
             ["render-profile"],
-            ["rp", "-I"],
+            ["rp", "-N"],
         ):
             args = parser.parse_args(argv)
             assert callable(args.func)
