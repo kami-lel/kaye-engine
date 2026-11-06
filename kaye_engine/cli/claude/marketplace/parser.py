@@ -53,7 +53,7 @@ MARKETPLACE/  (default: ~/.claude/MARKETPLACE_FOLDER_NAME)
     + RENDER_PROFILE_DESCRIPTION
     + """
 
-render defaults: surface=vsc, comment=False, sparseness=0
+render defaults: surface=claude-vsc, comment=False, sparseness=0
 """
 )
 
@@ -68,7 +68,7 @@ def register_marketplace_parser(cli_subparser):  ###############################
         aliases=["m"],
         parents=[
             build_render_profile_parent_parser(
-                default_surface=("vsc",),
+                default_surface=("claude-vsc",),
                 default_sparseness=DEFAULT_SPARSENESS,
             ),
             build_dry_run_parent_parser(),
