@@ -41,6 +41,7 @@ manually add chat & coder, instead by data structure
 
 ### Changed
 
+- `Skill.write` and `export_skills_as_folders` take one or many destination folders: each skill renders once and is written to all of them, entry by entry; `Skill.write` returns the list of written folders; `hermes` uses this to fill the default and every named profile in one pass
 - every text-file export (`skill`, `claude skills`, `claude plugin`, `claude marketplace`, `claude code`, `claude vs-code-extension`, `continue`, `hermes`, `export-json`) compares an existing file with the text to write: an identical file is reported as `unchanged` at level `SKIP` (shown from `-vv`) and left alone, a differing one is overwritten; `--dry-run` reaches the same verdict; zip exports still overwrite
 - `exporting exportables as skills` line names the consumer when the export is per consumer (e.g. each `hermes` skills section)
 - `hermes` defaults to the `hermes` surface instead of none, so affordance `Fallback` sidecars (e.g. `{[file-edit] Fallback}`) render in the exported skills and `SOUL.md`

@@ -59,20 +59,6 @@ def _write_soul(path, blueprint_name, render_profile):
         raise SystemExit(1) from err
 
 
-def _export_skills(home, render_profile):
-    """
-    export every consumer's exportables as skill folders under
-    ``home/skills/<consumer>/``
-    """
-    for consumer in get_plugin_consumers():
-        export_skills_as_folders(
-            home / SKILLS_SUBFOLDER / consumer.canonical_name,
-            version=consumer.version,
-            render_profile=render_profile,
-            consumer=consumer.canonical_name,
-        )
-
-
 # entry point  #################################################################
 
 
@@ -106,8 +92,18 @@ def export_hermes_folder(folder, *, render_profile=None):
             blueprint_name,
             render_profile,
         )
-    # default profile (root) and every named profile each hold all skills
+    # default profile (root) and every named profile each hold all skills;
+    # each skill renders once and lands in every home, interlaced
     homes = [folder]
     homes += [folder / PROFILES_SUBFOLDER / name for name in profile_names]
-    for home in homes:
-        _export_skills(home, render_profile)
+    for consumer in get_plugin_consumers():
+        destinations = [
+            home / SKILLS_SUBFOLDER / consumer.canonical_name
+            for home in homes
+        ]
+        export_skills_as_folders(
+            destinations,
+            version=consumer.version,
+            render_profile=render_profile,
+            consumer=consumer.canonical_name,
+        )

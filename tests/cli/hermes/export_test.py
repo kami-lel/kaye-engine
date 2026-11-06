@@ -100,6 +100,15 @@ class TestExportHermesFolder:
             copy = tmp_path / "profiles" / name / rel
             assert copy.read_text(encoding="utf-8") == root
 
+    def test_each_skill_renders_once_for_all_profiles(_, tmp_path):
+        from kaye_engine.skill.skill_md import Skill
+
+        with patch.object(
+            Skill, "from_exportable", wraps=Skill.from_exportable
+        ) as build:
+            export_hermes_folder(tmp_path)
+        assert build.call_count == 1
+
     def test_internal_blueprint_never_becomes_a_skill(_, tmp_path):
         export_hermes_folder(tmp_path)
         assert not (tmp_path / "skills" / "test-consumer" / "kaye-chat").exists()
