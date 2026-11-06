@@ -34,7 +34,7 @@ result is printed to stdout
     + RENDER_PROFILE_DESCRIPTION
     + """
 
-render defaults: surface=chat cowork, comment=True, sparseness=0
+render defaults: surface=claude, comment=True, sparseness=0
 
 -c is taken by --coder, so the comment flags have no short form
 """
@@ -82,7 +82,7 @@ def register_user_prompt_parser(cli_subparser):  ###############################
         aliases=["usp"],
         parents=[
             build_render_profile_parent_parser(
-                default_surface=("chat", "cowork"),
+                default_surface=("claude",),
                 default_sparseness=DEFAULT_SPARSENESS,
                 comment_short_flags=False,
             )

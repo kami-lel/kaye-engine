@@ -53,7 +53,7 @@ FOLDER/  (default: ~/.claude/plugins/)
     + RENDER_PROFILE_DESCRIPTION
     + """
 
-render defaults: surface=chat cowork, comment=False, sparseness=0
+render defaults: surface=claude, comment=False, sparseness=0
 """
 )
 
@@ -68,7 +68,7 @@ def register_plugin_parser(cli_subparser):  ####################################
         aliases=["p"],
         parents=[
             build_render_profile_parent_parser(
-                default_surface=("chat", "cowork"),
+                default_surface=("claude",),
                 default_sparseness=DEFAULT_SPARSENESS,
             ),
             build_dry_run_parent_parser(),
