@@ -34,9 +34,8 @@ Three things are therefore absent by design — a corpus file, an
 `abbrs.json`, and any `register_blueprint()` call. Absence is the contract,
 not a gap to fill.
 
-The engine does ship one registered set of its own: the 8 built-in render
-profiles (`chat`, `cowork`, `code`, `vsc`, `ioschat`, `continue`, `hermes`,
-`comfy`) and the affordance variants they name, registered into
+The engine does ship one registered set of its own: the 5 built-in render
+profiles (`claude`, `claude-vsc`, `continue`, `hermes`, `comfy`) and the affordance variants they name, registered into
 `render_profile_registry` and `variant_registry` when `kaye_engine.prompt`
 is imported. They describe platform targets, not corpus content.
 
@@ -385,7 +384,7 @@ kaye_engine/
 │                                Usage/Lack/Fallback sidecar names
 │   ├── builtin_affordances.py  BUILTIN_AFFORDANCES (remarks) and derived
 │                                AFFORDANCE_GROUPS, registered at import
-│   └── builtin_render_profiles.py  the 8 built-in render profiles + remarks
+│   └── builtin_render_profiles.py  the 5 built-in render profiles + remarks
 ├── abbr_collection/     abbreviation entries, store, JSON loader
 ├── consumer.py          consumer registry: register_consumer,
 │                        set_entry_consumer, iter_consumers, and the

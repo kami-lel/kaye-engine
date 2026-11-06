@@ -190,7 +190,7 @@ See [Sidecar Node Documentation](sidecar-doc.md#conditional-sidecars) for the no
 - an affordance includes its `Usage` sidecar when any of its variants is listed, otherwise its `Fallback` sidecar
 
 ```python
-render_prompt(bp, profile=RenderProfile(variants=("ClaudeCode:TodoWrite",)))
+render_prompt(bp, profile=RenderProfile(variants=("Claude:TodoWrite",)))
 ```
 
 The field has three states:
@@ -309,17 +309,14 @@ Calling `render_prompt(bp, profile=...)` or `render_prompt_without_dependencies(
 
 ## Surfaces
 
-A **surface** is a named render target, such as `chat`, `code`, or the VS Code extension. Surfaces support different tools, so one corpus should render differently for each. A surface with Bash access gets the Bash usage sidecar, and one without does not.
+A **surface** is a named render target, such as `claude` or the VS Code extension. Surfaces support different tools, so one corpus should render differently for each. A surface with Bash access gets the Bash usage sidecar, and one without does not.
 
-Kaye Engine ships 8 surfaces, registered with a remark when `kaye_engine.prompt` is imported, and `kaye-engine render-profile` lists them. Each is a `RenderProfile` in `render_profile_registry` that lists that surface's `variants` and `conditional_sidecars`:
+Kaye Engine ships 5 surfaces, registered with a remark when `kaye_engine.prompt` is imported, and `kaye-engine render-profile` lists them. Each is a `RenderProfile` in `render_profile_registry` that lists that surface's `variants` and `conditional_sidecars`:
 
 | surface | remark |
 |---|---|
-| `chat` | Anthropic Claude chat app on web and desktop |
-| `cowork` | Anthropic Claude Cowork desktop agent |
-| `code` | Anthropic Claude Code in the terminal |
-| `vsc` | Anthropic Claude Code extension for Microsoft Visual Studio Code |
-| `ioschat` | Anthropic Claude chat app on Apple iOS |
+| `claude` | Anthropic Claude apps: chat, Cowork, Code, iOS |
+| `claude-vsc` | Anthropic Claude Code extension for Microsoft Visual Studio Code |
 | `continue` | Continue.dev rules |
 | `hermes` | Hermes Agents |
 | `comfy` | Comfy Org ComfyUI image prompts |
@@ -346,8 +343,8 @@ from kaye_engine.prompt.blueprint.render_profile import RenderProfile
 register_render_profile(
     "my-surface",
     RenderProfile(
-        variants=("ClaudeCode:AskUserQuestion", ...),
-        conditional_sidecars=("[ClaudeCode]", "[Claude]"),
+        variants=("Claude:AskUserQuestion", ...),
+        conditional_sidecars=("[Claude]",),
     ),
     "my own target",
 )
@@ -355,7 +352,7 @@ register_render_profile(
 
 Register before the parsers are built, since `--surface NAME [NAME ...]` (`-u`) takes its choices from the registry when a command's parser is constructed, and selects one or more surfaces:
 
-- several surfaces merge in the order given, so `--surface chat code` unions both profiles' collections
+- several surfaces merge in the order given, so `--surface claude claude-vsc` unions both profiles' collections
 - the allowed names are the registry's keys
 - each `claude` subcommand preselects a surface when the flag is omitted, see `--help` of any rendering command
 
