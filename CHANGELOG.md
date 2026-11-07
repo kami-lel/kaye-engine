@@ -44,7 +44,7 @@ manually add chat & coder, instead by data structure
 
 ### Added
 
-- `build-github-release` (`ghr`) subcommand: write a consumer's versioned plugin `.zip` for a GitHub Release
+- `build-github-release` subcommand: write a consumer's versioned plugin `.zip` for a GitHub Release
 - `claude plugin` takes an optional `CONSUMER_PROJ` to export one consumer's plugin; `export_plugins_as_folders`, `export_plugins_as_zips` take `consumer_name`
 - `render-profile` (`rp`) subcommand lists registered render profiles
 - shared list flags on `affordance`, `variant`, `render-profile`: regex filter, columns, long cards, names only, table/tsv/json, no color

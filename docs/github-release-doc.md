@@ -1,6 +1,6 @@
 # Kaye Engine: GitHub Release Builds
 
-`build-github-release` (alias `ghr`) builds the one versioned plugin `.zip` of a consumer project, ready to attach to a GitHub Release. It reaches the archive through the same path as `claude plugin -z`, so the zip opens straight in Claude Desktop's *Plugins > Upload*.
+`build-github-release` builds the one versioned plugin `.zip` of a consumer project, ready to attach to a GitHub Release. It reaches the archive through the same path as `claude plugin -z`, so the zip opens straight in Claude Desktop's *Plugins > Upload*.
 
 ## Run It from a Consumer CLI
 
@@ -9,7 +9,7 @@ A bare `kaye-engine` console script registers no consumer, so it has nothing to 
 ```bash
 CONSUMER_CLI build-github-release CONSUMER_PROJ            # dist/CONSUMER_PROJ-VERSION.zip
 CONSUMER_CLI build-github-release CONSUMER_PROJ -o FOLDER  # FOLDER/CONSUMER_PROJ-VERSION.zip
-CONSUMER_CLI ghr CONSUMER_PROJ -n                          # print the result line, write nothing
+CONSUMER_CLI build-github-release CONSUMER_PROJ -n          # print the result line, write nothing
 ```
 
 - `CONSUMER_PROJ`: required, the canonical name of the consumer to build. One process may hold several consumers (a consumer plus a library it depends on); the name picks one, so only that zip is produced. An unknown name exits 1 and lists the valid names

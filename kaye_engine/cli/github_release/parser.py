@@ -58,7 +58,6 @@ def register_github_release_parser(cli_subparser):  ############################
         help=__doc__,
         description=_DESCRIPTION,
         formatter_class=RawDescriptionHelpFormatter,
-        aliases=["ghr"],
         parents=[
             build_render_profile_parent_parser(
                 default_surface=("claude",),

@@ -72,7 +72,7 @@ class TestBuildGithubRelease:
         assert [p.name for p in tmp_path.iterdir()] == ["pkg-two-2.2.0.zip"]
 
     def test_zip_holds_manifest_at_root_and_only_own_skills(_, tmp_path):
-        _run(["ghr", "pkg-one", "-o", str(tmp_path)])
+        _run(["build-github-release", "pkg-one", "-o", str(tmp_path)])
 
         with zipfile.ZipFile(tmp_path / "pkg-one-1.1.0.zip") as archive:
             names = archive.namelist()
@@ -83,7 +83,7 @@ class TestBuildGithubRelease:
     def test_output_defaults_to_dist(_, tmp_path, monkeypatch):
         monkeypatch.chdir(tmp_path)
 
-        _run(["ghr", "pkg-one"])
+        _run(["build-github-release", "pkg-one"])
 
         assert [p.name for p in (tmp_path / "dist").iterdir()] == [
             "pkg-one-1.1.0.zip"
@@ -93,7 +93,7 @@ class TestBuildGithubRelease:
         _, tmp_path, caplog
     ):
         with pytest.raises(SystemExit) as raised:
-            _run(["ghr", "pkg-nope", "-o", str(tmp_path)])
+            _run(["build-github-release", "pkg-nope", "-o", str(tmp_path)])
 
         assert raised.value.code == 1
         assert "pkg-one, pkg-two" in caplog.text
@@ -101,11 +101,11 @@ class TestBuildGithubRelease:
 
     def test_consumer_is_required(_):
         with pytest.raises(SystemExit):
-            _parse(["ghr"])
+            _parse(["build-github-release"])
 
     def test_dry_run_writes_nothing(_, tmp_path):
         out = tmp_path / "out"
 
-        _run(["ghr", "pkg-one", "-n", "-o", str(out)])
+        _run(["build-github-release", "pkg-one", "-n", "-o", str(out)])
 
         assert not out.exists()
