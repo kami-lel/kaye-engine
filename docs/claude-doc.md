@@ -56,7 +56,7 @@ FOLDER/                      (default: ~/.claude/plugins/)
 With `-z`, each zip prints 1 line at the default verbosity, then a count:
 
 ```text
-DONE new	export plugin (23 skills, 412 KB): /home/me/out/kaye-library-1.1.2.zip
+DONE new	export plugin (23 skills, 412 KB): /home/me/out/pkg-one-1.1.2.zip
 DONE	export plugin as 1 zips
 ```
 

@@ -31,6 +31,7 @@ manually add chat & coder, instead by data structure
 
 ### Added
 
+- `build-github-release CONSUMER_PROJ [-o FOLDER]` (`ghr`) subcommand: writes the one versioned plugin `.zip` of a consumer, the `claude plugin -z` archive, for a GitHub Release; output defaults to `dist/`, render flags and `-n` as `claude plugin`; run it through a consumer's console script, as a bare `kaye-engine` registers no consumer; an unknown name exits 1 and lists the valid names; documented in `docs/github-release-doc.md`
 - `claude plugin [FOLDER] [CONSUMER_PROJ]`: an optional second positional keeps only the plugin of that consumer (`plugin -z . NAME`); an unknown name exits 1 and lists the valid names; `FOLDER` alone works as before
 - `select_plugin_consumers(consumer_name=None)` in `kaye_engine.cli.claude.plugin_marketplace_name`, and a `consumer_name` keyword on `export_plugins_as_folders` and `export_plugins_as_zips`: narrow an export to one consumer; an unknown name raises `ValueError` listing the valid names
 - `render-profile` (`rp`) subcommand lists every registered render profile, sorted by name: an aligned table on a terminal (`profile`, `variants` and `sidecars` as counts, `remark`), tab-separated rows under a heading line when piped; `-l` prints one detail card per profile, with sidecars that only echo a variant folded into one phrase; `mode` and `sparseness` show under `-c` or `-l`

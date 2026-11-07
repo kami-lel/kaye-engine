@@ -55,6 +55,7 @@ merge.
 | `kaye_engine/cli/hermes/` | `tests/cli/hermes/` |
 | `kaye_engine/cli/open_webui/` | `tests/cli/open_webui/` |
 | `kaye_engine/cli/skill/` | `tests/cli/skill/` |
+| `kaye_engine/cli/github_release/` | `tests/cli/github_release_test.py` |
 | `kaye_engine/cli/claude/skills/` | `tests/cli/cli_main_test.py`, `tests/cli/dry_run_test.py` |
 | `kaye_engine/skill/` | `tests/skill/`, plus `tests/cli/open_webui/skill_form_test.py` (reads `Skill`) |
 | `kaye_engine/exportable/` | `tests/exportable_test.py`, `tests/image_prompt_export_test.py` |
@@ -97,10 +98,11 @@ pytest
 
 The editable install registers a `kaye-engine` console script, so
 `kaye-engine ...` and `python -m kaye_engine ...` are equivalent — prefer
-the shorter form. **Fourteen** top-level subcommands exist: `blueprint`,
+the shorter form. **Fifteen** top-level subcommands exist: `blueprint`,
 `claude`, `continue`, `hermes`, `dynamic-node`, `dynamic-substitution`,
 `exportable`, `export-json`, `affordance`, `variant`, `render-profile`,
-`glossary`, `skill`, and `sync-open-webui-skills`:
+`glossary`, `build-github-release`, `skill`, and
+`sync-open-webui-skills`:
 
 ```bash
 kaye-engine --help                          # show CLI usage
@@ -127,6 +129,7 @@ kaye-engine claude skills -z                # .zip per skill in the current dire
 kaye-engine claude plugin PLUGINS_FOLDER    # export blueprints as plugin folder
 kaye-engine claude plugin -z PLUGINS_FOLDER # .zip package (-N drops version)
 kaye-engine claude plugin -z . CONSUMER     # only that consumer's plugin
+CONSUMER_CLI build-github-release CONSUMER [-o FOLDER]  # release zip (alias ghr)
 kaye-engine claude marketplace              # to ~/.claude/<marketplace folder>
 kaye-engine claude marketplace MARKETPLACE  # to a custom folder
 kaye-engine claude code                     # plugin + CLAUDE.md into ~/.claude
@@ -183,7 +186,7 @@ preview` → `bp p`; `blueprint render` → `bp r`; `blueprint validate` →
 marketplace` → `claude m`; `claude plugin` → `claude p`; `claude skills` → `claude s`; `skill`
 → `s`; `claude user-system-prompt` → `claude usp`;
 `claude vs-code-extension` → `claude v`; `exportable` → `x`;
-`export-json` → `json`; `affordance` → `afd`; `variant`
+`export-json` → `json`; `build-github-release` → `ghr`; `affordance` → `afd`; `variant`
 → `var`; `render-profile` → `rp`; `glossary` → `g`; `sync-open-webui-skills` → `o`.
 
 **Rendering commands** — any subcommand that reaches
@@ -350,6 +353,7 @@ After meaningful changes, keep these in sync:
     [docs/render-profile-doc.md](docs/render-profile-doc.md)
   - the `claude` subcommands and per-consumer plugins:
     [docs/claude-doc.md](docs/claude-doc.md)
+  - the `build-github-release` command: [docs/github-release-doc.md](docs/github-release-doc.md)
   - the `continue` export: [docs/continue-doc.md](docs/continue-doc.md)
   - the `hermes` export: [docs/hermes-doc.md](docs/hermes-doc.md)
   - the Open WebUI sync: [docs/open-webui-doc.md](docs/open-webui-doc.md)
