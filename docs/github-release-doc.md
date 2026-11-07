@@ -7,8 +7,8 @@
 A bare `kaye-engine` console script registers no consumer, so it has nothing to export. Run the command through the console script of a consumer project, which registers its consumers first (q.v. [Consumer Requirement](claude-doc.md#consumer-requirement)):
 
 ```bash
-CONSUMER_CLI build-github-release CONSUMER_PROJ            # dist/CONSUMER_PROJ-VERSION.zip
-CONSUMER_CLI build-github-release CONSUMER_PROJ -o FOLDER  # FOLDER/CONSUMER_PROJ-VERSION.zip
+CONSUMER_CLI build-github-release CONSUMER_PROJ            # dist/CONSUMER_PROJ-claude-VERSION.zip
+CONSUMER_CLI build-github-release CONSUMER_PROJ -o FOLDER  # FOLDER/CONSUMER_PROJ-claude-VERSION.zip
 CONSUMER_CLI build-github-release CONSUMER_PROJ -n          # print the result line, write nothing
 ```
 
@@ -18,7 +18,7 @@ CONSUMER_CLI build-github-release CONSUMER_PROJ -n          # print the result l
 - render options (`--surface`, `--comment`, `--sparseness`, ~~): the same flags and defaults as `claude plugin`, surface `claude`, comments off, sparseness `0`
 - `-v`: more build detail, as `claude plugin -z`
 
-The zip carries the consumer's version in its name and has `.claude-plugin/plugin.json` at its root.
+The zip is named `CONSUMER_PROJ-claude-VERSION.zip`, carrying the consumer's version, and has `.claude-plugin/plugin.json` at its root.
 
 ## Actions Pattern
 

@@ -84,7 +84,7 @@ class TestConsumerProjExport:
     def test_zip_writes_one_consumer(_, tmp_path):
         _run(["-z", str(tmp_path), "pkg-two"])
 
-        assert [p.name for p in tmp_path.iterdir()] == ["pkg-two-2.2.0.zip"]
+        assert [p.name for p in tmp_path.iterdir()] == ["pkg-two-claude-2.2.0.zip"]
 
     def test_zip_without_name_writes_every_consumer(_, tmp_path):
         _run(["-z", str(tmp_path)])

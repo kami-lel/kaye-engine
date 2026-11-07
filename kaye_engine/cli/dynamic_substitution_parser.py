@@ -7,10 +7,10 @@ define ``register_dynamic_substitution_parser``
 from argparse import RawDescriptionHelpFormatter
 
 import kamilog
+from kaye_engine.cli.verbosity import apply_verbosity_arg
 from kaye_engine import LOGGER_NAME
 from kamilog import (
     add_verbose_arguments,
-    set_logging_level_by_namespace,
 )
 from kaye_engine.prompt.blueprint.dynamic_substitution import (
     dynamic_substitution_registry,
@@ -38,7 +38,7 @@ list every registered dynamic substitution, sorted alphabetically
 
 # auxiliaries  #################################################################
 def _dynamic_substitution_main(args):
-    set_logging_level_by_namespace(args, logger=logger)
+    apply_verbosity_arg(args)
 
     if args.NAME == "ls":
         for name in sorted(dynamic_substitution_registry):

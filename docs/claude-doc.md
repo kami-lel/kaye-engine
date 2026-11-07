@@ -50,13 +50,13 @@ FOLDER/                      (default: ~/.claude/plugins/)
 ```
 
 - `CONSUMER_PROJ`: keep only the consumer of this canonical name; every plugin consumer when omitted. It is the second positional, so `FOLDER` comes first (`plugin -z . NAME`); an unknown name exits 1 and lists the valid names
-- `-z`, `--zip`: create upload-ready `.zip` files for Claude Desktop instead of folders, one per consumer; FOLDER then defaults to the current directory
-- `-N`, `--no-version`: leave each consumer's version out of its `.zip` filename, `.zip` only
+- `-z`, `--zip`: create upload-ready `.zip` files for Claude Desktop instead of folders, one per consumer, named `NAME-claude-VERSION.zip`; FOLDER then defaults to the current directory
+- `-N`, `--no-version`: leave each consumer's version out of its `.zip` filename, giving `NAME-claude.zip`
 
 With `-z`, each zip prints 1 line at the default verbosity, then a count:
 
 ```text
-DONE new	export plugin (23 skills, 412 KB): /home/me/out/pkg-one-1.1.2.zip
+DONE new	export plugin (23 skills, 412 KB): /home/me/out/pkg-one-claude-1.1.2.zip
 DONE	export plugin as 1 zips
 ```
 

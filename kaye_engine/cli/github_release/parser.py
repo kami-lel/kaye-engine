@@ -4,6 +4,7 @@ from argparse import RawDescriptionHelpFormatter
 from pathlib import Path
 
 import kamilog
+from kaye_engine.cli.verbosity import apply_verbosity_arg
 from kaye_engine import PACKAGE_NAME
 from kaye_engine.cli import DEFAULT_SPARSENESS
 from kaye_engine.cli.claude import CLAUDE_DOC_DESCRIPTION, LOGGER_CLAUDE_NAME
@@ -85,7 +86,7 @@ def register_github_release_parser(cli_subparser):  ############################
     kamilog.add_verbose_arguments(github_release_parser)
 
     def _github_release_main(args):
-        kamilog.set_logging_level_by_namespace(args, logger=logger)
+        apply_verbosity_arg(args)
         apply_dry_run_arg(args)
         logger.enter("{} build-github-release".format(PACKAGE_NAME))
         check_setup_for_claude_cli()
