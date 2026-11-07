@@ -10,6 +10,7 @@ import pytest
 
 from kaye_engine.prompt.affordance_registry import (
     affordance_registry,
+    register_affordance,
     register_variant,
     variant_registry,
 )
@@ -59,6 +60,7 @@ def corpus():
 
 @pytest.fixture
 def registered_test_variant():
+    register_affordance("Claude Tool:TestFamily")
     entry = register_variant(
         "Claude Tool:TestVariant", "Claude Tool:TestFamily"
     )

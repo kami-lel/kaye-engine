@@ -1,14 +1,14 @@
 """
 cli_setup_guard.py
 
-define ``check_corpus_setup_for_cli``
+define ``check_corpus_setup_for_cli`` and ``note_empty_registry_for_cli``
 """
 
 import kamilog
 from kaye_engine import LOGGER_NAME, get_corpus_tree
 from kaye_engine.prompt.blueprint import blueprint_registry
 
-__all__ = ("check_corpus_setup_for_cli",)
+__all__ = ("check_corpus_setup_for_cli", "note_empty_registry_for_cli")
 
 # logger  ######################################################################
 logger = kamilog.getLogger(LOGGER_NAME)
@@ -39,3 +39,21 @@ def check_corpus_setup_for_cli():
             "a consumer project should register "
             "blueprints before invoking this CLI"
         )
+
+
+def note_empty_registry_for_cli(kind):
+    """
+    log one ``NOTE`` that a registry a list command reads is empty
+
+    unlike ``check_corpus_setup_for_cli``, it speaks only when the
+    command's own registry is empty, so a populated registry stays quiet
+
+
+    :param kind: plural noun of what is missing, e.g. ``"affordances"``
+    :type kind: str
+    """
+    logger.note(
+        "no %s registered: a consumer project should register them "
+        "before invoking this CLI",
+        kind,
+    )

@@ -73,7 +73,7 @@ def register_code_parser(cli_subparser):  ######################################
         aliases=["c"],
         parents=[
             build_render_profile_parent_parser(
-                default_surface=("code",),
+                default_surface=("claude",),
                 default_sparseness=DEFAULT_SPARSENESS,
             ),
             build_dry_run_parent_parser(),

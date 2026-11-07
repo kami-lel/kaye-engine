@@ -1,7 +1,5 @@
 # Kaye Engine: support for Anthropic Claude
 
-<!-- Fixme mpv support for anthropic claude -->
-
 Kaye Engine's integration with Anthropic Claude: exporting corpus blueprints as Claude plugins and system prompts and exporting every exportable as Agent Skills into Claude's skills folder (`claude skills`); exporting chosen Agent Skills into any folder is the top-level `kaye-engine skill` command.
 
 > [!NOTE]
@@ -19,15 +17,15 @@ Kaye Engine's integration with Anthropic Claude: exporting corpus blueprints as 
 
 ### Choose a Subcommand
 
-| Goal | Command | Alias |
-| --- | --- | --- |
-| Upload a plugin to Claude Desktop | `claude plugin -z` | `claude p` |
-| Get a plugin folder to load locally | `claude plugin` | `claude p` |
-| Export every skill into `~/.claude/skills` | `claude skills` | `claude s` |
-| Get an installable marketplace folder | `claude marketplace` | `claude m` |
-| Set up Claude Code in the terminal | `claude code` | `claude c` |
-| Set up the Claude Code VS Code Extension | `claude vs-code-extension` | `claude v` |
-| Print the User System Prompt | `claude user-system-prompt` | `claude usp` |
+| Goal | Command | Alias | Default surface |
+| --- | --- | --- | --- |
+| Upload a plugin to Claude Desktop | `claude plugin -z` | `claude p` | `claude` |
+| Get a plugin folder to load locally | `claude plugin` | `claude p` | `claude` |
+| Export every skill into `~/.claude/skills` | `claude skills` | `claude s` | `claude` |
+| Get an installable marketplace folder | `claude marketplace` | `claude m` | `claude-vsc` |
+| Set up Claude Code in the terminal | `claude code` | `claude c` | `claude` |
+| Set up the Claude Code VS Code Extension | `claude vs-code-extension` | `claude v` | `claude-vsc` |
+| Print the User System Prompt | `claude user-system-prompt` | `claude usp` | `claude` |
 
 ### plugin
 
@@ -194,6 +192,16 @@ Every package exporting through `claude` calls `register_consumer(display_name, 
 
 ## Surfaces
 
-A **surface** is a named target Kaye Engine renders for — `chat`, `code`, the VS Code extension, and so on. Different surfaces support different tools, so the same corpus should render differently for each: a Bash-capable surface gets the Bash usage sidecar, a surface without file access does not.
+A **surface** is a named target Kaye Engine renders for. Claude has 2: `claude` for the chat apps (web, desktop, iOS, Cowork) and Claude Code in the terminal, and `claude-vsc` for the Claude Code extension in Visual Studio Code. Different surfaces support different tools, so the same corpus should render differently for each: a surface with Bash gets the Bash usage sidecar, a surface without file access does not. Every Claude affordance variant carries one `Claude:` prefix, such as `Claude:Edit` or `Claude:Web~`, and a surface lists the variants of the tools it has; a `claude` render includes tools only some of its apps provide.
 
 The engine registers its surfaces as named render profiles in `render_profile_registry`, and a consumer may add more with `register_render_profile(...)`; every rendering command accepts `--surface NAME` (`-u`) to render for one or more of them. How surfaces are configured, selected, and merged with `--variant` and `--conditional-sidecar` is documented in [`render-profile-doc.md`](render-profile-doc.md#surfaces).
+
+## Editing and Merging the Corpus
+
+Steps for changing prompt text or sidecar references in a consumer package, in order:
+
+1. edit a corpus source Markdown file in the consumer package
+2. before touching prompt text, invoke the consumer-supplied prompt-writing skill, `write-llm-prompt`, through the `Skill` tool and follow it
+3. merge duplicate sidecar references: where one affordance had several surface-specific variants, keep the single `Claude:` name its variants now share, and drop the repeats
+4. run `kaye-engine blueprint validate`
+5. re-export with the `claude` subcommand for the target, such as `claude plugin` or `claude skills`
