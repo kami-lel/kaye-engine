@@ -28,59 +28,44 @@ manually add chat & coder, instead by data structure
 
 ### Added
 
-- `build-github-release CONSUMER_PROJ [-o FOLDER]` (`ghr`) subcommand: writes the one versioned plugin `.zip` of a consumer, the `claude plugin -z` archive, for a GitHub Release; output defaults to `dist/`, render flags and `-n` as `claude plugin`; run it through a consumer's console script, as a bare `kaye-engine` registers no consumer; an unknown name exits 1 and lists the valid names; documented in `docs/github-release-doc.md`
-- `claude plugin [FOLDER] [CONSUMER_PROJ]`: an optional second positional keeps only the plugin of that consumer (`plugin -z . NAME`); an unknown name exits 1 and lists the valid names; `FOLDER` alone works as before
-- `select_plugin_consumers(consumer_name=None)` in `kaye_engine.cli.claude.plugin_marketplace_name`, and a `consumer_name` keyword on `export_plugins_as_folders` and `export_plugins_as_zips`: narrow an export to one consumer; an unknown name raises `ValueError` listing the valid names
-- `render-profile` (`rp`) subcommand lists every registered render profile, sorted by name: an aligned table on a terminal (`profile`, `variants` and `sidecars` as counts, `remark`), tab-separated rows under a heading line when piped; `-l` prints one detail card per profile, with sidecars that only echo a variant folded into one phrase; `mode` and `sparseness` show under `-c` or `-l`
-- `register_affordance(canonical_name, remark="")`: registers an affordance on its own; `Affordance` and `Variant` carry a `remark` (a short verb-first description, the entry's documentation, `""` when omitted), and `register_variant()` takes `remark=`; a repeated affordance name raises `ValueError`, a non-`str` remark `TypeError`
-- every built-in affordance (59) and variant (131) carries a remark; `BUILTIN_AFFORDANCES` holds them with their names, and `AFFORDANCE_GROUPS` is derived from it
-- `kaye_engine.cli.list_view`: the shared flag set of the `affordance`, `variant`, and `render-profile` list commands, all flags and no positional argument, each with a short and a long form: `-r/--regex` name filter, `-c/--columns`, `-l/--long`, `-N/--names-only`, `-f/--format table|tsv|json`, `-C/--no-color`; table, tsv, json, card, and grouped views, colored only through kamilog's `AnsiRenderer` (off under `-C`, `NO_COLOR`, or a non-terminal)
-- `note_empty_registry_for_cli(kind)` in `kaye_engine.cli.cli_setup_guard`: logs one `NOTE` when the registry a list command reads is empty
-- the engine now ships 5 built-in render profiles, registered with a remark when `kaye_engine.prompt` is imported: `claude` (Chat and Code tools, iOS calendar included), `claude-vsc`, `continue`, `hermes` (every `Hermes:` variant), `comfy`; the affordance variants they name (`AFFORDANCE_GROUPS`) register with them
-- `register_render_profile(name, profile, remark="")` and `render_profile_registry`: named render profiles, each with an optional `remark` (a short description, `""` when omitted); a repeated name raises `ValueError`, a non-`str` remark `TypeError`
-- file and directory deed lines carry native badges on success: `new` (create file or dir, pack), `owr` (overwrite), `mv` (move); `sync-open-webui-skills` lines carry `new`, `owr`, `del` by verb, after `dry` under `-n`
-- `kaye_engine.deed` gains the `create_zip` deed, `format_size`, `quiet_deeds()` (log deed successes at `DEBUG`), and a settable `level` on a deed scope
-- `kaye_engine.badge` holds the native badge names the engine stamps (`DRY_BADGE`, `NEW_BADGE`, `OWR_BADGE`, `MV_BADGE`, `DEL_BADGE`)
+- `build-github-release` (`ghr`) subcommand: write a consumer's versioned plugin `.zip` for a GitHub Release
+- `claude plugin` takes an optional `CONSUMER_PROJ` to export one consumer's plugin; `export_plugins_as_folders`, `export_plugins_as_zips` take `consumer_name`
+- `render-profile` (`rp`) subcommand lists registered render profiles
+- shared list flags on `affordance`, `variant`, `render-profile`: regex filter, columns, long cards, names only, table/tsv/json, no color
+- `register_affordance()` and `register_render_profile()`; affordances, variants, profiles carry a `remark`
+- 5 built-in render profiles: `claude`, `claude-vsc`, `continue`, `hermes`, `comfy`
+- built-in affordances (59) and variants (131) with remarks, covering every Claude tool family and 47 `Hermes:` tools
+- native `new`, `owr`, `mv`, `del` badges on file deed lines; `create_zip` deed, `quiet_deeds()`
 
 ### Changed
 
-- `Skill.write` and `export_skills_as_folders` take one or many destination folders: each skill renders once and is written to all of them, entry by entry; `Skill.write` returns the list of written folders; `hermes` uses this to fill the default and every named profile in one pass
-- every text-file export (`skill`, `claude skills`, `claude plugin`, `claude marketplace`, `claude code`, `claude vs-code-extension`, `continue`, `hermes`, `export-json`) compares an existing file with the text to write: an identical file is reported as `unchanged` at level `SKIP` (shown from `-vv`) and left alone, a differing one is overwritten; `--dry-run` reaches the same verdict; zip exports still overwrite
-- `exporting exportables as skills` line names the consumer when the export is per consumer (e.g. each `hermes` skills section)
-- `hermes` defaults to the `hermes` surface instead of none, so affordance `Fallback` sidecars (e.g. `{[file-edit] Fallback}`) render in the exported skills and `SOUL.md`
-- the `hermes` render profile carries the `QwenImage` variant, so `{[QwenImage] Usage}` sidecars render in a Hermes export
-- `--surface` takes its choices from `render_profile_registry` and is always offered on every rendering command; `resolve_render_profile` and `build_render_profile_parent_parser` no longer take `surface_profiles`
-- bare `blueprint` (`bp`) now lists blueprints like `blueprint ls` instead of printing usage; bare `exportable` (`x`), `dynamic-node` (`dn`), `glossary` (`g`) and `dynamic-substitution` (`ds`) likewise default to `ls`
-- `DRY_BADGE` lives in `kaye_engine.badge`; `cli.dry_run` still re-exports it
-- `claude plugin -z` prints 1 line per zip at default verbosity (`export plugin (23 skills, 412 KB): PATH`), then `export plugin as N zips`
-- `skill -z`, `claude skills -z` print `export skills as N zips` by default, 1 line per zip at `-v`
-- zip exports hide temp-dir build paths; `-vv` shows steps, `-vvv` archive entries
-- `export_plugins_as_zips`, `export_skills_as_zips` return the zip count; the zip exports no longer use the `pack_files`, `mv_file` deeds
-- `affordance` (`afd`) prints an aligned table on a terminal (`affordance`, `variants` as a count, `remark`) and tab-separated rows under a heading line when piped; `-l` lists each affordance's variants and their remarks beneath it
-- `variant` (`var`) prints rows grouped under a bold header per affordance on a terminal, a flat tab-separated table when piped, sorted by affordance, then variant name; `-F` forces the flat table with an `affordance` column, `-a/--affordance` keeps variants of matching affordances, `-l` prints a card with the variant's `Usage` and `Lack` sidecar names
-- `affordance` and `variant` log one `NOTE` when their registry is empty, instead of the corpus setup `ERROR` pair
-
-- every Claude affordance variant takes one `Claude:` prefix (`Claude:Edit`-style names, `Claude:Web~`, `Claude:iOS:Calendar:*`); Chat and Cowork twins of `Gmail`, `TickTick` and `GoogleCalendar:*` merge into one variant each
-- variants added for every tool family that had none (search, skills, connectors, plugins, docs, PDF viewer, browsers, devices, terminal, diagnostics, session and app management), and 47 `Hermes:` variants, one per Hermes tool
+- Claude affordance variants take one `Claude:` prefix; Chat and Cowork twins merge
+- text exports leave an identical file alone and report it `unchanged` (`-vv`); `--dry-run` agrees
+- `hermes` defaults to the `hermes` surface, renders `Fallback` sidecars and `QwenImage`, and fills every profile in one pass
+- `Skill.write`, `export_skills_as_folders` accept 1 or many destination folders
+- `--surface` choices come from the render profile registry on every rendering command
+- bare `blueprint`, `exportable`, `dynamic-node`, `glossary`, `dynamic-substitution` default to `ls`
+- zip exports print 1 summary line by default and hide temp-dir paths; `export_plugins_as_zips`, `export_skills_as_zips` return the zip count
+- `affordance`, `variant` print aligned tables on a terminal, tsv when piped, and log 1 `NOTE` on an empty registry
 
 > [!WARNING]
-> `register_variant()` no longer creates a missing affordance: register it first with `register_affordance()`, or `KeyError` is raised. `affordance`, `variant`, and `render-profile` take flags only; the column flags `-r` (remark), `-m`, `-s`, `-v`, `-a` (affordance column), the `-i`/`-I` info switches, and their long forms are gone. Use `-c/--columns` to pick columns, `-N/--names-only` for names only, and `-r/--regex` to filter names (`-r` and `-a` now take a regex, not switch a column on). A `variant` run on a terminal groups by affordance: pass `-F` for the flat table.
+> `register_variant()` raises `KeyError` for an unregistered affordance: call `register_affordance()` first. `affordance`, `variant`, `render-profile` take flags only; the old column and info flags are gone, `-r` and `-a` now take a regex, and `variant` on a terminal groups by affordance (`-F` for flat).
 
 > [!WARNING]
-> Break: render profiles `chat`, `cowork`, `code`, `vsc` and `ioschat` are gone, replaced by `claude` and `claude-vsc`; `--surface` names and every `claude` subcommand default follow. Variant names `ClaudeChat:*`, `ClaudeCode:*`, `ClaudeCowork:*` and `ClaudeiOSChat:*` become `Claude:*`, and the identity markers `[ClaudeChat]`, `[ClaudeCode]`, `[ClaudeCowork]` and `[ClaudeiOSChat]` retire. Corpus sidecar references to the old names stop matching until renamed.
+> Render profiles `chat`, `cowork`, `code`, `vsc`, `ioschat` are replaced by `claude` and `claude-vsc`; `ClaudeChat:*`, `ClaudeCode:*`, `ClaudeCowork:*`, `ClaudeiOSChat:*` variants and identity markers become `Claude:*`. Rename corpus sidecar references, or they stop matching.
 
 ### Deprecated
 
 ### Removed
 
-- `export-image-prompt` (`img`) subcommand and its parser module; `image_prompt_exportable_registry` and `register_image_prompt_exportable()` remain, but no engine command reads them
-- `setup_claude_cli(affordance_groups=, surface_profiles=)`, `register_claude_affordances()` and `get_surface_profiles()`; the engine now registers its own affordance variants and surface profiles, and a consumer adds more with `register_variant()` and `register_render_profile()`
-- `verbose` argument of `export_skills_as_zips`, unused
+- `export-image-prompt` (`img`) subcommand; the image-prompt registry stays but no engine command reads it
+- `setup_claude_cli(affordance_groups=, surface_profiles=)`, `register_claude_affordances()`, `get_surface_profiles()`: register through `register_variant()` and `register_render_profile()`
+- unused `verbose` argument of `export_skills_as_zips`
 
 ### Fixed
 
-- `hermes` writes every exportable skill into each `profiles/<name>/skills/<consumer>/` too, so a named profile holds the same skills as the default profile
-- `SKILL.md` and Continue rule write lines (`create`, `overwrite`, `unchanged`) respect the command's `-v`/`-q` level: they log through the owning command's logger, no longer the shared `kaye.engine` one that `-v` never reached
+- `hermes` fills every named profile with the same skills as the default one
+- `SKILL.md` and Continue rule write lines respect `-v`/`-q`
 
 ### Security
 
