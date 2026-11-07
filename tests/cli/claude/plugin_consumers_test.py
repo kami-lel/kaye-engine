@@ -18,6 +18,9 @@ from kaye_engine.cli.claude.plugin.export_folder import (
     export_plugins_as_folders,
 )
 from kaye_engine.cli.claude.plugin.export_zip import export_plugins_as_zips
+from kaye_engine.cli.claude.plugin_marketplace_name import (
+    select_plugin_consumers,
+)
 from kaye_engine.deed import format_size
 from kaye_engine.consumer import register_consumer
 from kaye_engine.cli.dry_run import disable_dry_run, enable_dry_run
@@ -85,6 +88,27 @@ def _skills(plugin_root):
     return sorted(p.name for p in (plugin_root / "skills").iterdir())
 
 
+class TestSelectPluginConsumers:
+
+    def test_no_name_selects_every_plugin_consumer(_):
+        names = [c.canonical_name for c in select_plugin_consumers()]
+
+        assert names == ["pkg-one", "pkg-two"]
+
+    def test_name_selects_that_one_consumer(_):
+        names = [c.canonical_name for c in select_plugin_consumers("pkg-two")]
+
+        assert names == ["pkg-two"]
+
+    def test_unknown_name_raises_listing_valid_names(_):
+        with pytest.raises(ValueError, match="pkg-one, pkg-two"):
+            select_plugin_consumers("pkg-nope")
+
+    def test_consumer_without_exportable_is_unknown(_):
+        with pytest.raises(ValueError):
+            select_plugin_consumers("pkg-idle")
+
+
 class TestPluginFolders:
 
     def test_one_folder_per_consumer_holding_skills(_, tmp_path):
@@ -120,6 +144,28 @@ class TestPluginFolders:
 
         text = (tmp_path / "pkg-one" / "skills" / "lib-skill" / "SKILL.md")
         assert "1.1.0" in text.read_text(encoding="utf-8")
+
+
+class TestConsumerFilter:
+
+    def test_folders_for_one_consumer_only(_, tmp_path):
+        export_plugins_as_folders(tmp_path, consumer_name="pkg-two")
+
+        assert [p.name for p in tmp_path.iterdir()] == ["pkg-two"]
+
+    def test_zip_for_one_consumer_only(_, tmp_path):
+        count = export_plugins_as_zips(tmp_path, consumer_name="pkg-one")
+
+        assert count == 1
+        assert [p.name for p in tmp_path.iterdir()] == ["pkg-one-1.1.0.zip"]
+
+    def test_unknown_name_raises_and_writes_nothing(_, tmp_path):
+        with pytest.raises(ValueError):
+            export_plugins_as_zips(tmp_path, consumer_name="pkg-nope")
+        with pytest.raises(ValueError):
+            export_plugins_as_folders(tmp_path, consumer_name="pkg-nope")
+
+        assert list(tmp_path.iterdir()) == []
 
 
 class TestPluginZips:
