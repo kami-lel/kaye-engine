@@ -10,9 +10,9 @@ from argparse import RawDescriptionHelpFormatter
 import kamilog
 from kamilog import (
     add_verbose_arguments,
-    set_logging_level_by_namespace,
 )
 
+from kaye_engine.cli.verbosity import apply_verbosity_arg
 from kaye_engine import LOGGER_NAME
 from kaye_engine.cli import DEFAULT_SPARSENESS
 from kaye_engine.cli.blueprint.aux_input import get_cmd_blueprint
@@ -70,7 +70,7 @@ alone
 
 # auxiliaries  #################################################################
 def _render_main(args):
-    set_logging_level_by_namespace(args, logger=logger)
+    apply_verbosity_arg(args)
     check_corpus_setup_for_cli()
 
     loaded = get_cmd_blueprint(args.BLUEPRINT)

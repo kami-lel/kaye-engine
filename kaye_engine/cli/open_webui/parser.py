@@ -9,6 +9,7 @@ import sys
 from argparse import RawDescriptionHelpFormatter
 
 import kamilog
+from kaye_engine.cli.verbosity import apply_verbosity_arg
 from kaye_engine import PACKAGE_NAME
 from kaye_engine.badge import DRY_BADGE
 from kaye_engine.cli.cli_setup_guard import check_corpus_setup_for_cli
@@ -51,7 +52,7 @@ def _resolve_api_key(args):
 def _build_main(parser):
 
     def _sync_open_webui_skills_main(args):
-        kamilog.set_logging_level_by_namespace(args, logger=logger)
+        apply_verbosity_arg(args)
         logger.enter("{} sync-open-webui-skills".format(PACKAGE_NAME))
         check_corpus_setup_for_cli()
 

@@ -32,7 +32,7 @@ __all__ = (
 # installed distribution name, for importlib.metadata lookups
 PACKAGE_NAME = "kaye-engine"
 KAYE_ENGINE_DISPLAY_NAME = "Kaye Engine"
-LOGGER_NAME = "kaye.engine"
+LOGGER_NAME = "kaye-engine"
 
 
 # pylint: disable=wrong-import-position

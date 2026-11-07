@@ -7,6 +7,7 @@ define ``register_validate_parser``
 from argparse import RawDescriptionHelpFormatter
 
 import kamilog
+from kaye_engine.cli.verbosity import apply_verbosity_arg
 from kaye_engine import LOGGER_NAME
 from kaye_engine.cli.blueprint.aux_input import get_cmd_blueprint
 from kaye_engine.cli.blueprint.aux_output import run_cmd_and_exit
@@ -17,7 +18,6 @@ from kaye_engine.cli.cli_setup_guard import check_corpus_setup_for_cli
 from kaye_engine.prompt.blueprint import validate_blueprint
 from kamilog import (
     add_verbose_arguments,
-    set_logging_level_by_namespace,
 )
 
 # logger  ######################################################################
@@ -44,7 +44,7 @@ reading blueprint from stdin, a preview tree or JSON:
 
 # auxiliaries  #################################################################
 def _validate_main(args):
-    set_logging_level_by_namespace(args, logger=logger)
+    apply_verbosity_arg(args)
     check_corpus_setup_for_cli()
 
     validate_blueprint(get_cmd_blueprint(args.BLUEPRINT).blueprint)

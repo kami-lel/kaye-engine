@@ -146,6 +146,14 @@ overrides it. Blank lines inside a fenced code block or a tag block
 (`<name>` to `</name>`, each on its own line) are never collapsed or
 stripped by any sparseness level, including `-1`.
 
+**Verbosity flags** — every command takes `-v`/`-q`/`-V`/`-Q` from
+`kamilog.add_verbose_arguments` and applies them through
+`apply_verbosity_arg(args)` (`kaye_engine/cli/verbosity.py`), never
+`kamilog.set_logging_level_by_namespace` on one logger: engine loggers are
+siblings under `kaye-engine`, so a single-logger call leaves the rest at the
+default. A new engine logger must be named `kaye-engine.<part>`; it then
+inherits the level with no further wiring.
+
 `claude vs-code-extension` also writes `permissions` (`allow`/`ask`/`deny`
 Bash command patterns) into `settings.json`, sourced from
 `kaye_engine/cli/claude/permission_cmds.jsonc` (parsed with `json5`, so
@@ -185,8 +193,8 @@ package, not a bare checkout.
   already exist through `write_text_if_changed`
   (`kaye_engine/cli/file_write.py`), never a bare `write_text`, so an
   identical file is skipped and reported at `SKIP` and a dry run
-  agrees; a `FrontmatterDoc` subclass sets `_logger` to its command's logger,
-  since `-v`/`-q` reach only that one; kamilog 3.0 dropped its own deed
+  agrees; a `FrontmatterDoc` subclass sets `_logger` to its command's logger;
+  kamilog 3.0 dropped its own deed
   feature, so never call `logger.track`
 
 ## Registering a Blueprint
