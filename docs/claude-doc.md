@@ -36,6 +36,7 @@ kaye-engine claude plugin              # ~/.claude/plugins/PLUGIN_NAME/ per cons
 kaye-engine claude plugin FOLDER       # FOLDER/PLUGIN_NAME/ per consumer
 kaye-engine claude plugin -z           # one upload-ready .zip per consumer, in the current directory
 kaye-engine claude plugin -z -N ZIPS   # ZIPS/, filenames without the version
+kaye-engine claude plugin -z . NAME    # only consumer NAME's zip, in the current directory
 ```
 
 ```text
@@ -48,6 +49,7 @@ FOLDER/                      (default: ~/.claude/plugins/)
             └── SKILL.md
 ```
 
+- `CONSUMER_PROJ`: keep only the consumer of this canonical name; every plugin consumer when omitted. It is the second positional, so `FOLDER` comes first (`plugin -z . NAME`); an unknown name exits 1 and lists the valid names
 - `-z`, `--zip`: create upload-ready `.zip` files for Claude Desktop instead of folders, one per consumer; FOLDER then defaults to the current directory
 - `-N`, `--no-version`: leave each consumer's version out of its `.zip` filename, `.zip` only
 

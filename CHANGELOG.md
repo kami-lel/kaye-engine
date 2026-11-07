@@ -31,6 +31,8 @@ manually add chat & coder, instead by data structure
 
 ### Added
 
+- `claude plugin [FOLDER] [CONSUMER_PROJ]`: an optional second positional keeps only the plugin of that consumer (`plugin -z . NAME`); an unknown name exits 1 and lists the valid names; `FOLDER` alone works as before
+- `select_plugin_consumers(consumer_name=None)` in `kaye_engine.cli.claude.plugin_marketplace_name`, and a `consumer_name` keyword on `export_plugins_as_folders` and `export_plugins_as_zips`: narrow an export to one consumer; an unknown name raises `ValueError` listing the valid names
 - `render-profile` (`rp`) subcommand lists every registered render profile, sorted by name: an aligned table on a terminal (`profile`, `variants` and `sidecars` as counts, `remark`), tab-separated rows under a heading line when piped; `-l` prints one detail card per profile, with sidecars that only echo a variant folded into one phrase; `mode` and `sparseness` show under `-c` or `-l`
 - `register_affordance(canonical_name, remark="")`: registers an affordance on its own; `Affordance` and `Variant` carry a `remark` (a short verb-first description, the entry's documentation, `""` when omitted), and `register_variant()` takes `remark=`; a repeated affordance name raises `ValueError`, a non-`str` remark `TypeError`
 - every built-in affordance (59) and variant (131) carries a remark; `BUILTIN_AFFORDANCES` holds them with their names, and `AFFORDANCE_GROUPS` is derived from it
