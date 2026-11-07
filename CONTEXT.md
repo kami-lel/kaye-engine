@@ -1,10 +1,14 @@
 # kaye-engine CONTEXT
 
-**Last updated:** 2026-11-06
+Descriptive knowledge of this repository for agents and developers.
 
-System knowledge for the **kaye-engine** repository — architecture,
-entities, and boundaries. Read this alongside `AGENTS.md` before making
-changes. Implementation detail lives in `docs/`, linked per topic below.
+- Belongs Here: what the system is, ie architecture, domain model, API surface, patterns, known gaps; only what the code cannot show, as it stands, never its history
+- Size: stay lean for the context window; when the file grows, move detail to `docs/` or cut it
+- Upkeep: update in the same change that moves architecture, patterns, commands, or environment variables
+- Structure: follow the existing sections; keep every statement true for every contributor
+- Belongs in `AGENTS.md`: prescriptive rules for agents, ie commands, conventions, constraints, do/don't
+- Belongs in `docs/`: system documentation for users and agents alike; link it from here, never grow this file to hold it
+- Local Layer: put machine-specific or personal context in `CONTEXT.local.md`; create it if missing, never commit it
 
 ## Project Overview
 
@@ -197,6 +201,14 @@ documentation](docs/render-profile-doc.md).
 
 ### CLI Flag Surface
 
+Verbosity flags apply to the whole `kaye-engine` logger tree at once:
+`apply_verbosity_arg` (`cli/verbosity.py`) sets the level on `kaye-engine`
+and resets each existing descendant to `NOTSET`, so loggers such as
+`kaye-engine.skill` follow a command's `-v`/`-q`/`-V`/`-Q` even when the
+command's own logger is another one. kamilog loggers do not propagate, but
+level inheritance still walks the name hierarchy. `-n` dry-run badges are
+per-logger state and keep their own name list (`cli/dry_run.py`).
+
 Several subcommands print rendered or registry content without the
 render-profile options: `export-json` uses a
 hardcoded `RenderProfile`; `dynamic-substitution` and `glossary` print raw
@@ -247,17 +259,10 @@ subclass names its command's logger in `_logger` (`Skill`: skill,
 byte-reproducible and keep overwriting; `save_blueprint` is a library API
 with no logger and keeps its plain write.
 
-Badge names live in `kaye_engine/badge.py`, a leaf module. Deeds stamp a
-native badge on success: `new` for `create_file`, `create_dir`,
-`create_zip`, `pack_files`; `owr` for `owr_file`; `mv` for `mv_file`; none
-for config deeds or failures. The run-wide badge leads, so a dry run prints
-`dry new`. `sync-open-webui-skills` stamps `new`, `owr`, `del` for create,
-update, prune.
-
-A zip export logs one `create_zip` line per archive: the plugin line at
-`DONE`, skill lines at `-v`. The inner temporary build runs inside
-`quiet_deeds()`, which logs deed successes at `DEBUG`; a failure keeps its
-error level.
+Deeds stamp a native badge on success (`new`, `owr`, `mv`; none for config
+deeds or failures), led by the run-wide badge, so a dry run prints
+`dry new`. A zip export logs one `create_zip` line per archive: the plugin
+line at `DONE`, skill lines at `-v`.
 
 Dynamic nodes auto-attach to every tree at load time — no authored
 heading required for existence — and cover today's date plus the
@@ -283,24 +288,11 @@ collection documentation](docs/abbrs-doc.md).
 
 ## Public API
 
-```python
-from kaye_engine import (
-    PACKAGE_NAME, KAYE_ENGINE_DISPLAY_NAME, LOGGER_NAME,
-    register_consumer, set_entry_consumer,
-    register_corpus_under_node, load_corpus_tree,
-    get_corpus_tree, clear_corpus_tree,
-    AbbrData, populate_abbr_data_with_json_file,
-    register_abbr_glossary, set_abbr_group_consumer,
-    DynamicSubstitution, StringDynamicSubstitution,
-    register_dynamic_substitution,
-    register_blueprint, override_exportable,
-    register_image_prompt_exportable,
-    register_comment_line,
-    setup_claude_cli, setup_hermes_cli,
-)
-```
-
-`get_abbr_data`, `get_abbr_glossary`, and `get_blueprint` are not exported
+`kaye_engine` re-exports most registering APIs of the Registration Policy
+table (`__all__` in `kaye_engine/__init__.py` is the list; affordance,
+variant, and exportable-entry registration live in submodules), plus
+`PACKAGE_NAME`, `KAYE_ENGINE_DISPLAY_NAME`, `LOGGER_NAME`, `AbbrData`,
+`DynamicSubstitution`, and `StringDynamicSubstitution`. `get_abbr_data`, `get_abbr_glossary`, and `get_blueprint` are not exported
 at this top level — reach them through their owning submodule
 (`kaye_engine.abbr_collection`, `kaye_engine.prompt`) instead.
 `Exportable`, `exportable_registry`, `register_exportable_entry`, and
@@ -410,23 +402,7 @@ version. Comments are hidden by default.
 
 ## Testing Strategy
 
-`pytest`, run **serially by design** — cases are cheap in-process
-assertions, so worker startup costs more than a split saves, and shared
-fixtures carry run-order assumptions. `pytest-xdist` is deliberately absent
-from the `dev` extra.
-
-Tests mirror the source tree: `tests/prompt/` for the engine, `tests/abbr/`
-for the abbreviation collection. `tests/cli/` stays deliberately thin — it
-holds only the corpus-independent pieces (setup guard, exportable-abbr
-registration, `dynamic-node` parsing, `SKILL.md` rendering, the Open WebUI sync with a
-fake client, the deed lines of the zip exports, manifests, and
-`FrontmatterDoc.write` (`tests/deed_test.py` covers the helper)), because the
-exporters need a corpus to produce output and the consumer package covers
-those.
-
-## Maintaining This File
-
-Update `CONTEXT.md` in the same change as the architecture change, and
-refresh `Last updated` whenever content changes. Revisit it when entities or
-node types are added, when a boundary moves, when the public API changes, or
-when the test layout shifts.
+`pytest`, run **serially by design**: shared fixtures carry run-order
+assumptions, and `pytest-xdist` is absent from the `dev` extra. Tests
+mirror the source tree. `tests/cli/` stays thin by design: exporters need
+a corpus to produce output, so the consumer package covers those.

@@ -9,6 +9,7 @@ import sys
 from argparse import RawDescriptionHelpFormatter
 
 import kamilog
+from kaye_engine.cli.verbosity import apply_verbosity_arg
 from kaye_engine import LOGGER_NAME
 from kaye_engine.cli import DEFAULT_SPARSENESS
 from kaye_engine.cli.dynamic_node.node_type_choices import (
@@ -23,7 +24,6 @@ from kaye_engine.cli.render_profile_parser import (
 )
 from kamilog import (
     add_verbose_arguments,
-    set_logging_level_by_namespace,
 )
 from kaye_engine.prompt.blueprint.edit import (
     create_blueprint_from_node,
@@ -129,7 +129,7 @@ def _node_name_in(corpus_tree, node_name_arg, node_cls, kwargs):
 
 
 def _dynamic_node_main(args):
-    set_logging_level_by_namespace(args, logger=logger)
+    apply_verbosity_arg(args)
 
     if args.NODE == ["ls"]:
         for name in list_all_node_type_names():

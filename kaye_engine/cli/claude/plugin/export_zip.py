@@ -138,9 +138,10 @@ def _zip_file_name(consumer, includes_version):
     :return: archive file name of the consumer's plugin, w/o extension
     :rtype: str
     """
+    stem = "{}-claude".format(consumer.canonical_name)
     if includes_version:
-        return "{}-{}".format(consumer.canonical_name, consumer.version)
-    return consumer.canonical_name
+        return "{}-{}".format(stem, consumer.version)
+    return stem
 
 
 def _count_skills(count):
