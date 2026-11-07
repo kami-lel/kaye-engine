@@ -26,14 +26,6 @@ def _parse(*argv):
     return parser.parse_args(argv)
 
 
-@pytest.fixture(autouse=True)
-def restore_levels():
-    saved = {n: kamilog.getLogger(n).level for n in _LOGGER_NAMES}
-    yield
-    for name, level in saved.items():
-        kamilog.getLogger(name).setLevel(level)
-
-
 class TestContent:
     @pytest.mark.parametrize(
         "argv, level",

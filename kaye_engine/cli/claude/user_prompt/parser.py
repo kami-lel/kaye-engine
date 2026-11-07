@@ -4,6 +4,7 @@ from argparse import RawDescriptionHelpFormatter
 from pathlib import Path
 
 import kamilog
+from kaye_engine.cli.verbosity import apply_verbosity_arg
 from kaye_engine.cli import DEFAULT_SPARSENESS
 from kaye_engine.cli.claude import LOGGER_CLAUDE_NAME
 from kaye_engine.cli.cli_setup_guard import check_corpus_setup_for_cli
@@ -46,7 +47,7 @@ DEFAULT_CLAUDE_FOLDER = Path.home() / ".claude"
 
 
 def _user_prompt_main(args):
-    kamilog.set_logging_level_by_namespace(args, logger=logger)
+    apply_verbosity_arg(args)
     check_corpus_setup_for_cli()
 
     render_profile = resolve_render_profile(

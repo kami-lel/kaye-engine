@@ -7,6 +7,7 @@ define ``register_exportable_parser``
 from argparse import RawDescriptionHelpFormatter
 
 import kamilog
+from kaye_engine.cli.verbosity import apply_verbosity_arg
 from kaye_engine import LOGGER_NAME
 from kaye_engine.cli import DEFAULT_SPARSENESS
 from kaye_engine.cli.cli_setup_guard import check_corpus_setup_for_cli
@@ -20,7 +21,6 @@ from kaye_engine.cli.render_profile_parser import (
 from kaye_engine.exportable import exportable_registry
 from kamilog import (
     add_verbose_arguments,
-    set_logging_level_by_namespace,
 )
 
 # logger  ######################################################################
@@ -50,7 +50,7 @@ render defaults: surface=none, comment=False, sparseness=0
 
 # auxiliaries  #################################################################
 def _exportable_main(args):
-    set_logging_level_by_namespace(args, logger=logger)
+    apply_verbosity_arg(args)
     check_corpus_setup_for_cli()
 
     if args.EXPORTABLE == "ls":

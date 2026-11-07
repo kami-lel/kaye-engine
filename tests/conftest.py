@@ -6,6 +6,10 @@ so it runs at collection time, before any test module (some of which
 build ``AbbrData`` at class-body scope) is imported
 """
 
+import logging
+
+import pytest
+
 from tests.consumer_helper import ensure_test_consumer, register_abbr_glossary
 
 ensure_test_consumer()
@@ -26,3 +30,21 @@ for _glossary_name in (
 register_abbr_glossary(
     "some-glossary", True, is_dyn_substitution=True
 )
+
+
+@pytest.fixture(autouse=True)
+def restore_engine_logger_levels():
+    """
+    undo the level a command's main sets on the engine loggers, so one
+    test's run never decides what a later test's logger records
+    """
+    manager = logging.root.manager
+    saved = {
+        name: lg.level
+        for name, lg in manager.loggerDict.items()
+        if name.startswith("kaye.") and isinstance(lg, logging.Logger)
+    }
+    yield
+    for name, lg in manager.loggerDict.items():
+        if name.startswith("kaye.") and isinstance(lg, logging.Logger):
+            lg.setLevel(saved.get(name, logging.NOTSET))

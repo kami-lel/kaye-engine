@@ -4,6 +4,7 @@ from argparse import RawDescriptionHelpFormatter
 from pathlib import Path
 
 import kamilog
+from kaye_engine.cli.verbosity import apply_verbosity_arg
 from kaye_engine import PACKAGE_NAME
 from kaye_engine.cli import DEFAULT_SPARSENESS
 from kaye_engine.cli.cli_setup_guard import check_corpus_setup_for_cli
@@ -20,11 +21,9 @@ from kaye_engine.cli.render_profile_parser import (
     build_render_profile_parent_parser,
     resolve_render_profile,
 )
-from kaye_engine.skill import LOGGER_SKILL_NAME
 
 # logger  ######################################################################
 logger = kamilog.getLogger(LOGGER_HERMES_NAME)
-skill_logger = kamilog.getLogger(LOGGER_SKILL_NAME)
 
 # constants  ===================================================================
 
@@ -76,9 +75,7 @@ def register_hermes_parser(cli_subparser):  ####################################
     kamilog.add_verbose_arguments(hermes_parser)
 
     def _hermes_main(args):
-        kamilog.set_logging_level_by_namespace(args, logger=logger)
-        # skills export logs through its own logger
-        kamilog.set_logging_level_by_namespace(args, logger=skill_logger)
+        apply_verbosity_arg(args)
         apply_dry_run_arg(args)
         logger.enter("{} hermes".format(PACKAGE_NAME))
         check_corpus_setup_for_cli()
