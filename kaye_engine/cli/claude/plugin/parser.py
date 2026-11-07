@@ -38,7 +38,8 @@ _DESCRIPTION = (
 
 writes, per consumer, plugin.json and one SKILL.md per exportable of that
 consumer under PLUGIN_NAME/skills/; with -z, creates one upload-ready .zip
-per consumer for Claude Desktop instead.
+per consumer for Claude Desktop instead. CONSUMER_PROJ keeps only the
+consumer of that name; naming it needs FOLDER first (plugin -z . NAME).
 
 FOLDER/  (default: ~/.claude/plugins/)
 └── PLUGIN_NAME/
@@ -85,6 +86,14 @@ def register_plugin_parser(cli_subparser):  ####################################
     )
 
     plugin_parser.add_argument(
+        "consumer_proj",
+        nargs="?",
+        metavar="CONSUMER_PROJ",
+        default=None,
+        help="export only this consumer's plugin; default: every consumer",
+    )
+
+    plugin_parser.add_argument(
         "-z",
         "--zip",
         action="store_true",
@@ -121,15 +130,28 @@ def register_plugin_parser(cli_subparser):  ####################################
 
         if args.zip:
             logger.debug("export plugin as zip")
-            count = export_plugins_as_zips(
-                folder,
-                includes_version=args.includes_version,
-                render_profile=render_profile,
-            )
+            try:
+                count = export_plugins_as_zips(
+                    folder,
+                    includes_version=args.includes_version,
+                    render_profile=render_profile,
+                    consumer_name=args.consumer_proj,
+                )
+            except ValueError as err:
+                logger.critical(str(err))
+                raise SystemExit(1) from err
             logger.done("export plugin as {} zips".format(count))
         else:
             logger.debug("export plugin as folder")
-            export_plugins_as_folders(folder, render_profile=render_profile)
+            try:
+                export_plugins_as_folders(
+                    folder,
+                    render_profile=render_profile,
+                    consumer_name=args.consumer_proj,
+                )
+            except ValueError as err:
+                logger.critical(str(err))
+                raise SystemExit(1) from err
             logger.done("export plugin as folder\t" + str(folder))
 
     plugin_parser.set_defaults(func=_plugin_main)
