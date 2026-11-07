@@ -5,9 +5,15 @@ alwaysApply: true
 
 # kaye-engine AGENTS
 
-Guidance for AI coding agents working in the **kaye-engine** repository.
-Read this file alongside `CONTEXT.md` before making changes, and follow the
-exact commands and conventions below.
+Prescriptive rules for agents working in this project.
+
+- Belongs Here: rules an agent must follow, ie commands, conventions, constraints, who decides; only what an agent cannot infer from the code
+- Size: stay lean for the context window; when the file grows, move detail to `docs/` or cut it
+- Upkeep: update in the same change that moves a command, convention, or constraint
+- Structure: follow the existing sections; keep every rule true for every contributor
+- Belongs in `CONTEXT.md`: descriptive knowledge of the system, ie architecture, domain model, patterns, known gaps
+- Belongs in `docs/`: system documentation for users and agents alike; link it from here, never grow this file to hold it
+- Local Layer: put machine-specific or personal rules in `AGENTS.local.md`; create it if missing, never commit it
 
 **kaye-engine ships mechanism only.** It bundles no prompt corpus, no
 abbreviation database, and no blueprint registrations — consumer packages
@@ -35,8 +41,8 @@ source venv/bin/activate
 pip install -e ".[dev]"
 ```
 
-`claude` exports read installed distribution metadata — run against an
-installed package, not a bare checkout.
+`claude` exports and `kaye-engine --version` read installed distribution
+metadata: run against an installed package, not a bare checkout.
 
 ## Testing
 
@@ -137,14 +143,10 @@ the latter returning a `RenderProfile` rather than a kwargs dict:
 is not a rendering command but shares the `--comment`/`--no-comment`
 toggle. Merge semantics live in `CONTEXT.md`.
 
-`--sparseness SPARSENESS` controls blank-line collapsing in the
-rendered output: `-1` joins everything into one line, `0` strips all
-blank lines, `1` collapses every run to a single blank line, up through
-`99` which disables trimming entirely. The default lives in
-`DEFAULT_SPARSENESS` (`kaye_engine/cli/__init__.py`) unless a caller
-overrides it. Blank lines inside a fenced code block or a tag block
-(`<name>` to `</name>`, each on its own line) are never collapsed or
-stripped by any sparseness level, including `-1`.
+`--sparseness` runs from `-1` (one line) through `0` (no blank lines) and
+`1` (single blank lines) up to `99` (no trimming); the default is
+`DEFAULT_SPARSENESS` (`kaye_engine/cli/__init__.py`). Fenced code and tag
+blocks are never trimmed: see `CONTEXT.md`.
 
 **Verbosity flags** — every command takes `-v`/`-q`/`-V`/`-Q` from
 `kamilog.add_verbose_arguments` and applies them through
@@ -168,10 +170,6 @@ unset one exits 1 with a clear message. On a bare checkout the
 getters log `logger.critical` and raise `SystemExit(1)`: expected, not a
 bug. Getter list in `CONTEXT.md`.
 
-`kaye-engine --version` reports the installed distribution's version via
-`importlib.metadata.version(PACKAGE_NAME)` — run against an installed
-package, not a bare checkout.
-
 ## Code Conventions
 
 - follow **PEP 8**; keep lines within **80 characters**
@@ -185,28 +183,24 @@ package, not a bare checkout.
   vendored): report every file or directory action as a deed
   (`with track(logger).create_file(path)` from `kaye_engine.deed`;
   also `create_zip`, `mv_file`, `save_config`, ...) rather than a
-  hand-built string; wrap a temporary inner build in `quiet_deeds()` so
-  only the final result line shows, and mark a run mode with a badge; take every badge name from
-  `kaye_engine.badge` (e.g. `badges=DRY_BADGE`), never an ad hoc string,
-  since a misspelled native name prints as a magenta custom badge;
-  keep `done` for a whole-export summary; write every text file that may
-  already exist through `write_text_if_changed`
-  (`kaye_engine/cli/file_write.py`), never a bare `write_text`, so an
-  identical file is skipped and reported at `SKIP` and a dry run
-  agrees; a `FrontmatterDoc` subclass sets `_logger` to its command's logger;
-  kamilog 3.0 dropped its own deed
-  feature, so never call `logger.track`
+  hand-built string; wrap a temporary inner build in `quiet_deeds()`;
+  take every badge name from `kaye_engine.badge` (e.g.
+  `badges=DRY_BADGE`), never an ad hoc string; keep `done` for a
+  whole-export summary
+- write every text file that may already exist through
+  `write_text_if_changed` (`kaye_engine/cli/file_write.py`), never a bare
+  `write_text`; a `FrontmatterDoc` subclass sets `_logger` to its
+  command's logger
+- never call `logger.track`: kamilog 3.0 dropped its deed feature
 
 ## Registering a Blueprint
 
 `register_blueprint()` in `kaye_engine/prompt/blueprint/registry.py` is the
 only gate — every exporter reads `blueprint_registry` directly. **Calls
-live in the consumer package**, not here. The signature is
-`register_blueprint(canonical_name, blueprint, *, display_name="",
-consumer="", ...)`: the entry's name is `blueprint.meta.display_name`, and
-`display_name=` only backs it when the meta name is empty. An exportable
-entry must name a registered `consumer=`, with no fallback; the consumer
-decides which plugin the skill lands in.
+live in the consumer package**, not here. The entry's name is
+`blueprint.meta.display_name`; `display_name=` only backs it when the meta
+name is empty. An exportable entry must name a registered `consumer=`,
+with no fallback; the consumer decides which plugin the skill lands in.
 
 A consumer replaces another consumer's exportable only through
 `override_exportable(name, blueprint, *, consumer, render_profile=None,
