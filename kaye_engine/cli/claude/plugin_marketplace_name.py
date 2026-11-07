@@ -2,7 +2,7 @@
 plugin_marketplace_name.py
 
 define ``get_marketplace_name``, ``get_plugin_consumers``,
-``check_setup_for_claude_cli``
+``select_plugin_consumers``, ``check_setup_for_claude_cli``
 """
 
 from kaye_engine import PACKAGE_NAME
@@ -19,6 +19,7 @@ __all__ = (
     "check_setup_for_claude_cli",
     "get_marketplace_name",
     "get_plugin_consumers",
+    "select_plugin_consumers",
 )
 
 
@@ -42,6 +43,36 @@ def get_plugin_consumers():
     """
     holders = {e.consumer for e in exportable_registry.values()}
     return tuple(c for c in iter_consumers() if c.canonical_name in holders)
+
+
+def select_plugin_consumers(consumer_name=None):
+    """
+    narrow the plugin consumers to one, by canonical name
+
+
+    :param consumer_name: canonical name of the one consumer to keep;
+            every plugin consumer when ``None``
+    :type consumer_name: str, optional
+    :return: the matching plugin consumers
+    :rtype: tuple[Consumer, ...]
+    :raises ValueError: when ``consumer_name`` matches no plugin consumer;
+            the message lists the valid names
+    """
+    consumers = get_plugin_consumers()
+    if consumer_name is None:
+        return consumers
+
+    selected = tuple(
+        c for c in consumers if c.canonical_name == consumer_name
+    )
+    if not selected:
+        raise ValueError(
+            "unknown consumer {!r}; valid: {}".format(
+                consumer_name,
+                ", ".join(c.canonical_name for c in consumers),
+            )
+        )
+    return selected
 
 
 def check_setup_for_claude_cli():

@@ -14,7 +14,7 @@ import kamilog
 from kaye_engine.deed import format_size, quiet_deeds, track
 from kaye_engine.cli.claude import LOGGER_CLAUDE_NAME
 from kaye_engine.cli.claude.plugin_marketplace_name import (
-    get_plugin_consumers,
+    select_plugin_consumers,
 )
 from kaye_engine.cli.dry_run import is_dry_run
 from kaye_engine.skill.select import select_exportables
@@ -30,7 +30,11 @@ logger = kamilog.getLogger(LOGGER_CLAUDE_NAME)
 
 
 def export_plugins_as_zips(
-    parent_folder, *, includes_version=True, render_profile=None
+    parent_folder,
+    *,
+    includes_version=True,
+    render_profile=None,
+    consumer_name=None,
 ):
     """
     export every consumer holding an exportable as its own ``.zip``
@@ -44,10 +48,14 @@ def export_plugins_as_zips(
     :type includes_version: bool
     :param render_profile: forwarded to :func:`export_plugin_as_zip`
     :type render_profile: RenderProfile, optional
+    :param consumer_name: export only the consumer of this canonical
+            name; every plugin consumer when ``None``
+    :type consumer_name: str, optional
     :return: number of ``.zip`` plugins exported
     :rtype: int
+    :raises ValueError: when ``consumer_name`` matches no plugin consumer
     """
-    consumers = get_plugin_consumers()
+    consumers = select_plugin_consumers(consumer_name)
     for consumer in consumers:
         export_plugin_as_zip(
             parent_folder,
