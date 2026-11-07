@@ -157,7 +157,7 @@ class TestConsumerFilter:
         count = export_plugins_as_zips(tmp_path, consumer_name="pkg-one")
 
         assert count == 1
-        assert [p.name for p in tmp_path.iterdir()] == ["pkg-one-1.1.0.zip"]
+        assert [p.name for p in tmp_path.iterdir()] == ["pkg-one-claude-1.1.0.zip"]
 
     def test_unknown_name_raises_and_writes_nothing(_, tmp_path):
         with pytest.raises(ValueError):
@@ -174,22 +174,22 @@ class TestPluginZips:
         export_plugins_as_zips(tmp_path)
 
         assert sorted(p.name for p in tmp_path.iterdir()) == [
-            "pkg-one-1.1.0.zip",
-            "pkg-two-2.2.0.zip",
+            "pkg-one-claude-1.1.0.zip",
+            "pkg-two-claude-2.2.0.zip",
         ]
 
     def test_no_version_drops_version_from_names(_, tmp_path):
         export_plugins_as_zips(tmp_path, includes_version=False)
 
         assert sorted(p.name for p in tmp_path.iterdir()) == [
-            "pkg-one.zip",
-            "pkg-two.zip",
+            "pkg-one-claude.zip",
+            "pkg-two-claude.zip",
         ]
 
     def test_zip_holds_only_own_skills(_, tmp_path):
         export_plugins_as_zips(tmp_path)
 
-        with zipfile.ZipFile(tmp_path / "pkg-one-1.1.0.zip") as archive:
+        with zipfile.ZipFile(tmp_path / "pkg-one-claude-1.1.0.zip") as archive:
             names = archive.namelist()
         assert any(n.startswith("skills/lib-skill/") for n in names)
         assert not any("app-skill" in n for n in names)
@@ -210,12 +210,12 @@ class TestPluginZipOutput:
 
         assert [r.message for r in caplog.records] == [
             "export plugin (1 skill, {}): {}".format(
-                _size_of(tmp_path / "pkg-one-1.1.0.zip"),
-                tmp_path / "pkg-one-1.1.0.zip",
+                _size_of(tmp_path / "pkg-one-claude-1.1.0.zip"),
+                tmp_path / "pkg-one-claude-1.1.0.zip",
             ),
             "export plugin (2 skills, {}): {}".format(
-                _size_of(tmp_path / "pkg-two-2.2.0.zip"),
-                tmp_path / "pkg-two-2.2.0.zip",
+                _size_of(tmp_path / "pkg-two-claude-2.2.0.zip"),
+                tmp_path / "pkg-two-claude-2.2.0.zip",
             ),
         ]
 
@@ -233,7 +233,7 @@ class TestPluginZipOutput:
         export_plugins_as_zips(tmp_path)
 
         assert "  skills/lib-skill/SKILL.md" in caplog.text
-        assert "pkg-one-1.1.0.zip: " in caplog.text
+        assert "pkg-one-claude-1.1.0.zip: " in caplog.text
 
     def test_returns_zip_count(_, tmp_path):
         assert export_plugins_as_zips(tmp_path) == 2
@@ -250,7 +250,7 @@ class TestPluginZipOutput:
         assert not destination.exists()
         assert (
             "export plugin (1 skill, size n/a): {}".format(
-                destination / "pkg-one-1.1.0.zip"
+                destination / "pkg-one-claude-1.1.0.zip"
             )
             in caplog.text
         )

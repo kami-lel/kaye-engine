@@ -69,12 +69,12 @@ class TestBuildGithubRelease:
     def test_writes_one_versioned_zip_into_output(_, tmp_path):
         _run(["build-github-release", "pkg-two", "-o", str(tmp_path)])
 
-        assert [p.name for p in tmp_path.iterdir()] == ["pkg-two-2.2.0.zip"]
+        assert [p.name for p in tmp_path.iterdir()] == ["pkg-two-claude-2.2.0.zip"]
 
     def test_zip_holds_manifest_at_root_and_only_own_skills(_, tmp_path):
         _run(["build-github-release", "pkg-one", "-o", str(tmp_path)])
 
-        with zipfile.ZipFile(tmp_path / "pkg-one-1.1.0.zip") as archive:
+        with zipfile.ZipFile(tmp_path / "pkg-one-claude-1.1.0.zip") as archive:
             names = archive.namelist()
         assert ".claude-plugin/plugin.json" in names
         assert any(n.startswith("skills/lib-skill/") for n in names)
@@ -86,7 +86,7 @@ class TestBuildGithubRelease:
         _run(["build-github-release", "pkg-one"])
 
         assert [p.name for p in (tmp_path / "dist").iterdir()] == [
-            "pkg-one-1.1.0.zip"
+            "pkg-one-claude-1.1.0.zip"
         ]
 
     def test_unknown_consumer_exits_1_and_writes_nothing(
