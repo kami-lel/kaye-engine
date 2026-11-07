@@ -4,6 +4,7 @@ from argparse import RawDescriptionHelpFormatter
 from pathlib import Path
 
 import kamilog
+from kaye_engine.cli.verbosity import apply_verbosity_arg
 from kaye_engine import PACKAGE_NAME
 from kaye_engine.cli import DEFAULT_SPARSENESS
 from kaye_engine.cli.claude import LOGGER_CLAUDE_NAME
@@ -68,7 +69,7 @@ render defaults: surface=claude-vsc, comment=True, sparseness=0
 
 
 def _vs_code_main(args):
-    kamilog.set_logging_level_by_namespace(args, logger=logger)
+    apply_verbosity_arg(args)
     apply_dry_run_arg(args)
     logger.enter("{} claude vs-code-extension".format(PACKAGE_NAME))
     check_setup_for_claude_cli()

@@ -7,12 +7,12 @@ define ``register_glossary_parser``
 from argparse import RawDescriptionHelpFormatter
 
 import kamilog
+from kaye_engine.cli.verbosity import apply_verbosity_arg
 from kaye_engine import LOGGER_NAME
 from kaye_engine.abbr_collection import abbr_glossary_registry, get_abbr_glossary
 from kaye_engine.cli.cli_setup_guard import check_corpus_setup_for_cli
 from kamilog import (
     add_verbose_arguments,
-    set_logging_level_by_namespace,
 )
 from kaye_engine.prompt.dynamic_nodes import gen_glossary_content_lines
 
@@ -36,7 +36,7 @@ list every registered glossary, sorted alphabetically:
 
 # auxiliaries  #################################################################
 def _glossary_main(args):
-    set_logging_level_by_namespace(args, logger=logger)
+    apply_verbosity_arg(args)
     check_corpus_setup_for_cli()
 
     if args.GLOSSARY == "ls":

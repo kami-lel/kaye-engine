@@ -8,6 +8,7 @@ import json
 from argparse import RawDescriptionHelpFormatter
 
 import kamilog
+from kaye_engine.cli.verbosity import apply_verbosity_arg
 from kaye_engine import LOGGER_NAME, PACKAGE_NAME
 from kaye_engine.cli.cli_setup_guard import check_corpus_setup_for_cli
 from kaye_engine.cli.dry_run import (
@@ -18,7 +19,6 @@ from kaye_engine.cli.file_write import write_text_if_changed
 from kaye_engine.exportable import exportable_registry, get_exportable
 from kamilog import (
     add_verbose_arguments,
-    set_logging_level_by_namespace,
 )
 from kaye_engine.prompt.blueprint.render_profile import RenderProfile
 
@@ -67,7 +67,7 @@ sibling entry.
 
 # auxiliaries  #################################################################
 def _exportable_as_json_main(args):
-    set_logging_level_by_namespace(args, logger=logger)
+    apply_verbosity_arg(args)
     apply_dry_run_arg(args)
     logger.enter("{} export-json".format(PACKAGE_NAME))
     check_corpus_setup_for_cli()
