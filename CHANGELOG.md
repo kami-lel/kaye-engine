@@ -28,6 +28,22 @@ manually add chat & coder, instead by data structure
 
 ### Added
 
+### Changed
+
+### Deprecated
+
+### Removed
+
+### Fixed
+
+### Security
+
+[unreleased]: https://github.com/kami-lel/kaye-engine/compare/v11.0.0...dev
+
+## [11.0.0] - 2026-11-06
+
+### Added
+
 - `build-github-release` (`ghr`) subcommand: write a consumer's versioned plugin `.zip` for a GitHub Release
 - `claude plugin` takes an optional `CONSUMER_PROJ` to export one consumer's plugin; `export_plugins_as_folders`, `export_plugins_as_zips` take `consumer_name`
 - `render-profile` (`rp`) subcommand lists registered render profiles
@@ -54,8 +70,6 @@ manually add chat & coder, instead by data structure
 > [!WARNING]
 > Render profiles `chat`, `cowork`, `code`, `vsc`, `ioschat` are replaced by `claude` and `claude-vsc`; `ClaudeChat:*`, `ClaudeCode:*`, `ClaudeCowork:*`, `ClaudeiOSChat:*` variants and identity markers become `Claude:*`. Rename corpus sidecar references, or they stop matching.
 
-### Deprecated
-
 ### Removed
 
 - `export-image-prompt` (`img`) subcommand; the image-prompt registry stays but no engine command reads it
@@ -67,9 +81,7 @@ manually add chat & coder, instead by data structure
 - `hermes` fills every named profile with the same skills as the default one
 - `SKILL.md` and Continue rule write lines respect `-v`/`-q`
 
-### Security
-
-[unreleased]: https://github.com/kami-lel/kaye-engine/compare/v10.0.0...dev
+[11.0.0]: https://github.com/kami-lel/kaye-engine/compare/v10.0.0...v11.0.0
 
 ## [10.0.0] - 2026-10-19
 
