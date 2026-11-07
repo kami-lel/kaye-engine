@@ -7,6 +7,7 @@ define ``register_preview_parser``
 from argparse import RawDescriptionHelpFormatter
 
 import kamilog
+from kaye_engine.cli.verbosity import apply_verbosity_arg
 from kaye_engine import LOGGER_NAME
 from kaye_engine.cli.blueprint.aux_input import get_cmd_blueprint
 from kaye_engine.cli.blueprint.aux_output import (
@@ -22,7 +23,6 @@ from kaye_engine.cli.cli_setup_guard import check_corpus_setup_for_cli
 from kaye_engine.cli.comment_parser import build_comment_parent_parser
 from kamilog import (
     add_verbose_arguments,
-    set_logging_level_by_namespace,
 )
 
 # logger  ######################################################################
@@ -53,7 +53,7 @@ preview tree's depth, line count, and line width can be tuned with: -t, -l, -w
 
 # auxiliaries  #################################################################
 def _preview_main(args):
-    set_logging_level_by_namespace(args, logger=logger)
+    apply_verbosity_arg(args)
     check_corpus_setup_for_cli()
 
     loaded = get_cmd_blueprint(args.BLUEPRINT)

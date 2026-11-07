@@ -4,6 +4,7 @@ from argparse import RawDescriptionHelpFormatter
 from pathlib import Path
 
 import kamilog
+from kaye_engine.cli.verbosity import apply_verbosity_arg
 from kaye_engine import PACKAGE_NAME
 from kaye_engine.cli import DEFAULT_SPARSENESS
 from kaye_engine.cli.cli_setup_guard import check_corpus_setup_for_cli
@@ -82,7 +83,7 @@ def register_continue_parser(cli_subparser):  ##################################
     kamilog.add_verbose_arguments(continue_parser)
 
     def _continue_main(args):
-        kamilog.set_logging_level_by_namespace(args, logger=logger)
+        apply_verbosity_arg(args)
         apply_dry_run_arg(args)
         logger.enter("{} continue".format(PACKAGE_NAME))
         check_corpus_setup_for_cli()
