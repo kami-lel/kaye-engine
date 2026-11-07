@@ -140,10 +140,13 @@ kaye-engine exportable EXPORTABLE           # print an exportable's content
 kaye-engine exportable ls                   # list every registered exportable name
 kaye-engine export-json              # export exportable_registry as flat JSON
 kaye-engine export-json -f FILE      # write to FILE instead of the default
-kaye-engine affordance                 # list affordance_registry names, sorted
-kaye-engine variant                    # list variant_registry canonical names, sorted
-kaye-engine render-profile             # list render_profile_registry names with remarks, `NAME:<TAB>REMARK`, sorted
-kaye-engine rp -R                      # names only; -r turns remarks back on (default)
+kaye-engine affordance                 # list affordance_registry: `affordance`, `variants` (count), `remark`, sorted by name
+kaye-engine afd -l -r '^cli$'          # one card per matching affordance, its variants and their remarks beneath
+kaye-engine variant                    # list variant_registry: grouped under an affordance header on a TTY, flat tsv when piped
+kaye-engine var -F -a '^cli$'          # flat table with an `affordance` column; -a keeps variants of matching affordances
+kaye-engine render-profile             # list render_profile_registry: `profile`, `variants` and `sidecars` (counts), `remark`, sorted by name
+kaye-engine rp -l -r '^code$'          # detail card: mode, sparseness, variants, sidecars in full
+kaye-engine rp -c remark,mode -f json  # -c picks columns; -f table|tsv|json; -N names only; -C no color
 kaye-engine glossary GLOSSARY               # print a glossary's content
 kaye-engine glossary ls                     # list every registered glossary name
 OWU_API_KEY=sk-... kaye-engine sync-open-webui-skills  # push every exportable into Open WebUI as a skill
@@ -153,6 +156,23 @@ kaye-engine o --prune --base-url URL        # also delete remote-only skills; cu
 
 Bare `blueprint`, `exportable`, `dynamic-node` and `glossary` (and their
 aliases `bp`, `x`, `dn`, `g`) behave as the same command followed by `ls`.
+
+**List commands** — `affordance`, `variant` and `render-profile` share one
+mechanism, `kaye_engine/cli/list_view.py`, and one flag set: flags only, no
+positional argument, every flag with a short and a long form.
+`-r/--regex PATTERN` keeps names matching it (repeatable, any match wins),
+`-c/--columns COLS` picks columns by name (an unknown name is rejected),
+`-l/--long` prints one card per row, `-N/--names-only`,
+`-f/--format table|tsv|json`, `-C/--no-color`; `variant` adds
+`-a/--affordance PATTERN` (regex) and `-F/--flat`. On a TTY the default is an
+aligned table (`variant`: grouped under a bold affordance header); piped, it
+is tsv with a heading line and lists comma-joined. `render-profile` shows
+`variants` and `sidecars` as counts, and `mode` and `sparseness` only through
+`-c` or `-l`. Color goes through kamilog's `AnsiRenderer` and nothing else:
+it is off under `-C`, `NO_COLOR`, a non-TTY, `-N`, tsv and json. A command
+whose registry is empty logs one `NOTE` through
+`note_empty_registry_for_cli` (`cli_setup_guard.py`), not the corpus `ERROR`
+pair. `variant` sorts by affordance, then variant name.
 
 Aliases: `blueprint` → `bp`; `blueprint list` → `bp ls`; `blueprint
 preview` → `bp p`; `blueprint render` → `bp r`; `blueprint validate` →

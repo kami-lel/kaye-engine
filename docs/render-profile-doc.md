@@ -190,7 +190,7 @@ See [Sidecar Node Documentation](sidecar-doc.md#conditional-sidecars) for the no
 - an affordance includes its `Usage` sidecar when any of its variants is listed, otherwise its `Fallback` sidecar
 
 ```python
-render_prompt(bp, profile=RenderProfile(variants=("ClaudeCode:TodoWrite",)))
+render_prompt(bp, profile=RenderProfile(variants=("Claude:TodoWrite",)))
 ```
 
 The field has three states:
@@ -309,22 +309,30 @@ Calling `render_prompt(bp, profile=...)` or `render_prompt_without_dependencies(
 
 ## Surfaces
 
-A **surface** is a named render target, such as `chat`, `code`, or the VS Code extension. Surfaces support different tools, so one corpus should render differently for each. A surface with Bash access gets the Bash usage sidecar, and one without does not.
+A **surface** is a named render target, such as `claude` or the VS Code extension. Surfaces support different tools, so one corpus should render differently for each. A surface with Bash access gets the Bash usage sidecar, and one without does not.
 
-Kaye Engine ships 8 surfaces, registered with a remark when `kaye_engine.prompt` is imported, and `kaye-engine render-profile` lists them. Each is a `RenderProfile` in `render_profile_registry` that lists that surface's `variants` and `conditional_sidecars`:
+Kaye Engine ships 5 surfaces, registered with a remark when `kaye_engine.prompt` is imported, and `kaye-engine render-profile` lists them. Each is a `RenderProfile` in `render_profile_registry` that lists that surface's `variants` and `conditional_sidecars`:
 
 | surface | remark |
 |---|---|
-| `chat` | Anthropic Claude chat app on web and desktop |
-| `cowork` | Anthropic Claude Cowork desktop agent |
-| `code` | Anthropic Claude Code in the terminal |
-| `vsc` | Anthropic Claude Code extension for Microsoft Visual Studio Code |
-| `ioschat` | Anthropic Claude chat app on Apple iOS |
+| `claude` | Anthropic Claude apps: chat, Cowork, Code, iOS |
+| `claude-vsc` | Anthropic Claude Code extension for Microsoft Visual Studio Code |
 | `continue` | Continue.dev rules |
 | `hermes` | Hermes Agents |
 | `comfy` | Comfy Org ComfyUI image prompts |
 
-`kaye-engine render-profile` (alias `rp`) prints one registered profile per line, sorted, as `NAME:<TAB>REMARK`; `-R` prints names only and `-r` turns remarks back on, which is the default. A profile registered with no remark prints its bare name.
+`kaye-engine render-profile` (alias `rp`) prints one registered profile per line, sorted by name. On a terminal it is an aligned table: `profile`, then `variants` and `sidecars` as counts, then `remark`; piped, it is tab-separated rows under a heading line with the lists comma-joined, empty when the profile has none. A profile registered with no remark prints an empty remark cell. It takes flags only, each with a short and a long form:
+
+| Flag | Effect |
+| --- | --- |
+| `-r PATTERN`, `--regex` | keep profiles whose name matches the regex; repeat to match any of several |
+| `-c COLS`, `--columns` | comma-separated columns to show, from `remark`, `mode`, `sparseness`, `variants`, `sidecars`; `mode` and `sparseness` show only this way or under `-l` |
+| `-l`, `--long` | one card per profile: mode, sparseness, and `variants` and `sidecars` in full; sidecars that only echo a variant as `[variant]` fold into one phrase, so the names below it are the ones the variants do not imply |
+| `-N`, `--names-only` | names only, one per line, no heading |
+| `-f FORMAT`, `--format` | `table` (the terminal default), `tsv` (the piped default) or `json`, an array of objects with the lists whole |
+| `-C`, `--no-color` | plain output; `NO_COLOR` does the same |
+
+Color comes from kamilog and is off for `-N`, `tsv`, `json`, `-C`, `NO_COLOR` and any non-terminal output.
 
 A consumer adds its own with `register_render_profile(name, profile, remark="")`; a repeated name raises `ValueError`, and a `remark` that is not a `str` raises `TypeError`:
 
@@ -335,8 +343,8 @@ from kaye_engine.prompt.blueprint.render_profile import RenderProfile
 register_render_profile(
     "my-surface",
     RenderProfile(
-        variants=("ClaudeCode:AskUserQuestion", ...),
-        conditional_sidecars=("[ClaudeCode]", "[Claude]"),
+        variants=("Claude:AskUserQuestion", ...),
+        conditional_sidecars=("[Claude]",),
     ),
     "my own target",
 )
@@ -344,7 +352,7 @@ register_render_profile(
 
 Register before the parsers are built, since `--surface NAME [NAME ...]` (`-u`) takes its choices from the registry when a command's parser is constructed, and selects one or more surfaces:
 
-- several surfaces merge in the order given, so `--surface chat code` unions both profiles' collections
+- several surfaces merge in the order given, so `--surface claude claude-vsc` unions both profiles' collections
 - the allowed names are the registry's keys
 - each `claude` subcommand preselects a surface when the flag is omitted, see `--help` of any rendering command
 
