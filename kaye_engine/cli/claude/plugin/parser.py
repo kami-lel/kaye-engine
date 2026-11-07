@@ -39,7 +39,7 @@ _DESCRIPTION = (
 
 writes, per consumer, plugin.json and one SKILL.md per exportable of that
 consumer under PLUGIN_NAME/skills/; with -z, creates one upload-ready .zip
-per consumer for Claude Desktop instead. CONSUMER_PROJ keeps only the
+(PLUGIN_NAME-claude-VERSION.zip) per consumer for Claude Desktop instead. CONSUMER_PROJ keeps only the
 consumer of that name; naming it needs FOLDER first (plugin -z . NAME).
 
 FOLDER/  (default: ~/.claude/plugins/)
