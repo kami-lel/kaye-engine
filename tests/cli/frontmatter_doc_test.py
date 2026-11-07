@@ -7,9 +7,16 @@ FrontmatterDoc.write() deed logging
 """
 
 import logging
+import os
+
+import kamilog
 
 from kaye_engine import LOGGER_NAME
+from kaye_engine.cli.continue_ai import LOGGER_CONTINUE_NAME
+from kaye_engine.cli.continue_ai.rule_md import ContinueRule
 from kaye_engine.cli.frontmatter_doc import FrontmatterDoc
+from kaye_engine.skill import LOGGER_SKILL_NAME
+from kaye_engine.skill.skill_md import Skill
 
 
 # auxiliaries  #################################################################
@@ -43,3 +50,46 @@ class TestWriteDeeds:
 
         assert _messages(caplog) == ["overwrite {}".format(path)]
         assert caplog.records[0].levelno == logging.WARNING
+
+    def test_identical_file_logs_skip_and_is_untouched(_, tmp_path, caplog):
+        path = tmp_path / "doc.md"
+        _Doc().write(path)
+        os.utime(path, (1_000_000, 1_000_000))
+        caplog.clear()
+        with caplog.at_level(logging.DEBUG, logger=LOGGER_NAME):
+            _Doc().write(path)
+
+        assert path.stat().st_mtime == 1_000_000
+        assert _messages(caplog) == ["unchanged {}".format(path)]
+        assert caplog.records[0].levelno == kamilog.SKIP
+
+
+class TestWriteFollowsOwnerLogger:
+    """a command raises the level of its own logger only, never the shared one"""
+
+    def test_skill_lines_follow_the_skill_logger(_, tmp_path, caplog):
+        skill = Skill(name="s", description="d", version="1")
+        with caplog.at_level(logging.DEBUG, logger=LOGGER_SKILL_NAME):
+            skill.write(tmp_path)
+            skill.write(tmp_path)
+
+        assert [rec.levelno for rec in caplog.records] == [
+            logging.INFO,
+            logging.INFO,
+            kamilog.SKIP,
+        ]
+        assert {rec.name for rec in caplog.records} == {LOGGER_SKILL_NAME}
+
+    def test_continue_rule_lines_follow_the_continue_logger(
+        _, tmp_path, caplog
+    ):
+        rule = ContinueRule(name="r", description="d", body="b")
+        with caplog.at_level(logging.DEBUG, logger=LOGGER_CONTINUE_NAME):
+            rule.write(tmp_path / "r.md")
+            rule.write(tmp_path / "r.md")
+
+        assert [rec.levelno for rec in caplog.records] == [
+            logging.INFO,
+            kamilog.SKIP,
+        ]
+        assert {rec.name for rec in caplog.records} == {LOGGER_CONTINUE_NAME}

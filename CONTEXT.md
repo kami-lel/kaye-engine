@@ -1,6 +1,6 @@
 # kaye-engine CONTEXT
 
-**Last updated:** 2026-10-19
+**Last updated:** 2026-11-06
 
 System knowledge for the **kaye-engine** repository — architecture,
 entities, and boundaries. Read this alongside `AGENTS.md` before making
@@ -18,7 +18,7 @@ through a Python API and a CLI.
 | distribution / import name | `kaye-engine` / `kaye_engine` |
 | dependencies | `anytree`, `json5`, `kamilog`, `pyahocorasick`, `pyyaml` |
 | entry point | `kaye-engine` console script → `kaye_engine.__main__:main` |
-| CLI subcommands | `blueprint`, `claude`, `continue`, `hermes`, `export-image-prompt`, `dynamic-node`, `dynamic-substitution`, `exportable`, `export-json`, `affordance`, `variant`, `glossary`, `skill`, `sync-open-webui-skills` |
+| CLI subcommands | `blueprint`, `claude`, `continue`, `hermes`, `dynamic-node`, `dynamic-substitution`, `exportable`, `export-json`, `affordance`, `variant`, `render-profile`, `glossary`, `build-github-release`, `skill`, `sync-open-webui-skills` |
 
 ## Personalization Boundary
 
@@ -33,6 +33,11 @@ of what any consumer supplies.
 Three things are therefore absent by design — a corpus file, an
 `abbrs.json`, and any `register_blueprint()` call. Absence is the contract,
 not a gap to fill.
+
+The engine does ship one registered set of its own: the 5 built-in render
+profiles (`claude`, `claude-vsc`, `continue`, `hermes`, `comfy`) and the affordance variants they name, registered into
+`render_profile_registry` and `variant_registry` when `kaye_engine.prompt`
+is imported. They describe platform targets, not corpus content.
 
 ### Registration Policy
 
@@ -57,7 +62,9 @@ no fallback; a `glossary-*` group takes its glossary's consumer:
 | `register_exportable_entry` | guarded | |
 | `register_exportable_abbrs` | additive | rebuilds the abbr groups on every populate, replacing earlier abbr groups only; a name held by another exportable raises |
 | `register_dynamic_substitution` | guarded | |
-| `register_variant` | guarded | an unknown affordance is created on first use |
+| `register_affordance` | guarded | a repeated name raises; `remark` must be a `str`, `""` when omitted |
+| `register_variant` | guarded | its affordance must be registered first, an unknown one raises `KeyError`; `remark` must be a `str`, `""` when omitted |
+| `register_render_profile` | guarded | name is also the `--surface` choice; `remark` must be a `str`, `""` when omitted |
 | `register_comment_line` | additive | a repeated line is ignored; first-seen order |
 | `add_corpus_clear_hook` | additive | |
 | `register_consumer` | guarded | one record per consumer package; a repeated canonical name raises |
@@ -83,8 +90,8 @@ no fallback; a `glossary-*` group takes its glossary's consumer:
 | **Sidecar Node** | a `{name}` subnode; metadata or conditional content |
 | **Dynamic Node** | a `(name)` node (canonical kebab-case `NAME`) whose content is generated at render |
 | **Dynamic Substitution** | a directly-registered `DynamicSubstitution` held in `dynamic_substitution_registry`, resolved by a `(((name)))` placeholder ahead of the dynamic-node/glossary universe |
-| **Affordance** | a conceptual capability family, tracked in `affordance_registry`; auto-created on first `register_variant()` call naming it |
-| **Variant** | one concrete implementation of an affordance, tracked in `variant_registry` via `register_variant(canonical_name, affordance_name)` |
+| **Affordance** | a conceptual capability family, tracked in `affordance_registry` via `register_affordance(canonical_name, remark)`; its `remark` is its documentation |
+| **Variant** | one concrete implementation of an affordance, tracked in `variant_registry` via `register_variant(canonical_name, affordance_name, remark)`; its `remark` is its documentation |
 | **RenderProfile** | a `kw_only` dataclass bundling render settings (`conditional_sidecars`, `variants`, `sparseness`, ...); `.merge()` overrides scalar fields and unions the collection fields |
 | **Image-Prompt Export Subset** | `image_prompt_exportable_registry`, a list of `exportable_registry` canonical names opted into image-prompt export via `register_image_prompt_exportable(canonical_name)` |
 
@@ -157,13 +164,16 @@ siblings at every level, `IMAGE` is the composite `POST_ORDER | REVERSE_ORDER
 | _IMAGE` that also flattens headings to `title:` and forces `sparseness=1`.
 `NEGATIVE | IMAGE` prints no titles, only `{avoid}` blocks.
 `Exportable.supports_negative_content` (`True` on `BlueprintRegistry` only)
-gates the `-AVOID.md` siblings of `export-image-prompt`. Q.v. [sidecar node
+gates whether a negative prompt can be rendered. Q.v. [sidecar node
 documentation](docs/sidecar-doc.md).
 
 `affordance_registry`/`variant_registry` form a two-level model: an
 `Affordance` is a capability family, a `Variant` one implementation of it,
-registered via `register_variant(canonical_name, affordance_name)` (the
-affordance is auto-created on first use). Each variant derives
+registered via `register_affordance(canonical_name, remark)` then
+`register_variant(canonical_name, affordance_name, remark)` (an unregistered
+affordance raises `KeyError`). Each carries a `remark`, a short verb-first
+description that is its documentation, listed by `affordance` and `variant`.
+Each variant derives
 `[{name}] Usage` (checkmarked when present) and `[{name}] Lack` (when
 absent) sidecars; each affordance derives `[{name}] Usage` (at least one
 variant present) and `[{name}] Fallback` (every variant absent, ≥1
@@ -172,9 +182,9 @@ registered). Q.v. [affordance documentation](docs/sidecar-doc.md#affordance).
 Every **rendering command** (list and flags in `AGENTS.md`) shares one parent
 parser and one aux function, `build_render_profile_parent_parser`/
 `resolve_render_profile` (`kaye_engine/cli/render_profile_parser.py`), which
-returns one `RenderProfile` by merging each `--surface` profile (from the
-consumer-supplied `surface_profiles` dict of `setup_claude_cli(...)`; the
-option is omitted when none is configured) with one built from the explicit
+returns one `RenderProfile` by merging each `--surface` profile (from
+`render_profile_registry`; the option is omitted when it is empty) with one
+built from the explicit
 flags via `RenderProfile.merge()`. `--variant`/`--conditional-sidecar` union
 with what `--surface` derives; `--reverse-order` ORs into `mode` before the
 merge, because `mode` is scalar and would otherwise be clobbered. An omitted
@@ -188,10 +198,20 @@ documentation](docs/render-profile-doc.md).
 ### CLI Flag Surface
 
 Several subcommands print rendered or registry content without the
-render-profile options: `export-json` and `export-image-prompt` use a
+render-profile options: `export-json` uses a
 hardcoded `RenderProfile`; `dynamic-substitution` and `glossary` print raw
 registry content; `sync-open-webui-skills` renders per skill with no exposed
-profile; `affordance`/`variant` are list-only.
+profile; `affordance`/`variant`/`render-profile` are list-only.
+
+`affordance`, `variant` and `render-profile` share `cli/list_view.py` and
+one flag set, flags only: `-r/--regex` (repeatable name filter), `-c/--columns`,
+`-l/--long` (one card per row), `-N/--names-only`, `-f/--format
+table|tsv|json`, `-C/--no-color`; `variant` adds `-a/--affordance` and
+`-F/--flat`. A TTY gets an aligned table (`variant`: grouped under a bold
+affordance header), a pipe gets tsv. Color goes only through kamilog's
+`AnsiRenderer` and is off under `-C`, `NO_COLOR`, a non-TTY, `-N`, tsv and
+json. An empty registry logs one `NOTE` through
+`note_empty_registry_for_cli`, not the corpus `ERROR` pair.
 
 `blueprint preview` is the one asymmetric case inside the rendering set:
 it pulls only `build_comment_parent_parser()` out of the bundle (its
@@ -212,8 +232,32 @@ write command; `claude plugin` spells `--no-version` as `-N`.
 loggers. Writers keep their deed lines (`kaye_engine/deed.py`, a local stand-in for
 the deed feature kamilog 3.0 removed) and skip only the filesystem call
 under `is_dry_run()`; the zip exports skip the temporary build and log
-the pack and move deeds directly. `sync-open-webui-skills` keeps its own
+their one `create_zip` result line with size `n/a`. `sync-open-webui-skills` keeps its own
 `-n`/`--dry-run` and threads `is_dry_run` as a parameter instead.
+
+Every text-file writer goes through `write_text_if_changed`
+(`kaye_engine/cli/file_write.py`): a missing file takes the `create_file`
+deed, a file already holding the exact text takes a `SKIP`-level line
+(`unchanged PATH`) and no write, a differing file takes the `owr_file`
+deed and is overwritten. The read and compare run under a dry run too, so
+the dry verdict equals the live one; only the write is skipped. `SKIP` is
+level 16, below `INFO`, so it prints from `-vv` up. A `FrontmatterDoc`
+subclass names its command's logger in `_logger` (`Skill`: skill,
+`ContinueRule`: continue), so its write lines follow that command's `-v`/`-q`. Zip archives are not
+byte-reproducible and keep overwriting; `save_blueprint` is a library API
+with no logger and keeps its plain write.
+
+Badge names live in `kaye_engine/badge.py`, a leaf module. Deeds stamp a
+native badge on success: `new` for `create_file`, `create_dir`,
+`create_zip`, `pack_files`; `owr` for `owr_file`; `mv` for `mv_file`; none
+for config deeds or failures. The run-wide badge leads, so a dry run prints
+`dry new`. `sync-open-webui-skills` stamps `new`, `owr`, `del` for create,
+update, prune.
+
+A zip export logs one `create_zip` line per archive: the plugin line at
+`DONE`, skill lines at `-v`. The inner temporary build runs inside
+`quiet_deeds()`, which logs deed successes at `DEBUG`; a failure keeps its
+error level.
 
 Dynamic nodes auto-attach to every tree at load time — no authored
 heading required for existence — and cover today's date plus the
@@ -327,78 +371,20 @@ code 1.
 
 ```
 kaye_engine/
-├── prompt/              parse, model, select, render
-│   ├── blueprint/       Blueprint value (data/edit/parser), CorpusIndex
-│   │                    (index), selection binding, registry, rendering
-│   │   ├── render_mode.py      RenderMode: NORMAL/NEGATIVE/POST_ORDER/
-│   │   │                        REVERSE_ORDER/IMAGE flag enum
-│   │   ├── render_profile.py   RenderProfile: layerable render-kwargs bundle
-│   │   └── render/             render_*_lines()/preview_selection(),
-│   │       split by concern (tree/lines/sidecar_splice/util)
-│   ├── dynamic_nodes/   render-time generated node types
-│   └── affordance_registry.py  Affordance/Variant two-level registry,
-│                                Usage/Lack/Fallback sidecar names
-├── abbr_collection/     abbreviation entries, store, JSON loader
-├── consumer.py          consumer registry: register_consumer,
-│                        set_entry_consumer, iter_consumers, and the
-│                        entry consumer getters read by claude and hermes
-├── deed.py              track(logger): fixed-wording file/dir action lines
-├── exportable/           Exportable base, exportable_registry
-│   └── image_prompt_export.py  image_prompt_exportable_registry,
-│                            register_image_prompt_exportable
-├── skill/               Agent Skills standard, agent-neutral: `Skill`
-│                        document, folder/.zip writers, `select_exportables`
-├── cli/
-│   ├── blueprint/       `blueprint`/`bp` subcommand: list, preview, render,
-│   │                    validate, show; `aux_input.py`/`aux_output.py`
-│   │                    hold the glue (stdin, format detection, formatting)
-│   ├── claude/          plugins, marketplaces, CLAUDE.md
-│   │   ├── plugin_marketplace_name.py  marketplace name, plugin
-│   │   │                          consumers, claude setup guard
-│   │   ├── package_meta.py        manifest metadata read from a
-│   │   │                          consumer's installed distribution
-│   │   ├── setup.py               setup_claude_cli(...); registers
-│   │   │                          consumer-supplied affordance_groups,
-│   │   │                          stores surface_profiles
-│   │   ├── skills/                `claude skills`/`claude s`: every skill
-│   │   │                          into ~/.claude/skills (`-z` for .zips)
-│   │   └── surface_parser.py      shared `--surface` parent parser --
-│   │                              choices from consumer's surface_profiles
-│   ├── skill/           `skill`/`s` subcommand: named Agent Skills into a
-│   │                    required FOLDER (`--all` for every one)
-│   ├── continue_ai/    `continue`/`c` subcommand: rules/ + prompts/ for Continue
-│   │   ├── rule_md.py       ContinueRule frontmatter doc + factory
-│   │   ├── export_rules.py  classify_exportable, export_continue_folder
-│   │   └── parser.py        parser + handler
-│   ├── hermes/          `hermes`/`m` subcommand: a Hermes home directory
-│   │   ├── setup.py     setup_hermes_cli + getters (consumer configuration)
-│   │   ├── export.py    export_hermes_folder: SOUL.md files + skills/
-│   │   └── parser.py    parser + handler
-│   ├── open_webui/      `sync-open-webui-skills`/`o` subcommand: push
-│   │   │                exportables into Open WebUI as skills
-│   │   ├── skill_form.py  build_skill_form: Exportable -> SkillForm dict
-│   │   ├── client.py      urllib client + OpenWebUIError
-│   │   ├── plan.py        plan_skill_sync: create/update/skip/prune
-│   │   ├── sync.py        sync_skills executor + SyncSummary
-│   │   └── parser.py      parser + handler
-│   ├── dynamic_node/    `dynamic-node`/`dn` subcommand: multi-node render
-│   ├── dynamic_substitution_parser.py  `dynamic-substitution`/`ds`
-│   │                                    subcommand: print/list
-│   │                                    dynamic_substitution_registry
-│   ├── list_affordance_parser.py  `affordance`/`afd` subcommand: list affordance_registry
-│   ├── list_variant_parser.py     `variant`/`var` subcommand: list variant_registry
-│   ├── glossary_parser.py    `glossary`/`g` subcommand: print/list glossaries
-│   ├── comment_parser.py     shared `--comment`/`--no-comment` parent parser
-│   ├── render_profile_parser.py  shared 6-option parent parser + aux fn
-│   ├── exportable_parser.py  `exportable`/`x` subcommand: print, list exportables
-│   ├── exportable_as_json_parser.py  `export-json`/`json`
-│   │                                  subcommand: export
-│   │                                  exportable_registry as flat JSON
-│   └── export_image_prompt_parser.py  `export-image-prompt`/`img` subcommand:
-│                                    write the image-prompt subset as
-│                                    `<name>.md`/`<name>-AVOID.md` pairs
-docs/                    per-topic reference, linked above
-tests/                   prompt/, abbr/, cli/ — mirrors the source
+├── prompt/            parse, model, select, render: blueprint/ (Blueprint,
+│                      CorpusIndex, registries, render/), dynamic_nodes/,
+│                      affordance_registry.py, builtin_*.py
+├── abbr_collection/   abbreviation entries, store, JSON loader
+├── consumer.py        consumer registry, entry-consumer getters
+├── deed.py            fixed-wording file/dir action lines
+├── exportable/        Exportable base, exportable_registry, image-prompt subset
+├── skill/             agent-neutral Skill document, folder/.zip writers
+└── cli/               one leaf per subcommand (blueprint/, claude/, skill/,
+                       continue_ai/, hermes/, open_webui/, github_release/, ~)
+                       plus shared helpers: list_view.py, file_write.py,
+                       render_profile_parser.py, comment_parser.py, dry_run.py
+docs/                  per-topic reference, linked above
+tests/                 prompt/, abbr/, cli/: mirrors the source
 ```
 
 The `prompt` layer is pure: it knows nothing of Claude or any export
@@ -417,8 +403,9 @@ has no default there.
 `blueprint_registry` and exits 1 on an unknown one. It renders the soul and
 profile blueprints from `blueprint_registry` (so non-exportable entries work)
 into `SOUL.md` and `profiles/<name>/SOUL.md`, and delegates
-`skills/<consumer>/<canonical name>/` to `export_skills_as_folders`, which
-only ever sees `exportable_registry`. Each skill carries its own consumer's
+`skills/<consumer>/<canonical name>/` (root and each profile, one render
+written to all) to `export_skills_as_folders`, which only ever sees
+`exportable_registry`. Each skill carries its own consumer's
 version. Comments are hidden by default.
 
 ## Testing Strategy

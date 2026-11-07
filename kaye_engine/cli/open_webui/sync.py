@@ -8,6 +8,7 @@ from dataclasses import dataclass, field
 from functools import partial
 
 import kamilog
+from kaye_engine.badge import DEL_BADGE, DRY_BADGE, NEW_BADGE, OWR_BADGE
 from kaye_engine.cli.open_webui import LOGGER_OPEN_WEBUI_NAME
 from kaye_engine.cli.open_webui.client import OpenWebUIError
 from kaye_engine.cli.open_webui.plan import plan_skill_sync
@@ -15,6 +16,10 @@ from kaye_engine.cli.open_webui.skill_form import build_skill_form
 from kaye_engine.exportable import exportable_registry
 
 __all__ = ("SyncSummary", "sync_skills")
+
+# constants  ###################################################################
+# sync verb → badge of the data change it makes
+_VERB_BADGES = {"create": NEW_BADGE, "update": OWR_BADGE, "prune": DEL_BADGE}
 
 # logger  ######################################################################
 logger = kamilog.getLogger(LOGGER_OPEN_WEBUI_NAME)
@@ -96,7 +101,9 @@ def sync_skills(client, is_dry_run=False, should_prune=False):
 
 # auxiliaries  #################################################################
 def _apply(bucket, summary, verb, skill_id, is_dry_run, request):
-    badges = "dry" if is_dry_run else None
+    badges = [_VERB_BADGES[verb]]
+    if is_dry_run:
+        badges.insert(0, DRY_BADGE)
     if not is_dry_run:
         try:
             request()

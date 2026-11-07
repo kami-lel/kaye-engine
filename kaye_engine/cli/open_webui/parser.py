@@ -10,6 +10,7 @@ from argparse import RawDescriptionHelpFormatter
 
 import kamilog
 from kaye_engine import PACKAGE_NAME
+from kaye_engine.badge import DRY_BADGE
 from kaye_engine.cli.cli_setup_guard import check_corpus_setup_for_cli
 from kaye_engine.cli.open_webui import (
     LOGGER_OPEN_WEBUI_NAME,
@@ -77,7 +78,7 @@ def _build_main(parser):
                 len(summary.pruned),
                 len(summary.failed),
             ),
-            badges="dry" if args.dry_run else None,
+            badges=DRY_BADGE if args.dry_run else None,
         )
         if summary.failed:
             sys.exit(1)

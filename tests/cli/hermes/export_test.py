@@ -6,6 +6,7 @@ Unit Tests (using pytest) for:
 - export_hermes_folder
 """
 
+import os
 from unittest.mock import patch
 
 import pytest
@@ -85,9 +86,28 @@ class TestExportHermesFolder:
         assert _list_files(tmp_path) == [
             "SOUL.md",
             "profiles/kaye/SOUL.md",
+            "profiles/kaye/skills/test-consumer/chat/SKILL.md",
             "profiles/ria/SOUL.md",
+            "profiles/ria/skills/test-consumer/chat/SKILL.md",
             "skills/test-consumer/chat/SKILL.md",
         ]
+
+    def test_profile_skills_match_default_profile(_, tmp_path):
+        export_hermes_folder(tmp_path)
+        rel = "skills/test-consumer/chat/SKILL.md"
+        root = (tmp_path / rel).read_text(encoding="utf-8")
+        for name in ("kaye", "ria"):
+            copy = tmp_path / "profiles" / name / rel
+            assert copy.read_text(encoding="utf-8") == root
+
+    def test_each_skill_renders_once_for_all_profiles(_, tmp_path):
+        from kaye_engine.skill.skill_md import Skill
+
+        with patch.object(
+            Skill, "from_exportable", wraps=Skill.from_exportable
+        ) as build:
+            export_hermes_folder(tmp_path)
+        assert build.call_count == 1
 
     def test_internal_blueprint_never_becomes_a_skill(_, tmp_path):
         export_hermes_folder(tmp_path)
@@ -97,6 +117,35 @@ class TestExportHermesFolder:
         enable_dry_run()
         export_hermes_folder(tmp_path / "home")
         assert not (tmp_path / "home").exists()
+
+    def test_second_run_leaves_every_file_untouched(_, tmp_path):
+        export_hermes_folder(tmp_path)
+        files = [tmp_path / name for name in _list_files(tmp_path)]
+        for file in files:
+            os.utime(file, (1_000_000, 1_000_000))
+
+        export_hermes_folder(tmp_path)
+        assert {f.stat().st_mtime for f in files} == {1_000_000}
+
+    def test_changed_file_is_overwritten_alone(_, tmp_path):
+        export_hermes_folder(tmp_path)
+        soul = tmp_path / "SOUL.md"
+        ria = tmp_path / "profiles" / "ria" / "SOUL.md"
+        soul.write_text("stale", encoding="utf-8")
+        os.utime(ria, (1_000_000, 1_000_000))
+
+        export_hermes_folder(tmp_path)
+        assert soul.read_text(encoding="utf-8") != "stale"
+        assert ria.stat().st_mtime == 1_000_000
+
+    def test_dry_run_leaves_changed_file_alone(_, tmp_path):
+        export_hermes_folder(tmp_path)
+        soul = tmp_path / "SOUL.md"
+        soul.write_text("stale", encoding="utf-8")
+
+        enable_dry_run()
+        export_hermes_folder(tmp_path)
+        assert soul.read_text(encoding="utf-8") == "stale"
 
     def test_unset_configuration_exits_one(_, tmp_path):
         hermes._soul_blueprint_name = None

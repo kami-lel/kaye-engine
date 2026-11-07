@@ -121,16 +121,28 @@ class TestSyncSkills:
             sync.sync_skills(_FakeClient(), is_dry_run=True)
 
         assert caplog.records
-        assert all(rec.badges == ("dry",) for rec in caplog.records)
+        assert all(rec.badges == ("dry", "new") for rec in caplog.records)
 
-    def test_real_run_lines_carry_no_badge(_, caplog):
+    def test_dry_run_prune_line_carries_del_badge(_, caplog):
+        with caplog.at_level(
+            logging.DEBUG, logger=sync.LOGGER_OPEN_WEBUI_NAME
+        ):
+            sync.sync_skills(
+                _FakeClient(remote=[_build_form_of("gone")]),
+                is_dry_run=True,
+                should_prune=True,
+            )
+
+        assert ("dry", "del") in [rec.badges for rec in caplog.records]
+
+    def test_real_run_lines_carry_verb_badge_only(_, caplog):
         with caplog.at_level(
             logging.DEBUG, logger=sync.LOGGER_OPEN_WEBUI_NAME
         ):
             sync.sync_skills(_FakeClient())
 
         assert caplog.records
-        assert all(rec.badges == () for rec in caplog.records)
+        assert all(rec.badges == ("new",) for rec in caplog.records)
 
     def test_prune_off_keeps_remote_only_skill(_):
         client = _FakeClient(remote=[_build_form_of("gone")])

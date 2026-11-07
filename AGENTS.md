@@ -12,7 +12,10 @@ exact commands and conventions below.
 **kaye-engine ships mechanism only.** It bundles no prompt corpus, no
 abbreviation database, and no blueprint registrations — consumer packages
 supply all three. Never add that content here to make something work; fix
-the mechanism or fix the consumer.
+the mechanism or fix the consumer. The one thing it does ship is the
+built-in render profiles and the affordance names they refer to
+(`kaye_engine/prompt/builtin_render_profiles.py`,
+`builtin_affordances.py`): platform targets, not corpus content.
 
 **kaye-engine is consumed by multiple projects.** Never name any specific
 consumer project anywhere in this repository's content (code, comments,
@@ -44,7 +47,7 @@ merge.
 | changed source | test scope |
 |---|---|
 | `kaye_engine/prompt/` | `tests/prompt/` (`tests/prompt/tree/` for the loader, `tests/prompt/index/` for `CorpusIndex`, `tests/prompt/bp/data/` for `Blueprint` and its functions, `prompt-md_comment_test.py` and `prompt-md_fence_test.py` for the line helpers) |
-| `kaye_engine/prompt/blueprint/render/` | `tests/prompt/`, plus `tests/cli/export_image_prompt_parser_test.py` (asserts rendered negative-prompt text) |
+| `kaye_engine/prompt/blueprint/render/` | `tests/prompt/` |
 | `kaye_engine/abbr_collection/` | `tests/abbr/` |
 | `kaye_engine/cli/` | `tests/cli/` |
 | `kaye_engine/cli/blueprint/` | `tests/cli/blueprint/` (drives the real parsers over a small inline corpus; `aux_input_test.py`, `aux_output_test.py` for the helpers) |
@@ -52,10 +55,12 @@ merge.
 | `kaye_engine/cli/hermes/` | `tests/cli/hermes/` |
 | `kaye_engine/cli/open_webui/` | `tests/cli/open_webui/` |
 | `kaye_engine/cli/skill/` | `tests/cli/skill/` |
+| `kaye_engine/cli/github_release/` | `tests/cli/github_release_test.py` |
 | `kaye_engine/cli/claude/skills/` | `tests/cli/cli_main_test.py`, `tests/cli/dry_run_test.py` |
 | `kaye_engine/skill/` | `tests/skill/`, plus `tests/cli/open_webui/skill_form_test.py` (reads `Skill`) |
 | `kaye_engine/exportable/` | `tests/exportable_test.py`, `tests/image_prompt_export_test.py` |
 | `kaye_engine/consumer.py` | `tests/consumer_test.py`, `tests/cli/claude/plugin_consumers_test.py`, `tests/cli/exportable_abbr_consumer_test.py` |
+| `kaye_engine/cli/file_write.py` | `tests/cli/file_write_test.py`, then every writer's test: `tests/cli/frontmatter_doc_test.py`, `tests/cli/hermes/`, `tests/cli/claude/`, `tests/cli/exportable_as_json_parser_test.py`, `tests/cli/dry_run_test.py` |
 | `kaye_engine/deed.py` | `tests/deed_test.py` |
 
 ```bash
@@ -92,70 +97,20 @@ pytest
 ## CLI
 
 The editable install registers a `kaye-engine` console script, so
-`kaye-engine ...` and `python -m kaye_engine ...` are equivalent — prefer
-the shorter form. **Fourteen** top-level subcommands exist: `blueprint`,
-`claude`, `continue`, `hermes`, `export-image-prompt`, `dynamic-node`, `dynamic-substitution`,
-`exportable`, `export-json`, `affordance`, `variant`,
-`glossary`, `skill`, and `sync-open-webui-skills`:
+`kaye-engine ...` and `python -m kaye_engine ...` are equivalent: prefer
+the shorter form. `kaye-engine --help` lists every subcommand and alias.
+Bare `blueprint`, `exportable`, `dynamic-node` and `glossary` (`bp`, `x`,
+`dn`, `g`) behave as the same command followed by `ls`.
 
 ```bash
-kaye-engine --help                          # show CLI usage
-kaye-engine blueprint list                  # list registered blueprint names; alias ls
-kaye-engine blueprint preview BLUEPRINT     # preview a blueprint's structure, dependencies included
-kaye-engine blueprint preview BLUEPRINT -D  # own nodes only; flags -l -w -t tune the tree
-kaye-engine blueprint render BLUEPRINT      # render a concrete prompt, dependencies included
-kaye-engine blueprint render BLUEPRINT -D   # own nodes only
-kaye-engine blueprint validate BLUEPRINT    # exit 0 if sound, 1 with the reason if not
-kaye-engine blueprint show BLUEPRINT        # summary of meta, node count, dependencies
-kaye-engine blueprint show BLUEPRINT -d     # one field: -a display name, -d description, -D description node, -w when-to-use, -W when-to-use node, -n nodes, -t subtrees, -g globs, -p dependencies
-kaye-engine blueprint preview < FILE        # any blueprint command reads stdin when BLUEPRINT is omitted
-kaye-engine dynamic-node NODE...            # render 1+ dynamic nodes merged into one blueprint/output; NODE is "today"/"decode-only-abbr", any simple AbbrTags kebab slug (eg "emoji", "single-character"), or any known abbr glossary name
-kaye-engine dynamic-node NODE -t THRESHOLD  # for a glossary NODE, hide entries with priority > THRESHOLD
-kaye-engine dynamic-node ls                 # list every available NODE value: today, decode-only-abbr, every AbbrTags-derived name, then glossary names alphabetically
-kaye-engine dynamic-substitution NAME       # print a registered dynamic substitution's content
-kaye-engine dynamic-substitution ls         # list every registered dynamic substitution name
-kaye-engine skill NAME... FOLDER            # export the named Agent Skills into FOLDER (required)
-kaye-engine skill --all FOLDER              # export every Agent Skill; -a short
-kaye-engine skill -z NAME... FOLDER         # create .zip Agent Skill packages
-kaye-engine claude skills                   # export all skills into ~/.claude/skills
-kaye-engine claude skills FOLDER            # to a custom folder
-kaye-engine claude skills -z                # .zip per skill in the current directory
-kaye-engine claude plugin PLUGINS_FOLDER    # export blueprints as plugin folder
-kaye-engine claude plugin -z PLUGINS_FOLDER # .zip package (-N drops version)
-kaye-engine claude marketplace              # to ~/.claude/<marketplace folder>
-kaye-engine claude marketplace MARKETPLACE  # to a custom folder
-kaye-engine claude code                     # plugin + CLAUDE.md into ~/.claude
-kaye-engine claude user-system-prompt       # print Chat blueprint to stdout
-kaye-engine claude user-system-prompt -c    # append Coder blueprint content
-kaye-engine claude vs-code-extension        # CLAUDE.md + marketplace + settings
-kaye-engine continue                        # export rules + prompts to ~/.continue
-kaye-engine continue FOLDER                 # export to a custom Continue folder
-kaye-engine hermes FOLDER                   # SOUL.md, profiles/, skills/ into a Hermes home
-kaye-engine hermes FOLDER -n                # report every write without touching disk
-kaye-engine export-image-prompt FOLDER          # write every image-prompt-subset exportable to FOLDER
-kaye-engine exportable EXPORTABLE           # print an exportable's content
-kaye-engine exportable ls                   # list every registered exportable name
-kaye-engine export-json              # export exportable_registry as flat JSON
-kaye-engine export-json -f FILE      # write to FILE instead of the default
-kaye-engine affordance                 # list affordance_registry names, sorted
-kaye-engine variant                    # list variant_registry canonical names, sorted
-kaye-engine glossary GLOSSARY               # print a glossary's content
-kaye-engine glossary ls                     # list every registered glossary name
-OWU_API_KEY=sk-... kaye-engine sync-open-webui-skills  # push every exportable into Open WebUI as a skill
-kaye-engine o -n                            # report create/update/skip without writing
-kaye-engine o --prune --base-url URL        # also delete remote-only skills; custom server
+kaye-engine blueprint render BLUEPRINT -D   # own nodes only; stdin if omitted
+kaye-engine blueprint validate BLUEPRINT    # exit 0 if sound, 1 with reason
+kaye-engine claude plugin -z . CONSUMER     # only that consumer's plugin
+CONSUMER_CLI build-github-release CONSUMER [-o FOLDER]  # release zip
+kaye-engine hermes FOLDER -n                # report every write, touch nothing
+kaye-engine rp -l -r '^claude$'             # list command: -r -c -l -N -f -C
+OWU_API_KEY=sk-... kaye-engine o -n         # Open WebUI sync, dry run
 ```
-
-Aliases: `blueprint` → `bp`; `blueprint list` → `bp ls`; `blueprint
-preview` → `bp p`; `blueprint render` → `bp r`; `blueprint validate` →
-`bp v`; `blueprint show` → `bp s`; `continue` → `c`; `hermes` → `m`; `export-image-prompt` → `img`; `dynamic-node` →
-`dn`; `dynamic-substitution` → `ds`; `claude` → `a`; `claude code`
-→ `claude c`; `claude
-marketplace` → `claude m`; `claude plugin` → `claude p`; `claude skills` → `claude s`; `skill`
-→ `s`; `claude user-system-prompt` → `claude usp`;
-`claude vs-code-extension` → `claude v`; `exportable` → `x`;
-`export-json` → `json`; `affordance` → `afd`; `variant`
-→ `var`; `glossary` → `g`; `sync-open-webui-skills` → `o`.
 
 **Rendering commands** — any subcommand that reaches
 `render_prompt(...)`, directly or via
@@ -221,10 +176,18 @@ package, not a bare checkout.
 - log through the `kamilog` package (`import kamilog`; a dependency, not
   vendored): report every file or directory action as a deed
   (`with track(logger).create_file(path)` from `kaye_engine.deed`;
-  also `pack_files`, `mv_file`, `save_config`, ...) rather than a
-  hand-built string, and mark a run mode with a badge (`badges="dry"`);
-  keep `done` for a whole-export summary; kamilog 3.0 dropped its own
-  deed feature, so never call `logger.track`
+  also `create_zip`, `mv_file`, `save_config`, ...) rather than a
+  hand-built string; wrap a temporary inner build in `quiet_deeds()` so
+  only the final result line shows, and mark a run mode with a badge; take every badge name from
+  `kaye_engine.badge` (e.g. `badges=DRY_BADGE`), never an ad hoc string,
+  since a misspelled native name prints as a magenta custom badge;
+  keep `done` for a whole-export summary; write every text file that may
+  already exist through `write_text_if_changed`
+  (`kaye_engine/cli/file_write.py`), never a bare `write_text`, so an
+  identical file is skipped and reported at `SKIP` and a dry run
+  agrees; a `FrontmatterDoc` subclass sets `_logger` to its command's logger,
+  since `-v`/`-q` reach only that one; kamilog 3.0 dropped its own deed
+  feature, so never call `logger.track`
 
 ## Registering a Blueprint
 
@@ -262,7 +225,7 @@ via `RenderProfile.merge()`.
 `register_image_prompt_exportable(canonical_name)`
 (`kaye_engine/exportable/image_prompt_export.py`) marks an already-registered
 `exportable_registry` entry as a member of the image-prompt export subset
-(`image_prompt_exportable_registry`) that `export-image-prompt`/`img` reads.
+(`image_prompt_exportable_registry`), which no engine command reads.
 **Calls live in the consumer package**, same as `register_blueprint()`;
 it raises `KeyError` if `canonical_name` is not already registered,
 `ValueError` on a duplicate.
@@ -313,6 +276,7 @@ After meaningful changes, keep these in sync:
     [docs/render-profile-doc.md](docs/render-profile-doc.md)
   - the `claude` subcommands and per-consumer plugins:
     [docs/claude-doc.md](docs/claude-doc.md)
+  - the `build-github-release` command: [docs/github-release-doc.md](docs/github-release-doc.md)
   - the `continue` export: [docs/continue-doc.md](docs/continue-doc.md)
   - the `hermes` export: [docs/hermes-doc.md](docs/hermes-doc.md)
   - the Open WebUI sync: [docs/open-webui-doc.md](docs/open-webui-doc.md)

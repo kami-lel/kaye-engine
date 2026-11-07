@@ -15,3 +15,4 @@ from .dynamic_nodes import *
 from .sidecar_node import *
 from .affordance_registry import *
 from .blueprint import *
+from . import builtin_render_profiles  # registers the built-ins on import

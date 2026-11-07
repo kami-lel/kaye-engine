@@ -4,12 +4,14 @@ skill_md.py
 define ``Skill``
 """
 
+import os
 from pathlib import Path
 
 import kamilog
 from kaye_engine.deed import track
 from kaye_engine.skill import LOGGER_SKILL_NAME
 from kaye_engine.cli.dry_run import is_dry_run
+from kaye_engine.cli.file_write import write_text_if_changed
 from kaye_engine.cli.frontmatter_doc import FrontmatterDoc, dump_yaml
 from kaye_engine.cli.exportable_abbr import ExportableAbbr
 from kaye_engine.prompt.blueprint import BlueprintRegistry
@@ -58,30 +60,44 @@ class Skill(FrontmatterDoc):
     :type version: str, optional
     :example:
     >>> # any Exportable, blueprint or abbr group alike
-    ... Skill.from_exportable(exportable).write(parent_folder)
+    ... Skill.from_exportable(exportable).write([folder_a, folder_b])
     """
 
     # Public Methods  ----------------------------------------------------------
 
-    def write(self, parent_folder):
+    def write(self, parent_folders):
         """
-        create the skill folder under ``parent_folder`` and write
-        ``SKILL.md`` into it
+        create the skill folder under each of ``parent_folders`` and write
+        ``SKILL.md`` into it; the document renders once, however many
+        folders receive it
 
 
-        :param parent_folder: directory the skill folder is created under
-        :type parent_folder: Path-like
-        :return: the skill folder that was written
-        :rtype: Path
+        :param parent_folders: directory, or directories, the skill folder
+                is created under
+        :type parent_folders: Path-like or Iterable[Path-like]
+        :return: the skill folders that were written, in order
+        :rtype: list[Path]
         """
-        folder = Path(parent_folder) / self.name
-        if not folder.is_dir():
-            with track(logger).create_dir(folder):
-                if not is_dry_run():
-                    folder.mkdir(parents=True, exist_ok=True)
-        super().write(folder / self._FILENAME)
+        if isinstance(parent_folders, (str, os.PathLike)):
+            parent_folders = [parent_folders]
 
-        return folder
+        text = self.render()
+        folders = []
+        for parent_folder in parent_folders:
+            folder = Path(parent_folder) / self.name
+            if not folder.is_dir():
+                with track(logger).create_dir(folder):
+                    if not is_dry_run():
+                        folder.mkdir(parents=True, exist_ok=True)
+            write_text_if_changed(
+                self._logger,
+                folder / self._FILENAME,
+                text,
+                encoding=self._ENCODING,
+            )
+            folders.append(folder)
+
+        return folders
 
     # implement FrontmatterDoc  ------------------------------------------------
 
@@ -109,7 +125,11 @@ class Skill(FrontmatterDoc):
 
     # fields  ------------------------------------------------------------------
 
+    _logger = logger
+
     _FILENAME = "SKILL.md"
+
+    _ENCODING = "utf-8"
 
     _DEFAULT_FRONTMATTER = {
         "name": "",

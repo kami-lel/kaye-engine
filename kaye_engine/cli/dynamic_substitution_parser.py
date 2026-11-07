@@ -28,9 +28,11 @@ prints the content of the dynamic substitution registered under NAME:
 
     kaye-engine dynamic-substitution my-canonical-name
 
-list every registered dynamic substitution, sorted alphabetically:
+list every registered dynamic substitution, sorted alphabetically
+(default when NAME is omitted):
 
     kaye-engine dynamic-substitution ls
+    kaye-engine dynamic-substitution
 """
 
 
@@ -68,7 +70,10 @@ def register_dynamic_substitution_parser(cli_subparser):
     # add arguments  -------------------------------------------------------
     dynamic_substitution_parser.add_argument(
         "NAME",
-        help="dynamic substitution canonical name; NAME=ls: list all",
+        nargs="?",
+        default="ls",
+        help="dynamic substitution canonical name; "
+        "NAME=ls (default): list all",
     )
     add_verbose_arguments(dynamic_substitution_parser)
 

@@ -11,6 +11,7 @@ import kamilog
 from argparse import ArgumentParser
 
 from kaye_engine import LOGGER_NAME
+from kaye_engine.badge import DRY_BADGE
 from kaye_engine.cli.claude import LOGGER_CLAUDE_NAME
 from kaye_engine.cli.continue_ai import LOGGER_CONTINUE_NAME
 from kaye_engine.cli.hermes import LOGGER_HERMES_NAME
@@ -28,8 +29,6 @@ __all__ = (
 
 
 # constants  ###################################################################
-DRY_BADGE = "dry"
-
 _LOGGER_NAMES = (
     LOGGER_NAME,
     LOGGER_CLAUDE_NAME,

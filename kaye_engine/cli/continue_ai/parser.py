@@ -6,7 +6,6 @@ from pathlib import Path
 import kamilog
 from kaye_engine import PACKAGE_NAME
 from kaye_engine.cli import DEFAULT_SPARSENESS
-from kaye_engine.cli.claude.setup import get_surface_profiles
 from kaye_engine.cli.cli_setup_guard import check_corpus_setup_for_cli
 from kaye_engine.cli.continue_ai import (
     CONTINUE_DOC_DESCRIPTION,
@@ -17,8 +16,10 @@ from kaye_engine.cli.dry_run import (
     apply_dry_run_arg,
     build_dry_run_parent_parser,
 )
-from kaye_engine.cli.render_profile_parser import (
+from kaye_engine.cli.render_profile_description import (
     RENDER_PROFILE_DESCRIPTION,
+)
+from kaye_engine.cli.render_profile_parser import (
     build_render_profile_parent_parser,
     resolve_render_profile,
 )
@@ -30,7 +31,8 @@ logger = kamilog.getLogger(LOGGER_CONTINUE_NAME)
 
 _DEFAULT_CONTINUE_FOLDER = Path.home() / ".continue"
 
-_DESCRIPTION = """
+_DESCRIPTION = (
+    __doc__ + """
 
 writes one .md per exportable, as a rule or as a prompt;
 always-apply and LLM-invokable entries are rules,
@@ -42,6 +44,13 @@ FOLDER/  (default: ~/.continue/)
 └── prompts/
     └── ~~  (one file per prompt)
 """
+    + CONTINUE_DOC_DESCRIPTION
+    + RENDER_PROFILE_DESCRIPTION
+    + """
+
+render defaults: surface=none, comment=False, sparseness=0
+"""
+)
 
 
 # pylint: disable=missing-function-docstring
@@ -49,19 +58,13 @@ def register_continue_parser(cli_subparser):  ##################################
     continue_parser = cli_subparser.add_parser(
         "continue",
         help=__doc__,
-        description=(
-            __doc__
-            + _DESCRIPTION
-            + CONTINUE_DOC_DESCRIPTION
-            + RENDER_PROFILE_DESCRIPTION
-        ),
+        description=_DESCRIPTION,
         formatter_class=RawDescriptionHelpFormatter,
         aliases=["c"],
         parents=[
             build_render_profile_parent_parser(
                 default_surface=(),
                 default_sparseness=DEFAULT_SPARSENESS,
-                surface_profiles=get_surface_profiles(),
             ),
             build_dry_run_parent_parser(),
         ],
@@ -86,7 +89,6 @@ def register_continue_parser(cli_subparser):  ##################################
 
         render_profile = resolve_render_profile(
             args,
-            surface_profiles=get_surface_profiles(),
             default_show_comment=False,
         )
         export_continue_folder(args.folder, render_profile=render_profile)
