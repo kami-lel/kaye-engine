@@ -30,11 +30,15 @@ manually add chat & coder, instead by data structure
 
 ### Changed
 
+- every command sets its log level through `apply_verbosity_arg` (`kaye_engine/cli/verbosity.py`), one call on `kaye.engine` that its child loggers inherit
+
 ### Deprecated
 
 ### Removed
 
 ### Fixed
+
+- `-v`, `-q`, `-V`, `-Q` now reach every engine logger, not only the running command's own: e.g. `claude vs-code-extension -V` now shows the skill export's debug lines
 
 ### Security
 
