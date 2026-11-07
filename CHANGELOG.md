@@ -30,6 +30,7 @@ manually add chat & coder, instead by data structure
 
 ### Changed
 
+- plugin zips are named `NAME-claude-VERSION.zip` (`NAME-claude.zip` with `-N`) by `claude plugin -z` and `build-github-release`
 - every command sets its log level through `apply_verbosity_arg` (`kaye_engine/cli/verbosity.py`), one call on `kaye-engine` that its child loggers inherit
 - root logger renamed `kaye.engine` → `kaye-engine`; children follow, e.g. `kaye-engine.claude`, `kaye-engine.skill`
 
