@@ -17,6 +17,9 @@ from kaye_engine.cli.exportable_as_json_parser import (
     register_exportable_as_json_parser,
 )
 from kaye_engine.cli.exportable_parser import register_exportable_parser
+from kaye_engine.cli.github_release.parser import (
+    register_github_release_parser,
+)
 from kaye_engine.cli.glossary_parser import register_glossary_parser
 from kaye_engine.cli.hermes.parser import register_hermes_parser
 from kaye_engine.cli.list_affordance_parser import (
@@ -71,6 +74,7 @@ def register_cli_subcommands(cli_subparser):
     register_list_variant_parser(cli_subparser)
     register_render_profile_list_parser(cli_subparser)
     register_glossary_parser(cli_subparser)
+    register_github_release_parser(cli_subparser)
     register_sync_open_webui_skills_parser(cli_subparser)
     register_skill_parser(cli_subparser)
 
