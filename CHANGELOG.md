@@ -3,9 +3,6 @@
 [^format]
 
 <!--
-
-Todo kaye build/gh release command
-
 todo support Codex
 todo organize exportable registry,
 such that not all calling export all exportable
