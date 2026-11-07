@@ -197,6 +197,14 @@ documentation](docs/render-profile-doc.md).
 
 ### CLI Flag Surface
 
+Verbosity flags apply to the whole `kaye.engine` logger tree at once:
+`apply_verbosity_arg` (`cli/verbosity.py`) sets the level on `kaye.engine`
+and resets each existing descendant to `NOTSET`, so loggers such as
+`kaye.engine.skill` follow a command's `-v`/`-q`/`-V`/`-Q` even when the
+command's own logger is another one. kamilog loggers do not propagate, but
+level inheritance still walks the name hierarchy. `-n` dry-run badges are
+per-logger state and keep their own name list (`cli/dry_run.py`).
+
 Several subcommands print rendered or registry content without the
 render-profile options: `export-json` uses a
 hardcoded `RenderProfile`; `dynamic-substitution` and `glossary` print raw

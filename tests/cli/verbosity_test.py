@@ -9,6 +9,8 @@ apply_verbosity_arg
 import logging
 from argparse import ArgumentParser
 
+from unittest.mock import patch
+
 import kamilog
 import pytest
 
@@ -52,3 +54,23 @@ class TestContent:
         apply_verbosity_arg(_parse("-V"))
         late = kamilog.getLogger(LOGGER_NAME + ".late-created")
         assert late.isEnabledFor(kamilog.DEBUG)
+
+
+class TestVsCodeCommand:
+    def test_max_verbose_reaches_skill_logger(self):
+        from kaye_engine.cli.claude.vs_code import parser as vs_code_parser
+
+        parser = ArgumentParser()
+        kamilog.add_verbose_arguments(parser)
+        args = parser.parse_args(["-V"])
+
+        with patch.object(
+            vs_code_parser,
+            "check_setup_for_claude_cli",
+            side_effect=SystemExit(1),
+        ):
+            with pytest.raises(SystemExit):
+                vs_code_parser._vs_code_main(args)
+
+        skill_logger = kamilog.getLogger(LOGGER_SKILL_NAME)
+        assert skill_logger.isEnabledFor(kamilog.DEBUG)
