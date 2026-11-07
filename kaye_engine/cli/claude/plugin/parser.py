@@ -10,14 +10,15 @@ from kaye_engine.cli.claude import LOGGER_CLAUDE_NAME
 from kaye_engine.cli.claude.plugin_marketplace_name import (
     check_setup_for_claude_cli,
 )
-from kaye_engine.cli.claude.setup import get_surface_profiles
 from kaye_engine.cli.dry_run import (
     apply_dry_run_arg,
     build_dry_run_parent_parser,
 )
 from kaye_engine.cli.claude import CLAUDE_DOC_DESCRIPTION
-from kaye_engine.cli.render_profile_parser import (
+from kaye_engine.cli.render_profile_description import (
     RENDER_PROFILE_DESCRIPTION,
+)
+from kaye_engine.cli.render_profile_parser import (
     build_render_profile_parent_parser,
     resolve_render_profile,
 )
@@ -32,11 +33,13 @@ logger = kamilog.getLogger(LOGGER_CLAUDE_NAME)
 
 _DEFAULT_PLUGINS_FOLDER = Path.home() / ".claude" / "plugins"
 
-_DESCRIPTION = """
+_DESCRIPTION = (
+    __doc__ + """
 
 writes, per consumer, plugin.json and one SKILL.md per exportable of that
 consumer under PLUGIN_NAME/skills/; with -z, creates one upload-ready .zip
-per consumer for Claude Desktop instead.
+per consumer for Claude Desktop instead. CONSUMER_PROJ keeps only the
+consumer of that name; naming it needs FOLDER first (plugin -z . NAME).
 
 FOLDER/  (default: ~/.claude/plugins/)
 └── PLUGIN_NAME/
@@ -47,6 +50,13 @@ FOLDER/  (default: ~/.claude/plugins/)
         │   └── SKILL.md
         └── ~~  (one folder per remaining skill)
 """
+    + CLAUDE_DOC_DESCRIPTION
+    + RENDER_PROFILE_DESCRIPTION
+    + """
+
+render defaults: surface=claude, comment=False, sparseness=0
+"""
+)
 
 
 # pylint: disable=missing-function-docstring
@@ -54,15 +64,13 @@ def register_plugin_parser(cli_subparser):  ####################################
     plugin_parser = cli_subparser.add_parser(
         "plugin",
         help=__doc__,
-        description=__doc__ + _DESCRIPTION + CLAUDE_DOC_DESCRIPTION
-        + RENDER_PROFILE_DESCRIPTION,
+        description=_DESCRIPTION,
         formatter_class=RawDescriptionHelpFormatter,
         aliases=["p"],
         parents=[
             build_render_profile_parent_parser(
-                default_surface=("chat", "cowork"),
+                default_surface=("claude",),
                 default_sparseness=DEFAULT_SPARSENESS,
-                surface_profiles=get_surface_profiles(),
             ),
             build_dry_run_parent_parser(),
         ],
@@ -75,6 +83,14 @@ def register_plugin_parser(cli_subparser):  ####################################
         type=Path,
         default=None,
         help="destination folder; default: ~/.claude/plugins/",
+    )
+
+    plugin_parser.add_argument(
+        "consumer_proj",
+        nargs="?",
+        metavar="CONSUMER_PROJ",
+        default=None,
+        help="export only this consumer's plugin; default: every consumer",
     )
 
     plugin_parser.add_argument(
@@ -109,23 +125,33 @@ def register_plugin_parser(cli_subparser):  ####################################
             folder = Path.cwd() if args.zip else _DEFAULT_PLUGINS_FOLDER
         render_profile = resolve_render_profile(
             args,
-            surface_profiles=get_surface_profiles(),
             default_show_comment=False,
         )
 
         if args.zip:
             logger.debug("export plugin as zip")
-            export_plugins_as_zips(
-                folder,
-                includes_version=args.includes_version,
-                render_profile=render_profile,
-            )
-            done_msg = "export plugin as zip"
+            try:
+                count = export_plugins_as_zips(
+                    folder,
+                    includes_version=args.includes_version,
+                    render_profile=render_profile,
+                    consumer_name=args.consumer_proj,
+                )
+            except ValueError as err:
+                logger.critical(str(err))
+                raise SystemExit(1) from err
+            logger.done("export plugin as {} zips".format(count))
         else:
             logger.debug("export plugin as folder")
-            export_plugins_as_folders(folder, render_profile=render_profile)
-            done_msg = "export plugin as folder"
-
-        logger.done(done_msg + "\t" + str(folder))
+            try:
+                export_plugins_as_folders(
+                    folder,
+                    render_profile=render_profile,
+                    consumer_name=args.consumer_proj,
+                )
+            except ValueError as err:
+                logger.critical(str(err))
+                raise SystemExit(1) from err
+            logger.done("export plugin as folder\t" + str(folder))
 
     plugin_parser.set_defaults(func=_plugin_main)

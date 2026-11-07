@@ -1,6 +1,6 @@
 # Kaye Engine: support for Continue
 
-<!-- fixme mpv continue support doc -->
+<!-- fixme fixme mpv continue support doc -->
 
 `kaye-engine continue` (alias `c`) writes every entry of `exportable_registry` into a [Continue](https://docs.continue.dev) config folder, as a **rule** or as a **prompt**. Selection reuses `is_exportable` — an entry kept out of `exportable_registry` is never exported — so no Continue-specific flag exists.
 
@@ -14,7 +14,7 @@ kaye-engine c FOLDER -s 0 -C          # the shared render options apply
 
 Use the default when Continue runs on this machine. Pass a custom `FOLDER` to inspect the output first, or to export into a project-local Continue folder.
 
-The command accepts the shared render options (`--surface` where the consumer configured surfaces, `--comment`/`--no-comment`, `--conditional-sidecar`, `--variant`, `--sparseness`, `--reverse-order`; q.v. [`render-profile-doc.md`](render-profile-doc.md)). Comments are hidden by default and no surface is selected by default.
+The command accepts the shared render options (`--surface`, `--comment`/`--no-comment`, `--conditional-sidecar`, `--variant`, `--sparseness`, `--reverse-order`; q.v. [`render-profile-doc.md`](render-profile-doc.md)). Comments are hidden by default and no surface is selected by default.
 
 ## Output Tree
 
@@ -26,7 +26,7 @@ FOLDER/
     └── <canonical_name>.md
 ```
 
-Both subfolders are always created. A file is named after its entry's `canonical_name`; an existing file of the same name is overwritten.
+Both subfolders are always created. A file is named after its entry's `canonical_name`; an existing file of the same name is overwritten only when its content differs; an identical one is reported as `unchanged` and left alone.
 
 ## Classification
 
@@ -55,7 +55,7 @@ The body is the entry's `content()`, rendered with the resolved render profile.
 
 ## Surface Behaviour
 
-`--surface` exists only when the consumer project configured surface profiles, and it is repeatable across names like the other rendering commands. With no `--surface`, only the entry's own `render_profile` and the explicit flags shape the output.
+`--surface` takes the registered surface profile names, and it is repeatable across names like the other rendering commands. With no `--surface`, only the entry's own `render_profile` and the explicit flags shape the output.
 
 ## Dry Run
 

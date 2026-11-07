@@ -10,17 +10,16 @@ from kaye_engine.cli.claude import LOGGER_CLAUDE_NAME
 from kaye_engine.cli.claude.plugin_marketplace_name import (
     check_setup_for_claude_cli,
 )
-from kaye_engine.cli.claude.setup import (
-    get_marketplace_folder_name,
-    get_surface_profiles,
-)
+from kaye_engine.cli.claude.setup import get_marketplace_folder_name
 from kaye_engine.cli.dry_run import (
     apply_dry_run_arg,
     build_dry_run_parent_parser,
 )
 from kaye_engine.cli.claude import CLAUDE_DOC_DESCRIPTION
-from kaye_engine.cli.render_profile_parser import (
+from kaye_engine.cli.render_profile_description import (
     RENDER_PROFILE_DESCRIPTION,
+)
+from kaye_engine.cli.render_profile_parser import (
     build_render_profile_parent_parser,
     resolve_render_profile,
 )
@@ -32,7 +31,8 @@ logger = kamilog.getLogger(LOGGER_CLAUDE_NAME)
 
 # constants  ===================================================================
 
-_DESCRIPTION = """
+_DESCRIPTION = (
+    __doc__ + """
 
 writes marketplace.json and exports into plugins/;
 the resulting folder can be added directly in Claude's marketplace settings.
@@ -49,6 +49,13 @@ MARKETPLACE/  (default: ~/.claude/MARKETPLACE_FOLDER_NAME)
             │   └── SKILL.md
             └── ~~  (one folder per remaining skill)
 """
+    + CLAUDE_DOC_DESCRIPTION
+    + RENDER_PROFILE_DESCRIPTION
+    + """
+
+render defaults: surface=claude-vsc, comment=False, sparseness=0
+"""
+)
 
 
 # pylint: disable=missing-function-docstring
@@ -56,15 +63,13 @@ def register_marketplace_parser(cli_subparser):  ###############################
     marketplace_parser = cli_subparser.add_parser(
         "marketplace",
         help=__doc__,
-        description=__doc__ + _DESCRIPTION + CLAUDE_DOC_DESCRIPTION
-        + RENDER_PROFILE_DESCRIPTION,
+        description=_DESCRIPTION,
         formatter_class=RawDescriptionHelpFormatter,
         aliases=["m"],
         parents=[
             build_render_profile_parent_parser(
-                default_surface=("vsc",),
+                default_surface=("claude-vsc",),
                 default_sparseness=DEFAULT_SPARSENESS,
-                surface_profiles=get_surface_profiles(),
             ),
             build_dry_run_parent_parser(),
         ],
@@ -92,7 +97,6 @@ def register_marketplace_parser(cli_subparser):  ###############################
             folder = Path.home() / ".claude" / get_marketplace_folder_name()
         render_profile = resolve_render_profile(
             args,
-            surface_profiles=get_surface_profiles(),
             default_show_comment=False,
         )
 

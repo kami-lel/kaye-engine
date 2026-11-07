@@ -10,10 +10,10 @@ Kaye Engine parses a plain Markdown file, as the structured single source of tru
 - ⚙️ generate scenario-ready prompts from blueprints and templates
 - 🐍 programmatic Python API for listing, previewing, and generating prompts
 - 💻 CLI for quick local generation and inspection
-- 🎨 Image-prompt export: write a marked exportable subset to per-entry Markdown files, each with an `-AVOID` negative-prompt sibling where relevant
 - 🧭 Continue export: write every exportable into a `~/.continue` folder as an always-apply/conditional rule or an invokable prompt
-- 🪽 Hermes export: write a Hermes home directory in one command: a root `SOUL.md`, one `SOUL.md` per profile, and every exportable as an Agent Skill
+- 🪽 Hermes export: write a Hermes home directory in one command: a root `SOUL.md`, one `SOUL.md` per profile, and every exportable as an Agent Skill, for the default profile and each named one
 - 🧩 Agent Skills export: write every exportable, or just the ones you name, as Agent Skill folders or `.zip`s
+- 📤 GitHub Release build: write a consumer's one versioned plugin `.zip` with `build-github-release`, ready to attach to a release
 - 🔄 Open WebUI sync: push every exportable into a running Open WebUI server as an Agent Skill, creating, updating, and (optionally) pruning to match
 - 🔌 pluggable mechanism: any number of consumer packages share one process, each registering its identity (`register_consumer(...)`), its corpus, abbreviations, and blueprints, and exporting as its own plugin under one `kaye-engine` marketplace
 
@@ -46,7 +46,7 @@ Other core concepts:
 - 📦 exportable: **Registry Entry** unifying blueprints and abbreviation/glossary groups under one exportable name — Q.v. [`Exportable` registry documentation](docs/exportable-registry-doc.md)
 - 🔀 dynamic node: corpus node whose content is **Generated** at render time — Q.v. [Dynamic Node documentation](docs/dynamic-content-doc.md)
 - 🗂️ sidecar node: corpus node holding structured **Metadata** about its parent — Q.v. [Sidecar Node documentation](docs/sidecar-doc.md)
-- 🧰 affordance / variant: capability **Family** (affordance) w/ concrete **Implementation** (variant), auto-checkmarked present/absent per render — Q.v. [Affordance documentation](docs/sidecar-doc.md#affordance)
+- 🧰 affordance / variant: capability **Family** (affordance) w/ concrete **Implementation** (variant), auto-checkmarked present/absent per render, each w/ a **Remark** listed by `kaye-engine afd`/`var` — Q.v. [Affordance documentation](docs/sidecar-doc.md#affordance)
 - 🎚️ render profile: layerable bundle of **Render Settings** (sidecars, variants, mode, sparseness, comment) shared by the API and every rendering CLI command — Q.v. [Render Profile documentation](docs/render-profile-doc.md)
 
 The `(decode-only-abbr)` dynamic node reads its meanings from an `abbrs.json` file loaded via `populate_abbr_data_with_json_file`/`get_abbr_data` — kaye-engine bundles no copy of its own; a separate consumer package supplies and loads the real file. Q.v. [`abbr_collection` documentation](docs/abbrs-doc.md) for its schema, top-level functions, and where abbreviations are used.
@@ -126,8 +126,14 @@ or JSON from stdin when the name is omitted; `preview` and `render` accept
 The command references for the exporters are at
 [`docs/claude-doc.md`](docs/claude-doc.md),
 [`docs/continue-doc.md`](docs/continue-doc.md),
-[`docs/hermes-doc.md`](docs/hermes-doc.md) and
+[`docs/hermes-doc.md`](docs/hermes-doc.md),
+[`docs/github-release-doc.md`](docs/github-release-doc.md) and
 [`docs/open-webui-doc.md`](docs/open-webui-doc.md).
+
+The `affordance`, `variant` and `render-profile` commands list their
+registries, sharing one flag set (`-r` regex filter, `-c` columns, `-l` cards,
+`-f table|tsv|json`); see the
+[Render Profile documentation](docs/render-profile-doc.md).
 
 
 

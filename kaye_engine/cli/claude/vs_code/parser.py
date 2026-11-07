@@ -10,7 +10,6 @@ from kaye_engine.cli.claude import LOGGER_CLAUDE_NAME
 from kaye_engine.cli.claude.plugin_marketplace_name import (
     check_setup_for_claude_cli,
 )
-from kaye_engine.cli.claude.setup import get_surface_profiles
 from kaye_engine.cli.claude.user_prompt.parser import (
     DEFAULT_CLAUDE_FOLDER,
 )
@@ -19,8 +18,10 @@ from kaye_engine.cli.dry_run import (
     build_dry_run_parent_parser,
 )
 from kaye_engine.cli.claude import CLAUDE_DOC_DESCRIPTION
-from kaye_engine.cli.render_profile_parser import (
+from kaye_engine.cli.render_profile_description import (
     RENDER_PROFILE_DESCRIPTION,
+)
+from kaye_engine.cli.render_profile_parser import (
     build_render_profile_parent_parser,
     resolve_render_profile,
 )
@@ -32,7 +33,8 @@ logger = kamilog.getLogger(LOGGER_CLAUDE_NAME)
 
 # constants  ===================================================================
 
-_DESCRIPTION = """
+_DESCRIPTION = (
+    __doc__ + """
 
 which performs:
 
@@ -56,6 +58,13 @@ CLAUDE_FOLDER/  (default: ~/.claude)
                 │   └── SKILL.md
                 └── ~~  (one folder per remaining skill)
 """
+    + CLAUDE_DOC_DESCRIPTION
+    + RENDER_PROFILE_DESCRIPTION
+    + """
+
+render defaults: surface=claude-vsc, comment=True, sparseness=0
+"""
+)
 
 
 def _vs_code_main(args):
@@ -67,7 +76,6 @@ def _vs_code_main(args):
     folder = args.folder
     render_profile = resolve_render_profile(
         args,
-        surface_profiles=get_surface_profiles(),
         default_show_comment=True,
     )
 
@@ -84,15 +92,13 @@ def register_vs_code_parser(cli_subparser):  ###################################
     vs_code_parser = cli_subparser.add_parser(
         "vs-code-extension",
         help=__doc__,
-        description=__doc__ + _DESCRIPTION + CLAUDE_DOC_DESCRIPTION
-        + RENDER_PROFILE_DESCRIPTION,
+        description=_DESCRIPTION,
         formatter_class=RawDescriptionHelpFormatter,
         aliases=["v"],
         parents=[
             build_render_profile_parent_parser(
-                default_surface=("vsc",),
+                default_surface=("claude-vsc",),
                 default_sparseness=DEFAULT_SPARSENESS,
-                surface_profiles=get_surface_profiles(),
             ),
             build_dry_run_parent_parser(),
         ],

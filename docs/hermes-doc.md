@@ -1,6 +1,6 @@
 # Kaye Engine: support for Hermes
 
-`kaye-engine hermes` (alias `m`) writes a Hermes home directory: a root `SOUL.md`, one `SOUL.md` per profile, and every entry of `exportable_registry` as an Agent Skill. The command is mechanism only; the consumer project names which blueprints become the soul and the profiles.
+`kaye-engine hermes` (alias `m`) writes a Hermes home directory: a root `SOUL.md`, one `SOUL.md` per profile, and every entry of `exportable_registry` as an Agent Skill, in the root and in each profile. The command is mechanism only; the consumer project names which blueprints become the soul and the profiles.
 
 ## Usage
 
@@ -12,7 +12,7 @@ kaye-engine hermes FOLDER -s 0 -C     # the shared render options apply
 
 `FOLDER` is required; there is no default location.
 
-The command accepts the shared render options (`--surface` where the consumer configured surfaces, `--comment`/`--no-comment`, `--conditional-sidecar`, `--variant`, `--sparseness`, `--reverse-order`; q.v. [`render-profile-doc.md`](render-profile-doc.md)) and `-n`/`--dry-run`. Comments are hidden by default and no surface is selected by default.
+The command accepts the shared render options (`--surface`, `--comment`/`--no-comment`, `--conditional-sidecar`, `--variant`, `--sparseness`, `--reverse-order`; q.v. [`render-profile-doc.md`](render-profile-doc.md)) and `-n`/`--dry-run`. Comments are hidden by default and the `hermes` surface is selected by default: its only variant is the image model `QwenImage`, so image-prompt `{[QwenImage] Usage}` sidecars render, and every Claude-tool affordance falls back (e.g. `file-edit`, where the agent has no file-editing tool).
 
 ## Output Tree
 
@@ -22,14 +22,18 @@ FOLDER/
 ├── skills/
 │   └── <consumer name>/<skill name>/SKILL.md
 └── profiles/
-    └── <profile name>/SOUL.md
+    └── <profile name>/
+        ├── SOUL.md
+        └── skills/
+            └── <consumer name>/<skill name>/SKILL.md
 ```
 
 - `SOUL.md`: the soul blueprint, rendered
 - `profiles/<profile>/SOUL.md`: the blueprint mapped to that profile, rendered
 - `skills/<consumer>/`: one folder per entry of `exportable_registry` of that consumer, as `skill` does (q.v. [`exportable-registry-doc.md`](exportable-registry-doc.md))
+- `profiles/<profile>/skills/<consumer>/`: the same skill folders again, so every profile holds all skills, just like the default profile
 
-The two `SOUL.md` kinds render from `blueprint_registry`, so a blueprint registered with `is_exportable=False` can still be a soul or a profile; it never becomes a skill. An existing file is overwritten.
+The two `SOUL.md` kinds render from `blueprint_registry`, so a blueprint registered with `is_exportable=False` can still be a soul or a profile; it never becomes a skill. An existing file is overwritten only when its content differs; an identical one is reported as `unchanged` and left alone.
 
 ## Consumer Configuration
 
@@ -48,4 +52,4 @@ Call it after every named blueprint is registered; an unregistered name logs cri
 
 ## Dry Run
 
-With `-n`, every folder and file is reported with the `dry` badge and nothing is written.
+With `-n`, every folder and file is reported with the `dry` badge and nothing is written; an unchanged file is reported as `unchanged`, a differing one as `overwrite`, as a live run would.

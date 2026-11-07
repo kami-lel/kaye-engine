@@ -1,7 +1,5 @@
 # Kaye Engine: support for Anthropic Claude
 
-<!-- fixme mpv support for anthropic claude -->
-
 Kaye Engine's integration with Anthropic Claude: exporting corpus blueprints as Claude plugins and system prompts and exporting every exportable as Agent Skills into Claude's skills folder (`claude skills`); exporting chosen Agent Skills into any folder is the top-level `kaye-engine skill` command.
 
 > [!NOTE]
@@ -19,15 +17,15 @@ Kaye Engine's integration with Anthropic Claude: exporting corpus blueprints as 
 
 ### Choose a Subcommand
 
-| Goal | Command | Alias |
-| --- | --- | --- |
-| Upload a plugin to Claude Desktop | `claude plugin -z` | `claude p` |
-| Get a plugin folder to load locally | `claude plugin` | `claude p` |
-| Export every skill into `~/.claude/skills` | `claude skills` | `claude s` |
-| Get an installable marketplace folder | `claude marketplace` | `claude m` |
-| Set up Claude Code in the terminal | `claude code` | `claude c` |
-| Set up the Claude Code VS Code Extension | `claude vs-code-extension` | `claude v` |
-| Print the User System Prompt | `claude user-system-prompt` | `claude usp` |
+| Goal | Command | Alias | Default surface |
+| --- | --- | --- | --- |
+| Upload a plugin to Claude Desktop | `claude plugin -z` | `claude p` | `claude` |
+| Get a plugin folder to load locally | `claude plugin` | `claude p` | `claude` |
+| Export every skill into `~/.claude/skills` | `claude skills` | `claude s` | `claude` |
+| Get an installable marketplace folder | `claude marketplace` | `claude m` | `claude-vsc` |
+| Set up Claude Code in the terminal | `claude code` | `claude c` | `claude` |
+| Set up the Claude Code VS Code Extension | `claude vs-code-extension` | `claude v` | `claude-vsc` |
+| Print the User System Prompt | `claude user-system-prompt` | `claude usp` | `claude` |
 
 ### plugin
 
@@ -38,6 +36,7 @@ kaye-engine claude plugin              # ~/.claude/plugins/PLUGIN_NAME/ per cons
 kaye-engine claude plugin FOLDER       # FOLDER/PLUGIN_NAME/ per consumer
 kaye-engine claude plugin -z           # one upload-ready .zip per consumer, in the current directory
 kaye-engine claude plugin -z -N ZIPS   # ZIPS/, filenames without the version
+kaye-engine claude plugin -z . NAME    # only consumer NAME's zip, in the current directory
 ```
 
 ```text
@@ -50,8 +49,19 @@ FOLDER/                      (default: ~/.claude/plugins/)
             └── SKILL.md
 ```
 
+- `CONSUMER_PROJ`: keep only the consumer of this canonical name; every plugin consumer when omitted. It is the second positional, so `FOLDER` comes first (`plugin -z . NAME`); an unknown name exits 1 and lists the valid names
 - `-z`, `--zip`: create upload-ready `.zip` files for Claude Desktop instead of folders, one per consumer; FOLDER then defaults to the current directory
 - `-N`, `--no-version`: leave each consumer's version out of its `.zip` filename, `.zip` only
+
+With `-z`, each zip prints 1 line at the default verbosity, then a count:
+
+```text
+DONE new	export plugin (23 skills, 412 KB): /home/me/out/pkg-one-1.1.2.zip
+DONE	export plugin as 1 zips
+```
+
+`-vv` adds the build steps, `-vvv` the archive's entries, and `-n` prints
+the same lines with size `n/a` and writes nothing.
 
 PLUGIN_NAME, the display name, the version and the manifest metadata (summary, author, URLs, read from the consumer's own installed distribution) come from each consumer's record; `skills/` holds only that consumer's skills.
 
@@ -77,6 +87,8 @@ FOLDER/                      (default: ~/.claude/skills/)
 ```
 
 - `-z`, `--zip`: create a `.zip` per skill instead of folders; FOLDER then defaults to the current directory
+
+With `-z`, the default verbosity prints only the count (`DONE	export skills as 23 zips`); `-v` adds 1 line per zip, such as `INFO new	export skill (3 KB): /home/me/out/coder-python.zip`.
 
 For a chosen subset, or a folder that is not Claude's, use `kaye-engine skill NAME... FOLDER` instead; FOLDER is required there.
 
@@ -166,8 +178,8 @@ Every subcommand except `user-system-prompt` writes files, and all of them take 
 - `--variant`: variant names to include
 - `-i`, `--conditional-sidecar`: conditional-sidecar names to include
 - `--reverse-order`: reverse sibling order at every level
-- `--surface`, `-u`: present only when the consumer configured surfaces; each subcommand preselects its own surface when omitted
-- `-n`, `--dry-run`: report every file, directory, and archive step with the `dry` badge and write nothing
+- `--surface`, `-u`: one of the registered render profiles, see `kaye-engine render-profile`; each subcommand preselects its own surface when omitted
+- `-n`, `--dry-run`: report every file, directory, and archive step with the `dry` badge and write nothing; a file that already holds the text to write is reported as `unchanged` (level `SKIP`, shown from `-vv`) in a live and a dry run alike, and is never rewritten
 - `-v`, `-q`, `-V`, `-Q`: verbosity
 
 ## Consumer Requirement
@@ -182,6 +194,16 @@ Every package exporting through `claude` calls `register_consumer(display_name, 
 
 ## Surfaces
 
-A **surface** is a named target Kaye Engine renders for — `chat`, `code`, the VS Code extension, and so on. Different surfaces support different tools, so the same corpus should render differently for each: a Bash-capable surface gets the Bash usage sidecar, a surface without file access does not.
+A **surface** is a named target Kaye Engine renders for. Claude has 2: `claude` for the chat apps (web, desktop, iOS, Cowork) and Claude Code in the terminal, and `claude-vsc` for the Claude Code extension in Visual Studio Code. Different surfaces support different tools, so the same corpus should render differently for each: a surface with Bash gets the Bash usage sidecar, a surface without file access does not. Every Claude affordance variant carries one `Claude:` prefix, such as `Claude:Edit` or `Claude:Web~`, and a surface lists the variants of the tools it has; a `claude` render includes tools only some of its apps provide.
 
-A consumer defines its surfaces as a `dict[str, RenderProfile]` and passes it to `setup_claude_cli(surface_profiles=...)`; every rendering command then accepts `--surface NAME` (`-u`) to render for one or more of them. How surfaces are configured, selected, and merged with `--variant` and `--conditional-sidecar` is documented in [`render-profile-doc.md`](render-profile-doc.md#surfaces).
+The engine registers its surfaces as named render profiles in `render_profile_registry`, and a consumer may add more with `register_render_profile(...)`; every rendering command accepts `--surface NAME` (`-u`) to render for one or more of them. How surfaces are configured, selected, and merged with `--variant` and `--conditional-sidecar` is documented in [`render-profile-doc.md`](render-profile-doc.md#surfaces).
+
+## Editing and Merging the Corpus
+
+Steps for changing prompt text or sidecar references in a consumer package, in order:
+
+1. edit a corpus source Markdown file in the consumer package
+2. before touching prompt text, invoke the consumer-supplied prompt-writing skill, `write-llm-prompt`, through the `Skill` tool and follow it
+3. merge duplicate sidecar references: where one affordance had several surface-specific variants, keep the single `Claude:` name its variants now share, and drop the repeats
+4. run `kaye-engine blueprint validate`
+5. re-export with the `claude` subcommand for the target, such as `claude plugin` or `claude skills`

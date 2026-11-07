@@ -14,6 +14,7 @@ import kamilog
 from kaye_engine.deed import track
 from kaye_engine.cli.claude import LOGGER_CLAUDE_NAME
 from kaye_engine.cli.dry_run import is_dry_run
+from kaye_engine.cli.file_write import write_text_if_changed
 
 # logger  ######################################################################
 logger = kamilog.getLogger(LOGGER_CLAUDE_NAME)
@@ -77,10 +78,10 @@ def update_settings_json(claude_folder):
 
     _set_permissions(data, permission_cmds)
 
-    with track(logger).save_config(settings_path):
-        if not is_dry_run():
-            with open(settings_path, "w", encoding="utf-8") as f:
-                json.dump(data, f, indent=2, ensure_ascii=False)
-                f.write("\n")
+    write_text_if_changed(
+        logger,
+        settings_path,
+        json.dumps(data, indent=2, ensure_ascii=False) + "\n",
+    )
 
     return settings_path

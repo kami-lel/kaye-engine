@@ -6,12 +6,13 @@ Unit Tests (using pytest) for:
 export_skills_as_folders() name selection
 """
 
+import logging
 from types import SimpleNamespace
 from unittest.mock import MagicMock, patch
 
 import pytest
 
-from kaye_engine.skill import export_folders, select
+from kaye_engine.skill import LOGGER_SKILL_NAME, export_folders, select
 from kaye_engine.skill.export_folders import export_skills_as_folders
 
 
@@ -63,3 +64,52 @@ class TestExportSkillsAsFolders:
             )
 
         assert not _written
+
+
+class TestEnterLine:
+
+    @staticmethod
+    def _enter_messages(caplog, **kwargs):
+        registry = {
+            "alpha": SimpleNamespace(
+                canonical_name="alpha", display_name="alpha", consumer="proj-a"
+            )
+        }
+        with (
+            patch.object(select, "exportable_registry", registry),
+            patch.object(export_folders.Skill, "from_exportable"),
+            caplog.at_level(logging.DEBUG, logger=LOGGER_SKILL_NAME),
+        ):
+            export_skills_as_folders(".", version="1", **kwargs)
+        return [rec.message for rec in caplog.records]
+
+    def test_names_the_consumer_when_given(_, caplog):
+        messages = TestEnterLine._enter_messages(caplog, consumer="proj-a")
+
+        assert messages == ["exporting exportables as skills:\tproj-a"]
+
+    def test_plain_line_without_a_consumer(_, caplog):
+        messages = TestEnterLine._enter_messages(caplog)
+
+        assert messages == ["exporting exportables as skills"]
+
+
+class TestMultipleDestinations:
+
+    def test_single_render_writes_every_destination(_, tmp_path):
+        skill = export_folders.Skill(name="alpha", body="b", version="1")
+        dests = [tmp_path / "a", tmp_path / "b"]
+        with patch.object(
+            export_folders.Skill, "render", wraps=skill.render
+        ) as render:
+            folders = skill.write(dests)
+
+        assert render.call_count == 1
+        assert folders == [d / "alpha" for d in dests]
+        texts = {(f / "SKILL.md").read_text(encoding="utf-8") for f in folders}
+        assert len(texts) == 1
+
+    def test_path_still_accepted(_, tmp_path):
+        skill = export_folders.Skill(name="alpha", body="b", version="1")
+
+        assert skill.write(tmp_path) == [tmp_path / "alpha"]

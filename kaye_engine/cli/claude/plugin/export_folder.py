@@ -8,7 +8,7 @@ import kamilog
 from kaye_engine.cli.claude import LOGGER_CLAUDE_NAME
 from kaye_engine.cli.claude.package_meta import read_package_meta
 from kaye_engine.cli.claude.plugin_marketplace_name import (
-    get_plugin_consumers,
+    select_plugin_consumers,
 )
 from kaye_engine.skill.export_folders import (
     export_skills_as_folders,
@@ -26,7 +26,9 @@ _SKILLS_DIR = "skills"
 # entry point  #################################################################
 
 
-def export_plugin_as_folder(parent_folder, consumer, *, render_profile=None):
+def export_plugin_as_folder(
+    parent_folder, consumer, *, render_profile=None, quiet=False
+):
     """
     export one consumer's exportables as an Anthropic Claude plugin folder
 
@@ -43,6 +45,9 @@ def export_plugin_as_folder(parent_folder, consumer, *, render_profile=None):
     :param render_profile: render profile forwarded to
             :func:`export_skills_as_folders`
     :type render_profile: RenderProfile, optional
+    :param quiet: whether to log the finished plugin at ``DEBUG`` rather
+            than ``SUCC``, for a caller that reports the result itself
+    :type quiet: bool
     :return: path to the created plugin directory
     :rtype: Path
     """
@@ -74,12 +79,15 @@ def export_plugin_as_folder(parent_folder, consumer, *, render_profile=None):
         consumer=plugin_name,
     )
 
-    logger.succ("export plugin:\t" + str(plugin_root))
+    report = logger.debug if quiet else logger.succ
+    report("export plugin:\t" + str(plugin_root))
 
     return plugin_root
 
 
-def export_plugins_as_folders(parent_folder, *, render_profile=None):
+def export_plugins_as_folders(
+    parent_folder, *, render_profile=None, consumer_name=None
+):
     """
     export every consumer holding an exportable as its own plugin folder
 
@@ -88,12 +96,16 @@ def export_plugins_as_folders(parent_folder, *, render_profile=None):
     :type parent_folder: Path-like
     :param render_profile: forwarded to :func:`export_plugin_as_folder`
     :type render_profile: RenderProfile, optional
+    :param consumer_name: export only the consumer of this canonical
+            name; every plugin consumer when ``None``
+    :type consumer_name: str, optional
     :return: path of each created plugin directory
     :rtype: list[Path]
+    :raises ValueError: when ``consumer_name`` matches no plugin consumer
     """
     return [
         export_plugin_as_folder(
             parent_folder, consumer, render_profile=render_profile
         )
-        for consumer in get_plugin_consumers()
+        for consumer in select_plugin_consumers(consumer_name)
     ]

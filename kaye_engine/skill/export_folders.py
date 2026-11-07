@@ -16,18 +16,20 @@ logger = kamilog.getLogger(LOGGER_SKILL_NAME)
 
 
 def export_skills_as_folders(
-    parent_folder, *, version, render_profile=None, names=None, consumer=None
+    parent_folders, *, version, render_profile=None, names=None, consumer=None
 ):
     """
     export `exportable_registry` entries as skill folders: every entry, or
     only those named
 
     writes one subfolder per blueprint and per abbreviation group under
-    ``parent_folder``
+    each of ``parent_folders``; every skill renders once and its text goes
+    to all destinations, entry by entry
 
 
-    :param parent_folder: destination directory to write skill folders into
-    :type parent_folder: Path-like
+    :param parent_folders: destination directory, or directories, to write
+            skill folders into
+    :type parent_folders: Path-like or Iterable[Path-like]
     :param version: installed package version
     :type version: str
     :param render_profile: render options forwarded to
@@ -41,13 +43,16 @@ def export_skills_as_folders(
     :raises ValueError: 1+ names are not registered; nothing is written
     """
     exportables = select_exportables(names, consumer=consumer)
-    logger.enter("exporting exportables as skills")
+    logger.enter(
+        "exporting exportables as skills"
+        + ("" if consumer is None else ":\t" + consumer)
+    )
 
     for exportable in exportables:
         try:
             Skill.from_exportable(
                 exportable, version=version, render_profile=render_profile
-            ).write(parent_folder)
+            ).write(parent_folders)
         except OSError as err:
             logger.critical("cannot write skill:\t" + exportable.display_name)
             raise SystemExit(1) from err
