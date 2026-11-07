@@ -161,7 +161,7 @@ class TestWritersUnderDryRun:
             plugin_export_zip.export_plugin_as_zip(destination, consumer)
 
         assert not destination.exists()
-        assert "plug-1.zip" in caplog.text
+        assert "plug-claude-1.zip" in caplog.text
 
 
 # TestExistingFileUnderDryRun  ###################################################
