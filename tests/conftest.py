@@ -42,9 +42,9 @@ def restore_engine_logger_levels():
     saved = {
         name: lg.level
         for name, lg in manager.loggerDict.items()
-        if name.startswith("kaye.") and isinstance(lg, logging.Logger)
+        if name.startswith("kaye-engine") and isinstance(lg, logging.Logger)
     }
     yield
     for name, lg in manager.loggerDict.items():
-        if name.startswith("kaye.") and isinstance(lg, logging.Logger):
+        if name.startswith("kaye-engine") and isinstance(lg, logging.Logger):
             lg.setLevel(saved.get(name, logging.NOTSET))

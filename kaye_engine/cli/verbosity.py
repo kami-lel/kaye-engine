@@ -19,7 +19,7 @@ def apply_verbosity_arg(args):
     """
     set the level of every engine logger from a parsed namespace
 
-    the level lands on the ``kaye.engine`` logger alone; each existing
+    the level lands on the ``kaye-engine`` logger alone; each existing
     descendant is reset to ``NOTSET`` so it inherits that level, as does
     any logger created later
 

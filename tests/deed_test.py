@@ -14,7 +14,7 @@ import pytest
 from kaye_engine.badge import MV_BADGE, NEW_BADGE, OWR_BADGE
 from kaye_engine.deed import format_size, quiet_deeds, track
 
-_NAME = "kaye.engine.deed-test"
+_NAME = "kaye-engine.deed-test"
 _LOGGER = kamilog.getLogger(_NAME)
 
 

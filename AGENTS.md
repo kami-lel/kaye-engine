@@ -150,8 +150,8 @@ stripped by any sparseness level, including `-1`.
 `kamilog.add_verbose_arguments` and applies them through
 `apply_verbosity_arg(args)` (`kaye_engine/cli/verbosity.py`), never
 `kamilog.set_logging_level_by_namespace` on one logger: engine loggers are
-siblings under `kaye.engine`, so a single-logger call leaves the rest at the
-default. A new engine logger must be named `kaye.engine.<part>`; it then
+siblings under `kaye-engine`, so a single-logger call leaves the rest at the
+default. A new engine logger must be named `kaye-engine.<part>`; it then
 inherits the level with no further wiring.
 
 `claude vs-code-extension` also writes `permissions` (`allow`/`ask`/`deny`

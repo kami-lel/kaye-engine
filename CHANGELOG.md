@@ -30,7 +30,7 @@ manually add chat & coder, instead by data structure
 
 ### Changed
 
-- every command sets its log level through `apply_verbosity_arg` (`kaye_engine/cli/verbosity.py`), one call on `kaye.engine` that its child loggers inherit
+- every command sets its log level through `apply_verbosity_arg` (`kaye_engine/cli/verbosity.py`), one call on `kaye-engine` that its child loggers inherit
 
 ### Deprecated
 
