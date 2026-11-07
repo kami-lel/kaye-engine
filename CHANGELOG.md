@@ -30,24 +30,43 @@ manually add chat & coder, instead by data structure
 
 ### Changed
 
-- plugin zips are named `NAME-claude-VERSION.zip` (`NAME-claude.zip` with `-N`) by `claude plugin -z` and `build-github-release`
-- every command sets its log level through `apply_verbosity_arg` (`kaye_engine/cli/verbosity.py`), one call on `kaye-engine` that its child loggers inherit
-- root logger renamed `kaye.engine` → `kaye-engine`; children follow, e.g. `kaye-engine.claude`, `kaye-engine.skill`
-
-> [!WARNING]
-> Log filters or handlers keyed on the old `kaye.engine*` names stop matching; update them
-
 ### Deprecated
 
 ### Removed
 
 ### Fixed
 
-- `-v`, `-q`, `-V`, `-Q` now reach every engine logger, not only the running command's own: e.g. `claude vs-code-extension -V` now shows the skill export's debug lines
-
 ### Security
 
-[unreleased]: https://github.com/kami-lel/kaye-engine/compare/v11.0.0...dev
+[unreleased]: https://github.com/kami-lel/kaye-engine/compare/v11.0.1...dev
+
+
+
+
+
+
+
+
+
+
+
+
+
+## [11.0.1] - 2026-11-07
+
+### Changed
+
+- plugin zips named `NAME-claude-VERSION.zip` (`NAME-claude.zip` with `-N`)
+- root logger renamed `kaye.engine` → `kaye-engine`; child loggers follow
+
+> [!WARNING]
+> Log filters or handlers keyed on `kaye.engine*` stop matching; update them to `kaye-engine*`
+
+### Fixed
+
+- `-v`, `-q`, `-V`, `-Q` now apply to every engine logger, not only the running command's own
+
+[11.0.1]: https://github.com/kami-lel/kaye-engine/compare/v11.0.0...v11.0.1
 
 
 
