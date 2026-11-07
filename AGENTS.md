@@ -97,97 +97,20 @@ pytest
 ## CLI
 
 The editable install registers a `kaye-engine` console script, so
-`kaye-engine ...` and `python -m kaye_engine ...` are equivalent — prefer
-the shorter form. **Fifteen** top-level subcommands exist: `blueprint`,
-`claude`, `continue`, `hermes`, `dynamic-node`, `dynamic-substitution`,
-`exportable`, `export-json`, `affordance`, `variant`, `render-profile`,
-`glossary`, `build-github-release`, `skill`, and
-`sync-open-webui-skills`:
+`kaye-engine ...` and `python -m kaye_engine ...` are equivalent: prefer
+the shorter form. `kaye-engine --help` lists every subcommand and alias.
+Bare `blueprint`, `exportable`, `dynamic-node` and `glossary` (`bp`, `x`,
+`dn`, `g`) behave as the same command followed by `ls`.
 
 ```bash
-kaye-engine --help                          # show CLI usage
-kaye-engine blueprint list                  # list registered blueprint names; alias ls
-kaye-engine blueprint preview BLUEPRINT     # preview a blueprint's structure, dependencies included
-kaye-engine blueprint preview BLUEPRINT -D  # own nodes only; flags -l -w -t tune the tree
-kaye-engine blueprint render BLUEPRINT      # render a concrete prompt, dependencies included
-kaye-engine blueprint render BLUEPRINT -D   # own nodes only
-kaye-engine blueprint validate BLUEPRINT    # exit 0 if sound, 1 with the reason if not
-kaye-engine blueprint show BLUEPRINT        # summary of meta, node count, dependencies
-kaye-engine blueprint show BLUEPRINT -d     # one field: -a display name, -d description, -D description node, -w when-to-use, -W when-to-use node, -n nodes, -t subtrees, -g globs, -p dependencies
-kaye-engine blueprint preview < FILE        # any blueprint command reads stdin when BLUEPRINT is omitted
-kaye-engine dynamic-node NODE...            # render 1+ dynamic nodes merged into one blueprint/output; NODE is "today"/"decode-only-abbr", any simple AbbrTags kebab slug (eg "emoji", "single-character"), or any known abbr glossary name
-kaye-engine dynamic-node NODE -t THRESHOLD  # for a glossary NODE, hide entries with priority > THRESHOLD
-kaye-engine dynamic-node ls                 # list every available NODE value: today, decode-only-abbr, every AbbrTags-derived name, then glossary names alphabetically
-kaye-engine dynamic-substitution NAME       # print a registered dynamic substitution's content
-kaye-engine dynamic-substitution [ls]       # list every registered dynamic substitution name (default)
-kaye-engine skill NAME... FOLDER            # export the named Agent Skills into FOLDER (required)
-kaye-engine skill --all FOLDER              # export every Agent Skill; -a short
-kaye-engine skill -z NAME... FOLDER         # create .zip Agent Skill packages
-kaye-engine claude skills                   # export all skills into ~/.claude/skills
-kaye-engine claude skills FOLDER            # to a custom folder
-kaye-engine claude skills -z                # .zip per skill in the current directory
-kaye-engine claude plugin PLUGINS_FOLDER    # export blueprints as plugin folder
-kaye-engine claude plugin -z PLUGINS_FOLDER # .zip package (-N drops version)
+kaye-engine blueprint render BLUEPRINT -D   # own nodes only; stdin if omitted
+kaye-engine blueprint validate BLUEPRINT    # exit 0 if sound, 1 with reason
 kaye-engine claude plugin -z . CONSUMER     # only that consumer's plugin
-CONSUMER_CLI build-github-release CONSUMER [-o FOLDER]  # release zip (alias ghr)
-kaye-engine claude marketplace              # to ~/.claude/<marketplace folder>
-kaye-engine claude marketplace MARKETPLACE  # to a custom folder
-kaye-engine claude code                     # plugin + CLAUDE.md into ~/.claude
-kaye-engine claude user-system-prompt       # print Chat blueprint to stdout
-kaye-engine claude user-system-prompt -c    # append Coder blueprint content
-kaye-engine claude vs-code-extension        # CLAUDE.md + marketplace + settings
-kaye-engine continue                        # export rules + prompts to ~/.continue
-kaye-engine continue FOLDER                 # export to a custom Continue folder
-kaye-engine hermes FOLDER                   # SOUL.md, profiles/, skills/ into a Hermes home
-kaye-engine hermes FOLDER -n                # report every write without touching disk
-kaye-engine exportable EXPORTABLE           # print an exportable's content
-kaye-engine exportable ls                   # list every registered exportable name
-kaye-engine export-json              # export exportable_registry as flat JSON
-kaye-engine export-json -f FILE      # write to FILE instead of the default
-kaye-engine affordance                 # list affordance_registry: `affordance`, `variants` (count), `remark`, sorted by name
-kaye-engine afd -l -r '^cli$'          # one card per matching affordance, its variants and their remarks beneath
-kaye-engine variant                    # list variant_registry: grouped under an affordance header on a TTY, flat tsv when piped
-kaye-engine var -F -a '^cli$'          # flat table with an `affordance` column; -a keeps variants of matching affordances
-kaye-engine render-profile             # list render_profile_registry: `profile`, `variants` and `sidecars` (counts), `remark`, sorted by name
-kaye-engine rp -l -r '^code$'          # detail card: mode, sparseness, variants, sidecars in full
-kaye-engine rp -c remark,mode -f json  # -c picks columns; -f table|tsv|json; -N names only; -C no color
-kaye-engine glossary GLOSSARY               # print a glossary's content
-kaye-engine glossary ls                     # list every registered glossary name
-OWU_API_KEY=sk-... kaye-engine sync-open-webui-skills  # push every exportable into Open WebUI as a skill
-kaye-engine o -n                            # report create/update/skip without writing
-kaye-engine o --prune --base-url URL        # also delete remote-only skills; custom server
+CONSUMER_CLI build-github-release CONSUMER [-o FOLDER]  # release zip (ghr)
+kaye-engine hermes FOLDER -n                # report every write, touch nothing
+kaye-engine rp -l -r '^claude$'             # list command: -r -c -l -N -f -C
+OWU_API_KEY=sk-... kaye-engine o -n         # Open WebUI sync, dry run
 ```
-
-Bare `blueprint`, `exportable`, `dynamic-node` and `glossary` (and their
-aliases `bp`, `x`, `dn`, `g`) behave as the same command followed by `ls`.
-
-**List commands** — `affordance`, `variant` and `render-profile` share one
-mechanism, `kaye_engine/cli/list_view.py`, and one flag set: flags only, no
-positional argument, every flag with a short and a long form.
-`-r/--regex PATTERN` keeps names matching it (repeatable, any match wins),
-`-c/--columns COLS` picks columns by name (an unknown name is rejected),
-`-l/--long` prints one card per row, `-N/--names-only`,
-`-f/--format table|tsv|json`, `-C/--no-color`; `variant` adds
-`-a/--affordance PATTERN` (regex) and `-F/--flat`. On a TTY the default is an
-aligned table (`variant`: grouped under a bold affordance header); piped, it
-is tsv with a heading line and lists comma-joined. `render-profile` shows
-`variants` and `sidecars` as counts, and `mode` and `sparseness` only through
-`-c` or `-l`. Color goes through kamilog's `AnsiRenderer` and nothing else:
-it is off under `-C`, `NO_COLOR`, a non-TTY, `-N`, tsv and json. A command
-whose registry is empty logs one `NOTE` through
-`note_empty_registry_for_cli` (`cli_setup_guard.py`), not the corpus `ERROR`
-pair. `variant` sorts by affordance, then variant name.
-
-Aliases: `blueprint` → `bp`; `blueprint list` → `bp ls`; `blueprint
-preview` → `bp p`; `blueprint render` → `bp r`; `blueprint validate` →
-`bp v`; `blueprint show` → `bp s`; `continue` → `c`; `hermes` → `m`; `dynamic-node` →
-`dn`; `dynamic-substitution` → `ds`; `claude` → `a`; `claude code`
-→ `claude c`; `claude
-marketplace` → `claude m`; `claude plugin` → `claude p`; `claude skills` → `claude s`; `skill`
-→ `s`; `claude user-system-prompt` → `claude usp`;
-`claude vs-code-extension` → `claude v`; `exportable` → `x`;
-`export-json` → `json`; `build-github-release` → `ghr`; `affordance` → `afd`; `variant`
-→ `var`; `render-profile` → `rp`; `glossary` → `g`; `sync-open-webui-skills` → `o`.
 
 **Rendering commands** — any subcommand that reaches
 `render_prompt(...)`, directly or via

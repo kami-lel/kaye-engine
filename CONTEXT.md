@@ -1,6 +1,6 @@
 # kaye-engine CONTEXT
 
-**Last updated:** 2026-10-19
+**Last updated:** 2026-11-06
 
 System knowledge for the **kaye-engine** repository — architecture,
 entities, and boundaries. Read this alongside `AGENTS.md` before making
@@ -203,6 +203,16 @@ hardcoded `RenderProfile`; `dynamic-substitution` and `glossary` print raw
 registry content; `sync-open-webui-skills` renders per skill with no exposed
 profile; `affordance`/`variant`/`render-profile` are list-only.
 
+`affordance`, `variant` and `render-profile` share `cli/list_view.py` and
+one flag set, flags only: `-r/--regex` (repeatable name filter), `-c/--columns`,
+`-l/--long` (one card per row), `-N/--names-only`, `-f/--format
+table|tsv|json`, `-C/--no-color`; `variant` adds `-a/--affordance` and
+`-F/--flat`. A TTY gets an aligned table (`variant`: grouped under a bold
+affordance header), a pipe gets tsv. Color goes only through kamilog's
+`AnsiRenderer` and is off under `-C`, `NO_COLOR`, a non-TTY, `-N`, tsv and
+json. An empty registry logs one `NOTE` through
+`note_empty_registry_for_cli`, not the corpus `ERROR` pair.
+
 `blueprint preview` is the one asymmetric case inside the rendering set:
 it pulls only `build_comment_parent_parser()` out of the bundle (its
 own `-c`/`--comment`, `-C`/`--no-comment`), plus its own
@@ -237,24 +247,17 @@ subclass names its command's logger in `_logger` (`Skill`: skill,
 byte-reproducible and keep overwriting; `save_blueprint` is a library API
 with no logger and keeps its plain write.
 
-Badge names live in `kaye_engine/badge.py` (a leaf module, so
-`dry_run` and the `open_webui` package share it without an import
-cycle). Deeds stamp a native badge on the success line: `create_file`,
-`create_dir`, `create_zip`, `pack_files` carry `new`, `owr_file` carries
-`owr`, `mv_file` carries `mv`, config deeds none; a failure line carries
-none.
+Badge names live in `kaye_engine/badge.py`, a leaf module. Deeds stamp a
+native badge on success: `new` for `create_file`, `create_dir`,
+`create_zip`, `pack_files`; `owr` for `owr_file`; `mv` for `mv_file`; none
+for config deeds or failures. The run-wide badge leads, so a dry run prints
+`dry new`. `sync-open-webui-skills` stamps `new`, `owr`, `del` for create,
+update, prune.
 
-A zip export logs 1 `create_zip` line per archive (`export plugin
-(23 skills, 412 KB): PATH`, `export skill (3 KB): PATH`): the plugin line
-at the default level (`DONE`), the skill lines at `-v` (`INFO`), so a full
-skill export stays quiet by default and its summary counts the zips. The
-inner build of the temporary folder runs inside `quiet_deeds()`, which
-logs every deed success at `DEBUG` (`-vvv`); a failure keeps its error
-level. A deed scope may override its success level (`deed.level`) and, for
-`create_zip`, fill the bracket late (`deed.stats`).
-`sync-open-webui-skills` stamps `new`, `owr`, `del` for create, update,
-prune. A badge from the run-wide switch leads the per-line one, so a dry
-run prints `dry new`.
+A zip export logs one `create_zip` line per archive: the plugin line at
+`DONE`, skill lines at `-v`. The inner temporary build runs inside
+`quiet_deeds()`, which logs deed successes at `DEBUG`; a failure keeps its
+error level.
 
 Dynamic nodes auto-attach to every tree at load time — no authored
 heading required for existence — and cover today's date plus the
@@ -368,89 +371,20 @@ code 1.
 
 ```
 kaye_engine/
-├── prompt/              parse, model, select, render
-│   ├── blueprint/       Blueprint value (data/edit/parser), CorpusIndex
-│   │                    (index), selection binding, registry, rendering
-│   │   ├── render_mode.py      RenderMode: NORMAL/NEGATIVE/POST_ORDER/
-│   │   │                        REVERSE_ORDER/IMAGE flag enum
-│   │   ├── render_profile.py   RenderProfile: layerable render-kwargs bundle
-│   │   ├── render_profile_registry.py  render_profile_registry,
-│   │   │                        register_render_profile(name, profile, remark)
-│   │   └── render/             render_*_lines()/preview_selection(),
-│   │       split by concern (tree/lines/sidecar_splice/util)
-│   ├── dynamic_nodes/   render-time generated node types
-│   ├── affordance_registry.py  Affordance/Variant two-level registry w/
-│                                remarks, register_affordance/_variant,
-│                                Usage/Lack/Fallback sidecar names
-│   ├── builtin_affordances.py  BUILTIN_AFFORDANCES (remarks) and derived
-│                                AFFORDANCE_GROUPS, registered at import
-│   └── builtin_render_profiles.py  the 5 built-in render profiles + remarks
-├── abbr_collection/     abbreviation entries, store, JSON loader
-├── consumer.py          consumer registry: register_consumer,
-│                        set_entry_consumer, iter_consumers, and the
-│                        entry consumer getters read by claude and hermes
-├── deed.py              track(logger): fixed-wording file/dir action lines
-├── exportable/           Exportable base, exportable_registry
-│   └── image_prompt_export.py  image_prompt_exportable_registry,
-│                            register_image_prompt_exportable
-├── skill/               Agent Skills standard, agent-neutral: `Skill`
-│                        document, folder/.zip writers, `select_exportables`
-├── cli/
-│   ├── blueprint/       `blueprint`/`bp` subcommand: list, preview, render,
-│   │                    validate, show; `aux_input.py`/`aux_output.py`
-│   │                    hold the glue (stdin, format detection, formatting)
-│   ├── claude/          plugins, marketplaces, CLAUDE.md
-│   │   ├── plugin_marketplace_name.py  marketplace name, plugin
-│   │   │                          consumers, claude setup guard
-│   │   ├── package_meta.py        manifest metadata read from a
-│   │   │                          consumer's installed distribution
-│   │   ├── setup.py               setup_claude_cli(...): stores the Chat and
-│   │   │                          merged Coder exportable names
-│   │   ├── skills/                `claude skills`/`claude s`: every skill
-│   │   │                          into ~/.claude/skills (`-z` for .zips)
-│   │   └── surface_parser.py      shared `--surface` parent parser --
-│   │                              choices from render_profile_registry
-│   ├── skill/           `skill`/`s` subcommand: named Agent Skills into a
-│   │                    required FOLDER (`--all` for every one)
-│   ├── file_write.py    write_text_if_changed: create / skip identical /
-│   │                    overwrite, one path for every text-file writer
-│   ├── continue_ai/    `continue`/`c` subcommand: rules/ + prompts/ for Continue
-│   │   ├── rule_md.py       ContinueRule frontmatter doc + factory
-│   │   ├── export_rules.py  classify_exportable, export_continue_folder
-│   │   └── parser.py        parser + handler
-│   ├── hermes/          `hermes`/`m` subcommand: a Hermes home directory
-│   │   ├── setup.py     setup_hermes_cli + getters (consumer configuration)
-│   │   ├── export.py    export_hermes_folder: SOUL.md + skills/, root & per profile
-│   │   └── parser.py    parser + handler
-│   ├── open_webui/      `sync-open-webui-skills`/`o` subcommand: push
-│   │   │                exportables into Open WebUI as skills
-│   │   ├── skill_form.py  build_skill_form: Exportable -> SkillForm dict
-│   │   ├── client.py      urllib client + OpenWebUIError
-│   │   ├── plan.py        plan_skill_sync: create/update/skip/prune
-│   │   ├── sync.py        sync_skills executor + SyncSummary
-│   │   └── parser.py      parser + handler
-│   ├── dynamic_node/    `dynamic-node`/`dn` subcommand: multi-node render
-│   ├── dynamic_substitution_parser.py  `dynamic-substitution`/`ds`
-│   │                                    subcommand: print/list
-│   │                                    dynamic_substitution_registry
-│   ├── list_view.py           shared flags (`-r -c -l -N -f -C`), name filter and
-│   │                           table/tsv/json/card/group views of the 3 list
-│   │                           commands; colors only through kamilog
-│   ├── list_affordance_parser.py  `affordance`/`afd` subcommand: list
-│   │                               affordance_registry, variant counts
-│   ├── list_variant_parser.py     `variant`/`var` subcommand: list variant_registry,
-│   │                               grouped by affordance
-│   ├── render_profile_list_parser.py  `render-profile`/`rp` subcommand: list
-│   │                                   render_profile_registry, counts or cards
-│   ├── glossary_parser.py    `glossary`/`g` subcommand: print/list glossaries
-│   ├── comment_parser.py     shared `--comment`/`--no-comment` parent parser
-│   ├── render_profile_parser.py  shared 6-option parent parser + aux fn
-│   ├── exportable_parser.py  `exportable`/`x` subcommand: print, list exportables
-│   └── exportable_as_json_parser.py  `export-json`/`json`
-│                                      subcommand: export
-│                                      exportable_registry as flat JSON
-docs/                    per-topic reference, linked above
-tests/                   prompt/, abbr/, cli/ — mirrors the source
+├── prompt/            parse, model, select, render: blueprint/ (Blueprint,
+│                      CorpusIndex, registries, render/), dynamic_nodes/,
+│                      affordance_registry.py, builtin_*.py
+├── abbr_collection/   abbreviation entries, store, JSON loader
+├── consumer.py        consumer registry, entry-consumer getters
+├── deed.py            fixed-wording file/dir action lines
+├── exportable/        Exportable base, exportable_registry, image-prompt subset
+├── skill/             agent-neutral Skill document, folder/.zip writers
+└── cli/               one leaf per subcommand (blueprint/, claude/, skill/,
+                       continue_ai/, hermes/, open_webui/, github_release/, ~)
+                       plus shared helpers: list_view.py, file_write.py,
+                       render_profile_parser.py, comment_parser.py, dry_run.py
+docs/                  per-topic reference, linked above
+tests/                 prompt/, abbr/, cli/: mirrors the source
 ```
 
 The `prompt` layer is pure: it knows nothing of Claude or any export
