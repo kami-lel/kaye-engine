@@ -40,6 +40,18 @@ manually add chat & coder, instead by data structure
 
 [unreleased]: https://github.com/kami-lel/kaye-engine/compare/v11.0.0...dev
 
+
+
+
+
+
+
+
+
+
+
+
+
 ## [11.0.0] - 2026-11-06
 
 ### Added
@@ -82,6 +94,18 @@ manually add chat & coder, instead by data structure
 - `SKILL.md` and Continue rule write lines respect `-v`/`-q`
 
 [11.0.0]: https://github.com/kami-lel/kaye-engine/compare/v10.0.0...v11.0.0
+
+
+
+
+
+
+
+
+
+
+
+
 
 ## [10.0.0] - 2026-10-19
 
