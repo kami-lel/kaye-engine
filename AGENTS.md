@@ -126,6 +126,7 @@ kaye-engine claude skills FOLDER            # to a custom folder
 kaye-engine claude skills -z                # .zip per skill in the current directory
 kaye-engine claude plugin PLUGINS_FOLDER    # export blueprints as plugin folder
 kaye-engine claude plugin -z PLUGINS_FOLDER # .zip package (-N drops version)
+kaye-engine claude plugin -z . CONSUMER     # only that consumer's plugin
 kaye-engine claude marketplace              # to ~/.claude/<marketplace folder>
 kaye-engine claude marketplace MARKETPLACE  # to a custom folder
 kaye-engine claude code                     # plugin + CLAUDE.md into ~/.claude
