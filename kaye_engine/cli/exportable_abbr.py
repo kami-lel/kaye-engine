@@ -85,6 +85,10 @@ class ExportableAbbr(list, Exportable):  #######################################
     :type when_to_use: str, optional
     """
 
+    # skill frontmatter text; empty falls back as the parameters note
+    description = ""
+    when_to_use = ""
+
     def __init__(
         self,
         entries=(),

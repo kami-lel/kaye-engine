@@ -32,11 +32,17 @@ manually add chat & coder, instead by data structure
 
 ### Changed
 
+- plugin and marketplace keywords come from the consumer's distribution `keywords`, else `prompt-engineering` and `agent`, plus the plugin name; the hard-coded `persona` keyword is gone
+- `kamilog` pins to `v3.0.0`
+- README gains an install section
+
 ### Deprecated
 
 ### Removed
 
 ### Fixed
+
+- `build-github-release` logs the zip file name it writes, `NAME-claude-VERSION.zip`, instead of a name that never existed
 
 ### Security
 

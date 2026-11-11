@@ -8,7 +8,10 @@ from kaye_engine.cli.verbosity import apply_verbosity_arg
 from kaye_engine import PACKAGE_NAME
 from kaye_engine.cli import DEFAULT_SPARSENESS
 from kaye_engine.cli.claude import CLAUDE_DOC_DESCRIPTION, LOGGER_CLAUDE_NAME
-from kaye_engine.cli.claude.plugin.export_zip import export_plugin_as_zip
+from kaye_engine.cli.claude.plugin.export_zip import (
+    export_plugin_as_zip,
+    get_plugin_zip_file_name,
+)
 from kaye_engine.cli.claude.plugin_marketplace_name import (
     check_setup_for_claude_cli,
     select_plugin_consumers,
@@ -108,8 +111,8 @@ def register_github_release_parser(cli_subparser):  ############################
             render_profile=render_profile,
         )
         logger.done(
-            "build github release asset:\t{}-{}.zip in {}".format(
-                consumer.canonical_name, consumer.version, args.output
+            "build github release asset:\t{}.zip in {}".format(
+                get_plugin_zip_file_name(consumer, True), args.output
             )
         )
 

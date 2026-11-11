@@ -54,6 +54,8 @@ def _build_abbr_group():
     group = MagicMock(spec=ExportableAbbr)
     group.canonical_name = "abbr-group"
     group.display_name = "Abbr Group"
+    group.description = ""
+    group.when_to_use = ""
     group.is_user_invokable = True
     group.as_md_list.return_value = "- a: b"
     return group

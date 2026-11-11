@@ -99,7 +99,7 @@ def export_plugin_as_zip(
         raise SystemExit(1) from err
 
     dest = parent_folder / (
-        _zip_file_name(consumer, includes_version) + ".zip"
+        get_plugin_zip_file_name(consumer, includes_version) + ".zip"
     )
     if is_dry_run():
         _report_zip_without_writing(dest, consumer)
@@ -133,7 +133,7 @@ def export_plugin_as_zip(
 
 
 # auxiliaries  #################################################################
-def _zip_file_name(consumer, includes_version):
+def get_plugin_zip_file_name(consumer, includes_version):
     """
     :return: archive file name of the consumer's plugin, w/o extension
     :rtype: str

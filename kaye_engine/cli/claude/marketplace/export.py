@@ -9,7 +9,10 @@ from pathlib import Path
 import kamilog
 from kaye_engine import PACKAGE_NAME
 from kaye_engine.cli.claude import LOGGER_CLAUDE_NAME
-from kaye_engine.cli.claude.package_meta import read_package_meta
+from kaye_engine.cli.claude.package_meta import (
+    get_plugin_keywords,
+    read_package_meta,
+)
 from kaye_engine.cli.claude.plugin.export_folder import (
     export_plugin_as_folder,
 )
@@ -73,12 +76,7 @@ def export_marketplace(marketplace_folder, *, render_profile=None):
                 author_email=meta.author_email,
                 homepage=meta.homepage,
                 repository=meta.repository,
-                keywords=[
-                    "prompt-engineering",
-                    "persona",
-                    "agent",
-                    consumer.canonical_name,
-                ],
+                keywords=get_plugin_keywords(meta, consumer.canonical_name),
                 category=_PLUGIN_CATEGORY,
             )
         )

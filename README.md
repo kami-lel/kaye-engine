@@ -28,6 +28,17 @@ Kaye Engine parses a plain Markdown file, as the structured single source of tru
 
 
 
+## 📦 Install
+
+Python 3.11 or newer. Install a release straight from GitHub, with `vX.Y.Z` the release tag:
+
+```bash
+pip install git+https://github.com/kami-lel/kaye-engine.git@vX.Y.Z
+kaye-engine --help
+```
+
+The engine is a mechanism: it holds no prompt text of its own. Install it with a consumer package that supplies the corpus, such as [kaye-library](https://github.com/kami-lel/kaye-library), which pulls the engine in as a dependency and brings its own command; to work on the engine itself, clone the repository and run `pip install -e '.[dev]'`.
+
 ## 🧩 Core Concepts
 
 ### 📄 Prompt Corpus

@@ -15,7 +15,7 @@ dependencies = [
     "anytree",
     "flask",
     "json5",
-    "kamilog @ git+https://github.com/kami-lel/kamilog.git",
+    "kamilog @ git+https://github.com/kami-lel/kamilog.git@v3.0.0",
     "pyahocorasick",
     "pyyaml",
 ]

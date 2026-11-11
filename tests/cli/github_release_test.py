@@ -71,6 +71,11 @@ class TestBuildGithubRelease:
 
         assert [p.name for p in tmp_path.iterdir()] == ["pkg-two-claude-2.2.0.zip"]
 
+    def test_log_names_the_zip_actually_written(_, tmp_path, caplog):
+        _run(["build-github-release", "pkg-two", "-o", str(tmp_path)])
+
+        assert "pkg-two-claude-2.2.0.zip in" in caplog.text
+
     def test_zip_holds_manifest_at_root_and_only_own_skills(_, tmp_path):
         _run(["build-github-release", "pkg-one", "-o", str(tmp_path)])
 
