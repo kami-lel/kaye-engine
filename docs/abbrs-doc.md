@@ -291,16 +291,11 @@ If `query` is omitted or empty, `(decode-only-abbr)` falls back to every abbrevi
 
 ## Exportable Groups
 
-Loading `abbrs.json` also registers abbreviation groups into `exportable_registry`, so they export as Agent Skills, see [`exportable-registry-doc.md`](exportable-registry-doc.md). Each group is an `ExportableAbbr`, a list of entries sorted by abbreviation, rendered as a Markdown list. The groups are recomputed on every load, replacing any earlier group under the same key:
+Loading `abbrs.json` also registers abbreviation groups into `exportable_registry`, so they export as Agent Skills. Each group is an `ExportableAbbr`, a list of entries sorted by abbreviation, rendered as a Markdown list and recomputed on every load. The group families, their invocability and their consumer ownership are in [Engine Registered Exportable](exportable-registry-doc.md#engine-registered-exportable). List the registered groups with:
 
-- by tag: `Abbr Single Character`, `Abbr Emoji`
-- by glossary: one `Glossary NAME` group, named `glossary-NAME`, per glossary registered with `is_exportable=True`
-- by wrap: `Abbr Prefixes`, `Abbr Suffixes`, `Abbr Symbols`
-- by first character: `Abbr Starts with Digits 0~9`, one per letter `A` to `Z`, and `Abbr Starts with Non-Alphanumeric`
-
-Only a glossary group can be user-invokable, following its `is_user_invokable` flag; every other group is llm-only.
-
-A glossary group belongs to its glossary's consumer. The tag, wrap, and first-character groups are built from the merged data of every file, so one consumer claims them with `set_abbr_group_consumer(canonical_name)`; until one does, they are not exported. While the loaded data is still empty, no group is registered at all.
+```bash
+kaye-engine exportable ls
+```
 
 
 
