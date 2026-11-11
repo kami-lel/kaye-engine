@@ -1,6 +1,6 @@
 # Kaye Engine: support for Hermes
 
-<!-- Fixme claude doc make advertising, incl screen captures -->
+<!-- FIXME hermes make advertising, incl screen captures -->
 
 `kaye-engine hermes` (alias `m`) writes a Hermes home directory: a root `SOUL.md`, one `SOUL.md` per profile, and every entry of `exportable_registry` as an Agent Skill, in the root and in each profile. The command is mechanism only; the consumer project names which blueprints become the soul and the profiles.
 
