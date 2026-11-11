@@ -28,6 +28,8 @@ manually add chat & coder, instead by data structure
 
 ### Added
 
+- `register_abbr_glossary` takes keyword-only `description` and `when_to_use`, written to the glossary skill's frontmatter
+
 ### Changed
 
 ### Deprecated

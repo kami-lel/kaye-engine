@@ -208,7 +208,8 @@ class Skill(FrontmatterDoc):
         assert isinstance(exportable, ExportableAbbr)
         return cls(
             name=exportable.canonical_name,
-            description=exportable.display_name,
+            description=exportable.description or exportable.display_name,
+            when_to_use=exportable.when_to_use,
             user_invocable=exportable.is_user_invokable,
             body=exportable.as_md_list(),
             version=version,

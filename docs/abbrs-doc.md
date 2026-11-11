@@ -140,6 +140,7 @@ Register a glossary name so entries may reference it via `tags`, and set that gl
 - `is_term_definition_forced`: render every entry as a term definition (the meaning alone, no `abbr:` prefix), regardless of whether it carries the `term_definition` tag; defaults to `False`
 - `is_dyn_substitution`: whether the glossary is reachable as a `(((name)))` dynamic substitution placeholder, see [Dynamic Substitution](dynamic-content-doc.md#dynamic-substitution); defaults to `False`
 - `consumer`: keyword only, the canonical name of the registered consumer owning the glossary and its `glossary-NAME` group; required when `is_exportable` is true
+- `description`, `when_to_use`: keyword only, the skill `description` and `when_to_use` of the `glossary-NAME` group; both default to `""`, which keeps the display name as description and leaves `when_to_use` out
 
 ```python
 from kaye_engine.abbr_collection import register_abbr_glossary
