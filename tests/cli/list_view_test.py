@@ -386,3 +386,78 @@ class TestMakeRenderer:
         monkeypatch.setenv("NO_COLOR", "1")
 
         assert make_renderer(_parse([]), _Tty()) is None
+
+
+class TestHeading:
+
+    def _cards(_):
+        return [("t1", "r", []), ("t2", "r", [])]
+
+    def _groups(_):
+        return [("g", [("a", "x"), ("b", "y")]), ("h", [("c", "z")])]
+
+    def test_rows_tty_table_has_banner_with_count(_):
+        stream = _Tty()
+        print_rows(
+            _parse([]), "name", ["remark"], _ROWS, stream, heading="things"
+        )
+        assert "  things: 2  " in stream.getvalue()
+
+    def test_rows_filtered_count(_):
+        stream = _Tty()
+        print_rows(
+            _parse(["-r", "^a"]),
+            "name",
+            ["remark"],
+            _ROWS,
+            stream,
+            heading="things",
+        )
+
+        assert "  things: 1  " in stream.getvalue()
+
+    @pytest.mark.parametrize("argv", [["-f", "tsv"], ["-f", "json"], ["-N"]])
+    def test_rows_machine_formats_have_no_banner(_, argv):
+        stream = _Tty()
+        print_rows(
+            _parse(argv), "name", ["remark"], _ROWS, stream, heading="things"
+        )
+
+        assert "things" not in stream.getvalue()
+
+    def test_rows_piped_has_no_banner(_):
+        stream = io.StringIO()
+        print_rows(
+            _parse(["-f", "table"]),
+            "name",
+            ["remark"],
+            _ROWS,
+            stream,
+            heading="things",
+        )
+
+        assert "things" not in stream.getvalue()
+
+    def test_cards_tty_banner_counts_cards(_):
+        stream = _Tty()
+        print_cards(_parse([]), _._cards(), stream, heading="cards")
+
+        assert "  cards: 2  " in stream.getvalue()
+
+    def test_cards_piped_has_no_banner(_):
+        stream = io.StringIO()
+        print_cards(_parse([]), _._cards(), stream, heading="cards")
+
+        assert "cards" not in stream.getvalue()
+
+    def test_groups_tty_banner_counts_all_rows(_):
+        stream = _Tty()
+        print_groups(_parse([]), _._groups(), stream, heading="groups")
+
+        assert "  groups: 3  " in stream.getvalue()
+
+    def test_groups_piped_has_no_banner(_):
+        stream = io.StringIO()
+        print_groups(_parse([]), _._groups(), stream, heading="groups")
+
+        assert "groups" not in stream.getvalue()

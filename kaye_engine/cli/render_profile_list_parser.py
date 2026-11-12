@@ -116,11 +116,13 @@ def _list_render_profile_main(args):
             (name, cells["remark"], _build_card_fields(cells, keys))
             for name, cells in filter_rows(args, rows)
         )
-        print_cards(args, cards)
+        print_cards(args, cards, heading="render profiles")
         return
 
     columns = select_columns(args, _DFT_COLUMNS)
-    print_rows(args, "profile", columns, rows)
+    print_rows(
+        args, "profile", columns, rows, heading="render profiles"
+    )
 
 
 # Public API  ##################################################################

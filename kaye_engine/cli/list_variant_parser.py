@@ -117,7 +117,11 @@ def _list_variant_main(args):
     view = _pick_view(args)
 
     if view == _VIEW_CARD:
-        print_cards(args, (_build_card(name, cells) for name, cells in rows))
+        print_cards(
+            args,
+            (_build_card(name, cells) for name, cells in rows),
+            heading="variants",
+        )
     elif view == _VIEW_GROUP:
         groups = (
             (aff, [(name, cells["remark"]) for name, cells in members])
@@ -125,10 +129,10 @@ def _list_variant_main(args):
                 rows, key=lambda row: row[1]["affordance"]
             )
         )
-        print_groups(args, groups)
+        print_groups(args, groups, heading="variants")
     else:
         columns = select_columns(args, _COLUMNS)
-        print_rows(args, "variant", columns, rows)
+        print_rows(args, "variant", columns, rows, heading="variants")
 
 
 # Public API  ##################################################################

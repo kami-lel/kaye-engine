@@ -209,6 +209,15 @@ def _style_body_cell(renderer, idx, text):
     return renderer.color_grey(text)
 
 
+def _print_heading(args, stream, heading, count):
+    """
+    print the list's banner, ``heading: count``, when ``heading`` is given
+    and ``stream`` is a TTY; nothing otherwise, so piped output is unchanged
+    """
+    if heading and is_human_view(stream):
+        print_banner(args, "{}: {}".format(heading, count), stream)
+
+
 def _layout_names(names, width, indent):
     """
     :return: ``names`` laid out row-major in even columns that fit ``width``
@@ -317,7 +326,9 @@ def select_columns(args, dft_columns):
     return list(args.columns) if args.columns else list(dft_columns)
 
 
-def print_rows(args, name_heading, columns, rows, stream=None):
+def print_rows(
+    args, name_heading, columns, rows, stream=None, heading=None
+):
     """
     print filtered ``rows`` in the chosen format: names only, json, tsv,
     or an aligned colored table
@@ -334,6 +345,9 @@ def print_rows(args, name_heading, columns, rows, stream=None):
     :type rows: collections.abc.Iterable[tuple]
     :param stream: output stream; default ``sys.stdout``
     :type stream: IO or None
+    :param heading: banner title, shown with the row count above a table
+            on a TTY; default no banner
+    :type heading: str or None
     """
     stream = stream or sys.stdout
     fmt = resolve_format(args, stream)
@@ -348,10 +362,11 @@ def print_rows(args, name_heading, columns, rows, stream=None):
         _print_tsv(stream, name_heading, columns, rows)
     else:
         renderer = _build_renderer(args, stream, fmt)
+        _print_heading(args, stream, heading, len(rows))
         _print_table(stream, renderer, name_heading, columns, rows)
 
 
-def print_cards(args, cards, stream=None, width=None):
+def print_cards(args, cards, stream=None, width=None, heading=None):
     """
     print one detail card per entry of ``cards``
 
@@ -366,10 +381,15 @@ def print_cards(args, cards, stream=None, width=None):
     :type stream: IO or None
     :param width: line width to wrap names to; default the terminal's
     :type width: int or None
+    :param heading: banner title, shown with the card count on a TTY;
+            default no banner
+    :type heading: str or None
     """
     stream = stream or sys.stdout
     renderer = _build_renderer(args, stream, FMT_TABLE)
     width = _get_width(width)
+    cards = list(cards)
+    _print_heading(args, stream, heading, len(cards))
 
     for title, remark, fields in cards:
         head = renderer.color(title, _STYLE_NAME)
@@ -387,7 +407,7 @@ def print_cards(args, cards, stream=None, width=None):
                     print(line, file=stream)
 
 
-def print_groups(args, groups, stream=None):
+def print_groups(args, groups, stream=None, heading=None):
     """
     print rows under one bold header per group, names aligned across groups
 
@@ -398,10 +418,16 @@ def print_groups(args, groups, stream=None):
     :type groups: collections.abc.Iterable[tuple]
     :param stream: output stream; default ``sys.stdout``
     :type stream: IO or None
+    :param heading: banner title, shown with the row count on a TTY;
+            default no banner
+    :type heading: str or None
     """
     stream = stream or sys.stdout
     renderer = _build_renderer(args, stream, FMT_TABLE)
     groups = list(groups)
+    _print_heading(
+        args, stream, heading, sum(len(rows) for _, rows in groups)
+    )
     name_width = max(
         (len(name) for _, rows in groups for name, _ in rows), default=0
     )
