@@ -3,8 +3,8 @@ list_view.py
 
 define ``add_list_flags``, ``filter_rows``, ``select_columns``,
 ``print_rows``, ``print_cards``, ``print_groups``, ``print_banner``,
-``print_section``, ``print_names``, ``is_human_view``, ``parse_regex`` and
-``resolve_format`` -- the shared
+``print_section``, ``print_names``, ``is_human_view``, ``make_renderer``,
+``parse_regex`` and ``resolve_format`` -- the shared
 mechanism of the informational commands (``affordance``, ``variant``,
 ``render-profile``, the ``ls`` forms): one flag set, one name filter, table,
 tsv, json, card and grouped views, and the comment banner, colored only
@@ -27,6 +27,7 @@ __all__ = (
     "add_list_flags",
     "filter_rows",
     "is_human_view",
+    "make_renderer",
     "parse_regex",
     "print_banner",
     "print_cards",
@@ -425,6 +426,22 @@ def is_human_view(stream=None):
     """
     stream = stream or sys.stdout
     return bool(hasattr(stream, "isatty") and stream.isatty())
+
+
+def make_renderer(args, stream=None):
+    """
+    :param args: parsed arguments; ``-C`` and ``NO_COLOR`` switch color off
+    :type args: argparse.Namespace
+    :param stream: output stream; default ``sys.stdout``
+    :type stream: IO or None
+    :return: the kamilog renderer for ``stream``; ``None`` when color is
+            off: not a TTY, ``-C``, or ``NO_COLOR``
+    :rtype: kamilog.AnsiRenderer or None
+    """
+    stream = stream or sys.stdout
+    if not is_human_view(stream) or _is_color_off(args, FMT_TABLE):
+        return None
+    return _build_renderer(args, stream, FMT_TABLE)
 
 
 def print_banner(args, heading, stream=None):

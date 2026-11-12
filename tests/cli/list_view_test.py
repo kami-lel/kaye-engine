@@ -17,6 +17,7 @@ from kaye_engine.cli.list_view import (
     add_list_flags,
     filter_rows,
     is_human_view,
+    make_renderer,
     print_banner,
     print_cards,
     print_groups,
@@ -366,3 +367,22 @@ class TestPrintNames:
         lines = stream.getvalue().splitlines()
         assert "  things: 1  " in lines[0]
         assert lines[1:] == ["a"]
+
+
+class TestMakeRenderer:
+
+    def test_tty_gets_renderer(_, monkeypatch):
+        monkeypatch.delenv("NO_COLOR", raising=False)
+
+        assert make_renderer(_parse([]), _Tty()) is not None
+
+    def test_pipe_gets_none(_):
+        assert make_renderer(_parse([]), io.StringIO()) is None
+
+    def test_no_color_flag_gets_none(_):
+        assert make_renderer(_parse(["-C"]), _Tty()) is None
+
+    def test_no_color_env_gets_none(_, monkeypatch):
+        monkeypatch.setenv("NO_COLOR", "1")
+
+        assert make_renderer(_parse([]), _Tty()) is None

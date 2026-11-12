@@ -57,6 +57,23 @@ class TestSummary:
         assert out == ""
 
 
+class TestColorFlag:
+
+    @pytest.mark.parametrize("flag", ["-C", "--no-color"])
+    def test_no_color_flag_is_accepted(_, run, flag):
+        exit_code, out = run(["show", "test-cli-top", flag])
+
+        assert exit_code == 0
+        assert "\033[" not in out
+        assert "  nodes: 1  " in out
+
+    def test_no_color_flag_excludes_nothing_else(_, run):
+        exit_code, out = run(["show", "test-cli-top", "-C", "-p"])
+
+        assert exit_code == 0
+        assert out == "test-cli-base\n"
+
+
 class TestFields:
 
     @pytest.mark.parametrize("flag", ["-p", "--dependencies"])

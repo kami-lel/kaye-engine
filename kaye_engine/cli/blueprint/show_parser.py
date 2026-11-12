@@ -20,6 +20,7 @@ from kaye_engine.cli.blueprint.blueprint_arg_parser import (
     build_blueprint_arg_parser,
 )
 from kaye_engine.cli.cli_setup_guard import check_corpus_setup_for_cli
+from kaye_engine.cli.list_view import make_renderer
 from kamilog import (
     add_verbose_arguments,
 )
@@ -34,7 +35,8 @@ _HELP = "show a blueprint's summary, or one of its fields"
 
 _DESCRIPTION = _HELP + """
 
-by default, prints the blueprint summary
+by default, prints the blueprint summary: banner-headed fields, in color on
+a TTY (-C or NO_COLOR for plain)
 
 with a field flag, prints only that field; the flags are mutually exclusive
 
@@ -69,7 +71,7 @@ def _show_main(args):
     check_corpus_setup_for_cli()
 
     loaded = get_cmd_blueprint(args.BLUEPRINT)
-    show_fx = pick_show_fx(args.field)
+    show_fx = pick_show_fx(args.field, renderer=make_renderer(args))
 
     emit_str(fmt_show_result(show_fx(loaded.blueprint)))
 
@@ -100,6 +102,13 @@ def register_show_parser(cli_subparser):
             default=None,
             help="show {} alone".format(field),
         )
+
+    show_parser.add_argument(
+        "-C",
+        "--no-color",
+        action="store_true",
+        help="plain summary; NO_COLOR does the same",
+    )
 
     add_verbose_arguments(show_parser)
 

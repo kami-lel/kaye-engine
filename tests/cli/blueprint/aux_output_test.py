@@ -8,6 +8,8 @@ Unit Tests (using pytest) for:
 - emit_str(), run_cmd()
 """
 
+import io
+
 import kamilog
 import pytest
 
@@ -137,6 +139,61 @@ class TestFormat:
         assert fmt_show_result(["a"]) == "a"
         assert fmt_show_result(summary) == fmt_summary(summary)
         assert isinstance(summary, BlueprintSummary)
+
+
+class _Tty(io.StringIO):
+    def isatty(self):
+        return True
+
+
+def _renderer(*, is_disabled=False):
+    return kamilog.AnsiRenderer(_Tty(), is_disabled=is_disabled)
+
+
+def _colored_bp():
+    return Blueprint(
+        meta=BlueprintMeta(display_name="Name"),
+        nodes=frozenset({("A",), ("A", "B")}),
+        dependencies=("x", "y"),
+    )
+
+
+def _colored_summary(renderer):
+    bp = _colored_bp()
+    return fmt_summary(show_blueprint(bp), nodes=bp.nodes, renderer=renderer)
+
+
+class TestColoredSummary:
+
+    def test_disabled_renderer_prints_no_escape_codes(_):
+        assert "\033[" not in _colored_summary(_renderer(is_disabled=True))
+
+    def test_color_greys_rulers_and_colors_names(_):
+        out = _colored_summary(_renderer())
+
+        assert "\033[90m" in out
+        assert "\033[96mA\033[0m" in out
+        assert "\033[96mx\033[0m" in out
+
+    def test_value_lines_are_indented_under_banners(_):
+        lines = _colored_summary(_renderer()).splitlines()
+
+        assert lines[1].startswith("  ")
+        assert lines[3].startswith("  ")
+
+    def test_banner_text_survives_color(_):
+        out = _colored_summary(_renderer())
+
+        assert "  nodes: 2  " in out
+        assert "  dependencies  " in out
+
+    def test_pick_show_fx_gives_renderer_to_summary_only(_):
+        bp = _colored_bp()
+        colored = pick_show_fx(None, renderer=_renderer())(bp)
+        raw = pick_show_fx("dependencies", renderer=_renderer())(bp)
+
+        assert "\033[" in colored
+        assert raw == ("x", "y")
 
 
 class TestEmit:
