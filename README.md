@@ -60,6 +60,8 @@ Other core concepts:
 - 🧰 affordance / variant: capability **Family** (affordance) w/ concrete **Implementation** (variant), auto-checkmarked present/absent per render, each w/ a **Remark** listed by `kaye-engine afd`/`var` — Q.v. [Affordance documentation](docs/sidecar-doc.md#affordance)
 - 🎚️ render profile: layerable bundle of **Render Settings** (sidecars, variants, mode, sparseness, comment) shared by the API and every rendering CLI command — Q.v. [Render Profile documentation](docs/render-profile-doc.md)
 
+To create a consumer of your own in Python, on the engine alone or on top of [kaye-library](https://github.com/kami-lel/kaye-library), follow the [Consumer documentation](docs/consumer-doc.md).
+
 The `(decode-only-abbr)` dynamic node reads its meanings from an `abbrs.json` file loaded via `populate_abbr_data_with_json_file`/`get_abbr_data` — kaye-engine bundles no copy of its own; a separate consumer package supplies and loads the real file. Q.v. [`abbr_collection` documentation](docs/abbrs-doc.md) for its schema, top-level functions, and where abbreviations are used.
 
 

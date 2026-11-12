@@ -32,6 +32,7 @@ manually add chat & coder, instead by data structure
 
 ### Changed
 
+- the remark of each bundled Claude variant (`~`) lists its tools, e.g. `Claude:Agent~` names `Agent`, `ListAgents`, `SendMessage`
 - plugin and marketplace keywords come from the consumer's distribution `keywords`, else `prompt-engineering` and `agent`, plus the plugin name; the hard-coded `persona` keyword is gone
 - `kamilog` pins to `v3.0.0`
 - README gains an install section

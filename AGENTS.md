@@ -282,5 +282,6 @@ After meaningful changes, keep these in sync:
   - the `continue` export: [docs/continue-doc.md](docs/continue-doc.md)
   - the `hermes` export: [docs/hermes-doc.md](docs/hermes-doc.md)
   - the Open WebUI sync: [docs/open-webui-doc.md](docs/open-webui-doc.md)
+  - creating a consumer in Python on the engine or on `kaye-library`, and taking a library skill over: [docs/consumer-doc.md](docs/consumer-doc.md)
 - `CHANGELOG.md` — record notable changes per release
 - this `AGENTS.md` — update agent-specific rules as structure evolves
