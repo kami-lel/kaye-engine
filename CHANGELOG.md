@@ -3,6 +3,7 @@
 [^format]
 
 <!--
+Fixme kaye bp command result ugly
 todo support Codex
 todo organize exportable registry,
 such that not all calling export all exportable
