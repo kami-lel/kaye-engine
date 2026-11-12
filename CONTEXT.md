@@ -225,6 +225,15 @@ affordance header), a pipe gets tsv. Color goes only through kamilog's
 json. An empty registry logs one `NOTE` through
 `note_empty_registry_for_cli`, not the corpus `ERROR` pair.
 
+Informational output pairs color with a comment banner (a centered 80-column
+`CB5`) through `list_view`'s `print_banner`, `print_section`, `print_names`
+and `make_renderer`. The banner shows on a TTY only, so piped output and
+machine formats (tsv, json, `-N`) stay bare; `blueprint show`'s summary is the
+exception, keeping its banners when piped and coloring only on a TTY, while
+its single-field flags print raw. `bp ls`, `exportable ls`, `glossary ls`,
+`dynamic-substitution ls`, `dynamic-node ls` and `blueprint preview` take the
+same banner; commands that print prompt content do not.
+
 `blueprint preview` is the one asymmetric case inside the rendering set:
 it pulls only `build_comment_parent_parser()` out of the bundle (its
 own `-c`/`--comment`, `-C`/`--no-comment`), plus its own

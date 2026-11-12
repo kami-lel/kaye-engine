@@ -34,6 +34,8 @@ manually add chat & coder, instead by data structure
 
 ### Changed
 
+- informational commands print a colored comment banner on a TTY: `blueprint show` is restyled (banner per field, indented, name-colored), `affordance`, `variant` and `render-profile` get a title-and-count banner, and every `ls` form plus `blueprint preview` get one too; tsv, json, `-N`, piped output and `blueprint show` single-field flags print as before
+- `blueprint show` takes `-C/--no-color`
 - the remark of each bundled Claude variant (`~`) lists its tools, e.g. `Claude:Agent~` names `Agent`, `ListAgents`, `SendMessage`
 - plugin and marketplace keywords come from the consumer's distribution `keywords`, else `prompt-engineering` and `agent`, plus the plugin name; the hard-coded `persona` keyword is gone
 - `kamilog` pins to `v3.0.0`
