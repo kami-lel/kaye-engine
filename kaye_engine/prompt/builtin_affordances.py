@@ -34,9 +34,9 @@ BUILTIN_AFFORDANCES = {
         "view and edit files",
         {
             "Claude:view/str_replace/create_file~": (
-                "edit sandbox files"
+                "edit sandbox files: view, str_replace, create_file"
             ),
-            "Claude:Read/Write/Edit~": "edit local files",
+            "Claude:Read/Write/Edit~": "edit local files: Read, Write, Edit",
             "Hermes:read_file": "read file with line numbers",
             "Hermes:write_file": "write or overwrite file",
             "Hermes:patch": "find-and-replace edit in file",
@@ -46,7 +46,10 @@ BUILTIN_AFFORDANCES = {
         "track session tasks",
         {
             "Claude:TodoWrite": "keep session to-do list",
-            "Claude:Task~": "manage background tasks",
+            "Claude:Task~": (
+                "manage background tasks: TaskCreate, TaskGet, TaskList, "
+                "TaskOutput, TaskStop, TaskUpdate"
+            ),
             "Hermes:todo_list": "track multi-step task list",
         },
     ),
@@ -74,7 +77,10 @@ BUILTIN_AFFORDANCES = {
     "agent": (
         "launch and message subagents",
         {
-            "Claude:Agent~": "manage subagents and sessions",
+            "Claude:Agent~": (
+                "manage subagents and sessions: Agent, ListAgents, "
+                "SendMessage"
+            ),
             "Claude:ccd_session~": "start and hand off sessions",
             "Claude:ccd_session_mgmt~": "list, edit, stop sessions",
             "Hermes:delegate_task": "spawn isolated subagents",
@@ -104,7 +110,11 @@ BUILTIN_AFFORDANCES = {
     "memory": (
         "store persistent memory",
         {
-            "Claude:memory~": "read and write memory files",
+            "Claude:memory~": (
+                "read and write memory files: memory_read, memory_write, "
+                "memory_append, memory_str_replace, memory_delete, "
+                "memory_list"
+            ),
             "Hermes:memory": "save durable facts across sessions",
         },
     ),
@@ -211,7 +221,10 @@ BUILTIN_AFFORDANCES = {
     "web": (
         "search and fetch web pages",
         {
-            "Claude:Web~": "search and fetch web pages",
+            "Claude:Web~": (
+                "search and fetch web pages: web_search or WebSearch, "
+                "web_fetch or WebFetch"
+            ),
             "Hermes:web_search": "search the web",
             "Hermes:web_extract": "extract page or PDF content",
         },
