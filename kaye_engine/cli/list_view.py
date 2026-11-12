@@ -2,11 +2,13 @@
 list_view.py
 
 define ``add_list_flags``, ``filter_rows``, ``select_columns``,
-``print_rows``, ``print_cards``, ``print_groups``, ``parse_regex`` and
+``print_rows``, ``print_cards``, ``print_groups``, ``print_banner``,
+``print_section``, ``print_names``, ``is_human_view``, ``parse_regex`` and
 ``resolve_format`` -- the shared
-mechanism of the list commands (``affordance``, ``variant``,
-``render-profile``): one flag set, one name filter, and table, tsv, json,
-card and grouped views, colored only through kamilog
+mechanism of the informational commands (``affordance``, ``variant``,
+``render-profile``, the ``ls`` forms): one flag set, one name filter, table,
+tsv, json, card and grouped views, and the comment banner, colored only
+through kamilog
 """
 
 import json
@@ -16,7 +18,7 @@ import shutil
 import sys
 from argparse import ArgumentTypeError
 
-from kamilog import AnsiRenderer, AnsiStyle
+from kamilog import AnsiRenderer, AnsiStyle, gen_comment_banner_centered
 
 __all__ = (
     "FMT_JSON",
@@ -24,10 +26,14 @@ __all__ = (
     "FMT_TSV",
     "add_list_flags",
     "filter_rows",
+    "is_human_view",
     "parse_regex",
+    "print_banner",
     "print_cards",
     "print_groups",
+    "print_names",
     "print_rows",
+    "print_section",
     "resolve_format",
     "select_columns",
 )
@@ -42,6 +48,7 @@ _COL_GAP = "  "
 _INDENT = "  "
 _NAME_GAP = "   "
 _DFT_WIDTH = 80
+_BANNER_PADDING = 5  # CB5: the lowest, freely usable banner rank
 
 # color roles; every hue comes from kamilog's AnsiStyle
 _STYLE_HEAD = AnsiStyle.BOLD
@@ -93,14 +100,14 @@ def _is_color_off(args, fmt):
     """
     :return: if color must stay off whatever the stream: ``-C``,
             ``NO_COLOR`` set and non-empty, a non-table format, or
-            names only
+            names only; a flag the command lacks counts as unset
     :rtype: bool
     """
     return bool(
-        args.no_color
+        getattr(args, "no_color", False)
         or os.environ.get("NO_COLOR")
         or fmt != FMT_TABLE
-        or args.names_only
+        or getattr(args, "names_only", False)
     )
 
 
@@ -406,3 +413,95 @@ def print_groups(args, groups, stream=None):
             if remark:
                 line += _NAME_GAP + renderer.color_grey(remark)
             print(_INDENT + line.rstrip(), file=stream)
+
+
+def is_human_view(stream=None):
+    """
+    :param stream: output stream; default ``sys.stdout``
+    :type stream: IO or None
+    :return: if ``stream`` is a TTY, so a person reads it and banners may
+            show; piped output stays machine-friendly
+    :rtype: bool
+    """
+    stream = stream or sys.stdout
+    return bool(hasattr(stream, "isatty") and stream.isatty())
+
+
+def print_banner(args, heading, stream=None):
+    """
+    print one centered 80-column comment banner (``CB5C``), its ruler grey
+    on a color-enabled TTY
+
+
+    :param args: parsed arguments; ``-C`` and ``NO_COLOR`` switch color off
+    :type args: argparse.Namespace
+    :param heading: banner text, a single non-empty line
+    :type heading: str
+    :param stream: output stream; default ``sys.stdout``
+    :type stream: IO or None
+    """
+    stream = stream or sys.stdout
+    renderer = _build_renderer(args, stream, FMT_TABLE)
+    print(
+        gen_comment_banner_centered(
+            heading, _BANNER_PADDING, renderer=renderer
+        ),
+        file=stream,
+    )
+
+
+def print_section(args, heading, lines, stream=None, is_names=False):
+    """
+    print a banner over its value lines
+
+
+    :param args: parsed arguments; ``-C`` and ``NO_COLOR`` switch color off
+    :type args: argparse.Namespace
+    :param heading: banner text
+    :type heading: str
+    :param lines: the section's value lines, printed as given
+    :type lines: collections.abc.Iterable[str]
+    :param stream: output stream; default ``sys.stdout``
+    :type stream: IO or None
+    :param is_names: whether the lines are names, to print in the name color
+    :type is_names: bool
+    """
+    stream = stream or sys.stdout
+    renderer = _build_renderer(args, stream, FMT_TABLE)
+    print_banner(args, heading, stream)
+    for line in lines:
+        print(
+            renderer.color(line, _STYLE_NAME) if is_names else line,
+            file=stream,
+        )
+
+
+def print_names(args, heading, names, stream=None):
+    """
+    print ``names`` one per line: under a banner, in the name color, on a
+    TTY; bare when piped, so scripts keep reading one name per line
+
+
+    :param args: parsed arguments; ``-C`` and ``NO_COLOR`` switch color off
+    :type args: argparse.Namespace
+    :param heading: banner text, shown on a TTY only
+    :type heading: str
+    :param names: the names, printed in the order given
+    :type names: collections.abc.Iterable[str]
+    :param stream: output stream; default ``sys.stdout``
+    :type stream: IO or None
+    """
+    stream = stream or sys.stdout
+    names = list(names)
+    if not is_human_view(stream):
+        for name in names:
+            print(name, file=stream)
+        return
+
+    print_section(
+        args,
+        "{}: {}".format(heading, len(names)),
+        names,
+        stream,
+        is_names=True,
+    )
