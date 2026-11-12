@@ -3,7 +3,6 @@
 [^format]
 
 <!--
-Fixme kaye bp command result ugly
 todo support Codex
 todo organize exportable registry,
 such that not all calling export all exportable
@@ -29,11 +28,13 @@ manually add chat & coder, instead by data structure
 
 ### Added
 
+- `blueprint show -C/--no-color`
 - `docs/consumer-doc.md`: a concise starting point for creating a consumer on the engine or on `kaye-library`
 - `register_abbr_glossary` takes keyword-only `description` and `when_to_use`, written to the glossary skill's frontmatter
 
 ### Changed
 
+- informational commands (`blueprint show`, `preview`, every `ls`, `affordance`, `variant`, `render-profile`) print a colored comment banner on a TTY; `blueprint show` summary is restyled; piped, tsv, json, `-N` output unchanged
 - the remark of each bundled Claude variant (`~`) lists its tools, e.g. `Claude:Agent~` names `Agent`, `ListAgents`, `SendMessage`
 - plugin and marketplace keywords come from the consumer's distribution `keywords`, else `prompt-engineering` and `agent`, plus the plugin name; the hard-coded `persona` keyword is gone
 - `kamilog` pins to `v3.0.0`

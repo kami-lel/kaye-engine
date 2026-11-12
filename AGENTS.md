@@ -191,6 +191,9 @@ bug. Getter list in [CONTEXT.md](CONTEXT.md).
   `write_text_if_changed` (`kaye_engine/cli/file_write.py`), never a bare
   `write_text`; a `FrontmatterDoc` subclass sets `_logger` to its
   command's logger
+- print informational (non-content) output through the `kaye_engine/cli/
+  list_view.py` helpers (`print_banner`, `print_names`, `make_renderer`, ~):
+  banner and color on a TTY only, bare when piped; never hand-roll ANSI codes
 - never call `logger.track`: kamilog 3.0 dropped its deed feature
 
 ## Registering a Blueprint

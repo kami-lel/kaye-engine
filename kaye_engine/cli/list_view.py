@@ -2,11 +2,13 @@
 list_view.py
 
 define ``add_list_flags``, ``filter_rows``, ``select_columns``,
-``print_rows``, ``print_cards``, ``print_groups``, ``parse_regex`` and
-``resolve_format`` -- the shared
-mechanism of the list commands (``affordance``, ``variant``,
-``render-profile``): one flag set, one name filter, and table, tsv, json,
-card and grouped views, colored only through kamilog
+``print_rows``, ``print_cards``, ``print_groups``, ``print_banner``,
+``print_section``, ``print_names``, ``is_human_view``, ``make_renderer``,
+``parse_regex`` and ``resolve_format`` -- the shared
+mechanism of the informational commands (``affordance``, ``variant``,
+``render-profile``, the ``ls`` forms): one flag set, one name filter, table,
+tsv, json, card and grouped views, and the comment banner, colored only
+through kamilog
 """
 
 import json
@@ -16,7 +18,7 @@ import shutil
 import sys
 from argparse import ArgumentTypeError
 
-from kamilog import AnsiRenderer, AnsiStyle
+from kamilog import AnsiRenderer, AnsiStyle, gen_comment_banner_centered
 
 __all__ = (
     "FMT_JSON",
@@ -24,10 +26,15 @@ __all__ = (
     "FMT_TSV",
     "add_list_flags",
     "filter_rows",
+    "is_human_view",
+    "make_renderer",
     "parse_regex",
+    "print_banner",
     "print_cards",
     "print_groups",
+    "print_names",
     "print_rows",
+    "print_section",
     "resolve_format",
     "select_columns",
 )
@@ -42,6 +49,7 @@ _COL_GAP = "  "
 _INDENT = "  "
 _NAME_GAP = "   "
 _DFT_WIDTH = 80
+_BANNER_PADDING = 5  # CB5: the lowest, freely usable banner rank
 
 # color roles; every hue comes from kamilog's AnsiStyle
 _STYLE_HEAD = AnsiStyle.BOLD
@@ -93,14 +101,14 @@ def _is_color_off(args, fmt):
     """
     :return: if color must stay off whatever the stream: ``-C``,
             ``NO_COLOR`` set and non-empty, a non-table format, or
-            names only
+            names only; a flag the command lacks counts as unset
     :rtype: bool
     """
     return bool(
-        args.no_color
+        getattr(args, "no_color", False)
         or os.environ.get("NO_COLOR")
         or fmt != FMT_TABLE
-        or args.names_only
+        or getattr(args, "names_only", False)
     )
 
 
@@ -199,6 +207,15 @@ def _style_body_cell(renderer, idx, text):
     if idx == 0:
         return renderer.color(text, _STYLE_NAME)
     return renderer.color_grey(text)
+
+
+def _print_heading(args, stream, heading, count):
+    """
+    print the list's banner, ``heading: count``, when ``heading`` is given
+    and ``stream`` is a TTY; nothing otherwise, so piped output is unchanged
+    """
+    if heading and is_human_view(stream):
+        print_banner(args, "{}: {}".format(heading, count), stream)
 
 
 def _layout_names(names, width, indent):
@@ -309,7 +326,9 @@ def select_columns(args, dft_columns):
     return list(args.columns) if args.columns else list(dft_columns)
 
 
-def print_rows(args, name_heading, columns, rows, stream=None):
+def print_rows(
+    args, name_heading, columns, rows, stream=None, heading=None
+):
     """
     print filtered ``rows`` in the chosen format: names only, json, tsv,
     or an aligned colored table
@@ -326,6 +345,9 @@ def print_rows(args, name_heading, columns, rows, stream=None):
     :type rows: collections.abc.Iterable[tuple]
     :param stream: output stream; default ``sys.stdout``
     :type stream: IO or None
+    :param heading: banner title, shown with the row count above a table
+            on a TTY; default no banner
+    :type heading: str or None
     """
     stream = stream or sys.stdout
     fmt = resolve_format(args, stream)
@@ -340,10 +362,11 @@ def print_rows(args, name_heading, columns, rows, stream=None):
         _print_tsv(stream, name_heading, columns, rows)
     else:
         renderer = _build_renderer(args, stream, fmt)
+        _print_heading(args, stream, heading, len(rows))
         _print_table(stream, renderer, name_heading, columns, rows)
 
 
-def print_cards(args, cards, stream=None, width=None):
+def print_cards(args, cards, stream=None, width=None, heading=None):
     """
     print one detail card per entry of ``cards``
 
@@ -358,10 +381,15 @@ def print_cards(args, cards, stream=None, width=None):
     :type stream: IO or None
     :param width: line width to wrap names to; default the terminal's
     :type width: int or None
+    :param heading: banner title, shown with the card count on a TTY;
+            default no banner
+    :type heading: str or None
     """
     stream = stream or sys.stdout
     renderer = _build_renderer(args, stream, FMT_TABLE)
     width = _get_width(width)
+    cards = list(cards)
+    _print_heading(args, stream, heading, len(cards))
 
     for title, remark, fields in cards:
         head = renderer.color(title, _STYLE_NAME)
@@ -379,7 +407,7 @@ def print_cards(args, cards, stream=None, width=None):
                     print(line, file=stream)
 
 
-def print_groups(args, groups, stream=None):
+def print_groups(args, groups, stream=None, heading=None):
     """
     print rows under one bold header per group, names aligned across groups
 
@@ -390,10 +418,16 @@ def print_groups(args, groups, stream=None):
     :type groups: collections.abc.Iterable[tuple]
     :param stream: output stream; default ``sys.stdout``
     :type stream: IO or None
+    :param heading: banner title, shown with the row count on a TTY;
+            default no banner
+    :type heading: str or None
     """
     stream = stream or sys.stdout
     renderer = _build_renderer(args, stream, FMT_TABLE)
     groups = list(groups)
+    _print_heading(
+        args, stream, heading, sum(len(rows) for _, rows in groups)
+    )
     name_width = max(
         (len(name) for _, rows in groups for name, _ in rows), default=0
     )
@@ -406,3 +440,111 @@ def print_groups(args, groups, stream=None):
             if remark:
                 line += _NAME_GAP + renderer.color_grey(remark)
             print(_INDENT + line.rstrip(), file=stream)
+
+
+def is_human_view(stream=None):
+    """
+    :param stream: output stream; default ``sys.stdout``
+    :type stream: IO or None
+    :return: if ``stream`` is a TTY, so a person reads it and banners may
+            show; piped output stays machine-friendly
+    :rtype: bool
+    """
+    stream = stream or sys.stdout
+    return bool(hasattr(stream, "isatty") and stream.isatty())
+
+
+def make_renderer(args, stream=None):
+    """
+    :param args: parsed arguments; ``-C`` and ``NO_COLOR`` switch color off
+    :type args: argparse.Namespace
+    :param stream: output stream; default ``sys.stdout``
+    :type stream: IO or None
+    :return: the kamilog renderer for ``stream``; ``None`` when color is
+            off: not a TTY, ``-C``, or ``NO_COLOR``
+    :rtype: kamilog.AnsiRenderer or None
+    """
+    stream = stream or sys.stdout
+    if not is_human_view(stream) or _is_color_off(args, FMT_TABLE):
+        return None
+    return _build_renderer(args, stream, FMT_TABLE)
+
+
+def print_banner(args, heading, stream=None):
+    """
+    print one centered 80-column comment banner (``CB5C``), its ruler grey
+    on a color-enabled TTY
+
+
+    :param args: parsed arguments; ``-C`` and ``NO_COLOR`` switch color off
+    :type args: argparse.Namespace
+    :param heading: banner text, a single non-empty line
+    :type heading: str
+    :param stream: output stream; default ``sys.stdout``
+    :type stream: IO or None
+    """
+    stream = stream or sys.stdout
+    renderer = _build_renderer(args, stream, FMT_TABLE)
+    print(
+        gen_comment_banner_centered(
+            heading, _BANNER_PADDING, renderer=renderer
+        ),
+        file=stream,
+    )
+
+
+def print_section(args, heading, lines, stream=None, is_names=False):
+    """
+    print a banner over its value lines
+
+
+    :param args: parsed arguments; ``-C`` and ``NO_COLOR`` switch color off
+    :type args: argparse.Namespace
+    :param heading: banner text
+    :type heading: str
+    :param lines: the section's value lines, printed as given
+    :type lines: collections.abc.Iterable[str]
+    :param stream: output stream; default ``sys.stdout``
+    :type stream: IO or None
+    :param is_names: whether the lines are names, to print in the name color
+    :type is_names: bool
+    """
+    stream = stream or sys.stdout
+    renderer = _build_renderer(args, stream, FMT_TABLE)
+    print_banner(args, heading, stream)
+    for line in lines:
+        print(
+            renderer.color(line, _STYLE_NAME) if is_names else line,
+            file=stream,
+        )
+
+
+def print_names(args, heading, names, stream=None):
+    """
+    print ``names`` one per line: under a banner, in the name color, on a
+    TTY; bare when piped, so scripts keep reading one name per line
+
+
+    :param args: parsed arguments; ``-C`` and ``NO_COLOR`` switch color off
+    :type args: argparse.Namespace
+    :param heading: banner text, shown on a TTY only
+    :type heading: str
+    :param names: the names, printed in the order given
+    :type names: collections.abc.Iterable[str]
+    :param stream: output stream; default ``sys.stdout``
+    :type stream: IO or None
+    """
+    stream = stream or sys.stdout
+    names = list(names)
+    if not is_human_view(stream):
+        for name in names:
+            print(name, file=stream)
+        return
+
+    print_section(
+        args,
+        "{}: {}".format(heading, len(names)),
+        names,
+        stream,
+        is_names=True,
+    )

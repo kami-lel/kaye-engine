@@ -8,6 +8,8 @@ API functions and stdout; each one composes API functions, none
 duplicates their logic
 """
 
+from functools import partial
+
 import kamilog
 from kaye_engine import LOGGER_NAME
 from kaye_engine.prompt.blueprint import (
@@ -43,6 +45,8 @@ logger = kamilog.getLogger(LOGGER_NAME)
 
 # constants  ###################################################################
 _LINEAGE_SEPARATOR = " # "
+_INDENT = "  "
+_BANNER_PADDING = 5  # CB5
 
 
 # auxiliaries  #################################################################
@@ -75,9 +79,11 @@ def _show_from_summary(fmt_fx):
     return lambda blueprint: fmt_fx(show_blueprint(blueprint))
 
 
-def _show_summary(blueprint):
+def _show_summary(blueprint, renderer=None):
     """
     :type blueprint: Blueprint
+    :param renderer: colors the summary; ``None`` for plain text
+    :type renderer: kamilog.AnsiRenderer or None
     :raises ValueError: a meta node is not in the loaded corpus
     :return: the summary text, with description and when-to-use as content
     :rtype: str
@@ -88,6 +94,7 @@ def _show_summary(blueprint):
         when_to_use=show_when_to_use(blueprint),
         nodes=blueprint.nodes,
         subtrees=blueprint.subtrees,
+        renderer=renderer,
     )
 
 
@@ -137,16 +144,18 @@ def pick_render_fx(is_no_dependencies):
     return render_prompt
 
 
-def pick_show_fx(field):
+def pick_show_fx(field, renderer=None):
     """
     :param field: field flag name of ``bp show``, ``None`` for none
     :type field: str or None
+    :param renderer: colors the summary only; a field always prints raw
+    :type renderer: kamilog.AnsiRenderer or None
     :raises KeyError: an unknown field name
     :return: the show function for the flag; the summary text for none
     :rtype: Callable
     """
     if field is None:
-        return _show_summary
+        return partial(_show_summary, renderer=renderer)
 
     return SHOW_FIELD_FXS[field]
 
@@ -160,8 +169,26 @@ def fmt_ls(names):
     return "\n".join(names)
 
 
+def _style_lineage(renderer, lineage):
+    """
+    :return: ``lineage`` with the name color on its names and grey
+            separators
+    :rtype: str
+    """
+    names = lineage.split(_LINEAGE_SEPARATOR)
+    return renderer.color_grey(_LINEAGE_SEPARATOR).join(
+        renderer.color(name, kamilog.AnsiStyle.BRIGHT_CYAN) for name in names
+    )
+
+
 def fmt_summary(
-    summary, *, description="", when_to_use="", nodes=(), subtrees=()
+    summary,
+    *,
+    description="",
+    when_to_use="",
+    nodes=(),
+    subtrees=(),
+    renderer=None
 ):
     """
     :type summary: BlueprintSummary
@@ -173,41 +200,63 @@ def fmt_summary(
     :type nodes: Iterable[NodePath]
     :param subtrees: paths of the nodes checkmarked with their descendants
     :type subtrees: Iterable[NodePath]
+    :param renderer: colors the summary: grey banner rulers, names in the
+            name color, and indented value lines; ``None`` for plain text
+    :type renderer: kamilog.AnsiRenderer or None
     :return: the summary as fields, each a centered banner line over its
             value lines; a text field with no value is left out, while
             ``nodes`` and ``subtrees`` always show their count
     :rtype: str
     """
+
+    def banner(heading):
+        return kamilog.gen_comment_banner_centered(
+            heading, _BANNER_PADDING, renderer=renderer
+        )
+
+    def name_lines(names):
+        if renderer is None:
+            return list(names)
+        return [_INDENT + _style_lineage(renderer, name) for name in names]
+
+    def text_lines(value, is_lineage=False):
+        if renderer is None:
+            return [value]
+        if is_lineage:
+            return [_INDENT + _style_lineage(renderer, value)]
+        return [_INDENT + line for line in value.splitlines()]
+
     text_fields = (
-        ("display name", summary.meta.display_name),
-        ("description", description),
+        ("display name", summary.meta.display_name, False),
+        ("description", description, False),
         (
             "description node",
             _gen_lineage_str(summary.meta.description_node),
+            True,
         ),
-        ("when to use", when_to_use),
+        ("when to use", when_to_use, False),
         (
             "when to use node",
             _gen_lineage_str(summary.meta.when_to_use_node),
+            True,
         ),
     )
 
     lines = []
-    for label, value in text_fields:
+    for label, value, is_lineage in text_fields:
         if value:
-            lines += [kamilog.gen_comment_banner_centered(label, 5), value]
+            lines += [banner(label), *text_lines(value, is_lineage)]
 
     for label, count, paths in (
         ("nodes", summary.node_count, nodes),
         ("subtrees", summary.subtree_count, subtrees),
     ):
-        heading = "{}: {}".format(label, count)
-        lines.append(kamilog.gen_comment_banner_centered(heading, 5))
-        lines += _gen_lineage_strs(paths)
+        lines.append(banner("{}: {}".format(label, count)))
+        lines += name_lines(_gen_lineage_strs(paths))
 
     if summary.dependencies:
-        lines.append(kamilog.gen_comment_banner_centered("dependencies", 5))
-        lines.append(fmt_ls(summary.dependencies))
+        lines.append(banner("dependencies"))
+        lines += name_lines(summary.dependencies)
 
     return fmt_ls(lines)
 

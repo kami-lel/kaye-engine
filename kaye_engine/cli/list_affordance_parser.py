@@ -75,11 +75,13 @@ def _list_affordance_main(args):
             (name, cells["remark"], cells["_variants"])
             for name, cells in filter_rows(args, rows)
         )
-        print_cards(args, cards)
+        print_cards(args, cards, heading="affordances")
         return
 
     columns = select_columns(args, _COLUMNS)
-    print_rows(args, "affordance", columns, rows)
+    print_rows(
+        args, "affordance", columns, rows, heading="affordances"
+    )
 
 
 # Public API  ##################################################################
