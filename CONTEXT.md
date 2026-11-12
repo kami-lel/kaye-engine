@@ -6,7 +6,7 @@ Descriptive knowledge of this repository for agents and developers.
 - Size: stay lean for the context window; when the file grows, move detail to `docs/` or cut it
 - Upkeep: update in the same change that moves architecture, patterns, commands, or environment variables
 - Structure: follow the existing sections; keep every statement true for every contributor
-- Belongs in `AGENTS.md`: prescriptive rules for agents, ie commands, conventions, constraints, do/don't
+- Belongs in [AGENTS.md](AGENTS.md): prescriptive rules for agents, ie commands, conventions, constraints, do/don't
 - Belongs in `docs/`: system documentation for users and agents alike; link it from here, never grow this file to hold it
 - Local Layer: put machine-specific or personal context in `CONTEXT.local.md`; create it if missing, never commit it
 
@@ -183,7 +183,7 @@ absent) sidecars; each affordance derives `[{name}] Usage` (at least one
 variant present) and `[{name}] Fallback` (every variant absent, ≥1
 registered). Q.v. [affordance documentation](docs/sidecar-doc.md#affordance).
 
-Every **rendering command** (list and flags in `AGENTS.md`) shares one parent
+Every **rendering command** (list and flags in [AGENTS.md](AGENTS.md)) shares one parent
 parser and one aux function, `build_render_profile_parent_parser`/
 `resolve_render_profile` (`kaye_engine/cli/render_profile_parser.py`), which
 returns one `RenderProfile` by merging each `--surface` profile (from
