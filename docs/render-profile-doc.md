@@ -311,28 +311,12 @@ Calling `render_prompt(bp, profile=...)` or `render_prompt_without_dependencies(
 
 A **surface** is a named render target, such as `claude` or the VS Code extension. Surfaces support different tools, so one corpus should render differently for each. A surface with Bash access gets the Bash usage sidecar, and one without does not.
 
-Kaye Engine ships 5 surfaces, registered with a remark when `kaye_engine.prompt` is imported, and `kaye-engine render-profile` lists them. Each is a `RenderProfile` in `render_profile_registry` that lists that surface's `variants` and `conditional_sidecars`:
+Kaye Engine ships 5 surfaces (`claude`, `claude-vsc`, `continue`, `hermes`, `comfy`), registered with a remark when `kaye_engine.prompt` is imported. Each is a `RenderProfile` in `render_profile_registry` that lists that surface's `variants` and `conditional_sidecars`. List them with their remarks, and add `-l` to show each profile's variants and sidecars in full; `--help` has the flags:
 
-| surface | remark |
-|---|---|
-| `claude` | Anthropic Claude apps: chat, Cowork, Code, iOS |
-| `claude-vsc` | Anthropic Claude Code extension for Microsoft Visual Studio Code |
-| `continue` | Continue.dev rules |
-| `hermes` | Hermes Agents |
-| `comfy` | Comfy Org ComfyUI image prompts |
-
-`kaye-engine render-profile` (alias `rp`) prints one registered profile per line, sorted by name. On a terminal it is an aligned table: `profile`, then `variants` and `sidecars` as counts, then `remark`; piped, it is tab-separated rows under a heading line with the lists comma-joined, empty when the profile has none. A profile registered with no remark prints an empty remark cell. It takes flags only, each with a short and a long form:
-
-| Flag | Effect |
-| --- | --- |
-| `-r PATTERN`, `--regex` | keep profiles whose name matches the regex; repeat to match any of several |
-| `-c COLS`, `--columns` | comma-separated columns to show, from `remark`, `mode`, `sparseness`, `variants`, `sidecars`; `mode` and `sparseness` show only this way or under `-l` |
-| `-l`, `--long` | one card per profile: mode, sparseness, and `variants` and `sidecars` in full; sidecars that only echo a variant as `[variant]` fold into one phrase, so the names below it are the ones the variants do not imply |
-| `-N`, `--names-only` | names only, one per line, no heading |
-| `-f FORMAT`, `--format` | `table` (the terminal default), `tsv` (the piped default) or `json`, an array of objects with the lists whole |
-| `-C`, `--no-color` | plain output; `NO_COLOR` does the same |
-
-Color comes from kamilog and is off for `-N`, `tsv`, `json`, `-C`, `NO_COLOR` and any non-terminal output.
+```bash
+kaye-engine render-profile
+kaye-engine render-profile -l
+```
 
 A consumer adds its own with `register_render_profile(name, profile, remark="")`; a repeated name raises `ValueError`, and a `remark` that is not a `str` raises `TypeError`:
 

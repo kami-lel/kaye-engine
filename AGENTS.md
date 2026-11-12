@@ -11,7 +11,7 @@ Prescriptive rules for agents working in this project.
 - Size: stay lean for the context window; when the file grows, move detail to `docs/` or cut it
 - Upkeep: update in the same change that moves a command, convention, or constraint
 - Structure: follow the existing sections; keep every rule true for every contributor
-- Belongs in `CONTEXT.md`: descriptive knowledge of the system, ie architecture, domain model, patterns, known gaps
+- Belongs in [CONTEXT.md](CONTEXT.md): descriptive knowledge of the system, ie architecture, domain model, patterns, known gaps
 - Belongs in `docs/`: system documentation for users and agents alike; link it from here, never grow this file to hold it
 - Local Layer: put machine-specific or personal rules in `AGENTS.local.md`; create it if missing, never commit it
 
@@ -30,7 +30,7 @@ mechanism meant to stay consumer-agnostic.
 
 **Several consumers may share one process.** Every public registering API
 declares one policy (additive, guarded, or entry-point) in the
-`CONTEXT.md` Registration Policy table; a new API takes a row there in the
+[CONTEXT.md](CONTEXT.md) Registration Policy table; a new API takes a row there in the
 same change, and none overwrites silently.
 
 ## Setup
@@ -141,12 +141,12 @@ the latter returning a `RenderProfile` rather than a kwargs dict:
 `claude user-system-prompt` already owns `-c` for `--coder`, so
 `--comment`/`--no-comment` are long-form only there. `blueprint preview`
 is not a rendering command but shares the `--comment`/`--no-comment`
-toggle. Merge semantics live in `CONTEXT.md`.
+toggle. Merge semantics live in [CONTEXT.md](CONTEXT.md).
 
 `--sparseness` runs from `-1` (one line) through `0` (no blank lines) and
 `1` (single blank lines) up to `99` (no trimming); the default is
 `DEFAULT_SPARSENESS` (`kaye_engine/cli/__init__.py`). Fenced code and tag
-blocks are never trimmed: see `CONTEXT.md`.
+blocks are never trimmed: see [CONTEXT.md](CONTEXT.md).
 
 **Verbosity flags** — every command takes `-v`/`-q`/`-V`/`-Q` from
 `kamilog.add_verbose_arguments` and applies them through
@@ -168,7 +168,7 @@ first; `claude` also needs `setup_claude_cli(...)` and `hermes` needs
 `setup_hermes_cli(...)`, whose names are optional: a subcommand needing an
 unset one exits 1 with a clear message. On a bare checkout the
 getters log `logger.critical` and raise `SystemExit(1)`: expected, not a
-bug. Getter list in `CONTEXT.md`.
+bug. Getter list in [CONTEXT.md](CONTEXT.md).
 
 ## Code Conventions
 
@@ -258,8 +258,8 @@ module builds `AbbrData`. Register a new glossary there when adding one.
 
 After meaningful changes, keep these in sync:
 
-- `README.md` — human-facing overview and quick start
-- `CONTEXT.md` — architecture, entities, boundaries; a new registering API
+- [README.md](README.md) — human-facing overview and quick start
+- [CONTEXT.md](CONTEXT.md) — architecture, entities, boundaries; a new registering API
   takes a row in its Registration Policy table
 - `docs/` — one file per topic; update the one a change touches:
   - the corpus Markdown format and `register_corpus_under_node` rules:
@@ -278,9 +278,9 @@ After meaningful changes, keep these in sync:
     [docs/render-profile-doc.md](docs/render-profile-doc.md)
   - the `claude` subcommands and per-consumer plugins:
     [docs/claude-doc.md](docs/claude-doc.md)
-  - the `build-github-release` command: [docs/github-release-doc.md](docs/github-release-doc.md)
   - the `continue` export: [docs/continue-doc.md](docs/continue-doc.md)
   - the `hermes` export: [docs/hermes-doc.md](docs/hermes-doc.md)
   - the Open WebUI sync: [docs/open-webui-doc.md](docs/open-webui-doc.md)
-- `CHANGELOG.md` — record notable changes per release
+  - creating a consumer in Python on the engine or on `kaye-library`, and taking a library skill over: [docs/consumer-doc.md](docs/consumer-doc.md)
+- [CHANGELOG.md](CHANGELOG.md) — record notable changes per release
 - this `AGENTS.md` — update agent-specific rules as structure evolves

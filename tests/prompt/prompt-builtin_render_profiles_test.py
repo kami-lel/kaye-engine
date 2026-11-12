@@ -366,16 +366,19 @@ class TestBuiltinRemarks:
                 assert variant_registry[variant_name].remark == variant_remark
 
     def test_every_remark_is_short_lowercase_text_without_period(_):
+        # a bundled variant (``~``) lists its tools, so it may run longer
         remarks = []
         for remark, variants in BUILTIN_AFFORDANCES.values():
-            remarks.append(remark)
-            remarks.extend(variants.values())
+            remarks.append((remark, 40))
+            for name, variant_remark in variants.items():
+                is_bundle = name.endswith("~")
+                remarks.append((variant_remark, 120 if is_bundle else 40))
 
-        for remark in remarks:
+        for remark, max_len in remarks:
             assert remark, remark
             assert remark[0].islower(), remark
             assert not remark.endswith("."), remark
-            assert len(remark) <= 40, remark
+            assert len(remark) <= max_len, remark
 
 
 class TestContinueProfile:
