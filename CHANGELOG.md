@@ -29,6 +29,7 @@ manually add chat & coder, instead by data structure
 
 ### Added
 
+- `docs/consumer-doc.md`: a concise starting point for creating a consumer on the engine or on `kaye-library`
 - `register_abbr_glossary` takes keyword-only `description` and `when_to_use`, written to the glossary skill's frontmatter
 
 ### Changed
@@ -36,11 +37,14 @@ manually add chat & coder, instead by data structure
 - the remark of each bundled Claude variant (`~`) lists its tools, e.g. `Claude:Agent~` names `Agent`, `ListAgents`, `SendMessage`
 - plugin and marketplace keywords come from the consumer's distribution `keywords`, else `prompt-engineering` and `agent`, plus the plugin name; the hard-coded `persona` keyword is gone
 - `kamilog` pins to `v3.0.0`
-- README gains an install section
+- README gains an install section and a Contributing path through the `docs/` files
+- `docs/claude-doc.md` is rewritten for users, with Claude Desktop and VS Code walkthroughs; the other docs point to the live list commands instead of copying registry listings
 
 ### Deprecated
 
 ### Removed
+
+- `docs/github-release-doc.md`
 
 ### Fixed
 
