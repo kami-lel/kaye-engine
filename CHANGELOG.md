@@ -3,7 +3,7 @@
 [^format]
 
 <!--
-Fixme mpv consistent information printout
+FIXME mpv consistent information printout
 todo support Codex
 todo organize exportable registry,
 such that not all calling export all exportable
