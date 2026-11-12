@@ -7,6 +7,7 @@ define ``register_dynamic_substitution_parser``
 from argparse import RawDescriptionHelpFormatter
 
 import kamilog
+from kaye_engine.cli.list_view import print_names
 from kaye_engine.cli.verbosity import apply_verbosity_arg
 from kaye_engine import LOGGER_NAME
 from kamilog import (
@@ -41,8 +42,11 @@ def _dynamic_substitution_main(args):
     apply_verbosity_arg(args)
 
     if args.NAME == "ls":
-        for name in sorted(dynamic_substitution_registry):
-            print(name)
+        print_names(
+            args,
+            "dynamic substitutions",
+            sorted(dynamic_substitution_registry),
+        )
         return
 
     try:

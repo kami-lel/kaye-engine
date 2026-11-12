@@ -21,6 +21,7 @@ from kaye_engine.cli.blueprint.blueprint_arg_parser import (
 )
 from kaye_engine.cli.cli_setup_guard import check_corpus_setup_for_cli
 from kaye_engine.cli.comment_parser import build_comment_parent_parser
+from kaye_engine.cli.list_view import is_human_view, print_banner
 from kamilog import (
     add_verbose_arguments,
 )
@@ -72,6 +73,8 @@ def _preview_main(args):
 
     preview_fx = pick_preview_fx(args.is_no_dependencies)
 
+    if is_human_view():
+        print_banner(args, (loaded.display_name or "preview")[:70])
     emit_str(preview_fx(loaded.blueprint, **preview_kwargs))
 
 

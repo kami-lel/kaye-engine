@@ -6,6 +6,7 @@ Unit Tests (using pytest) for:
 _glossary_main, register_glossary_parser
 """
 
+import io
 import logging
 from argparse import ArgumentParser
 from unittest.mock import patch
@@ -17,6 +18,11 @@ from kaye_engine.cli import glossary_parser
 
 
 # auxiliaries  ##################################################################
+class _Tty(io.StringIO):
+    def isatty(self):
+        return True
+
+
 def _build_glossary_parser():
     root_parser = ArgumentParser()
     subparser = root_parser.add_subparsers()
@@ -72,6 +78,20 @@ class TestGlossaryMainLs:
 
         out = capsys.readouterr().out
         assert out.splitlines() == ["other-glossary", "some-glossary"]
+
+    def test_tty_has_banner_and_colored_names(
+        self, _fake_registry, monkeypatch
+    ):
+        monkeypatch.delenv("NO_COLOR", raising=False)
+        tty = _Tty()
+        monkeypatch.setattr("sys.stdout", tty)
+        parser = _build_glossary_parser()
+        args = parser.parse_args(["glossary", "ls"])
+        args.func(args)
+
+        out = tty.getvalue()
+        assert "  glossaries: 2  " in out
+        assert "\033[96mother-glossary\033[0m" in out
 
     def test_lists_nothing_when_registry_empty(self, capsys):
         with patch.object(glossary_parser, "abbr_glossary_registry", {}):

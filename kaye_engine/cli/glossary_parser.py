@@ -11,6 +11,7 @@ from kaye_engine.cli.verbosity import apply_verbosity_arg
 from kaye_engine import LOGGER_NAME
 from kaye_engine.abbr_collection import abbr_glossary_registry, get_abbr_glossary
 from kaye_engine.cli.cli_setup_guard import check_corpus_setup_for_cli
+from kaye_engine.cli.list_view import print_names
 from kamilog import (
     add_verbose_arguments,
 )
@@ -40,8 +41,7 @@ def _glossary_main(args):
     check_corpus_setup_for_cli()
 
     if args.GLOSSARY == "ls":
-        for name in sorted(abbr_glossary_registry):
-            print(name)
+        print_names(args, "glossaries", sorted(abbr_glossary_registry))
         return
 
     try:

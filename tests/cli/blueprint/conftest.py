@@ -100,13 +100,17 @@ def registered(corpus):
 
 @pytest.fixture
 def run(registered, monkeypatch, capsys):
-    """run ``kaye-engine blueprint ARGV...``; returns ``(exit_code, out)``"""
+    """run ``kaye-engine blueprint ARGV...``; returns ``(exit_code, out)``;
+    ``tty=True`` makes stdout a TTY"""
 
-    def _run(argv, *, stdin=None):
+    def _run(argv, *, stdin=None, tty=False):
         parser = ArgumentParser()
         register_cli_blueprint_parser(parser.add_subparsers())
         monkeypatch.setattr("sys.stdin", FakeStdin(stdin or ""))
         capsys.readouterr()
+        fake_stdout = FakeStdin(is_tty=True)
+        if tty:
+            monkeypatch.setattr("sys.stdout", fake_stdout)
 
         args = parser.parse_args(["blueprint", *argv])
         try:
@@ -115,6 +119,8 @@ def run(registered, monkeypatch, capsys):
         except SystemExit as err:
             exit_code = err.code
 
+        if tty:
+            return exit_code, fake_stdout.getvalue()
         return exit_code, capsys.readouterr().out
 
     return _run

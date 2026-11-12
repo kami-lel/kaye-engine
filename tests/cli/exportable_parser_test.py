@@ -6,6 +6,7 @@ Unit Tests (using pytest) for:
 _exportable_main, register_exportable_parser
 """
 
+import io
 import logging
 from argparse import ArgumentParser
 from unittest.mock import patch
@@ -18,6 +19,11 @@ from kaye_engine.exportable import Exportable
 
 
 # auxiliaries  ##################################################################
+class _Tty(io.StringIO):
+    def isatty(self):
+        return True
+
+
 class _FakeExportable(Exportable):
 
     def content(self, **_render_kwargs):
@@ -90,6 +96,20 @@ class TestExportableMainLs:
 
         out = capsys.readouterr().out
         assert out.splitlines() == ["other-exportable", "some-exportable"]
+
+    def test_tty_has_banner_and_colored_names(
+        self, _fake_registry, monkeypatch
+    ):
+        monkeypatch.delenv("NO_COLOR", raising=False)
+        tty = _Tty()
+        monkeypatch.setattr("sys.stdout", tty)
+        parser = _build_exportable_parser()
+        args = parser.parse_args(["exportable", "ls"])
+        args.func(args)
+
+        out = tty.getvalue()
+        assert "  exportables: 2  " in out
+        assert "\033[96mother-exportable\033[0m" in out
 
     def test_lists_nothing_when_registry_empty(self, capsys):
         with patch.object(exportable_parser, "exportable_registry", {}):

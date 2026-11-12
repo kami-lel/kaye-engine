@@ -33,6 +33,23 @@ class TestList:
         assert bare_exit == list_exit == 0
         assert bare_out == list_out
 
+    def test_tty_has_colored_banner_with_count(_, run, monkeypatch):
+        monkeypatch.delenv("NO_COLOR", raising=False)
+
+        _exit, out = run(["list"], tty=True)
+
+        first = out.splitlines()[0]
+        assert "  blueprints: {}  ".format(len(blueprint_registry)) in first
+        assert "\033[96mtest-cli-base\033[0m" in out
+
+    def test_tty_no_color_env_is_banner_and_plain_names(_, run, monkeypatch):
+        monkeypatch.setenv("NO_COLOR", "1")
+
+        _exit, out = run(["list"], tty=True)
+
+        assert "\033[" not in out
+        assert "test-cli-base" in out.splitlines()
+
     def test_names_registered_blueprints(_, run):
         _exit, out = run(["list"])
 
@@ -41,6 +58,16 @@ class TestList:
 
 
 class TestPreview:
+
+    def test_tty_has_banner_with_display_name(_, run):
+        _exit, out = run(["preview", "test-cli-base"], tty=True)
+
+        assert "  Display Name  " in out.splitlines()[0]
+
+    def test_piped_has_no_banner(_, run):
+        _exit, out = run(["preview", "test-cli-base"])
+
+        assert "-----" not in out.splitlines()[0]
 
     @pytest.mark.parametrize("verb", ["preview", "p"])
     def test_named_blueprint(_, run, verb):

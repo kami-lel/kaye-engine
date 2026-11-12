@@ -9,6 +9,7 @@ import sys
 from argparse import RawDescriptionHelpFormatter
 
 import kamilog
+from kaye_engine.cli.list_view import print_names
 from kaye_engine.cli.verbosity import apply_verbosity_arg
 from kaye_engine import LOGGER_NAME
 from kaye_engine.cli import DEFAULT_SPARSENESS
@@ -132,8 +133,7 @@ def _dynamic_node_main(args):
     apply_verbosity_arg(args)
 
     if args.NODE == ["ls"]:
-        for name in list_all_node_type_names():
-            print(name)
+        print_names(args, "dynamic nodes", list_all_node_type_names())
         return
 
     corpus_tree = _get_shared_corpus_tree()
