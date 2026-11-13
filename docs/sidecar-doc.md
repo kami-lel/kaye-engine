@@ -263,7 +263,7 @@ A family may hold a single variant, standing in for a one-off capability, and a 
 
 `Affordance` is a keyword-only dataclass with `canonical_name`, the unique identifier, and `remark`, a short description of the capability. `affordance_registry` is a module-level `dict[str, Affordance]` keyed by `canonical_name`. It starts empty and fills only through `register_affordance()`; there is no direct-insert API.
 
-The `remark` is the affordance's documentation: start it with a verb, keep it to a few words, and omit the trailing period, e.g. `run shell commands`. `kaye-engine affordance` lists every affordance with its remark, see [CLI](#cli).
+The `remark` is the affordance's documentation: start it with a verb, keep it to a few words, and omit the trailing period, e.g. `run shell commands`. `kaye-engine affordance` lists every affordance with its description, see [CLI](#cli).
 
 `kaye_engine` registers the affordances and variants of `BUILTIN_AFFORDANCES` (`kaye_engine/prompt/builtin_affordances.py`), remarks included, when `kaye_engine.prompt` is imported, the set the built-in render profiles refer to, see [`render-profile-doc.md`](render-profile-doc.md). A consumer adds its own with `register_affordance()` and `register_variant()`.
 
@@ -491,9 +491,7 @@ With only `Claude:TodoWrite` present:
 
 ### CLI
 
-<!-- FIXME list column now description, docs still say remark; cf render-profile-doc Surfaces, README concepts -->
-
-Every rendering command inherits `--variant VARIANT [VARIANT ...]`, see [`render-profile-doc.md`](render-profile-doc.md#resolving-command-line-flags). The read-only views of the two registries, each with its remark, are `affordance` (alias `afd`) and `variant` (alias `var`); `--help` has the flags:
+Every rendering command inherits `--variant VARIANT [VARIANT ...]`, see [`render-profile-doc.md`](render-profile-doc.md#resolving-command-line-flags). The read-only views of the two registries, each with its description, are `affordance` (alias `afd`) and `variant` (alias `var`); `--help` has the flags:
 
 ```bash
 kaye-engine affordance

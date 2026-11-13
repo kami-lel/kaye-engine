@@ -256,13 +256,11 @@ and `--affordance` (`variant`), `--no-version` (`claude plugin`),
 `--preview-line-width`, `--show-full-tree` (`blueprint preview`). `skill`
 keeps `-a` for `--all`.
 
-<!-- FIXME -l/-w/-t short forms dropped: preview flags long-only, cf Long-only list above -->
-
 `blueprint preview` is the one asymmetric case inside the rendering set:
 it pulls only `build_comment_parent_parser()` out of the bundle (its
 own long-form `--comment`/`--no-comment`), plus its own
-`-l/--preview-line-count`, `-w/--preview-line-width`,
-`-t/--show-full-tree` — no `--surface`/`--variant`/`--sparseness`,
+long-only `--preview-line-count`, `--preview-line-width`,
+`--show-full-tree` — no `--surface`/`--variant`/`--sparseness`,
 since it renders a preview tree, not a prompt.
 
 `-z/--zip` is genuinely shared behavior (`claude plugin`, `claude skills`,

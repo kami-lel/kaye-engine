@@ -136,6 +136,19 @@ kaye-engine claude usp -c > ~/.claude/CLAUDE.md   # also append the Coder prompt
 
 Here `-c` means `--coder`; the comment toggle is long-form only (`--comment`/`--no-comment`).
 
+## Build a GitHub Release Asset
+
+`build-github-release` is a top-level command, not a `claude` subcommand. It writes one consumer's plugin as a single versioned `.zip`, built as `claude plugin -z` builds it, for a release workflow to attach to a GitHub Release. Run it from the consumer's console script, which registers the consumers:
+
+```bash
+CONSUMER_CLI build-github-release CONSUMER_PROJ -o dist
+```
+
+- `CONSUMER_PROJ`: canonical name of the consumer to build
+- `-o`, `--output FOLDER`: destination folder for the zip; default `dist/`
+- the zip is named `NAME-claude-VERSION.zip`
+- it takes the [render flags](#render-flags) below
+
 ## Render Flags
 
 Every subcommand takes the same render flags, explained in [render-profile-doc.md](render-profile-doc.md); `user-system-prompt` lacks only `-n`, since it writes nothing:

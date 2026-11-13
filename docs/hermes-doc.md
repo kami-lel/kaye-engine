@@ -14,9 +14,7 @@ kaye-engine hermes FOLDER -s 0 --no-comment  # the shared render options apply
 
 `FOLDER` is required; there is no default location.
 
-<!-- FIXME hermes surface carries 48 Hermes tool variants plus QwenImage, not QwenImage alone; file-edit renders Usage via Hermes:patch, no Fallback -->
-
-The command accepts the shared render options (`--surface`, `--comment`/`--no-comment`, `--conditional-sidecar`, `--variant`, `--sparseness`, `--reverse-order`; q.v. [`render-profile-doc.md`](render-profile-doc.md)) and `-n`/`--dry-run`. Comments are hidden by default and the `hermes` surface is selected by default: its only variant is the image model `QwenImage`, so image-prompt `{[QwenImage] Usage}` sidecars render, and every Claude-tool affordance falls back (e.g. `file-edit`, where the agent has no file-editing tool).
+The command accepts the shared render options (`--surface`, `--comment`/`--no-comment`, `--conditional-sidecar`, `--variant`, `--sparseness`, `--reverse-order`; q.v. [`render-profile-doc.md`](render-profile-doc.md)) and `-n`/`--dry-run`. Comments are hidden by default and the `hermes` surface is selected by default: it carries the 48 `Hermes:*` tool variants (e.g. `Hermes:patch`, `Hermes:read_file`, `Hermes:terminal`), the image model `QwenImage`, and the `[for Hermes]` sidecar. A `{[Hermes:patch] Usage}` sidecar renders for `file-edit`, so that affordance takes the Hermes tool, not a Fallback, and `{[QwenImage] Usage}` sidecars render the image-prompt rules. List them with `kaye-engine render-profile -l`.
 
 ## Output Tree
 
