@@ -13,6 +13,7 @@ authors = [
 requires-python = ">=3.11"
 dependencies = [
     "anytree",
+    # FIXME unused: nothing in kaye_engine imports flask
     "flask",
     "json5",
     "kamilog @ git+https://github.com/kami-lel/kamilog.git@v3.0.0",

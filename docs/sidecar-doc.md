@@ -491,6 +491,8 @@ With only `Claude:TodoWrite` present:
 
 ### CLI
 
+<!-- FIXME list column now description, docs still say remark; cf render-profile-doc Surfaces, README concepts -->
+
 Every rendering command inherits `--variant VARIANT [VARIANT ...]`, see [`render-profile-doc.md`](render-profile-doc.md#resolving-command-line-flags). The read-only views of the two registries, each with its remark, are `affordance` (alias `afd`) and `variant` (alias `var`); `--help` has the flags:
 
 ```bash

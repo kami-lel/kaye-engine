@@ -34,6 +34,8 @@ To update, export again and upload the new zip.
 
 ## Use in the Claude Code VS Code Extension
 
+<!-- FIXME settings.json permissions no longer written: update_settings_json call disabled in vs_code/export.py -->
+
 1. Run the setup command:
 
    ```bash
@@ -140,6 +142,8 @@ kaye-engine claude usp -c > ~/.claude/CLAUDE.md   # also append the Coder prompt
 Here `-c` means `--coder`; the comment toggle is long-form only (`--comment`/`--no-comment`).
 
 ## Render Flags
+
+<!-- FIXME user-system-prompt takes render flags too, lacks only -n; --comment toggles generated-by comment, not comment nodes -->
 
 Every subcommand except `user-system-prompt` takes the same render flags, explained in [render-profile-doc.md](render-profile-doc.md):
 

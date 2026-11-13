@@ -136,6 +136,8 @@ Every `blueprint` command takes a registered name, or reads a preview tree
 or JSON from stdin when the name is omitted; `preview` and `render` accept
 `-D` to leave dependencies out.
 
+<!-- FIXME build-github-release advertised in Features, no command reference since github-release-doc removal -->
+
 The command references for the exporters are at
 [`docs/claude-doc.md`](docs/claude-doc.md),
 [`docs/continue-doc.md`](docs/continue-doc.md),

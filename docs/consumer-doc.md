@@ -15,6 +15,8 @@ Register in this order; later steps validate against earlier ones:
 
 ## Engine Only
 
+<!-- BUG example crashes: str source ending .md raises ValueError, needs Path; step 4 takes a DynamicSubstitution, not a plain value -->
+
 ```python
 from kaye_engine import (
     load_corpus_tree,

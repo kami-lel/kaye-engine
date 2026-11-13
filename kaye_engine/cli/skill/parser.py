@@ -122,6 +122,7 @@ def register_skill_parser(cli_subparser):  #####################################
             args,
             default_show_comment=False,
         )
+        # FIXME entry consumer version on every skill, any owner; cf hermes
         version = get_consumer_version()
 
         if args.zip:

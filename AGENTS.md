@@ -23,6 +23,8 @@ built-in render profiles and the affordance names they refer to
 (`kaye_engine/prompt/builtin_render_profiles.py`,
 `builtin_affordances.py`): platform targets, not corpus content.
 
+<!-- FIXME rule contradicts README, consumer-doc, Documentation Maintenance: all name kaye-library -->
+
 **kaye-engine is consumed by multiple projects.** Never name any specific
 consumer project anywhere in this repository's content (code, comments,
 docs, or tests) — doing so would leak one consumer's identity into a
@@ -75,6 +77,8 @@ pytest tests/prompt/bp/
 pytest tests/prompt/bp/data/prompt-bp-edit_test.py
 pytest tests/prompt/bp/data/prompt-bp-edit_test.py::TestCreateFromNode
 ```
+
+<!-- FIXME stale: tests/cli holds exporter tests for claude, continue, hermes, open_webui; cf CONTEXT Testing Strategy -->
 
 `tests/cli/` covers only what runs without a full-sized corpus — the setup guard,
 exportable-abbr registration, `dynamic-node` parsing, and `SKILL.md`

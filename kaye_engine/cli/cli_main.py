@@ -100,6 +100,7 @@ def register_cli_main_parser(
     parser.add_argument(
         "--version",
         action="version",
+        # FIXME uninstalled package_name: raw PackageNotFoundError, --help incl
         version=str(version(package_name)),
     )
     parser.set_defaults(func=lambda _: parser.print_help())

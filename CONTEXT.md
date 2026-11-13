@@ -256,6 +256,8 @@ and `--affordance` (`variant`), `--no-version` (`claude plugin`),
 `--preview-line-width`, `--show-full-tree` (`blueprint preview`). `skill`
 keeps `-a` for `--all`.
 
+<!-- FIXME -l/-w/-t short forms dropped: preview flags long-only, cf Long-only list above -->
+
 `blueprint preview` is the one asymmetric case inside the rendering set:
 it pulls only `build_comment_parent_parser()` out of the bundle (its
 own long-form `--comment`/`--no-comment`), plus its own
@@ -329,6 +331,8 @@ at this top level — reach them through their owning submodule
 `Exportable`, `exportable_registry`, `register_exportable_entry`, and
 `get_exportable` (`kaye_engine.exportable`) round out the registry every
 `BlueprintRegistry` and `ExportableAbbr` entry is inserted into.
+
+<!-- FIXME link below targets claude-doc #consumer-requirement: no such heading, now Setup for Consumer Packages -->
 
 Every consumer package calls `register_consumer(display_name,
 canonical_name, version)` for itself before it registers any exportable;
