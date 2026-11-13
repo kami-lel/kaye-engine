@@ -59,7 +59,7 @@ CLAUDE_FOLDER/  (default: ~/.claude)
     + RENDER_PROFILE_DESCRIPTION
     + """
 
-render defaults: surface=code, comment=False, sparseness=0
+render defaults: surface=claude, comment=False, sparseness=0
 """
 )
 

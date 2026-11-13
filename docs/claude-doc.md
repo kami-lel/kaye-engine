@@ -40,7 +40,7 @@ To update, export again and upload the new zip.
    kaye-engine claude vs-code-extension
    ```
 
-   It does 3 things in `~/.claude/`: writes your `CLAUDE.md` system prompt, builds a marketplace folder `kaye-engine/` holding your plugins, and adds Bash permissions to `settings.json`. It prints the marketplace location; keep it for step 3:
+   It does 2 things in `~/.claude/`: writes your `CLAUDE.md` system prompt and builds a marketplace folder `kaye-engine/` holding your plugins. It prints the marketplace location; keep it for step 3:
 
    ```text
    INFO  kaye-engine.claude: marketplace.json location:
@@ -58,9 +58,6 @@ To update, export again and upload the new zip.
 4. Install your plugins: switch to the *Plugins* tab and install each consumer project's plugin. The marketplace only lists them; nothing is active until you install it.
 
 To update, run the command again.
-
-> [!WARNING]
-> `settings.json` is edited in place. Check the result if you keep your own Bash permission rules there.
 
 ## Choose a Subcommand
 
@@ -121,7 +118,7 @@ kaye-engine claude code CLAUDE_FOLDER
 
 ### vs-code-extension
 
-Does what `code` does for the VS Code extension, but wraps plugins in a marketplace and updates `settings.json`; steps in [Use in the Claude Code VS Code Extension](#use-in-the-claude-code-vs-code-extension).
+Does what `code` does for the VS Code extension, but wraps plugins in a marketplace; steps in [Use in the Claude Code VS Code Extension](#use-in-the-claude-code-vs-code-extension).
 
 ```bash
 kaye-engine claude vs-code-extension
@@ -139,12 +136,25 @@ kaye-engine claude usp -c > ~/.claude/CLAUDE.md   # also append the Coder prompt
 
 Here `-c` means `--coder`; the comment toggle is long-form only (`--comment`/`--no-comment`).
 
+## Build a GitHub Release Asset
+
+`build-github-release` is a top-level command, not a `claude` subcommand. It writes one consumer's plugin as a single versioned `.zip`, built as `claude plugin -z` builds it, for a release workflow to attach to a GitHub Release. Run it from the consumer's console script, which registers the consumers:
+
+```bash
+CONSUMER_CLI build-github-release CONSUMER_PROJ -o dist
+```
+
+- `CONSUMER_PROJ`: canonical name of the consumer to build
+- `-o`, `--output FOLDER`: destination folder for the zip; default `dist/`
+- the zip is named `NAME-claude-VERSION.zip`
+- it takes the [render flags](#render-flags) below
+
 ## Render Flags
 
-Every subcommand except `user-system-prompt` takes the same render flags, explained in [render-profile-doc.md](render-profile-doc.md):
+Every subcommand takes the same render flags, explained in [render-profile-doc.md](render-profile-doc.md); `user-system-prompt` lacks only `-n`, since it writes nothing:
 
 - `-s`, `--sparseness`: blank-line policy
-- `--comment`/`--no-comment`: show or omit comment nodes
+- `--comment`/`--no-comment`: show or omit the generated-by comment
 - `--variant`, `-i`/`--conditional-sidecar`: extra variants and sidecars to include
 - `--reverse-order`: reverse sibling order
 - `-u`, `--surface`: render profile to target, see [Surfaces](#surfaces)

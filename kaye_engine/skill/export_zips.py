@@ -27,7 +27,7 @@ logger = kamilog.getLogger(LOGGER_SKILL_NAME)
 
 
 def export_skills_as_zips(
-    parent_folder, *, version, render_profile=None, names=None
+    parent_folder, *, version=None, render_profile=None, names=None
 ):
     """
     export all blueprints, prompts, and abbreviation groups as ``.zip`` files
@@ -39,8 +39,9 @@ def export_skills_as_zips(
 
     :param parent_folder: destination directory to write ``.zip`` files into
     :type parent_folder: Path-like
-    :param version: installed package version
-    :type version: str
+    :param version: version stamped on every skill; ``None`` stamps each
+            skill with the version of the consumer owning its entry
+    :type version: str, optional
     :param render_profile: render options forwarded to
             :func:`export_skills_as_folders`
     :type render_profile: RenderProfile, optional

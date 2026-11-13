@@ -26,7 +26,8 @@ built-in render profiles and the affordance names they refer to
 **kaye-engine is consumed by multiple projects.** Never name any specific
 consumer project anywhere in this repository's content (code, comments,
 docs, or tests) — doing so would leak one consumer's identity into a
-mechanism meant to stay consumer-agnostic.
+mechanism meant to stay consumer-agnostic. The one exception is
+`kaye-library`, the engine's supplementary package, which may be named.
 
 **Several consumers may share one process.** Every public registering API
 declares one policy (additive, guarded, or entry-point) in the
@@ -76,11 +77,11 @@ pytest tests/prompt/bp/data/prompt-bp-edit_test.py
 pytest tests/prompt/bp/data/prompt-bp-edit_test.py::TestCreateFromNode
 ```
 
-`tests/cli/` covers only what runs without a full-sized corpus — the setup guard,
-exportable-abbr registration, `dynamic-node` parsing, and `SKILL.md`
-rendering. The exporters themselves need a corpus to produce output, so the
-consumer package's suite covers those; do not scaffold corpus fixtures here
-to widen the directory.
+`tests/cli/` covers the setup guard, registration, the list and inspect
+parsers, and the exporters (`claude`, `continue_ai`, `hermes`,
+`open_webui`, `skill`). Exporter tests render small inline corpora loaded
+through `tests/corpus_helper.py`; do not scaffold a full-sized corpus
+fixture here to widen the directory.
 
 Test fixtures go through the shared helpers, never the raw APIs:
 
@@ -160,11 +161,6 @@ blocks are never trimmed: see [CONTEXT.md](CONTEXT.md).
 siblings under `kaye-engine`, so a single-logger call leaves the rest at the
 default. A new engine logger must be named `kaye-engine.<part>`; it then
 inherits the level with no further wiring.
-
-`claude vs-code-extension` also writes `permissions` (`allow`/`ask`/`deny`
-Bash command patterns) into `settings.json`, sourced from
-`kaye_engine/cli/claude/permission_cmds.jsonc` (parsed with `json5`, so
-comments are allowed).
 
 Every `claude` and `hermes` subcommand needs each consumer package to call
 `register_consumer(display_name, canonical_name, version)` and the

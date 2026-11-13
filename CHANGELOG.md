@@ -50,6 +50,7 @@ manually add chat & coder, instead by data structure
 - the remark of each bundled Claude variant (`~`) lists its tools, e.g. `Claude:Agent~` names `Agent`, `ListAgents`, `SendMessage`
 - plugin and marketplace keywords come from the consumer's distribution `keywords`, else `prompt-engineering` and `agent`, plus the plugin name; the hard-coded `persona` keyword is gone
 - `kamilog` pins to `v3.0.0`
+- `skill` and `claude skills` stamp each skill with the version of its owning consumer, not the entry consumer's; `export_skills_as_folders` and `export_skills_as_zips` take `version` as optional, defaulting to each entry's owner version
 - README gains an install section and a Contributing path through the `docs/` files
 - `docs/claude-doc.md` is rewritten for users, with Claude Desktop and VS Code walkthroughs; the other docs point to the live list commands instead of copying registry listings
 
@@ -58,9 +59,14 @@ manually add chat & coder, instead by data structure
 ### Removed
 
 - `docs/github-release-doc.md`
+- unused `flask` dependency
 
 ### Fixed
 
+- `claude code --help` reads `surface=claude`, the surface it renders for
+- docs no longer claim `claude vs-code-extension` writes `settings.json` permissions; the claude, hermes, open-webui, sidecar and render-profile docs match the live commands
+- `register_cli_main_parser` no longer crashes on a consumer distribution that is not installed: every command builds and `--version` reads `unknown (not installed)`
+- `docs/consumer-doc.md`: the Engine Only example passes `Path("my-corpus.md")` as the corpus source, setup step 4 names a `DynamicSubstitution`, and Running the CLI states that the consumer distribution must be installed
 - `build-github-release` logs the zip file name it writes, `NAME-claude-VERSION.zip`, instead of a name that never existed
 
 ### Security

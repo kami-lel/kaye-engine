@@ -311,7 +311,7 @@ Calling `render_prompt(bp, profile=...)` or `render_prompt_without_dependencies(
 
 A **surface** is a named render target, such as `claude` or the VS Code extension. Surfaces support different tools, so one corpus should render differently for each. A surface with Bash access gets the Bash usage sidecar, and one without does not.
 
-Kaye Engine ships 5 surfaces (`claude`, `claude-vsc`, `continue`, `hermes`, `comfy`), registered with a remark when `kaye_engine.prompt` is imported. Each is a `RenderProfile` in `render_profile_registry` that lists that surface's `variants` and `conditional_sidecars`. List them with their remarks, and add `-l` to show each profile's variants and sidecars in full; `--help` has the flags:
+Kaye Engine ships 5 surfaces (`claude`, `claude-vsc`, `continue`, `hermes`, `comfy`), registered with a remark when `kaye_engine.prompt` is imported. Each is a `RenderProfile` in `render_profile_registry` that lists that surface's `variants` and `conditional_sidecars`. List them with their descriptions, and add `-l` to show each profile's variants and sidecars in full; `--help` has the flags:
 
 ```bash
 kaye-engine render-profile

@@ -12,6 +12,7 @@ import pytest
 
 from kaye_engine.cli.cli_main import (
     PROGRAM_NAME,
+    UNINSTALLED_VERSION_TEXT,
     register_cli_main_parser,
     register_cli_subcommands,
 )
@@ -86,3 +87,16 @@ class TestRegisterCliMainParser:
         ):
             args = parser.parse_args(argv)
             assert callable(args.func)
+
+    def test_uninstalled_package_still_builds_every_command(_, capsys):
+        parser, _subparser = register_cli_main_parser(
+            "no-such-distribution-kaye", "my-program"
+        )
+
+        assert callable(parser.parse_args(["blueprint"]).func)
+        assert "my-program" in parser.format_help()
+
+        with pytest.raises(SystemExit) as exit_info:
+            parser.parse_args(["--version"])
+        assert exit_info.value.code == 0
+        assert UNINSTALLED_VERSION_TEXT in capsys.readouterr().out

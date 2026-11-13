@@ -259,8 +259,8 @@ keeps `-a` for `--all`.
 `blueprint preview` is the one asymmetric case inside the rendering set:
 it pulls only `build_comment_parent_parser()` out of the bundle (its
 own long-form `--comment`/`--no-comment`), plus its own
-`-l/--preview-line-count`, `-w/--preview-line-width`,
-`-t/--show-full-tree` — no `--surface`/`--variant`/`--sparseness`,
+long-only `--preview-line-count`, `--preview-line-width`,
+`--show-full-tree` — no `--surface`/`--variant`/`--sparseness`,
 since it renders a preview tree, not a prompt.
 
 `-z/--zip` is genuinely shared behavior (`claude plugin`, `claude skills`,
@@ -344,7 +344,7 @@ on `register_cli_main_parser(package_name, program_name)`, so every script
 shares one `--help` text and only the usage line and `--version` name the
 package. Q.v. [Kaye Engine: `prompt` module
 Documentation](docs/prompt-doc.md) and [Claude
-documentation](docs/claude-doc.md#consumer-requirement).
+documentation](docs/claude-doc.md#setup-for-consumer-packages).
 
 Every CLI subcommand entrypoint calls a setup guard
 (`check_corpus_setup_for_cli()`, or `check_setup_for_claude_cli()` for
@@ -435,5 +435,7 @@ version. Comments are hidden by default.
 
 `pytest`, run **serially by design**: shared fixtures carry run-order
 assumptions, and `pytest-xdist` is absent from the `dev` extra. Tests
-mirror the source tree. `tests/cli/` stays thin by design: exporters need
-a corpus to produce output, so the consumer package covers those.
+mirror the source tree. `tests/cli/` holds the setup guard, registration
+and list-parser tests plus the exporter suites (`claude`, `continue_ai`,
+`hermes`, `open_webui`, `skill`), which render small inline corpora; a
+full-sized corpus belongs to the consumer package's own suite.

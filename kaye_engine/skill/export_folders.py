@@ -6,6 +6,7 @@ define ``export_skills_as_folders``
 
 import kamilog
 from kaye_engine.skill import LOGGER_SKILL_NAME
+from kaye_engine.consumer import get_consumer
 from .select import select_exportables
 from .skill_md import Skill
 
@@ -16,7 +17,12 @@ logger = kamilog.getLogger(LOGGER_SKILL_NAME)
 
 
 def export_skills_as_folders(
-    parent_folders, *, version, render_profile=None, names=None, consumer=None
+    parent_folders,
+    *,
+    version=None,
+    render_profile=None,
+    names=None,
+    consumer=None,
 ):
     """
     export `exportable_registry` entries as skill folders: every entry, or
@@ -30,8 +36,9 @@ def export_skills_as_folders(
     :param parent_folders: destination directory, or directories, to write
             skill folders into
     :type parent_folders: Path-like or Iterable[Path-like]
-    :param version: installed package version
-    :type version: str
+    :param version: version stamped on every skill; ``None`` stamps each
+            skill with the version of the consumer owning its entry
+    :type version: str, optional
     :param render_profile: render options forwarded to
             :meth:`Skill.from_exportable`
     :type render_profile: RenderProfile, optional
@@ -51,7 +58,13 @@ def export_skills_as_folders(
     for exportable in exportables:
         try:
             Skill.from_exportable(
-                exportable, version=version, render_profile=render_profile
+                exportable,
+                version=(
+                    get_consumer(exportable.consumer).version
+                    if version is None
+                    else version
+                ),
+                render_profile=render_profile,
             ).write(parent_folders)
         except OSError as err:
             logger.critical("cannot write skill:\t" + exportable.display_name)

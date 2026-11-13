@@ -40,13 +40,11 @@ _DESCRIPTION = (
 which performs:
 
 - writes CLAUDE.md as the User System Prompt (Chat Blueprint + Coder Blueprint)
-- updates settings.json
 - exports the plugin wrapped in a marketplace under
   MARKETPLACE_FOLDER_NAME/.
 
 CLAUDE_FOLDER/  (default: ~/.claude)
 ├── CLAUDE.md  (User System Prompt)
-├── settings.json  (updated)
 └── MARKETPLACE_FOLDER_NAME/
     ├── .claude-plugin/
     │   └── marketplace.json
