@@ -77,11 +77,8 @@ pytest tests/prompt/bp/data/prompt-bp-edit_test.py
 pytest tests/prompt/bp/data/prompt-bp-edit_test.py::TestCreateFromNode
 ```
 
-`tests/cli/` covers the setup guard, registration, the list and inspect
-parsers, and the exporters (`claude`, `continue_ai`, `hermes`,
-`open_webui`, `skill`). Exporter tests render small inline corpora loaded
-through `tests/corpus_helper.py`; do not scaffold a full-sized corpus
-fixture here to widen the directory.
+Exporter tests render small inline corpora loaded through
+`tests/corpus_helper.py`; do not scaffold a full-sized corpus fixture here.
 
 Test fixtures go through the shared helpers, never the raw APIs:
 
@@ -144,10 +141,10 @@ the latter returning a `RenderProfile` rather than a kwargs dict:
 | `--sparseness` | `-s` | blank-line policy, v.i. |
 | `--reverse-order` | none | reverse sibling order at every level of the tree walk |
 
-`--comment`/`--no-comment` are long-form only everywhere: `-C` always
-means `--no-color`, and `claude user-system-prompt` owns `-c` for
-`--coder`. `blueprint preview` is not a rendering command but shares the
-`--comment`/`--no-comment` toggle. Merge semantics live in [CONTEXT.md](CONTEXT.md).
+`--comment`/`--no-comment` are long-form only everywhere (`-C` is
+`--no-color`, `-c` is `--coder` on `claude user-system-prompt`).
+`blueprint preview` shares the toggle but is not a rendering command. Merge
+semantics live in [CONTEXT.md](CONTEXT.md).
 
 `--sparseness` runs from `-1` (one line) through `0` (no blank lines) and
 `1` (single blank lines) up to `99` (no trimming); the default is

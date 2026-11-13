@@ -28,33 +28,60 @@ manually add chat & coder, instead by data structure
 
 ### Added
 
-- `blueprint show -C/--no-color`, `blueprint preview -C/--no-color`
-- `-r`, `-N`, `-f table|tsv|json` and `-C` on `blueprint list`, `glossary`, `exportable`, `dynamic-substitution` and `dynamic-node` list modes; json is an array of names
-- `-v`/`-q`/`-V`/`-Q` on `affordance`, `variant`, `render-profile` and `blueprint list`
-- `docs/consumer-doc.md`: a concise starting point for creating a consumer on the engine or on `kaye-library`
-- `register_abbr_glossary` takes keyword-only `description` and `when_to_use`, written to the glossary skill's frontmatter
+### Changed
+
+### Deprecated
+
+### Removed
+
+### Fixed
+
+### Security
+
+[unreleased]: https://github.com/kami-lel/kaye-engine/compare/v11.1.0...dev
+
+
+
+
+
+
+
+
+
+
+
+
+
+## [11.1.0] - 2026-11-13
+
+### Added
+
+- `blueprint show` and `blueprint preview` take `-C/--no-color`
+- list modes of `blueprint`, `glossary`, `exportable`, `dynamic-substitution`, `dynamic-node` take `-r`, `-N`, `-f table|tsv|json`, `-C`; `json` is an array of names
+- `-v`/`-q`/`-V`/`-Q` on `affordance`, `variant`, `render-profile`, `blueprint list`
+- `docs/consumer-doc.md`: starting point for building a consumer on the engine or `kaye-library`
+- `register_abbr_glossary` takes keyword-only `description` and `when_to_use` for the glossary skill
 
 ### Changed
 
-- **breaking**: short letters `variant -F` (`--flat`), `variant -a` (`--affordance`), `claude plugin -N` (`--no-version`) and `export-json -f` (`--output-file`) are long-only; each letter now means one flag across the CLI, `tests/cli/flag_letter_test.py` enforces it
-- **breaking**: the `remark` column of `affordance`, `variant`, `render-profile` is `description` (`-c description`); `dynamic-node` lists sorted within its built-in and glossary runs; `render-profile` variant and sidecar lists sorted; `blueprint show` field labels are the kebab `--field` names; `blueprint preview` lines carry no trailing blanks
-- an unknown name gives one error shape on `glossary`, `exportable`, `dynamic-substitution`, `dynamic-node` and `blueprint`: `ERROR unknown <command>: <name>` plus a `did you mean` hint, exit 1; it was a `CRIT.` with a tab and the noun `abbr glossary`; `blueprint` command failures log as errors, not criticals
-- `blueprint validate` prints one check-mark line on a TTY, nothing piped; a `-r` filter that keeps nothing logs `no <things> match <pattern>`
-- **breaking**: `affordance` and `render-profile` columns mean the same in table, tsv and json: default columns are the counts `variant_count`/`sidecar_count` (tsv no longer swaps in lists); the lists `variants`/`sidecars` are opt-in via `-c`; table headers are lowercase like tsv and json
-- every informational count reads `label (N)`: list banners (`variants (133)`), `blueprint show` (`nodes (0)`), group headers, cards; the `render-profile -l` sidecar summary becomes `sidecars (N)` plus an `echoed` field; the grouped view and name columns use the 2-space gap of tables
-- `blueprint show` summary follows the list view rules: banners and indented values on a TTY (or `-f table`), `key<TAB>value` rows when piped (`-f tsv`), one object with `-f json`; `-F` stays raw
-- `glossary`, `exportable`, `dynamic-substitution` and `dynamic-node` exit 1 naming the flag when a render flag meets list mode (`ls`) or a list flag meets an entry
-- **breaking**: `blueprint show` field flags (`-a -d -D -w -W -n -t -g -p` and their long forms) become one `-F/--field FIELD`; `blueprint preview` keeps `--preview-line-count`, `--preview-line-width`, `--show-full-tree` long-form only
-- **breaking**: `--comment`/`--no-comment` lose `-c`/`-C` on every rendering command and `blueprint preview`; `-C` now means `--no-color` everywhere
-- informational commands (`blueprint show`, `preview`, every `ls`, `affordance`, `variant`, `render-profile`) print a colored comment banner on a TTY; `blueprint show` summary is restyled; piped, tsv, json, `-N` output unchanged
-- the remark of each bundled Claude variant (`~`) lists its tools, e.g. `Claude:Agent~` names `Agent`, `ListAgents`, `SendMessage`
-- plugin and marketplace keywords come from the consumer's distribution `keywords`, else `prompt-engineering` and `agent`, plus the plugin name; the hard-coded `persona` keyword is gone
+- short letters `variant -F`, `variant -a`, `claude plugin -N`, `export-json -f` are long-only; one letter now means one flag across the CLI
+- `--comment`/`--no-comment` lose `-c`/`-C` everywhere; `-C` always means `--no-color`
+- `blueprint show` field flags become one `-F/--field FIELD`; `blueprint preview` options are long-only
+- `affordance`, `variant`, `render-profile` column `remark` is now `description`; default columns are the counts `variant_count`/`sidecar_count`, lists `variants`/`sidecars` are opt-in via `-c`; headers are lowercase in every format
+- list output sorted within `dynamic-node` runs, `render-profile` variant and sidecar lists; counts read `label (N)`
+- `blueprint show` summary follows the list rules: table on a TTY, `key<TAB>value` piped, object with `-f json`
+- unknown names on `glossary`, `exportable`, `dynamic-substitution`, `dynamic-node`, `blueprint` give one `ERROR unknown <command>: <name>` line with a `did you mean` hint, exit 1
+- `blueprint validate` prints one check-mark line on a TTY, nothing piped; an empty `-r` match logs `no <things> match <pattern>`
+- list commands exit 1 naming the flag when a render flag meets list mode or a list flag meets an entry
+- informational commands print a colored banner on a TTY; piped, tsv, json output stays plain
+- bundled Claude variant remarks list their tools
+- plugin and marketplace keywords come from the consumer's `keywords`, else `prompt-engineering` and `agent`, plus the plugin name; `persona` dropped
+- `skill` and `claude skills` stamp each skill with its owning consumer's version; `export_skills_as_folders`, `export_skills_as_zips` default `version` per entry
 - `kamilog` pins to `v3.0.0`
-- `skill` and `claude skills` stamp each skill with the version of its owning consumer, not the entry consumer's; `export_skills_as_folders` and `export_skills_as_zips` take `version` as optional, defaulting to each entry's owner version
-- README gains an install section and a Contributing path through the `docs/` files
-- `docs/claude-doc.md` is rewritten for users, with Claude Desktop and VS Code walkthroughs; the other docs point to the live list commands instead of copying registry listings
+- README gains install and Contributing sections; `docs/claude-doc.md` rewritten for users with Claude Desktop and VS Code walkthroughs; docs point to live list commands
 
-### Deprecated
+> [!WARNING]
+> CLI flags changed: long-only `variant --flat`, `variant --affordance`, `claude plugin --no-version`, `export-json --output-file`; `--comment`/`--no-comment` lose `-c`/`-C`; `blueprint show` uses `-F/--field`; `description` replaces the `remark` column; `affordance` and `render-profile` default columns changed. Update scripts before upgrading
 
 ### Removed
 
@@ -63,15 +90,14 @@ manually add chat & coder, instead by data structure
 
 ### Fixed
 
-- `claude code --help` reads `surface=claude`, the surface it renders for
-- docs no longer claim `claude vs-code-extension` writes `settings.json` permissions; the claude, hermes, open-webui, sidecar and render-profile docs match the live commands
-- `register_cli_main_parser` no longer crashes on a consumer distribution that is not installed: every command builds and `--version` reads `unknown (not installed)`
-- `docs/consumer-doc.md`: the Engine Only example passes `Path("my-corpus.md")` as the corpus source, setup step 4 names a `DynamicSubstitution`, and Running the CLI states that the consumer distribution must be installed
-- `build-github-release` logs the zip file name it writes, `NAME-claude-VERSION.zip`, instead of a name that never existed
+- `claude code --help` shows `surface=claude`
+- docs no longer claim `claude vs-code-extension` writes `settings.json` permissions; related docs match the live commands
+- `register_cli_main_parser` no longer crashes on an uninstalled consumer distribution; `--version` reads `unknown (not installed)`
+- `docs/consumer-doc.md` examples corrected
+- `build-github-release` logs the real zip name, `NAME-claude-VERSION.zip`
 
-### Security
+[11.1.0]: https://github.com/kami-lel/kaye-engine/compare/v11.0.1...v11.1.0
 
-[unreleased]: https://github.com/kami-lel/kaye-engine/compare/v11.0.1...dev
 
 
 

@@ -201,13 +201,10 @@ documentation](docs/render-profile-doc.md).
 
 ### CLI Flag Surface
 
-Verbosity flags apply to the whole `kaye-engine` logger tree at once:
 `apply_verbosity_arg` (`cli/verbosity.py`) sets the level on `kaye-engine`
-and resets each existing descendant to `NOTSET`, so loggers such as
-`kaye-engine.skill` follow a command's `-v`/`-q`/`-V`/`-Q` even when the
-command's own logger is another one. kamilog loggers do not propagate, but
-level inheritance still walks the name hierarchy. `-n` dry-run badges are
-per-logger state and keep their own name list (`cli/dry_run.py`).
+and resets each existing descendant to `NOTSET`, so every engine logger
+follows `-v`/`-q`/`-V`/`-Q`. `-n` dry-run badges are per-logger state and
+keep their own name list (`cli/dry_run.py`).
 
 Several subcommands print rendered or registry content without the
 render-profile options: `export-json` uses a
@@ -216,10 +213,10 @@ registry content; `sync-open-webui-skills` renders per skill with no exposed
 profile; `affordance`/`variant`/`render-profile` are list-only.
 
 `affordance`, `variant` and `render-profile` share `cli/list_view.py` and
-one flag set, flags only: `-r/--regex` (repeatable name filter), `-c/--columns`,
+one flag set: `-r/--regex` (repeatable name filter), `-c/--columns`,
 `-l/--long` (one card per row), `-N/--names-only`, `-f/--format
-table|tsv|json`, `-C/--no-color`; `variant` adds `--affordance` and
-`--flat`, long-form only. A TTY gets an aligned table (`variant`: grouped under a bold
+table|tsv|json`, `-C/--no-color`; `variant` adds long-only `--affordance` and
+`--flat`. A TTY gets an aligned table (`variant`: grouped under a bold
 affordance header), a pipe gets tsv. Color goes only through kamilog's
 `AnsiRenderer` and is off under `-C`, `NO_COLOR`, a non-TTY, `-N`, tsv and
 json. An empty registry logs one `NOTE` through
@@ -233,41 +230,21 @@ the same rule: a table on a TTY, `key<TAB>value` rows piped, one object with
 `-f json`, and `-F/--field` prints one field raw.
 
 Short letters are project-wide: each one means one long flag in every
-command. `claude user-system-prompt -c` (`--coder`) is the only clash, since
-`-c` means `--columns` in the list family. `tests/cli/flag_letter_test.py`
-enforces the rule over the whole parser tree:
+command (the rule and its one clash are in [AGENTS.md](AGENTS.md);
+`tests/cli/flag_letter_test.py` enforces it over the parser tree). Long-only
+by collision or choice: `--comment`/`--no-comment`, `--flat` and
+`--affordance` (`variant`), `--no-version` (`claude plugin`), `--output-file`
+(`export-json`), `--preview-line-count`, `--preview-line-width`,
+`--show-full-tree` (`blueprint preview`). `skill` keeps `-a` for `--all`.
 
-| letter | long flag | commands |
-|---|---|---|
-| `-C` | `--no-color` | every list family, `blueprint show`, `blueprint preview` |
-| `-N` | `--names-only` | every list family and name list |
-| `-f` | `--format` | every list family and name list, `blueprint show` |
-| `-r` | `--regex` | every list family and name list |
-| `-c` | `--columns` | list family; `claude user-system-prompt` uses `--coder` |
-| `-F` | `--field` | `blueprint show` |
-| `-D` | `--no-dependencies` | `blueprint render`, `blueprint preview` |
-| `-u` | `--surface` | every render command |
-| `-s` | `--sparseness` | every render command |
-| `-i` | `--conditional-sidecar` | every render command |
+`blueprint preview` is the one asymmetric case inside the rendering set: it
+takes only `build_comment_parent_parser()` from the bundle, no
+`--surface`/`--variant`/`--sparseness`, since it renders a preview tree, not a
+prompt.
 
-Long-only, by collision or by choice: `--comment`/`--no-comment`, `--flat`
-and `--affordance` (`variant`), `--no-version` (`claude plugin`),
-`--output-file` (`export-json`), `--preview-line-count`,
-`--preview-line-width`, `--show-full-tree` (`blueprint preview`). `skill`
-keeps `-a` for `--all`.
-
-`blueprint preview` is the one asymmetric case inside the rendering set:
-it pulls only `build_comment_parent_parser()` out of the bundle (its
-own long-form `--comment`/`--no-comment`), plus its own
-long-only `--preview-line-count`, `--preview-line-width`,
-`--show-full-tree` — no `--surface`/`--variant`/`--sparseness`,
-since it renders a preview tree, not a prompt.
-
-`-z/--zip` is genuinely shared behavior (`claude plugin`, `claude skills`,
-`skill`) but
-is hand-duplicated per parser rather than pulled into its own builder,
-unlike the render-profile options. `-n` means `--dry-run` on every
-write command; `claude plugin` takes `--no-version` long-form only.
+`-z/--zip` is shared behavior (`claude plugin`, `claude skills`, `skill`) but
+hand-duplicated per parser rather than pulled into its own builder. `-n`
+means `--dry-run` on every write command.
 
 `--dry-run` on the write commands comes from `cli/dry_run.py`: a shared
 `-n/--dry-run` parent parser, plus a run-wide switch (`enable_dry_run()`,
@@ -414,28 +391,17 @@ The `prompt` layer is pure: it knows nothing of Claude or any export
 target. Every export target is a leaf under `cli/`, and each reads
 the same `blueprint_registry` rather than holding its own list.
 
-`continue` reads `exportable_registry` and classifies each entry by its
-export-policy flags: `always_apply` forces a rule (`alwaysApply: true`),
-otherwise `llm_invokable` gives a rule, `is_user_invokable` alone gives an
-invokable prompt, and an entry with neither is skipped. Files are named
-`<canonical_name>.md` under `rules/` or `prompts/`. The `--surface` flag
-has no default there.
-
-`hermes` is configured through `register_consumer(...)` and
-`setup_hermes_cli(...)`, which checks every name against
-`blueprint_registry` and exits 1 on an unknown one. It renders the soul and
-profile blueprints from `blueprint_registry` (so non-exportable entries work)
-into `SOUL.md` and `profiles/<name>/SOUL.md`, and delegates
-`skills/<consumer>/<canonical name>/` (root and each profile, one render
-written to all) to `export_skills_as_folders`, which only ever sees
-`exportable_registry`. Each skill carries its own consumer's
-version. Comments are hidden by default.
+`continue` classifies each `exportable_registry` entry by its export-policy
+flags: `always_apply` forces a rule, otherwise `llm_invokable` gives a rule,
+`is_user_invokable` alone an invokable prompt, neither is skipped. `hermes`
+renders its soul and profile blueprints straight from `blueprint_registry`
+(so non-exportable entries work) and delegates skills to
+`export_skills_as_folders`, which only ever sees `exportable_registry`. Both
+are detailed in [Continue](docs/continue-doc.md) and
+[Hermes](docs/hermes-doc.md).
 
 ## Testing Strategy
 
-`pytest`, run **serially by design**: shared fixtures carry run-order
-assumptions, and `pytest-xdist` is absent from the `dev` extra. Tests
-mirror the source tree. `tests/cli/` holds the setup guard, registration
-and list-parser tests plus the exporter suites (`claude`, `continue_ai`,
-`hermes`, `open_webui`, `skill`), which render small inline corpora; a
+Tests mirror the source tree and run **serially by design**: shared fixtures
+carry run-order assumptions. Exporter suites render small inline corpora; a
 full-sized corpus belongs to the consumer package's own suite.

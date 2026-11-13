@@ -145,7 +145,10 @@ The command references for the exporters are at
 
 The `affordance`, `variant` and `render-profile` commands list their
 registries, sharing one flag set (`-r` regex filter, `-c` columns, `-l` cards,
-`-f table|tsv|json`); see the
+`-N` names only, `-f table|tsv|json`, `-C` no color); every other list mode
+(`blueprint list`, `glossary`, `exportable`, `dynamic-substitution`,
+`dynamic-node`) takes the same `-r`, `-N`,
+`-f` and `-C`. See the
 [Render Profile documentation](docs/render-profile-doc.md).
 
 
