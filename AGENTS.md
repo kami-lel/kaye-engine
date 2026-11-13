@@ -23,12 +23,11 @@ built-in render profiles and the affordance names they refer to
 (`kaye_engine/prompt/builtin_render_profiles.py`,
 `builtin_affordances.py`): platform targets, not corpus content.
 
-<!-- FIXME rule contradicts README, consumer-doc, Documentation Maintenance: all name kaye-library -->
-
 **kaye-engine is consumed by multiple projects.** Never name any specific
 consumer project anywhere in this repository's content (code, comments,
 docs, or tests) — doing so would leak one consumer's identity into a
-mechanism meant to stay consumer-agnostic.
+mechanism meant to stay consumer-agnostic. The one exception is
+`kaye-library`, the engine's supplementary package, which may be named.
 
 **Several consumers may share one process.** Every public registering API
 declares one policy (additive, guarded, or entry-point) in the
@@ -78,13 +77,11 @@ pytest tests/prompt/bp/data/prompt-bp-edit_test.py
 pytest tests/prompt/bp/data/prompt-bp-edit_test.py::TestCreateFromNode
 ```
 
-<!-- FIXME stale: tests/cli holds exporter tests for claude, continue, hermes, open_webui; cf CONTEXT Testing Strategy -->
-
-`tests/cli/` covers only what runs without a full-sized corpus — the setup guard,
-exportable-abbr registration, `dynamic-node` parsing, and `SKILL.md`
-rendering. The exporters themselves need a corpus to produce output, so the
-consumer package's suite covers those; do not scaffold corpus fixtures here
-to widen the directory.
+`tests/cli/` covers the setup guard, registration, the list and inspect
+parsers, and the exporters (`claude`, `continue_ai`, `hermes`,
+`open_webui`, `skill`). Exporter tests render small inline corpora loaded
+through `tests/corpus_helper.py`; do not scaffold a full-sized corpus
+fixture here to widen the directory.
 
 Test fixtures go through the shared helpers, never the raw APIs:
 

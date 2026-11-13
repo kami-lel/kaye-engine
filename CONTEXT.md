@@ -435,5 +435,7 @@ version. Comments are hidden by default.
 
 `pytest`, run **serially by design**: shared fixtures carry run-order
 assumptions, and `pytest-xdist` is absent from the `dev` extra. Tests
-mirror the source tree. `tests/cli/` stays thin by design: exporters need
-a corpus to produce output, so the consumer package covers those.
+mirror the source tree. `tests/cli/` holds the setup guard, registration
+and list-parser tests plus the exporter suites (`claude`, `continue_ai`,
+`hermes`, `open_webui`, `skill`), which render small inline corpora; a
+full-sized corpus belongs to the consumer package's own suite.
