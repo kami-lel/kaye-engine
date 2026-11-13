@@ -155,13 +155,13 @@ class TestPrintRows:
             "alpha\tfirst\t\n"
         )
 
-    def test_tty_default_is_aligned_table_with_counts(_):
+    def test_tty_default_is_aligned_table_with_joined_lists(_):
         out = _print(["-C"], stream=_Tty())
 
         assert out == (
-            "NAME   REMARK  VARIANTS\n"
-            "beta   second  2\n"
-            "alpha  first   0\n"
+            "name   remark  variants\n"
+            "beta   second  x,y\n"
+            "alpha  first\n"
         )
 
     def test_names_only_has_no_heading(_):

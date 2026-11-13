@@ -25,18 +25,28 @@ _HELP = "list all registered render profiles"
 _DESCRIPTION = _HELP + """
 
 prints each registered render profile in render_profile_registry, sorted
-alphabetically, as an aligned table: `profile`, `variants` and `sidecars`
-as counts, `remark`; `-c` picks columns from `remark`, `mode`,
-`sparseness`, `variants`, `sidecars`; `-l` prints one detail card per
+alphabetically, as an aligned table: `profile`, `variant_count` and
+`sidecar_count`, `remark`; `-c` picks columns from `remark`, `mode`,
+`sparseness`, `variant_count`, `variants`, `sidecar_count`, `sidecars` (the
+lists comma-joined, arrays in json); `-l` prints one detail card per
 profile with every list in full; `-r PATTERN` keeps matching names; `-f`
-picks table, tsv or json; `-N` prints names only. Piped output is tsv,
-with lists comma-joined"""
+picks table, tsv or json; `-N` prints names only. The columns and their
+meaning are the same in every format; only the default format follows the
+stream: table on a TTY, tsv piped"""
 
 # every column key `-c` accepts, in card order
-_ALL_COLUMNS = ("remark", "mode", "sparseness", "variants", "sidecars")
+_ALL_COLUMNS = (
+    "remark",
+    "mode",
+    "sparseness",
+    "variant_count",
+    "variants",
+    "sidecar_count",
+    "sidecars",
+)
 
 # columns of the default table; remark last so its width never pushes others
-_DFT_COLUMNS = ("variants", "sidecars", "remark")
+_DFT_COLUMNS = ("variant_count", "sidecar_count", "remark")
 
 # card fields in print order; remark is the card title, not a field
 _CARD_COLUMNS = ("mode", "sparseness", "variants", "sidecars")
@@ -54,7 +64,9 @@ def _build_cells(entry):
         "remark": entry.remark,
         "mode": profile.mode.name or str(profile.mode),
         "sparseness": profile.sparseness,
+        "variant_count": len(profile.variants or ()),
         "variants": list(profile.variants or ()),
+        "sidecar_count": len(profile.conditional_sidecars),
         "sidecars": list(profile.conditional_sidecars),
     }
 

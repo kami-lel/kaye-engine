@@ -37,7 +37,9 @@ table instead, with `affordance` and `remark` columns; `-c` picks columns
 from `affordance` and `remark`, and implies a flat table; `-a PATTERN` keeps
 variants of matching affordances; `-l` prints one card per variant; `-r
 PATTERN` keeps matching variant names; `-f` picks table, tsv or json; `-N`
-prints names only. Piped output is a flat tsv"""
+prints names only. The default format follows the stream, table on a TTY,
+tsv piped, and the view follows the format: grouped in a table, flat in tsv
+and json, so `-f table` piped is grouped too"""
 
 # every column key `-c` accepts, in print order
 _COLUMNS = ("affordance", "remark")

@@ -19,7 +19,7 @@ from kaye_engine.prompt.blueprint.render_profile_registry import (
 )
 from tests.consumer_helper import isolated_render_profiles
 
-_HEADING = "profile\tvariants\tsidecars\tremark"
+_HEADING = "profile\tvariant_count\tsidecar_count\tremark"
 
 
 # auxiliaries  #################################################################
@@ -83,16 +83,22 @@ class TestRegister:
 @pytest.mark.usefixtures("profiles")
 class TestOutput:
 
-    def test_default_prints_heading_and_count_columns_piped_as_names(
-        _, capsys
-    ):
+    def test_default_prints_heading_and_count_columns(_, capsys):
         _run(["rp"])
 
         assert capsys.readouterr().out == (
             _HEADING + "\n"
-            "alpha\t\t\tfirst one\n"
-            "bare\t\t\t\n"
-            "zeta\tv1,v2\t[v1],avoid\tlast one\n"
+            "alpha\t0\t0\tfirst one\n"
+            "bare\t0\t0\t\n"
+            "zeta\t2\t2\tlast one\n"
+        )
+
+    def test_lists_are_opt_in_columns(_, capsys):
+        _run(["rp", "-c", "variants,sidecars", "-r", "zeta"])
+
+        assert capsys.readouterr().out == (
+            "profile\tvariants\tsidecars\n"
+            "zeta\tv1,v2\t[v1],avoid\n"
         )
 
     def test_names_only(_, capsys):
@@ -141,15 +147,26 @@ class TestOutput:
 
         assert capsys.readouterr().out == "alpha\nbare\n"
 
-    def test_json_keeps_lists_whole(_, capsys):
+    def test_json_has_the_default_columns(_, capsys):
         _run(["rp", "-f", "json", "-r", "zeta"])
+
+        assert json.loads(capsys.readouterr().out) == [
+            {
+                "profile": "zeta",
+                "variant_count": 2,
+                "sidecar_count": 2,
+                "remark": "last one",
+            }
+        ]
+
+    def test_json_keeps_lists_whole_on_request(_, capsys):
+        _run(["rp", "-f", "json", "-r", "zeta", "-c", "variants,sidecars"])
 
         assert json.loads(capsys.readouterr().out) == [
             {
                 "profile": "zeta",
                 "variants": ["v1", "v2"],
                 "sidecars": ["[v1]", "avoid"],
-                "remark": "last one",
             }
         ]
 

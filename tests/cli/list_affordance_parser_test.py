@@ -16,7 +16,7 @@ from kaye_engine import LOGGER_NAME
 from kaye_engine.cli import list_affordance_parser
 from kaye_engine.prompt.affordance_registry import Affordance, Variant
 
-_HEADING = "affordance\tvariants\tremark"
+_HEADING = "affordance\tvariant_count\tremark"
 
 
 # auxiliaries  #################################################################
@@ -106,12 +106,12 @@ class TestRegisterListAffordanceParser:
 class TestListAffordanceMain:
 
     def test_default_prints_heading_variants_and_remark(self, capsys):
-        _run(["affordance", "-v"])
+        _run(["affordance"])
 
         assert capsys.readouterr().out == (
             _HEADING + "\n"
-            "other-affordance\t\t\n"
-            "some-affordance\tv-a,v-b\tdo some\n"
+            "other-affordance\t0\t\n"
+            "some-affordance\t2\tdo some\n"
         )
 
     def test_names_only(self, capsys):
@@ -144,16 +144,31 @@ class TestListAffordanceMain:
 
         assert capsys.readouterr().out == "some-affordance\n"
 
-    def test_json_lists_variants_whole(self, capsys):
+    def test_json_has_the_default_columns(self, capsys):
         _run(["afd", "-f", "json", "-r", "^some"])
 
         assert json.loads(capsys.readouterr().out) == [
             {
                 "affordance": "some-affordance",
-                "variants": ["v-a", "v-b"],
+                "variant_count": 2,
                 "remark": "do some",
             }
         ]
+
+    def test_json_lists_variants_whole_on_request(self, capsys):
+        _run(["afd", "-f", "json", "-r", "^some", "-c", "variants"])
+
+        assert json.loads(capsys.readouterr().out) == [
+            {"affordance": "some-affordance", "variants": ["v-a", "v-b"]}
+        ]
+
+    def test_table_and_tsv_share_columns_and_header_case(self, capsys):
+        _run(["afd", "-f", "table", "-C", "-r", "^some"])
+        table = capsys.readouterr().out.splitlines()[0].split()
+        _run(["afd", "-f", "tsv", "-r", "^some"])
+        tsv = capsys.readouterr().out.splitlines()[0].split("\t")
+
+        assert table == tsv
 
     def test_long_prints_variants_with_remarks_beneath(self, capsys):
         _run(["afd", "-l"])
@@ -197,7 +212,7 @@ class TestEmptyRegistry:
 
     def test_still_prints_heading(self, capsys):
         with patch.object(list_affordance_parser, "affordance_registry", {}):
-            _run(["affordance", "-v"])
+            _run(["affordance"])
 
         assert capsys.readouterr().out == _HEADING + "\n"
 

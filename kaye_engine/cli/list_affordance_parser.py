@@ -27,15 +27,20 @@ _HELP = "list all registered affordances"
 _DESCRIPTION = _HELP + """
 
 prints each registered affordance in affordance_registry, sorted
-alphabetically, as an aligned table: `affordance`, `variants` as a count of
-the variants implementing it, `remark`; `-c` picks columns from `variants`
-and `remark`; `-l` prints one card per affordance with its variants and
-their remarks beneath; `-r PATTERN` keeps matching names; `-f` picks table,
-tsv or json; `-N` prints names only. Piped output is tsv, with variants
-comma-joined"""
+alphabetically, as an aligned table: `affordance`, `variant_count` of the
+variants implementing it, `remark`; `-c` picks columns from `variant_count`,
+`variants` (the names, comma-joined, an array in json) and `remark`; `-l`
+prints one card per affordance with its variants and their remarks
+beneath; `-r PATTERN` keeps matching names; `-f` picks table, tsv or json;
+`-N` prints names only. The columns and their meaning are the same in every
+format; only the default format follows the stream: table on a TTY, tsv
+piped"""
 
 # every column key `-c` accepts, in print order
-_COLUMNS = ("variants", "remark")
+_COLUMNS = ("variant_count", "variants", "remark")
+
+# columns of the default table
+_DFT_COLUMNS = ("variant_count", "remark")
 
 
 # auxiliaries  #################################################################
@@ -64,6 +69,7 @@ def _list_affordance_main(args):
             (
                 name,
                 {
+                    "variant_count": len(variants),
                     "variants": [variant for variant, _ in variants],
                     "remark": affordance_registry[name].remark,
                     "_variants": variants,
@@ -82,7 +88,7 @@ def _list_affordance_main(args):
         print_cards(args, cards, heading="affordances")
         return
 
-    columns = select_columns(args, _COLUMNS)
+    columns = select_columns(args, _DFT_COLUMNS)
     print_rows(
         args, "affordance", columns, rows, heading="affordances"
     )

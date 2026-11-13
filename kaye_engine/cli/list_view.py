@@ -148,12 +148,12 @@ def _build_renderer(args, stream, fmt):
 
 def _format_cell(val, fmt):
     """
-    :return: ``val`` as cell text; a list is its count in a table, comma-joined
-            elsewhere
+    :return: ``val`` as cell text; a list is comma-joined, whatever the
+            format, so a column reads the same in table and tsv
     :rtype: str
     """
     if isinstance(val, (list, tuple)):
-        return str(len(val)) if fmt == FMT_TABLE else ",".join(val)
+        return ",".join(val)
     return str(val)
 
 
@@ -186,7 +186,7 @@ def _print_json(stream, name_heading, columns, rows):
 
 
 def _print_table(stream, renderer, name_heading, columns, rows):
-    heads = [name_heading.upper(), *(key.upper() for key in columns)]
+    heads = [name_heading, *columns]
     body = [
         [name, *(_format_cell(cells[key], FMT_TABLE) for key in columns)]
         for name, cells in rows
@@ -450,7 +450,7 @@ def print_rows(
     :param columns: info column keys to print, in order
     :type columns: list[str]
     :param rows: each row is ``(name, {column key: value})``; a list value
-            prints as its count in a table, comma-joined in tsv, as is in json
+            prints comma-joined in a table and in tsv, as is in json
     :type rows: collections.abc.Iterable[tuple]
     :param stream: output stream; default ``sys.stdout``
     :type stream: IO or None

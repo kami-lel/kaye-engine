@@ -132,7 +132,7 @@ class TestListVariantMain:
         _run(["var", "-f", "table", "-F"])
 
         assert capsys.readouterr().out == (
-            "VARIANT  AFFORDANCE  REMARK\n"
+            "variant  affordance  remark\n"
             "m-var    a-aff       do m\n"
             "a-var    b-aff       do a\n"
             "z-var    b-aff\n"
@@ -141,13 +141,13 @@ class TestListVariantMain:
     def test_long_flag_for_flat(self, capsys):
         _run(["var", "-f", "table", "--flat"])
 
-        assert capsys.readouterr().out.startswith("VARIANT  AFFORDANCE")
+        assert capsys.readouterr().out.startswith("variant  affordance")
 
     def test_columns_imply_a_flat_table(self, capsys):
         _run(["var", "-f", "table", "-c", "remark"])
 
         assert capsys.readouterr().out == (
-            "VARIANT  REMARK\nm-var    do m\na-var    do a\nz-var\n"
+            "variant  remark\nm-var    do m\na-var    do a\nz-var\n"
         )
 
     def test_columns_pick_and_order_in_tsv(self, capsys):
