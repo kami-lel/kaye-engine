@@ -147,3 +147,29 @@ class TestGlossaryMainUnknownGlossary:
         assert any(
             "does-not-exist" in rec.message for rec in caplog.records
         )
+
+
+class TestNameListFlags:
+
+    def test_regex_filters_list(self, _fake_registry, capsys):
+        args = _build_glossary_parser().parse_args(["glossary", "-r", "^some"])
+        glossary_parser._glossary_main(args)
+
+        assert capsys.readouterr().out == "some-glossary\n"
+
+    def test_json_format(self, _fake_registry, capsys):
+        args = _build_glossary_parser().parse_args(["g", "-f", "json"])
+        glossary_parser._glossary_main(args)
+
+        assert '"other-glossary"' in capsys.readouterr().out
+
+    @pytest.mark.parametrize("flag", [["-r", "x"], ["-N"], ["-C"]])
+    def test_entry_mode_rejects_list_flags(self, _fake_registry, flag):
+        args = _build_glossary_parser().parse_args(
+            ["glossary", "some-glossary", *flag]
+        )
+
+        with pytest.raises(SystemExit) as info:
+            glossary_parser._glossary_main(args)
+
+        assert info.value.code == 1

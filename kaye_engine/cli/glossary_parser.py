@@ -11,7 +11,13 @@ from kaye_engine.cli.verbosity import apply_verbosity_arg
 from kaye_engine import LOGGER_NAME
 from kaye_engine.abbr_collection import abbr_glossary_registry, get_abbr_glossary
 from kaye_engine.cli.cli_setup_guard import check_corpus_setup_for_cli
-from kaye_engine.cli.list_view import print_names
+from kaye_engine.cli.list_view import (
+    NAME_LIST_DESTS,
+    add_name_list_flags,
+    print_names,
+    reject_given_flags,
+    track_given_flags,
+)
 from kamilog import (
     add_verbose_arguments,
 )
@@ -44,6 +50,8 @@ def _glossary_main(args):
         print_names(args, "glossaries", sorted(abbr_glossary_registry))
         return
 
+    reject_given_flags(args, NAME_LIST_DESTS, "entry mode")
+
     try:
         get_abbr_glossary(args.GLOSSARY)
     except KeyError as err:
@@ -73,6 +81,8 @@ def register_glossary_parser(cli_subparser):
         default="ls",
         help="abbr glossary name; GLOSSARY=ls (default): list all glossaries",
     )
+    add_name_list_flags(glossary_parser)
     add_verbose_arguments(glossary_parser)
+    track_given_flags(glossary_parser, NAME_LIST_DESTS)
 
     glossary_parser.set_defaults(func=_glossary_main)

@@ -10,7 +10,7 @@ from kamilog import add_verbose_arguments
 
 from kaye_engine.cli.blueprint.aux_output import run_cmd_and_exit
 from kaye_engine.cli.cli_setup_guard import check_corpus_setup_for_cli
-from kaye_engine.cli.list_view import print_names
+from kaye_engine.cli.list_view import add_name_list_flags, print_names
 from kaye_engine.cli.verbosity import apply_verbosity_arg
 from kaye_engine.prompt.blueprint import blueprint_registry
 
@@ -44,6 +44,7 @@ def register_list_parser(cli_subparser):  ######################################
         aliases=["ls"],
     )
 
+    add_name_list_flags(list_parser)
     add_verbose_arguments(list_parser)
 
     list_parser.set_defaults(

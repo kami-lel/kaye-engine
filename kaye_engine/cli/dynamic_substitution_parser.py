@@ -7,7 +7,13 @@ define ``register_dynamic_substitution_parser``
 from argparse import RawDescriptionHelpFormatter
 
 import kamilog
-from kaye_engine.cli.list_view import print_names
+from kaye_engine.cli.list_view import (
+    NAME_LIST_DESTS,
+    add_name_list_flags,
+    print_names,
+    reject_given_flags,
+    track_given_flags,
+)
 from kaye_engine.cli.verbosity import apply_verbosity_arg
 from kaye_engine import LOGGER_NAME
 from kamilog import (
@@ -49,6 +55,8 @@ def _dynamic_substitution_main(args):
         )
         return
 
+    reject_given_flags(args, NAME_LIST_DESTS, "entry mode")
+
     try:
         substitution = dynamic_substitution_registry[args.NAME]
     except KeyError as err:
@@ -79,6 +87,8 @@ def register_dynamic_substitution_parser(cli_subparser):
         help="dynamic substitution canonical name; "
         "NAME=ls (default): list all",
     )
+    add_name_list_flags(dynamic_substitution_parser)
     add_verbose_arguments(dynamic_substitution_parser)
+    track_given_flags(dynamic_substitution_parser, NAME_LIST_DESTS)
 
     dynamic_substitution_parser.set_defaults(func=_dynamic_substitution_main)

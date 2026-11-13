@@ -30,12 +30,14 @@ manually add chat & coder, instead by data structure
 ### Added
 
 - `blueprint show -C/--no-color`, `blueprint preview -C/--no-color`
+- `-r`, `-N`, `-f table|tsv|json` and `-C` on `blueprint list`, `glossary`, `exportable`, `dynamic-substitution` and `dynamic-node` list modes; json is an array of names
 - `-v`/`-q`/`-V`/`-Q` on `affordance`, `variant`, `render-profile` and `blueprint list`
 - `docs/consumer-doc.md`: a concise starting point for creating a consumer on the engine or on `kaye-library`
 - `register_abbr_glossary` takes keyword-only `description` and `when_to_use`, written to the glossary skill's frontmatter
 
 ### Changed
 
+- `glossary`, `exportable`, `dynamic-substitution` and `dynamic-node` exit 1 naming the flag when a render flag meets list mode (`ls`) or a list flag meets an entry
 - **breaking**: `blueprint show` field flags (`-a -d -D -w -W -n -t -g -p` and their long forms) become one `-F/--field FIELD`; `blueprint preview` keeps `--preview-line-count`, `--preview-line-width`, `--show-full-tree` long-form only
 - **breaking**: `--comment`/`--no-comment` lose `-c`/`-C` on every rendering command and `blueprint preview`; `-C` now means `--no-color` everywhere
 - informational commands (`blueprint show`, `preview`, every `ls`, `affordance`, `variant`, `render-profile`) print a colored comment banner on a TTY; `blueprint show` summary is restyled; piped, tsv, json, `-N` output unchanged

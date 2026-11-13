@@ -3,7 +3,8 @@ list_view_test.py
 
 Unit Tests (using pytest) for:
 
-add_list_flags, filter_rows, select_columns, print_rows, print_cards,
+add_list_flags, add_name_list_flags, track_given_flags,
+reject_given_flags, filter_rows, select_columns, print_rows, print_cards,
 print_groups, print_banner, print_section, print_names, is_human_view
 """
 
@@ -15,6 +16,7 @@ import pytest
 
 from kaye_engine.cli.list_view import (
     add_list_flags,
+    add_name_list_flags,
     filter_rows,
     is_human_view,
     make_renderer,
@@ -24,7 +26,9 @@ from kaye_engine.cli.list_view import (
     print_names,
     print_rows,
     print_section,
+    reject_given_flags,
     select_columns,
+    track_given_flags,
 )
 
 _COLUMNS = ("remark", "variants")
@@ -367,6 +371,86 @@ class TestPrintNames:
         lines = stream.getvalue().splitlines()
         assert "  things: 1  " in lines[0]
         assert lines[1:] == ["a"]
+
+
+def _parse_names(argv):
+    parser = ArgumentParser()
+    add_name_list_flags(parser)
+    return parser.parse_args(argv)
+
+
+class TestPrintNamesFlags:
+
+    def test_regex_filters_names(_):
+        stream = io.StringIO()
+        print_names(
+            _parse_names(["-r", "^a"]), "things", ["ab", "b", "ac"], stream
+        )
+
+        assert stream.getvalue() == "ab\nac\n"
+
+    def test_names_only_on_tty_has_no_banner(_):
+        stream = _Tty()
+        print_names(_parse_names(["-N"]), "things", ["a", "b"], stream)
+
+        assert stream.getvalue() == "a\nb\n"
+
+    def test_json_is_array_of_names(_):
+        stream = io.StringIO()
+        print_names(_parse_names(["-f", "json"]), "things", ["a"], stream)
+
+        assert json.loads(stream.getvalue()) == ["a"]
+
+    def test_table_forced_on_pipe_has_banner(_):
+        stream = io.StringIO()
+        print_names(_parse_names(["-f", "table"]), "things", ["a"], stream)
+
+        lines = stream.getvalue().splitlines()
+        assert "  things: 1  " in lines[0]
+        assert lines[1:] == ["a"]
+
+    def test_tsv_on_tty_is_bare(_):
+        stream = _Tty()
+        print_names(_parse_names(["-f", "tsv"]), "things", ["a"], stream)
+
+        assert stream.getvalue() == "a\n"
+
+
+class TestGivenFlags:
+
+    @staticmethod
+    def _build():
+        parser = ArgumentParser()
+        parser.add_argument("-s", "--sparseness", type=int, default=0)
+        parser.add_argument("--flag", action="store_true")
+        track_given_flags(parser, ["sparseness", "flag"])
+        return parser
+
+    def test_default_value_is_not_given(_):
+        args = TestGivenFlags._build().parse_args([])
+
+        reject_given_flags(args, ["sparseness"], "list mode")
+
+    def test_flag_given_with_its_default_value_is_rejected(_):
+        args = TestGivenFlags._build().parse_args(["-s", "0"])
+
+        with pytest.raises(SystemExit) as info:
+            reject_given_flags(args, ["sparseness"], "list mode")
+
+        assert info.value.code == 1
+
+    def test_message_names_long_flag_and_mode(_, caplog):
+        args = TestGivenFlags._build().parse_args(["-s", "2"])
+
+        with pytest.raises(SystemExit):
+            reject_given_flags(args, ["sparseness"], "list mode")
+
+        assert "--sparseness does not apply in list mode" in caplog.text
+
+    def test_flag_outside_dests_is_ignored(_):
+        args = TestGivenFlags._build().parse_args(["--flag"])
+
+        reject_given_flags(args, ["sparseness"], "list mode")
 
 
 class TestMakeRenderer:

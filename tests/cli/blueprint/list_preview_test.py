@@ -8,6 +8,8 @@ Unit Tests (using pytest) for:
   ``--preview-line-width``, ``--show-full-tree``
 """
 
+import json
+
 import pytest
 
 from kaye_engine.prompt.blueprint import blueprint_registry
@@ -50,6 +52,16 @@ class TestList:
 
         assert "\033[" not in out
         assert "test-cli-base" in out.splitlines()
+
+    def test_regex_filters_names(_, run):
+        _exit, out = run(["list", "-r", "base$"])
+
+        assert out.splitlines() == ["test-cli-base"]
+
+    def test_json_format(_, run):
+        _exit, out = run(["ls", "-f", "json"])
+
+        assert "test-cli-base" in json.loads(out)
 
     def test_names_registered_blueprints(_, run):
         _exit, out = run(["list"])

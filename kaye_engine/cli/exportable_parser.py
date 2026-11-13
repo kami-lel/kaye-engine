@@ -11,11 +11,18 @@ from kaye_engine.cli.verbosity import apply_verbosity_arg
 from kaye_engine import LOGGER_NAME
 from kaye_engine.cli import DEFAULT_SPARSENESS
 from kaye_engine.cli.cli_setup_guard import check_corpus_setup_for_cli
-from kaye_engine.cli.list_view import print_names
+from kaye_engine.cli.list_view import (
+    NAME_LIST_DESTS,
+    add_name_list_flags,
+    print_names,
+    reject_given_flags,
+    track_given_flags,
+)
 from kaye_engine.cli.render_profile_description import (
     RENDER_PROFILE_DESCRIPTION,
 )
 from kaye_engine.cli.render_profile_parser import (
+    RENDER_FLAG_DESTS,
     build_render_profile_parent_parser,
     resolve_render_profile,
 )
@@ -55,8 +62,11 @@ def _exportable_main(args):
     check_corpus_setup_for_cli()
 
     if args.EXPORTABLE == "ls":
+        reject_given_flags(args, RENDER_FLAG_DESTS, "list mode")
         print_names(args, "exportables", sorted(exportable_registry))
         return
+
+    reject_given_flags(args, NAME_LIST_DESTS, "entry mode")
 
     try:
         exportable = exportable_registry[args.EXPORTABLE]
@@ -96,6 +106,8 @@ def register_exportable_parser(cli_subparser):
         default="ls",
         help="exportable canonical name; EXPORTABLE=ls (default): list all exportables, v.s.",
     )
+    add_name_list_flags(export_parser)
     add_verbose_arguments(export_parser)
+    track_given_flags(export_parser, RENDER_FLAG_DESTS + NAME_LIST_DESTS)
 
     export_parser.set_defaults(func=_exportable_main)

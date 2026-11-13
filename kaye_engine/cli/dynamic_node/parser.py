@@ -9,7 +9,13 @@ import sys
 from argparse import RawDescriptionHelpFormatter
 
 import kamilog
-from kaye_engine.cli.list_view import print_names
+from kaye_engine.cli.list_view import (
+    NAME_LIST_DESTS,
+    add_name_list_flags,
+    print_names,
+    reject_given_flags,
+    track_given_flags,
+)
 from kaye_engine.cli.verbosity import apply_verbosity_arg
 from kaye_engine import LOGGER_NAME
 from kaye_engine.cli import DEFAULT_SPARSENESS
@@ -20,6 +26,7 @@ from kaye_engine.cli.render_profile_description import (
     RENDER_PROFILE_DESCRIPTION,
 )
 from kaye_engine.cli.render_profile_parser import (
+    RENDER_FLAG_DESTS,
     build_render_profile_parent_parser,
     resolve_render_profile,
 )
@@ -133,8 +140,13 @@ def _dynamic_node_main(args):
     apply_verbosity_arg(args)
 
     if args.NODE == ["ls"]:
+        reject_given_flags(
+            args, RENDER_FLAG_DESTS + ("priority_threshold",), "list mode"
+        )
         print_names(args, "dynamic nodes", list_all_node_type_names())
         return
+
+    reject_given_flags(args, NAME_LIST_DESTS, "entry mode")
 
     corpus_tree = _get_shared_corpus_tree()
 
@@ -211,6 +223,11 @@ def register_dynamic_node_parser(cli_subparser):
         default=None,
         help="(glossary node) exclude entries whose priority > THRESHOLD",
     )
+    add_name_list_flags(dynamic_node_parser)
     add_verbose_arguments(dynamic_node_parser)
+    track_given_flags(
+        dynamic_node_parser,
+        RENDER_FLAG_DESTS + NAME_LIST_DESTS + ("priority_threshold",),
+    )
 
     dynamic_node_parser.set_defaults(func=_dynamic_node_main)

@@ -159,3 +159,35 @@ class TestExportableMainUnknownExportable:
         assert any(
             "does-not-exist" in rec.message for rec in caplog.records
         )
+
+
+class TestModeGuard:
+
+    @pytest.mark.parametrize(
+        "flag",
+        [["-s", "0"], ["-u", "claude"], ["--comment"], ["--reverse-order"]],
+    )
+    def test_list_mode_rejects_render_flags(self, _fake_registry, flag):
+        args = _build_exportable_parser().parse_args(["x", *flag])
+
+        with pytest.raises(SystemExit) as info:
+            exportable_parser._exportable_main(args)
+
+        assert info.value.code == 1
+
+    @pytest.mark.parametrize("flag", [["-r", "x"], ["-N"], ["-f", "json"]])
+    def test_entry_mode_rejects_list_flags(self, _fake_registry, flag):
+        args = _build_exportable_parser().parse_args(
+            ["x", "some-exportable", *flag]
+        )
+
+        with pytest.raises(SystemExit) as info:
+            exportable_parser._exportable_main(args)
+
+        assert info.value.code == 1
+
+    def test_list_mode_takes_list_flags(self, _fake_registry, capsys):
+        args = _build_exportable_parser().parse_args(["x", "-r", "^other"])
+        exportable_parser._exportable_main(args)
+
+        assert capsys.readouterr().out == "other-exportable\n"

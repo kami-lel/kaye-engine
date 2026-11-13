@@ -21,8 +21,20 @@ from kaye_engine.prompt.blueprint.render_profile_registry import (
 )
 
 __all__ = (
+    "RENDER_FLAG_DESTS",
     "build_render_profile_parent_parser",
     "resolve_render_profile",
+)
+
+
+# dests of the 6 render options, for ``track_given_flags``
+RENDER_FLAG_DESTS = (
+    "surface",
+    "sparseness",
+    "show_comment",
+    "variant",
+    "conditional_sidecar",
+    "reverse_sibling_order",
 )
 
 
