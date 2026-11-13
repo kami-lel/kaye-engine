@@ -50,6 +50,7 @@ manually add chat & coder, instead by data structure
 - the remark of each bundled Claude variant (`~`) lists its tools, e.g. `Claude:Agent~` names `Agent`, `ListAgents`, `SendMessage`
 - plugin and marketplace keywords come from the consumer's distribution `keywords`, else `prompt-engineering` and `agent`, plus the plugin name; the hard-coded `persona` keyword is gone
 - `kamilog` pins to `v3.0.0`
+- `skill` and `claude skills` stamp each skill with the version of its owning consumer, not the entry consumer's; `export_skills_as_folders` and `export_skills_as_zips` take `version` as optional, defaulting to each entry's owner version
 - README gains an install section and a Contributing path through the `docs/` files
 - `docs/claude-doc.md` is rewritten for users, with Claude Desktop and VS Code walkthroughs; the other docs point to the live list commands instead of copying registry listings
 

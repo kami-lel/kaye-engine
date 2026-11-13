@@ -19,7 +19,6 @@ from kaye_engine.cli.render_profile_parser import (
     build_render_profile_parent_parser,
     resolve_render_profile,
 )
-from kaye_engine.consumer import get_consumer_version
 from kaye_engine.skill import LOGGER_SKILL_NAME
 from kaye_engine.skill.export_folders import export_skills_as_folders
 from kaye_engine.skill.export_zips import export_skills_as_zips
@@ -122,14 +121,11 @@ def register_skill_parser(cli_subparser):  #####################################
             args,
             default_show_comment=False,
         )
-        # FIXME entry consumer version on every skill, any owner; cf hermes
-        version = get_consumer_version()
 
         if args.zip:
             logger.debug("export skills as zip packages")
             count = export_skills_as_zips(
                 folder,
-                version=version,
                 render_profile=render_profile,
                 names=names,
             )
@@ -138,7 +134,6 @@ def register_skill_parser(cli_subparser):  #####################################
             logger.debug("export skills as folders")
             export_skills_as_folders(
                 folder,
-                version=version,
                 render_profile=render_profile,
                 names=names,
             )
