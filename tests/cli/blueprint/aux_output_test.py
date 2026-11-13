@@ -277,7 +277,7 @@ class TestRunCmd:
         def handler(_args):
             raise ValueError("the reason")
 
-        with caplog.at_level("CRITICAL"):
+        with caplog.at_level("ERROR"):
             run_cmd(handler, None)
 
         assert "the reason" in caplog.text

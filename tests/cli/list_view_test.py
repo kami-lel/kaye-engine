@@ -416,6 +416,32 @@ class TestPrintNamesFlags:
         assert stream.getvalue() == "a\n"
 
 
+class TestNoMatchWarning:
+
+    def test_names_filter_that_keeps_nothing_warns(_, caplog):
+        with caplog.at_level("WARNING"):
+            print_names(
+                _parse_names(["-r", "zz", "-r", "yy"]),
+                "things",
+                ["a"],
+                io.StringIO(),
+            )
+
+        assert "no things match zz or yy" in caplog.text
+
+    def test_rows_filter_that_keeps_nothing_warns(_, caplog):
+        with caplog.at_level("WARNING"):
+            _print(["-r", "zz"], stream=io.StringIO())
+
+        assert "no" in caplog.text and "match zz" in caplog.text
+
+    def test_no_pattern_stays_quiet(_, caplog):
+        with caplog.at_level("WARNING"):
+            print_names(_parse_names([]), "things", [], io.StringIO())
+
+        assert caplog.text == ""
+
+
 class TestGivenFlags:
 
     @staticmethod

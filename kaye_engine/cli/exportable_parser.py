@@ -6,10 +6,9 @@ define ``register_exportable_parser``
 
 from argparse import RawDescriptionHelpFormatter
 
-import kamilog
 from kaye_engine.cli.verbosity import apply_verbosity_arg
-from kaye_engine import LOGGER_NAME
 from kaye_engine.cli import DEFAULT_SPARSENESS
+from kaye_engine.cli.cli_error import report_unknown
 from kaye_engine.cli.cli_setup_guard import check_corpus_setup_for_cli
 from kaye_engine.cli.list_view import (
     NAME_LIST_DESTS,
@@ -30,9 +29,6 @@ from kaye_engine.exportable import exportable_registry
 from kamilog import (
     add_verbose_arguments,
 )
-
-# logger  ######################################################################
-logger = kamilog.getLogger(LOGGER_NAME)
 
 # constants  ###################################################################
 _HELP = "print an exportable's content, or list all exportables"
@@ -70,9 +66,8 @@ def _exportable_main(args):
 
     try:
         exportable = exportable_registry[args.EXPORTABLE]
-    except KeyError as err:
-        logger.critical("unknown exportable:\t" + args.EXPORTABLE)
-        raise SystemExit(1) from err
+    except KeyError:
+        report_unknown("exportable", args.EXPORTABLE, exportable_registry)
 
     render_profile = resolve_render_profile(
         args,

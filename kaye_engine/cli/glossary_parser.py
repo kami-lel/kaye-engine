@@ -6,10 +6,9 @@ define ``register_glossary_parser``
 
 from argparse import RawDescriptionHelpFormatter
 
-import kamilog
 from kaye_engine.cli.verbosity import apply_verbosity_arg
-from kaye_engine import LOGGER_NAME
 from kaye_engine.abbr_collection import abbr_glossary_registry, get_abbr_glossary
+from kaye_engine.cli.cli_error import report_unknown
 from kaye_engine.cli.cli_setup_guard import check_corpus_setup_for_cli
 from kaye_engine.cli.list_view import (
     NAME_LIST_DESTS,
@@ -22,9 +21,6 @@ from kamilog import (
     add_verbose_arguments,
 )
 from kaye_engine.prompt.dynamic_nodes import gen_glossary_content_lines
-
-# logger  ######################################################################
-logger = kamilog.getLogger(LOGGER_NAME)
 
 # constants  ###################################################################
 _HELP = "print a glossary's content, or list all glossaries"
@@ -54,9 +50,8 @@ def _glossary_main(args):
 
     try:
         get_abbr_glossary(args.GLOSSARY)
-    except KeyError as err:
-        logger.critical("unknown abbr glossary:\t" + args.GLOSSARY)
-        raise SystemExit(1) from err
+    except KeyError:
+        report_unknown("glossary", args.GLOSSARY, abbr_glossary_registry)
 
     print("\n".join(gen_glossary_content_lines(args.GLOSSARY)))
 

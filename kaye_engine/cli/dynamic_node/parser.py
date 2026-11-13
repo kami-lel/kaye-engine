@@ -9,6 +9,7 @@ import sys
 from argparse import RawDescriptionHelpFormatter
 
 import kamilog
+from kaye_engine.cli.cli_error import report_unknown
 from kaye_engine.cli.list_view import (
     NAME_LIST_DESTS,
     add_name_list_flags,
@@ -153,7 +154,12 @@ def _dynamic_node_main(args):
     try:
         node_names = []
         for node_name_arg in args.NODE:
-            node_cls, kwargs = _resolve_node_type(node_name_arg)
+            try:
+                node_cls, kwargs = _resolve_node_type(node_name_arg)
+            except ValueError:
+                report_unknown(
+                    "dynamic-node", node_name_arg, list_all_node_type_names()
+                )
             node_names.append(
                 _node_name_in(corpus_tree, node_name_arg, node_cls, kwargs)
             )

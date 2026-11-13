@@ -133,20 +133,31 @@ class TestGlossaryMainUnknownGlossary:
         with pytest.raises(SystemExit):
             args.func(args)
 
-    def test_logs_critical_on_unknown_glossary(self, _fake_registry, caplog):
+    def test_logs_error_on_unknown_glossary(self, _fake_registry, caplog):
         parser = _build_glossary_parser()
         args = parser.parse_args(["glossary", "does-not-exist"])
 
-        with caplog.at_level(logging.CRITICAL, logger=LOGGER_NAME):
+        with caplog.at_level(logging.ERROR, logger=LOGGER_NAME):
             with pytest.raises(SystemExit):
                 args.func(args)
 
         assert any(
-            rec.levelno == logging.CRITICAL for rec in caplog.records
+            rec.levelno == logging.ERROR for rec in caplog.records
         )
         assert any(
-            "does-not-exist" in rec.message for rec in caplog.records
+            "unknown glossary: does-not-exist" in rec.message
+            for rec in caplog.records
         )
+
+    def test_names_the_closest_when_near(self, _fake_registry, caplog):
+        parser = _build_glossary_parser()
+        args = parser.parse_args(["glossary", "some-glossry"])
+
+        with caplog.at_level(logging.ERROR, logger=LOGGER_NAME):
+            with pytest.raises(SystemExit):
+                args.func(args)
+
+        assert "did you mean: some-glossary" in caplog.text
 
 
 class TestNameListFlags:

@@ -351,7 +351,7 @@ def run_cmd(handler, args):
     try:
         handler(args)
     except (ValueError, KeyError, FileNotFoundError) as err:
-        logger.critical(str(err.args[0] if err.args else err))
+        logger.error(str(err.args[0] if err.args else err))
         return 1
 
     return 0

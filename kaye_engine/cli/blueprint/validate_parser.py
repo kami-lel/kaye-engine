@@ -15,6 +15,7 @@ from kaye_engine.cli.blueprint.blueprint_arg_parser import (
     build_blueprint_arg_parser,
 )
 from kaye_engine.cli.cli_setup_guard import check_corpus_setup_for_cli
+from kaye_engine.cli.list_view import is_human_view
 from kaye_engine.prompt.blueprint import validate_blueprint
 from kamilog import (
     add_verbose_arguments,
@@ -29,7 +30,8 @@ _HELP = "check a blueprint is sound: exit 0 if so, 1 with the reason if not"
 _DESCRIPTION = _HELP + """
 
 a blueprint is sound when every dependency name is registered and, while a
-corpus is loaded, every node path exists in it; nothing is printed on success
+corpus is loaded, every node path exists in it; on success, a TTY gets one
+check-mark line and a pipe gets nothing
 
 select BLUEPRINT by canonical name in blueprint registry:
 
@@ -48,6 +50,9 @@ def _validate_main(args):
     check_corpus_setup_for_cli()
 
     validate_blueprint(get_cmd_blueprint(args.BLUEPRINT).blueprint)
+
+    if is_human_view():
+        print("\u2714 {}".format(args.BLUEPRINT or "stdin"))
 
 
 # Public API  ##################################################################

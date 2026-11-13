@@ -116,6 +116,12 @@ class TestValidate:
         assert exit_code == 0
         assert out == ""
 
+    def test_tty_gets_one_check_mark_line(_, run):
+        exit_code, out = run(["validate", "test-cli-top"], tty=True)
+
+        assert exit_code == 0
+        assert out == "\u2714 test-cli-top\n"
+
     def test_stdin_tree_passes(_, run):
         exit_code, _out = run(["validate"], stdin=TREE)
 

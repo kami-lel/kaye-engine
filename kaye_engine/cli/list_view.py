@@ -137,6 +137,26 @@ def resolve_format(args, stream):
     return FMT_TABLE if stream.isatty() else FMT_TSV
 
 
+def _warn_if_no_match(args, count, noun):
+    """
+    log one warning naming the ``-r`` patterns when they kept nothing, so
+    an empty result is never silent
+
+
+    :param count: how many rows the patterns kept
+    :type count: int
+    :param noun: plural noun of what was listed
+    :type noun: str
+    """
+    patterns = getattr(args, "regex", None)
+    if patterns and not count:
+        logger.warning(
+            "no %s match %s",
+            noun,
+            " or ".join(pat.pattern for pat in patterns),
+        )
+
+
 def _build_renderer(args, stream, fmt):
     """
     :return: the run's one kamilog renderer; it also turns itself off
@@ -461,6 +481,7 @@ def print_rows(
     stream = stream or sys.stdout
     fmt = resolve_format(args, stream)
     rows = filter_rows(args, rows)
+    _warn_if_no_match(args, len(rows), heading or name_heading)
 
     if args.names_only:
         for name, _ in rows:
@@ -498,6 +519,7 @@ def print_cards(args, cards, stream=None, width=None, heading=None):
     renderer = _build_renderer(args, stream, FMT_TABLE)
     width = _get_width(width)
     cards = list(cards)
+    _warn_if_no_match(args, len(cards), heading or "entries")
     _print_heading(args, stream, heading, len(cards))
 
     for title, remark, fields in cards:
@@ -534,6 +556,9 @@ def print_groups(args, groups, stream=None, heading=None):
     stream = stream or sys.stdout
     renderer = _build_renderer(args, stream, FMT_TABLE)
     groups = list(groups)
+    _warn_if_no_match(
+        args, sum(len(rows) for _, rows in groups), heading or "entries"
+    )
     _print_heading(
         args, stream, heading, sum(len(rows) for _, rows in groups)
     )
@@ -654,6 +679,7 @@ def print_names(args, heading, names, stream=None):
         if not getattr(args, "regex", None)
         or any(pat.search(name) for pat in args.regex)
     ]
+    _warn_if_no_match(args, len(names), heading)
     fmt = resolve_format(args, stream)
 
     if fmt == FMT_JSON and not getattr(args, "names_only", False):
