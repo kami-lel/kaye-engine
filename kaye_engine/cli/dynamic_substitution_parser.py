@@ -64,7 +64,6 @@ def _dynamic_substitution_main(args):
 
 
 # Public API  ##################################################################
-# TODO no tests: sibling glossary, exportable parsers covered, this one not
 def register_dynamic_substitution_parser(cli_subparser):
     """
     register the ``kaye-engine dynamic-substitution`` subcommand parser
