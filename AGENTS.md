@@ -165,11 +165,6 @@ siblings under `kaye-engine`, so a single-logger call leaves the rest at the
 default. A new engine logger must be named `kaye-engine.<part>`; it then
 inherits the level with no further wiring.
 
-`claude vs-code-extension` also writes `permissions` (`allow`/`ask`/`deny`
-Bash command patterns) into `settings.json`, sourced from
-`kaye_engine/cli/claude/permission_cmds.jsonc` (parsed with `json5`, so
-comments are allowed).
-
 Every `claude` and `hermes` subcommand needs each consumer package to call
 `register_consumer(display_name, canonical_name, version)` and the
 console command's setup to call `set_entry_consumer(canonical_name)`

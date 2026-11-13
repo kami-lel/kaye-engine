@@ -38,7 +38,6 @@ from kaye_engine.cli.render_profile_parser import (
 logger = kamilog.getLogger(LOGGER_CLAUDE_NAME)
 
 # constants  ###################################################################
-# FIXME help says surface=code: no such surface, default is claude
 _DESCRIPTION = (
     __doc__ + """
 
@@ -60,7 +59,7 @@ CLAUDE_FOLDER/  (default: ~/.claude)
     + RENDER_PROFILE_DESCRIPTION
     + """
 
-render defaults: surface=code, comment=False, sparseness=0
+render defaults: surface=claude, comment=False, sparseness=0
 """
 )
 

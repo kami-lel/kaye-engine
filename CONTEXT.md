@@ -332,8 +332,6 @@ at this top level — reach them through their owning submodule
 `get_exportable` (`kaye_engine.exportable`) round out the registry every
 `BlueprintRegistry` and `ExportableAbbr` entry is inserted into.
 
-<!-- FIXME link below targets claude-doc #consumer-requirement: no such heading, now Setup for Consumer Packages -->
-
 Every consumer package calls `register_consumer(display_name,
 canonical_name, version)` for itself before it registers any exportable;
 the kebab `canonical_name` is its plugin name and equals its installed
@@ -348,7 +346,7 @@ on `register_cli_main_parser(package_name, program_name)`, so every script
 shares one `--help` text and only the usage line and `--version` name the
 package. Q.v. [Kaye Engine: `prompt` module
 Documentation](docs/prompt-doc.md) and [Claude
-documentation](docs/claude-doc.md#consumer-requirement).
+documentation](docs/claude-doc.md#setup-for-consumer-packages).
 
 Every CLI subcommand entrypoint calls a setup guard
 (`check_corpus_setup_for_cli()`, or `check_setup_for_claude_cli()` for
