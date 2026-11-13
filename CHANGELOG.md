@@ -59,9 +59,12 @@ manually add chat & coder, instead by data structure
 ### Removed
 
 - `docs/github-release-doc.md`
+- unused `flask` dependency
 
 ### Fixed
 
+- `claude code --help` reads `surface=claude`, the surface it renders for
+- docs no longer claim `claude vs-code-extension` writes `settings.json` permissions; the claude, hermes, open-webui, sidecar and render-profile docs match the live commands
 - `register_cli_main_parser` no longer crashes on a consumer distribution that is not installed: every command builds and `--version` reads `unknown (not installed)`
 - `docs/consumer-doc.md`: the Engine Only example passes `Path("my-corpus.md")` as the corpus source, setup step 4 names a `DynamicSubstitution`, and Running the CLI states that the consumer distribution must be installed
 - `build-github-release` logs the zip file name it writes, `NAME-claude-VERSION.zip`, instead of a name that never existed
