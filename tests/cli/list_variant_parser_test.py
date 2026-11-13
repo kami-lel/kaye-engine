@@ -99,7 +99,7 @@ class TestRegisterListVariantParser:
         parser = _build_list_variant_parser()
 
         with pytest.raises(SystemExit):
-            parser.parse_args(["var", "-a", "["])
+            parser.parse_args(["var", "--affordance", "["])
 
 
 @pytest.mark.usefixtures("_fake_registry")
@@ -129,7 +129,7 @@ class TestListVariantMain:
         )
 
     def test_flat_prints_an_affordance_column(self, capsys):
-        _run(["var", "-f", "table", "-F"])
+        _run(["var", "-f", "table", "--flat"])
 
         assert capsys.readouterr().out == (
             "variant  affordance  description\n"
@@ -169,7 +169,7 @@ class TestListVariantMain:
         assert capsys.readouterr().out == "m-var\na-var\nz-var\n"
 
     def test_affordance_filter(self, capsys):
-        _run(["var", "-a", "^b-", "-N"])
+        _run(["var", "--affordance", "^b-", "-N"])
 
         assert capsys.readouterr().out == "a-var\nz-var\n"
 
@@ -184,16 +184,16 @@ class TestListVariantMain:
         assert capsys.readouterr().out == "m-var\na-var\n"
 
     def test_regex_and_affordance_filters_both_apply(self, capsys):
-        _run(["var", "-r", "^z", "-a", "^b-", "-N"])
+        _run(["var", "-r", "^z", "--affordance", "^b-", "-N"])
         both = capsys.readouterr().out
-        _run(["var", "-r", "^z", "-a", "^a-", "-N"])
+        _run(["var", "-r", "^z", "--affordance", "^a-", "-N"])
         disjoint = capsys.readouterr().out
 
         assert both == "z-var\n"
         assert disjoint == ""
 
     def test_grouped_table_filters_empty_groups_away(self, capsys):
-        _run(["var", "-f", "table", "-a", "^a-"])
+        _run(["var", "-f", "table", "--affordance", "^a-"])
 
         assert capsys.readouterr().out == "a-aff (1)\n  m-var  do m\n"
 

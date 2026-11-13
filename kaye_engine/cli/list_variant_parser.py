@@ -32,14 +32,14 @@ _HELP = "list all registered variants, grouped by affordance"
 _DESCRIPTION = _HELP + """
 
 prints each registered variant in variant_registry under a bold header per
-affordance, sorted by affordance, then by variant name; `-F` prints one flat
-table instead, with `affordance` and `description` columns; `-c` picks
-columns from `affordance` and `description`, and implies a flat table; `-a
-PATTERN` keeps variants of matching affordances; `-l` prints one card per
-variant; `-r PATTERN` keeps matching variant names; `-f` picks table, tsv or
-json; `-N` prints names only. The default format follows the stream, table
-on a TTY, tsv piped, and the view follows the format: grouped in a table,
-flat in tsv and json, so `-f table` piped is grouped too"""
+affordance, sorted by affordance, then by variant name; `--flat` prints one
+flat table instead, with `affordance` and `description` columns; `-c` picks
+columns from `affordance` and `description`, and implies a flat table;
+`--affordance PATTERN` keeps variants of matching affordances; `-l` prints
+one card per variant; `-r PATTERN` keeps matching variant names; `-f` picks
+table, tsv or json; `-N` prints names only. The default format follows the
+stream, table on a TTY, tsv piped, and the view follows the format: grouped
+in a table, flat in tsv and json, so `-f table` piped is grouped too"""
 
 # every column key `-c` accepts, in print order
 _COLUMNS = ("affordance", "description")
@@ -156,7 +156,6 @@ def register_list_variant_parser(cli_subparser):
     add_list_flags(list_variant_parser, _COLUMNS)
     add_verbose_arguments(list_variant_parser)
     list_variant_parser.add_argument(
-        "-a",
         "--affordance",
         action="append",
         default=[],
@@ -166,7 +165,6 @@ def register_list_variant_parser(cli_subparser):
         "repeat to match any of several",
     )
     list_variant_parser.add_argument(
-        "-F",
         "--flat",
         action="store_true",
         help="one flat table with an affordance column, no grouping",

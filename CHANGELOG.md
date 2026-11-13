@@ -3,7 +3,6 @@
 [^format]
 
 <!--
-FIXME mpv consistent information printout
 todo support Codex
 todo organize exportable registry,
 such that not all calling export all exportable
@@ -37,6 +36,7 @@ manually add chat & coder, instead by data structure
 
 ### Changed
 
+- **breaking**: short letters `variant -F` (`--flat`), `variant -a` (`--affordance`), `claude plugin -N` (`--no-version`) and `export-json -f` (`--output-file`) are long-only; each letter now means one flag across the CLI, `tests/cli/flag_letter_test.py` enforces it
 - **breaking**: the `remark` column of `affordance`, `variant`, `render-profile` is `description` (`-c description`); `dynamic-node` lists sorted within its built-in and glossary runs; `render-profile` variant and sidecar lists sorted; `blueprint show` field labels are the kebab `--field` names; `blueprint preview` lines carry no trailing blanks
 - an unknown name gives one error shape on `glossary`, `exportable`, `dynamic-substitution`, `dynamic-node` and `blueprint`: `ERROR unknown <command>: <name>` plus a `did you mean` hint, exit 1; it was a `CRIT.` with a tab and the noun `abbr glossary`; `blueprint` command failures log as errors, not criticals
 - `blueprint validate` prints one check-mark line on a TTY, nothing piped; a `-r` filter that keeps nothing logs `no <things> match <pattern>`

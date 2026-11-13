@@ -20,6 +20,8 @@ from examples.cli_info import run_demo
 # command rows: (argv, whether the command carries -l)
 CMD_ROWS = (
     (["render-profile"], True),
+    (["render-profile", "-r", "^claude"], False),
+    (["render-profile", "-f", "json", "-r", "^comfy$"], False),
 )
 
 

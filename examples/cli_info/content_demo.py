@@ -33,6 +33,13 @@ CMD_ROWS = (
     (["dynamic-substitution", DEMO_SUBSTITUTION], False),
     (["dynamic-node"], False),
     (["dynamic-node", DEMO_GLOSSARY], False),
+    (["glossary", "-r", "demo"], False),
+    (["glossary", "-f", "json"], False),
+    (["glossary", "no-such-glossary"], False),
+    (["exportable", "-N"], False),
+    (["exportable", "-s", "0"], False),
+    (["dynamic-node", "-r", "^today"], False),
+    (["dynamic-node", "no-such-node"], False),
 )
 
 

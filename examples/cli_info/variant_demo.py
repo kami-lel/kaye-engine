@@ -20,6 +20,8 @@ from examples.cli_info import run_demo
 # command rows: (argv, whether the command carries -l)
 CMD_ROWS = (
     (["variant"], True),
+    (["variant", "--flat", "-N"], False),
+    (["variant", "--affordance", "^agent$"], False),
 )
 
 

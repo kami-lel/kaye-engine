@@ -25,6 +25,11 @@ CMD_ROWS = (
     (["blueprint", "preview", DEMO_BLUEPRINT], False),
     (["blueprint", "validate", DEMO_BLUEPRINT], False),
     (["blueprint", "render", DEMO_BLUEPRINT], False),
+    (["blueprint", "show", DEMO_BLUEPRINT, "-f", "json"], False),
+    (["blueprint", "show", DEMO_BLUEPRINT, "-F", "dependencies"], False),
+    (["blueprint", "list", "-N"], False),
+    (["blueprint", "list", "-r", "demo"], False),
+    (["blueprint", "show", "no-such-blueprint"], False),
 )
 
 

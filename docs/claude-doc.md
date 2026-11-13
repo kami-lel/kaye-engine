@@ -89,7 +89,7 @@ kaye-engine claude plugin -z . NAME    # only consumer NAME's zip
 ```
 
 - `-z`, `--zip`: write upload-ready zips instead of folders
-- `-N`, `--no-version`: drop the version from the zip name, giving `NAME-claude.zip`
+- `--no-version`: drop the version from the zip name, giving `NAME-claude.zip`
 
 ### skills
 

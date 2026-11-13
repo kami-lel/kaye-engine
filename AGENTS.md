@@ -102,6 +102,11 @@ pytest
 
 ## CLI
 
+Short letters are project-wide: one letter, one long flag, in every command
+(`-C` is always `--no-color`); `tests/cli/flag_letter_test.py` enforces it,
+so a new flag takes a free letter or none. `claude user-system-prompt -c` is
+the one exception.
+
 The editable install registers a `kaye-engine` console script, so
 `kaye-engine ...` and `python -m kaye_engine ...` are equivalent: prefer
 the shorter form. `kaye-engine --help` lists every subcommand and alias.
