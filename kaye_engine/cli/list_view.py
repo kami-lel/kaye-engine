@@ -29,6 +29,7 @@ __all__ = (
     "FMT_JSON",
     "FMT_TABLE",
     "FMT_TSV",
+    "add_format_flag",
     "add_list_flags",
     "add_name_list_flags",
     "filter_rows",
@@ -274,7 +275,14 @@ def _add_names_only_flag(parser):
     )
 
 
-def _add_format_flag(parser):
+def add_format_flag(parser):
+    """
+    add ``-f/--format`` to ``parser``
+
+
+    :param parser: the command's parser
+    :type parser: argparse.ArgumentParser
+    """
     parser.add_argument(
         "-f",
         "--format",
@@ -322,7 +330,7 @@ def add_list_flags(parser, columns):
         help="detail view: one card per row, long lists in full",
     )
     _add_names_only_flag(parser)
-    _add_format_flag(parser)
+    add_format_flag(parser)
     _add_no_color_flag(parser)
 
 
@@ -338,7 +346,7 @@ def add_name_list_flags(parser):
     """
     _add_regex_flag(parser)
     _add_names_only_flag(parser)
-    _add_format_flag(parser)
+    add_format_flag(parser)
     _add_no_color_flag(parser)
 
 

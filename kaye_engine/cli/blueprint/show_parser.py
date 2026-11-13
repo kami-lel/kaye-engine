@@ -4,6 +4,7 @@ show_parser.py
 define ``register_show_parser``
 """
 
+import sys
 from argparse import RawDescriptionHelpFormatter
 
 import kamilog
@@ -20,7 +21,13 @@ from kaye_engine.cli.blueprint.blueprint_arg_parser import (
     build_blueprint_arg_parser,
 )
 from kaye_engine.cli.cli_setup_guard import check_corpus_setup_for_cli
-from kaye_engine.cli.list_view import make_renderer
+from kaye_engine.cli.list_view import (
+    add_format_flag,
+    make_renderer,
+    reject_given_flags,
+    resolve_format,
+    track_given_flags,
+)
 from kamilog import (
     add_verbose_arguments,
 )
@@ -35,8 +42,9 @@ _HELP = "show a blueprint's summary, or one of its fields"
 
 _DESCRIPTION = _HELP + """
 
-by default, prints the blueprint summary: banner-headed fields, in color on
-a TTY (-C or NO_COLOR for plain)
+by default, prints the blueprint summary: on a TTY, banner-headed fields in
+color (-C or NO_COLOR for plain); piped, key<TAB>value rows; -f picks table,
+tsv or json
 
 with -F/--field, prints only that field, raw
 
@@ -71,7 +79,14 @@ def _show_main(args):
     check_corpus_setup_for_cli()
 
     loaded = get_cmd_blueprint(args.BLUEPRINT)
-    show_fx = pick_show_fx(args.field, renderer=make_renderer(args))
+    if args.field:
+        reject_given_flags(args, ("format",), "field mode")
+
+    show_fx = pick_show_fx(
+        args.field,
+        renderer=make_renderer(args),
+        fmt=resolve_format(args, sys.stdout),
+    )
 
     emit_str(fmt_show_result(show_fx(loaded.blueprint)))
 
@@ -107,7 +122,9 @@ def register_show_parser(cli_subparser):
         help="plain summary; NO_COLOR does the same",
     )
 
+    add_format_flag(show_parser)
     add_verbose_arguments(show_parser)
+    track_given_flags(show_parser, ("format",))
 
     show_parser.set_defaults(
         func=lambda args: run_cmd_and_exit(_show_main, args)

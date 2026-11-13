@@ -8,6 +8,8 @@ Unit Tests (using pytest) for:
   exclusive
 """
 
+import json
+
 import kamilog
 import pytest
 
@@ -21,21 +23,22 @@ TREE = """    ○
 
 
 def _field(label, value):
-    return kamilog.gen_comment_banner_centered(label, 5) + "\n" + value
+    body = "\n".join("  " + line for line in value.splitlines())
+    return kamilog.gen_comment_banner_centered(label, 5) + "\n" + body
 
 
 class TestSummary:
 
     @pytest.mark.parametrize("verb", ["show", "s"])
     def test_named_blueprint(_, run, verb):
-        exit_code, out = run([verb, "test-cli-top"])
+        exit_code, out = run([verb, "test-cli-top", "-f", "table"])
 
         assert exit_code == 0
         assert "  nodes: 1  " in out
         assert _field("dependencies", "test-cli-base") in out
 
     def test_stdin_tree(_, run):
-        exit_code, out = run(["show"], stdin=TREE)
+        exit_code, out = run(["show", "-f", "table"], stdin=TREE)
 
         assert exit_code == 0
         assert "  nodes: 2  " in out
@@ -44,7 +47,7 @@ class TestSummary:
     def test_stdin_json(_, run):
         text = '{"schema": 1, "nodes": [["Project"]], "dependencies": ["x"]}'
 
-        exit_code, out = run(["show"], stdin=text)
+        exit_code, out = run(["show", "-f", "table"], stdin=text)
 
         assert exit_code == 0
         assert "  nodes: 1  " in out
@@ -57,11 +60,46 @@ class TestSummary:
         assert out == ""
 
 
+class TestFormat:
+
+    def test_piped_default_is_tsv_rows(_, run):
+        exit_code, out = run(["show", "test-cli-top"])
+
+        assert exit_code == 0
+        assert "-----" not in out
+        assert "nodes\tProject # License" in out.splitlines()
+        assert "dependencies\ttest-cli-base" in out.splitlines()
+
+    def test_tty_default_is_table_with_banners(_, run, monkeypatch):
+        monkeypatch.delenv("NO_COLOR", raising=False)
+
+        _exit, out = run(["show", "test-cli-top"], tty=True)
+
+        assert "  nodes: 1  " in out
+        assert "  \033[96mProject\033[0m" in out
+
+    def test_json_format(_, run):
+        exit_code, out = run(["show", "test-cli-top", "-f", "json"])
+
+        assert exit_code == 0
+        record = json.loads(out)
+        assert record["nodes"] == ["Project # License"]
+        assert record["dependencies"] == ["test-cli-base"]
+
+    def test_format_does_not_apply_with_field(_, run):
+        exit_code, out = run(
+            ["show", "test-cli-top", "-F", "nodes", "-f", "json"]
+        )
+
+        assert exit_code == 1
+        assert out == ""
+
+
 class TestColorFlag:
 
     @pytest.mark.parametrize("flag", ["-C", "--no-color"])
     def test_no_color_flag_is_accepted(_, run, flag):
-        exit_code, out = run(["show", "test-cli-top", flag])
+        exit_code, out = run(["show", "test-cli-top", flag, "-f", "table"])
 
         assert exit_code == 0
         assert "\033[" not in out
@@ -118,7 +156,7 @@ class TestFields:
             Blueprint(meta=BlueprintMeta(display_name="Nice Name")),
         )
 
-        exit_code, out = run(["show", "test-cli-named-2"])
+        exit_code, out = run(["show", "test-cli-named-2", "-f", "table"])
 
         assert exit_code == 0
         assert out.startswith(_field("display name", "Nice Name") + "\n")

@@ -9,6 +9,7 @@ Unit Tests (using pytest) for:
 """
 
 import io
+import json
 
 import kamilog
 import pytest
@@ -43,7 +44,8 @@ from kaye_engine.prompt.blueprint import (
 
 
 def _field(label, value):
-    return kamilog.gen_comment_banner_centered(label, 5) + "\n" + value
+    body = "\n".join("  " + line for line in value.splitlines())
+    return kamilog.gen_comment_banner_centered(label, 5) + "\n" + body
 
 
 class TestPick:
@@ -122,6 +124,56 @@ class TestFormat:
         assert _field("when to use node", "A # {when}") in out
         assert _field("nodes: 1", "A") in out
         assert out.endswith(_field("dependencies", "x\ny"))
+
+    def test_summary_tsv_rows_one_per_item(_):
+        bp = Blueprint(
+            meta=BlueprintMeta(display_name="Name", description_node=("A",)),
+            nodes=frozenset({("A",), ("A", "B")}),
+            dependencies=("x", "y"),
+        )
+
+        out = fmt_summary(
+            show_blueprint(bp),
+            description="line1\nline2",
+            nodes=bp.nodes,
+            fmt="tsv",
+        )
+
+        assert out.splitlines() == [
+            "display-name\tName",
+            "description\tline1\\nline2",
+            "description-node\tA",
+            "nodes\tA",
+            "nodes\tA # B",
+            "dependencies\tx",
+            "dependencies\ty",
+        ]
+
+    def test_summary_tsv_has_no_banner_or_indent(_):
+        out = fmt_summary(show_blueprint(Blueprint()), fmt="tsv")
+
+        assert out == ""
+
+    def test_summary_json_has_every_field(_):
+        bp = Blueprint(
+            meta=BlueprintMeta(display_name="Name"),
+            nodes=frozenset({("A",)}),
+        )
+
+        record = json.loads(
+            fmt_summary(show_blueprint(bp), nodes=bp.nodes, fmt="json")
+        )
+
+        assert record == {
+            "display-name": "Name",
+            "description": "",
+            "description-node": "",
+            "when-to-use": "",
+            "when-to-use-node": "",
+            "nodes": ["A"],
+            "subtrees": [],
+            "dependencies": [],
+        }
 
     def test_summary_banner_is_centered_cb5_of_80_chars(_):
         out = fmt_summary(show_blueprint(Blueprint()))
