@@ -38,7 +38,66 @@ manually add chat & coder, instead by data structure
 
 ### Security
 
-[unreleased]: https://github.com/kami-lel/kaye-engine/compare/v11.0.1...dev
+[unreleased]: https://github.com/kami-lel/kaye-engine/compare/v11.1.0...dev
+
+
+
+
+
+
+
+
+
+
+
+
+
+## [11.1.0] - 2026-11-13
+
+### Added
+
+- `blueprint show` and `blueprint preview` take `-C/--no-color`
+- list modes of `blueprint`, `glossary`, `exportable`, `dynamic-substitution`, `dynamic-node` take `-r`, `-N`, `-f table|tsv|json`, `-C`; `json` is an array of names
+- `-v`/`-q`/`-V`/`-Q` on `affordance`, `variant`, `render-profile`, `blueprint list`
+- `docs/consumer-doc.md`: starting point for building a consumer on the engine or `kaye-library`
+- `register_abbr_glossary` takes keyword-only `description` and `when_to_use` for the glossary skill
+
+### Changed
+
+- short letters `variant -F`, `variant -a`, `claude plugin -N`, `export-json -f` are long-only; one letter now means one flag across the CLI
+- `--comment`/`--no-comment` lose `-c`/`-C` everywhere; `-C` always means `--no-color`
+- `blueprint show` field flags become one `-F/--field FIELD`; `blueprint preview` options are long-only
+- `affordance`, `variant`, `render-profile` column `remark` is now `description`; default columns are the counts `variant_count`/`sidecar_count`, lists `variants`/`sidecars` are opt-in via `-c`; headers are lowercase in every format
+- list output sorted within `dynamic-node` runs, `render-profile` variant and sidecar lists; counts read `label (N)`
+- `blueprint show` summary follows the list rules: table on a TTY, `key<TAB>value` piped, object with `-f json`
+- unknown names on `glossary`, `exportable`, `dynamic-substitution`, `dynamic-node`, `blueprint` give one `ERROR unknown <command>: <name>` line with a `did you mean` hint, exit 1
+- `blueprint validate` prints one check-mark line on a TTY, nothing piped; an empty `-r` match logs `no <things> match <pattern>`
+- list commands exit 1 naming the flag when a render flag meets list mode or a list flag meets an entry
+- informational commands print a colored banner on a TTY; piped, tsv, json output stays plain
+- bundled Claude variant remarks list their tools
+- plugin and marketplace keywords come from the consumer's `keywords`, else `prompt-engineering` and `agent`, plus the plugin name; `persona` dropped
+- `skill` and `claude skills` stamp each skill with its owning consumer's version; `export_skills_as_folders`, `export_skills_as_zips` default `version` per entry
+- `kamilog` pins to `v3.0.0`
+- README gains install and Contributing sections; `docs/claude-doc.md` rewritten for users with Claude Desktop and VS Code walkthroughs; docs point to live list commands
+
+> [!WARNING]
+> CLI flags changed: long-only `variant --flat`, `variant --affordance`, `claude plugin --no-version`, `export-json --output-file`; `--comment`/`--no-comment` lose `-c`/`-C`; `blueprint show` uses `-F/--field`; `description` replaces the `remark` column; `affordance` and `render-profile` default columns changed. Update scripts before upgrading
+
+### Removed
+
+- `docs/github-release-doc.md`
+- unused `flask` dependency
+
+### Fixed
+
+- `claude code --help` shows `surface=claude`
+- docs no longer claim `claude vs-code-extension` writes `settings.json` permissions; related docs match the live commands
+- `register_cli_main_parser` no longer crashes on an uninstalled consumer distribution; `--version` reads `unknown (not installed)`
+- `docs/consumer-doc.md` examples corrected
+- `build-github-release` logs the real zip name, `NAME-claude-VERSION.zip`
+
+[11.1.0]: https://github.com/kami-lel/kaye-engine/compare/v11.0.1...v11.1.0
+
 
 
 

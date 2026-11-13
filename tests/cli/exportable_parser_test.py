@@ -6,6 +6,7 @@ Unit Tests (using pytest) for:
 _exportable_main, register_exportable_parser
 """
 
+import io
 import logging
 from argparse import ArgumentParser
 from unittest.mock import patch
@@ -18,6 +19,11 @@ from kaye_engine.exportable import Exportable
 
 
 # auxiliaries  ##################################################################
+class _Tty(io.StringIO):
+    def isatty(self):
+        return True
+
+
 class _FakeExportable(Exportable):
 
     def content(self, **_render_kwargs):
@@ -91,6 +97,20 @@ class TestExportableMainLs:
         out = capsys.readouterr().out
         assert out.splitlines() == ["other-exportable", "some-exportable"]
 
+    def test_tty_has_banner_and_colored_names(
+        self, _fake_registry, monkeypatch
+    ):
+        monkeypatch.delenv("NO_COLOR", raising=False)
+        tty = _Tty()
+        monkeypatch.setattr("sys.stdout", tty)
+        parser = _build_exportable_parser()
+        args = parser.parse_args(["exportable", "ls"])
+        args.func(args)
+
+        out = tty.getvalue()
+        assert "  exportables (2)  " in out
+        assert "\033[96mother-exportable\033[0m" in out
+
     def test_lists_nothing_when_registry_empty(self, capsys):
         with patch.object(exportable_parser, "exportable_registry", {}):
             parser = _build_exportable_parser()
@@ -123,19 +143,62 @@ class TestExportableMainUnknownExportable:
         with pytest.raises(SystemExit):
             args.func(args)
 
-    def test_logs_critical_on_unknown_exportable(
+    def test_logs_error_on_unknown_exportable(
         self, _fake_registry, caplog
     ):
         parser = _build_exportable_parser()
         args = parser.parse_args(["exportable", "does-not-exist"])
 
-        with caplog.at_level(logging.CRITICAL, logger=LOGGER_NAME):
+        with caplog.at_level(logging.ERROR, logger=LOGGER_NAME):
             with pytest.raises(SystemExit):
                 args.func(args)
 
         assert any(
-            rec.levelno == logging.CRITICAL for rec in caplog.records
+            rec.levelno == logging.ERROR for rec in caplog.records
         )
         assert any(
-            "does-not-exist" in rec.message for rec in caplog.records
+            "unknown exportable: does-not-exist" in rec.message
+            for rec in caplog.records
         )
+
+    def test_names_the_closest_when_near(self, _fake_registry, caplog):
+        parser = _build_exportable_parser()
+        args = parser.parse_args(["exportable", "some-exportble"])
+
+        with caplog.at_level(logging.ERROR, logger=LOGGER_NAME):
+            with pytest.raises(SystemExit):
+                args.func(args)
+
+        assert "did you mean: some-exportable" in caplog.text
+
+
+class TestModeGuard:
+
+    @pytest.mark.parametrize(
+        "flag",
+        [["-s", "0"], ["-u", "claude"], ["--comment"], ["--reverse-order"]],
+    )
+    def test_list_mode_rejects_render_flags(self, _fake_registry, flag):
+        args = _build_exportable_parser().parse_args(["x", *flag])
+
+        with pytest.raises(SystemExit) as info:
+            exportable_parser._exportable_main(args)
+
+        assert info.value.code == 1
+
+    @pytest.mark.parametrize("flag", [["-r", "x"], ["-N"], ["-f", "json"]])
+    def test_entry_mode_rejects_list_flags(self, _fake_registry, flag):
+        args = _build_exportable_parser().parse_args(
+            ["x", "some-exportable", *flag]
+        )
+
+        with pytest.raises(SystemExit) as info:
+            exportable_parser._exportable_main(args)
+
+        assert info.value.code == 1
+
+    def test_list_mode_takes_list_flags(self, _fake_registry, capsys):
+        args = _build_exportable_parser().parse_args(["x", "-r", "^other"])
+        exportable_parser._exportable_main(args)
+
+        assert capsys.readouterr().out == "other-exportable\n"

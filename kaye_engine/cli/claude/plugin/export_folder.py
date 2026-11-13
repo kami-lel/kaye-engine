@@ -6,7 +6,10 @@ define ``export_plugin_as_folder``, ``export_plugins_as_folders``
 
 import kamilog
 from kaye_engine.cli.claude import LOGGER_CLAUDE_NAME
-from kaye_engine.cli.claude.package_meta import read_package_meta
+from kaye_engine.cli.claude.package_meta import (
+    get_plugin_keywords,
+    read_package_meta,
+)
 from kaye_engine.cli.claude.plugin_marketplace_name import (
     select_plugin_consumers,
 )
@@ -64,12 +67,7 @@ def export_plugin_as_folder(
         manifest.author_email = meta.author_email
         manifest.homepage = meta.homepage
         manifest.repository = meta.repository
-        manifest.keywords = [
-            "prompt-engineering",
-            "persona",
-            "agent",
-            plugin_name,
-        ]
+        manifest.keywords = get_plugin_keywords(meta, plugin_name)
 
     logger.debug("exporting exportables as plugin skills: " + plugin_name)
     export_skills_as_folders(

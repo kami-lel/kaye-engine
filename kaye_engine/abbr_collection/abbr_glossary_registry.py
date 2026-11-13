@@ -60,6 +60,12 @@ class AbbrGlossaryRegistry:
     :param consumer: canonical name of the registered consumer owning
             the glossary's exportable group; ``""`` when not exportable
     :type consumer: str, optional
+    :param description: skill ``description`` of the glossary's exportable
+            group; ``""`` falls back to the group's display name
+    :type description: str, optional
+    :param when_to_use: skill ``when_to_use`` of the glossary's exportable
+            group; ``""`` leaves the field out
+    :type when_to_use: str, optional
     """
 
     name: str
@@ -71,6 +77,8 @@ class AbbrGlossaryRegistry:
     is_term_definition_forced: bool = False
     is_dyn_substitution: bool = False
     consumer: str = ""
+    description: str = ""
+    when_to_use: str = ""
 
 
 # Main Entry Point  ############################################################
@@ -89,6 +97,8 @@ def register_abbr_glossary(
     is_dyn_substitution=False,
     *,
     consumer="",
+    description="",
+    when_to_use="",
 ):
     """
     create an `AbbrGlossaryRegistry` and insert it into
@@ -113,6 +123,12 @@ def register_abbr_glossary(
             the glossary's exportable group; required when
             ``is_exportable``
     :type consumer: str, optional
+    :param description: skill ``description`` of the exportable group;
+            defaults to ``""``, which keeps the display name
+    :type description: str, optional
+    :param when_to_use: skill ``when_to_use`` of the exportable group;
+            defaults to ``""``, which leaves the field out
+    :type when_to_use: str, optional
     :raise ValueError: ``name`` is already registered, or an exportable
             glossary names no registered ``consumer``
     :return: the created registry entry
@@ -138,6 +154,8 @@ def register_abbr_glossary(
         is_term_definition_forced,
         is_dyn_substitution,
         consumer,
+        description,
+        when_to_use,
     )
     abbr_glossary_registry[name] = reg
 

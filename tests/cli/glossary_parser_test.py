@@ -6,6 +6,7 @@ Unit Tests (using pytest) for:
 _glossary_main, register_glossary_parser
 """
 
+import io
 import logging
 from argparse import ArgumentParser
 from unittest.mock import patch
@@ -17,6 +18,11 @@ from kaye_engine.cli import glossary_parser
 
 
 # auxiliaries  ##################################################################
+class _Tty(io.StringIO):
+    def isatty(self):
+        return True
+
+
 def _build_glossary_parser():
     root_parser = ArgumentParser()
     subparser = root_parser.add_subparsers()
@@ -73,6 +79,20 @@ class TestGlossaryMainLs:
         out = capsys.readouterr().out
         assert out.splitlines() == ["other-glossary", "some-glossary"]
 
+    def test_tty_has_banner_and_colored_names(
+        self, _fake_registry, monkeypatch
+    ):
+        monkeypatch.delenv("NO_COLOR", raising=False)
+        tty = _Tty()
+        monkeypatch.setattr("sys.stdout", tty)
+        parser = _build_glossary_parser()
+        args = parser.parse_args(["glossary", "ls"])
+        args.func(args)
+
+        out = tty.getvalue()
+        assert "  glossaries (2)  " in out
+        assert "\033[96mother-glossary\033[0m" in out
+
     def test_lists_nothing_when_registry_empty(self, capsys):
         with patch.object(glossary_parser, "abbr_glossary_registry", {}):
             parser = _build_glossary_parser()
@@ -113,17 +133,54 @@ class TestGlossaryMainUnknownGlossary:
         with pytest.raises(SystemExit):
             args.func(args)
 
-    def test_logs_critical_on_unknown_glossary(self, _fake_registry, caplog):
+    def test_logs_error_on_unknown_glossary(self, _fake_registry, caplog):
         parser = _build_glossary_parser()
         args = parser.parse_args(["glossary", "does-not-exist"])
 
-        with caplog.at_level(logging.CRITICAL, logger=LOGGER_NAME):
+        with caplog.at_level(logging.ERROR, logger=LOGGER_NAME):
             with pytest.raises(SystemExit):
                 args.func(args)
 
         assert any(
-            rec.levelno == logging.CRITICAL for rec in caplog.records
+            rec.levelno == logging.ERROR for rec in caplog.records
         )
         assert any(
-            "does-not-exist" in rec.message for rec in caplog.records
+            "unknown glossary: does-not-exist" in rec.message
+            for rec in caplog.records
         )
+
+    def test_names_the_closest_when_near(self, _fake_registry, caplog):
+        parser = _build_glossary_parser()
+        args = parser.parse_args(["glossary", "some-glossry"])
+
+        with caplog.at_level(logging.ERROR, logger=LOGGER_NAME):
+            with pytest.raises(SystemExit):
+                args.func(args)
+
+        assert "did you mean: some-glossary" in caplog.text
+
+
+class TestNameListFlags:
+
+    def test_regex_filters_list(self, _fake_registry, capsys):
+        args = _build_glossary_parser().parse_args(["glossary", "-r", "^some"])
+        glossary_parser._glossary_main(args)
+
+        assert capsys.readouterr().out == "some-glossary\n"
+
+    def test_json_format(self, _fake_registry, capsys):
+        args = _build_glossary_parser().parse_args(["g", "-f", "json"])
+        glossary_parser._glossary_main(args)
+
+        assert '"other-glossary"' in capsys.readouterr().out
+
+    @pytest.mark.parametrize("flag", [["-r", "x"], ["-N"], ["-C"]])
+    def test_entry_mode_rejects_list_flags(self, _fake_registry, flag):
+        args = _build_glossary_parser().parse_args(
+            ["glossary", "some-glossary", *flag]
+        )
+
+        with pytest.raises(SystemExit) as info:
+            glossary_parser._glossary_main(args)
+
+        assert info.value.code == 1

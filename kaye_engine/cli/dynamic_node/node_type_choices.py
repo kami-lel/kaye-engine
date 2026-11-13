@@ -27,14 +27,12 @@ ENGINE_DEFINED_NODES = {
 # Public API  ##################################################################
 def list_all_node_type_names():
     """
-    :return: every currently available ``NODE_TYPE`` name, ordered as:
-            ``today``, ``decode-only-abbr``, every ``AbbrTagNode`` kebab
-            slug (``AbbrTags`` declaration order), then every registered
-            abbr glossary name (sorted alphabetically)
+    :return: every currently available ``NODE_TYPE`` name, in 2 sorted
+            runs: the engine-defined names and every ``AbbrTagNode`` kebab
+            slug, then every registered abbr glossary name
     :rtype: list[str]
     """
-    return (
-        ["today", "decode-only-abbr"]
+    return sorted(
+        [*ENGINE_DEFINED_NODES]
         + [slug_for_abbr_tag(abbr_tag) for abbr_tag in ABBR_TAG_NODE_MEMBERS]
-        + sorted(abbr_glossary_registry)
-    )
+    ) + sorted(abbr_glossary_registry)

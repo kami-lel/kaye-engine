@@ -85,7 +85,6 @@ def register_user_prompt_parser(cli_subparser):  ###############################
             build_render_profile_parent_parser(
                 default_surface=("claude",),
                 default_sparseness=DEFAULT_SPARSENESS,
-                comment_short_flags=False,
             )
         ],
     )

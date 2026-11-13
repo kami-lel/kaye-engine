@@ -20,7 +20,6 @@ from kaye_engine.cli.render_profile_parser import (
     build_render_profile_parent_parser,
     resolve_render_profile,
 )
-from kaye_engine.consumer import get_consumer_version
 from kaye_engine.skill.export_folders import export_skills_as_folders
 from kaye_engine.skill.export_zips import export_skills_as_zips
 
@@ -100,19 +99,16 @@ def register_skills_parser(cli_subparser):  ####################################
             args,
             default_show_comment=False,
         )
-        version = get_consumer_version()
 
         if args.zip:
             logger.debug("export skills as zip packages")
             count = export_skills_as_zips(
-                folder, version=version, render_profile=render_profile
+                folder, render_profile=render_profile
             )
             logger.done("export skills as {} zips".format(count))
         else:
             logger.debug("export skills as folders")
-            export_skills_as_folders(
-                folder, version=version, render_profile=render_profile
-            )
+            export_skills_as_folders(folder, render_profile=render_profile)
             logger.done("export skills as folders\t" + str(folder))
 
     skills_parser.set_defaults(func=_skills_main)

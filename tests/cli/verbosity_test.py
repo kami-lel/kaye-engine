@@ -74,3 +74,21 @@ class TestVsCodeCommand:
 
         skill_logger = kamilog.getLogger(LOGGER_SKILL_NAME)
         assert skill_logger.isEnabledFor(kamilog.DEBUG)
+
+
+class TestInformationalCommands:
+    @pytest.mark.parametrize(
+        "argv",
+        [
+            ["affordance", "-q"],
+            ["variant", "-v"],
+            ["render-profile", "-Q"],
+            ["blueprint", "list", "-V"],
+        ],
+    )
+    def test_list_command_takes_verbosity_flags(self, argv):
+        from kaye_engine.cli.cli_main import register_cli_main_parser
+
+        cli_parser, _ = register_cli_main_parser()
+        args = cli_parser.parse_args(argv)
+        assert hasattr(args, "verbose") or hasattr(args, "quiet")

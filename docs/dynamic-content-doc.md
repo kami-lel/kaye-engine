@@ -282,10 +282,12 @@ The two mechanisms are independent and both fully functional: `DynamicNode` tree
 
 ### CLI
 
-Two commands print dynamic content without a corpus export:
+Two commands print dynamic content without a corpus export, `dynamic-node` (alias `dn`) for dynamic nodes and `dynamic-substitution` (alias `ds`) for a registered substitution; `ls` lists every available name, and `--help` has the flags:
 
-- `kaye-engine dynamic-node NODE...` (alias `dn`): render one or more dynamic nodes merged into one output; `NODE=ls` lists every available value, and `-t THRESHOLD` hides glossary entries whose priority exceeds it
-- `kaye-engine dynamic-substitution NAME` (alias `ds`): print a directly registered substitution's content; `NAME=ls` (default when omitted) lists every registered name
+```bash
+kaye-engine dynamic-node ls
+kaye-engine dynamic-substitution ls
+```
 
 
 

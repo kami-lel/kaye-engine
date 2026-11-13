@@ -11,7 +11,7 @@ Prescriptive rules for agents working in this project.
 - Size: stay lean for the context window; when the file grows, move detail to `docs/` or cut it
 - Upkeep: update in the same change that moves a command, convention, or constraint
 - Structure: follow the existing sections; keep every rule true for every contributor
-- Belongs in `CONTEXT.md`: descriptive knowledge of the system, ie architecture, domain model, patterns, known gaps
+- Belongs in [CONTEXT.md](CONTEXT.md): descriptive knowledge of the system, ie architecture, domain model, patterns, known gaps
 - Belongs in `docs/`: system documentation for users and agents alike; link it from here, never grow this file to hold it
 - Local Layer: put machine-specific or personal rules in `AGENTS.local.md`; create it if missing, never commit it
 
@@ -26,11 +26,12 @@ built-in render profiles and the affordance names they refer to
 **kaye-engine is consumed by multiple projects.** Never name any specific
 consumer project anywhere in this repository's content (code, comments,
 docs, or tests) — doing so would leak one consumer's identity into a
-mechanism meant to stay consumer-agnostic.
+mechanism meant to stay consumer-agnostic. The one exception is
+`kaye-library`, the engine's supplementary package, which may be named.
 
 **Several consumers may share one process.** Every public registering API
 declares one policy (additive, guarded, or entry-point) in the
-`CONTEXT.md` Registration Policy table; a new API takes a row there in the
+[CONTEXT.md](CONTEXT.md) Registration Policy table; a new API takes a row there in the
 same change, and none overwrites silently.
 
 ## Setup
@@ -76,11 +77,8 @@ pytest tests/prompt/bp/data/prompt-bp-edit_test.py
 pytest tests/prompt/bp/data/prompt-bp-edit_test.py::TestCreateFromNode
 ```
 
-`tests/cli/` covers only what runs without a full-sized corpus — the setup guard,
-exportable-abbr registration, `dynamic-node` parsing, and `SKILL.md`
-rendering. The exporters themselves need a corpus to produce output, so the
-consumer package's suite covers those; do not scaffold corpus fixtures here
-to widen the directory.
+Exporter tests render small inline corpora loaded through
+`tests/corpus_helper.py`; do not scaffold a full-sized corpus fixture here.
 
 Test fixtures go through the shared helpers, never the raw APIs:
 
@@ -101,6 +99,11 @@ pytest
 ```
 
 ## CLI
+
+Short letters are project-wide: one letter, one long flag, in every command
+(`-C` is always `--no-color`); `tests/cli/flag_letter_test.py` enforces it,
+so a new flag takes a free letter or none. `claude user-system-prompt -c` is
+the one exception.
 
 The editable install registers a `kaye-engine` console script, so
 `kaye-engine ...` and `python -m kaye_engine ...` are equivalent: prefer
@@ -132,21 +135,21 @@ the latter returning a `RenderProfile` rather than a kwargs dict:
 | flag | short | effect |
 |---|---|---|
 | `--surface` | `-u` | Claude surface(s) to checkmark variants for; combinable |
-| `--comment`/`--no-comment` | `-c`/`-C` | show/omit the trailing generated-by comment |
+| `--comment`/`--no-comment` | none | show/omit the trailing generated-by comment |
 | `--conditional-sidecar` | `-i` | conditional-sidecar name(s), unioned with `--surface` |
 | `--variant` | none | variant name(s), unioned with `--surface` |
 | `--sparseness` | `-s` | blank-line policy, v.i. |
 | `--reverse-order` | none | reverse sibling order at every level of the tree walk |
 
-`claude user-system-prompt` already owns `-c` for `--coder`, so
-`--comment`/`--no-comment` are long-form only there. `blueprint preview`
-is not a rendering command but shares the `--comment`/`--no-comment`
-toggle. Merge semantics live in `CONTEXT.md`.
+`--comment`/`--no-comment` are long-form only everywhere (`-C` is
+`--no-color`, `-c` is `--coder` on `claude user-system-prompt`).
+`blueprint preview` shares the toggle but is not a rendering command. Merge
+semantics live in [CONTEXT.md](CONTEXT.md).
 
 `--sparseness` runs from `-1` (one line) through `0` (no blank lines) and
 `1` (single blank lines) up to `99` (no trimming); the default is
 `DEFAULT_SPARSENESS` (`kaye_engine/cli/__init__.py`). Fenced code and tag
-blocks are never trimmed: see `CONTEXT.md`.
+blocks are never trimmed: see [CONTEXT.md](CONTEXT.md).
 
 **Verbosity flags** — every command takes `-v`/`-q`/`-V`/`-Q` from
 `kamilog.add_verbose_arguments` and applies them through
@@ -156,11 +159,6 @@ siblings under `kaye-engine`, so a single-logger call leaves the rest at the
 default. A new engine logger must be named `kaye-engine.<part>`; it then
 inherits the level with no further wiring.
 
-`claude vs-code-extension` also writes `permissions` (`allow`/`ask`/`deny`
-Bash command patterns) into `settings.json`, sourced from
-`kaye_engine/cli/claude/permission_cmds.jsonc` (parsed with `json5`, so
-comments are allowed).
-
 Every `claude` and `hermes` subcommand needs each consumer package to call
 `register_consumer(display_name, canonical_name, version)` and the
 console command's setup to call `set_entry_consumer(canonical_name)`
@@ -168,7 +166,7 @@ first; `claude` also needs `setup_claude_cli(...)` and `hermes` needs
 `setup_hermes_cli(...)`, whose names are optional: a subcommand needing an
 unset one exits 1 with a clear message. On a bare checkout the
 getters log `logger.critical` and raise `SystemExit(1)`: expected, not a
-bug. Getter list in `CONTEXT.md`.
+bug. Getter list in [CONTEXT.md](CONTEXT.md).
 
 ## Code Conventions
 
@@ -191,6 +189,9 @@ bug. Getter list in `CONTEXT.md`.
   `write_text_if_changed` (`kaye_engine/cli/file_write.py`), never a bare
   `write_text`; a `FrontmatterDoc` subclass sets `_logger` to its
   command's logger
+- print informational (non-content) output through the `kaye_engine/cli/
+  list_view.py` helpers (`print_banner`, `print_names`, `make_renderer`, ~):
+  banner and color on a TTY only, bare when piped; never hand-roll ANSI codes
 - never call `logger.track`: kamilog 3.0 dropped its deed feature
 
 ## Registering a Blueprint
@@ -258,8 +259,8 @@ module builds `AbbrData`. Register a new glossary there when adding one.
 
 After meaningful changes, keep these in sync:
 
-- `README.md` — human-facing overview and quick start
-- `CONTEXT.md` — architecture, entities, boundaries; a new registering API
+- [README.md](README.md) — human-facing overview and quick start
+- [CONTEXT.md](CONTEXT.md) — architecture, entities, boundaries; a new registering API
   takes a row in its Registration Policy table
 - `docs/` — one file per topic; update the one a change touches:
   - the corpus Markdown format and `register_corpus_under_node` rules:
@@ -278,9 +279,9 @@ After meaningful changes, keep these in sync:
     [docs/render-profile-doc.md](docs/render-profile-doc.md)
   - the `claude` subcommands and per-consumer plugins:
     [docs/claude-doc.md](docs/claude-doc.md)
-  - the `build-github-release` command: [docs/github-release-doc.md](docs/github-release-doc.md)
   - the `continue` export: [docs/continue-doc.md](docs/continue-doc.md)
   - the `hermes` export: [docs/hermes-doc.md](docs/hermes-doc.md)
   - the Open WebUI sync: [docs/open-webui-doc.md](docs/open-webui-doc.md)
-- `CHANGELOG.md` — record notable changes per release
+  - creating a consumer in Python on the engine or on `kaye-library`, and taking a library skill over: [docs/consumer-doc.md](docs/consumer-doc.md)
+- [CHANGELOG.md](CHANGELOG.md) — record notable changes per release
 - this `AGENTS.md` — update agent-specific rules as structure evolves

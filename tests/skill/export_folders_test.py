@@ -11,9 +11,15 @@ from types import SimpleNamespace
 from unittest.mock import MagicMock, patch
 
 import pytest
+import yaml
 
+from kaye_engine.consumer import register_consumer
+from kaye_engine.prompt.blueprint import BlueprintRegistry
+from kaye_engine.prompt.blueprint.data import Blueprint, BlueprintMeta
 from kaye_engine.skill import LOGGER_SKILL_NAME, export_folders, select
 from kaye_engine.skill.export_folders import export_skills_as_folders
+
+from tests.consumer_helper import isolated_consumers
 
 
 # auxiliaries  #################################################################
@@ -64,6 +70,41 @@ class TestExportSkillsAsFolders:
             )
 
         assert not _written
+
+
+class TestOwnerVersion:
+    """each skill carries the version of the consumer owning its entry"""
+
+    def test_each_skill_takes_its_owners_version(_, tmp_path):
+        with isolated_consumers():
+            register_consumer("Alpha", "alpha-pkg", "1.0.0")
+            register_consumer("Beta", "beta-pkg", "2.5.0")
+            _._export_and_check(tmp_path)
+
+    @staticmethod
+    def _export_and_check(tmp_path):
+        registry = {
+            name: BlueprintRegistry(
+                canonical_name=name,
+                display_name=name,
+                blueprint=Blueprint(meta=BlueprintMeta(description="d")),
+                consumer=owner,
+            )
+            for name, owner in (("one", "alpha-pkg"), ("two", "beta-pkg"))
+        }
+        with (
+            patch.object(select, "exportable_registry", registry),
+            patch.object(BlueprintRegistry, "content", return_value="body"),
+        ):
+            export_skills_as_folders(tmp_path)
+
+        versions = {
+            name: yaml.safe_load(
+                (tmp_path / name / "SKILL.md").read_text().split("---")[1]
+            )["metadata"]["version"]
+            for name in registry
+        }
+        assert versions == {"one": "1.0.0", "two": "2.5.0"}
 
 
 class TestEnterLine:

@@ -8,8 +8,12 @@ API functions and stdout; each one composes API functions, none
 duplicates their logic
 """
 
+import json
+from functools import partial
+
 import kamilog
 from kaye_engine import LOGGER_NAME
+from kaye_engine.cli.list_view import FMT_JSON, FMT_TABLE, FMT_TSV
 from kaye_engine.prompt.blueprint import (
     BlueprintSummary,
     preview_blueprint,
@@ -28,6 +32,7 @@ __all__ = (
     "SHOW_FIELD_FXS",
     "emit_str",
     "fmt_ls",
+    "fmt_strip_trailing_space",
     "fmt_show_result",
     "fmt_summary",
     "pick_preview_fx",
@@ -43,6 +48,8 @@ logger = kamilog.getLogger(LOGGER_NAME)
 
 # constants  ###################################################################
 _LINEAGE_SEPARATOR = " # "
+_INDENT = "  "
+_BANNER_PADDING = 5  # CB5
 
 
 # auxiliaries  #################################################################
@@ -75,9 +82,13 @@ def _show_from_summary(fmt_fx):
     return lambda blueprint: fmt_fx(show_blueprint(blueprint))
 
 
-def _show_summary(blueprint):
+def _show_summary(blueprint, renderer=None, fmt=FMT_TABLE):
     """
     :type blueprint: Blueprint
+    :param renderer: colors a table summary; ``None`` for plain text
+    :type renderer: kamilog.AnsiRenderer or None
+    :param fmt: table, tsv or json
+    :type fmt: str
     :raises ValueError: a meta node is not in the loaded corpus
     :return: the summary text, with description and when-to-use as content
     :rtype: str
@@ -88,6 +99,8 @@ def _show_summary(blueprint):
         when_to_use=show_when_to_use(blueprint),
         nodes=blueprint.nodes,
         subtrees=blueprint.subtrees,
+        renderer=renderer,
+        fmt=fmt,
     )
 
 
@@ -137,16 +150,20 @@ def pick_render_fx(is_no_dependencies):
     return render_prompt
 
 
-def pick_show_fx(field):
+def pick_show_fx(field, renderer=None, fmt=FMT_TABLE):
     """
-    :param field: field flag name of ``bp show``, ``None`` for none
+    :param field: field name of ``bp show -F``, ``None`` for none
     :type field: str or None
+    :param renderer: colors the summary only; a field always prints raw
+    :type renderer: kamilog.AnsiRenderer or None
+    :param fmt: the summary's format; a field always prints raw
+    :type fmt: str
     :raises KeyError: an unknown field name
     :return: the show function for the flag; the summary text for none
     :rtype: Callable
     """
     if field is None:
-        return _show_summary
+        return partial(_show_summary, renderer=renderer, fmt=fmt)
 
     return SHOW_FIELD_FXS[field]
 
@@ -160,8 +177,109 @@ def fmt_ls(names):
     return "\n".join(names)
 
 
+def _style_lineage(renderer, lineage):
+    """
+    :return: ``lineage`` with the name color on its names and grey
+            separators
+    :rtype: str
+    """
+    names = lineage.split(_LINEAGE_SEPARATOR)
+    return renderer.color_grey(_LINEAGE_SEPARATOR).join(
+        renderer.color(name, kamilog.AnsiStyle.BRIGHT_CYAN) for name in names
+    )
+
+
+def _gen_summary_fields(summary, description, when_to_use, nodes, subtrees):
+    """
+    :return: the summary's fields in print order, each ``(key, kind,
+            value)``: ``key`` the ``--field`` name, also the banner and tsv
+            label, ``kind`` ``text``,
+            ``lineage`` (a text that is one lineage) or ``names`` (a list)
+    :rtype: list[tuple]
+    """
+    return [
+        ("display-name", "text", summary.meta.display_name),
+        ("description", "text", description),
+        (
+            "description-node",
+            "lineage",
+            _gen_lineage_str(summary.meta.description_node),
+        ),
+        ("when-to-use", "text", when_to_use),
+        (
+            "when-to-use-node",
+            "lineage",
+            _gen_lineage_str(summary.meta.when_to_use_node),
+        ),
+        ("nodes", "names", _gen_lineage_strs(nodes)),
+        ("subtrees", "names", _gen_lineage_strs(subtrees)),
+        ("dependencies", "names", list(summary.dependencies)),
+    ]
+
+
+def _fmt_summary_table(fields, summary, renderer):
+    """
+    :return: the table view: each field a centered banner over its
+            indented value lines; a text field with no value and an empty
+            dependency list are left out, while ``nodes`` and ``subtrees``
+            always show their count
+    :rtype: str
+    """
+
+    def banner(heading):
+        return kamilog.gen_comment_banner_centered(
+            heading, _BANNER_PADDING, renderer=renderer
+        )
+
+    def style(value):
+        return value if renderer is None else _style_lineage(renderer, value)
+
+    counts = {"nodes": summary.node_count, "subtrees": summary.subtree_count}
+    lines = []
+    for key, kind, value in fields:
+        if kind == "names":
+            label = key
+            if key in counts:
+                label = "{} ({})".format(key, counts[key])
+            elif not value:
+                continue
+            lines.append(banner(label))
+            lines += [_INDENT + style(name) for name in value]
+        elif value:
+            lines.append(banner(key))
+            if kind == "lineage":
+                lines.append(_INDENT + style(value))
+            else:
+                lines += [_INDENT + line for line in value.splitlines()]
+
+    return fmt_ls(lines)
+
+
+def _fmt_summary_tsv(fields):
+    """
+    :return: ``key<TAB>value`` rows, one per list item; a multi-line text
+            keeps to one row with its newlines written ``\\n``
+    :rtype: str
+    """
+    rows = []
+    for key, kind, value in fields:
+        values = value if kind == "names" else [value] if value else []
+        rows += [
+            "{}\t{}".format(key, text.replace("\n", "\\n"))
+            for text in values
+        ]
+    return fmt_ls(rows)
+
+
 def fmt_summary(
-    summary, *, description="", when_to_use="", nodes=(), subtrees=()
+    summary,
+    *,
+    description="",
+    when_to_use="",
+    nodes=(),
+    subtrees=(),
+    renderer=None,
+    fmt=FMT_TABLE
 ):
     """
     :type summary: BlueprintSummary
@@ -173,43 +291,28 @@ def fmt_summary(
     :type nodes: Iterable[NodePath]
     :param subtrees: paths of the nodes checkmarked with their descendants
     :type subtrees: Iterable[NodePath]
-    :return: the summary as fields, each a centered banner line over its
-            value lines; a text field with no value is left out, while
-            ``nodes`` and ``subtrees`` always show their count
+    :param renderer: colors the table view: grey banner rulers and names in
+            the name color; ``None`` for plain text
+    :type renderer: kamilog.AnsiRenderer or None
+    :param fmt: ``table`` (banner-headed fields over indented values),
+            ``tsv`` (``key<TAB>value`` rows) or ``json`` (one object of
+            every field)
+    :type fmt: str
+    :return: the summary in that format
     :rtype: str
     """
-    text_fields = (
-        ("display name", summary.meta.display_name),
-        ("description", description),
-        (
-            "description node",
-            _gen_lineage_str(summary.meta.description_node),
-        ),
-        ("when to use", when_to_use),
-        (
-            "when to use node",
-            _gen_lineage_str(summary.meta.when_to_use_node),
-        ),
+    fields = _gen_summary_fields(
+        summary, description, when_to_use, nodes, subtrees
     )
 
-    lines = []
-    for label, value in text_fields:
-        if value:
-            lines += [kamilog.gen_comment_banner_centered(label, 5), value]
+    if fmt == FMT_JSON:
+        record = {key: value for key, _kind, value in fields}
+        return json.dumps(record, indent=2, ensure_ascii=False)
 
-    for label, count, paths in (
-        ("nodes", summary.node_count, nodes),
-        ("subtrees", summary.subtree_count, subtrees),
-    ):
-        heading = "{}: {}".format(label, count)
-        lines.append(kamilog.gen_comment_banner_centered(heading, 5))
-        lines += _gen_lineage_strs(paths)
+    if fmt == FMT_TSV:
+        return _fmt_summary_tsv(fields)
 
-    if summary.dependencies:
-        lines.append(kamilog.gen_comment_banner_centered("dependencies", 5))
-        lines.append(fmt_ls(summary.dependencies))
-
-    return fmt_ls(lines)
+    return _fmt_summary_table(fields, summary, renderer)
 
 
 def fmt_show_result(result):
@@ -226,6 +329,17 @@ def fmt_show_result(result):
         return result
 
     return fmt_ls(result)
+
+
+def fmt_strip_trailing_space(text):
+    """
+    :param text: multi-line text
+    :type text: str
+    :return: ``text`` with the trailing blanks of every line cut, so no
+            printed line ends in whitespace
+    :rtype: str
+    """
+    return "\n".join(line.rstrip() for line in text.split("\n"))
 
 
 def emit_str(text):
@@ -249,7 +363,7 @@ def run_cmd(handler, args):
     try:
         handler(args)
     except (ValueError, KeyError, FileNotFoundError) as err:
-        logger.critical(str(err.args[0] if err.args else err))
+        logger.error(str(err.args[0] if err.args else err))
         return 1
 
     return 0

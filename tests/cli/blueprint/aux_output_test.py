@@ -8,6 +8,9 @@ Unit Tests (using pytest) for:
 - emit_str(), run_cmd()
 """
 
+import io
+import json
+
 import kamilog
 import pytest
 
@@ -15,6 +18,7 @@ from kaye_engine.cli.blueprint.aux_output import (
     SHOW_FIELD_FXS,
     emit_str,
     fmt_ls,
+    fmt_strip_trailing_space,
     fmt_show_result,
     fmt_summary,
     pick_preview_fx,
@@ -41,7 +45,8 @@ from kaye_engine.prompt.blueprint import (
 
 
 def _field(label, value):
-    return kamilog.gen_comment_banner_centered(label, 5) + "\n" + value
+    body = "\n".join("  " + line for line in value.splitlines())
+    return kamilog.gen_comment_banner_centered(label, 5) + "\n" + body
 
 
 class TestPick:
@@ -81,6 +86,11 @@ class TestFormat:
     def test_ls_one_per_line(_):
         assert fmt_ls(["a", "b"]) == "a\nb"
 
+    def test_strip_trailing_space_per_line(_):
+        assert fmt_strip_trailing_space("a  \n  b \n\n  \nc") == (
+            "a\n  b\n\n\nc"
+        )
+
     def test_ls_empty(_):
         assert fmt_ls([]) == ""
 
@@ -89,8 +99,8 @@ class TestFormat:
 
         assert out == "\n".join(
             [
-                _field("nodes: 0", "").rstrip("\n"),
-                _field("subtrees: 0", "").rstrip("\n"),
+                _field("nodes (0)", "").rstrip("\n"),
+                _field("subtrees (0)", "").rstrip("\n"),
             ]
         )
 
@@ -113,21 +123,71 @@ class TestFormat:
             nodes=bp.nodes,
         )
 
-        assert out.startswith(_field("display name", "Name") + "\n")
+        assert out.startswith(_field("display-name", "Name") + "\n")
         assert _field("description", "d") in out
-        assert _field("when to use", "w") in out
-        assert _field("description node", "A # {description}") in out
-        assert _field("when to use node", "A # {when}") in out
-        assert _field("nodes: 1", "A") in out
+        assert _field("when-to-use", "w") in out
+        assert _field("description-node", "A # {description}") in out
+        assert _field("when-to-use-node", "A # {when}") in out
+        assert _field("nodes (1)", "A") in out
         assert out.endswith(_field("dependencies", "x\ny"))
+
+    def test_summary_tsv_rows_one_per_item(_):
+        bp = Blueprint(
+            meta=BlueprintMeta(display_name="Name", description_node=("A",)),
+            nodes=frozenset({("A",), ("A", "B")}),
+            dependencies=("x", "y"),
+        )
+
+        out = fmt_summary(
+            show_blueprint(bp),
+            description="line1\nline2",
+            nodes=bp.nodes,
+            fmt="tsv",
+        )
+
+        assert out.splitlines() == [
+            "display-name\tName",
+            "description\tline1\\nline2",
+            "description-node\tA",
+            "nodes\tA",
+            "nodes\tA # B",
+            "dependencies\tx",
+            "dependencies\ty",
+        ]
+
+    def test_summary_tsv_has_no_banner_or_indent(_):
+        out = fmt_summary(show_blueprint(Blueprint()), fmt="tsv")
+
+        assert out == ""
+
+    def test_summary_json_has_every_field(_):
+        bp = Blueprint(
+            meta=BlueprintMeta(display_name="Name"),
+            nodes=frozenset({("A",)}),
+        )
+
+        record = json.loads(
+            fmt_summary(show_blueprint(bp), nodes=bp.nodes, fmt="json")
+        )
+
+        assert record == {
+            "display-name": "Name",
+            "description": "",
+            "description-node": "",
+            "when-to-use": "",
+            "when-to-use-node": "",
+            "nodes": ["A"],
+            "subtrees": [],
+            "dependencies": [],
+        }
 
     def test_summary_banner_is_centered_cb5_of_80_chars(_):
         out = fmt_summary(show_blueprint(Blueprint()))
 
         banner = out.splitlines()[0]
         assert len(banner) == 80
-        assert "  nodes: 0  " in banner
-        assert set(banner.replace("  nodes: 0  ", "")) == {"-"}
+        assert "  nodes (0)  " in banner
+        assert set(banner.replace("  nodes (0)  ", "")) == {"-"}
 
     def test_show_result_by_type(_):
         summary = show_blueprint(Blueprint())
@@ -137,6 +197,61 @@ class TestFormat:
         assert fmt_show_result(["a"]) == "a"
         assert fmt_show_result(summary) == fmt_summary(summary)
         assert isinstance(summary, BlueprintSummary)
+
+
+class _Tty(io.StringIO):
+    def isatty(self):
+        return True
+
+
+def _renderer(*, is_disabled=False):
+    return kamilog.AnsiRenderer(_Tty(), is_disabled=is_disabled)
+
+
+def _colored_bp():
+    return Blueprint(
+        meta=BlueprintMeta(display_name="Name"),
+        nodes=frozenset({("A",), ("A", "B")}),
+        dependencies=("x", "y"),
+    )
+
+
+def _colored_summary(renderer):
+    bp = _colored_bp()
+    return fmt_summary(show_blueprint(bp), nodes=bp.nodes, renderer=renderer)
+
+
+class TestColoredSummary:
+
+    def test_disabled_renderer_prints_no_escape_codes(_):
+        assert "\033[" not in _colored_summary(_renderer(is_disabled=True))
+
+    def test_color_greys_rulers_and_colors_names(_):
+        out = _colored_summary(_renderer())
+
+        assert "\033[90m" in out
+        assert "\033[96mA\033[0m" in out
+        assert "\033[96mx\033[0m" in out
+
+    def test_value_lines_are_indented_under_banners(_):
+        lines = _colored_summary(_renderer()).splitlines()
+
+        assert lines[1].startswith("  ")
+        assert lines[3].startswith("  ")
+
+    def test_banner_text_survives_color(_):
+        out = _colored_summary(_renderer())
+
+        assert "  nodes (2)  " in out
+        assert "  dependencies  " in out
+
+    def test_pick_show_fx_gives_renderer_to_summary_only(_):
+        bp = _colored_bp()
+        colored = pick_show_fx(None, renderer=_renderer())(bp)
+        raw = pick_show_fx("dependencies", renderer=_renderer())(bp)
+
+        assert "\033[" in colored
+        assert raw == ("x", "y")
 
 
 class TestEmit:
@@ -168,7 +283,7 @@ class TestRunCmd:
         def handler(_args):
             raise ValueError("the reason")
 
-        with caplog.at_level("CRITICAL"):
+        with caplog.at_level("ERROR"):
             run_cmd(handler, None)
 
         assert "the reason" in caplog.text

@@ -43,7 +43,7 @@ writes every exportable currently in the registry to one flat JSON object,
 keyed by canonical name and sorted by key, indented by 2 spaces:
 
     kaye-engine export-json                 # write ./exportable-as-json.json
-    kaye-engine json -f FILE                # write to FILE instead
+    kaye-engine json --output-file FILE    # write to FILE instead
 
 an existing output file is overwritten. --dry-run renders every entry and
 reports the file, writing nothing.
@@ -106,7 +106,6 @@ def register_exportable_as_json_parser(cli_subparser):
     # add arguments  -----------------------------------------------------------
     export_json_parser.add_argument(
         "--output-file",
-        "-f",
         default=_DEFAULT_OUTPUT_FILE,
         help="path to write the JSON output to; default: {}".format(
             _DEFAULT_OUTPUT_FILE

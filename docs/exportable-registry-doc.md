@@ -152,10 +152,10 @@ Two kinds of exportable registration feed `exportable_registry`:
 
 Usage:
 
-- `exportable` CLI (alias `x`): `kaye-engine exportable EXPORTABLE` prints that exportable's `content()`, rendered with the shared render options and without the trailing comment by default, see [`render-profile-doc.md`](render-profile-doc.md#cli-options); `kaye-engine exportable ls` lists every registered exportable name, sorted alphabetically
-- `export-json` CLI (alias `json`): `kaye-engine export-json` writes every entry in `exportable_registry` to a flat `{canonical_name: content}` JSON object, sorted by key and indented by 2 spaces, each `content()` rendered with `RenderProfile(sparseness=0, conditional_sidecars=("avoid",))` merged on top of the entry's own `render_profile`, see [`render-profile-doc.md`](render-profile-doc.md). `{avoid}` content is folded inline into each value. `--output-file`/`-f` sets the output path, defaulting to `exportable-as-json.json` in the current directory, and an existing file is overwritten only when its content differs; an identical one is reported as `unchanged` and left alone. `--dry-run` renders every entry and reports the file without writing it
+- `exportable` CLI (alias `x`): `kaye-engine exportable EXPORTABLE` prints that exportable's `content()`, rendered with the shared render options and without the trailing comment by default, see [`render-profile-doc.md`](render-profile-doc.md#resolving-command-line-flags); `kaye-engine exportable ls` lists every registered exportable name, sorted alphabetically
+- `export-json` CLI (alias `json`): `kaye-engine export-json` writes every entry in `exportable_registry` to a flat `{canonical_name: content}` JSON object, sorted by key and indented by 2 spaces, each `content()` rendered with `RenderProfile(sparseness=0, conditional_sidecars=("avoid",))` merged on top of the entry's own `render_profile`, see [`render-profile-doc.md`](render-profile-doc.md). `{avoid}` content is folded inline into each value. `--output-file` sets the output path, defaulting to `exportable-as-json.json` in the current directory, and an existing file is overwritten only when its content differs; an identical one is reported as `unchanged` and left alone. `--dry-run` renders every entry and reports the file without writing it
 - `continue` CLI (alias `c`): `kaye-engine continue [FOLDER]` writes every entry as a Continue rule or prompt, see [`continue-doc.md`](continue-doc.md)
-- `skill` CLI (alias `s`): `kaye-engine skill NAME... FOLDER` exports the named exportables as Agent Skills into `FOLDER`, and `kaye-engine skill --all FOLDER` (`-a`) exports every one. `FOLDER` is required, `-z` makes one `.zip` per skill, and an unknown name aborts before anything is written. A blueprint skill takes its description, when-to-use and globs from the blueprint's meta, and an abbreviation group takes its display name as the description. The skill writers live in `kaye_engine.skill`, independent of any one agent product
+- `skill` CLI (alias `s`): `kaye-engine skill NAME... FOLDER` exports the named exportables as Agent Skills into `FOLDER`, and `kaye-engine skill --all FOLDER` (`-a`) exports every one. `FOLDER` is required, `-z` makes one `.zip` per skill, and an unknown name aborts before anything is written. A blueprint skill takes its description, when-to-use and globs from the blueprint's meta, and an abbreviation group takes its display name as the description. Each skill's frontmatter `version` is the version of the consumer owning its entry, so a two-consumer export stamps each skill with its own owner's version. The skill writers live in `kaye_engine.skill`, independent of any one agent product
 - `claude` CLI: see [`claude-doc.md`](claude-doc.md) for the full Claude CLI surface (`kaye-engine claude plugin|marketplace|code|...`); `kaye-engine claude skills` exports every exportable as Agent Skills into `~/.claude/skills`
 
 
@@ -219,31 +219,8 @@ Every engine group is llm-only: `is_user_invokable` is `False` and `llm_invokabl
 
 A glossary group belongs to its glossary's consumer. The tag, wrap, and starts-with groups belong to the consumer named by `set_abbr_group_consumer(canonical_name)`; while none is named, they are not registered, so they are not exported.
 
-Abbreviation Group by Tag:
+The groups come in four families: by tag (`abbr-single-character`, `abbr-emoji`), by wrap (`abbr-prefixes`, `abbr-suffixes`, `abbr-symbols`), by first character (`abbr-starts-with-*`, one per letter, plus digits and non-alphanumeric), and by glossary (`glossary-NAME`, one per glossary registered with `is_exportable=True`). List the registered names with:
 
-| canonical name | display name |
-| --- | --- |
-| `abbr-single-character` | Abbr Single Character |
-| `abbr-emoji` | Abbr Emoji |
-
-Abbreviation Group by Wrap:
-
-| canonical name | display name |
-| --- | --- |
-| `abbr-prefixes` | Abbr Prefixes |
-| `abbr-suffixes` | Abbr Suffixes |
-| `abbr-symbols` | Abbr Symbols |
-
-Abbreviation *Starts-With*:
-
-| canonical name | display name |
-| --- | --- |
-| `abbr-starts-with-digits-0-9` | Abbr Starts with Digits 0~9 |
-| `abbr-starts-with-a` to `abbr-starts-with-z` | Abbr Starts with A to Abbr Starts with Z, one per letter |
-| `abbr-starts-with-non-alphanumeric` | Abbr Starts with Non-Alphanumeric |
-
-Abbreviation Group by Glossary, one per glossary registered with `is_exportable=True`:
-
-| canonical name | display name |
-| --- | --- |
-| `glossary-NAME` | Glossary NAME |
+```bash
+kaye-engine exportable ls
+```

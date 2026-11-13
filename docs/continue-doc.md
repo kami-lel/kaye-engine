@@ -9,7 +9,7 @@
 ```bash
 kaye-engine continue                  # write to ~/.continue
 kaye-engine continue FOLDER           # write to FOLDER
-kaye-engine c FOLDER -s 0 -C          # the shared render options apply
+kaye-engine c FOLDER -s 0 --no-comment   # the shared render options apply
 ```
 
 Use the default when Continue runs on this machine. Pass a custom `FOLDER` to inspect the output first, or to export into a project-local Continue folder.

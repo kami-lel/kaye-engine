@@ -98,3 +98,32 @@ class TestVersionInjection:
                 registry.render_profile, display_name=registry.display_name
             )
         )
+
+
+class TestFromExportableAbbr:
+
+    @staticmethod
+    def _skill(**kwargs):
+        from kaye_engine.cli.exportable_abbr import ExportableAbbr
+
+        group = ExportableAbbr(
+            [],
+            canonical_name="glossary-x",
+            display_name="Glossary x",
+            **kwargs,
+        )
+        return Skill.from_exportable(group, version="1.0.0")
+
+    def test_uses_given_description_and_when_to_use(_):
+        skill = TestFromExportableAbbr._skill(
+            description="real", when_to_use="trigger"
+        )
+
+        assert skill.description == "real"
+        assert skill.when_to_use == "trigger"
+
+    def test_falls_back_to_display_name(_):
+        skill = TestFromExportableAbbr._skill()
+
+        assert skill.description == "Glossary x"
+        assert skill.when_to_use == ""

@@ -184,3 +184,43 @@ class TestGetExportableAbbrsGlossaryUserInvokable:
         assert non_glossary_groups
         assert all(g.is_user_invokable is False for g in non_glossary_groups)
         assert all(g.llm_invokable is True for g in non_glossary_groups)
+
+
+class TestGlossarySkillMetadata:
+
+    @staticmethod
+    def _group(name, **kwargs):
+        reg = register_abbr_glossary(name, True, **kwargs)
+        data = AbbrData()
+        with data:
+            data.add_entry(
+                AbbrMeaning("dummy"),
+                "dmy",
+                {"priority": 0, "tags": [name], "wrap": "word"},
+            )
+        with patch(
+            "kaye_engine.cli.exportable_abbr.get_abbr_data",
+            return_value=data,
+        ):
+            groups = get_exportable_abbrs()
+        return reg, next(
+            g for g in groups if g.canonical_name == "glossary-" + name
+        )
+
+    def test_carries_description_and_when_to_use(_, registered_names):
+        reg, group = TestGlossarySkillMetadata._group(
+            "test-glossary-meta",
+            description="what it is",
+            when_to_use="when it fires",
+        )
+        registered_names.append(reg.name)
+
+        assert group.description == "what it is"
+        assert group.when_to_use == "when it fires"
+
+    def test_defaults_stay_empty(_, registered_names):
+        reg, group = TestGlossarySkillMetadata._group("test-glossary-bare")
+        registered_names.append(reg.name)
+
+        assert group.description == ""
+        assert group.when_to_use == ""

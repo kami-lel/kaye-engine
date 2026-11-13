@@ -263,7 +263,7 @@ A family may hold a single variant, standing in for a one-off capability, and a 
 
 `Affordance` is a keyword-only dataclass with `canonical_name`, the unique identifier, and `remark`, a short description of the capability. `affordance_registry` is a module-level `dict[str, Affordance]` keyed by `canonical_name`. It starts empty and fills only through `register_affordance()`; there is no direct-insert API.
 
-The `remark` is the affordance's documentation: start it with a verb, keep it to a few words, and omit the trailing period, e.g. `run shell commands`. `kaye-engine affordance` lists every affordance with its remark, see [CLI](#cli).
+The `remark` is the affordance's documentation: start it with a verb, keep it to a few words, and omit the trailing period, e.g. `run shell commands`. `kaye-engine affordance` lists every affordance with its description, see [CLI](#cli).
 
 `kaye_engine` registers the affordances and variants of `BUILTIN_AFFORDANCES` (`kaye_engine/prompt/builtin_affordances.py`), remarks included, when `kaye_engine.prompt` is imported, the set the built-in render profiles refer to, see [`render-profile-doc.md`](render-profile-doc.md). A consumer adds its own with `register_affordance()` and `register_variant()`.
 
@@ -491,26 +491,13 @@ With only `Claude:TodoWrite` present:
 
 ### CLI
 
-Every rendering command inherits `--variant VARIANT [VARIANT ...]`, see [`render-profile-doc.md`](render-profile-doc.md#cli-options). Two read-only subcommands list the registries. On a terminal they print an aligned, colored table or grouping; piped, they print tab-separated columns under a heading line, with lists comma-joined:
+Every rendering command inherits `--variant VARIANT [VARIANT ...]`, see [`render-profile-doc.md`](render-profile-doc.md#resolving-command-line-flags). The read-only views of the two registries, each with its description, are `affordance` (alias `afd`) and `variant` (alias `var`); `--help` has the flags:
 
-| Command | Alias | Columns | Order |
-| --- | --- | --- | --- |
-| `kaye-engine affordance` | `afd` | `affordance`, `variants` (a count), `remark` | by name |
-| `kaye-engine variant` | `var` | `variant`, `affordance`, `remark` | by affordance, then by variant name |
+```bash
+kaye-engine affordance
+kaye-engine variant
+```
 
-Both take flags only, each with a short and a long form, no positional argument:
-
-| Flag | Effect |
-| --- | --- |
-| `-r PATTERN`, `--regex` | keep names matching the regex; repeat to match any of several |
-| `-c COLS`, `--columns` | comma-separated columns to show, from the table above; on `variant` it implies a flat table |
-| `-l`, `--long` | one card per row: `afd` lists the affordance's variants and their remarks beneath it; `var` shows the variant's affordance and its `Usage` and `Lack` sidecar names |
-| `-N`, `--names-only` | names only, one per line, no heading |
-| `-f FORMAT`, `--format` | `table` (the terminal default), `tsv` (the piped default) or `json` |
-| `-C`, `--no-color` | plain output; `NO_COLOR` does the same |
-| `-a PATTERN`, `--affordance` | `variant` only: keep variants of affordances matching the regex |
-| `-F`, `--flat` | `variant` only: one flat table with an `affordance` column instead of one bold header per affordance |
-
-`variant` keeps its by-affordance order in every view. An empty registry logs one `NOTE` instead of the corpus setup errors.
+`variant` groups by affordance in every view, and an empty registry logs one `NOTE` instead of the corpus setup errors.
 
 Which variants apply to an invocation is decided by the registered surface profiles, see [`render-profile-doc.md`](render-profile-doc.md#surfaces).

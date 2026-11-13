@@ -78,7 +78,16 @@ class ExportableAbbr(list, Exportable):  #######################################
     :type canonical_name: str, optional
     :param display_name: human-readable name
     :type display_name: str, optional
+    :param description: skill ``description``; ``""`` falls back to
+            ``display_name`` on export
+    :type description: str, optional
+    :param when_to_use: skill ``when_to_use``; ``""`` leaves it out
+    :type when_to_use: str, optional
     """
+
+    # skill frontmatter text; empty falls back as the parameters note
+    description = ""
+    when_to_use = ""
 
     def __init__(
         self,
@@ -89,8 +98,12 @@ class ExportableAbbr(list, Exportable):  #######################################
         is_user_invokable=False,
         llm_invokable=True,
         consumer="",
+        description="",
+        when_to_use="",
     ):
         list.__init__(self, entries)
+        self.description = description
+        self.when_to_use = when_to_use
         Exportable.__init__(
             self,
             canonical_name=canonical_name,
@@ -134,6 +147,8 @@ def _make_group(
     canonical_name=None,
     is_user_invokable=False,
     consumer=None,
+    description="",
+    when_to_use="",
 ):
     return ExportableAbbr(
         entries,
@@ -141,6 +156,8 @@ def _make_group(
         display_name=display_name,
         is_user_invokable=is_user_invokable,
         consumer=_abbr_group_consumer if consumer is None else consumer,
+        description=description,
+        when_to_use=when_to_use,
     )
 
 
@@ -166,6 +183,8 @@ def _get_abbrs_by_glossaries(abbr_data):
                 glossary_name
             ].is_user_invokable,
             consumer=abbr_glossary_registry[glossary_name].consumer,
+            description=abbr_glossary_registry[glossary_name].description,
+            when_to_use=abbr_glossary_registry[glossary_name].when_to_use,
         )
         for glossary_name in sorted(abbr_glossary_registry)
         if abbr_glossary_registry[glossary_name].is_exportable
