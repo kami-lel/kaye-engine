@@ -38,30 +38,30 @@ _DESCRIPTION = _HELP + """
 by default, prints the blueprint summary: banner-headed fields, in color on
 a TTY (-C or NO_COLOR for plain)
 
-with a field flag, prints only that field; the flags are mutually exclusive
+with -F/--field, prints only that field, raw
 
 select BLUEPRINT by canonical name in blueprint registry:
 
     kaye-engine blueprint show my-blueprint
-    kaye-engine blueprint show my-blueprint --globs
+    kaye-engine blueprint show my-blueprint --field globs
 
 reading blueprint from stdin, a preview tree or JSON:
 
     kaye-engine blueprint show < my-blueprint.json
-    cat my-tree.txt | kaye-engine blueprint show --description
+    cat my-tree.txt | kaye-engine blueprint show --field description
 """
 
-# (short flag or None, field): the field names a key of ``SHOW_FIELD_FXS``
-_FIELD_FLAGS = (
-    ("-a", "display-name"),
-    ("-d", "description"),
-    ("-D", "description-node"),
-    ("-w", "when-to-use"),
-    ("-W", "when-to-use-node"),
-    ("-n", "nodes"),
-    ("-t", "subtrees"),
-    ("-g", "globs"),
-    ("-p", "dependencies"),
+# the fields ``--field`` selects: keys of ``SHOW_FIELD_FXS``
+_FIELDS = (
+    "display-name",
+    "description",
+    "description-node",
+    "when-to-use",
+    "when-to-use-node",
+    "nodes",
+    "subtrees",
+    "globs",
+    "dependencies",
 )
 
 
@@ -91,17 +91,14 @@ def register_show_parser(cli_subparser):
     )
 
     # add arguments  -----------------------------------------------------------
-    field_group = show_parser.add_mutually_exclusive_group()
-    for short_flag, field in _FIELD_FLAGS:
-        field_group.add_argument(
-            *([short_flag] if short_flag else []),
-            "--" + field,
-            dest="field",
-            action="store_const",
-            const=field,
-            default=None,
-            help="show {} alone".format(field),
-        )
+    show_parser.add_argument(
+        "-F",
+        "--field",
+        choices=_FIELDS,
+        default=None,
+        metavar="FIELD",
+        help="show one field alone, raw; one of: " + ", ".join(_FIELDS),
+    )
 
     show_parser.add_argument(
         "-C",

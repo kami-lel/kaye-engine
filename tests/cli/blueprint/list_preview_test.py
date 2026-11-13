@@ -4,7 +4,8 @@ list_preview_test.py
 Unit Tests (using pytest) for:
 
 - ``blueprint list`` / ``ls``
-- ``blueprint preview`` / ``p``, with ``-D``, ``-l``, ``-w``, ``-t``
+- ``blueprint preview`` / ``p``, with ``-D``, ``--preview-line-count``,
+  ``--preview-line-width``, ``--show-full-tree``
 """
 
 import pytest
@@ -135,16 +136,25 @@ class TestPreview:
         assert exit_code == 1
 
     def test_full_tree_flag_shows_unchecked(_, run):
-        _exit, out = run(["preview", "test-cli-base", "-t"])
+        _exit, out = run(["preview", "test-cli-base", "--show-full-tree"])
 
         assert "[ ] │   └── License" in out
 
     def test_line_width_flag_is_accepted(_, run):
-        exit_code, _out = run(["preview", "test-cli-base", "-w", "5"])
+        exit_code, _out = run(
+            ["preview", "test-cli-base", "--preview-line-width", "5"]
+        )
 
         assert exit_code == 0
 
+    @pytest.mark.parametrize("flag", ["-l", "-w", "-t"])
+    def test_colliding_short_flags_are_gone(_, run, flag):
+        with pytest.raises(SystemExit):
+            run(["preview", "test-cli-base", flag])
+
     def test_line_count_flag_is_accepted(_, run):
-        exit_code, _out = run(["preview", "test-cli-base", "-l", "1"])
+        exit_code, _out = run(
+            ["preview", "test-cli-base", "--preview-line-count", "1"]
+        )
 
         assert exit_code == 0

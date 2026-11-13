@@ -129,7 +129,7 @@ kaye-engine blueprint list                # registered blueprint names
 kaye-engine blueprint preview my-bp       # a tree of its entries
 kaye-engine blueprint render my-bp        # the concrete prompt
 kaye-engine blueprint validate my-bp      # exit 0 if sound
-kaye-engine blueprint show my-bp -g       # summary, or one field
+kaye-engine blueprint show my-bp -F globs   # summary, or one field
 ```
 
 Every `blueprint` command takes a registered name, or reads a preview tree

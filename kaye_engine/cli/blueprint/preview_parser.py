@@ -48,7 +48,8 @@ reading blueprint from stdin, a preview tree or JSON:
     kaye-engine blueprint preview < my-blueprint.json
     cat my-tree.txt | kaye-engine blueprint preview
 
-preview tree's depth, line count, and line width can be tuned with: -t, -l, -w
+preview tree's depth, line count, and line width can be tuned with: --show-full-tree,
+--preview-line-count, --preview-line-width
 """
 
 
@@ -98,7 +99,6 @@ def register_preview_parser(cli_subparser):
 
     # add arguments  -----------------------------------------------------------
     preview_parser.add_argument(
-        "-l",
         "--preview-line-count",
         metavar="LINE_COUNT",
         type=int,
@@ -107,7 +107,6 @@ def register_preview_parser(cli_subparser):
         default=None,
     )
     preview_parser.add_argument(
-        "-w",
         "--preview-line-width",
         metavar="LINE_WIDTH",
         type=int,
@@ -116,7 +115,6 @@ def register_preview_parser(cli_subparser):
         default=None,
     )
     preview_parser.add_argument(
-        "-t",
         "--show-full-tree",
         action="store_true",
         help="display the entire preview tree",

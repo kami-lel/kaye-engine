@@ -36,6 +36,7 @@ manually add chat & coder, instead by data structure
 
 ### Changed
 
+- **breaking**: `blueprint show` field flags (`-a -d -D -w -W -n -t -g -p` and their long forms) become one `-F/--field FIELD`; `blueprint preview` keeps `--preview-line-count`, `--preview-line-width`, `--show-full-tree` long-form only
 - **breaking**: `--comment`/`--no-comment` lose `-c`/`-C` on every rendering command and `blueprint preview`; `-C` now means `--no-color` everywhere
 - informational commands (`blueprint show`, `preview`, every `ls`, `affordance`, `variant`, `render-profile`) print a colored comment banner on a TTY; `blueprint show` summary is restyled; piped, tsv, json, `-N` output unchanged
 - the remark of each bundled Claude variant (`~`) lists its tools, e.g. `Claude:Agent~` names `Agent`, `ListAgents`, `SendMessage`
