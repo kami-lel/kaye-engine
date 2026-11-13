@@ -503,7 +503,7 @@ def print_cards(args, cards, stream=None, width=None, heading=None):
 
     :param args: parsed arguments that ran ``add_list_flags``
     :type args: argparse.Namespace
-    :param cards: each card is ``(title, remark, fields)``; a field is
+    :param cards: each card is ``(title, description, fields)``; a field is
             ``(label, text)`` or ``(label, summary, names)``, the names laid
             out in columns below the label line
     :type cards: collections.abc.Iterable[tuple]
@@ -522,10 +522,10 @@ def print_cards(args, cards, stream=None, width=None, heading=None):
     _warn_if_no_match(args, len(cards), heading or "entries")
     _print_heading(args, stream, heading, len(cards))
 
-    for title, remark, fields in cards:
+    for title, description, fields in cards:
         head = renderer.color(title, _STYLE_NAME)
-        if remark:
-            head += renderer.color_grey(": " + remark)
+        if description:
+            head += renderer.color_grey(": " + description)
         print(head, file=stream)
 
         label_width = max((len(field[0]) for field in fields), default=0)
@@ -545,7 +545,8 @@ def print_groups(args, groups, stream=None, heading=None):
 
     :param args: parsed arguments that ran ``add_list_flags``
     :type args: argparse.Namespace
-    :param groups: each group is ``(header, rows)``, a row ``(name, remark)``
+    :param groups: each group is ``(header, rows)``, a row ``(name,
+            description)``
     :type groups: collections.abc.Iterable[tuple]
     :param stream: output stream; default ``sys.stdout``
     :type stream: IO or None
@@ -569,10 +570,10 @@ def print_groups(args, groups, stream=None, heading=None):
     for header, rows in groups:
         title = "{} ({})".format(header, len(rows))
         print(renderer.color(title, _STYLE_GROUP), file=stream)
-        for name, remark in rows:
+        for name, description in rows:
             line = renderer.color(name.ljust(name_width), _STYLE_NAME)
-            if remark:
-                line += _COL_GAP + renderer.color_grey(remark)
+            if description:
+                line += _COL_GAP + renderer.color_grey(description)
             print(_INDENT + line.rstrip(), file=stream)
 
 

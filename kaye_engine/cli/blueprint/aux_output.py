@@ -32,6 +32,7 @@ __all__ = (
     "SHOW_FIELD_FXS",
     "emit_str",
     "fmt_ls",
+    "fmt_strip_trailing_space",
     "fmt_show_result",
     "fmt_summary",
     "pick_preview_fx",
@@ -190,30 +191,29 @@ def _style_lineage(renderer, lineage):
 
 def _gen_summary_fields(summary, description, when_to_use, nodes, subtrees):
     """
-    :return: the summary's fields in print order, each ``(key, label,
-            kind, value)``: ``key`` the ``--field`` name, ``kind`` ``text``,
+    :return: the summary's fields in print order, each ``(key, kind,
+            value)``: ``key`` the ``--field`` name, also the banner and tsv
+            label, ``kind`` ``text``,
             ``lineage`` (a text that is one lineage) or ``names`` (a list)
     :rtype: list[tuple]
     """
     return [
-        ("display-name", "display name", "text", summary.meta.display_name),
-        ("description", "description", "text", description),
+        ("display-name", "text", summary.meta.display_name),
+        ("description", "text", description),
         (
             "description-node",
-            "description node",
             "lineage",
             _gen_lineage_str(summary.meta.description_node),
         ),
-        ("when-to-use", "when to use", "text", when_to_use),
+        ("when-to-use", "text", when_to_use),
         (
             "when-to-use-node",
-            "when to use node",
             "lineage",
             _gen_lineage_str(summary.meta.when_to_use_node),
         ),
-        ("nodes", "nodes", "names", _gen_lineage_strs(nodes)),
-        ("subtrees", "subtrees", "names", _gen_lineage_strs(subtrees)),
-        ("dependencies", "dependencies", "names", list(summary.dependencies)),
+        ("nodes", "names", _gen_lineage_strs(nodes)),
+        ("subtrees", "names", _gen_lineage_strs(subtrees)),
+        ("dependencies", "names", list(summary.dependencies)),
     ]
 
 
@@ -236,16 +236,17 @@ def _fmt_summary_table(fields, summary, renderer):
 
     counts = {"nodes": summary.node_count, "subtrees": summary.subtree_count}
     lines = []
-    for key, label, kind, value in fields:
+    for key, kind, value in fields:
         if kind == "names":
+            label = key
             if key in counts:
-                label = "{} ({})".format(label, counts[key])
+                label = "{} ({})".format(key, counts[key])
             elif not value:
                 continue
             lines.append(banner(label))
             lines += [_INDENT + style(name) for name in value]
         elif value:
-            lines.append(banner(label))
+            lines.append(banner(key))
             if kind == "lineage":
                 lines.append(_INDENT + style(value))
             else:
@@ -261,7 +262,7 @@ def _fmt_summary_tsv(fields):
     :rtype: str
     """
     rows = []
-    for key, _label, kind, value in fields:
+    for key, kind, value in fields:
         values = value if kind == "names" else [value] if value else []
         rows += [
             "{}\t{}".format(key, text.replace("\n", "\\n"))
@@ -305,7 +306,7 @@ def fmt_summary(
     )
 
     if fmt == FMT_JSON:
-        record = {key: value for key, _label, _kind, value in fields}
+        record = {key: value for key, _kind, value in fields}
         return json.dumps(record, indent=2, ensure_ascii=False)
 
     if fmt == FMT_TSV:
@@ -328,6 +329,17 @@ def fmt_show_result(result):
         return result
 
     return fmt_ls(result)
+
+
+def fmt_strip_trailing_space(text):
+    """
+    :param text: multi-line text
+    :type text: str
+    :return: ``text`` with the trailing blanks of every line cut, so no
+            printed line ends in whitespace
+    :rtype: str
+    """
+    return "\n".join(line.rstrip() for line in text.split("\n"))
 
 
 def emit_str(text):

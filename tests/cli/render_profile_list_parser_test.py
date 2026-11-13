@@ -19,7 +19,7 @@ from kaye_engine.prompt.blueprint.render_profile_registry import (
 )
 from tests.consumer_helper import isolated_render_profiles
 
-_HEADING = "profile\tvariant_count\tsidecar_count\tremark"
+_HEADING = "profile\tvariant_count\tsidecar_count\tdescription"
 
 
 # auxiliaries  #################################################################
@@ -124,7 +124,7 @@ class TestOutput:
     @pytest.mark.parametrize(
         ("column", "zeta_cell"),
         [
-            ("remark", "last one"),
+            ("description", "last one"),
             ("mode", "NEGATIVE"),
             ("sparseness", "3"),
             ("variants", "v1,v2"),
@@ -155,7 +155,7 @@ class TestOutput:
                 "profile": "zeta",
                 "variant_count": 2,
                 "sidecar_count": 2,
-                "remark": "last one",
+                "description": "last one",
             }
         ]
 
@@ -281,10 +281,10 @@ class TestBuiltIns:
         ]
 
     def test_remark_column_lists_the_built_in_remarks(_, capsys):
-        _run(["rp", "-c", "remark"])
+        _run(["rp", "-c", "description"])
 
         assert capsys.readouterr().out == (
-            "profile\tremark\n"
+            "profile\tdescription\n"
             "claude\tAnthropic Claude apps: chat, Cowork, Code, iOS\n"
             "claude-vsc\tAnthropic Claude Code extension for Microsoft"
             " Visual Studio Code\n"
@@ -306,3 +306,24 @@ class TestBuiltIns:
         out = capsys.readouterr().out
 
         assert out.count("  sparseness  ") == 5
+
+
+class TestDescriptionColumn:
+
+    def test_remark_column_is_gone(_):
+        with pytest.raises(SystemExit):
+            _build_parser().parse_args(["rp", "-c", "remark"])
+
+    def test_lists_print_sorted(_, capsys):
+        with isolated_render_profiles():
+            register_render_profile(
+                "unsorted",
+                RenderProfile(
+                    variants=("b", "a"), conditional_sidecars=("z", "y")
+                ),
+            )
+            _run(["rp", "-c", "variants,sidecars"])
+
+        assert capsys.readouterr().out == (
+            "profile\tvariants\tsidecars\nunsorted\ta,b\ty,z\n"
+        )

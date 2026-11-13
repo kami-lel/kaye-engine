@@ -26,7 +26,7 @@ _DESCRIPTION = _HELP + """
 
 prints each registered render profile in render_profile_registry, sorted
 alphabetically, as an aligned table: `profile`, `variant_count` and
-`sidecar_count`, `remark`; `-c` picks columns from `remark`, `mode`,
+`sidecar_count`, `description`; `-c` picks columns from `description`, `mode`,
 `sparseness`, `variant_count`, `variants`, `sidecar_count`, `sidecars` (the
 lists comma-joined, arrays in json); `-l` prints one detail card per
 profile with every list in full; `-r PATTERN` keeps matching names; `-f`
@@ -36,7 +36,7 @@ stream: table on a TTY, tsv piped"""
 
 # every column key `-c` accepts, in card order
 _ALL_COLUMNS = (
-    "remark",
+    "description",
     "mode",
     "sparseness",
     "variant_count",
@@ -45,10 +45,11 @@ _ALL_COLUMNS = (
     "sidecars",
 )
 
-# columns of the default table; remark last so its width never pushes others
-_DFT_COLUMNS = ("variant_count", "sidecar_count", "remark")
+# columns of the default table; description last so its width never
+# pushes the others
+_DFT_COLUMNS = ("variant_count", "sidecar_count", "description")
 
-# card fields in print order; remark is the card title, not a field
+# card fields in print order; description is the card title, not a field
 _CARD_COLUMNS = ("mode", "sparseness", "variants", "sidecars")
 
 
@@ -56,18 +57,19 @@ _CARD_COLUMNS = ("mode", "sparseness", "variants", "sidecars")
 def _build_cells(entry):
     """
     :return: ``entry``'s columns as raw values, keyed like
-            ``_ALL_COLUMNS``; ``variants`` and ``sidecars`` stay lists
+            ``_ALL_COLUMNS``; ``variants`` and ``sidecars`` stay lists,
+            sorted for display
     :rtype: dict
     """
     profile = entry.profile
     return {
-        "remark": entry.remark,
+        "description": entry.remark,
         "mode": profile.mode.name or str(profile.mode),
         "sparseness": profile.sparseness,
         "variant_count": len(profile.variants or ()),
-        "variants": list(profile.variants or ()),
+        "variants": sorted(profile.variants or ()),
         "sidecar_count": len(profile.conditional_sidecars),
-        "sidecars": list(profile.conditional_sidecars),
+        "sidecars": sorted(profile.conditional_sidecars),
     }
 
 
@@ -143,7 +145,7 @@ def _list_render_profile_main(args):
     if is_card_view:
         keys = set(select_columns(args, _ALL_COLUMNS))
         cards = (
-            (name, cells["remark"], _build_card_fields(cells, keys))
+            (name, cells["description"], _build_card_fields(cells, keys))
             for name, cells in filter_rows(args, rows)
         )
         print_cards(args, cards, heading="render profiles")

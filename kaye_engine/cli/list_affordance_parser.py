@@ -28,26 +28,26 @@ _DESCRIPTION = _HELP + """
 
 prints each registered affordance in affordance_registry, sorted
 alphabetically, as an aligned table: `affordance`, `variant_count` of the
-variants implementing it, `remark`; `-c` picks columns from `variant_count`,
-`variants` (the names, comma-joined, an array in json) and `remark`; `-l`
-prints one card per affordance with its variants and their remarks
-beneath; `-r PATTERN` keeps matching names; `-f` picks table, tsv or json;
-`-N` prints names only. The columns and their meaning are the same in every
-format; only the default format follows the stream: table on a TTY, tsv
-piped"""
+variants implementing it, `description`; `-c` picks columns from
+`variant_count`, `variants` (the names, comma-joined, an array in json) and
+`description`; `-l` prints one card per affordance with its variants and
+their descriptions beneath; `-r PATTERN` keeps matching names; `-f` picks
+table, tsv or json; `-N` prints names only. The columns and their meaning
+are the same in every format; only the default format follows the stream:
+table on a TTY, tsv piped"""
 
 # every column key `-c` accepts, in print order
-_COLUMNS = ("variant_count", "variants", "remark")
+_COLUMNS = ("variant_count", "variants", "description")
 
 # columns of the default table
-_DFT_COLUMNS = ("variant_count", "remark")
+_DFT_COLUMNS = ("variant_count", "description")
 
 
 # auxiliaries  #################################################################
 def _build_variant_ls(name):
     """
     :return: the variants implementing affordance ``name``, as
-            ``(variant name, remark)``, sorted by name
+            ``(variant name, description)``, sorted by name
     :rtype: list[tuple]
     """
     return sorted(
@@ -71,7 +71,7 @@ def _list_affordance_main(args):
                 {
                     "variant_count": len(variants),
                     "variants": [variant for variant, _ in variants],
-                    "remark": affordance_registry[name].remark,
+                    "description": affordance_registry[name].remark,
                     "_variants": variants,
                 },
             )
@@ -82,7 +82,7 @@ def _list_affordance_main(args):
     )
     if is_card_view:
         cards = (
-            (name, cells["remark"], cells["_variants"])
+            (name, cells["description"], cells["_variants"])
             for name, cells in filter_rows(args, rows)
         )
         print_cards(args, cards, heading="affordances")

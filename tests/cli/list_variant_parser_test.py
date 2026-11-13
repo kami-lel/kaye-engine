@@ -16,7 +16,7 @@ from kaye_engine import LOGGER_NAME
 from kaye_engine.cli import list_variant_parser
 from kaye_engine.prompt.affordance_registry import Variant
 
-_HEADING = "variant\taffordance\tremark"
+_HEADING = "variant\taffordance\tdescription"
 
 
 # auxiliaries  #################################################################
@@ -132,7 +132,7 @@ class TestListVariantMain:
         _run(["var", "-f", "table", "-F"])
 
         assert capsys.readouterr().out == (
-            "variant  affordance  remark\n"
+            "variant  affordance  description\n"
             "m-var    a-aff       do m\n"
             "a-var    b-aff       do a\n"
             "z-var    b-aff\n"
@@ -144,17 +144,17 @@ class TestListVariantMain:
         assert capsys.readouterr().out.startswith("variant  affordance")
 
     def test_columns_imply_a_flat_table(self, capsys):
-        _run(["var", "-f", "table", "-c", "remark"])
+        _run(["var", "-f", "table", "-c", "description"])
 
         assert capsys.readouterr().out == (
-            "variant  remark\nm-var    do m\na-var    do a\nz-var\n"
+            "variant  description\nm-var    do m\na-var    do a\nz-var\n"
         )
 
     def test_columns_pick_and_order_in_tsv(self, capsys):
-        _run(["var", "-c", "remark,affordance"])
+        _run(["var", "-c", "description,affordance"])
 
         assert capsys.readouterr().out.splitlines()[0] == (
-            "variant\tremark\taffordance"
+            "variant\tdescription\taffordance"
         )
 
     def test_unknown_column_is_rejected(self):
@@ -201,7 +201,7 @@ class TestListVariantMain:
         _run(["var", "-f", "json", "-r", "^a-var$"])
 
         assert json.loads(capsys.readouterr().out) == [
-            {"variant": "a-var", "affordance": "b-aff", "remark": "do a"}
+            {"variant": "a-var", "affordance": "b-aff", "description": "do a"}
         ]
 
     def test_long_prints_a_card_with_sidecar_names(self, capsys):

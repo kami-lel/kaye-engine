@@ -77,6 +77,12 @@ class TestPreview:
 
         assert "  Display Name  " in out.splitlines()[0]
 
+    def test_no_line_ends_in_whitespace(_, run):
+        _exit, out = run(["preview", "test-cli-base"])
+
+        padded = [ln for ln in out.splitlines() if ln != ln.rstrip()]
+        assert padded == []
+
     def test_no_color_flag_keeps_banner_plain(_, run, monkeypatch):
         monkeypatch.delenv("NO_COLOR", raising=False)
 

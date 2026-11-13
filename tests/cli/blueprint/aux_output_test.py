@@ -18,6 +18,7 @@ from kaye_engine.cli.blueprint.aux_output import (
     SHOW_FIELD_FXS,
     emit_str,
     fmt_ls,
+    fmt_strip_trailing_space,
     fmt_show_result,
     fmt_summary,
     pick_preview_fx,
@@ -85,6 +86,11 @@ class TestFormat:
     def test_ls_one_per_line(_):
         assert fmt_ls(["a", "b"]) == "a\nb"
 
+    def test_strip_trailing_space_per_line(_):
+        assert fmt_strip_trailing_space("a  \n  b \n\n  \nc") == (
+            "a\n  b\n\n\nc"
+        )
+
     def test_ls_empty(_):
         assert fmt_ls([]) == ""
 
@@ -117,11 +123,11 @@ class TestFormat:
             nodes=bp.nodes,
         )
 
-        assert out.startswith(_field("display name", "Name") + "\n")
+        assert out.startswith(_field("display-name", "Name") + "\n")
         assert _field("description", "d") in out
-        assert _field("when to use", "w") in out
-        assert _field("description node", "A # {description}") in out
-        assert _field("when to use node", "A # {when}") in out
+        assert _field("when-to-use", "w") in out
+        assert _field("description-node", "A # {description}") in out
+        assert _field("when-to-use-node", "A # {when}") in out
         assert _field("nodes (1)", "A") in out
         assert out.endswith(_field("dependencies", "x\ny"))
 

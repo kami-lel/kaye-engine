@@ -159,7 +159,7 @@ class TestFields:
         exit_code, out = run(["show", "test-cli-named-2", "-f", "table"])
 
         assert exit_code == 0
-        assert out.startswith(_field("display name", "Nice Name") + "\n")
+        assert out.startswith(_field("display-name", "Nice Name") + "\n")
 
     @pytest.mark.parametrize("flag", [["-F", "description"]])
     def test_description(_, run, registered, flag):

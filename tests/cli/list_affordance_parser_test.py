@@ -16,7 +16,7 @@ from kaye_engine import LOGGER_NAME
 from kaye_engine.cli import list_affordance_parser
 from kaye_engine.prompt.affordance_registry import Affordance, Variant
 
-_HEADING = "affordance\tvariant_count\tremark"
+_HEADING = "affordance\tvariant_count\tdescription"
 
 
 # auxiliaries  #################################################################
@@ -125,10 +125,10 @@ class TestListAffordanceMain:
         assert capsys.readouterr().out == "other-affordance\nsome-affordance\n"
 
     def test_columns_pick_and_order(self, capsys):
-        _run(["afd", "-c", "remark,variants"])
+        _run(["afd", "-c", "description,variants"])
 
         assert capsys.readouterr().out == (
-            "affordance\tremark\tvariants\n"
+            "affordance\tdescription\tvariants\n"
             "other-affordance\t\t\n"
             "some-affordance\tdo some\tv-a,v-b\n"
         )
@@ -151,7 +151,7 @@ class TestListAffordanceMain:
             {
                 "affordance": "some-affordance",
                 "variant_count": 2,
-                "remark": "do some",
+                "description": "do some",
             }
         ]
 

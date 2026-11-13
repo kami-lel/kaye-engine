@@ -37,6 +37,7 @@ manually add chat & coder, instead by data structure
 
 ### Changed
 
+- **breaking**: the `remark` column of `affordance`, `variant`, `render-profile` is `description` (`-c description`); `dynamic-node` lists sorted within its built-in and glossary runs; `render-profile` variant and sidecar lists sorted; `blueprint show` field labels are the kebab `--field` names; `blueprint preview` lines carry no trailing blanks
 - an unknown name gives one error shape on `glossary`, `exportable`, `dynamic-substitution`, `dynamic-node` and `blueprint`: `ERROR unknown <command>: <name>` plus a `did you mean` hint, exit 1; it was a `CRIT.` with a tab and the noun `abbr glossary`; `blueprint` command failures log as errors, not criticals
 - `blueprint validate` prints one check-mark line on a TTY, nothing piped; a `-r` filter that keeps nothing logs `no <things> match <pattern>`
 - **breaking**: `affordance` and `render-profile` columns mean the same in table, tsv and json: default columns are the counts `variant_count`/`sidecar_count` (tsv no longer swaps in lists); the lists `variants`/`sidecars` are opt-in via `-c`; table headers are lowercase like tsv and json

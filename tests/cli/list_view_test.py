@@ -31,10 +31,10 @@ from kaye_engine.cli.list_view import (
     track_given_flags,
 )
 
-_COLUMNS = ("remark", "variants")
+_COLUMNS = ("description", "variants")
 _ROWS = (
-    ("beta", {"remark": "second", "variants": ["x", "y"]}),
-    ("alpha", {"remark": "first", "variants": []}),
+    ("beta", {"description": "second", "variants": ["x", "y"]}),
+    ("alpha", {"description": "first", "variants": []}),
 )
 
 
@@ -74,7 +74,7 @@ class TestAddListFlags:
         assert args.format is None
 
     def test_short_and_long_forms_match(_):
-        short = _parse(["-l", "-N", "-C", "-f", "json", "-c", "remark"])
+        short = _parse(["-l", "-N", "-C", "-f", "json", "-c", "description"])
         long = _parse(
             [
                 "--long",
@@ -83,7 +83,7 @@ class TestAddListFlags:
                 "--format",
                 "json",
                 "--columns",
-                "remark",
+                "description",
             ]
         )
 
@@ -112,7 +112,7 @@ class TestAddListFlags:
 
         err = capsys.readouterr().err
         assert "unknown column 'nope'" in err
-        assert "remark, variants" in err
+        assert "description, variants" in err
 
     def test_rejects_unknown_format(_):
         with pytest.raises(SystemExit):
@@ -138,19 +138,19 @@ class TestFilterRows:
 class TestSelectColumns:
 
     def test_default(_):
-        assert select_columns(_parse([]), ["remark"]) == ["remark"]
+        assert select_columns(_parse([]), ["description"]) == ["description"]
 
     def test_given_order_wins(_):
-        args = _parse(["-c", "variants,remark"])
+        args = _parse(["-c", "variants,description"])
 
-        assert select_columns(args, _COLUMNS) == ["variants", "remark"]
+        assert select_columns(args, _COLUMNS) == ["variants", "description"]
 
 
 class TestPrintRows:
 
     def test_piped_default_is_tsv_with_full_lists(_):
         assert _print([]) == (
-            "name\tremark\tvariants\n"
+            "name\tdescription\tvariants\n"
             "beta\tsecond\tx,y\n"
             "alpha\tfirst\t\n"
         )
@@ -159,8 +159,8 @@ class TestPrintRows:
         out = _print(["-C"], stream=_Tty())
 
         assert out == (
-            "name   remark  variants\n"
-            "beta   second  x,y\n"
+            "name   description  variants\n"
+            "beta   second       x,y\n"
             "alpha  first\n"
         )
 
@@ -172,20 +172,20 @@ class TestPrintRows:
 
         assert records[0] == {
             "name": "beta",
-            "remark": "second",
+            "description": "second",
             "variants": ["x", "y"],
         }
 
     def test_columns_pick_and_order(_):
-        out = _print(["-c", "variants,remark"])
+        out = _print(["-c", "variants,description"])
 
-        assert out.splitlines()[0] == "name\tvariants\tremark"
+        assert out.splitlines()[0] == "name\tvariants\tdescription"
 
     def test_filter_applies(_):
         assert _print(["-r", "^b", "-N"]) == "beta\n"
 
     def test_empty_rows_still_print_heading(_):
-        assert _print([], rows=()) == "name\tremark\tvariants\n"
+        assert _print([], rows=()) == "name\tdescription\tvariants\n"
 
     def test_color_on_a_tty_uses_ansi(_):
         assert "\033[" in _print([], stream=_Tty())
@@ -509,7 +509,12 @@ class TestHeading:
     def test_rows_tty_table_has_banner_with_count(_):
         stream = _Tty()
         print_rows(
-            _parse([]), "name", ["remark"], _ROWS, stream, heading="things"
+            _parse([]),
+            "name",
+            ["description"],
+            _ROWS,
+            stream,
+            heading="things",
         )
         assert "  things (2)  " in stream.getvalue()
 
@@ -518,7 +523,7 @@ class TestHeading:
         print_rows(
             _parse(["-r", "^a"]),
             "name",
-            ["remark"],
+            ["description"],
             _ROWS,
             stream,
             heading="things",
@@ -530,7 +535,12 @@ class TestHeading:
     def test_rows_machine_formats_have_no_banner(_, argv):
         stream = _Tty()
         print_rows(
-            _parse(argv), "name", ["remark"], _ROWS, stream, heading="things"
+            _parse(argv),
+            "name",
+            ["description"],
+            _ROWS,
+            stream,
+            heading="things",
         )
 
         assert "things" not in stream.getvalue()
@@ -540,7 +550,7 @@ class TestHeading:
         print_rows(
             _parse(["-f", "table"]),
             "name",
-            ["remark"],
+            ["description"],
             _ROWS,
             stream,
             heading="things",

@@ -12,6 +12,7 @@ from kaye_engine import LOGGER_NAME
 from kaye_engine.cli.blueprint.aux_input import get_cmd_blueprint
 from kaye_engine.cli.blueprint.aux_output import (
     emit_str,
+    fmt_strip_trailing_space,
     pick_preview_fx,
     run_cmd_and_exit,
 )
@@ -76,7 +77,8 @@ def _preview_main(args):
 
     if is_human_view():
         print_banner(args, (loaded.display_name or "preview")[:70])
-    emit_str(preview_fx(loaded.blueprint, **preview_kwargs))
+    preview = preview_fx(loaded.blueprint, **preview_kwargs)
+    emit_str(fmt_strip_trailing_space(preview))
 
 
 # Public API  ##################################################################
