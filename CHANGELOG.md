@@ -61,6 +61,8 @@ manually add chat & coder, instead by data structure
 
 ### Fixed
 
+- `register_cli_main_parser` no longer crashes on a consumer distribution that is not installed: every command builds and `--version` reads `unknown (not installed)`
+- `docs/consumer-doc.md`: the Engine Only example passes `Path("my-corpus.md")` as the corpus source, setup step 4 names a `DynamicSubstitution`, and Running the CLI states that the consumer distribution must be installed
 - `build-github-release` logs the zip file name it writes, `NAME-claude-VERSION.zip`, instead of a name that never existed
 
 ### Security

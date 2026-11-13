@@ -9,15 +9,15 @@ Register in this order; later steps validate against earlier ones:
 1. Consumer: `register_consumer(display_name, canonical_name, version)`
 2. Glossaries: `register_abbr_glossary(...)`, see [abbreviations](abbrs-doc.md)
 3. Abbreviation data: `populate_abbr_data_with_json_file(path)`
-4. Substitutions: `register_dynamic_substitution(name, value)`, see [dynamic content](dynamic-content-doc.md)
+4. Substitutions: `register_dynamic_substitution(name, substitution)`, where `substitution` is a `DynamicSubstitution` such as `StringDynamicSubstitution("text")`, see [dynamic content](dynamic-content-doc.md)
 5. Corpus: `register_corpus_under_node(...)`, then `load_corpus_tree()`, see [corpus format](corpus-doc.md)
 6. Blueprints: `register_blueprint(...)`, then `set_entry_consumer(canonical_name)`, see [prompt](prompt-doc.md#prompt-blueprint) and the [exportable registry](exportable-registry-doc.md)
 
 ## Engine Only
 
-<!-- BUG example crashes: str source ending .md raises ValueError, needs Path; step 4 takes a DynamicSubstitution, not a plain value -->
-
 ```python
+from pathlib import Path
+
 from kaye_engine import (
     load_corpus_tree,
     register_blueprint,
@@ -33,7 +33,7 @@ from kaye_engine.prompt.blueprint import (
 
 def setup_my_consumer():
     register_consumer("My Consumer", "my-consumer", "0.1.0")
-    register_corpus_under_node((), "my-corpus.md")
+    register_corpus_under_node((), Path("my-corpus.md"))
     load_corpus_tree()
     register_blueprint(
         "my-rules",
@@ -92,6 +92,8 @@ override_exportable("commit-sense", bp, consumer="my-consumer")
 ```
 
 ## Running the CLI
+
+The consumer's distribution must be installed (`pip install .`, or `pip install -e .` while developing): `--version` reads its version from the installed metadata. An uninstalled package still builds every command, and `--version` reports `unknown (not installed)`.
 
 ```python
 from kaye_engine.cli.cli_main import register_cli_main_parser

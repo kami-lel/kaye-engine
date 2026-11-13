@@ -3,7 +3,7 @@ main parser for Kaye Python CLI
 """
 
 from argparse import ArgumentParser
-from importlib.metadata import version
+from importlib.metadata import PackageNotFoundError, version
 
 from kaye_engine import KAYE_ENGINE_DISPLAY_NAME, PACKAGE_NAME
 from kaye_engine.cli.blueprint.main_parser import register_cli_blueprint_parser
@@ -39,10 +39,28 @@ __all__ = ("register_cli_main_parser", "register_cli_subcommands")
 
 # constants  ###################################################################
 PROGRAM_NAME = "kaye-engine"
+UNINSTALLED_VERSION_TEXT = "unknown (not installed)"
 DESCRIPTION = (
     KAYE_ENGINE_DISPLAY_NAME
     + " CLI: compile a Markdown prompt corpus into agent skills"
 )
+
+
+# Helpers  #####################################################################
+def _get_version_text(package_name):
+    """
+    the ``--version`` text of ``package_name``, so an uninstalled
+    distribution still builds every command
+
+    :param package_name: distribution whose version is read
+    :type package_name: str
+    :return: its installed version, else ``unknown (not installed)``
+    :rtype: str
+    """
+    try:
+        return str(version(package_name))
+    except PackageNotFoundError:
+        return UNINSTALLED_VERSION_TEXT
 
 
 # Public API  ##################################################################
@@ -100,8 +118,7 @@ def register_cli_main_parser(
     parser.add_argument(
         "--version",
         action="version",
-        # FIXME uninstalled package_name: raw PackageNotFoundError, --help incl
-        version=str(version(package_name)),
+        version=_get_version_text(package_name),
     )
     parser.set_defaults(func=lambda _: parser.print_help())
     subparser = parser.add_subparsers(title="subcommands")
