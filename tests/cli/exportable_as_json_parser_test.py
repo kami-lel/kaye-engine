@@ -112,7 +112,7 @@ class TestExportableAsJsonMainFullExport:
     def test_json_alias_writes_same_output(self, _fake_registry, tmp_path):
         output_file = tmp_path / "out.json"
         parser = _build_exportable_as_json_parser()
-        args = parser.parse_args(["json", "-f", str(output_file)])
+        args = parser.parse_args(["json", "--output-file", str(output_file)])
         args.func(args)
 
         written = json.loads(output_file.read_text(encoding="utf-8"))
@@ -150,7 +150,7 @@ class TestExportableAsJsonMainDryRun:
         output_file = tmp_path / "out.json"
         parser = _build_exportable_as_json_parser()
         args = parser.parse_args(
-            ["export-json", "-f", str(output_file), "--dry-run"]
+            ["export-json", "--output-file", str(output_file), "--dry-run"]
         )
         try:
             args.func(args)
@@ -166,7 +166,7 @@ class TestExportableAsJsonMainExistingFile:
     def _run(output_file, *flags):
         parser = _build_exportable_as_json_parser()
         args = parser.parse_args(
-            ["export-json", "-f", str(output_file), *flags]
+            ["export-json", "--output-file", str(output_file), *flags]
         )
         args.func(args)
 

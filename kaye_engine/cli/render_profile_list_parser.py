@@ -4,6 +4,9 @@ render_profile_list_parser.py
 define ``register_render_profile_list_parser``
 """
 
+from kamilog import add_verbose_arguments
+
+from kaye_engine.cli.verbosity import apply_verbosity_arg
 from kaye_engine.cli.list_view import (
     FMT_TABLE,
     add_list_flags,
@@ -22,20 +25,31 @@ _HELP = "list all registered render profiles"
 _DESCRIPTION = _HELP + """
 
 prints each registered render profile in render_profile_registry, sorted
-alphabetically, as an aligned table: `profile`, `variants` and `sidecars`
-as counts, `remark`; `-c` picks columns from `remark`, `mode`,
-`sparseness`, `variants`, `sidecars`; `-l` prints one detail card per
+alphabetically, as an aligned table: `profile`, `variant_count` and
+`sidecar_count`, `description`; `-c` picks columns from `description`, `mode`,
+`sparseness`, `variant_count`, `variants`, `sidecar_count`, `sidecars` (the
+lists comma-joined, arrays in json); `-l` prints one detail card per
 profile with every list in full; `-r PATTERN` keeps matching names; `-f`
-picks table, tsv or json; `-N` prints names only. Piped output is tsv,
-with lists comma-joined"""
+picks table, tsv or json; `-N` prints names only. The columns and their
+meaning are the same in every format; only the default format follows the
+stream: table on a TTY, tsv piped"""
 
 # every column key `-c` accepts, in card order
-_ALL_COLUMNS = ("remark", "mode", "sparseness", "variants", "sidecars")
+_ALL_COLUMNS = (
+    "description",
+    "mode",
+    "sparseness",
+    "variant_count",
+    "variants",
+    "sidecar_count",
+    "sidecars",
+)
 
-# columns of the default table; remark last so its width never pushes others
-_DFT_COLUMNS = ("variants", "sidecars", "remark")
+# columns of the default table; description last so its width never
+# pushes the others
+_DFT_COLUMNS = ("variant_count", "sidecar_count", "description")
 
-# card fields in print order; remark is the card title, not a field
+# card fields in print order; description is the card title, not a field
 _CARD_COLUMNS = ("mode", "sparseness", "variants", "sidecars")
 
 
@@ -43,46 +57,56 @@ _CARD_COLUMNS = ("mode", "sparseness", "variants", "sidecars")
 def _build_cells(entry):
     """
     :return: ``entry``'s columns as raw values, keyed like
-            ``_ALL_COLUMNS``; ``variants`` and ``sidecars`` stay lists
+            ``_ALL_COLUMNS``; ``variants`` and ``sidecars`` stay lists,
+            sorted for display
     :rtype: dict
     """
     profile = entry.profile
     return {
-        "remark": entry.remark,
+        "description": entry.remark,
         "mode": profile.mode.name or str(profile.mode),
         "sparseness": profile.sparseness,
-        "variants": list(profile.variants or ()),
-        "sidecars": list(profile.conditional_sidecars),
+        "variant_count": len(profile.variants or ()),
+        "variants": sorted(profile.variants or ()),
+        "sidecar_count": len(profile.conditional_sidecars),
+        "sidecars": sorted(profile.conditional_sidecars),
     }
 
 
-def _build_list_field(label, names):
+def _build_list_field(label, names, count=None):
     """
+    :param count: the count to show when it is not ``len(names)``
+    :type count: int or None
     :return: a card field for a plain name list: its count, then the names
     :rtype: tuple
     """
+    count = len(names) if count is None else count
     if not names:
-        return (label, "(0)")
-    return (label, "({})".format(len(names)), names)
+        return (label, "({})".format(count))
+    return (label, "({})".format(count), names)
 
 
-def _build_sidecar_field(cells):
+def _build_sidecar_fields(cells):
     """
-    :return: the ``sidecars`` card field; sidecars that only echo a
-            variant as ``[variant]`` fold into one phrase, so the names
-            below it are the ones the variants do not imply
-    :rtype: tuple
+    :return: the card fields of the sidecars: ``sidecars`` with its count
+            and the names the variants do not imply; sidecars that only
+            echo a variant as ``[variant]`` fold into one ``echoed`` field
+    :rtype: list[tuple]
     """
     sidecars = cells["sidecars"]
     echoed = {"[{}]".format(name) for name in cells["variants"]}
     extra = [name for name in sidecars if name not in echoed]
-    if len(extra) == len(sidecars):
-        return _build_list_field("sidecars", sidecars)
-
-    summary = "({}): the variants in [ ]".format(len(sidecars))
-    if not extra:
-        return ("sidecars", summary)
-    return ("sidecars", summary + ", plus", extra)
+    fields = [_build_list_field("sidecars", extra, count=len(sidecars))]
+    if len(extra) < len(sidecars):
+        fields.append(
+            (
+                "echoed",
+                "({}): [variant] sidecars of the variants".format(
+                    len(sidecars) - len(extra)
+                ),
+            )
+        )
+    return fields
 
 
 def _build_card_fields(cells, keys):
@@ -93,15 +117,23 @@ def _build_card_fields(cells, keys):
     :rtype: list[tuple]
     """
     builders = {
-        "mode": lambda: ("mode", cells["mode"]),
-        "sparseness": lambda: ("sparseness", str(cells["sparseness"])),
-        "variants": lambda: _build_list_field("variants", cells["variants"]),
-        "sidecars": lambda: _build_sidecar_field(cells),
+        "mode": lambda: [("mode", cells["mode"])],
+        "sparseness": lambda: [("sparseness", str(cells["sparseness"]))],
+        "variants": lambda: [
+            _build_list_field("variants", cells["variants"])
+        ],
+        "sidecars": lambda: _build_sidecar_fields(cells),
     }
-    return [builders[key]() for key in _CARD_COLUMNS if key in keys]
+    return [
+        field
+        for key in _CARD_COLUMNS
+        if key in keys
+        for field in builders[key]()
+    ]
 
 
 def _list_render_profile_main(args):
+    apply_verbosity_arg(args)
     rows = [
         (name, _build_cells(render_profile_registry[name]))
         for name in sorted(render_profile_registry)
@@ -113,7 +145,7 @@ def _list_render_profile_main(args):
     if is_card_view:
         keys = set(select_columns(args, _ALL_COLUMNS))
         cards = (
-            (name, cells["remark"], _build_card_fields(cells, keys))
+            (name, cells["description"], _build_card_fields(cells, keys))
             for name, cells in filter_rows(args, rows)
         )
         print_cards(args, cards, heading="render profiles")
@@ -138,5 +170,6 @@ def register_render_profile_list_parser(cli_subparser):
     )
 
     add_list_flags(render_profile_list_parser, _ALL_COLUMNS)
+    add_verbose_arguments(render_profile_list_parser)
 
     render_profile_list_parser.set_defaults(func=_list_render_profile_main)

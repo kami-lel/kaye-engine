@@ -6,9 +6,12 @@ define ``register_list_parser``
 
 from argparse import RawDescriptionHelpFormatter
 
+from kamilog import add_verbose_arguments
+
 from kaye_engine.cli.blueprint.aux_output import run_cmd_and_exit
 from kaye_engine.cli.cli_setup_guard import check_corpus_setup_for_cli
-from kaye_engine.cli.list_view import print_names
+from kaye_engine.cli.list_view import add_name_list_flags, print_names
+from kaye_engine.cli.verbosity import apply_verbosity_arg
 from kaye_engine.prompt.blueprint import blueprint_registry
 
 # constants  ###################################################################
@@ -23,6 +26,7 @@ sorted alphabetically, one per line; on a TTY, under a colored banner"""
 
 
 def _list_main(args):  #########################################################
+    apply_verbosity_arg(args)
     check_corpus_setup_for_cli()
 
     print_names(args, "blueprints", sorted(blueprint_registry))
@@ -39,6 +43,9 @@ def register_list_parser(cli_subparser):  ######################################
         formatter_class=RawDescriptionHelpFormatter,
         aliases=["ls"],
     )
+
+    add_name_list_flags(list_parser)
+    add_verbose_arguments(list_parser)
 
     list_parser.set_defaults(
         func=lambda args: run_cmd_and_exit(_list_main, args)

@@ -218,8 +218,8 @@ profile; `affordance`/`variant`/`render-profile` are list-only.
 `affordance`, `variant` and `render-profile` share `cli/list_view.py` and
 one flag set, flags only: `-r/--regex` (repeatable name filter), `-c/--columns`,
 `-l/--long` (one card per row), `-N/--names-only`, `-f/--format
-table|tsv|json`, `-C/--no-color`; `variant` adds `-a/--affordance` and
-`-F/--flat`. A TTY gets an aligned table (`variant`: grouped under a bold
+table|tsv|json`, `-C/--no-color`; `variant` adds `--affordance` and
+`--flat`, long-form only. A TTY gets an aligned table (`variant`: grouped under a bold
 affordance header), a pipe gets tsv. Color goes only through kamilog's
 `AnsiRenderer` and is off under `-C`, `NO_COLOR`, a non-TTY, `-N`, tsv and
 json. An empty registry logs one `NOTE` through
@@ -227,16 +227,38 @@ json. An empty registry logs one `NOTE` through
 
 Informational output pairs color with a comment banner (a centered 80-column
 `CB5`) through `list_view`'s `print_banner`, `print_section`, `print_names`
-and `make_renderer`. The banner shows on a TTY only, so piped output and
-machine formats (tsv, json, `-N`) stay bare; `blueprint show`'s summary is the
-exception, keeping its banners when piped and coloring only on a TTY, while
-its single-field flags print raw. `bp ls`, `exportable ls`, `glossary ls`,
-`dynamic-substitution ls`, `dynamic-node ls` and `blueprint preview` take the
-same banner; commands that print prompt content do not.
+and `make_renderer`. The banner, `label (N)` counts included, shows on a TTY
+only; a piped run prints bare names, tsv, or json. `blueprint show` follows
+the same rule: a table on a TTY, `key<TAB>value` rows piped, one object with
+`-f json`, and `-F/--field` prints one field raw.
+
+Short letters are project-wide: each one means one long flag in every
+command. `claude user-system-prompt -c` (`--coder`) is the only clash, since
+`-c` means `--columns` in the list family. `tests/cli/flag_letter_test.py`
+enforces the rule over the whole parser tree:
+
+| letter | long flag | commands |
+|---|---|---|
+| `-C` | `--no-color` | every list family, `blueprint show`, `blueprint preview` |
+| `-N` | `--names-only` | every list family and name list |
+| `-f` | `--format` | every list family and name list, `blueprint show` |
+| `-r` | `--regex` | every list family and name list |
+| `-c` | `--columns` | list family; `claude user-system-prompt` uses `--coder` |
+| `-F` | `--field` | `blueprint show` |
+| `-D` | `--no-dependencies` | `blueprint render`, `blueprint preview` |
+| `-u` | `--surface` | every render command |
+| `-s` | `--sparseness` | every render command |
+| `-i` | `--conditional-sidecar` | every render command |
+
+Long-only, by collision or by choice: `--comment`/`--no-comment`, `--flat`
+and `--affordance` (`variant`), `--no-version` (`claude plugin`),
+`--output-file` (`export-json`), `--preview-line-count`,
+`--preview-line-width`, `--show-full-tree` (`blueprint preview`). `skill`
+keeps `-a` for `--all`.
 
 `blueprint preview` is the one asymmetric case inside the rendering set:
 it pulls only `build_comment_parent_parser()` out of the bundle (its
-own `-c`/`--comment`, `-C`/`--no-comment`), plus its own
+own long-form `--comment`/`--no-comment`), plus its own
 `-l/--preview-line-count`, `-w/--preview-line-width`,
 `-t/--show-full-tree` — no `--surface`/`--variant`/`--sparseness`,
 since it renders a preview tree, not a prompt.
@@ -245,7 +267,7 @@ since it renders a preview tree, not a prompt.
 `skill`) but
 is hand-duplicated per parser rather than pulled into its own builder,
 unlike the render-profile options. `-n` means `--dry-run` on every
-write command; `claude plugin` spells `--no-version` as `-N`.
+write command; `claude plugin` takes `--no-version` long-form only.
 
 `--dry-run` on the write commands comes from `cli/dry_run.py`: a shared
 `-n/--dry-run` parent parser, plus a run-wide switch (`enable_dry_run()`,

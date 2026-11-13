@@ -10,6 +10,7 @@ the CLI glue that turns ``BLUEPRINT`` (a name, or stdin) into a
 import sys
 from typing import NamedTuple
 
+from kaye_engine.cli.cli_error import fmt_unknown
 from kaye_engine.prompt.blueprint import (
     Blueprint,
     blueprint_registry,
@@ -59,7 +60,9 @@ def _get_name_entry(name):
     try:
         return blueprint_registry[name]
     except KeyError as err:
-        raise ValueError("unknown blueprint: {}".format(name)) from err
+        raise ValueError(
+            fmt_unknown("blueprint", name, blueprint_registry)
+        ) from err
 
 
 # Public API  ##################################################################

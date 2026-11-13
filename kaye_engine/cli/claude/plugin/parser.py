@@ -106,7 +106,6 @@ def register_plugin_parser(cli_subparser):  ####################################
     )
 
     plugin_parser.add_argument(
-        "-N",
         "--no-version",
         action="store_false",
         dest="includes_version",

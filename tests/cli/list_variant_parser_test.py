@@ -16,7 +16,7 @@ from kaye_engine import LOGGER_NAME
 from kaye_engine.cli import list_variant_parser
 from kaye_engine.prompt.affordance_registry import Variant
 
-_HEADING = "variant\taffordance\tremark"
+_HEADING = "variant\taffordance\tdescription"
 
 
 # auxiliaries  #################################################################
@@ -99,7 +99,7 @@ class TestRegisterListVariantParser:
         parser = _build_list_variant_parser()
 
         with pytest.raises(SystemExit):
-            parser.parse_args(["var", "-a", "["])
+            parser.parse_args(["var", "--affordance", "["])
 
 
 @pytest.mark.usefixtures("_fake_registry")
@@ -122,17 +122,17 @@ class TestListVariantMain:
 
         assert capsys.readouterr().out == (
             "a-aff (1)\n"
-            "  m-var   do m\n"
+            "  m-var  do m\n"
             "b-aff (2)\n"
-            "  a-var   do a\n"
+            "  a-var  do a\n"
             "  z-var\n"
         )
 
     def test_flat_prints_an_affordance_column(self, capsys):
-        _run(["var", "-f", "table", "-F"])
+        _run(["var", "-f", "table", "--flat"])
 
         assert capsys.readouterr().out == (
-            "VARIANT  AFFORDANCE  REMARK\n"
+            "variant  affordance  description\n"
             "m-var    a-aff       do m\n"
             "a-var    b-aff       do a\n"
             "z-var    b-aff\n"
@@ -141,20 +141,20 @@ class TestListVariantMain:
     def test_long_flag_for_flat(self, capsys):
         _run(["var", "-f", "table", "--flat"])
 
-        assert capsys.readouterr().out.startswith("VARIANT  AFFORDANCE")
+        assert capsys.readouterr().out.startswith("variant  affordance")
 
     def test_columns_imply_a_flat_table(self, capsys):
-        _run(["var", "-f", "table", "-c", "remark"])
+        _run(["var", "-f", "table", "-c", "description"])
 
         assert capsys.readouterr().out == (
-            "VARIANT  REMARK\nm-var    do m\na-var    do a\nz-var\n"
+            "variant  description\nm-var    do m\na-var    do a\nz-var\n"
         )
 
     def test_columns_pick_and_order_in_tsv(self, capsys):
-        _run(["var", "-c", "remark,affordance"])
+        _run(["var", "-c", "description,affordance"])
 
         assert capsys.readouterr().out.splitlines()[0] == (
-            "variant\tremark\taffordance"
+            "variant\tdescription\taffordance"
         )
 
     def test_unknown_column_is_rejected(self):
@@ -169,7 +169,7 @@ class TestListVariantMain:
         assert capsys.readouterr().out == "m-var\na-var\nz-var\n"
 
     def test_affordance_filter(self, capsys):
-        _run(["var", "-a", "^b-", "-N"])
+        _run(["var", "--affordance", "^b-", "-N"])
 
         assert capsys.readouterr().out == "a-var\nz-var\n"
 
@@ -184,24 +184,24 @@ class TestListVariantMain:
         assert capsys.readouterr().out == "m-var\na-var\n"
 
     def test_regex_and_affordance_filters_both_apply(self, capsys):
-        _run(["var", "-r", "^z", "-a", "^b-", "-N"])
+        _run(["var", "-r", "^z", "--affordance", "^b-", "-N"])
         both = capsys.readouterr().out
-        _run(["var", "-r", "^z", "-a", "^a-", "-N"])
+        _run(["var", "-r", "^z", "--affordance", "^a-", "-N"])
         disjoint = capsys.readouterr().out
 
         assert both == "z-var\n"
         assert disjoint == ""
 
     def test_grouped_table_filters_empty_groups_away(self, capsys):
-        _run(["var", "-f", "table", "-a", "^a-"])
+        _run(["var", "-f", "table", "--affordance", "^a-"])
 
-        assert capsys.readouterr().out == "a-aff (1)\n  m-var   do m\n"
+        assert capsys.readouterr().out == "a-aff (1)\n  m-var  do m\n"
 
     def test_json(self, capsys):
         _run(["var", "-f", "json", "-r", "^a-var$"])
 
         assert json.loads(capsys.readouterr().out) == [
-            {"variant": "a-var", "affordance": "b-aff", "remark": "do a"}
+            {"variant": "a-var", "affordance": "b-aff", "description": "do a"}
         ]
 
     def test_long_prints_a_card_with_sidecar_names(self, capsys):
@@ -254,7 +254,7 @@ class TestEmptyRegistry:
     def test_logs_one_note_and_no_error(self, caplog):
         with patch.object(list_variant_parser, "variant_registry", {}):
             with caplog.at_level(1, logger=LOGGER_NAME):
-                _run(["variant"])
+                _run(["variant", "-v"])
 
         assert len(caplog.records) == 1
         assert "no variants registered" in caplog.records[0].message

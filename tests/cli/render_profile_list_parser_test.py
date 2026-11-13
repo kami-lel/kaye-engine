@@ -19,7 +19,7 @@ from kaye_engine.prompt.blueprint.render_profile_registry import (
 )
 from tests.consumer_helper import isolated_render_profiles
 
-_HEADING = "profile\tvariants\tsidecars\tremark"
+_HEADING = "profile\tvariant_count\tsidecar_count\tdescription"
 
 
 # auxiliaries  #################################################################
@@ -69,7 +69,7 @@ class TestRegister:
 
     @pytest.mark.parametrize(
         "old_flag",
-        ["-i", "-I", "-m", "-s", "-v", "-R", "--info", "--no-info", "--remark"],
+        ["-i", "-I", "-m", "-s", "-R", "--info", "--no-info", "--remark"],
     )
     def test_rejects_old_flags(_, old_flag):
         with pytest.raises(SystemExit):
@@ -83,16 +83,22 @@ class TestRegister:
 @pytest.mark.usefixtures("profiles")
 class TestOutput:
 
-    def test_default_prints_heading_and_count_columns_piped_as_names(
-        _, capsys
-    ):
+    def test_default_prints_heading_and_count_columns(_, capsys):
         _run(["rp"])
 
         assert capsys.readouterr().out == (
             _HEADING + "\n"
-            "alpha\t\t\tfirst one\n"
-            "bare\t\t\t\n"
-            "zeta\tv1,v2\t[v1],avoid\tlast one\n"
+            "alpha\t0\t0\tfirst one\n"
+            "bare\t0\t0\t\n"
+            "zeta\t2\t2\tlast one\n"
+        )
+
+    def test_lists_are_opt_in_columns(_, capsys):
+        _run(["rp", "-c", "variants,sidecars", "-r", "zeta"])
+
+        assert capsys.readouterr().out == (
+            "profile\tvariants\tsidecars\n"
+            "zeta\tv1,v2\t[v1],avoid\n"
         )
 
     def test_names_only(_, capsys):
@@ -118,7 +124,7 @@ class TestOutput:
     @pytest.mark.parametrize(
         ("column", "zeta_cell"),
         [
-            ("remark", "last one"),
+            ("description", "last one"),
             ("mode", "NEGATIVE"),
             ("sparseness", "3"),
             ("variants", "v1,v2"),
@@ -141,15 +147,26 @@ class TestOutput:
 
         assert capsys.readouterr().out == "alpha\nbare\n"
 
-    def test_json_keeps_lists_whole(_, capsys):
+    def test_json_has_the_default_columns(_, capsys):
         _run(["rp", "-f", "json", "-r", "zeta"])
+
+        assert json.loads(capsys.readouterr().out) == [
+            {
+                "profile": "zeta",
+                "variant_count": 2,
+                "sidecar_count": 2,
+                "description": "last one",
+            }
+        ]
+
+    def test_json_keeps_lists_whole_on_request(_, capsys):
+        _run(["rp", "-f", "json", "-r", "zeta", "-c", "variants,sidecars"])
 
         assert json.loads(capsys.readouterr().out) == [
             {
                 "profile": "zeta",
                 "variants": ["v1", "v2"],
                 "sidecars": ["[v1]", "avoid"],
-                "remark": "last one",
             }
         ]
 
@@ -165,7 +182,7 @@ class TestOutput:
 @pytest.mark.usefixtures("profiles")
 class TestLong:
 
-    def test_card_folds_echoed_sidecars_into_one_phrase(_, capsys):
+    def test_card_folds_echoed_sidecars_into_one_field(_, capsys):
         _run(["rp", "-l", "-r", "zeta"])
 
         assert capsys.readouterr().out == (
@@ -173,9 +190,10 @@ class TestLong:
             "  mode        NEGATIVE\n"
             "  sparseness  3\n"
             "  variants    (2)\n"
-            "    v1   v2\n"
-            "  sidecars    (2): the variants in [ ], plus\n"
+            "    v1  v2\n"
+            "  sidecars    (2)\n"
             "    avoid\n"
+            "  echoed      (1): [variant] sidecars of the variants\n"
         )
 
     def test_empty_lists_print_zero_counts(_, capsys):
@@ -193,10 +211,10 @@ class TestLong:
         _run(["rp", "-l", "-r", "zeta", "-c", "variants"])
 
         assert capsys.readouterr().out == (
-            "zeta: last one\n  variants  (2)\n    v1   v2\n"
+            "zeta: last one\n  variants  (2)\n    v1  v2\n"
         )
 
-    def test_sidecars_all_echoed_print_the_phrase_alone(_, capsys):
+    def test_sidecars_all_echoed_print_the_echoed_field_alone(_, capsys):
         with isolated_render_profiles():
             register_render_profile(
                 "echo",
@@ -207,7 +225,9 @@ class TestLong:
             _run(["rp", "-l", "-c", "sidecars"])
 
         assert capsys.readouterr().out == (
-            "echo\n  sidecars  (1): the variants in [ ]\n"
+            "echo\n"
+            "  sidecars  (1)\n"
+            "  echoed    (1): [variant] sidecars of the variants\n"
         )
 
     def test_sidecars_none_echoed_list_every_name(_, capsys):
@@ -261,10 +281,10 @@ class TestBuiltIns:
         ]
 
     def test_remark_column_lists_the_built_in_remarks(_, capsys):
-        _run(["rp", "-c", "remark"])
+        _run(["rp", "-c", "description"])
 
         assert capsys.readouterr().out == (
-            "profile\tremark\n"
+            "profile\tdescription\n"
             "claude\tAnthropic Claude apps: chat, Cowork, Code, iOS\n"
             "claude-vsc\tAnthropic Claude Code extension for Microsoft"
             " Visual Studio Code\n"
@@ -286,3 +306,24 @@ class TestBuiltIns:
         out = capsys.readouterr().out
 
         assert out.count("  sparseness  ") == 5
+
+
+class TestDescriptionColumn:
+
+    def test_remark_column_is_gone(_):
+        with pytest.raises(SystemExit):
+            _build_parser().parse_args(["rp", "-c", "remark"])
+
+    def test_lists_print_sorted(_, capsys):
+        with isolated_render_profiles():
+            register_render_profile(
+                "unsorted",
+                RenderProfile(
+                    variants=("b", "a"), conditional_sidecars=("z", "y")
+                ),
+            )
+            _run(["rp", "-c", "variants,sidecars"])
+
+        assert capsys.readouterr().out == (
+            "profile\tvariants\tsidecars\nunsorted\ta,b\ty,z\n"
+        )

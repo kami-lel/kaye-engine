@@ -4,6 +4,9 @@ list_affordance_parser.py
 define ``register_list_affordance_parser``
 """
 
+from kamilog import add_verbose_arguments
+
+from kaye_engine.cli.verbosity import apply_verbosity_arg
 from kaye_engine.cli.cli_setup_guard import note_empty_registry_for_cli
 from kaye_engine.cli.list_view import (
     FMT_TABLE,
@@ -24,22 +27,27 @@ _HELP = "list all registered affordances"
 _DESCRIPTION = _HELP + """
 
 prints each registered affordance in affordance_registry, sorted
-alphabetically, as an aligned table: `affordance`, `variants` as a count of
-the variants implementing it, `remark`; `-c` picks columns from `variants`
-and `remark`; `-l` prints one card per affordance with its variants and
-their remarks beneath; `-r PATTERN` keeps matching names; `-f` picks table,
-tsv or json; `-N` prints names only. Piped output is tsv, with variants
-comma-joined"""
+alphabetically, as an aligned table: `affordance`, `variant_count` of the
+variants implementing it, `description`; `-c` picks columns from
+`variant_count`, `variants` (the names, comma-joined, an array in json) and
+`description`; `-l` prints one card per affordance with its variants and
+their descriptions beneath; `-r PATTERN` keeps matching names; `-f` picks
+table, tsv or json; `-N` prints names only. The columns and their meaning
+are the same in every format; only the default format follows the stream:
+table on a TTY, tsv piped"""
 
 # every column key `-c` accepts, in print order
-_COLUMNS = ("variants", "remark")
+_COLUMNS = ("variant_count", "variants", "description")
+
+# columns of the default table
+_DFT_COLUMNS = ("variant_count", "description")
 
 
 # auxiliaries  #################################################################
 def _build_variant_ls(name):
     """
     :return: the variants implementing affordance ``name``, as
-            ``(variant name, remark)``, sorted by name
+            ``(variant name, description)``, sorted by name
     :rtype: list[tuple]
     """
     return sorted(
@@ -50,6 +58,7 @@ def _build_variant_ls(name):
 
 
 def _list_affordance_main(args):
+    apply_verbosity_arg(args)
     if not affordance_registry:
         note_empty_registry_for_cli("affordances")
 
@@ -60,8 +69,9 @@ def _list_affordance_main(args):
             (
                 name,
                 {
+                    "variant_count": len(variants),
                     "variants": [variant for variant, _ in variants],
-                    "remark": affordance_registry[name].remark,
+                    "description": affordance_registry[name].remark,
                     "_variants": variants,
                 },
             )
@@ -72,13 +82,13 @@ def _list_affordance_main(args):
     )
     if is_card_view:
         cards = (
-            (name, cells["remark"], cells["_variants"])
+            (name, cells["description"], cells["_variants"])
             for name, cells in filter_rows(args, rows)
         )
         print_cards(args, cards, heading="affordances")
         return
 
-    columns = select_columns(args, _COLUMNS)
+    columns = select_columns(args, _DFT_COLUMNS)
     print_rows(
         args, "affordance", columns, rows, heading="affordances"
     )
@@ -98,5 +108,6 @@ def register_list_affordance_parser(cli_subparser):
     )
 
     add_list_flags(list_affordance_parser, _COLUMNS)
+    add_verbose_arguments(list_affordance_parser)
 
     list_affordance_parser.set_defaults(func=_list_affordance_main)

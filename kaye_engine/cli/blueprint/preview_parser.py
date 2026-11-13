@@ -12,6 +12,7 @@ from kaye_engine import LOGGER_NAME
 from kaye_engine.cli.blueprint.aux_input import get_cmd_blueprint
 from kaye_engine.cli.blueprint.aux_output import (
     emit_str,
+    fmt_strip_trailing_space,
     pick_preview_fx,
     run_cmd_and_exit,
 )
@@ -48,7 +49,8 @@ reading blueprint from stdin, a preview tree or JSON:
     kaye-engine blueprint preview < my-blueprint.json
     cat my-tree.txt | kaye-engine blueprint preview
 
-preview tree's depth, line count, and line width can be tuned with: -t, -l, -w
+preview tree's depth, line count, and line width can be tuned with: --show-full-tree,
+--preview-line-count, --preview-line-width
 """
 
 
@@ -75,7 +77,8 @@ def _preview_main(args):
 
     if is_human_view():
         print_banner(args, (loaded.display_name or "preview")[:70])
-    emit_str(preview_fx(loaded.blueprint, **preview_kwargs))
+    preview = preview_fx(loaded.blueprint, **preview_kwargs)
+    emit_str(fmt_strip_trailing_space(preview))
 
 
 # Public API  ##################################################################
@@ -98,7 +101,6 @@ def register_preview_parser(cli_subparser):
 
     # add arguments  -----------------------------------------------------------
     preview_parser.add_argument(
-        "-l",
         "--preview-line-count",
         metavar="LINE_COUNT",
         type=int,
@@ -107,7 +109,6 @@ def register_preview_parser(cli_subparser):
         default=None,
     )
     preview_parser.add_argument(
-        "-w",
         "--preview-line-width",
         metavar="LINE_WIDTH",
         type=int,
@@ -116,10 +117,16 @@ def register_preview_parser(cli_subparser):
         default=None,
     )
     preview_parser.add_argument(
-        "-t",
         "--show-full-tree",
         action="store_true",
         help="display the entire preview tree",
+    )
+
+    preview_parser.add_argument(
+        "-C",
+        "--no-color",
+        action="store_true",
+        help="plain banner; NO_COLOR does the same",
     )
 
     add_verbose_arguments(preview_parser)

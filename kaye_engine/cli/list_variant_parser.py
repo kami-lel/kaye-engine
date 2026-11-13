@@ -7,6 +7,9 @@ define ``register_list_variant_parser``
 import sys
 from itertools import groupby
 
+from kamilog import add_verbose_arguments
+
+from kaye_engine.cli.verbosity import apply_verbosity_arg
 from kaye_engine.cli.cli_setup_guard import note_empty_registry_for_cli
 from kaye_engine.cli.list_view import (
     FMT_JSON,
@@ -29,15 +32,17 @@ _HELP = "list all registered variants, grouped by affordance"
 _DESCRIPTION = _HELP + """
 
 prints each registered variant in variant_registry under a bold header per
-affordance, sorted by affordance, then by variant name; `-F` prints one flat
-table instead, with `affordance` and `remark` columns; `-c` picks columns
-from `affordance` and `remark`, and implies a flat table; `-a PATTERN` keeps
-variants of matching affordances; `-l` prints one card per variant; `-r
-PATTERN` keeps matching variant names; `-f` picks table, tsv or json; `-N`
-prints names only. Piped output is a flat tsv"""
+affordance, sorted by affordance, then by variant name; `--flat` prints one
+flat table instead, with `affordance` and `description` columns; `-c` picks
+columns from `affordance` and `description`, and implies a flat table;
+`--affordance PATTERN` keeps variants of matching affordances; `-l` prints
+one card per variant; `-r PATTERN` keeps matching variant names; `-f` picks
+table, tsv or json; `-N` prints names only. The default format follows the
+stream, table on a TTY, tsv piped, and the view follows the format: grouped
+in a table, flat in tsv and json, so `-f table` piped is grouped too"""
 
 # every column key `-c` accepts, in print order
-_COLUMNS = ("affordance", "remark")
+_COLUMNS = ("affordance", "description")
 
 _VIEW_FLAT = "flat"
 _VIEW_CARD = "card"
@@ -60,7 +65,7 @@ def _build_rows(args):
             entry.canonical_name,
             {
                 "affordance": entry.affordance_name,
-                "remark": entry.remark,
+                "description": entry.remark,
                 "_entry": entry,
             },
         )
@@ -94,13 +99,13 @@ def _pick_view(args):
 
 def _build_card(name, cells):
     """
-    :return: ``(title, remark, fields)`` of one variant's card
+    :return: ``(title, description, fields)`` of one variant's card
     :rtype: tuple
     """
     entry = cells["_entry"]
     return (
         name,
-        cells["remark"],
+        cells["description"],
         [
             ("affordance", entry.affordance_name),
             ("usage sidecar", entry.usage_sidecar_name),
@@ -110,6 +115,7 @@ def _build_card(name, cells):
 
 
 def _list_variant_main(args):
+    apply_verbosity_arg(args)
     if not variant_registry:
         note_empty_registry_for_cli("variants")
 
@@ -124,7 +130,7 @@ def _list_variant_main(args):
         )
     elif view == _VIEW_GROUP:
         groups = (
-            (aff, [(name, cells["remark"]) for name, cells in members])
+            (aff, [(name, cells["description"]) for name, cells in members])
             for aff, members in groupby(
                 rows, key=lambda row: row[1]["affordance"]
             )
@@ -148,8 +154,8 @@ def register_list_variant_parser(cli_subparser):
     )
 
     add_list_flags(list_variant_parser, _COLUMNS)
+    add_verbose_arguments(list_variant_parser)
     list_variant_parser.add_argument(
-        "-a",
         "--affordance",
         action="append",
         default=[],
@@ -159,7 +165,6 @@ def register_list_variant_parser(cli_subparser):
         "repeat to match any of several",
     )
     list_variant_parser.add_argument(
-        "-F",
         "--flat",
         action="store_true",
         help="one flat table with an affordance column, no grouping",

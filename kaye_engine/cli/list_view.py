@@ -1,7 +1,8 @@
 """
 list_view.py
 
-define ``add_list_flags``, ``filter_rows``, ``select_columns``,
+define ``add_list_flags``, ``add_name_list_flags``, ``track_given_flags``,
+``reject_given_flags``, ``filter_rows``, ``select_columns``,
 ``print_rows``, ``print_cards``, ``print_groups``, ``print_banner``,
 ``print_section``, ``print_names``, ``is_human_view``, ``make_renderer``,
 ``parse_regex`` and ``resolve_format`` -- the shared
@@ -18,13 +19,19 @@ import shutil
 import sys
 from argparse import ArgumentTypeError
 
+import kamilog
 from kamilog import AnsiRenderer, AnsiStyle, gen_comment_banner_centered
 
+from kaye_engine import LOGGER_NAME
+
 __all__ = (
+    "NAME_LIST_DESTS",
     "FMT_JSON",
     "FMT_TABLE",
     "FMT_TSV",
+    "add_format_flag",
     "add_list_flags",
+    "add_name_list_flags",
     "filter_rows",
     "is_human_view",
     "make_renderer",
@@ -35,11 +42,19 @@ __all__ = (
     "print_names",
     "print_rows",
     "print_section",
+    "reject_given_flags",
     "resolve_format",
     "select_columns",
+    "track_given_flags",
 )
 
+logger = kamilog.getLogger(LOGGER_NAME)
+
 # constants  ###################################################################
+# dests of the flags a name list takes, v.i. ``add_name_list_flags``
+NAME_LIST_DESTS = ("regex", "names_only", "format", "no_color")
+_GIVEN_ATTR = "given_flags"
+
 FMT_TABLE = "table"
 FMT_TSV = "tsv"
 FMT_JSON = "json"
@@ -47,7 +62,6 @@ _FORMATS = (FMT_TABLE, FMT_TSV, FMT_JSON)
 
 _COL_GAP = "  "
 _INDENT = "  "
-_NAME_GAP = "   "
 _DFT_WIDTH = 80
 _BANNER_PADDING = 5  # CB5: the lowest, freely usable banner rank
 
@@ -117,9 +131,30 @@ def resolve_format(args, stream):
     :return: ``-f`` when given; otherwise table on a TTY, tsv off one
     :rtype: str
     """
-    if args.format:
-        return args.format
+    fmt = getattr(args, "format", None)
+    if fmt:
+        return fmt
     return FMT_TABLE if stream.isatty() else FMT_TSV
+
+
+def _warn_if_no_match(args, count, noun):
+    """
+    log one warning naming the ``-r`` patterns when they kept nothing, so
+    an empty result is never silent
+
+
+    :param count: how many rows the patterns kept
+    :type count: int
+    :param noun: plural noun of what was listed
+    :type noun: str
+    """
+    patterns = getattr(args, "regex", None)
+    if patterns and not count:
+        logger.warning(
+            "no %s match %s",
+            noun,
+            " or ".join(pat.pattern for pat in patterns),
+        )
 
 
 def _build_renderer(args, stream, fmt):
@@ -133,12 +168,12 @@ def _build_renderer(args, stream, fmt):
 
 def _format_cell(val, fmt):
     """
-    :return: ``val`` as cell text; a list is its count in a table, comma-joined
-            elsewhere
+    :return: ``val`` as cell text; a list is comma-joined, whatever the
+            format, so a column reads the same in table and tsv
     :rtype: str
     """
     if isinstance(val, (list, tuple)):
-        return str(len(val)) if fmt == FMT_TABLE else ",".join(val)
+        return ",".join(val)
     return str(val)
 
 
@@ -171,7 +206,7 @@ def _print_json(stream, name_heading, columns, rows):
 
 
 def _print_table(stream, renderer, name_heading, columns, rows):
-    heads = [name_heading.upper(), *(key.upper() for key in columns)]
+    heads = [name_heading, *columns]
     body = [
         [name, *(_format_cell(cells[key], FMT_TABLE) for key in columns)]
         for name, cells in rows
@@ -215,7 +250,7 @@ def _print_heading(args, stream, heading, count):
     and ``stream`` is a TTY; nothing otherwise, so piped output is unchanged
     """
     if heading and is_human_view(stream):
-        print_banner(args, "{}: {}".format(heading, count), stream)
+        print_banner(args, "{} ({})".format(heading, count), stream)
 
 
 def _layout_names(names, width, indent):
@@ -226,7 +261,7 @@ def _layout_names(names, width, indent):
     if not names:
         return []
 
-    col_width = max(len(name) for name in names) + len(_NAME_GAP)
+    col_width = max(len(name) for name in names) + len(_COL_GAP)
     n_cols = max(1, (width - indent) // col_width)
     lines = []
     for start in range(0, len(names), n_cols):
@@ -234,6 +269,54 @@ def _layout_names(names, width, indent):
         line = "".join(name.ljust(col_width) for name in chunk).rstrip()
         lines.append(" " * indent + line)
     return lines
+
+
+# auxiliaries  #################################################################
+def _add_regex_flag(parser):
+    parser.add_argument(
+        "-r",
+        "--regex",
+        action="append",
+        default=[],
+        type=parse_regex,
+        metavar="PATTERN",
+        help="only names matching PATTERN (regex search); repeat to match "
+        "any of several",
+    )
+
+
+def _add_names_only_flag(parser):
+    parser.add_argument(
+        "-N",
+        "--names-only",
+        action="store_true",
+        help="names only, one per line, no heading",
+    )
+
+
+def add_format_flag(parser):
+    """
+    add ``-f/--format`` to ``parser``
+
+
+    :param parser: the command's parser
+    :type parser: argparse.ArgumentParser
+    """
+    parser.add_argument(
+        "-f",
+        "--format",
+        choices=_FORMATS,
+        help="table (default on a TTY), tsv (default when piped) or json",
+    )
+
+
+def _add_no_color_flag(parser):
+    parser.add_argument(
+        "-C",
+        "--no-color",
+        action="store_true",
+        help="plain output; NO_COLOR does the same",
+    )
 
 
 # Public API  ##################################################################
@@ -250,16 +333,7 @@ def add_list_flags(parser, columns):
             excluded
     :type columns: tuple[str]
     """
-    parser.add_argument(
-        "-r",
-        "--regex",
-        action="append",
-        default=[],
-        type=parse_regex,
-        metavar="PATTERN",
-        help="only names matching PATTERN (regex search); repeat to match "
-        "any of several",
-    )
+    _add_regex_flag(parser)
     parser.add_argument(
         "-c",
         "--columns",
@@ -274,24 +348,79 @@ def add_list_flags(parser, columns):
         action="store_true",
         help="detail view: one card per row, long lists in full",
     )
-    parser.add_argument(
-        "-N",
-        "--names-only",
-        action="store_true",
-        help="names only, one per line, no heading",
-    )
-    parser.add_argument(
-        "-f",
-        "--format",
-        choices=_FORMATS,
-        help="table (default on a TTY), tsv (default when piped) or json",
-    )
-    parser.add_argument(
-        "-C",
-        "--no-color",
-        action="store_true",
-        help="plain output; NO_COLOR does the same",
-    )
+    _add_names_only_flag(parser)
+    add_format_flag(parser)
+    _add_no_color_flag(parser)
+
+
+def add_name_list_flags(parser):
+    """
+    add the flags of a plain name list to ``parser``: ``-r/--regex``,
+    ``-N/--names-only``, ``-f/--format`` and ``-C/--no-color``, the
+    ``add_list_flags`` subset that needs no columns or cards
+
+
+    :param parser: the name-listing command's parser
+    :type parser: argparse.ArgumentParser
+    """
+    _add_regex_flag(parser)
+    _add_names_only_flag(parser)
+    add_format_flag(parser)
+    _add_no_color_flag(parser)
+
+
+def track_given_flags(parser, dests):
+    """
+    make ``parser`` remember which flags of ``dests`` the user typed, so
+    ``reject_given_flags`` can tell a flag given from its default
+
+    call it after every argument is added
+
+
+    :param parser: the command's parser
+    :type parser: argparse.ArgumentParser
+    :param dests: dests of the flags to remember
+    :type dests: collections.abc.Iterable[str]
+    """
+    dests = frozenset(dests)
+    for action in parser._actions:  # pylint: disable=protected-access
+        if action.dest not in dests or not action.option_strings:
+            continue
+        action.__class__ = _build_tracking_class(type(action))
+
+
+def _build_tracking_class(action_cls):
+    class _Tracking(action_cls):
+        def __call__(self, parser, namespace, values, option_string=None):
+            given = getattr(namespace, _GIVEN_ATTR, None)
+            if given is None:
+                given = []
+                setattr(namespace, _GIVEN_ATTR, given)
+            given.append((self.dest, self.option_strings[-1]))
+            super().__call__(parser, namespace, values, option_string)
+
+    return _Tracking
+
+
+def reject_given_flags(args, dests, mode):
+    """
+    exit 1 naming the first flag of ``dests`` the user typed, when the
+    command runs in a mode that ignores it
+
+
+    :param args: parsed arguments of a parser ``track_given_flags`` ran on
+    :type args: argparse.Namespace
+    :param dests: dests of the flags the current mode ignores
+    :type dests: collections.abc.Iterable[str]
+    :param mode: the mode's name, e.g. ``"list mode"``
+    :type mode: str
+    :raises SystemExit: a flag of ``dests`` was given
+    """
+    dests = frozenset(dests)
+    for dest, flag in getattr(args, _GIVEN_ATTR, None) or ():
+        if dest in dests:
+            logger.error("%s does not apply in %s", flag, mode)
+            raise SystemExit(1)
 
 
 def filter_rows(args, rows):
@@ -341,7 +470,7 @@ def print_rows(
     :param columns: info column keys to print, in order
     :type columns: list[str]
     :param rows: each row is ``(name, {column key: value})``; a list value
-            prints as its count in a table, comma-joined in tsv, as is in json
+            prints comma-joined in a table and in tsv, as is in json
     :type rows: collections.abc.Iterable[tuple]
     :param stream: output stream; default ``sys.stdout``
     :type stream: IO or None
@@ -352,6 +481,7 @@ def print_rows(
     stream = stream or sys.stdout
     fmt = resolve_format(args, stream)
     rows = filter_rows(args, rows)
+    _warn_if_no_match(args, len(rows), heading or name_heading)
 
     if args.names_only:
         for name, _ in rows:
@@ -373,7 +503,7 @@ def print_cards(args, cards, stream=None, width=None, heading=None):
 
     :param args: parsed arguments that ran ``add_list_flags``
     :type args: argparse.Namespace
-    :param cards: each card is ``(title, remark, fields)``; a field is
+    :param cards: each card is ``(title, description, fields)``; a field is
             ``(label, text)`` or ``(label, summary, names)``, the names laid
             out in columns below the label line
     :type cards: collections.abc.Iterable[tuple]
@@ -389,12 +519,13 @@ def print_cards(args, cards, stream=None, width=None, heading=None):
     renderer = _build_renderer(args, stream, FMT_TABLE)
     width = _get_width(width)
     cards = list(cards)
+    _warn_if_no_match(args, len(cards), heading or "entries")
     _print_heading(args, stream, heading, len(cards))
 
-    for title, remark, fields in cards:
+    for title, description, fields in cards:
         head = renderer.color(title, _STYLE_NAME)
-        if remark:
-            head += renderer.color_grey(": " + remark)
+        if description:
+            head += renderer.color_grey(": " + description)
         print(head, file=stream)
 
         label_width = max((len(field[0]) for field in fields), default=0)
@@ -414,7 +545,8 @@ def print_groups(args, groups, stream=None, heading=None):
 
     :param args: parsed arguments that ran ``add_list_flags``
     :type args: argparse.Namespace
-    :param groups: each group is ``(header, rows)``, a row ``(name, remark)``
+    :param groups: each group is ``(header, rows)``, a row ``(name,
+            description)``
     :type groups: collections.abc.Iterable[tuple]
     :param stream: output stream; default ``sys.stdout``
     :type stream: IO or None
@@ -425,6 +557,9 @@ def print_groups(args, groups, stream=None, heading=None):
     stream = stream or sys.stdout
     renderer = _build_renderer(args, stream, FMT_TABLE)
     groups = list(groups)
+    _warn_if_no_match(
+        args, sum(len(rows) for _, rows in groups), heading or "entries"
+    )
     _print_heading(
         args, stream, heading, sum(len(rows) for _, rows in groups)
     )
@@ -435,10 +570,10 @@ def print_groups(args, groups, stream=None, heading=None):
     for header, rows in groups:
         title = "{} ({})".format(header, len(rows))
         print(renderer.color(title, _STYLE_GROUP), file=stream)
-        for name, remark in rows:
+        for name, description in rows:
             line = renderer.color(name.ljust(name_width), _STYLE_NAME)
-            if remark:
-                line += _NAME_GAP + renderer.color_grey(remark)
+            if description:
+                line += _COL_GAP + renderer.color_grey(description)
             print(_INDENT + line.rstrip(), file=stream)
 
 
@@ -521,13 +656,17 @@ def print_section(args, heading, lines, stream=None, is_names=False):
 
 def print_names(args, heading, names, stream=None):
     """
-    print ``names`` one per line: under a banner, in the name color, on a
-    TTY; bare when piped, so scripts keep reading one name per line
+    print ``names`` in the chosen format, after the ``-r`` filter: a table
+    is one name per line, in the name color, under a banner; tsv, the
+    default when piped, is the bare names, so scripts keep reading one
+    name per line; json is an array; ``-N`` always prints bare names
 
 
-    :param args: parsed arguments; ``-C`` and ``NO_COLOR`` switch color off
+    :param args: parsed arguments; ``-r``, ``-N``, ``-f``, ``-C`` and
+            ``NO_COLOR`` apply when the command took
+            ``add_name_list_flags``
     :type args: argparse.Namespace
-    :param heading: banner text, shown on a TTY only
+    :param heading: banner text, shown with the count above a table
     :type heading: str
     :param names: the names, printed in the order given
     :type names: collections.abc.Iterable[str]
@@ -535,16 +674,25 @@ def print_names(args, heading, names, stream=None):
     :type stream: IO or None
     """
     stream = stream or sys.stdout
-    names = list(names)
-    if not is_human_view(stream):
+    names = [
+        name
+        for name in names
+        if not getattr(args, "regex", None)
+        or any(pat.search(name) for pat in args.regex)
+    ]
+    _warn_if_no_match(args, len(names), heading)
+    fmt = resolve_format(args, stream)
+
+    if fmt == FMT_JSON and not getattr(args, "names_only", False):
+        print(json.dumps(names, indent=2, ensure_ascii=False), file=stream)
+    elif fmt == FMT_TABLE and not getattr(args, "names_only", False):
+        print_section(
+            args,
+            "{} ({})".format(heading, len(names)),
+            names,
+            stream,
+            is_names=True,
+        )
+    else:
         for name in names:
             print(name, file=stream)
-        return
-
-    print_section(
-        args,
-        "{}: {}".format(heading, len(names)),
-        names,
-        stream,
-        is_names=True,
-    )

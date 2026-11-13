@@ -289,3 +289,31 @@ class TestSparsenessFlag:  #####################################################
         )
 
         assert args.sparseness is None
+
+
+class TestModeGuard:
+
+    @pytest.mark.parametrize(
+        "flag", [["-t", "3"], ["-s", "1"], ["--variant", "x"]]
+    )
+    def test_list_mode_rejects_render_flags(self, flag):
+        args = _build_dn_parser().parse_args(["dn", *flag])
+
+        with pytest.raises(SystemExit) as info:
+            dynamic_node_parser._dynamic_node_main(args)
+
+        assert info.value.code == 1
+
+    def test_entry_mode_rejects_list_flags(self):
+        args = _build_dn_parser().parse_args(["dn", "today", "-N"])
+
+        with pytest.raises(SystemExit) as info:
+            dynamic_node_parser._dynamic_node_main(args)
+
+        assert info.value.code == 1
+
+    def test_list_mode_takes_regex(self, capsys):
+        args = _build_dn_parser().parse_args(["dn", "-r", "^today$"])
+        dynamic_node_parser._dynamic_node_main(args)
+
+        assert capsys.readouterr().out == "today\n"

@@ -21,8 +21,20 @@ from kaye_engine.prompt.blueprint.render_profile_registry import (
 )
 
 __all__ = (
+    "RENDER_FLAG_DESTS",
     "build_render_profile_parent_parser",
     "resolve_render_profile",
+)
+
+
+# dests of the 6 render options, for ``track_given_flags``
+RENDER_FLAG_DESTS = (
+    "surface",
+    "sparseness",
+    "show_comment",
+    "variant",
+    "conditional_sidecar",
+    "reverse_sibling_order",
 )
 
 
@@ -31,7 +43,6 @@ def build_render_profile_parent_parser(
     *,
     default_surface=(),
     default_sparseness=DEFAULT_SPARSENESS,
-    comment_short_flags=True,
 ):
     """
     build a fresh, help-suppressed ``ArgumentParser`` carrying all 6
@@ -46,10 +57,6 @@ def build_render_profile_parent_parser(
     :param default_sparseness: sparseness value used when
             ``--sparseness`` is omitted
     :type default_sparseness: int or None
-    :param comment_short_flags: whether ``--comment``/``--no-comment``
-            also register ``-c``/``-C``, v.s. ``build_comment_parent_
-            parser``
-    :type comment_short_flags: bool
     :return: the parent parser
     :rtype: ArgumentParser
     """
@@ -58,9 +65,7 @@ def build_render_profile_parent_parser(
         parents=[
             build_surface_parent_parser(default_surface),
             build_sparseness_parent_parser(default_sparseness),
-            build_comment_parent_parser(
-                short_flags=comment_short_flags, is_render_profile=True
-            ),
+            build_comment_parent_parser(is_render_profile=True),
         ],
     )
     parent.add_argument(

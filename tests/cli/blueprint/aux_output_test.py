@@ -9,6 +9,7 @@ Unit Tests (using pytest) for:
 """
 
 import io
+import json
 
 import kamilog
 import pytest
@@ -17,6 +18,7 @@ from kaye_engine.cli.blueprint.aux_output import (
     SHOW_FIELD_FXS,
     emit_str,
     fmt_ls,
+    fmt_strip_trailing_space,
     fmt_show_result,
     fmt_summary,
     pick_preview_fx,
@@ -43,7 +45,8 @@ from kaye_engine.prompt.blueprint import (
 
 
 def _field(label, value):
-    return kamilog.gen_comment_banner_centered(label, 5) + "\n" + value
+    body = "\n".join("  " + line for line in value.splitlines())
+    return kamilog.gen_comment_banner_centered(label, 5) + "\n" + body
 
 
 class TestPick:
@@ -83,6 +86,11 @@ class TestFormat:
     def test_ls_one_per_line(_):
         assert fmt_ls(["a", "b"]) == "a\nb"
 
+    def test_strip_trailing_space_per_line(_):
+        assert fmt_strip_trailing_space("a  \n  b \n\n  \nc") == (
+            "a\n  b\n\n\nc"
+        )
+
     def test_ls_empty(_):
         assert fmt_ls([]) == ""
 
@@ -91,8 +99,8 @@ class TestFormat:
 
         assert out == "\n".join(
             [
-                _field("nodes: 0", "").rstrip("\n"),
-                _field("subtrees: 0", "").rstrip("\n"),
+                _field("nodes (0)", "").rstrip("\n"),
+                _field("subtrees (0)", "").rstrip("\n"),
             ]
         )
 
@@ -115,21 +123,71 @@ class TestFormat:
             nodes=bp.nodes,
         )
 
-        assert out.startswith(_field("display name", "Name") + "\n")
+        assert out.startswith(_field("display-name", "Name") + "\n")
         assert _field("description", "d") in out
-        assert _field("when to use", "w") in out
-        assert _field("description node", "A # {description}") in out
-        assert _field("when to use node", "A # {when}") in out
-        assert _field("nodes: 1", "A") in out
+        assert _field("when-to-use", "w") in out
+        assert _field("description-node", "A # {description}") in out
+        assert _field("when-to-use-node", "A # {when}") in out
+        assert _field("nodes (1)", "A") in out
         assert out.endswith(_field("dependencies", "x\ny"))
+
+    def test_summary_tsv_rows_one_per_item(_):
+        bp = Blueprint(
+            meta=BlueprintMeta(display_name="Name", description_node=("A",)),
+            nodes=frozenset({("A",), ("A", "B")}),
+            dependencies=("x", "y"),
+        )
+
+        out = fmt_summary(
+            show_blueprint(bp),
+            description="line1\nline2",
+            nodes=bp.nodes,
+            fmt="tsv",
+        )
+
+        assert out.splitlines() == [
+            "display-name\tName",
+            "description\tline1\\nline2",
+            "description-node\tA",
+            "nodes\tA",
+            "nodes\tA # B",
+            "dependencies\tx",
+            "dependencies\ty",
+        ]
+
+    def test_summary_tsv_has_no_banner_or_indent(_):
+        out = fmt_summary(show_blueprint(Blueprint()), fmt="tsv")
+
+        assert out == ""
+
+    def test_summary_json_has_every_field(_):
+        bp = Blueprint(
+            meta=BlueprintMeta(display_name="Name"),
+            nodes=frozenset({("A",)}),
+        )
+
+        record = json.loads(
+            fmt_summary(show_blueprint(bp), nodes=bp.nodes, fmt="json")
+        )
+
+        assert record == {
+            "display-name": "Name",
+            "description": "",
+            "description-node": "",
+            "when-to-use": "",
+            "when-to-use-node": "",
+            "nodes": ["A"],
+            "subtrees": [],
+            "dependencies": [],
+        }
 
     def test_summary_banner_is_centered_cb5_of_80_chars(_):
         out = fmt_summary(show_blueprint(Blueprint()))
 
         banner = out.splitlines()[0]
         assert len(banner) == 80
-        assert "  nodes: 0  " in banner
-        assert set(banner.replace("  nodes: 0  ", "")) == {"-"}
+        assert "  nodes (0)  " in banner
+        assert set(banner.replace("  nodes (0)  ", "")) == {"-"}
 
     def test_show_result_by_type(_):
         summary = show_blueprint(Blueprint())
@@ -184,7 +242,7 @@ class TestColoredSummary:
     def test_banner_text_survives_color(_):
         out = _colored_summary(_renderer())
 
-        assert "  nodes: 2  " in out
+        assert "  nodes (2)  " in out
         assert "  dependencies  " in out
 
     def test_pick_show_fx_gives_renderer_to_summary_only(_):
@@ -225,7 +283,7 @@ class TestRunCmd:
         def handler(_args):
             raise ValueError("the reason")
 
-        with caplog.at_level("CRITICAL"):
+        with caplog.at_level("ERROR"):
             run_cmd(handler, None)
 
         assert "the reason" in caplog.text
