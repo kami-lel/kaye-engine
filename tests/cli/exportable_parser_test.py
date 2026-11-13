@@ -108,7 +108,7 @@ class TestExportableMainLs:
         args.func(args)
 
         out = tty.getvalue()
-        assert "  exportables: 2  " in out
+        assert "  exportables (2)  " in out
         assert "\033[96mother-exportable\033[0m" in out
 
     def test_lists_nothing_when_registry_empty(self, capsys):

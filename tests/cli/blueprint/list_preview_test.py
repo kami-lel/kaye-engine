@@ -42,7 +42,7 @@ class TestList:
         _exit, out = run(["list"], tty=True)
 
         first = out.splitlines()[0]
-        assert "  blueprints: {}  ".format(len(blueprint_registry)) in first
+        assert "  blueprints ({})  ".format(len(blueprint_registry)) in first
         assert "\033[96mtest-cli-base\033[0m" in out
 
     def test_tty_no_color_env_is_banner_and_plain_names(_, run, monkeypatch):

@@ -165,7 +165,7 @@ class TestOutput:
 @pytest.mark.usefixtures("profiles")
 class TestLong:
 
-    def test_card_folds_echoed_sidecars_into_one_phrase(_, capsys):
+    def test_card_folds_echoed_sidecars_into_one_field(_, capsys):
         _run(["rp", "-l", "-r", "zeta"])
 
         assert capsys.readouterr().out == (
@@ -173,9 +173,10 @@ class TestLong:
             "  mode        NEGATIVE\n"
             "  sparseness  3\n"
             "  variants    (2)\n"
-            "    v1   v2\n"
-            "  sidecars    (2): the variants in [ ], plus\n"
+            "    v1  v2\n"
+            "  sidecars    (2)\n"
             "    avoid\n"
+            "  echoed      (1): [variant] sidecars of the variants\n"
         )
 
     def test_empty_lists_print_zero_counts(_, capsys):
@@ -193,10 +194,10 @@ class TestLong:
         _run(["rp", "-l", "-r", "zeta", "-c", "variants"])
 
         assert capsys.readouterr().out == (
-            "zeta: last one\n  variants  (2)\n    v1   v2\n"
+            "zeta: last one\n  variants  (2)\n    v1  v2\n"
         )
 
-    def test_sidecars_all_echoed_print_the_phrase_alone(_, capsys):
+    def test_sidecars_all_echoed_print_the_echoed_field_alone(_, capsys):
         with isolated_render_profiles():
             register_render_profile(
                 "echo",
@@ -207,7 +208,9 @@ class TestLong:
             _run(["rp", "-l", "-c", "sidecars"])
 
         assert capsys.readouterr().out == (
-            "echo\n  sidecars  (1): the variants in [ ]\n"
+            "echo\n"
+            "  sidecars  (1)\n"
+            "  echoed    (1): [variant] sidecars of the variants\n"
         )
 
     def test_sidecars_none_echoed_list_every_name(_, capsys):

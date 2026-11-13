@@ -93,8 +93,8 @@ class TestFormat:
 
         assert out == "\n".join(
             [
-                _field("nodes: 0", "").rstrip("\n"),
-                _field("subtrees: 0", "").rstrip("\n"),
+                _field("nodes (0)", "").rstrip("\n"),
+                _field("subtrees (0)", "").rstrip("\n"),
             ]
         )
 
@@ -122,7 +122,7 @@ class TestFormat:
         assert _field("when to use", "w") in out
         assert _field("description node", "A # {description}") in out
         assert _field("when to use node", "A # {when}") in out
-        assert _field("nodes: 1", "A") in out
+        assert _field("nodes (1)", "A") in out
         assert out.endswith(_field("dependencies", "x\ny"))
 
     def test_summary_tsv_rows_one_per_item(_):
@@ -180,8 +180,8 @@ class TestFormat:
 
         banner = out.splitlines()[0]
         assert len(banner) == 80
-        assert "  nodes: 0  " in banner
-        assert set(banner.replace("  nodes: 0  ", "")) == {"-"}
+        assert "  nodes (0)  " in banner
+        assert set(banner.replace("  nodes (0)  ", "")) == {"-"}
 
     def test_show_result_by_type(_):
         summary = show_blueprint(Blueprint())
@@ -236,7 +236,7 @@ class TestColoredSummary:
     def test_banner_text_survives_color(_):
         out = _colored_summary(_renderer())
 
-        assert "  nodes: 2  " in out
+        assert "  nodes (2)  " in out
         assert "  dependencies  " in out
 
     def test_pick_show_fx_gives_renderer_to_summary_only(_):

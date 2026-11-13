@@ -37,6 +37,7 @@ manually add chat & coder, instead by data structure
 
 ### Changed
 
+- every informational count reads `label (N)`: list banners (`variants (133)`), `blueprint show` (`nodes (0)`), group headers, cards; the `render-profile -l` sidecar summary becomes `sidecars (N)` plus an `echoed` field; the grouped view and name columns use the 2-space gap of tables
 - `blueprint show` summary follows the list view rules: banners and indented values on a TTY (or `-f table`), `key<TAB>value` rows when piped (`-f tsv`), one object with `-f json`; `-F` stays raw
 - `glossary`, `exportable`, `dynamic-substitution` and `dynamic-node` exit 1 naming the flag when a render flag meets list mode (`ls`) or a list flag meets an entry
 - **breaking**: `blueprint show` field flags (`-a -d -D -w -W -n -t -g -p` and their long forms) become one `-F/--field FIELD`; `blueprint preview` keeps `--preview-line-count`, `--preview-line-width`, `--show-full-tree` long-form only

@@ -239,7 +239,7 @@ def _fmt_summary_table(fields, summary, renderer):
     for key, label, kind, value in fields:
         if kind == "names":
             if key in counts:
-                label = "{}: {}".format(label, counts[key])
+                label = "{} ({})".format(label, counts[key])
             elif not value:
                 continue
             lines.append(banner(label))

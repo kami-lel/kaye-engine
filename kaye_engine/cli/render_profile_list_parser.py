@@ -59,33 +59,40 @@ def _build_cells(entry):
     }
 
 
-def _build_list_field(label, names):
+def _build_list_field(label, names, count=None):
     """
+    :param count: the count to show when it is not ``len(names)``
+    :type count: int or None
     :return: a card field for a plain name list: its count, then the names
     :rtype: tuple
     """
+    count = len(names) if count is None else count
     if not names:
-        return (label, "(0)")
-    return (label, "({})".format(len(names)), names)
+        return (label, "({})".format(count))
+    return (label, "({})".format(count), names)
 
 
-def _build_sidecar_field(cells):
+def _build_sidecar_fields(cells):
     """
-    :return: the ``sidecars`` card field; sidecars that only echo a
-            variant as ``[variant]`` fold into one phrase, so the names
-            below it are the ones the variants do not imply
-    :rtype: tuple
+    :return: the card fields of the sidecars: ``sidecars`` with its count
+            and the names the variants do not imply; sidecars that only
+            echo a variant as ``[variant]`` fold into one ``echoed`` field
+    :rtype: list[tuple]
     """
     sidecars = cells["sidecars"]
     echoed = {"[{}]".format(name) for name in cells["variants"]}
     extra = [name for name in sidecars if name not in echoed]
-    if len(extra) == len(sidecars):
-        return _build_list_field("sidecars", sidecars)
-
-    summary = "({}): the variants in [ ]".format(len(sidecars))
-    if not extra:
-        return ("sidecars", summary)
-    return ("sidecars", summary + ", plus", extra)
+    fields = [_build_list_field("sidecars", extra, count=len(sidecars))]
+    if len(extra) < len(sidecars):
+        fields.append(
+            (
+                "echoed",
+                "({}): [variant] sidecars of the variants".format(
+                    len(sidecars) - len(extra)
+                ),
+            )
+        )
+    return fields
 
 
 def _build_card_fields(cells, keys):
@@ -96,12 +103,19 @@ def _build_card_fields(cells, keys):
     :rtype: list[tuple]
     """
     builders = {
-        "mode": lambda: ("mode", cells["mode"]),
-        "sparseness": lambda: ("sparseness", str(cells["sparseness"])),
-        "variants": lambda: _build_list_field("variants", cells["variants"]),
-        "sidecars": lambda: _build_sidecar_field(cells),
+        "mode": lambda: [("mode", cells["mode"])],
+        "sparseness": lambda: [("sparseness", str(cells["sparseness"]))],
+        "variants": lambda: [
+            _build_list_field("variants", cells["variants"])
+        ],
+        "sidecars": lambda: _build_sidecar_fields(cells),
     }
-    return [builders[key]() for key in _CARD_COLUMNS if key in keys]
+    return [
+        field
+        for key in _CARD_COLUMNS
+        if key in keys
+        for field in builders[key]()
+    ]
 
 
 def _list_render_profile_main(args):

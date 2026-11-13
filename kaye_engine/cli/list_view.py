@@ -62,7 +62,6 @@ _FORMATS = (FMT_TABLE, FMT_TSV, FMT_JSON)
 
 _COL_GAP = "  "
 _INDENT = "  "
-_NAME_GAP = "   "
 _DFT_WIDTH = 80
 _BANNER_PADDING = 5  # CB5: the lowest, freely usable banner rank
 
@@ -231,7 +230,7 @@ def _print_heading(args, stream, heading, count):
     and ``stream`` is a TTY; nothing otherwise, so piped output is unchanged
     """
     if heading and is_human_view(stream):
-        print_banner(args, "{}: {}".format(heading, count), stream)
+        print_banner(args, "{} ({})".format(heading, count), stream)
 
 
 def _layout_names(names, width, indent):
@@ -242,7 +241,7 @@ def _layout_names(names, width, indent):
     if not names:
         return []
 
-    col_width = max(len(name) for name in names) + len(_NAME_GAP)
+    col_width = max(len(name) for name in names) + len(_COL_GAP)
     n_cols = max(1, (width - indent) // col_width)
     lines = []
     for start in range(0, len(names), n_cols):
@@ -548,7 +547,7 @@ def print_groups(args, groups, stream=None, heading=None):
         for name, remark in rows:
             line = renderer.color(name.ljust(name_width), _STYLE_NAME)
             if remark:
-                line += _NAME_GAP + renderer.color_grey(remark)
+                line += _COL_GAP + renderer.color_grey(remark)
             print(_INDENT + line.rstrip(), file=stream)
 
 
@@ -662,7 +661,7 @@ def print_names(args, heading, names, stream=None):
     elif fmt == FMT_TABLE and not getattr(args, "names_only", False):
         print_section(
             args,
-            "{}: {}".format(heading, len(names)),
+            "{} ({})".format(heading, len(names)),
             names,
             stream,
             is_names=True,

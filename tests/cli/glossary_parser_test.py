@@ -90,7 +90,7 @@ class TestGlossaryMainLs:
         args.func(args)
 
         out = tty.getvalue()
-        assert "  glossaries: 2  " in out
+        assert "  glossaries (2)  " in out
         assert "\033[96mother-glossary\033[0m" in out
 
     def test_lists_nothing_when_registry_empty(self, capsys):

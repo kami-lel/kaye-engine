@@ -122,9 +122,9 @@ class TestListVariantMain:
 
         assert capsys.readouterr().out == (
             "a-aff (1)\n"
-            "  m-var   do m\n"
+            "  m-var  do m\n"
             "b-aff (2)\n"
-            "  a-var   do a\n"
+            "  a-var  do a\n"
             "  z-var\n"
         )
 
@@ -195,7 +195,7 @@ class TestListVariantMain:
     def test_grouped_table_filters_empty_groups_away(self, capsys):
         _run(["var", "-f", "table", "-a", "^a-"])
 
-        assert capsys.readouterr().out == "a-aff (1)\n  m-var   do m\n"
+        assert capsys.readouterr().out == "a-aff (1)\n  m-var  do m\n"
 
     def test_json(self, capsys):
         _run(["var", "-f", "json", "-r", "^a-var$"])

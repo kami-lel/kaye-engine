@@ -236,7 +236,7 @@ class TestPrintCards:
             "code: terminal\n"
             "  mode      NORMAL\n"
             "  variants  (4)\n"
-            "    aa   bb   cc   dd\n"
+            "    aa  bb  cc  dd\n"
         )
 
     def test_names_wrap_to_width(self):
@@ -244,8 +244,8 @@ class TestPrintCards:
         print_cards(_parse([]), self._cards(), stream=stream, width=14)
 
         assert stream.getvalue().splitlines()[3:] == [
-            "    aa   bb",
-            "    cc   dd",
+            "    aa  bb",
+            "    cc  dd",
         ]
 
     def test_no_remark_leaves_no_colon(self):
@@ -268,9 +268,9 @@ class TestPrintGroups:
 
         assert stream.getvalue() == (
             "agent (1)\n"
-            "  a-long-name   does a\n"
+            "  a-long-name  does a\n"
             "cli (2)\n"
-            "  b             does b\n"
+            "  b            does b\n"
             "  c\n"
         )
 
@@ -361,7 +361,7 @@ class TestPrintNames:
         print_names(_parse([]), "things", ["a", "b"], stream)
 
         out = stream.getvalue()
-        assert "  things: 2  " in out
+        assert "  things (2)  " in out
         assert "\033[96ma\033[0m" in out
 
     def test_tty_no_color_is_banner_and_plain_names(_):
@@ -369,7 +369,7 @@ class TestPrintNames:
         print_names(_parse(["-C"]), "things", ["a"], stream)
 
         lines = stream.getvalue().splitlines()
-        assert "  things: 1  " in lines[0]
+        assert "  things (1)  " in lines[0]
         assert lines[1:] == ["a"]
 
 
@@ -406,7 +406,7 @@ class TestPrintNamesFlags:
         print_names(_parse_names(["-f", "table"]), "things", ["a"], stream)
 
         lines = stream.getvalue().splitlines()
-        assert "  things: 1  " in lines[0]
+        assert "  things (1)  " in lines[0]
         assert lines[1:] == ["a"]
 
     def test_tsv_on_tty_is_bare(_):
@@ -485,7 +485,7 @@ class TestHeading:
         print_rows(
             _parse([]), "name", ["remark"], _ROWS, stream, heading="things"
         )
-        assert "  things: 2  " in stream.getvalue()
+        assert "  things (2)  " in stream.getvalue()
 
     def test_rows_filtered_count(_):
         stream = _Tty()
@@ -498,7 +498,7 @@ class TestHeading:
             heading="things",
         )
 
-        assert "  things: 1  " in stream.getvalue()
+        assert "  things (1)  " in stream.getvalue()
 
     @pytest.mark.parametrize("argv", [["-f", "tsv"], ["-f", "json"], ["-N"]])
     def test_rows_machine_formats_have_no_banner(_, argv):
@@ -526,7 +526,7 @@ class TestHeading:
         stream = _Tty()
         print_cards(_parse([]), _._cards(), stream, heading="cards")
 
-        assert "  cards: 2  " in stream.getvalue()
+        assert "  cards (2)  " in stream.getvalue()
 
     def test_cards_piped_has_no_banner(_):
         stream = io.StringIO()
@@ -538,7 +538,7 @@ class TestHeading:
         stream = _Tty()
         print_groups(_parse([]), _._groups(), stream, heading="groups")
 
-        assert "  groups: 3  " in stream.getvalue()
+        assert "  groups (3)  " in stream.getvalue()
 
     def test_groups_piped_has_no_banner(_):
         stream = io.StringIO()
