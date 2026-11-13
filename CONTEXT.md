@@ -236,7 +236,7 @@ same banner; commands that print prompt content do not.
 
 `blueprint preview` is the one asymmetric case inside the rendering set:
 it pulls only `build_comment_parent_parser()` out of the bundle (its
-own `-c`/`--comment`, `-C`/`--no-comment`), plus its own
+own long-form `--comment`/`--no-comment`), plus its own
 `-l/--preview-line-count`, `-w/--preview-line-width`,
 `-t/--show-full-tree` — no `--surface`/`--variant`/`--sparseness`,
 since it renders a preview tree, not a prompt.

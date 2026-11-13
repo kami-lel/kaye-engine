@@ -64,6 +64,21 @@ class TestPreview:
 
         assert "  Display Name  " in out.splitlines()[0]
 
+    def test_no_color_flag_keeps_banner_plain(_, run, monkeypatch):
+        monkeypatch.delenv("NO_COLOR", raising=False)
+
+        _exit, colored = run(["preview", "test-cli-base"], tty=True)
+        _exit, plain = run(["preview", "test-cli-base", "-C"], tty=True)
+
+        assert "\033[" in colored.splitlines()[0]
+        assert "\033[" not in plain.splitlines()[0]
+        assert "  Display Name  " in plain.splitlines()[0]
+
+    def test_no_comment_is_long_form_only(_, run):
+        _exit, out = run(["preview", "test-cli-base", "--no-comment"])
+
+        assert "<!--" not in out
+
     def test_piped_has_no_banner(_, run):
         _exit, out = run(["preview", "test-cli-base"])
 

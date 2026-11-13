@@ -2,7 +2,8 @@
 comment_parser.py
 
 define ``build_comment_parent_parser`` -- a shared argparse parent parser
-adding the ``--comment``/``--no-comment`` mutually-exclusive pair, reused
+adding the ``--comment``/``--no-comment`` mutually-exclusive pair, long
+form only (``-C`` belongs to ``--no-color``), reused
 as a `parents=[...]` entry by ``blueprint show`` directly and, composed
 via ``render_profile_parser.py``, by every rendering command
 """
@@ -13,9 +14,7 @@ __all__ = ("build_comment_parent_parser",)
 
 
 # Main Entry Point  ############################################################
-def build_comment_parent_parser(
-    *, short_flags=True, is_render_profile=False
-):
+def build_comment_parent_parser(*, is_render_profile=False):
     """
     build a fresh, help-suppressed ``ArgumentParser`` carrying the
     ``--comment``/``--no-comment`` mutually-exclusive pair -- a fresh
@@ -27,10 +26,6 @@ def build_comment_parent_parser(
     passed
 
 
-    :param short_flags: whether to also register ``-c``/``-C`` --
-            ``False`` for ``claude user-system-prompt``, which already
-            owns ``-c`` for ``--coder``
-    :type short_flags: bool
     :param is_render_profile: whether the flags belong to the render
             profile options, appending ``v.s.`` to their help
     :type is_render_profile: bool
@@ -40,19 +35,15 @@ def build_comment_parent_parser(
     parent = ArgumentParser(add_help=False)
     vs = ", v.s." if is_render_profile else ""
     group = parent.add_mutually_exclusive_group()
-    comment_flags = ["-c", "--comment"] if short_flags else ["--comment"]
-    no_comment_flags = (
-        ["-C", "--no-comment"] if short_flags else ["--no-comment"]
-    )
     group.add_argument(
-        *comment_flags,
+        "--comment",
         dest="show_comment",
         action="store_true",
         default=None,
         help="show comment nodes in the rendered output" + vs,
     )
     group.add_argument(
-        *no_comment_flags,
+        "--no-comment",
         dest="show_comment",
         action="store_false",
         default=None,

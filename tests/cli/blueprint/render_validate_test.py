@@ -23,7 +23,7 @@ class TestRender:
 
     @pytest.mark.parametrize("verb", ["render", "r"])
     def test_named_blueprint(_, run, verb):
-        exit_code, out = run([verb, "test-cli-base", "-C"])
+        exit_code, out = run([verb, "test-cli-base", "--no-comment"])
 
         assert exit_code == 0
         assert "Overview text." in out
@@ -31,14 +31,14 @@ class TestRender:
         assert "MIT." not in out
 
     def test_dependencies_included_by_default(_, run):
-        _exit, out = run(["render", "test-cli-top", "-C"])
+        _exit, out = run(["render", "test-cli-top", "--no-comment"])
 
         assert "Clone it." in out
         assert "MIT." in out
 
     @pytest.mark.parametrize("flag", ["-D", "--no-dependencies"])
     def test_no_dependencies_flag_renders_own_nodes(_, run, flag):
-        _exit, out = run(["render", "test-cli-top", "-C", flag])
+        _exit, out = run(["render", "test-cli-top", "--no-comment", flag])
 
         assert "MIT." in out
         assert "Clone it." not in out
@@ -49,12 +49,17 @@ class TestRender:
         assert "blueprint: Display Name" in out
 
     def test_no_comment_flag(_, run):
-        _exit, out = run(["render", "test-cli-base", "-C"])
+        _exit, out = run(["render", "test-cli-base", "--no-comment"])
 
         assert "<!--" not in out
 
+    @pytest.mark.parametrize("flag", ["-c", "-C"])
+    def test_comment_short_flags_are_gone(_, run, flag):
+        with pytest.raises(SystemExit):
+            run(["render", "test-cli-base", flag])
+
     def test_stdin_tree(_, run):
-        exit_code, out = run(["render", "-C"], stdin=TREE)
+        exit_code, out = run(["render", "--no-comment"], stdin=TREE)
 
         assert exit_code == 0
         assert "Clone it." in out
@@ -78,8 +83,8 @@ class TestRender:
             render_profile=RenderProfile(conditional_sidecars=("note",)),
         )
 
-        _exit, plain = run(["render", "test-cli-base", "-C"])
-        _exit, profiled = run(["render", "test-cli-profiled", "-C"])
+        _exit, plain = run(["render", "test-cli-base", "--no-comment"])
+        _exit, profiled = run(["render", "test-cli-profiled", "--no-comment"])
 
         assert "Noted text." not in plain
         assert "Noted text." in profiled
@@ -91,8 +96,8 @@ class TestRender:
             render_profile=RenderProfile(conditional_sidecars=("note",)),
         )
 
-        _exit, plain = run(["render", "test-cli-base", "-C", "-D"])
-        _exit, profiled = run(["render", "test-cli-profiled-nd", "-C", "-D"])
+        _exit, plain = run(["render", "test-cli-base", "--no-comment", "-D"])
+        _exit, profiled = run(["render", "test-cli-profiled-nd", "--no-comment", "-D"])
 
         assert "Noted text." not in plain
         assert "Noted text." in profiled

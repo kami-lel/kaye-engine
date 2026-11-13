@@ -122,6 +122,13 @@ def register_preview_parser(cli_subparser):
         help="display the entire preview tree",
     )
 
+    preview_parser.add_argument(
+        "-C",
+        "--no-color",
+        action="store_true",
+        help="plain banner; NO_COLOR does the same",
+    )
+
     add_verbose_arguments(preview_parser)
 
     preview_parser.set_defaults(

@@ -137,14 +137,14 @@ kaye-engine claude usp > ~/.claude/CLAUDE.md
 kaye-engine claude usp -c > ~/.claude/CLAUDE.md   # also append the Coder prompt
 ```
 
-Here `-c` means `--coder`, not `--comment`.
+Here `-c` means `--coder`; the comment toggle is long-form only (`--comment`/`--no-comment`).
 
 ## Render Flags
 
 Every subcommand except `user-system-prompt` takes the same render flags, explained in [render-profile-doc.md](render-profile-doc.md):
 
 - `-s`, `--sparseness`: blank-line policy
-- `-c`/`-C`, `--comment`/`--no-comment`: show or omit comment nodes
+- `--comment`/`--no-comment`: show or omit comment nodes
 - `--variant`, `-i`/`--conditional-sidecar`: extra variants and sidecars to include
 - `--reverse-order`: reverse sibling order
 - `-u`, `--surface`: render profile to target, see [Surfaces](#surfaces)

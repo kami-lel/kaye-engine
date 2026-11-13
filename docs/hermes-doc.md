@@ -9,7 +9,7 @@
 ```bash
 kaye-engine hermes FOLDER             # write to FOLDER
 kaye-engine m FOLDER -n               # report every write, change nothing
-kaye-engine hermes FOLDER -s 0 -C     # the shared render options apply
+kaye-engine hermes FOLDER -s 0 --no-comment  # the shared render options apply
 ```
 
 `FOLDER` is required; there is no default location.

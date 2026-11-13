@@ -31,7 +31,6 @@ def build_render_profile_parent_parser(
     *,
     default_surface=(),
     default_sparseness=DEFAULT_SPARSENESS,
-    comment_short_flags=True,
 ):
     """
     build a fresh, help-suppressed ``ArgumentParser`` carrying all 6
@@ -46,10 +45,6 @@ def build_render_profile_parent_parser(
     :param default_sparseness: sparseness value used when
             ``--sparseness`` is omitted
     :type default_sparseness: int or None
-    :param comment_short_flags: whether ``--comment``/``--no-comment``
-            also register ``-c``/``-C``, v.s. ``build_comment_parent_
-            parser``
-    :type comment_short_flags: bool
     :return: the parent parser
     :rtype: ArgumentParser
     """
@@ -58,9 +53,7 @@ def build_render_profile_parent_parser(
         parents=[
             build_surface_parent_parser(default_surface),
             build_sparseness_parent_parser(default_sparseness),
-            build_comment_parent_parser(
-                short_flags=comment_short_flags, is_render_profile=True
-            ),
+            build_comment_parent_parser(is_render_profile=True),
         ],
     )
     parent.add_argument(

@@ -29,13 +29,14 @@ manually add chat & coder, instead by data structure
 
 ### Added
 
-- `blueprint show -C/--no-color`
+- `blueprint show -C/--no-color`, `blueprint preview -C/--no-color`
 - `-v`/`-q`/`-V`/`-Q` on `affordance`, `variant`, `render-profile` and `blueprint list`
 - `docs/consumer-doc.md`: a concise starting point for creating a consumer on the engine or on `kaye-library`
 - `register_abbr_glossary` takes keyword-only `description` and `when_to_use`, written to the glossary skill's frontmatter
 
 ### Changed
 
+- **breaking**: `--comment`/`--no-comment` lose `-c`/`-C` on every rendering command and `blueprint preview`; `-C` now means `--no-color` everywhere
 - informational commands (`blueprint show`, `preview`, every `ls`, `affordance`, `variant`, `render-profile`) print a colored comment banner on a TTY; `blueprint show` summary is restyled; piped, tsv, json, `-N` output unchanged
 - the remark of each bundled Claude variant (`~`) lists its tools, e.g. `Claude:Agent~` names `Agent`, `ListAgents`, `SendMessage`
 - plugin and marketplace keywords come from the consumer's distribution `keywords`, else `prompt-engineering` and `agent`, plus the plugin name; the hard-coded `persona` keyword is gone

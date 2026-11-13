@@ -132,16 +132,16 @@ the latter returning a `RenderProfile` rather than a kwargs dict:
 | flag | short | effect |
 |---|---|---|
 | `--surface` | `-u` | Claude surface(s) to checkmark variants for; combinable |
-| `--comment`/`--no-comment` | `-c`/`-C` | show/omit the trailing generated-by comment |
+| `--comment`/`--no-comment` | none | show/omit the trailing generated-by comment |
 | `--conditional-sidecar` | `-i` | conditional-sidecar name(s), unioned with `--surface` |
 | `--variant` | none | variant name(s), unioned with `--surface` |
 | `--sparseness` | `-s` | blank-line policy, v.i. |
 | `--reverse-order` | none | reverse sibling order at every level of the tree walk |
 
-`claude user-system-prompt` already owns `-c` for `--coder`, so
-`--comment`/`--no-comment` are long-form only there. `blueprint preview`
-is not a rendering command but shares the `--comment`/`--no-comment`
-toggle. Merge semantics live in [CONTEXT.md](CONTEXT.md).
+`--comment`/`--no-comment` are long-form only everywhere: `-C` always
+means `--no-color`, and `claude user-system-prompt` owns `-c` for
+`--coder`. `blueprint preview` is not a rendering command but shares the
+`--comment`/`--no-comment` toggle. Merge semantics live in [CONTEXT.md](CONTEXT.md).
 
 `--sparseness` runs from `-1` (one line) through `0` (no blank lines) and
 `1` (single blank lines) up to `99` (no trimming); the default is
