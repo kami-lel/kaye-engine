@@ -4,6 +4,9 @@ render_profile_list_parser.py
 define ``register_render_profile_list_parser``
 """
 
+from kamilog import add_verbose_arguments
+
+from kaye_engine.cli.verbosity import apply_verbosity_arg
 from kaye_engine.cli.list_view import (
     FMT_TABLE,
     add_list_flags,
@@ -102,6 +105,7 @@ def _build_card_fields(cells, keys):
 
 
 def _list_render_profile_main(args):
+    apply_verbosity_arg(args)
     rows = [
         (name, _build_cells(render_profile_registry[name]))
         for name in sorted(render_profile_registry)
@@ -138,5 +142,6 @@ def register_render_profile_list_parser(cli_subparser):
     )
 
     add_list_flags(render_profile_list_parser, _ALL_COLUMNS)
+    add_verbose_arguments(render_profile_list_parser)
 
     render_profile_list_parser.set_defaults(func=_list_render_profile_main)

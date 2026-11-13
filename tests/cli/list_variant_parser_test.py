@@ -254,7 +254,7 @@ class TestEmptyRegistry:
     def test_logs_one_note_and_no_error(self, caplog):
         with patch.object(list_variant_parser, "variant_registry", {}):
             with caplog.at_level(1, logger=LOGGER_NAME):
-                _run(["variant"])
+                _run(["variant", "-v"])
 
         assert len(caplog.records) == 1
         assert "no variants registered" in caplog.records[0].message

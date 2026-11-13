@@ -106,7 +106,7 @@ class TestRegisterListAffordanceParser:
 class TestListAffordanceMain:
 
     def test_default_prints_heading_variants_and_remark(self, capsys):
-        _run(["affordance"])
+        _run(["affordance", "-v"])
 
         assert capsys.readouterr().out == (
             _HEADING + "\n"
@@ -197,14 +197,14 @@ class TestEmptyRegistry:
 
     def test_still_prints_heading(self, capsys):
         with patch.object(list_affordance_parser, "affordance_registry", {}):
-            _run(["affordance"])
+            _run(["affordance", "-v"])
 
         assert capsys.readouterr().out == _HEADING + "\n"
 
     def test_logs_one_note_and_no_error(self, caplog):
         with patch.object(list_affordance_parser, "affordance_registry", {}):
             with caplog.at_level(1, logger=LOGGER_NAME):
-                _run(["affordance"])
+                _run(["affordance", "-v"])
 
         assert len(caplog.records) == 1
         assert "no affordances registered" in caplog.records[0].message

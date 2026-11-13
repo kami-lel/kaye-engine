@@ -69,7 +69,7 @@ class TestRegister:
 
     @pytest.mark.parametrize(
         "old_flag",
-        ["-i", "-I", "-m", "-s", "-v", "-R", "--info", "--no-info", "--remark"],
+        ["-i", "-I", "-m", "-s", "-R", "--info", "--no-info", "--remark"],
     )
     def test_rejects_old_flags(_, old_flag):
         with pytest.raises(SystemExit):

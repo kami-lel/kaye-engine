@@ -4,6 +4,9 @@ list_affordance_parser.py
 define ``register_list_affordance_parser``
 """
 
+from kamilog import add_verbose_arguments
+
+from kaye_engine.cli.verbosity import apply_verbosity_arg
 from kaye_engine.cli.cli_setup_guard import note_empty_registry_for_cli
 from kaye_engine.cli.list_view import (
     FMT_TABLE,
@@ -50,6 +53,7 @@ def _build_variant_ls(name):
 
 
 def _list_affordance_main(args):
+    apply_verbosity_arg(args)
     if not affordance_registry:
         note_empty_registry_for_cli("affordances")
 
@@ -98,5 +102,6 @@ def register_list_affordance_parser(cli_subparser):
     )
 
     add_list_flags(list_affordance_parser, _COLUMNS)
+    add_verbose_arguments(list_affordance_parser)
 
     list_affordance_parser.set_defaults(func=_list_affordance_main)

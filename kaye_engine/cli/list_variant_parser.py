@@ -7,6 +7,9 @@ define ``register_list_variant_parser``
 import sys
 from itertools import groupby
 
+from kamilog import add_verbose_arguments
+
+from kaye_engine.cli.verbosity import apply_verbosity_arg
 from kaye_engine.cli.cli_setup_guard import note_empty_registry_for_cli
 from kaye_engine.cli.list_view import (
     FMT_JSON,
@@ -110,6 +113,7 @@ def _build_card(name, cells):
 
 
 def _list_variant_main(args):
+    apply_verbosity_arg(args)
     if not variant_registry:
         note_empty_registry_for_cli("variants")
 
@@ -148,6 +152,7 @@ def register_list_variant_parser(cli_subparser):
     )
 
     add_list_flags(list_variant_parser, _COLUMNS)
+    add_verbose_arguments(list_variant_parser)
     list_variant_parser.add_argument(
         "-a",
         "--affordance",

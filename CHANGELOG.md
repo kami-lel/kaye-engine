@@ -30,6 +30,7 @@ manually add chat & coder, instead by data structure
 ### Added
 
 - `blueprint show -C/--no-color`
+- `-v`/`-q`/`-V`/`-Q` on `affordance`, `variant`, `render-profile` and `blueprint list`
 - `docs/consumer-doc.md`: a concise starting point for creating a consumer on the engine or on `kaye-library`
 - `register_abbr_glossary` takes keyword-only `description` and `when_to_use`, written to the glossary skill's frontmatter
 
