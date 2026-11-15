@@ -148,8 +148,7 @@ the latter returning a `RenderProfile` rather than a kwargs dict:
 | `--sparseness` | `-s` | blank-line policy, v.i. |
 | `--reverse-order` | none | reverse sibling order at every level of the tree walk |
 
-`--comment`/`--no-comment` are long-form only everywhere (`-C` is
-`--no-color`, `-c` is `--coder` on `claude user-system-prompt`).
+`--comment`/`--no-comment` are long-form only everywhere.
 `blueprint preview` shares the toggle but is not a rendering command. Merge
 semantics live in [CONTEXT.md](CONTEXT.md).
 
@@ -166,14 +165,14 @@ siblings under `kaye-engine`, so a single-logger call leaves the rest at the
 default. A new engine logger must be named `kaye-engine.<part>`; it then
 inherits the level with no further wiring.
 
-Every `claude` and `hermes` subcommand needs each consumer package to call
-`register_consumer(display_name, canonical_name, version)` and the
-console command's setup to call `set_entry_consumer(canonical_name)`
-first; `claude` also needs `setup_claude_cli(...)` and `hermes` needs
-`setup_hermes_cli(...)`, whose names are optional: a subcommand needing an
-unset one exits 1 with a clear message. On a bare checkout the
-getters log `logger.critical` and raise `SystemExit(1)`: expected, not a
-bug. Getter list in [CONTEXT.md](CONTEXT.md).
+Every `claude`, `codex` and `hermes` subcommand needs each consumer
+package to call `register_consumer(display_name, canonical_name, version)`
+and the console command's setup to call `set_entry_consumer(canonical_name)`
+first, plus `setup_claude_cli(...)`, `setup_codex_cli(...)` or
+`setup_hermes_cli(...)` respectively, whose names are optional: a subcommand
+needing an unset one exits 1. On a bare checkout the getters log
+`logger.critical` and raise `SystemExit(1)`: expected, not a bug. Getter
+list in [CONTEXT.md](CONTEXT.md).
 
 ## Code Conventions
 

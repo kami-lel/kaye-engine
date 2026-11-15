@@ -13,7 +13,9 @@ Kaye Engine parses a plain Markdown file, as the structured single source of tru
 - 🧭 Continue export: write every exportable into a `~/.continue` folder as an always-apply/conditional rule or an invokable prompt
 - 🪽 Hermes export: write a Hermes home directory in one command: a root `SOUL.md`, one `SOUL.md` per profile, and every exportable as an Agent Skill, for the default profile and each named one
 - 🧩 Agent Skills export: write every exportable, or just the ones you name, as Agent Skill folders or `.zip`s
-- 📤 GitHub Release build: write every release asset with `build-github-release OUTPUT`: a plugin `.zip` per consumer plus one-click VS Code installers for Windows and Linux
+- 🤖 Codex export: write every exportable to OpenAI Codex as a plugin per consumer, a marketplace, Agent Skills in `~/.agents/skills`, or a global prompt for `~/.codex/AGENTS.md`
+- 📤 GitHub Release build: write every release asset with `build-github-release-assets OUTPUT`: a plugin `.zip` per consumer plus one-click VS Code installers for Windows and Linux
+- 🏪 GitHub Marketplace build: write one marketplace repo root with `build-github-marketplace OUTPUT`, which both Claude and Codex add by URL
 - 🔄 Open WebUI sync: push every exportable into a running Open WebUI server as an Agent Skill, creating, updating, and (optionally) pruning to match
 - 🔌 pluggable mechanism: any number of consumer packages share one process, each registering its identity (`register_consumer(...)`), its corpus, abbreviations, and blueprints, and exporting as its own plugin under one `kaye-engine` marketplace
 
@@ -138,7 +140,9 @@ or JSON from stdin when the name is omitted; `preview` and `render` accept
 
 The command references for the exporters are at
 [`docs/claude-doc.md`](docs/claude-doc.md) (which also covers
-`build-github-release`),
+`build-github-release-assets`),
+[`docs/codex-doc.md`](docs/codex-doc.md) (which also covers
+`build-github-marketplace`),
 [`docs/continue-doc.md`](docs/continue-doc.md),
 [`docs/hermes-doc.md`](docs/hermes-doc.md) and
 [`docs/open-webui-doc.md`](docs/open-webui-doc.md).
@@ -166,9 +170,22 @@ registries, sharing one flag set (`-r` regex filter, `-c` columns, `-l` cards,
 ### Using Kaye Engine with Claude
 
 Package Kaye Engine as a Claude Desktop plugin or wire it into the Claude Code
-VS Code Extension.
+VS Code Extension, which `claude vs-code-extension` now registers and enables
+in `settings.json` with no manual step.
 
-Q.v. [Using Kaye Engine with Claude documentation](docs/claude-doc.md)
+Q.v. [Using Kaye Engine with Claude documentation](docs/claude-doc.md); the
+VS Code Extension command and both one-click installers place their payload
+as the [Installer Algorithm documentation](docs/installer-algorithm-doc.md)
+specifies.
+
+### Using Kaye Engine with Codex
+
+Export plugins, a marketplace, Agent Skills, or a global prompt to OpenAI
+Codex with `kaye-engine codex` (alias `o`); Codex installs plugins only from
+a marketplace, which `build-github-marketplace` publishes as one repo shared
+with Claude.
+
+Q.v. [Support for OpenAI Codex documentation](docs/codex-doc.md)
 
 
 
@@ -197,9 +214,9 @@ Q.v. [Using Kaye Engine with Claude documentation](docs/claude-doc.md)
 
 ## Contributing
 
-Install a working copy with `pip install -e ".[dev]"` and run `pytest` scoped to the area you touch; the tests mirror the source tree under `tests/`. A path in, in order:
+Install a working copy with `pip install -e ".[dev]"` and run `pytest` scoped to the area you touch; the tests mirror the source tree under `tests/`. The architecture and its known gaps are mapped in [CONTEXT.md](CONTEXT.md), and the commands and conventions every change follows are in [AGENTS.md](AGENTS.md). A path in, in order:
 
 1. Learn how it fits together: the [Prompt documentation](docs/prompt-doc.md) covers blueprints and the registry, and the [Corpus documentation](docs/corpus-doc.md) the Markdown format
 2. Follow a feature outward: [sidecars, affordances and variants](docs/sidecar-doc.md), [dynamic nodes](docs/dynamic-content-doc.md), [abbreviations](docs/abbrs-doc.md), [render profiles](docs/render-profile-doc.md), and the [exportable registry](docs/exportable-registry-doc.md) behind every exporter
-3. Check how a change reaches users: the [Claude](docs/claude-doc.md), [Continue](docs/continue-doc.md), [Hermes](docs/hermes-doc.md), and [Open WebUI](docs/open-webui-doc.md) exporters each have a document
+3. Check how a change reaches users: the [Claude](docs/claude-doc.md), [Codex](docs/codex-doc.md), [Continue](docs/continue-doc.md), [Hermes](docs/hermes-doc.md), and [Open WebUI](docs/open-webui-doc.md) exporters each have a document, and the [Installer Algorithm](docs/installer-algorithm-doc.md) is the one spec every VS Code installer follows
 4. Build on the engine instead of changing it: the [Consumer documentation](docs/consumer-doc.md) shows how to create a package of your own, or layer one on [kaye-library](https://github.com/kami-lel/kaye-library)
