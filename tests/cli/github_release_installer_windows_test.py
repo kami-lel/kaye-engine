@@ -2,9 +2,10 @@
 tests/cli/github_release_installer_windows_test.py
 
 test: ``build_windows_installer`` -- the zip holds the payload and the two
-packaged scripts byte for byte, CRLF on ``Install.cmd``, no consumer name
+packaged scripts byte for byte, CRLF on ``install.cmd``, no consumer name
 in any template, a dry run writes nothing; with a Windows PowerShell on
-the machine (WSL), ``install.ps1`` runs against a sandboxed profile folder
+the machine (WSL), ``place-payload-into-claude-folder.ps1``
+runs against a sandboxed profile folder
 """
 
 import json
@@ -22,6 +23,7 @@ from kaye_engine.cli.github_release.installer_stage import (
 )
 from kaye_engine.cli.github_release.installer_windows import (
     WINDOWS_TEMPLATE_NAMES,
+    WINDOWS_TEMPLATE_ZIP_PATHS,
     build_windows_installer,
 )
 
@@ -66,23 +68,23 @@ class TestWindowsInstallerZip:
     def test_zip_holds_scripts_and_payload_tree(_, built):
         with zipfile.ZipFile(built) as archive:
             assert sorted(archive.namelist()) == [
-                "Install.cmd",
-                "install.ps1",
+                "install.cmd",
                 "payload/CLAUDE.md",
                 "payload/mk/.claude-plugin/marketplace.json",
                 "payload/mk/plugins/pa/skills/x/SKILL.md",
+                "src/place-payload-into-claude-folder.ps1",
             ]
 
     def test_scripts_are_byte_identical_to_templates(_, built):
         with zipfile.ZipFile(built) as archive:
             for name in WINDOWS_TEMPLATE_NAMES:
                 assert (
-                    archive.read(name)
+                    archive.read(WINDOWS_TEMPLATE_ZIP_PATHS[name])
                     == get_installer_template_path(name).read_bytes()
                 )
 
     def test_install_cmd_is_crlf_throughout(_):
-        data = get_installer_template_path("Install.cmd").read_bytes()
+        data = get_installer_template_path("install.cmd").read_bytes()
 
         assert data.count(b"\r\n") == data.count(b"\n") > 0
 
@@ -95,9 +97,9 @@ class TestWindowsInstallerZip:
                 assert consumer not in text
 
     def test_install_ps1_takes_no_parameter(_):
-        text = get_installer_template_path("install.ps1").read_text(
-            encoding="utf-8"
-        )
+        text = get_installer_template_path(
+            "place-payload-into-claude-folder.ps1"
+        ).read_text(encoding="utf-8")
 
         assert "param(" not in text.lower()
 
@@ -161,7 +163,9 @@ class TestInstallPs1UnderPowerShell:
                 "-Prof",
                 _win(profile),
                 "-Script",
-                _win(extracted / "install.ps1"),
+                _win(
+                    extracted / "src" / "place-payload-into-claude-folder.ps1"
+                ),
             ],
             capture_output=True,
             text=True,

@@ -195,7 +195,8 @@ bug. Getter list in [CONTEXT.md](CONTEXT.md).
   banner and color on a TTY only, bare when piped; never hand-roll ANSI codes
 - never call `logger.track`: kamilog 3.0 dropped its deed feature
 - an installer algorithm (VS Code plugin: `place_vs_code_payload`,
-  `install.ps1`, `install.sh`) changes only through
+  `place-payload-into-claude-folder.ps1`, `install.sh`) changes only
+  through
   [docs/installer-algorithm-doc.md](docs/installer-algorithm-doc.md); mirror
   it in every implementer and keep
   `tests/cli/github_release_parity_test.py` green

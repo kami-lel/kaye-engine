@@ -2,8 +2,8 @@
 installer_windows.py
 
 define ``build_windows_installer`` -- the Windows VS Code installer zip:
-``Install.cmd`` and ``install.ps1`` copied unchanged from the packaged
-templates, plus ``payload/``
+``install.cmd`` at the root, ``src/place-payload-into-claude-folder.ps1``
+copied unchanged from the packaged templates, plus ``payload/``
 """
 
 import shutil
@@ -21,13 +21,22 @@ from .installer_stage import (
     stage_installer_payload,
 )
 
-__all__ = ("WINDOWS_TEMPLATE_NAMES", "build_windows_installer")
+__all__ = (
+    "WINDOWS_TEMPLATE_NAMES",
+    "WINDOWS_TEMPLATE_ZIP_PATHS",
+    "build_windows_installer",
+)
 
 # logger  ######################################################################
 logger = kamilog.getLogger(LOGGER_CLAUDE_NAME)
 
 # constants  ###################################################################
-WINDOWS_TEMPLATE_NAMES = ("Install.cmd", "install.ps1")
+_INTERNAL_SCRIPT = "place-payload-into-claude-folder.ps1"
+WINDOWS_TEMPLATE_ZIP_PATHS = {
+    "install.cmd": "install.cmd",
+    _INTERNAL_SCRIPT: "src/" + _INTERNAL_SCRIPT,
+}
+WINDOWS_TEMPLATE_NAMES = tuple(WINDOWS_TEMPLATE_ZIP_PATHS)
 
 
 # Public API  ##################################################################
@@ -35,8 +44,9 @@ def build_windows_installer(dest, *, render_profile=None):
     """
     write the Windows installer zip to ``dest``
 
-    the zip root holds the two static scripts and ``payload/``; the scripts
-    are copied byte for byte and carry no consumer name
+    the zip root holds ``install.cmd``, ``src/`` with the internal script and
+    ``payload/``; the scripts are copied byte for byte and carry no
+    consumer name
 
 
     :param dest: the zip file to write, named by the caller; its folder
@@ -54,8 +64,10 @@ def build_windows_installer(dest, *, render_profile=None):
 
         with tempfile.TemporaryDirectory() as stage:
             stage = Path(stage)
-            for name in WINDOWS_TEMPLATE_NAMES:
-                shutil.copyfile(get_installer_template_path(name), stage / name)
+            for name, zip_path in WINDOWS_TEMPLATE_ZIP_PATHS.items():
+                target = stage / zip_path
+                target.parent.mkdir(parents=True, exist_ok=True)
+                shutil.copyfile(get_installer_template_path(name), target)
             stage_installer_payload(
                 stage / "payload", render_profile=render_profile
             )

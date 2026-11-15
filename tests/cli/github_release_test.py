@@ -108,7 +108,9 @@ class TestBuildGithubRelease:
 
         win = tmp_path / "pkg-one-1.1.0-claude-vsc-installer-Win.zip"
         with zipfile.ZipFile(win) as archive:
-            assert "install.ps1" in archive.namelist()
+            assert "src/place-payload-into-claude-folder.ps1" in (
+                archive.namelist()
+            )
         run = tmp_path / "pkg-one-1.1.0-claude-vsc-installer-linux.run"
         assert run.read_bytes().startswith(b"#!/usr/bin/env bash")
         assert run.stat().st_mode & 0o111
