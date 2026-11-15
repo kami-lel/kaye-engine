@@ -1,5 +1,5 @@
 """
-tests/cli/plugin_platform/export_test.py
+tests/cli/plugin_platform/platform_export_test.py
 
 test: the template exporters drive any ``PluginPlatform`` through its
 hooks -- manifest per plugin, one entry per consumer, one marketplace
