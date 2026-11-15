@@ -58,13 +58,16 @@ merge.
 | `kaye_engine/abbr_collection/` | `tests/abbr/` |
 | `kaye_engine/cli/` | `tests/cli/` |
 | `kaye_engine/cli/blueprint/` | `tests/cli/blueprint/` (drives the real parsers over a small inline corpus; `aux_input_test.py`, `aux_output_test.py` for the helpers) |
+| `kaye_engine/cli/codex/` | `tests/cli/codex/`, `tests/cli/cli_main_test.py`, `tests/cli/flag_letter_test.py` |
 | `kaye_engine/cli/continue_ai/` | `tests/cli/continue_ai/` |
 | `kaye_engine/cli/hermes/` | `tests/cli/hermes/` |
 | `kaye_engine/cli/open_webui/` | `tests/cli/open_webui/` |
 | `kaye_engine/cli/skill/` | `tests/cli/skill/` |
 | `kaye_engine/cli/github_release/` | `tests/cli/github_release_test.py`, `tests/cli/github_release_installer_windows_test.py`, `tests/cli/github_release_installer_linux_test.py`, `tests/cli/github_release_parity_test.py`, `tests/cli/dry_run_test.py` |
+| `kaye_engine/cli/github_marketplace/` | `tests/cli/github_marketplace_test.py`, `tests/cli/dry_run_test.py` |
 | `kaye_engine/cli/claude/vs_code/` | `tests/cli/claude/vs_code_payload_test.py`, `tests/cli/claude/vs_code_place_test.py`, `tests/cli/claude/vs_code_settings_test.py`, `tests/cli/dry_run_test.py` |
 | `kaye_engine/cli/claude/skills/` | `tests/cli/cli_main_test.py`, `tests/cli/dry_run_test.py` |
+| `kaye_engine/cli/plugin_platform/` | `tests/cli/plugin_platform/`, `tests/cli/claude/plugin_consumers_test.py`, `tests/cli/hermes/`, `tests/cli/github_release_test.py` |
 | `kaye_engine/skill/` | `tests/skill/`, plus `tests/cli/open_webui/skill_form_test.py` (reads `Skill`) |
 | `kaye_engine/exportable/` | `tests/exportable_test.py`, `tests/image_prompt_export_test.py` |
 | `kaye_engine/consumer.py` | `tests/consumer_test.py`, `tests/cli/claude/plugin_consumers_test.py`, `tests/cli/exportable_abbr_consumer_test.py` |
@@ -116,19 +119,22 @@ Bare `blueprint`, `exportable`, `dynamic-node` and `glossary` (`bp`, `x`,
 kaye-engine blueprint render BLUEPRINT -D   # own nodes only; stdin if omitted
 kaye-engine blueprint validate BLUEPRINT    # exit 0 if sound, 1 with reason
 kaye-engine claude plugin -z . CONSUMER     # only that consumer's plugin
-CONSUMER_CLI build-github-release OUTPUT    # every release asset into OUTPUT
+kaye-engine codex plugin . CONSUMER         # only that consumer's Codex plugin
+CONSUMER_CLI build-github-release-assets OUTPUT    # every release asset into OUTPUT
+CONSUMER_CLI build-github-marketplace OUTPUT       # marketplace repo root
 kaye-engine hermes FOLDER -n                # report every write, touch nothing
 kaye-engine rp -l -r '^claude$'             # list command: -r -c -l -N -f -C
-OWU_API_KEY=sk-... kaye-engine o -n         # Open WebUI sync, dry run
+OWU_API_KEY=sk-... kaye-engine w -n         # Open WebUI sync, dry run
 ```
 
 **Rendering commands** — any subcommand that reaches
 `render_prompt(...)`, directly or via
 `Exportable.content()` (`blueprint render`, `dynamic-node`,
 `exportable`, `skill`, `claude skills`, `claude plugin`,
-`claude marketplace`,
-`claude user-system-prompt`, `claude vs-code-extension`, `claude
-code`) — all expose the same 6 options via one shared parent parser
+`claude marketplace`, `claude user-system-prompt`,
+`claude vs-code-extension`, `claude code`, `codex plugin`,
+`codex marketplace`, `codex skills`, `codex user-system-prompt`,
+`build-github-marketplace`) — all expose the same 6 options via one shared parent parser
 and one aux function, `build_render_profile_parent_parser`/
 `resolve_render_profile` (`kaye_engine/cli/render_profile_parser.py`),
 the latter returning a `RenderProfile` rather than a kwargs dict:
@@ -286,6 +292,8 @@ After meaningful changes, keep these in sync:
     [docs/render-profile-doc.md](docs/render-profile-doc.md)
   - the `claude` subcommands and per-consumer plugins:
     [docs/claude-doc.md](docs/claude-doc.md)
+  - the `codex` subcommands, the `PluginPlatform` design, and
+    `build-github-marketplace`: [docs/codex-doc.md](docs/codex-doc.md)
   - the `continue` export: [docs/continue-doc.md](docs/continue-doc.md)
   - the `hermes` export: [docs/hermes-doc.md](docs/hermes-doc.md)
   - how a payload is placed into `.claude/`, registered and enabled, by the

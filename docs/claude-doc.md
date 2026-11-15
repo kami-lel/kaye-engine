@@ -15,6 +15,9 @@ Export your corpus to Claude as plugins, Agent Skills, or a system prompt with `
 | Print the User System Prompt | `claude user-system-prompt` | `claude usp` |
 
 > [!NOTE]
+> For OpenAI Codex, the same shape lives under `kaye-engine codex`: see [codex-doc.md](codex-doc.md).
+
+> [!NOTE]
 > To export chosen skills into a folder you name, use the top-level `kaye-engine skill NAME... FOLDER` (or `--all`) instead of `claude skills`.
 
 ### plugin
@@ -81,10 +84,10 @@ Here `-c` means `--coder`; the comment toggle is long-form only (`--comment`/`--
 
 ## Build GitHub Release Assets
 
-`build-github-release` is a top-level command, not a `claude` subcommand. One run writes every release asset of the consumer project into `OUTPUT`, for a release workflow to attach to a GitHub Release. Run it from the consumer's console script, which registers the consumers, the repo name, and the repo version:
+`build-github-release-assets` is a top-level command, not a `claude` subcommand. One run writes every release asset of the consumer project into `OUTPUT`, for a release workflow to attach to a GitHub Release. Run it from the consumer's console script, which registers the consumers, the repo name, and the repo version:
 
 ```bash
-CONSUMER_CLI build-github-release dist
+CONSUMER_CLI build-github-release-assets dist
 ```
 
 - `OUTPUT`: the one required argument, the destination folder; there is no `-o` and no consumer argument
@@ -104,6 +107,10 @@ Every file is named `REPO-VERSION-TYPE[-CONSUMER|-OS].ext`:
 | `-OS` | an installer only: `Win` (`.zip`) or `linux` (`.run`) |
 
 An unset repo name, repo version, or default consumer exits 1 before anything is written. `claude plugin` takes an optional `CONSUMER` after `FOLDER`; absent means the default consumer, and an unknown name exits 1 listing the valid ones (`claude plugin -z . NAME` still works).
+
+## Build the Marketplace Repo
+
+`build-github-marketplace OUTPUT` writes one marketplace repo root, `REPO-marketplace`, holding both a Claude and a Codex marketplace, for a release workflow to push to a public repo; users then run `/plugin marketplace add OWNER/REPO-marketplace`. It writes only `.claude-plugin/`, `.agents/` and `plugins/`, so a hand-written `README.md` stays. Details in [codex-doc.md](codex-doc.md#marketplace-repo).
 
 ## Render Flags
 
@@ -127,7 +134,7 @@ Every command needs the consumer package to register itself first; without it, t
 
 - Consumer: call `register_consumer(display_name, canonical_name, version)` once. The canonical name is the plugin name and must equal the installed distribution name
 - Console command: call `set_entry_consumer(canonical_name)` and `setup_claude_cli(...)` during setup
-- Release and `claude plugin`: call `set_repo_name(name)`, `set_repo_version(version)`, and `set_default_consumer(canonical_name)`; `build-github-release` and a bare `claude plugin` exit 1 without them
+- Release and `claude plugin`: call `set_repo_name(name)`, `set_repo_version(version)`, and `set_default_consumer(canonical_name)`; `build-github-release-assets` and a bare `claude plugin` exit 1 without them
 - Chat and Coder: `code`, `vs-code-extension`, and `user-system-prompt` also need the Chat and merged Coder exportable names passed to `setup_claude_cli(...)`; the merged Coder should list Chat as a dependency
 
 ## Editing the Corpus

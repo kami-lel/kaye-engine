@@ -12,13 +12,14 @@ from unittest.mock import patch
 
 import kamilog
 import pytest
-from kaye_engine.cli.claude import LOGGER_CLAUDE_NAME, package_meta
+from kaye_engine.cli.claude import LOGGER_CLAUDE_NAME
 from kaye_engine.cli.claude.marketplace.export import export_marketplace
 from kaye_engine.cli.claude.plugin.export_folder import (
     export_plugins_as_folders,
 )
 from kaye_engine.cli.claude.plugin.export_zip import export_plugins_as_zips
-from kaye_engine.cli.claude.plugin_marketplace_name import (
+from kaye_engine.cli.plugin_platform import package_meta
+from kaye_engine.cli.plugin_platform.consumers import (
     select_plugin_consumers,
 )
 from kaye_engine.deed import format_size

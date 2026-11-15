@@ -1,7 +1,7 @@
 """
 builtin_render_profiles.py
 
-define ``register_builtin_render_profiles`` -- registers the 5 render
+define ``register_builtin_render_profiles`` -- registers the 6 render
 profiles the engine ships, each with its remark, and runs once when
 ``kaye_engine.prompt`` is imported
 """
@@ -81,10 +81,21 @@ _HERMES_AFFORDANCES = (
     + ("QwenImage",)
 )
 
+# every Codex tool variant, plus git and the image model
+_CODEX_AFFORDANCES = tuple(
+    name
+    for _, variants in BUILTIN_AFFORDANCES.values()
+    for name in variants
+    if name.startswith("Codex:")
+) + ("git", "QwenImage")
+
 _UNIVERSAL_SIDECAR = "Claude"
 
 # platform-identity marker of the Hermes Agents surface
 _HERMES_SIDECAR = "for Hermes"
+
+# platform-identity marker of the OpenAI Codex surface
+_CODEX_SIDECAR = "for Codex"
 
 # every surface renders {avoid} content inline, unconditionally
 _AVOID_SIDECAR = "avoid"
@@ -116,7 +127,7 @@ def _claude_profile(affordances, identity_name):
 # Main Entry Point  ############################################################
 def register_builtin_render_profiles():
     """
-    register the built-in affordances and the 5 built-in render profiles
+    register the built-in affordances and the 6 built-in render profiles
     into ``render_profile_registry``, skipping any name already
     registered, so a repeated call stays idempotent instead of raising
     """
@@ -164,6 +175,20 @@ def register_builtin_render_profiles():
                 conditional_sidecars=("[QwenImage]", _AVOID_SIDECAR),
             ),
             "Comfy Org ComfyUI image prompts",
+        ),
+        # the Codex tool variants plus git and the image model, no Claude
+        # affordance variants (so Claude-only Fallbacks render), plus the
+        # Codex identity marker
+        (
+            "codex",
+            RenderProfile(
+                variants=_CODEX_AFFORDANCES,
+                conditional_sidecars=tuple(
+                    "[{}]".format(name) for name in _CODEX_AFFORDANCES
+                )
+                + ("[{}]".format(_CODEX_SIDECAR), _AVOID_SIDECAR),
+            ),
+            "OpenAI Codex: CLI, IDE extension, app",
         ),
     )
 

@@ -28,6 +28,7 @@ __all__ = (
     "register_render_profile",
     "register_dynamic_substitution",
     "setup_claude_cli",
+    "setup_codex_cli",
     "setup_hermes_cli",
 )
 
@@ -45,6 +46,7 @@ from kaye_engine.abbr_collection import (
     register_abbr_glossary,
 )
 from kaye_engine.cli.claude.setup import setup_claude_cli
+from kaye_engine.cli.codex.setup import setup_codex_cli
 from kaye_engine.cli.hermes.setup import setup_hermes_cli
 from kaye_engine.cli.exportable_abbr import set_abbr_group_consumer
 from kaye_engine.consumer import (

@@ -4,7 +4,8 @@ flag_letter_test.py
 Unit Tests (using pytest) for:
 
 the project-wide short-letter table: every short flag of every command
-means one long flag, except ``claude user-system-prompt`` ``-c``
+means one long flag, except ``user-system-prompt`` ``-c`` (``claude``,
+``codex``)
 """
 
 import argparse
@@ -14,7 +15,8 @@ import pytest
 
 from kaye_engine.cli.cli_main import register_cli_main_parser
 
-# the one documented clash: ``claude user-system-prompt -c`` is ``--coder``
+# the one documented clash: ``user-system-prompt -c`` is ``--coder``, in
+# both ``claude`` and ``codex``
 _EXEMPT = {("-c", "--coder", "user-system-prompt")}
 
 

@@ -8,6 +8,7 @@ from importlib.metadata import PackageNotFoundError, version
 from kaye_engine import KAYE_ENGINE_DISPLAY_NAME, PACKAGE_NAME
 from kaye_engine.cli.blueprint.main_parser import register_cli_blueprint_parser
 from kaye_engine.cli.claude.main import register_cli_claude_parser
+from kaye_engine.cli.codex.main import register_cli_codex_parser
 from kaye_engine.cli.continue_ai.parser import register_continue_parser
 from kaye_engine.cli.dynamic_node.parser import register_dynamic_node_parser
 from kaye_engine.cli.dynamic_substitution_parser import (
@@ -17,6 +18,9 @@ from kaye_engine.cli.exportable_as_json_parser import (
     register_exportable_as_json_parser,
 )
 from kaye_engine.cli.exportable_parser import register_exportable_parser
+from kaye_engine.cli.github_marketplace.parser import (
+    register_github_marketplace_parser,
+)
 from kaye_engine.cli.github_release.parser import (
     register_github_release_parser,
 )
@@ -67,7 +71,7 @@ def _get_version_text(package_name):
 def register_cli_subcommands(cli_subparser):
     """
     register every engine-owned subcommand (``blueprint``, ``claude``,
-    ``continue``, ``hermes``, the dynamic-node command, the
+    ``codex``, ``continue``, ``hermes``, the dynamic-node command, the
     dynamic-substitution command, the exportable command, the
     export-json command, ``affordance``, ``variant``,
     ``render-profile``, ``glossary``, ``skill``, and the
@@ -82,6 +86,7 @@ def register_cli_subcommands(cli_subparser):
     """
     register_cli_blueprint_parser(cli_subparser)
     register_cli_claude_parser(cli_subparser)
+    register_cli_codex_parser(cli_subparser)
     register_continue_parser(cli_subparser)
     register_hermes_parser(cli_subparser)
     register_dynamic_node_parser(cli_subparser)
@@ -93,6 +98,7 @@ def register_cli_subcommands(cli_subparser):
     register_render_profile_list_parser(cli_subparser)
     register_glossary_parser(cli_subparser)
     register_github_release_parser(cli_subparser)
+    register_github_marketplace_parser(cli_subparser)
     register_sync_open_webui_skills_parser(cli_subparser)
     register_skill_parser(cli_subparser)
 

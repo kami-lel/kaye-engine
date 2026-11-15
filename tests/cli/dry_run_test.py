@@ -220,7 +220,11 @@ class TestWiring:
             ["claude", "marketplace"],
             ["claude", "code"],
             ["claude", "vs-code-extension"],
-            ["build-github-release", "OUT"],
+            ["build-github-release-assets", "OUT"],
+            ["build-github-marketplace", "OUT"],
+            ["codex", "plugin"],
+            ["codex", "marketplace"],
+            ["codex", "skills"],
         ],
     )
     def test_command_accepts_dry_run(_, argv):

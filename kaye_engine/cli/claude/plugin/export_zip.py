@@ -13,7 +13,7 @@ from pathlib import Path
 import kamilog
 from kaye_engine.deed import format_size, quiet_deeds, track
 from kaye_engine.cli.claude import LOGGER_CLAUDE_NAME
-from kaye_engine.cli.claude.plugin_marketplace_name import (
+from kaye_engine.cli.plugin_platform.consumers import (
     select_plugin_consumers,
 )
 from kaye_engine.cli.dry_run import is_dry_run
