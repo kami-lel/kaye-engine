@@ -245,7 +245,6 @@ class TestContentAndInteractionVariants:
             ("file-search", "Claude:FileSearch~"),
             ("skill", "Claude:~Skills"),
             ("tool", "Claude:ToolSearch"),
-            ("push-notification", "Claude:Inbox~"),
             ("user-message", "Claude:SendUserMessage"),
             ("user-message", "Claude:ShowOnboardingRolePicker"),
             ("connector", "Claude:Connector~"),
@@ -351,7 +350,7 @@ class TestBuiltinRemarks:
 
     def test_counts(_):
         assert len(BUILTIN_AFFORDANCES) == 59
-        assert sum(len(v) for _, v in BUILTIN_AFFORDANCES.values()) == 131
+        assert sum(len(v) for _, v in BUILTIN_AFFORDANCES.values()) == 130
 
     def test_affordance_groups_derived_from_data(_):
         assert AFFORDANCE_GROUPS == {

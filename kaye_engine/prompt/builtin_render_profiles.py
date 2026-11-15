@@ -54,7 +54,6 @@ _VSC_AFFORDANCES = (
     "Claude:RemoteTrigger",
     "Claude:ScheduleWakeup",
     "Claude:AskUserQuestion",
-    "Claude:Inbox~",
     "Claude:PushNotification",
     "Claude:ReportFindings",
     "Claude:SendUserFile",

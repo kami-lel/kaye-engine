@@ -197,7 +197,6 @@ BUILTIN_AFFORDANCES = {
         "send push notification",
         {
             "Claude:PushNotification": "send push notification",
-            "Claude:Inbox~": "read inbox and notifications",
         },
     ),
     "weather-fetch": (
