@@ -7,6 +7,8 @@ writes to disk, and the run-wide switch its writers consult before
 touching the filesystem
 """
 
+import contextlib
+
 import kamilog
 from argparse import ArgumentParser
 
@@ -25,6 +27,7 @@ __all__ = (
     "apply_dry_run_arg",
     "disable_dry_run",
     "is_dry_run",
+    "live_run",
 )
 
 
@@ -104,3 +107,18 @@ def is_dry_run():
     :rtype: bool
     """
     return _is_dry_run_enabled
+
+
+@contextlib.contextmanager
+def live_run():
+    """
+    run the block live even under a dry run, then restore the earlier mode;
+    for a build into a throw-away folder whose output a later step reads
+    """
+    was_dry = is_dry_run()
+    disable_dry_run()
+    try:
+        yield
+    finally:
+        if was_dry:
+            enable_dry_run()
