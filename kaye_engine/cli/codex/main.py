@@ -8,6 +8,9 @@ from kaye_engine.cli.codex.marketplace.parser import (
 )
 from kaye_engine.cli.codex.plugin.parser import register_codex_plugin_parser
 from kaye_engine.cli.codex.skills.parser import register_codex_skills_parser
+from kaye_engine.cli.codex.user_prompt.parser import (
+    register_codex_user_prompt_parser,
+)
 
 
 def register_cli_codex_parser(  ################################################
@@ -33,3 +36,4 @@ def register_cli_codex_parser(  ################################################
     register_codex_plugin_parser(codex_subparser)
     register_codex_marketplace_parser(codex_subparser)
     register_codex_skills_parser(codex_subparser)
+    register_codex_user_prompt_parser(codex_subparser)

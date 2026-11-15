@@ -111,4 +111,4 @@ parsed_args = cli_parser.parse_args()
 parsed_args.func(parsed_args)
 ```
 
-The `claude` and `hermes` subcommands also need `setup_claude_cli(...)` and `setup_hermes_cli(...)` as the last step; a missing one exits 1 and names what is absent. The library's standalone chat blueprints are not included when composing steps, so supply your own.
+The `claude`, `codex` and `hermes` subcommands also need `setup_claude_cli(...)`, `setup_codex_cli(...)` and `setup_hermes_cli(...)` as the last step; a missing one exits 1 and names what is absent. The library's standalone chat blueprints are not included when composing steps, so supply your own.

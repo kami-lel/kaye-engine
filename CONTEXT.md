@@ -80,6 +80,7 @@ no fallback; a `glossary-*` group takes its glossary's consumer:
 | `set_repo_name` | entry-point | kebab-case repo name, the leading segment of every release asset name |
 | `set_repo_version` | entry-point | the repo's own version string, the version segment of every release asset name |
 | `setup_claude_cli` | entry-point | |
+| `setup_codex_cli` | entry-point | |
 | `setup_hermes_cli` | entry-point | |
 
 ## Domain Model
@@ -316,7 +317,8 @@ the kebab `canonical_name` is its plugin name and equals its installed
 distribution name, whose metadata fills that plugin's manifest. The setup
 a console command runs then names one entry consumer
 (`set_entry_consumer`), which owns the process-wide CLI identity, and calls
-`setup_claude_cli(...)`/`setup_hermes_cli(...)`, whose Chat, Coder, and
+`setup_claude_cli(...)`/`setup_codex_cli(...)`/`setup_hermes_cli(...)`,
+whose Chat, Coder, and
 soul names are all optional. The marketplace is always named
 `kaye-engine` (`PACKAGE_NAME`) and lists one plugin per consumer holding
 an exportable (`get_plugin_consumers()`). A consumer console script builds
