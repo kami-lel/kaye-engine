@@ -42,3 +42,4 @@ exclude = ["build*", "tests*", "dify_studio*", "examples*", "scripts*"]
 
 [tool.setuptools.package-data]
 "*" = ["permission_cmds.jsonc"]
+"kaye_engine.cli.github_release" = ["installer_templates/*"]
