@@ -20,9 +20,11 @@ __all__ = (
     "get_consumer_canonical_name",
     "get_consumer_display_name",
     "get_consumer_version",
+    "get_default_consumer",
     "get_entry_consumer",
     "iter_consumers",
     "register_consumer",
+    "set_default_consumer",
     "set_entry_consumer",
 )
 
@@ -59,6 +61,9 @@ _consumers = {}
 
 # canonical name of the consumer owning the process-wide CLI identity
 _entry_canonical_name = None
+
+# canonical name of the consumer a command targets when none is named
+_default_canonical_name = None
 
 
 # Public API  ##################################################################
@@ -168,6 +173,37 @@ def get_entry_consumer():
     return _consumers[_entry_canonical_name]
 
 
+def set_default_consumer(canonical_name):
+    """
+    name the consumer a command targets when none is named, and the one
+    whose name release assets leave out; a later call wins
+
+
+    :param canonical_name: a registered consumer
+    :type canonical_name: str
+    :raises ValueError: no consumer is registered under ``canonical_name``
+    """
+    global _default_canonical_name  # pylint: disable=global-statement
+
+    _default_canonical_name = check_consumer(canonical_name)
+
+
+def get_default_consumer():
+    """
+    :raises SystemExit: exit code 1, when no default consumer is set
+    :return: the default consumer's record
+    :rtype: Consumer
+    """
+    if _default_canonical_name is None:
+        logger.critical(
+            "no default consumer set\n"
+            "a consumer project should call set_default_consumer(...) "
+            "before invoking this CLI"
+        )
+        raise SystemExit(1)
+    return _consumers[_default_canonical_name]
+
+
 def get_consumer_display_name():
     """
     :raises SystemExit: exit code 1, when no entry consumer is set
@@ -197,9 +233,11 @@ def get_consumer_version():
 
 def _clear_consumers():
     """
-    drop every consumer and the entry consumer, for tests
+    drop every consumer, the entry and the default consumer, for tests
     """
     global _entry_canonical_name  # pylint: disable=global-statement
+    global _default_canonical_name  # pylint: disable=global-statement
 
     _consumers.clear()
     _entry_canonical_name = None
+    _default_canonical_name = None

@@ -19,7 +19,10 @@ __all__ = (
     "register_comment_line",
     "register_consumer",
     "set_abbr_group_consumer",
+    "set_default_consumer",
     "set_entry_consumer",
+    "set_repo_name",
+    "set_repo_version",
     "register_corpus_under_node",
     "register_image_prompt_exportable",
     "register_render_profile",
@@ -44,7 +47,12 @@ from kaye_engine.abbr_collection import (
 from kaye_engine.cli.claude.setup import setup_claude_cli
 from kaye_engine.cli.hermes.setup import setup_hermes_cli
 from kaye_engine.cli.exportable_abbr import set_abbr_group_consumer
-from kaye_engine.consumer import register_consumer, set_entry_consumer
+from kaye_engine.consumer import (
+    register_consumer,
+    set_default_consumer,
+    set_entry_consumer,
+)
+from kaye_engine.repo import set_repo_name, set_repo_version
 from kaye_engine.exportable import register_image_prompt_exportable
 from kaye_engine.prompt import (
     DynamicSubstitution,

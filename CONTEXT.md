@@ -76,6 +76,9 @@ no fallback; a `glossary-*` group takes its glossary's consumer:
 | `register_corpus_under_node` | additive | registrations graft in passes, any order; a duplicate sibling heading raises; refused once the tree is loaded |
 | `load_corpus_tree` | guarded | one tree per process; a second load raises until `clear_corpus_tree()` |
 | `set_entry_consumer` | entry-point | names the consumer owning the process-wide CLI identity, read by every `get_consumer_*` getter |
+| `set_default_consumer` | entry-point | names the registered consumer a command targets when none is named, and the one release asset names leave out; separate from the entry consumer |
+| `set_repo_name` | entry-point | kebab-case repo name, the leading segment of every release asset name |
+| `set_repo_version` | entry-point | the repo's own version string, the version segment of every release asset name |
 | `setup_claude_cli` | entry-point | |
 | `setup_hermes_cli` | entry-point | |
 
