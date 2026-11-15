@@ -67,7 +67,12 @@ def export_plugins_as_zips(
 
 
 def export_plugin_as_zip(
-    parent_folder, consumer, *, includes_version=True, render_profile=None
+    parent_folder,
+    consumer,
+    *,
+    includes_version=True,
+    render_profile=None,
+    zip_stem=None,
 ):
     """
     export one consumer's exportables as an upload-ready ``.zip`` Claude
@@ -89,6 +94,10 @@ def export_plugin_as_zip(
     :param render_profile: render options forwarded to
             :func:`export_plugin_as_folder`
     :type render_profile: RenderProfile, optional
+    :param zip_stem: names the ``.zip`` (w/o extension) from the consumer,
+            replacing :func:`get_plugin_zip_file_name` and
+            ``includes_version``
+    :type zip_stem: Callable[[Consumer], str], optional
     """
     parent_folder = Path(parent_folder)
     try:
@@ -98,9 +107,12 @@ def export_plugin_as_zip(
     except OSError as err:
         raise SystemExit(1) from err
 
-    dest = parent_folder / (
-        get_plugin_zip_file_name(consumer, includes_version) + ".zip"
+    stem = (
+        zip_stem(consumer)
+        if zip_stem is not None
+        else get_plugin_zip_file_name(consumer, includes_version)
     )
+    dest = parent_folder / (stem + ".zip")
     if is_dry_run():
         _report_zip_without_writing(dest, consumer)
         return

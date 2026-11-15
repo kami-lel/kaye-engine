@@ -1,8 +1,10 @@
 """
 tests/cli/github_release_test.py
 
-test: ``build-github-release`` -- one versioned zip per call, unknown
-consumer exits 1, dry run writes nothing
+test: ``build-github-release OUTPUT`` -- one zip per plugin consumer named
+``REPO-VERSION-TYPE[-CONSUMER]``, the old ``-o`` and consumer argument
+rejected, an unset repo name, version, or default consumer exits 1, dry run
+writes nothing; ``get_release_asset_name``
 """
 
 import zipfile
@@ -13,13 +15,21 @@ import pytest
 from kaye_engine.cli.cli_main import register_cli_subcommands
 from kaye_engine.cli.claude import package_meta
 from kaye_engine.cli.dry_run import disable_dry_run
-from kaye_engine.consumer import register_consumer
+from kaye_engine.cli.github_release.asset_name import (
+    ASSET_DESKTOP_PLUGIN,
+    ASSET_VSC_INSTALLER,
+    OS_LINUX,
+    OS_WINDOWS,
+    get_release_asset_name,
+)
+from kaye_engine.consumer import register_consumer, set_default_consumer
+from kaye_engine.repo import set_repo_name, set_repo_version
 from kaye_engine.exportable import exportable_registry
 from kaye_engine.prompt.blueprint import BlueprintRegistry, create_blueprint
 from kaye_engine.prompt.prompt_corpus_loader import clear_corpus_tree
 
 from tests.cli.claude.plugin_consumers_test import _FakeMetadata
-from tests.consumer_helper import isolated_consumers
+from tests.consumer_helper import isolated_consumers, isolated_repo
 from tests.corpus_helper import load_corpus_from_sources
 
 
@@ -39,11 +49,14 @@ def _two_consumers():
         "lib-skill": _entry("lib-skill", "pkg-one"),
         "app-skill": _entry("app-skill", "pkg-two"),
     }
-    with isolated_consumers(), patch.dict(
+    with isolated_consumers(), isolated_repo(), patch.dict(
         exportable_registry, entries, clear=True
     ), patch.object(package_meta, "metadata") as meta_mock:
         register_consumer("Package One", "pkg-one", "1.1.0")
         register_consumer("Package Two", "pkg-two", "2.2.0")
+        set_default_consumer("pkg-one")
+        set_repo_name("pkg-one")
+        set_repo_version("1.1.0")
         meta_mock.side_effect = lambda name: _FakeMetadata(name)
         yield
     disable_dry_run()
@@ -66,51 +79,131 @@ def _run(argv):
 
 class TestBuildGithubRelease:
 
-    def test_writes_one_versioned_zip_into_output(_, tmp_path):
-        _run(["build-github-release", "pkg-two", "-o", str(tmp_path)])
+    def test_writes_one_zip_per_consumer_into_output(_, tmp_path):
+        _run(["build-github-release", str(tmp_path)])
 
-        assert [p.name for p in tmp_path.iterdir()] == ["pkg-two-claude-2.2.0.zip"]
+        assert sorted(p.name for p in tmp_path.iterdir()) == [
+            "pkg-one-1.1.0-claude-desktop-plugin-pkg-two.zip",
+            "pkg-one-1.1.0-claude-desktop-plugin.zip",
+        ]
 
-    def test_log_names_the_zip_actually_written(_, tmp_path, caplog):
-        _run(["build-github-release", "pkg-two", "-o", str(tmp_path)])
+    def test_default_consumer_zip_leaves_its_name_out(_, tmp_path):
+        set_default_consumer("pkg-two")
 
-        assert "pkg-two-claude-2.2.0.zip in" in caplog.text
+        _run(["build-github-release", str(tmp_path)])
 
-    def test_zip_holds_manifest_at_root_and_only_own_skills(_, tmp_path):
-        _run(["build-github-release", "pkg-one", "-o", str(tmp_path)])
+        assert sorted(p.name for p in tmp_path.iterdir()) == [
+            "pkg-one-1.1.0-claude-desktop-plugin-pkg-one.zip",
+            "pkg-one-1.1.0-claude-desktop-plugin.zip",
+        ]
 
-        with zipfile.ZipFile(tmp_path / "pkg-one-claude-1.1.0.zip") as archive:
+    def test_every_asset_starts_with_the_repo_name(_, tmp_path):
+        set_repo_name("some-repo")
+
+        _run(["build-github-release", str(tmp_path)])
+
+        assert all(
+            p.name.startswith("some-repo-1.1.0-") for p in tmp_path.iterdir()
+        )
+
+    def test_log_names_every_zip_written(_, tmp_path, caplog):
+        _run(["build-github-release", str(tmp_path)])
+
+        assert "pkg-one-1.1.0-claude-desktop-plugin.zip" in caplog.text
+        assert "pkg-one-1.1.0-claude-desktop-plugin-pkg-two.zip" in caplog.text
+
+    def test_each_zip_holds_manifest_at_root_and_only_own_skills(
+        _, tmp_path
+    ):
+        _run(["build-github-release", str(tmp_path)])
+
+        with zipfile.ZipFile(
+            tmp_path / "pkg-one-1.1.0-claude-desktop-plugin.zip"
+        ) as archive:
             names = archive.namelist()
         assert ".claude-plugin/plugin.json" in names
         assert any(n.startswith("skills/lib-skill/") for n in names)
         assert not any("app-skill" in n for n in names)
 
-    def test_output_defaults_to_dist(_, tmp_path, monkeypatch):
-        monkeypatch.chdir(tmp_path)
-
-        _run(["build-github-release", "pkg-one"])
-
-        assert [p.name for p in (tmp_path / "dist").iterdir()] == [
-            "pkg-one-claude-1.1.0.zip"
-        ]
-
-    def test_unknown_consumer_exits_1_and_writes_nothing(
-        _, tmp_path, caplog
-    ):
-        with pytest.raises(SystemExit) as raised:
-            _run(["build-github-release", "pkg-nope", "-o", str(tmp_path)])
-
-        assert raised.value.code == 1
-        assert "pkg-one, pkg-two" in caplog.text
-        assert list(tmp_path.iterdir()) == []
-
-    def test_consumer_is_required(_):
+    def test_output_is_required(_):
         with pytest.raises(SystemExit):
             _parse(["build-github-release"])
+
+    def test_old_output_flag_is_rejected(_, tmp_path):
+        with pytest.raises(SystemExit):
+            _parse(["build-github-release", "-o", str(tmp_path)])
+
+    def test_a_consumer_argument_is_rejected(_, tmp_path):
+        with pytest.raises(SystemExit):
+            _parse(["build-github-release", str(tmp_path), "pkg-one"])
 
     def test_dry_run_writes_nothing(_, tmp_path):
         out = tmp_path / "out"
 
-        _run(["build-github-release", "pkg-one", "-n", "-o", str(out)])
+        _run(["build-github-release", "-n", str(out)])
 
         assert not out.exists()
+
+    @pytest.mark.parametrize(
+        "unset", ["repo name", "repo version", "default consumer"]
+    )
+    def test_an_unset_registry_exits_1_and_writes_nothing(
+        _, tmp_path, unset
+    ):
+        # pylint: disable=import-outside-toplevel
+        from kaye_engine import consumer, repo
+
+        if unset == "repo name":
+            repo._repo_name = None
+        elif unset == "repo version":
+            repo._repo_version = None
+        else:
+            consumer._default_canonical_name = None
+
+        with pytest.raises(SystemExit) as raised:
+            _run(["build-github-release", str(tmp_path / "out")])
+
+        assert raised.value.code == 1
+        assert not (tmp_path / "out").exists()
+
+
+class TestGetReleaseAssetName:
+
+    def test_desktop_plugin_of_the_default_consumer(_):
+        assert (
+            get_release_asset_name(ASSET_DESKTOP_PLUGIN, consumer="pkg-one")
+            == "pkg-one-1.1.0-claude-desktop-plugin.zip"
+        )
+
+    def test_desktop_plugin_of_another_consumer(_):
+        assert (
+            get_release_asset_name(ASSET_DESKTOP_PLUGIN, consumer="pkg-two")
+            == "pkg-one-1.1.0-claude-desktop-plugin-pkg-two.zip"
+        )
+
+    def test_windows_installer(_):
+        assert (
+            get_release_asset_name(ASSET_VSC_INSTALLER, os_name=OS_WINDOWS)
+            == "pkg-one-1.1.0-claude-vsc-installer-Win.zip"
+        )
+
+    def test_linux_installer(_):
+        assert (
+            get_release_asset_name(ASSET_VSC_INSTALLER, os_name=OS_LINUX)
+            == "pkg-one-1.1.0-claude-vsc-installer-linux.run"
+        )
+
+    @pytest.mark.parametrize(
+        "kwargs",
+        [
+            {"asset_type": "nope"},
+            {"asset_type": ASSET_VSC_INSTALLER},
+            {"asset_type": ASSET_VSC_INSTALLER, "os_name": "mac"},
+            {"asset_type": ASSET_VSC_INSTALLER, "os_name": "Win",
+             "consumer": "pkg-one"},
+            {"asset_type": ASSET_DESKTOP_PLUGIN, "os_name": "Win"},
+        ],
+    )
+    def test_bad_arguments_raise(_, kwargs):
+        with pytest.raises(ValueError):
+            get_release_asset_name(**kwargs)

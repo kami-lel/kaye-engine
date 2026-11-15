@@ -11,6 +11,7 @@ from kaye_engine.cli.claude import LOGGER_CLAUDE_NAME
 from kaye_engine.cli.claude.plugin_marketplace_name import (
     check_setup_for_claude_cli,
 )
+from kaye_engine.consumer import get_default_consumer
 from kaye_engine.cli.dry_run import (
     apply_dry_run_arg,
     build_dry_run_parent_parser,
@@ -39,8 +40,9 @@ _DESCRIPTION = (
 
 writes, per consumer, plugin.json and one SKILL.md per exportable of that
 consumer under PLUGIN_NAME/skills/; with -z, creates one upload-ready .zip
-(PLUGIN_NAME-claude-VERSION.zip) per consumer for Claude Desktop instead. CONSUMER_PROJ keeps only the
-consumer of that name; naming it needs FOLDER first (plugin -z . NAME).
+(PLUGIN_NAME-claude-VERSION.zip) per consumer for Claude Desktop instead.
+CONSUMER selects one consumer's plugin, default: the default consumer the
+consumer project registered; naming it needs FOLDER first (plugin -z . NAME).
 
 FOLDER/  (default: ~/.claude/plugins/)
 └── PLUGIN_NAME/
@@ -87,11 +89,12 @@ def register_plugin_parser(cli_subparser):  ####################################
     )
 
     plugin_parser.add_argument(
-        "consumer_proj",
+        "consumer",
         nargs="?",
-        metavar="CONSUMER_PROJ",
+        metavar="CONSUMER",
         default=None,
-        help="export only this consumer's plugin; default: every consumer",
+        help="export only this consumer's plugin; default: the default "
+        "consumer of the consumer project",
     )
 
     plugin_parser.add_argument(
@@ -120,6 +123,9 @@ def register_plugin_parser(cli_subparser):  ####################################
         logger.enter("{} claude plugin".format(PACKAGE_NAME))
         check_setup_for_claude_cli()
 
+        consumer_name = args.consumer
+        if consumer_name is None:
+            consumer_name = get_default_consumer().canonical_name
         folder = args.folder
         if folder is None:
             folder = Path.cwd() if args.zip else _DEFAULT_PLUGINS_FOLDER
@@ -135,7 +141,7 @@ def register_plugin_parser(cli_subparser):  ####################################
                     folder,
                     includes_version=args.includes_version,
                     render_profile=render_profile,
-                    consumer_name=args.consumer_proj,
+                    consumer_name=consumer_name,
                 )
             except ValueError as err:
                 logger.critical(str(err))
@@ -147,7 +153,7 @@ def register_plugin_parser(cli_subparser):  ####################################
                 export_plugins_as_folders(
                     folder,
                     render_profile=render_profile,
-                    consumer_name=args.consumer_proj,
+                    consumer_name=consumer_name,
                 )
             except ValueError as err:
                 logger.critical(str(err))
