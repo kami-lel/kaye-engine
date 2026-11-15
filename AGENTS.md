@@ -193,6 +193,10 @@ bug. Getter list in [CONTEXT.md](CONTEXT.md).
   list_view.py` helpers (`print_banner`, `print_names`, `make_renderer`, ~):
   banner and color on a TTY only, bare when piped; never hand-roll ANSI codes
 - never call `logger.track`: kamilog 3.0 dropped its deed feature
+- the VS Code install algorithm has 3 implementers (`place_vs_code_payload`,
+  `install.ps1`, `install.sh`); change one only through
+  [docs/vsc-install-doc.md](docs/vsc-install-doc.md), mirror it in the other
+  two, and keep `tests/cli/github_release_parity_test.py` green
 
 ## Registering a Blueprint
 
@@ -281,6 +285,9 @@ After meaningful changes, keep these in sync:
     [docs/claude-doc.md](docs/claude-doc.md)
   - the `continue` export: [docs/continue-doc.md](docs/continue-doc.md)
   - the `hermes` export: [docs/hermes-doc.md](docs/hermes-doc.md)
+  - how a payload is placed into `.claude/`, registered and enabled, by the
+    `vs-code-extension` command and both installers:
+    [docs/vsc-install-doc.md](docs/vsc-install-doc.md)
   - the Open WebUI sync: [docs/open-webui-doc.md](docs/open-webui-doc.md)
   - creating a consumer in Python on the engine or on `kaye-library`, and taking a library skill over: [docs/consumer-doc.md](docs/consumer-doc.md)
 - [CHANGELOG.md](CHANGELOG.md) — record notable changes per release
