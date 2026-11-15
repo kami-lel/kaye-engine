@@ -11,8 +11,8 @@ Unit Tests (using pytest) for:
 import json
 from unittest.mock import patch
 
-from kaye_engine.cli.claude import package_meta
-from kaye_engine.cli.claude.package_meta import (
+from kaye_engine.cli.plugin_platform import package_meta
+from kaye_engine.cli.plugin_platform.package_meta import (
     PackageMeta,
     get_plugin_keywords,
     read_package_meta,

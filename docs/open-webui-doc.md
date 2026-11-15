@@ -2,7 +2,7 @@
 
 <!-- fixme fixme mpv doc: owu  -->
 
-`kaye-engine sync-open-webui-skills` (alias `o`) pushes every entry of `exportable_registry` into a running [Open WebUI](https://docs.openwebui.com) through its Skills REST API. A skill absent from the server is created, one whose fields differ is updated, and an identical one is left alone. Which entries exist, and their flags, is the [exportable registry documentation](exportable-registry-doc.md).
+`kaye-engine sync-open-webui-skills` (alias `w`) pushes every entry of `exportable_registry` into a running [Open WebUI](https://docs.openwebui.com) through its Skills REST API. A skill absent from the server is created, one whose fields differ is updated, and an identical one is left alone. Which entries exist, and their flags, is the [exportable registry documentation](exportable-registry-doc.md).
 
 ## Set Up Open WebUI
 
@@ -43,9 +43,9 @@ Each account has one key: creating a new one invalidates the old one at once. Th
 
 ```bash
 OWU_API_KEY=sk-... kaye-engine sync-open-webui-skills
-kaye-engine o -n                        # report only, write nothing
-kaye-engine o --prune                   # also delete remote-only skills
-kaye-engine o --base-url http://host:3000 --api-key sk-...
+kaye-engine w -n                        # report only, write nothing
+kaye-engine w --prune                   # also delete remote-only skills
+kaye-engine w --base-url http://host:3000 --api-key sk-...
 ```
 
 | Flag | Effect |
@@ -63,7 +63,7 @@ Either form works; `--api-key` wins when both are present. With neither, the com
 
 ```bash
 export OWU_API_KEY=sk-...             # environment variable
-kaye-engine o --api-key sk-...        # or per run
+kaye-engine w --api-key sk-...        # or per run
 ```
 
 ### Workflow
@@ -71,7 +71,7 @@ kaye-engine o --api-key sk-...        # or per run
 1. Preview with `-n`/`--dry-run`; it reports what would be created, updated, or skipped, and sends no write request
 2. Run for real; new skills are created, changed ones updated, identical ones left alone
 3. Run again; every skill now reports as skipped
-4. Optionally add `--prune`, previewing with `kaye-engine o -n --prune` first
+4. Optionally add `--prune`, previewing with `kaye-engine w -n --prune` first
 
 > [!WARNING]
 > `--prune` deletes every remote skill absent locally, including ones you made by hand in Open WebUI. Always preview it with `-n`/`--dry-run` first.

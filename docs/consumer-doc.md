@@ -12,6 +12,7 @@ Register in this order; later steps validate against earlier ones:
 4. Substitutions: `register_dynamic_substitution(name, substitution)`, where `substitution` is a `DynamicSubstitution` such as `StringDynamicSubstitution("text")`, see [dynamic content](dynamic-content-doc.md)
 5. Corpus: `register_corpus_under_node(...)`, then `load_corpus_tree()`, see [corpus format](corpus-doc.md)
 6. Blueprints: `register_blueprint(...)`, then `set_entry_consumer(canonical_name)`, see [prompt](prompt-doc.md#prompt-blueprint) and the [exportable registry](exportable-registry-doc.md)
+7. Releases: `set_repo_name(name)`, `set_repo_version(version)`, and `set_default_consumer(canonical_name)`, which name every `build-github-release` asset and the plugin `claude plugin` exports without a consumer, see [release assets](claude-doc.md#build-github-release-assets)
 
 ## Engine Only
 
@@ -23,7 +24,10 @@ from kaye_engine import (
     register_blueprint,
     register_consumer,
     register_corpus_under_node,
+    set_default_consumer,
     set_entry_consumer,
+    set_repo_name,
+    set_repo_version,
 )
 from kaye_engine.prompt.blueprint import (
     create_blueprint_from_node,
@@ -43,6 +47,9 @@ def setup_my_consumer():
         consumer="my-consumer",
     )
     set_entry_consumer("my-consumer")
+    set_default_consumer("my-consumer")
+    set_repo_name("my-consumer")
+    set_repo_version("0.1.0")
 ```
 
 A skill-backing section needs `{description}` and `{when_to_use}` sidecars, see [sidecars](sidecar-doc.md).
@@ -104,4 +111,4 @@ parsed_args = cli_parser.parse_args()
 parsed_args.func(parsed_args)
 ```
 
-The `claude` and `hermes` subcommands also need `setup_claude_cli(...)` and `setup_hermes_cli(...)` as the last step; a missing one exits 1 and names what is absent. The library's standalone chat blueprints are not included when composing steps, so supply your own.
+The `claude`, `codex` and `hermes` subcommands also need `setup_claude_cli(...)`, `setup_codex_cli(...)` and `setup_hermes_cli(...)` as the last step; a missing one exits 1 and names what is absent. The library's standalone chat blueprints are not included when composing steps, so supply your own.

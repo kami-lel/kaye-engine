@@ -46,7 +46,7 @@ def _fakes():
 class TestRegistration:
 
     def test_registers_full_name_and_alias(_):
-        for name in ("sync-open-webui-skills", "o"):
+        for name in ("sync-open-webui-skills", "w"):
             args = _build_root_parser().parse_args([name])
             assert callable(args.func)
 
@@ -59,13 +59,13 @@ class TestBaseUrl:
 
     def test_defaults_to_localhost(_, _fakes):
         client_cls, _sync = _fakes
-        _run(["o", "--api-key", "k"])
+        _run(["w", "--api-key", "k"])
 
         client_cls.assert_called_once_with("http://localhost:8080", "k")
 
     def test_flag_overrides_default(_, _fakes):
         client_cls, _sync = _fakes
-        _run(["o", "--api-key", "k", "--base-url", "http://h:1"])
+        _run(["w", "--api-key", "k", "--base-url", "http://h:1"])
 
         client_cls.assert_called_once_with("http://h:1", "k")
 
@@ -75,21 +75,21 @@ class TestApiKey:
     def test_key_from_env(_, _fakes, monkeypatch):
         client_cls, _sync = _fakes
         monkeypatch.setenv("OWU_API_KEY", "env-key")
-        _run(["o"])
+        _run(["w"])
 
         assert client_cls.call_args.args[1] == "env-key"
 
     def test_flag_overrides_env(_, _fakes, monkeypatch):
         client_cls, _sync = _fakes
         monkeypatch.setenv("OWU_API_KEY", "env-key")
-        _run(["o", "--api-key", "flag-key"])
+        _run(["w", "--api-key", "flag-key"])
 
         assert client_cls.call_args.args[1] == "flag-key"
 
     def test_missing_key_errors_and_skips_sync(_, _fakes):
         _client_cls, sync_mock = _fakes
         with pytest.raises(SystemExit) as info:
-            _run(["o"])
+            _run(["w"])
 
         assert info.value.code == 2
         sync_mock.assert_not_called()
@@ -99,7 +99,7 @@ class TestFlagWiring:
 
     def test_flags_reach_executor(_, _fakes):
         client_cls, sync_mock = _fakes
-        _run(["o", "--api-key", "k", "--dry-run", "--prune"])
+        _run(["w", "--api-key", "k", "--dry-run", "--prune"])
 
         sync_mock.assert_called_once_with(
             client_cls.return_value, is_dry_run=True, should_prune=True
@@ -107,7 +107,7 @@ class TestFlagWiring:
 
     def test_flags_default_off(_, _fakes):
         client_cls, sync_mock = _fakes
-        _run(["o", "--api-key", "k"])
+        _run(["w", "--api-key", "k"])
 
         sync_mock.assert_called_once_with(
             client_cls.return_value, is_dry_run=False, should_prune=False
@@ -115,7 +115,7 @@ class TestFlagWiring:
 
     def test_dry_run_short_flag_reaches_executor(_, _fakes):
         client_cls, sync_mock = _fakes
-        _run(["o", "--api-key", "k", "-n"])
+        _run(["w", "--api-key", "k", "-n"])
 
         sync_mock.assert_called_once_with(
             client_cls.return_value, is_dry_run=True, should_prune=False
@@ -128,7 +128,7 @@ class TestExitStatus:
         _client_cls, sync_mock = _fakes
         sync_mock.return_value = SyncSummary(failed=[("a", MagicMock())])
         with pytest.raises(SystemExit) as info:
-            _run(["o", "--api-key", "k"])
+            _run(["w", "--api-key", "k"])
 
         assert info.value.code == 1
 
@@ -136,9 +136,9 @@ class TestExitStatus:
         _client_cls, sync_mock = _fakes
         sync_mock.side_effect = owu_parser.OpenWebUIError(401, "no")
         with pytest.raises(SystemExit) as info:
-            _run(["o", "--api-key", "k"])
+            _run(["w", "--api-key", "k"])
 
         assert info.value.code == 1
 
     def test_clean_run_returns_normally(_, _fakes):
-        _run(["o", "--api-key", "k"])
+        _run(["w", "--api-key", "k"])

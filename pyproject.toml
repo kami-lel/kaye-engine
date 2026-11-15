@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "kaye-engine"
-version = "11.1.0"
+version = "12.0.0"
 description = "A Markdown-to-prompt engine: parse any number of plain Markdown sources into one structured tree, select the parts a scenario needs through blueprints, and render them as prompts, Agent Skills, and plugins for the tools you use, so your instructions keep a single source of truth and never drift apart"
 readme = "README.md"
 authors = [
@@ -42,3 +42,4 @@ exclude = ["build*", "tests*", "dify_studio*", "examples*", "scripts*"]
 
 [tool.setuptools.package-data]
 "*" = ["permission_cmds.jsonc"]
+"kaye_engine.cli.github_release" = ["installer_templates/*"]

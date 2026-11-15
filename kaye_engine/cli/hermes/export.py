@@ -15,9 +15,7 @@ from kaye_engine.cli.hermes.setup import (
     get_hermes_profile_blueprint_names,
     get_hermes_soul_blueprint_name,
 )
-from kaye_engine.cli.claude.plugin_marketplace_name import (
-    get_plugin_consumers,
-)
+from kaye_engine.cli.plugin_platform.consumers import get_plugin_consumers
 from kaye_engine.prompt.blueprint import blueprint_registry
 from kaye_engine.skill.export_folders import export_skills_as_folders
 

@@ -4,27 +4,8 @@ export_plugin_as_folder.py
 define ``export_plugin_as_folder``, ``export_plugins_as_folders``
 """
 
-import kamilog
-from kaye_engine.cli.claude import LOGGER_CLAUDE_NAME
-from kaye_engine.cli.claude.package_meta import (
-    get_plugin_keywords,
-    read_package_meta,
-)
-from kaye_engine.cli.claude.plugin_marketplace_name import (
-    select_plugin_consumers,
-)
-from kaye_engine.skill.export_folders import (
-    export_skills_as_folders,
-)
-
-from .manifest import ManifestPluginJson
-
-# logger  ######################################################################
-logger = kamilog.getLogger(LOGGER_CLAUDE_NAME)
-
-# constants  ===================================================================
-
-_SKILLS_DIR = "skills"
+from kaye_engine.cli.claude.platform import CLAUDE_PLATFORM
+from kaye_engine.cli.plugin_platform import export as platform_export
 
 # entry point  #################################################################
 
@@ -54,33 +35,13 @@ def export_plugin_as_folder(
     :return: path to the created plugin directory
     :rtype: Path
     """
-    plugin_name = consumer.canonical_name
-    plugin_root = parent_folder / plugin_name
-    meta = read_package_meta(plugin_name)
-
-    with ManifestPluginJson(plugin_root) as manifest:
-        manifest.name = plugin_name
-        manifest.display_name = consumer.display_name
-        manifest.version = consumer.version
-        manifest.description = meta.summary
-        manifest.author_name = meta.author_name
-        manifest.author_email = meta.author_email
-        manifest.homepage = meta.homepage
-        manifest.repository = meta.repository
-        manifest.keywords = get_plugin_keywords(meta, plugin_name)
-
-    logger.debug("exporting exportables as plugin skills: " + plugin_name)
-    export_skills_as_folders(
-        plugin_root / _SKILLS_DIR,
-        version=consumer.version,
+    return platform_export.export_plugin_as_folder(
+        CLAUDE_PLATFORM,
+        parent_folder,
+        consumer,
         render_profile=render_profile,
-        consumer=plugin_name,
+        quiet=quiet,
     )
-
-    report = logger.debug if quiet else logger.succ
-    report("export plugin:\t" + str(plugin_root))
-
-    return plugin_root
 
 
 def export_plugins_as_folders(
@@ -101,9 +62,9 @@ def export_plugins_as_folders(
     :rtype: list[Path]
     :raises ValueError: when ``consumer_name`` matches no plugin consumer
     """
-    return [
-        export_plugin_as_folder(
-            parent_folder, consumer, render_profile=render_profile
-        )
-        for consumer in select_plugin_consumers(consumer_name)
-    ]
+    return platform_export.export_plugins_as_folders(
+        CLAUDE_PLATFORM,
+        parent_folder,
+        render_profile=render_profile,
+        consumer_name=consumer_name,
+    )
