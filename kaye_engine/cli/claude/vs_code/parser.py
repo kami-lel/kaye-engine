@@ -39,12 +39,20 @@ _DESCRIPTION = (
 
 which performs:
 
-- writes CLAUDE.md as the User System Prompt (Chat Blueprint + Coder Blueprint)
+- writes CLAUDE.md as the User System Prompt (Chat Blueprint + Coder
+  Blueprint); a differing CLAUDE.md is first copied to CLAUDE.md.TS.bak
 - exports the plugin wrapped in a marketplace under
-  MARKETPLACE_FOLDER_NAME/.
+  MARKETPLACE_FOLDER_NAME/
+- registers the marketplace and enables its plugins in settings.json,
+  adding missing keys only; an invalid settings.json aborts with nothing
+  written
+
+the steps are specified in docs/installer-algorithm-doc.md; restart VS Code
+afterwards.
 
 CLAUDE_FOLDER/  (default: ~/.claude)
 ├── CLAUDE.md  (User System Prompt)
+├── settings.json  (marketplace registered, plugins enabled)
 └── MARKETPLACE_FOLDER_NAME/
     ├── .claude-plugin/
     │   └── marketplace.json
@@ -84,6 +92,7 @@ def _vs_code_main(args):
 
     logger.info("marketplace.json location:\n" + str(marketplace_path))
     logger.done("export VS Code Extension folder:\t" + str(folder))
+    logger.info("restart VS Code; the plugins are enabled")
 
 
 # pylint: disable=missing-function-docstring

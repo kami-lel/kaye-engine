@@ -4,6 +4,7 @@ tests/consumer_test.py
 test:
 - register_consumer, get_consumer, iter_consumers
 - set_entry_consumer and the get_consumer_* getters reading it
+- set_default_consumer and get_default_consumer
 - every exportable registration naming a registered consumer
 """
 
@@ -16,8 +17,11 @@ from kaye_engine.consumer import (
     get_consumer_canonical_name,
     get_consumer_display_name,
     get_consumer_version,
+    get_default_consumer,
+    get_entry_consumer,
     iter_consumers,
     register_consumer,
+    set_default_consumer,
     set_entry_consumer,
 )
 from kaye_engine.exportable import exportable_registry
@@ -163,3 +167,39 @@ class TestExportableNamesConsumer:
         register_consumer("A", "a", "1")
 
         assert check_consumer("a") == "a"
+
+
+class TestDefaultConsumer:
+
+    def test_set_and_get(_):
+        record = register_consumer("A", "a", "1")
+        set_default_consumer("a")
+
+        assert get_default_consumer() is record
+
+    def test_later_call_wins(_):
+        register_consumer("A", "a", "1")
+        b = register_consumer("B", "b", "2")
+        set_default_consumer("a")
+        set_default_consumer("b")
+
+        assert get_default_consumer() is b
+
+    def test_unregistered_rejected(_):
+        with pytest.raises(ValueError):
+            set_default_consumer("no-such-consumer")
+
+    def test_unset_exits_1(_):
+        with pytest.raises(SystemExit) as info:
+            get_default_consumer()
+
+        assert info.value.code == 1
+
+    def test_independent_of_entry_consumer(_):
+        register_consumer("A", "a", "1")
+        b = register_consumer("B", "b", "2")
+        set_entry_consumer("a")
+        set_default_consumer("b")
+
+        assert get_entry_consumer().canonical_name == "a"
+        assert get_default_consumer() is b

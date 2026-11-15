@@ -28,7 +28,25 @@ manually add chat & coder, instead by data structure
 
 ### Added
 
+- `generate_vs_code_payload` (stage 1) writes `CLAUDE.md` and the marketplace into any folder; `place_vs_code_payload` (stage 2) merges it into a Claude folder
+- `live_run` in `kaye_engine.cli.dry_run`: run a block live inside a dry run
+- `set_repo_name`, `set_repo_version` (`kaye_engine.repo`) and `set_default_consumer` register the repo and the default consumer that name release assets
+- `build-github-release` also writes one-click VS Code installers: `REPO-VERSION-claude-vsc-installer-Win.zip` (`Install.cmd`, `install.ps1`, `payload/`) and `REPO-VERSION-claude-vsc-installer-linux.run` (`bash NAME.run`), with no Kaye Engine inside
+- `docs/installer-algorithm-doc.md`: the one spec the installers and `vs-code-extension` follow
+- `get_release_asset_name`, `get_release_asset_stem` (`kaye_engine.cli.github_release.asset_name`) build the asset names; `export_plugin_as_zip` takes an optional `zip_stem` callable to name its zip
+- `set_repo_name`, `set_repo_version`, `set_default_consumer` are exported from `kaye_engine`
+
 ### Changed
+
+- release assets are named `REPO-VERSION-TYPE[-CONSUMER|-OS].ext`; the default consumer's name is left out
+- the `claude plugin` positional is now `CONSUMER` (was `CONSUMER_PROJ`), after `FOLDER`; an unknown name exits 1 listing the valid ones
+- `claude vs-code-extension` registers the marketplace (`extraKnownMarketplaces`) and enables its plugins (`enabledPlugins`) in `settings.json`; the manual add-marketplace step is gone from the docs
+
+> [!WARNING]
+> `claude vs-code-extension` now copies a differing `CLAUDE.md` to `CLAUDE.md.YYYYMMDDHHMMSS.bak` before replacing it, and edits `settings.json` on every run (missing keys only; invalid JSON aborts with nothing written)
+
+> [!WARNING]
+> `build-github-release` takes one required `OUTPUT` and nothing else: `-o`/`--output` and the consumer argument are gone, no `dist/` default, and a consumer project must call `set_repo_name`, `set_repo_version`, and `set_default_consumer` first. `claude plugin` without a consumer exports the default consumer, no longer every consumer (`claude plugin -z . NAME` is unchanged)
 
 ### Deprecated
 

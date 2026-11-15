@@ -76,6 +76,9 @@ no fallback; a `glossary-*` group takes its glossary's consumer:
 | `register_corpus_under_node` | additive | registrations graft in passes, any order; a duplicate sibling heading raises; refused once the tree is loaded |
 | `load_corpus_tree` | guarded | one tree per process; a second load raises until `clear_corpus_tree()` |
 | `set_entry_consumer` | entry-point | names the consumer owning the process-wide CLI identity, read by every `get_consumer_*` getter |
+| `set_default_consumer` | entry-point | names the registered consumer a command targets when none is named, and the one release asset names leave out; separate from the entry consumer |
+| `set_repo_name` | entry-point | kebab-case repo name, the leading segment of every release asset name |
+| `set_repo_version` | entry-point | the repo's own version string, the version segment of every release asset name |
 | `setup_claude_cli` | entry-point | |
 | `setup_hermes_cli` | entry-point | |
 
@@ -375,7 +378,8 @@ kaye_engine/
 │                      CorpusIndex, registries, render/), dynamic_nodes/,
 │                      affordance_registry.py, builtin_*.py
 ├── abbr_collection/   abbreviation entries, store, JSON loader
-├── consumer.py        consumer registry, entry-consumer getters
+├── consumer.py        consumer registry, entry- and default-consumer getters
+├── repo.py            repo name and version, the release asset names' source
 ├── deed.py            fixed-wording file/dir action lines
 ├── exportable/        Exportable base, exportable_registry, image-prompt subset
 ├── skill/             agent-neutral Skill document, folder/.zip writers
@@ -390,6 +394,27 @@ tests/                 prompt/, abbr/, cli/: mirrors the source
 The `prompt` layer is pure: it knows nothing of Claude or any export
 target. Every export target is a leaf under `cli/`, and each reads
 the same `blueprint_registry` rather than holding its own list.
+
+`build-github-release OUTPUT` writes every release asset from one run: a
+Desktop plugin zip per plugin consumer plus the Windows and Linux VS Code
+installers, each named `REPO-VERSION-TYPE[-CONSUMER|-OS].ext` by
+`get_release_asset_name` from the repo name and version (`kaye_engine/
+repo.py`); the default consumer's name is left out. The installers are
+static scripts (`cli/github_release/installer_templates/`, copied verbatim)
+around a stage 1 payload; no Python or engine ships in them. `claude plugin
+[FOLDER [CONSUMER]]` exports the default consumer when `CONSUMER` is absent.
+
+The `vs-code-extension` command and the release installers place a payload
+into `~/.claude/` by one algorithm, specified in [Installer
+Algorithm](docs/installer-algorithm-doc.md#claude-vs-code-plugin). The
+command runs 2 stages: `generate_vs_code_payload` (stage 1, `vs_code/
+payload.py`) writes `CLAUDE.md` and the marketplace into a folder and knows
+nothing of `~/.claude`; `place_vs_code_payload` (stage 2, `place.py`)
+backs up a differing `CLAUDE.md` to `CLAUDE.md.YYYYMMDDHHMMSS.bak`, swaps
+the marketplace folder in, and merges `settings.json` (`extraKnownMarketplaces`
+and `enabledPlugins`, missing keys only). `export_vs_code_extension` renders
+stage 1 into a temp folder, always live (`live_run`), so a dry run reports
+stage 2's true verdict and writes nothing under `CLAUDE_FOLDER`.
 
 `continue` classifies each `exportable_registry` entry by its export-policy
 flags: `always_apply` forces a rule, otherwise `llm_invokable` gives a rule,
