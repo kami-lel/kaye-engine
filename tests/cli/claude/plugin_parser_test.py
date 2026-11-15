@@ -9,7 +9,7 @@ from argparse import ArgumentParser
 from unittest.mock import patch
 
 import pytest
-from kaye_engine.cli.claude import package_meta
+from kaye_engine.cli.plugin_platform import package_meta
 from kaye_engine.cli.claude.plugin.parser import register_plugin_parser
 from kaye_engine.consumer import register_consumer, set_default_consumer
 from kaye_engine.exportable import exportable_registry

@@ -12,8 +12,8 @@ from kaye_engine.cli.claude import CLAUDE_DOC_DESCRIPTION, LOGGER_CLAUDE_NAME
 from kaye_engine.cli.claude.plugin.export_zip import export_plugin_as_zip
 from kaye_engine.cli.claude.plugin_marketplace_name import (
     check_setup_for_claude_cli,
-    get_plugin_consumers,
 )
+from kaye_engine.cli.plugin_platform.consumers import get_plugin_consumers
 from kaye_engine.cli.dry_run import (
     apply_dry_run_arg,
     build_dry_run_parent_parser,

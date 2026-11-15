@@ -6,12 +6,12 @@ define ``export_plugin_as_folder``, ``export_plugins_as_folders``
 
 import kamilog
 from kaye_engine.cli.claude import LOGGER_CLAUDE_NAME
-from kaye_engine.cli.claude.package_meta import (
+from kaye_engine.cli.plugin_platform.consumers import (
+    select_plugin_consumers,
+)
+from kaye_engine.cli.plugin_platform.package_meta import (
     get_plugin_keywords,
     read_package_meta,
-)
-from kaye_engine.cli.claude.plugin_marketplace_name import (
-    select_plugin_consumers,
 )
 from kaye_engine.skill.export_folders import (
     export_skills_as_folders,

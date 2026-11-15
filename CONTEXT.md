@@ -386,7 +386,9 @@ kaye_engine/
 └── cli/               one leaf per subcommand (blueprint/, claude/, skill/,
                        continue_ai/, hermes/, open_webui/, github_release/, ~)
                        plus shared helpers: list_view.py, file_write.py,
-                       render_profile_parser.py, comment_parser.py, dry_run.py
+                       render_profile_parser.py, comment_parser.py, dry_run.py,
+                       and plugin_platform/ (consumer selection, package
+                       metadata) shared by every plugin platform
 docs/                  per-topic reference, linked above
 tests/                 prompt/, abbr/, cli/: mirrors the source
 ```

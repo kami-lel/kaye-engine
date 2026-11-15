@@ -14,7 +14,7 @@ from unittest.mock import patch
 
 import pytest
 from kaye_engine.cli.cli_main import register_cli_subcommands
-from kaye_engine.cli.claude import package_meta
+from kaye_engine.cli.plugin_platform import package_meta
 from kaye_engine.cli.dry_run import disable_dry_run
 from kaye_engine.cli.github_release.asset_name import (
     ASSET_DESKTOP_PLUGIN,

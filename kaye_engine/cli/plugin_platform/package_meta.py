@@ -10,7 +10,7 @@ from email.utils import parseaddr
 from importlib.metadata import PackageNotFoundError, metadata
 
 import kamilog
-from kaye_engine.cli.claude import LOGGER_CLAUDE_NAME
+from kaye_engine.cli.plugin_platform import LOGGER_PLUGIN_PLATFORM_NAME
 
 __all__ = ("PackageMeta", "get_plugin_keywords", "read_package_meta")
 
@@ -18,7 +18,7 @@ __all__ = ("PackageMeta", "get_plugin_keywords", "read_package_meta")
 _DEFAULT_KEYWORDS = ("prompt-engineering", "agent")
 
 # logger  ######################################################################
-logger = kamilog.getLogger(LOGGER_CLAUDE_NAME)
+logger = kamilog.getLogger(LOGGER_PLUGIN_PLATFORM_NAME)
 
 
 @dataclass(frozen=True)
