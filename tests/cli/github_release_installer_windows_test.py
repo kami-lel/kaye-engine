@@ -46,7 +46,9 @@ def fake_payload(folder, *, render_profile=None):
 @pytest.fixture(autouse=True)
 def _fake_stage_1(monkeypatch):
     disable_dry_run()
-    monkeypatch.setattr(installer_stage, "generate_vs_code_payload", fake_payload)
+    monkeypatch.setattr(
+        installer_stage, "generate_vs_code_payload", fake_payload
+    )
     yield
     disable_dry_run()
 
