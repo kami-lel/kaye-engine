@@ -4,8 +4,8 @@ place.py
 define ``place_vs_code_payload`` -- stage 2 of the VS Code extension
 export: merge a payload into an existing Claude folder, register its
 marketplace and enable its plugins; follows
-``docs/installer-algorithm-doc.md``, as do ``install.ps1`` and
-``install.sh``
+``docs/installer-algorithm-doc.md``, as do
+``place-payload-into-claude-folder.ps1`` and ``install.sh``
 """
 
 import json

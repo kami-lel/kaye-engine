@@ -18,7 +18,7 @@ plugins show installed and enabled.
 | implementer | claude folder | payload from |
 |---|---|---|
 | `place_vs_code_payload` (`vs_code/place.py`, run by `claude vs-code-extension`; Python) | `CLAUDE_FOLDER`, default `~/.claude` | stage 1 output in a temp folder |
-| `install.ps1` (Windows installer; PowerShell) | `%USERPROFILE%\.claude` | `payload\` beside the script |
+| `place-payload-into-claude-folder.ps1` (Windows installer, run by `install.cmd` from `src\`; PowerShell) | `%USERPROFILE%\.claude` | `payload\` beside `src\` |
 | `install.sh` (Linux installer; bash and `python3`) | `$HOME/.claude` | `payload/` extracted to a temp folder |
 
 `install.sh` stops first, with a plain message, when `python3` is absent.
