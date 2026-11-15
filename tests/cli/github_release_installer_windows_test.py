@@ -23,6 +23,7 @@ from kaye_engine.cli.github_release.installer_stage import (
 )
 from kaye_engine.cli.github_release.installer_windows import (
     WINDOWS_TEMPLATE_NAMES,
+    WINDOWS_TEMPLATE_ZIP_PATHS,
     build_windows_installer,
 )
 
@@ -71,14 +72,14 @@ class TestWindowsInstallerZip:
                 "payload/CLAUDE.md",
                 "payload/mk/.claude-plugin/marketplace.json",
                 "payload/mk/plugins/pa/skills/x/SKILL.md",
-                "place-payload-into-claude-folder.ps1",
+                "src/place-payload-into-claude-folder.ps1",
             ]
 
     def test_scripts_are_byte_identical_to_templates(_, built):
         with zipfile.ZipFile(built) as archive:
             for name in WINDOWS_TEMPLATE_NAMES:
                 assert (
-                    archive.read(name)
+                    archive.read(WINDOWS_TEMPLATE_ZIP_PATHS[name])
                     == get_installer_template_path(name).read_bytes()
                 )
 
@@ -162,7 +163,9 @@ class TestInstallPs1UnderPowerShell:
                 "-Prof",
                 _win(profile),
                 "-Script",
-                _win(extracted / "place-payload-into-claude-folder.ps1"),
+                _win(
+                    extracted / "src" / "place-payload-into-claude-folder.ps1"
+                ),
             ],
             capture_output=True,
             text=True,

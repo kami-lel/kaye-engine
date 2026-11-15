@@ -1,11 +1,12 @@
-# place-payload-into-claude-folder.ps1: run by install.cmd, not by hand.
+# place-payload-into-claude-folder.ps1: run by install.cmd from src/, not by
+# hand.
 # Puts the Claude Code prompt structure into %USERPROFILE%\.claude and
 # enables its plugins in VS Code. Follows docs/installer-algorithm-doc.md
 # (Claude VS Code Plugin); takes no argument and reads no setting.
 
 $ErrorActionPreference = 'Stop'
 
-$Payload = Join-Path $PSScriptRoot 'payload'
+$Payload = Join-Path (Split-Path $PSScriptRoot -Parent) 'payload'
 $Claude = [System.IO.Path]::GetFullPath((Join-Path $env:USERPROFILE '.claude'))
 $Utf8 = New-Object System.Text.UTF8Encoding($false)
 
