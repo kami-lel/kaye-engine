@@ -40,22 +40,20 @@ To update, export again and upload the new zip.
    kaye-engine claude vs-code-extension
    ```
 
-   It does 2 things in `~/.claude/`: writes your `CLAUDE.md` system prompt and builds a marketplace folder `kaye-engine/` holding your plugins. It prints the marketplace location; keep it for step 3:
+   It does 4 things in `~/.claude/`:
 
-   ```text
-   INFO  kaye-engine.claude: marketplace.json location:
-   /home/USER/.claude/kaye-engine/.claude-plugin/marketplace.json
-   ```
+   - writes your `CLAUDE.md` system prompt; a different `CLAUDE.md` already there is first copied to `CLAUDE.md.YYYYMMDDHHMMSS.bak`
+   - builds a marketplace folder `kaye-engine/` holding your plugins
+   - registers that marketplace in `settings.json` (`extraKnownMarketplaces`)
+   - enables each of its plugins in `settings.json` (`enabledPlugins`)
 
-2. Open the plugin manager: in the *Claude Code* panel, type `/` and choose *Manage plugins*.
+   `settings.json` only gains missing keys: anything already there, a plugin you turned off included, stays as it is. If it is not valid JSON, the command stops and writes nothing. Each step is specified in [Installer Algorithm](installer-algorithm-doc.md#claude-vs-code-plugin).
+
+2. Restart VS Code. Open the plugin manager: in the *Claude Code* panel, type `/` and choose *Manage plugins*. The `kaye-engine` marketplace is listed and its plugins are installed and enabled.
 
    ![Manage plugins in the slash menu](assets/claude-vsc-step-1-manage-plugins.png)
 
-3. Add the marketplace: in the *Marketplaces* tab, paste the `marketplace.json` path printed in step 1 (`/home/USER/.claude/kaye-engine/.claude-plugin/marketplace.json`) and click *Add*. The `kaye-engine` marketplace now appears in the list.
-
-   ![Marketplaces tab with kaye-engine added](assets/claude-vsc-step-2-add-marketplace.png)
-
-4. Install your plugins: switch to the *Plugins* tab and install each consumer project's plugin. The marketplace only lists them; nothing is active until you install it.
+   <!-- TODO new screenshot: the plugin manager with the kaye-engine marketplace already listed and its plugins enabled, replacing the old add-marketplace step -->
 
 To update, run the command again.
 
@@ -118,7 +116,7 @@ kaye-engine claude code CLAUDE_FOLDER
 
 ### vs-code-extension
 
-Does what `code` does for the VS Code extension, but wraps plugins in a marketplace; steps in [Use in the Claude Code VS Code Extension](#use-in-the-claude-code-vs-code-extension).
+Does what `code` does for the VS Code extension, but wraps plugins in a marketplace, registers it, and enables its plugins; steps in [Use in the Claude Code VS Code Extension](#use-in-the-claude-code-vs-code-extension).
 
 ```bash
 kaye-engine claude vs-code-extension

@@ -63,6 +63,7 @@ merge.
 | `kaye_engine/cli/open_webui/` | `tests/cli/open_webui/` |
 | `kaye_engine/cli/skill/` | `tests/cli/skill/` |
 | `kaye_engine/cli/github_release/` | `tests/cli/github_release_test.py` |
+| `kaye_engine/cli/claude/vs_code/` | `tests/cli/claude/vs_code_payload_test.py`, `tests/cli/claude/vs_code_place_test.py`, `tests/cli/claude/vs_code_settings_test.py`, `tests/cli/dry_run_test.py` |
 | `kaye_engine/cli/claude/skills/` | `tests/cli/cli_main_test.py`, `tests/cli/dry_run_test.py` |
 | `kaye_engine/skill/` | `tests/skill/`, plus `tests/cli/open_webui/skill_form_test.py` (reads `Skill`) |
 | `kaye_engine/exportable/` | `tests/exportable_test.py`, `tests/image_prompt_export_test.py` |

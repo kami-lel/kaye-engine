@@ -396,7 +396,15 @@ the same `blueprint_registry` rather than holding its own list.
 
 The `vs-code-extension` command and the release installers place a payload
 into `~/.claude/` by one algorithm, specified in [Installer
-Algorithm](docs/installer-algorithm-doc.md#claude-vs-code-plugin).
+Algorithm](docs/installer-algorithm-doc.md#claude-vs-code-plugin). The
+command runs 2 stages: `generate_vs_code_payload` (stage 1, `vs_code/
+payload.py`) writes `CLAUDE.md` and the marketplace into a folder and knows
+nothing of `~/.claude`; `place_vs_code_payload` (stage 2, `place.py`)
+backs up a differing `CLAUDE.md` to `CLAUDE.md.YYYYMMDDHHMMSS.bak`, swaps
+the marketplace folder in, and merges `settings.json` (`extraKnownMarketplaces`
+and `enabledPlugins`, missing keys only). `export_vs_code_extension` renders
+stage 1 into a temp folder, always live (`live_run`), so a dry run reports
+stage 2's true verdict and writes nothing under `CLAUDE_FOLDER`.
 
 `continue` classifies each `exportable_registry` entry by its export-policy
 flags: `always_apply` forces a rule, otherwise `llm_invokable` gives a rule,

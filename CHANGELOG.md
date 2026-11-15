@@ -28,7 +28,15 @@ manually add chat & coder, instead by data structure
 
 ### Added
 
+- `generate_vs_code_payload` (stage 1) writes `CLAUDE.md` and the marketplace into any folder; `place_vs_code_payload` (stage 2) merges it into a Claude folder
+- `live_run` in `kaye_engine.cli.dry_run`: run a block live inside a dry run
+
 ### Changed
+
+- `claude vs-code-extension` registers the marketplace (`extraKnownMarketplaces`) and enables its plugins (`enabledPlugins`) in `settings.json`; the manual add-marketplace step is gone from the docs
+
+> [!WARNING]
+> `claude vs-code-extension` now copies a differing `CLAUDE.md` to `CLAUDE.md.YYYYMMDDHHMMSS.bak` before replacing it, and edits `settings.json` on every run (missing keys only; invalid JSON aborts with nothing written)
 
 ### Deprecated
 
