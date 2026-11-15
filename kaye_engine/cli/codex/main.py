@@ -3,6 +3,9 @@
 from argparse import RawDescriptionHelpFormatter
 
 from kaye_engine.cli.codex import CODEX_DOC_DESCRIPTION
+from kaye_engine.cli.codex.marketplace.parser import (
+    register_codex_marketplace_parser,
+)
 from kaye_engine.cli.codex.plugin.parser import register_codex_plugin_parser
 
 
@@ -27,3 +30,4 @@ def register_cli_codex_parser(  ################################################
     )
 
     register_codex_plugin_parser(codex_subparser)
+    register_codex_marketplace_parser(codex_subparser)

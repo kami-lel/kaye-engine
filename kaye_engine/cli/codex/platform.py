@@ -2,16 +2,21 @@
 platform.py
 
 define ``CodexPlatform``, ``CODEX_PLATFORM`` -- the OpenAI Codex
-``PluginPlatform``: root ``plugin.json`` plus ``.codex-plugin/plugin.json``
+``PluginPlatform``: root ``plugin.json`` plus ``.codex-plugin/plugin.json``,
+and ``.agents/plugins/marketplace.json``
 """
 
 import kamilog
 from kaye_engine.cli.codex import LOGGER_CODEX_NAME
+from kaye_engine.cli.codex.marketplace.manifest import (
+    CodexMarketplace,
+    CodexMarketplacePlugin,
+)
 from kaye_engine.cli.codex.plugin.manifest import CodexPluginManifest
 from kaye_engine.cli.plugin_platform.package_meta import get_plugin_keywords
 from kaye_engine.cli.plugin_platform.platform import PluginPlatform
 
-__all__ = ("CODEX_PLATFORM", "CodexPlatform")
+__all__ = ("CODEX_PLATFORM", "CodexPlatform", "get_marketplace_display_name")
 
 # logger  ######################################################################
 logger = kamilog.getLogger(LOGGER_CODEX_NAME)
@@ -41,12 +46,24 @@ class CodexPlatform(PluginPlatform):  ##########################################
         ).write(logger, plugin_root)
 
     def build_marketplace_entry(self, consumer, meta, source):
-        # TODO write Codex marketplace entry (Movement 6)
-        raise NotImplementedError
+        return CodexMarketplacePlugin(name=consumer.canonical_name, path=source)
 
     def write_marketplace_manifest(self, root, name, entries, engine_meta):
-        # TODO write .agents/plugins/marketplace.json (Movement 6)
-        raise NotImplementedError
+        return CodexMarketplace(
+            name=name,
+            display_name=get_marketplace_display_name(name),
+            plugins=list(entries),
+        ).write(logger, root)
+
+
+def get_marketplace_display_name(name):
+    """
+    :param name: kebab-case marketplace name, eg ``kaye-engine``
+    :type name: str
+    :return: its title-case display name, eg ``Kaye Engine``
+    :rtype: str
+    """
+    return " ".join(word.capitalize() for word in name.split("-"))
 
 
 # the one Codex platform instance every exporter shares
