@@ -41,6 +41,7 @@ manually add chat & coder, instead by data structure
 - release assets are named `REPO-VERSION-TYPE[-CONSUMER|-OS].ext`; the default consumer's name is left out
 - the `claude plugin` positional is now `CONSUMER` (was `CONSUMER_PROJ`), after `FOLDER`; an unknown name exits 1 listing the valid ones
 - `claude vs-code-extension` registers the marketplace (`extraKnownMarketplaces`) and enables its plugins (`enabledPlugins`) in `settings.json`; the manual add-marketplace step is gone from the docs
+- the Claude Desktop and VS Code Extension install walkthroughs, with their screenshots, moved to `kaye-library`'s `docs/claude-usage-doc.md`; `docs/claude-doc.md` keeps the command reference
 
 > [!WARNING]
 > `claude vs-code-extension` now copies a differing `CLAUDE.md` to `CLAUDE.md.YYYYMMDDHHMMSS.bak` before replacing it, and edits `settings.json` on every run (missing keys only; invalid JSON aborts with nothing written)
