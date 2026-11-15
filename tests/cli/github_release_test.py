@@ -1,7 +1,7 @@
 """
 tests/cli/github_release_test.py
 
-test: ``build-github-release OUTPUT`` -- one zip per plugin consumer plus
+test: ``build-github-release-assets OUTPUT`` -- one zip per plugin consumer plus
 both VS Code installers, all named ``REPO-VERSION-TYPE[-CONSUMER|-OS]``, the
 old ``-o`` and consumer argument rejected, an unset repo name, version, or
 default consumer exits 1, dry run lists every asset and writes nothing;
@@ -85,7 +85,7 @@ def _run(argv):
 class TestBuildGithubRelease:
 
     def test_one_run_writes_two_zips_and_both_installers(_, tmp_path):
-        _run(["build-github-release", str(tmp_path)])
+        _run(["build-github-release-assets", str(tmp_path)])
 
         assert sorted(p.name for p in tmp_path.iterdir()) == [
             "pkg-one-1.1.0-claude-desktop-plugin-pkg-two.zip",
@@ -97,14 +97,14 @@ class TestBuildGithubRelease:
     def test_default_consumer_zip_leaves_its_name_out(_, tmp_path):
         set_default_consumer("pkg-two")
 
-        _run(["build-github-release", str(tmp_path)])
+        _run(["build-github-release-assets", str(tmp_path)])
 
         names = sorted(p.name for p in tmp_path.iterdir())
         assert "pkg-one-1.1.0-claude-desktop-plugin-pkg-one.zip" in names
         assert "pkg-one-1.1.0-claude-desktop-plugin.zip" in names
 
     def test_installers_are_the_expected_kind_of_file(_, tmp_path):
-        _run(["build-github-release", str(tmp_path)])
+        _run(["build-github-release-assets", str(tmp_path)])
 
         win = tmp_path / "pkg-one-1.1.0-claude-vsc-installer-Win.zip"
         with zipfile.ZipFile(win) as archive:
@@ -123,7 +123,7 @@ class TestBuildGithubRelease:
             fake_payload(folder)
 
         with patch.object(installer_stage, "generate_vs_code_payload", spy):
-            _run(["build-github-release", str(tmp_path)])
+            _run(["build-github-release-assets", str(tmp_path)])
 
         assert len(seen) == 2
         assert all(profile.show_comment for profile in seen)
@@ -131,14 +131,14 @@ class TestBuildGithubRelease:
     def test_every_asset_starts_with_the_repo_name(_, tmp_path):
         set_repo_name("some-repo")
 
-        _run(["build-github-release", str(tmp_path)])
+        _run(["build-github-release-assets", str(tmp_path)])
 
         assert all(
             p.name.startswith("some-repo-1.1.0-") for p in tmp_path.iterdir()
         )
 
     def test_log_names_every_zip_written(_, tmp_path, caplog):
-        _run(["build-github-release", str(tmp_path)])
+        _run(["build-github-release-assets", str(tmp_path)])
 
         assert "pkg-one-1.1.0-claude-desktop-plugin.zip" in caplog.text
         assert "pkg-one-1.1.0-claude-desktop-plugin-pkg-two.zip" in caplog.text
@@ -146,7 +146,7 @@ class TestBuildGithubRelease:
     def test_each_zip_holds_manifest_at_root_and_only_own_skills(
         _, tmp_path
     ):
-        _run(["build-github-release", str(tmp_path)])
+        _run(["build-github-release-assets", str(tmp_path)])
 
         with zipfile.ZipFile(
             tmp_path / "pkg-one-1.1.0-claude-desktop-plugin.zip"
@@ -158,22 +158,22 @@ class TestBuildGithubRelease:
 
     def test_output_is_required(_):
         with pytest.raises(SystemExit):
-            _parse(["build-github-release"])
+            _parse(["build-github-release-assets"])
 
     def test_old_output_flag_is_rejected(_, tmp_path):
         with pytest.raises(SystemExit):
-            _parse(["build-github-release", "-o", str(tmp_path)])
+            _parse(["build-github-release-assets", "-o", str(tmp_path)])
 
     def test_a_consumer_argument_is_rejected(_, tmp_path):
         with pytest.raises(SystemExit):
-            _parse(["build-github-release", str(tmp_path), "pkg-one"])
+            _parse(["build-github-release-assets", str(tmp_path), "pkg-one"])
 
     def test_dry_run_lists_every_asset_and_writes_nothing(
         _, tmp_path, caplog
     ):
         out = tmp_path / "out"
 
-        _run(["build-github-release", "-n", str(out)])
+        _run(["build-github-release-assets", "-n", str(out)])
 
         assert not out.exists()
         for name in (
@@ -201,7 +201,7 @@ class TestBuildGithubRelease:
             consumer._default_canonical_name = None
 
         with pytest.raises(SystemExit) as raised:
-            _run(["build-github-release", str(tmp_path / "out")])
+            _run(["build-github-release-assets", str(tmp_path / "out")])
 
         assert raised.value.code == 1
         assert not (tmp_path / "out").exists()
@@ -247,3 +247,10 @@ class TestGetReleaseAssetName:
     def test_bad_arguments_raise(_, kwargs):
         with pytest.raises(ValueError):
             get_release_asset_name(**kwargs)
+
+
+class TestRenamedCommand:
+
+    def test_old_name_is_rejected(_):
+        with pytest.raises(SystemExit):
+            _parse(["build-github-release", "OUT"])

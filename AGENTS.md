@@ -118,7 +118,7 @@ Bare `blueprint`, `exportable`, `dynamic-node` and `glossary` (`bp`, `x`,
 kaye-engine blueprint render BLUEPRINT -D   # own nodes only; stdin if omitted
 kaye-engine blueprint validate BLUEPRINT    # exit 0 if sound, 1 with reason
 kaye-engine claude plugin -z . CONSUMER     # only that consumer's plugin
-CONSUMER_CLI build-github-release OUTPUT    # every release asset into OUTPUT
+CONSUMER_CLI build-github-release-assets OUTPUT    # every release asset into OUTPUT
 kaye-engine hermes FOLDER -n                # report every write, touch nothing
 kaye-engine rp -l -r '^claude$'             # list command: -r -c -l -N -f -C
 OWU_API_KEY=sk-... kaye-engine w -n         # Open WebUI sync, dry run

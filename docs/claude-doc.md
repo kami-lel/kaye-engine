@@ -81,10 +81,10 @@ Here `-c` means `--coder`; the comment toggle is long-form only (`--comment`/`--
 
 ## Build GitHub Release Assets
 
-`build-github-release` is a top-level command, not a `claude` subcommand. One run writes every release asset of the consumer project into `OUTPUT`, for a release workflow to attach to a GitHub Release. Run it from the consumer's console script, which registers the consumers, the repo name, and the repo version:
+`build-github-release-assets` is a top-level command, not a `claude` subcommand. One run writes every release asset of the consumer project into `OUTPUT`, for a release workflow to attach to a GitHub Release. Run it from the consumer's console script, which registers the consumers, the repo name, and the repo version:
 
 ```bash
-CONSUMER_CLI build-github-release dist
+CONSUMER_CLI build-github-release-assets dist
 ```
 
 - `OUTPUT`: the one required argument, the destination folder; there is no `-o` and no consumer argument
@@ -127,7 +127,7 @@ Every command needs the consumer package to register itself first; without it, t
 
 - Consumer: call `register_consumer(display_name, canonical_name, version)` once. The canonical name is the plugin name and must equal the installed distribution name
 - Console command: call `set_entry_consumer(canonical_name)` and `setup_claude_cli(...)` during setup
-- Release and `claude plugin`: call `set_repo_name(name)`, `set_repo_version(version)`, and `set_default_consumer(canonical_name)`; `build-github-release` and a bare `claude plugin` exit 1 without them
+- Release and `claude plugin`: call `set_repo_name(name)`, `set_repo_version(version)`, and `set_default_consumer(canonical_name)`; `build-github-release-assets` and a bare `claude plugin` exit 1 without them
 - Chat and Coder: `code`, `vs-code-extension`, and `user-system-prompt` also need the Chat and merged Coder exportable names passed to `setup_claude_cli(...)`; the merged Coder should list Chat as a dependency
 
 ## Editing the Corpus

@@ -65,7 +65,7 @@ each file is named REPO-VERSION-TYPE[-CONSUMER|-OS].ext from the repo name
 and version the consumer project registered; the default consumer's name
 is left out. --dry-run lists every asset and writes nothing. Run it from a
 consumer's console script, which registers them:
-CONSUMER_CLI build-github-release dist
+CONSUMER_CLI build-github-release-assets dist
 """
     + CLAUDE_DOC_DESCRIPTION
     + RENDER_PROFILE_DESCRIPTION
@@ -91,7 +91,7 @@ def _resolve_installer_render_profile(args):
 # pylint: disable=missing-function-docstring
 def register_github_release_parser(cli_subparser):  ############################
     github_release_parser = cli_subparser.add_parser(
-        "build-github-release",
+        "build-github-release-assets",
         help=__doc__,
         description=_DESCRIPTION,
         formatter_class=RawDescriptionHelpFormatter,
@@ -116,7 +116,7 @@ def register_github_release_parser(cli_subparser):  ############################
     def _github_release_main(args):
         apply_verbosity_arg(args)
         apply_dry_run_arg(args)
-        logger.enter("{} build-github-release".format(PACKAGE_NAME))
+        logger.enter("{} build-github-release-assets".format(PACKAGE_NAME))
         check_setup_for_claude_cli()
 
         render_profile = resolve_render_profile(
