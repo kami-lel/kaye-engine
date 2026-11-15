@@ -58,6 +58,7 @@ merge.
 | `kaye_engine/abbr_collection/` | `tests/abbr/` |
 | `kaye_engine/cli/` | `tests/cli/` |
 | `kaye_engine/cli/blueprint/` | `tests/cli/blueprint/` (drives the real parsers over a small inline corpus; `aux_input_test.py`, `aux_output_test.py` for the helpers) |
+| `kaye_engine/cli/codex/` | `tests/cli/codex/`, `tests/cli/cli_main_test.py`, `tests/cli/flag_letter_test.py` |
 | `kaye_engine/cli/continue_ai/` | `tests/cli/continue_ai/` |
 | `kaye_engine/cli/hermes/` | `tests/cli/hermes/` |
 | `kaye_engine/cli/open_webui/` | `tests/cli/open_webui/` |

@@ -1,0 +1,29 @@
+"""support OpenAI Codex"""
+
+from argparse import RawDescriptionHelpFormatter
+
+from kaye_engine.cli.codex import CODEX_DOC_DESCRIPTION
+from kaye_engine.cli.codex.plugin.parser import register_codex_plugin_parser
+
+
+def register_cli_codex_parser(  ################################################
+    cli_subparser,
+):  # pylint: disable=missing-function-docstring
+    codex_parser = cli_subparser.add_parser(
+        "codex",
+        help=__doc__,
+        description=__doc__ + CODEX_DOC_DESCRIPTION,
+        formatter_class=RawDescriptionHelpFormatter,
+        aliases=["o"],
+    )
+
+    def _codex_parser_main(_):
+        codex_parser.print_help()
+
+    codex_parser.set_defaults(func=_codex_parser_main)
+
+    codex_subparser = codex_parser.add_subparsers(
+        description="export to Codex in various ways:"
+    )
+
+    register_codex_plugin_parser(codex_subparser)
