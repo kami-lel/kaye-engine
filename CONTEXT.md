@@ -378,7 +378,8 @@ kaye_engine/
 │                      CorpusIndex, registries, render/), dynamic_nodes/,
 │                      affordance_registry.py, builtin_*.py
 ├── abbr_collection/   abbreviation entries, store, JSON loader
-├── consumer.py        consumer registry, entry-consumer getters
+├── consumer.py        consumer registry, entry- and default-consumer getters
+├── repo.py            repo name and version, the release asset names' source
 ├── deed.py            fixed-wording file/dir action lines
 ├── exportable/        Exportable base, exportable_registry, image-prompt subset
 ├── skill/             agent-neutral Skill document, folder/.zip writers
@@ -393,6 +394,15 @@ tests/                 prompt/, abbr/, cli/: mirrors the source
 The `prompt` layer is pure: it knows nothing of Claude or any export
 target. Every export target is a leaf under `cli/`, and each reads
 the same `blueprint_registry` rather than holding its own list.
+
+`build-github-release OUTPUT` writes every release asset from one run: a
+Desktop plugin zip per plugin consumer plus the Windows and Linux VS Code
+installers, each named `REPO-VERSION-TYPE[-CONSUMER|-OS].ext` by
+`get_release_asset_name` from the repo name and version (`kaye_engine/
+repo.py`); the default consumer's name is left out. The installers are
+static scripts (`cli/github_release/installer_templates/`, copied verbatim)
+around a stage 1 payload; no Python or engine ships in them. `claude plugin
+[FOLDER [CONSUMER]]` exports the default consumer when `CONSUMER` is absent.
 
 The `vs-code-extension` command and the release installers place a payload
 into `~/.claude/` by one algorithm, specified in [Installer

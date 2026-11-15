@@ -62,7 +62,7 @@ merge.
 | `kaye_engine/cli/hermes/` | `tests/cli/hermes/` |
 | `kaye_engine/cli/open_webui/` | `tests/cli/open_webui/` |
 | `kaye_engine/cli/skill/` | `tests/cli/skill/` |
-| `kaye_engine/cli/github_release/` | `tests/cli/github_release_test.py` |
+| `kaye_engine/cli/github_release/` | `tests/cli/github_release_test.py`, `tests/cli/github_release_installer_windows_test.py`, `tests/cli/github_release_installer_linux_test.py`, `tests/cli/github_release_parity_test.py`, `tests/cli/dry_run_test.py` |
 | `kaye_engine/cli/claude/vs_code/` | `tests/cli/claude/vs_code_payload_test.py`, `tests/cli/claude/vs_code_place_test.py`, `tests/cli/claude/vs_code_settings_test.py`, `tests/cli/dry_run_test.py` |
 | `kaye_engine/cli/claude/skills/` | `tests/cli/cli_main_test.py`, `tests/cli/dry_run_test.py` |
 | `kaye_engine/skill/` | `tests/skill/`, plus `tests/cli/open_webui/skill_form_test.py` (reads `Skill`) |
@@ -116,7 +116,7 @@ Bare `blueprint`, `exportable`, `dynamic-node` and `glossary` (`bp`, `x`,
 kaye-engine blueprint render BLUEPRINT -D   # own nodes only; stdin if omitted
 kaye-engine blueprint validate BLUEPRINT    # exit 0 if sound, 1 with reason
 kaye-engine claude plugin -z . CONSUMER     # only that consumer's plugin
-CONSUMER_CLI build-github-release CONSUMER [-o FOLDER]  # release zip
+CONSUMER_CLI build-github-release OUTPUT    # every release asset into OUTPUT
 kaye-engine hermes FOLDER -n                # report every write, touch nothing
 kaye-engine rp -l -r '^claude$'             # list command: -r -c -l -N -f -C
 OWU_API_KEY=sk-... kaye-engine o -n         # Open WebUI sync, dry run

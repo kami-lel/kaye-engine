@@ -1,10 +1,11 @@
 """
 tests/cli/github_release_test.py
 
-test: ``build-github-release OUTPUT`` -- one zip per plugin consumer named
-``REPO-VERSION-TYPE[-CONSUMER]``, the old ``-o`` and consumer argument
-rejected, an unset repo name, version, or default consumer exits 1, dry run
-writes nothing; ``get_release_asset_name``
+test: ``build-github-release OUTPUT`` -- one zip per plugin consumer plus
+both VS Code installers, all named ``REPO-VERSION-TYPE[-CONSUMER|-OS]``, the
+old ``-o`` and consumer argument rejected, an unset repo name, version, or
+default consumer exits 1, dry run lists every asset and writes nothing;
+``get_release_asset_name``
 """
 
 import zipfile
@@ -29,6 +30,8 @@ from kaye_engine.prompt.blueprint import BlueprintRegistry, create_blueprint
 from kaye_engine.prompt.prompt_corpus_loader import clear_corpus_tree
 
 from tests.cli.claude.plugin_consumers_test import _FakeMetadata
+from tests.cli.github_release_installer_windows_test import fake_payload
+from kaye_engine.cli.github_release import installer_stage
 from tests.consumer_helper import isolated_consumers, isolated_repo
 from tests.corpus_helper import load_corpus_from_sources
 
@@ -51,7 +54,9 @@ def _two_consumers():
     }
     with isolated_consumers(), isolated_repo(), patch.dict(
         exportable_registry, entries, clear=True
-    ), patch.object(package_meta, "metadata") as meta_mock:
+    ), patch.object(package_meta, "metadata") as meta_mock, patch.object(
+        installer_stage, "generate_vs_code_payload", fake_payload
+    ):
         register_consumer("Package One", "pkg-one", "1.1.0")
         register_consumer("Package Two", "pkg-two", "2.2.0")
         set_default_consumer("pkg-one")
@@ -79,12 +84,14 @@ def _run(argv):
 
 class TestBuildGithubRelease:
 
-    def test_writes_one_zip_per_consumer_into_output(_, tmp_path):
+    def test_one_run_writes_two_zips_and_both_installers(_, tmp_path):
         _run(["build-github-release", str(tmp_path)])
 
         assert sorted(p.name for p in tmp_path.iterdir()) == [
             "pkg-one-1.1.0-claude-desktop-plugin-pkg-two.zip",
             "pkg-one-1.1.0-claude-desktop-plugin.zip",
+            "pkg-one-1.1.0-claude-vsc-installer-Win.zip",
+            "pkg-one-1.1.0-claude-vsc-installer-linux.run",
         ]
 
     def test_default_consumer_zip_leaves_its_name_out(_, tmp_path):
@@ -92,10 +99,32 @@ class TestBuildGithubRelease:
 
         _run(["build-github-release", str(tmp_path)])
 
-        assert sorted(p.name for p in tmp_path.iterdir()) == [
-            "pkg-one-1.1.0-claude-desktop-plugin-pkg-one.zip",
-            "pkg-one-1.1.0-claude-desktop-plugin.zip",
-        ]
+        names = sorted(p.name for p in tmp_path.iterdir())
+        assert "pkg-one-1.1.0-claude-desktop-plugin-pkg-one.zip" in names
+        assert "pkg-one-1.1.0-claude-desktop-plugin.zip" in names
+
+    def test_installers_are_the_expected_kind_of_file(_, tmp_path):
+        _run(["build-github-release", str(tmp_path)])
+
+        win = tmp_path / "pkg-one-1.1.0-claude-vsc-installer-Win.zip"
+        with zipfile.ZipFile(win) as archive:
+            assert "install.ps1" in archive.namelist()
+        run = tmp_path / "pkg-one-1.1.0-claude-vsc-installer-linux.run"
+        assert run.read_bytes().startswith(b"#!/usr/bin/env bash")
+        assert run.stat().st_mode & 0o111
+
+    def test_installers_render_on_surface_claude_vsc(_, tmp_path):
+        seen = []
+
+        def spy(folder, *, render_profile=None):
+            seen.append(render_profile)
+            fake_payload(folder)
+
+        with patch.object(installer_stage, "generate_vs_code_payload", spy):
+            _run(["build-github-release", str(tmp_path)])
+
+        assert len(seen) == 2
+        assert all(profile.show_comment for profile in seen)
 
     def test_every_asset_starts_with_the_repo_name(_, tmp_path):
         set_repo_name("some-repo")
@@ -137,12 +166,21 @@ class TestBuildGithubRelease:
         with pytest.raises(SystemExit):
             _parse(["build-github-release", str(tmp_path), "pkg-one"])
 
-    def test_dry_run_writes_nothing(_, tmp_path):
+    def test_dry_run_lists_every_asset_and_writes_nothing(
+        _, tmp_path, caplog
+    ):
         out = tmp_path / "out"
 
         _run(["build-github-release", "-n", str(out)])
 
         assert not out.exists()
+        for name in (
+            "pkg-one-1.1.0-claude-desktop-plugin.zip",
+            "pkg-one-1.1.0-claude-desktop-plugin-pkg-two.zip",
+            "pkg-one-1.1.0-claude-vsc-installer-Win.zip",
+            "pkg-one-1.1.0-claude-vsc-installer-linux.run",
+        ):
+            assert name in caplog.text
 
     @pytest.mark.parametrize(
         "unset", ["repo name", "repo version", "default consumer"]

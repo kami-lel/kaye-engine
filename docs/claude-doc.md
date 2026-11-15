@@ -134,18 +134,31 @@ kaye-engine claude usp -c > ~/.claude/CLAUDE.md   # also append the Coder prompt
 
 Here `-c` means `--coder`; the comment toggle is long-form only (`--comment`/`--no-comment`).
 
-## Build a GitHub Release Asset
+## Build GitHub Release Assets
 
-`build-github-release` is a top-level command, not a `claude` subcommand. It writes one consumer's plugin as a single versioned `.zip`, built as `claude plugin -z` builds it, for a release workflow to attach to a GitHub Release. Run it from the consumer's console script, which registers the consumers:
+`build-github-release` is a top-level command, not a `claude` subcommand. One run writes every release asset of the consumer project into `OUTPUT`, for a release workflow to attach to a GitHub Release. Run it from the consumer's console script, which registers the consumers, the repo name, and the repo version:
 
 ```bash
-CONSUMER_CLI build-github-release CONSUMER_PROJ -o dist
+CONSUMER_CLI build-github-release dist
 ```
 
-- `CONSUMER_PROJ`: canonical name of the consumer to build
-- `-o`, `--output FOLDER`: destination folder for the zip; default `dist/`
-- the zip is named `NAME-claude-VERSION.zip`
+- `OUTPUT`: the one required argument, the destination folder; there is no `-o` and no consumer argument
+- one Claude Desktop plugin `.zip` per plugin consumer of the process, built as `claude plugin -z` builds it
+- the VS Code installer for Windows (`.zip`) and for Linux (`.run`): one click puts the current `CLAUDE.md` and every plugin into `~/.claude/`, registers the marketplace, and enables the plugins, with no Kaye Engine on the user's machine; the steps are in [Installer Algorithm](installer-algorithm-doc.md#claude-vs-code-plugin). Windows: extract the zip, double-click `Install.cmd`. Linux: `bash NAME.run`. Both take no option. To remove: delete the `kaye-engine/` folder and its keys in `settings.json`
+- the installers always render for the `claude-vsc` surface; `--surface` applies to the zips only
+- `--dry-run` lists every asset and writes nothing
 - it takes the [render flags](#render-flags) below
+
+Every file is named `REPO-VERSION-TYPE[-CONSUMER|-OS].ext`:
+
+| part | value |
+| --- | --- |
+| `REPO`, `VERSION` | the repo name and version the consumer project registered with `set_repo_name` and `set_repo_version` |
+| `TYPE` | `claude-desktop-plugin` or `claude-vsc-installer` |
+| `-CONSUMER` | a plugin zip only; left out for the default consumer (`set_default_consumer`), so the name never repeats the repo name |
+| `-OS` | an installer only: `Win` (`.zip`) or `linux` (`.run`) |
+
+An unset repo name, repo version, or default consumer exits 1 before anything is written. `claude plugin` takes an optional `CONSUMER` after `FOLDER`; absent means the default consumer, and an unknown name exits 1 listing the valid ones (`claude plugin -z . NAME` still works).
 
 ## Render Flags
 
@@ -169,6 +182,7 @@ Every command needs the consumer package to register itself first; without it, t
 
 - Consumer: call `register_consumer(display_name, canonical_name, version)` once. The canonical name is the plugin name and must equal the installed distribution name
 - Console command: call `set_entry_consumer(canonical_name)` and `setup_claude_cli(...)` during setup
+- Release and `claude plugin`: call `set_repo_name(name)`, `set_repo_version(version)`, and `set_default_consumer(canonical_name)`; `build-github-release` and a bare `claude plugin` exit 1 without them
 - Chat and Coder: `code`, `vs-code-extension`, and `user-system-prompt` also need the Chat and merged Coder exportable names passed to `setup_claude_cli(...)`; the merged Coder should list Chat as a dependency
 
 ## Editing the Corpus
