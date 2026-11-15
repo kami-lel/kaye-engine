@@ -395,8 +395,8 @@ target. Every export target is a leaf under `cli/`, and each reads
 the same `blueprint_registry` rather than holding its own list.
 
 The `vs-code-extension` command and the release installers place a payload
-into `~/.claude/` by one algorithm, specified in [VS Code Install
-Algorithm](docs/vsc-install-doc.md).
+into `~/.claude/` by one algorithm, specified in [Installer
+Algorithm](docs/installer-algorithm-doc.md#claude-vs-code-plugin).
 
 `continue` classifies each `exportable_registry` entry by its export-policy
 flags: `always_apply` forces a rule, otherwise `llm_invokable` gives a rule,
