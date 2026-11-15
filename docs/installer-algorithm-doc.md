@@ -21,75 +21,99 @@ plugins show installed and enabled.
 | `install.ps1` (Windows installer; PowerShell) | `%USERPROFILE%\.claude` | `payload\` beside the script |
 | `install.sh` (Linux installer; bash and `python3`) | `$HOME/.claude` | `payload/` extracted to a temp folder |
 
+`install.sh` stops first, with a plain message, when `python3` is absent.
 Settings JSON is compared parsed, never as bytes: key order is kept, but
 indentation and escaping may differ (PowerShell serializes its own way).
 
-### Terms
-
-- `P` payload folder, `C` Claude folder
-- `M` the one folder under `P` holding `.claude-plugin/marketplace.json`;
-  `NAME` the `name` inside it; `PLUGINS` every `plugins[].name`
-- `TS` local time `YYYYMMDDHHMMSS`
+### Pseudo Code
 
 Nothing names a consumer: all names come from the payload at run time.
 
-### Steps
+```python
+def place(P, C):
+    # P: payload folder, holds CLAUDE.md and the marketplace folder
+    # C: Claude folder, the install target (e.g. ~/.claude)
 
-```text
-place(P, C):
+    # 0 locate
+    folders = [d for d in P.iterdir()
+               if (d / ".claude-plugin/marketplace.json").is_file()]
+    if len(folders) != 1:
+        raise SystemExit("expected exactly 1 marketplace folder in payload")
+    M = folders[0].name  # marketplace folder name
 
-  # 0 locate
-  M = the single marketplace folder under P         (else F1)
+    # 1 preflight: no write before every check passes
+    if not (P / "CLAUDE.md").is_file():
+        raise SystemExit("payload has no CLAUDE.md")
+    manifest = load_json(P / M / ".claude-plugin/marketplace.json")
+    # load_json raises SystemExit("... is not valid JSON") on bad JSON
+    NAME = manifest["name"]  # marketplace name, keys settings.json
+    if NAME != M:
+        raise SystemExit("marketplace name differs from its folder name")
+    PLUGINS = [p["name"] for p in manifest["plugins"]]  # every plugin
+    if not PLUGINS or not all(isinstance(n, str) for n in PLUGINS):
+        raise SystemExit("marketplace lists no plugin, or one has no name")
+    settings = load_json(C / "settings.json") if exists else {}
+    if not is_dict(settings) or not all(
+        is_dict(settings.get(k, {}))
+        for k in ("extraKnownMarketplaces", "enabledPlugins")
+    ):
+        # an unreadable settings.json is never overwritten
+        raise SystemExit("settings.json has a key of the wrong type")
+    C.mkdir(exist_ok=True)
 
-  # 1 preflight: no write before every check passes
-  P/CLAUDE.md must exist                            (else F2)
-  parse P/M/.claude-plugin/marketplace.json         (else F3)
-  NAME == M                                         (else F4)
-  PLUGINS non-empty, each a string                  (else F5)
-  settings = parse C/settings.json, or {} if absent
-  settings, extraKnownMarketplaces, enabledPlugins
-      must be objects when present                  (else F6)
-  create C if missing
+    # 2 CLAUDE.md
+    new, old = P / "CLAUDE.md", C / "CLAUDE.md"
+    if not old.exists():
+        write(old, new.read_bytes())
+        print("CLAUDE.md: created")
+    elif old.read_bytes() != new.read_bytes():
+        bak = unique(C / f"CLAUDE.md.{TS}.bak")  # TS: local YYYYMMDDHHMMSS
+        # unique() adds -2, -3 on a name clash
+        copy(old, bak)
+        replace_via_temp(old, new.read_bytes())
+        print(f"CLAUDE.md: replaced, backup {bak.name}")
+    else:
+        print("CLAUDE.md: unchanged")
 
-  # 2 CLAUDE.md
-  absent:                    write
-  identical bytes:           leave
-  differs:                   copy to CLAUDE.md.TS.bak (add -2, -3 on a
-                             name clash), then replace via temp + rename
+    # 3 marketplace swap
+    if (C / M).exists() and same_tree(C / M, P / M):
+        print(f"{M}/: unchanged")
+    else:
+        tmp = C / f"{M}.new-{RANDOM}"  # sibling temp name
+        copy_tree(P / M, tmp)
+        try:
+            swap_in(tmp, C / M)  # old folder renamed aside, deleted after
+        except OSError:
+            restore_old(C / M)  # old folder renamed back, temp removed
+            raise SystemExit("could not replace marketplace folder")
+        print(f"{M}/: replaced")
 
-  # 3 marketplace swap
-  C/M tree equals P/M tree:  leave
-  else: copy P/M to sibling C/M.new-RANDOM, rename old C/M aside,
-        rename new into place, delete old;
-        on error restore old, remove temp                (F7)
+    # 4 settings.json: add missing keys only, never change an existing one
+    entry = {"source": {"source": "directory",
+                        "path": str((C / M).resolve())}}
+    added = []
+    ekm = settings.setdefault("extraKnownMarketplaces", {})
+    if NAME not in ekm:
+        ekm[NAME] = entry
+        added.append(f"marketplace {NAME}")
+    elif ekm[NAME] != entry:
+        print(f"settings.json: kept existing marketplace {NAME}")
+    ep = settings.setdefault("enabledPlugins", {})
+    for plugin in PLUGINS:
+        key = f"{plugin}@{NAME}"
+        if key not in ep:  # an existing key stays, an explicit False too
+            ep[key] = True
+            added.append(key)
+    if added:
+        replace_via_temp(C / "settings.json", dump_json(settings))
+        # UTF-8, no BOM, indent=2, trailing newline, key order kept
+        print("settings.json: added " + ", ".join(added))
+    else:
+        print("settings.json: unchanged")
 
-  # 4 settings.json: add missing keys only, never change an existing one
-  extraKnownMarketplaces[NAME] = {source: {source: directory,
-                                           path: absolute(C/M)}}
-  enabledPlugins[plugin@NAME] = true   for each plugin
-      (an existing key stays, an explicit false included)
-  nothing added: leave the file; else write via temp + rename
-      (UTF-8, no BOM, 2-space indent, other keys and order untouched)
-
-  # 5 report
-  per step: created, replaced, merged, or unchanged; note an existing
-  marketplace entry kept; last line "restart VS Code"
+    # 5 done
+    print("restart VS Code")
 ```
-
-### Failures
-
-A failure prints one plain line and exits `1`; a `.bak` is never deleted.
-
-| id | cause | written before |
-|---|---|---|
-| F1 | zero or several marketplace folders | none |
-| F2 | `CLAUDE.md` missing in `P` | none |
-| F3 | `marketplace.json` invalid or missing keys | none |
-| F4 | `NAME` differs from folder name | none |
-| F5 | no plugins, or a nameless one | none |
-| F6 | `settings.json` invalid, or a key of the wrong type | none |
-| F7 | a copy or rename failed | earlier steps stay; step 3 restores the old folder |
-| F8 | `python3` absent (`install.sh` only, checked first) | none |
 
 ### Idempotence and Differences
 
@@ -97,10 +121,3 @@ A second run over the same payload reports `unchanged` throughout, writes
 nothing, and makes no `.bak`. A changed `CLAUDE.md` makes a new `.bak`
 each run. The engine alone honors `--dry-run` (steps 2 to 4 report their
 verdict, write nothing) and takes `CLAUDE_FOLDER`.
-
-### Tests
-
-`tests/cli/claude/vs_code_place_test.py` (engine),
-`github_release_installer_linux_test.py` (`install.sh` under a temp `HOME`),
-`github_release_parity_test.py` (both routes, one payload). `install.ps1`
-has only a shipped-bytes test; Windows is checked by hand once per release.
