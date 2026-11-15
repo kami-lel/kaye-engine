@@ -27,7 +27,7 @@ _TEMPLATE_FOLDER = Path(__file__).parent / "installer_templates"
 def get_installer_template_path(name):
     """
     :param name: file name of a static installer script, e.g.
-            ``install.ps1``
+            ``place-payload-into-claude-folder.ps1``
     :type name: str
     :return: path of that template inside the package
     :rtype: Path
