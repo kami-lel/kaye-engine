@@ -97,7 +97,7 @@ def register_sync_open_webui_skills_parser(cli_subparser):
         help=_HELP,
         description=_DESCRIPTION + OPEN_WEBUI_DOC_DESCRIPTION,
         formatter_class=RawDescriptionHelpFormatter,
-        aliases=["o"],
+        aliases=["w"],
     )
 
     # add arguments  -----------------------------------------------------------

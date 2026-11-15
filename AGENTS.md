@@ -120,7 +120,7 @@ kaye-engine claude plugin -z . CONSUMER     # only that consumer's plugin
 CONSUMER_CLI build-github-release OUTPUT    # every release asset into OUTPUT
 kaye-engine hermes FOLDER -n                # report every write, touch nothing
 kaye-engine rp -l -r '^claude$'             # list command: -r -c -l -N -f -C
-OWU_API_KEY=sk-... kaye-engine o -n         # Open WebUI sync, dry run
+OWU_API_KEY=sk-... kaye-engine w -n         # Open WebUI sync, dry run
 ```
 
 **Rendering commands** — any subcommand that reaches
