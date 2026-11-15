@@ -397,6 +397,15 @@ The `prompt` layer is pure: it knows nothing of Claude or any export
 target. Every export target is a leaf under `cli/`, and each reads
 the same `blueprint_registry` rather than holding its own list.
 
+Plugin platforms follow Strategy plus Template Method: a
+`PluginPlatform` (`cli/plugin_platform/platform.py`) holds what differs
+per platform (manifest files, marketplace file and entry shape, default
+surface, logger), and the template exporters in
+`cli/plugin_platform/export.py` run the shared steps (pick consumers, read
+package metadata, write manifest, export skills, list entries, write the
+marketplace). `ClaudePlatform` (`cli/claude/platform.py`) is one such
+platform; the `claude` exporters are thin wrappers over the templates.
+
 `build-github-release OUTPUT` writes every release asset from one run: a
 Desktop plugin zip per plugin consumer plus the Windows and Linux VS Code
 installers, each named `REPO-VERSION-TYPE[-CONSUMER|-OS].ext` by
