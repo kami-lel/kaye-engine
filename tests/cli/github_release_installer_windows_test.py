@@ -2,7 +2,7 @@
 tests/cli/github_release_installer_windows_test.py
 
 test: ``build_windows_installer`` -- the zip holds the payload and the two
-packaged scripts byte for byte, CRLF on ``Install.cmd``, no consumer name
+packaged scripts byte for byte, CRLF on ``install.cmd``, no consumer name
 in any template, a dry run writes nothing; with a Windows PowerShell on
 the machine (WSL), ``install.ps1`` runs against a sandboxed profile folder
 """
@@ -66,7 +66,7 @@ class TestWindowsInstallerZip:
     def test_zip_holds_scripts_and_payload_tree(_, built):
         with zipfile.ZipFile(built) as archive:
             assert sorted(archive.namelist()) == [
-                "Install.cmd",
+                "install.cmd",
                 "install.ps1",
                 "payload/CLAUDE.md",
                 "payload/mk/.claude-plugin/marketplace.json",
@@ -82,7 +82,7 @@ class TestWindowsInstallerZip:
                 )
 
     def test_install_cmd_is_crlf_throughout(_):
-        data = get_installer_template_path("Install.cmd").read_bytes()
+        data = get_installer_template_path("install.cmd").read_bytes()
 
         assert data.count(b"\r\n") == data.count(b"\n") > 0
 

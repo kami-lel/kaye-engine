@@ -2,7 +2,7 @@
 installer_windows.py
 
 define ``build_windows_installer`` -- the Windows VS Code installer zip:
-``Install.cmd`` and ``install.ps1`` copied unchanged from the packaged
+``install.cmd`` and ``install.ps1`` copied unchanged from the packaged
 templates, plus ``payload/``
 """
 
@@ -27,7 +27,7 @@ __all__ = ("WINDOWS_TEMPLATE_NAMES", "build_windows_installer")
 logger = kamilog.getLogger(LOGGER_CLAUDE_NAME)
 
 # constants  ###################################################################
-WINDOWS_TEMPLATE_NAMES = ("Install.cmd", "install.ps1")
+WINDOWS_TEMPLATE_NAMES = ("install.cmd", "install.ps1")
 
 
 # Public API  ##################################################################
