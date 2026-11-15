@@ -3,7 +3,7 @@
 [^format]
 
 <!--
-todo support Codex
+Todo support Codex
 todo organize exportable registry,
 such that not all calling export all exportable
 
