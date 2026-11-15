@@ -28,6 +28,7 @@ BUILTIN_AFFORDANCES = {
             "Claude:ask_user_input_v0": "show tappable multiple-choice",
             "Claude:AskUserQuestion": "ask selectable-option question",
             "Hermes:clarify": "ask question, get decision",
+            "Codex:request_user_input": "ask user for input",
         },
     ),
     "file-edit": (
@@ -40,6 +41,7 @@ BUILTIN_AFFORDANCES = {
             "Hermes:read_file": "read file with line numbers",
             "Hermes:write_file": "write or overwrite file",
             "Hermes:patch": "find-and-replace edit in file",
+            "Codex:apply_patch": "edit files with a patch",
         },
     ),
     "task-tracking": (
@@ -51,6 +53,7 @@ BUILTIN_AFFORDANCES = {
                 "TaskOutput, TaskStop, TaskUpdate"
             ),
             "Hermes:todo_list": "track multi-step task list",
+            "Codex:update_plan": "keep step-by-step plan",
         },
     ),
     "file-delivery": (
@@ -72,6 +75,7 @@ BUILTIN_AFFORDANCES = {
             "Hermes:execute_code": "run Python calling Hermes tools",
             "Hermes:read_terminal": "read in-app terminal pane",
             "Hermes:close_terminal": "hide process terminal tab",
+            "Codex:shell": "run shell command",
         },
     ),
     "agent": (
@@ -226,6 +230,7 @@ BUILTIN_AFFORDANCES = {
             ),
             "Hermes:web_search": "search the web",
             "Hermes:web_extract": "extract page or PDF content",
+            "Codex:web_search": "search the web",
         },
     ),
     "email-management": (
@@ -430,6 +435,7 @@ BUILTIN_AFFORDANCES = {
         "look at images",
         {
             "Hermes:vision_analyze": "load image to view it",
+            "Codex:view_image": "attach local image to view it",
         },
     ),
     "text-to-speech": (

@@ -4,7 +4,7 @@ prompt-builtin_render_profiles_test.py
 Unit Tests (using pytest) for:
 
 - the built-in claude and claude-vsc profiles
-- the built-in continue, hermes and comfy profiles
+- the built-in continue, hermes, comfy and codex profiles
 - AFFORDANCE_GROUPS
 - BUILTIN_AFFORDANCES remarks
 - register_builtin_render_profiles()
@@ -41,6 +41,7 @@ VSC_PROFILE = _profile("claude-vsc")
 CONTINUE_PROFILE = _profile("continue")
 HERMES_PROFILE = _profile("hermes")
 COMFY_PROFILE = _profile("comfy")
+CODEX_PROFILE = _profile("codex")
 
 
 # Pytest unit tests  ###########################################################
@@ -127,12 +128,13 @@ class TestConditionalSidecars:
 class TestRegistry:
 
     def test_every_built_in_name_present_in_order(_):
-        assert list(render_profile_registry)[:5] == [
+        assert list(render_profile_registry)[:6] == [
             "claude",
             "claude-vsc",
             "continue",
             "hermes",
             "comfy",
+            "codex",
         ]
 
     def test_retired_names_are_gone(_):
@@ -150,6 +152,7 @@ class TestRegistry:
             "continue": "Continue.dev rules",
             "hermes": "Hermes Agents",
             "comfy": "Comfy Org ComfyUI image prompts",
+            "codex": "OpenAI Codex: CLI, IDE extension, app",
         }
 
     def test_img_name_is_gone(_):
@@ -168,7 +171,7 @@ class TestRegistry:
     def test_registers_into_an_empty_registry(_):
         with isolated_render_profiles():
             register_builtin_render_profiles()
-            assert len(render_profile_registry) == 5
+            assert len(render_profile_registry) == 6
 
 
 class TestAffordanceGroups:
@@ -191,6 +194,7 @@ class TestAffordanceGroups:
             "Hermes:execute_code",
             "Hermes:read_terminal",
             "Hermes:close_terminal",
+            "Codex:shell",
         }
 
     def test_ask_user_question_registers_both_variants(_):
@@ -198,6 +202,7 @@ class TestAffordanceGroups:
             "Claude:ask_user_input_v0",
             "Claude:AskUserQuestion",
             "Hermes:clarify",
+            "Codex:request_user_input",
         }
 
     def test_web_registers_one_variant(_):
@@ -205,6 +210,7 @@ class TestAffordanceGroups:
             "Claude:Web~",
             "Hermes:web_search",
             "Hermes:web_extract",
+            "Codex:web_search",
         }
 
     @pytest.mark.parametrize(
@@ -350,7 +356,7 @@ class TestBuiltinRemarks:
 
     def test_counts(_):
         assert len(BUILTIN_AFFORDANCES) == 59
-        assert sum(len(v) for _, v in BUILTIN_AFFORDANCES.values()) == 130
+        assert sum(len(v) for _, v in BUILTIN_AFFORDANCES.values()) == 136
 
     def test_affordance_groups_derived_from_data(_):
         assert AFFORDANCE_GROUPS == {
@@ -431,3 +437,35 @@ class TestComfyProfile:
     def test_no_claude_identity_sidecar(_):
         assert "[Claude]" not in COMFY_PROFILE.conditional_sidecars
         assert "avoid" in COMFY_PROFILE.conditional_sidecars
+
+
+class TestCodexProfile:
+
+    def test_carries_every_codex_variant_git_and_image_model(_):
+        codex = [
+            name for name in CODEX_PROFILE.variants if name.startswith("Codex:")
+        ]
+
+        assert codex == [
+            "Codex:request_user_input",
+            "Codex:apply_patch",
+            "Codex:update_plan",
+            "Codex:shell",
+            "Codex:web_search",
+            "Codex:view_image",
+        ]
+        assert CODEX_PROFILE.variants[-2:] == ("git", "QwenImage")
+
+    def test_no_claude_or_hermes_variant(_):
+        assert not any(
+            name.startswith(("Claude:", "Hermes:"))
+            for name in CODEX_PROFILE.variants
+        )
+
+    def test_identity_and_avoid_sidecars(_):
+        sidecars = CODEX_PROFILE.conditional_sidecars
+
+        assert "[for Codex]" in sidecars
+        assert "[Codex:shell]" in sidecars
+        assert "[Claude]" not in sidecars
+        assert sidecars[-1] == "avoid"
