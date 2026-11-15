@@ -119,6 +119,7 @@ Bare `blueprint`, `exportable`, `dynamic-node` and `glossary` (`bp`, `x`,
 kaye-engine blueprint render BLUEPRINT -D   # own nodes only; stdin if omitted
 kaye-engine blueprint validate BLUEPRINT    # exit 0 if sound, 1 with reason
 kaye-engine claude plugin -z . CONSUMER     # only that consumer's plugin
+kaye-engine codex plugin . CONSUMER         # only that consumer's Codex plugin
 CONSUMER_CLI build-github-release-assets OUTPUT    # every release asset into OUTPUT
 CONSUMER_CLI build-github-marketplace OUTPUT       # marketplace repo root
 kaye-engine hermes FOLDER -n                # report every write, touch nothing
@@ -130,9 +131,10 @@ OWU_API_KEY=sk-... kaye-engine w -n         # Open WebUI sync, dry run
 `render_prompt(...)`, directly or via
 `Exportable.content()` (`blueprint render`, `dynamic-node`,
 `exportable`, `skill`, `claude skills`, `claude plugin`,
-`claude marketplace`,
-`claude user-system-prompt`, `claude vs-code-extension`, `claude
-code`) — all expose the same 6 options via one shared parent parser
+`claude marketplace`, `claude user-system-prompt`,
+`claude vs-code-extension`, `claude code`, `codex plugin`,
+`codex marketplace`, `codex skills`, `codex user-system-prompt`,
+`build-github-marketplace`) — all expose the same 6 options via one shared parent parser
 and one aux function, `build_render_profile_parent_parser`/
 `resolve_render_profile` (`kaye_engine/cli/render_profile_parser.py`),
 the latter returning a `RenderProfile` rather than a kwargs dict:
@@ -290,6 +292,8 @@ After meaningful changes, keep these in sync:
     [docs/render-profile-doc.md](docs/render-profile-doc.md)
   - the `claude` subcommands and per-consumer plugins:
     [docs/claude-doc.md](docs/claude-doc.md)
+  - the `codex` subcommands, the `PluginPlatform` design, and
+    `build-github-marketplace`: [docs/codex-doc.md](docs/codex-doc.md)
   - the `continue` export: [docs/continue-doc.md](docs/continue-doc.md)
   - the `hermes` export: [docs/hermes-doc.md](docs/hermes-doc.md)
   - how a payload is placed into `.claude/`, registered and enabled, by the

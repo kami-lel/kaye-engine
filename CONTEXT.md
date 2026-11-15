@@ -22,7 +22,7 @@ through a Python API and a CLI.
 | distribution / import name | `kaye-engine` / `kaye_engine` |
 | dependencies | `anytree`, `json5`, `kamilog`, `pyahocorasick`, `pyyaml` |
 | entry point | `kaye-engine` console script → `kaye_engine.__main__:main` |
-| CLI subcommands | `blueprint`, `claude`, `continue`, `hermes`, `dynamic-node`, `dynamic-substitution`, `exportable`, `export-json`, `affordance`, `variant`, `render-profile`, `glossary`, `build-github-release-assets`, `skill`, `sync-open-webui-skills` |
+| CLI subcommands | `blueprint`, `claude`, `codex`, `continue`, `hermes`, `dynamic-node`, `dynamic-substitution`, `exportable`, `export-json`, `affordance`, `variant`, `render-profile`, `glossary`, `build-github-release-assets`, `build-github-marketplace`, `skill`, `sync-open-webui-skills` |
 
 ## Personalization Boundary
 
@@ -385,8 +385,9 @@ kaye_engine/
 ├── deed.py            fixed-wording file/dir action lines
 ├── exportable/        Exportable base, exportable_registry, image-prompt subset
 ├── skill/             agent-neutral Skill document, folder/.zip writers
-└── cli/               one leaf per subcommand (blueprint/, claude/, skill/,
-                       continue_ai/, hermes/, open_webui/, github_release/, ~)
+└── cli/               one leaf per subcommand (blueprint/, claude/, codex/,
+                       skill/, continue_ai/, hermes/, open_webui/,
+                       github_release/, github_marketplace/, ~)
                        plus shared helpers: list_view.py, file_write.py,
                        render_profile_parser.py, comment_parser.py, dry_run.py,
                        and plugin_platform/ (consumer selection, package
@@ -405,8 +406,10 @@ per platform (manifest files, marketplace file and entry shape, default
 surface, logger), and the template exporters in
 `cli/plugin_platform/export.py` run the shared steps (pick consumers, read
 package metadata, write manifest, export skills, list entries, write the
-marketplace). `ClaudePlatform` (`cli/claude/platform.py`) is one such
-platform; the `claude` exporters are thin wrappers over the templates.
+marketplace). `ClaudePlatform` (`cli/claude/platform.py`) and
+`CodexPlatform` (`cli/codex/platform.py`) are the 2 platforms; the
+`claude` and `codex` exporters are thin wrappers over the templates, and
+`build-github-marketplace` runs both into one repo root.
 
 `build-github-release-assets OUTPUT` writes every release asset from one run: a
 Desktop plugin zip per plugin consumer plus the Windows and Linux VS Code

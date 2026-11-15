@@ -15,6 +15,9 @@ Export your corpus to Claude as plugins, Agent Skills, or a system prompt with `
 | Print the User System Prompt | `claude user-system-prompt` | `claude usp` |
 
 > [!NOTE]
+> For OpenAI Codex, the same shape lives under `kaye-engine codex`: see [codex-doc.md](codex-doc.md).
+
+> [!NOTE]
 > To export chosen skills into a folder you name, use the top-level `kaye-engine skill NAME... FOLDER` (or `--all`) instead of `claude skills`.
 
 ### plugin
@@ -104,6 +107,10 @@ Every file is named `REPO-VERSION-TYPE[-CONSUMER|-OS].ext`:
 | `-OS` | an installer only: `Win` (`.zip`) or `linux` (`.run`) |
 
 An unset repo name, repo version, or default consumer exits 1 before anything is written. `claude plugin` takes an optional `CONSUMER` after `FOLDER`; absent means the default consumer, and an unknown name exits 1 listing the valid ones (`claude plugin -z . NAME` still works).
+
+## Build the Marketplace Repo
+
+`build-github-marketplace OUTPUT` writes one marketplace repo root, `REPO-marketplace`, holding both a Claude and a Codex marketplace, for a release workflow to push to a public repo; users then run `/plugin marketplace add OWNER/REPO-marketplace`. It writes only `.claude-plugin/`, `.agents/` and `plugins/`, so a hand-written `README.md` stays. Details in [codex-doc.md](codex-doc.md#marketplace-repo).
 
 ## Render Flags
 

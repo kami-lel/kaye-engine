@@ -28,16 +28,24 @@ manually add chat & coder, instead by data structure
 
 ### Added
 
+- `codex` command group (alias `o`), shaped as `claude`: `plugin` (`p`), `marketplace` (`m`), `skills` (`s`), `user-system-prompt` (`usp`, `-c`) export to OpenAI Codex
+- `codex` render surface with the Codex tool variants `Codex:shell`, `Codex:apply_patch`, `Codex:update_plan`, `Codex:request_user_input`, `Codex:web_search`, `Codex:view_image`, and the `[for Codex]` identity sidecar
+- `build-github-marketplace OUTPUT` writes one marketplace repo root, `REPO-marketplace`, that both Claude and Codex add by URL; it writes only `.claude-plugin/`, `.agents/`, `plugins/`
+- `setup_codex_cli(chat, merged_coder)` names the Chat and Coder exportables `codex user-system-prompt` renders; exported from `kaye_engine`
+- `PluginPlatform` (`kaye_engine.cli.plugin_platform`): one Strategy per plugin platform, driven by shared template exporters
 - `generate_vs_code_payload` (stage 1) writes `CLAUDE.md` and the marketplace into any folder; `place_vs_code_payload` (stage 2) merges it into a Claude folder
 - `live_run` in `kaye_engine.cli.dry_run`: run a block live inside a dry run
 - `set_repo_name`, `set_repo_version` (`kaye_engine.repo`) and `set_default_consumer` register the repo and the default consumer that name release assets
-- `build-github-release` also writes one-click VS Code installers: `REPO-VERSION-claude-vsc-installer-Win.zip` (`install.cmd` to click, `src/place-payload-into-claude-folder.ps1` run by it, `payload/`) and `REPO-VERSION-claude-vsc-installer-linux.run` (`bash NAME.run`), with no Kaye Engine inside
+- `build-github-release-assets` also writes one-click VS Code installers: `REPO-VERSION-claude-vsc-installer-Win.zip` (`install.cmd` to click, `src/place-payload-into-claude-folder.ps1` run by it, `payload/`) and `REPO-VERSION-claude-vsc-installer-linux.run` (`bash NAME.run`), with no Kaye Engine inside
 - `docs/installer-algorithm-doc.md`: the one spec the installers and `vs-code-extension` follow
 - `get_release_asset_name`, `get_release_asset_stem` (`kaye_engine.cli.github_release.asset_name`) build the asset names; `export_plugin_as_zip` takes an optional `zip_stem` callable to name its zip
 - `set_repo_name`, `set_repo_version`, `set_default_consumer` are exported from `kaye_engine`
 
 ### Changed
 
+- `build-github-release` is renamed `build-github-release-assets`, pairing with `build-github-marketplace`
+- `sync-open-webui-skills` takes alias `w`; `o` now means `codex`
+- `package_meta` and plugin consumer selection moved from `kaye_engine.cli.claude` to `kaye_engine.cli.plugin_platform`
 - release assets are named `REPO-VERSION-TYPE[-CONSUMER|-OS].ext`; the default consumer's name is left out
 - the `claude plugin` positional is now `CONSUMER` (was `CONSUMER_PROJ`), after `FOLDER`; an unknown name exits 1 listing the valid ones
 - `claude vs-code-extension` registers the marketplace (`extraKnownMarketplaces`) and enables its plugins (`enabledPlugins`) in `settings.json`; the manual add-marketplace step is gone from the docs
@@ -47,7 +55,10 @@ manually add chat & coder, instead by data structure
 > `claude vs-code-extension` now copies a differing `CLAUDE.md` to `CLAUDE.md.YYYYMMDDHHMMSS.bak` before replacing it, and edits `settings.json` on every run (missing keys only; invalid JSON aborts with nothing written)
 
 > [!WARNING]
-> `build-github-release` takes one required `OUTPUT` and nothing else: `-o`/`--output` and the consumer argument are gone, no `dist/` default, and a consumer project must call `set_repo_name`, `set_repo_version`, and `set_default_consumer` first. `claude plugin` without a consumer exports the default consumer, no longer every consumer (`claude plugin -z . NAME` is unchanged)
+> `build-github-release-assets` takes one required `OUTPUT` and nothing else: `-o`/`--output` and the consumer argument are gone, no `dist/` default, and a consumer project must call `set_repo_name`, `set_repo_version`, and `set_default_consumer` first. `claude plugin` without a consumer exports the default consumer, no longer every consumer (`claude plugin -z . NAME` is unchanged)
+
+> [!WARNING]
+> Breaking: `build-github-release` and the `o` alias of `sync-open-webui-skills` are gone, with no fallback; release workflows must call `build-github-release-assets`, and Open WebUI syncs `w`
 
 ### Deprecated
 
