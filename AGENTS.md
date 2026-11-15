@@ -64,6 +64,7 @@ merge.
 | `kaye_engine/cli/open_webui/` | `tests/cli/open_webui/` |
 | `kaye_engine/cli/skill/` | `tests/cli/skill/` |
 | `kaye_engine/cli/github_release/` | `tests/cli/github_release_test.py`, `tests/cli/github_release_installer_windows_test.py`, `tests/cli/github_release_installer_linux_test.py`, `tests/cli/github_release_parity_test.py`, `tests/cli/dry_run_test.py` |
+| `kaye_engine/cli/github_marketplace/` | `tests/cli/github_marketplace_test.py`, `tests/cli/dry_run_test.py` |
 | `kaye_engine/cli/claude/vs_code/` | `tests/cli/claude/vs_code_payload_test.py`, `tests/cli/claude/vs_code_place_test.py`, `tests/cli/claude/vs_code_settings_test.py`, `tests/cli/dry_run_test.py` |
 | `kaye_engine/cli/claude/skills/` | `tests/cli/cli_main_test.py`, `tests/cli/dry_run_test.py` |
 | `kaye_engine/cli/plugin_platform/` | `tests/cli/plugin_platform/`, `tests/cli/claude/plugin_consumers_test.py`, `tests/cli/hermes/`, `tests/cli/github_release_test.py` |
@@ -119,6 +120,7 @@ kaye-engine blueprint render BLUEPRINT -D   # own nodes only; stdin if omitted
 kaye-engine blueprint validate BLUEPRINT    # exit 0 if sound, 1 with reason
 kaye-engine claude plugin -z . CONSUMER     # only that consumer's plugin
 CONSUMER_CLI build-github-release-assets OUTPUT    # every release asset into OUTPUT
+CONSUMER_CLI build-github-marketplace OUTPUT       # marketplace repo root
 kaye-engine hermes FOLDER -n                # report every write, touch nothing
 kaye-engine rp -l -r '^claude$'             # list command: -r -c -l -N -f -C
 OWU_API_KEY=sk-... kaye-engine w -n         # Open WebUI sync, dry run

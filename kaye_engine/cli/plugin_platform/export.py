@@ -116,6 +116,7 @@ def export_marketplace(
     *,
     plugins_dir=PLUGINS_DIR,
     render_profile=None,
+    owner_distribution=PACKAGE_NAME,
 ):
     """
     export every consumer's plugin and write the marketplace manifest
@@ -139,6 +140,9 @@ def export_marketplace(
     :type plugins_dir: str
     :param render_profile: forwarded to :func:`export_plugin_as_folder`
     :type render_profile: RenderProfile, optional
+    :param owner_distribution: installed distribution whose metadata
+            describes and owns the marketplace; default: the engine
+    :type owner_distribution: str
     :return: path to the written marketplace manifest
     :rtype: Path
     """
@@ -164,5 +168,8 @@ def export_marketplace(
         )
 
     return platform.write_marketplace_manifest(
-        marketplace_folder, name, entries, read_package_meta(PACKAGE_NAME)
+        marketplace_folder,
+        name,
+        entries,
+        read_package_meta(owner_distribution),
     )
