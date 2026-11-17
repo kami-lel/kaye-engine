@@ -15,7 +15,7 @@ def export_codex_marketplace(root, *, render_profile=None):
     """
     export every consumer's Codex plugin into ``<root>/plugins/`` and write
     ``<root>/.agents/plugins/marketplace.json`` listing them, named after
-    the engine; with ``root`` the home folder this is the personal
+    the repo; with ``root`` the home folder this is the personal
     marketplace
 
 

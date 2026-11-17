@@ -38,7 +38,7 @@ _DESCRIPTION = (
 writes marketplace.json and exports into plugins/;
 the resulting folder can be added directly in Claude's marketplace settings.
 
-MARKETPLACE/  (default: ~/.claude/MARKETPLACE_FOLDER_NAME)
+MARKETPLACE/  (default: ~/.claude/REPO_NAME)
 ├── .claude-plugin/
 │   └── marketplace.json
 └── plugins/
@@ -82,7 +82,7 @@ def register_marketplace_parser(cli_subparser):  ###############################
         metavar="MARKETPLACE",
         type=Path,
         default=None,
-        help="destination folder; default: ~/.claude/<marketplace folder>",
+        help="destination folder; default: ~/.claude/<repo name>",
     )
 
     kamilog.add_verbose_arguments(marketplace_parser)

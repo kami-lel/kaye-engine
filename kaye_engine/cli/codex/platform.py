@@ -58,7 +58,7 @@ class CodexPlatform(PluginPlatform):  ##########################################
 
 def get_marketplace_display_name(name):
     """
-    :param name: kebab-case marketplace name, eg ``kaye-engine``
+    :param name: kebab-case marketplace name, eg ``kaye-library``
     :type name: str
     :return: its title-case display name, eg ``Kaye Engine``
     :rtype: str
