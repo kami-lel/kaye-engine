@@ -9,7 +9,7 @@ define ``setup_claude_cli``, ``get_marketplace_folder_name``
 
 import kamilog
 from kaye_engine.cli import claude
-from kaye_engine import PACKAGE_NAME
+from kaye_engine.repo import get_repo_name
 
 __all__ = (
     "get_marketplace_folder_name",
@@ -55,7 +55,8 @@ def setup_claude_cli(
 
 def get_marketplace_folder_name():
     """
-    :return: marketplace folder name, the marketplace name
+    :raises SystemExit: exit code 1, when the repo name is unset
+    :return: marketplace folder name, the marketplace name: the repo name
     :rtype: str
     """
-    return PACKAGE_NAME
+    return get_repo_name()
