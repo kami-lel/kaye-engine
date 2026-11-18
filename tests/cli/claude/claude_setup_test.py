@@ -2,12 +2,14 @@
 tests/cli/claude/claude_setup_test.py
 
 test:
-- get_marketplace_name, get_marketplace_folder_name: always the engine name
+- get_marketplace_name, get_marketplace_folder_name: the repo name, exit 1
+  when unset
 - setup_claude_cli: chat and coder names optional; getters exit 1 unset
 """
 
 import pytest
-from kaye_engine import PACKAGE_NAME
+from kaye_engine import repo
+from kaye_engine.repo import set_repo_name
 from kaye_engine.cli import claude
 from kaye_engine.cli.claude.exportable_name import (
     get_claude_chat_exportable,
@@ -16,6 +18,7 @@ from kaye_engine.cli.claude.exportable_name import (
 from kaye_engine.cli.claude.plugin_marketplace_name import (
     get_marketplace_name,
 )
+from tests.consumer_helper import isolated_repo
 from kaye_engine.cli.claude.setup import (
     get_marketplace_folder_name,
     setup_claude_cli,
@@ -40,8 +43,22 @@ def _isolate_globals():
 class TestMarketplaceNames:
 
     @pytest.mark.parametrize("getter", _GETTERS)
-    def test_is_engine_name(_, getter):
-        assert getter() == PACKAGE_NAME == "kaye-engine"
+    @pytest.mark.parametrize("repo_name", ["kaye-library", "kaye-vault"])
+    def test_is_repo_name(_, getter, repo_name):
+        with isolated_repo():
+            set_repo_name(repo_name)
+
+            assert getter() == repo_name
+
+    @pytest.mark.parametrize("getter", _GETTERS)
+    def test_exits_one_when_repo_name_unset(_, getter, caplog):
+        with isolated_repo():
+            repo._repo_name = None
+            with pytest.raises(SystemExit) as info:
+                getter()
+
+        assert info.value.code == 1
+        assert "no repo name set" in caplog.text
 
 
 class TestOptionalNames:

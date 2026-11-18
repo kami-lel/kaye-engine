@@ -24,13 +24,14 @@ from kaye_engine.cli.plugin_platform.consumers import (
 )
 from kaye_engine.deed import format_size
 from kaye_engine.consumer import register_consumer
+from kaye_engine.repo import set_repo_name
 from kaye_engine.cli.dry_run import disable_dry_run, enable_dry_run
 from kaye_engine.skill import LOGGER_SKILL_NAME
 from kaye_engine.exportable import exportable_registry
 from kaye_engine.prompt.blueprint import BlueprintRegistry, create_blueprint
 from kaye_engine.prompt.prompt_corpus_loader import clear_corpus_tree
 
-from tests.consumer_helper import isolated_consumers
+from tests.consumer_helper import isolated_consumers, isolated_repo
 from tests.corpus_helper import load_corpus_from_sources
 
 
@@ -263,11 +264,17 @@ def _size_of(path):
 
 class TestMarketplace:
 
-    def test_named_for_engine_listing_both_plugins(_, tmp_path):
+    @pytest.fixture(autouse=True)
+    def _repo_name(_):
+        with isolated_repo():
+            set_repo_name("pkg-one")
+            yield
+
+    def test_named_for_repo_listing_both_plugins(_, tmp_path):
         path = export_marketplace(tmp_path)
 
         data = json.loads(path.read_text(encoding="utf-8"))
-        assert data["name"] == "kaye-engine"
+        assert data["name"] == "pkg-one"
         assert data["version"] == "0.0.1"
         assert [p["name"] for p in data["plugins"]] == ["pkg-one", "pkg-two"]
         assert [p["source"] for p in data["plugins"]] == [
@@ -300,8 +307,18 @@ class TestMarketplace:
             export_marketplace(tmp_path).read_text(encoding="utf-8")
         )
 
-        assert data["name"] == "kaye-engine"
+        assert data["name"] == "pkg-one"
         assert [p["name"] for p in data["plugins"]] == ["pkg-one"]
+
+    def test_another_repo_name_names_another_marketplace(_, tmp_path):
+        set_repo_name("pkg-two")
+
+        data = json.loads(
+            export_marketplace(tmp_path).read_text(encoding="utf-8")
+        )
+
+        assert data["name"] == "pkg-two"
+        assert [p["name"] for p in data["plugins"]] == ["pkg-one", "pkg-two"]
 
 
 class TestClaudeCode:

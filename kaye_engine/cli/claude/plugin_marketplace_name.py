@@ -4,10 +4,10 @@ plugin_marketplace_name.py
 define ``get_marketplace_name``, ``check_setup_for_claude_cli``
 """
 
-from kaye_engine import PACKAGE_NAME
 from kaye_engine.cli.plugin_platform.consumers import (
     check_setup_for_plugin_cli,
 )
+from kaye_engine.repo import get_repo_name
 
 __all__ = (
     "check_setup_for_claude_cli",
@@ -20,11 +20,13 @@ __all__ = (
 
 def get_marketplace_name():
     """
-    :return: marketplace name, always the engine's own name: one
-            marketplace lists one plugin per consumer
+    :raises SystemExit: exit code 1, when the repo name is unset
+    :return: marketplace name, the repo name the consumer project
+            registered with ``set_repo_name``: each repo's commands write
+            a marketplace of their own, listing one plugin per consumer
     :rtype: str
     """
-    return PACKAGE_NAME
+    return get_repo_name()
 
 
 def check_setup_for_claude_cli():

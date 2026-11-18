@@ -209,7 +209,9 @@ bp = replace_meta(
 override_exportable("commit-sense", bp, consumer="my-package")
 ```
 
-The overridden skill keeps its canonical name, so a skill always sits in exactly one plugin.
+The overridden skill keeps its canonical name, so a skill always sits in exactly one plugin: the overriding consumer's. Every export path (`claude plugin`, `claude marketplace`, the release zips, the installers) reads `exportable.consumer`, so the original consumer's plugin carries no copy of it.
+
+An internal blueprint, such as a `-core` that other blueprints depend on, is not an exportable and cannot be overridden: `override_exportable` raises `ValueError`. Take over its exportable dependents instead.
 
 ## Engine Registered Exportable
 

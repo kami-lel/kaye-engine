@@ -12,7 +12,7 @@ Register in this order; later steps validate against earlier ones:
 4. Substitutions: `register_dynamic_substitution(name, substitution)`, where `substitution` is a `DynamicSubstitution` such as `StringDynamicSubstitution("text")`, see [dynamic content](dynamic-content-doc.md)
 5. Corpus: `register_corpus_under_node(...)`, then `load_corpus_tree()`, see [corpus format](corpus-doc.md)
 6. Blueprints: `register_blueprint(...)`, then `set_entry_consumer(canonical_name)`, see [prompt](prompt-doc.md#prompt-blueprint) and the [exportable registry](exportable-registry-doc.md)
-7. Releases: `set_repo_name(name)`, `set_repo_version(version)`, and `set_default_consumer(canonical_name)`, which name every `build-github-release` asset and the plugin `claude plugin` exports without a consumer, see [release assets](claude-doc.md#build-github-release-assets)
+7. Releases: `set_repo_name(name)`, `set_repo_version(version)`, and `set_default_consumer(canonical_name)`, where the repo name also names the marketplace and its `~/.claude/REPO/` folder, and the three name every `build-github-release-assets` asset and the plugin `claude plugin` exports without a consumer, see [release assets](claude-doc.md#build-github-release-assets)
 
 ## Engine Only
 
@@ -77,7 +77,7 @@ Rules:
 
 ## Taking a Library Skill Over
 
-Build the new blueprint over the library's blueprint *object*, never its name (that is a cycle), then register it with `override_exportable`. The skill keeps its name and flags and moves to your plugin. `commit-sense` and `coder` are made for this.
+Build the new blueprint over the library's blueprint *object*, never its name (that is a cycle), then register it with `override_exportable`. The skill keeps its name and flags and moves to your plugin, leaving no copy in the library's plugin. `commit-sense` and `coder` are made for this.
 
 ```python
 from kaye_engine import override_exportable

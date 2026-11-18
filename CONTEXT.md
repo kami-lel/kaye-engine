@@ -308,8 +308,8 @@ a console command runs then names one entry consumer
 (`set_entry_consumer`), which owns the process-wide CLI identity, and calls
 `setup_claude_cli(...)`/`setup_codex_cli(...)`/`setup_hermes_cli(...)`,
 whose Chat, Coder, and
-soul names are all optional. The marketplace is always named
-`kaye-engine` (`PACKAGE_NAME`, also what `get_marketplace_name()` and
+soul names are all optional. The marketplace is named
+after the repo (`set_repo_name`, also what `get_marketplace_name()` and
 `get_marketplace_folder_name()` return) and lists one plugin per consumer holding
 an exportable (`get_plugin_consumers()`). A consumer console script builds
 on `register_cli_main_parser(package_name, program_name)`, so every script
