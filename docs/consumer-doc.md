@@ -63,9 +63,8 @@ A skill-backing section needs `{description}` and `{when_to_use}` sidecars, see 
 | 1 | `register_kaye_library_consumer()` |
 | 2 | `register_kaye_library_abbr_glossaries()` |
 | 3 | `get_kaye_library_abbrs_json_path()`, passed to `populate_abbr_data_with_json_file` |
-| 4 | `register_kaye_library_dynamic_substitutions()` |
-| 5 | `register_kaye_library_corpus()` |
-| 6 | `register_kaye_library_blueprints()` |
+| 4 | `register_kaye_library_corpus()` |
+| 5 | `register_kaye_library_blueprints()` |
 
 Never call `setup_kaye_library_for_kaye_engine()` from a consumer: it is the library's own whole setup.
 
