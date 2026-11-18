@@ -7,11 +7,13 @@ define ``export_vs_code_extension`` -- the command's entry: stage 1
 """
 
 import tempfile
+from pathlib import Path
 
 import kamilog
+from kaye_engine.badge import TMP_BADGE
 from kaye_engine.cli.claude import LOGGER_CLAUDE_NAME
 from kaye_engine.cli.dry_run import live_run
-from kaye_engine.deed import quiet_deeds
+from kaye_engine.deed import tmp_deeds, tmp_roots
 
 from .payload import generate_vs_code_payload
 from .place import place_vs_code_payload
@@ -41,12 +43,18 @@ def export_vs_code_extension(claude_folder, *, render_profile=None):
     :rtype: Path
     """
     with tempfile.TemporaryDirectory(prefix="kaye-vsc-payload-") as tmp:
-        logger.debug("generate payload into " + tmp)
-        with live_run(), quiet_deeds():
-            generate_vs_code_payload(tmp, render_profile=render_profile)
+        logger.enter("build payload in tmp  [<tmp> = {}]".format(tmp))
+        with live_run():
+            with tmp_deeds(tmp):
+                generate_vs_code_payload(tmp, render_profile=render_profile)
+            built = sum(1 for p in Path(tmp).rglob("*") if p.is_file())
+            logger.info(
+                "build payload ({} files)".format(built), badges=TMP_BADGE
+            )
 
-        logger.debug("place payload into " + str(claude_folder))
-        marketplace_path = place_vs_code_payload(tmp, claude_folder)
+        logger.enter("publish payload into " + str(claude_folder))
+        with tmp_roots(tmp):
+            marketplace_path = place_vs_code_payload(tmp, claude_folder)
 
     # hack hack disabled permission override, reverted to system default
     # logger.debug("update settings for git command permissions")
