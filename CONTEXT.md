@@ -63,7 +63,7 @@ no fallback; a `glossary-*` group takes its glossary's consumer:
 | `register_blueprint` | guarded | |
 | `register_image_prompt_exportable` | guarded | name must already be exportable |
 | `override_exportable` | guarded | the only way a consumer replaces another's exportable; validates names, paths and cycles, moves the skill to the overriding consumer's plugin, and may set `always_apply`; an unregistered or non-exportable name raises; a repeat override of 1 name replaces the earlier one, last call wins |
-| `override_blueprint` | guarded | the only way a consumer replaces another's internal blueprint; same checks as `override_exportable`, may set the render profile; an unregistered or exportable name raises; a repeat override of 1 name replaces the earlier one, last call wins |
+| `override_blueprint` | guarded | the only way a consumer replaces another's internal blueprint; same checks and last-call-wins as `override_exportable`; may set the render profile; an unregistered or exportable name raises |
 | `register_exportable_entry` | guarded | |
 | `bind_registrars` registrars | guarded | each forwards to `register_blueprint` or `register_abbr_glossary`, bound to one consumer |
 | `register_node` | guarded | forwards to the registrar it is given |
@@ -446,9 +446,3 @@ renders its soul and profile blueprints straight from `blueprint_registry`
 `export_skills_as_folders`, which only ever sees `exportable_registry`. Both
 are detailed in [Continue](docs/continue-doc.md) and
 [Hermes](docs/hermes-doc.md).
-
-## Testing Strategy
-
-Tests mirror the source tree and run **serially by design**: shared fixtures
-carry run-order assumptions. Exporter suites render small inline corpora; a
-full-sized corpus belongs to the consumer package's own suite.

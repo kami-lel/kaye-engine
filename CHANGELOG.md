@@ -27,25 +27,7 @@ manually add chat & coder, instead by data structure
 
 ### Added
 
-- registration helpers, public: `bind_registrars(consumer)` -> `Registrars` (`register_exportable`, `register_prompt`, `register_internal`, `register_abbr_glossary`); `register_node`, `register_leaf`, `mark_as_leaf`, `walk_and_checkmark`, `glossary_blueprint`, `register_md_file_dynamic_substitution(name, path, *, logger_name)`; `description=` on `register_node` & `register_leaf`
-- `override_exportable(name, consumer=...)` w/o blueprint: re-home, entry keeps blueprint, moves to `consumer`'s plugin; render profile & `always_apply` still set when given
-- `override_blueprint(name, blueprint, *, render_profile=None)`: consumer replaces another consumer's internal (not exportable) blueprint, w/ `override_exportable`'s dependency, path & cycle checks; string dependents pick up replacement
-
 ### Changed
-
-- `kamilog` pin `v3.0.0` -> `v3.0.1`, which adds the native `tmp` badge
-- runtime dependencies bounded: `anytree>=2.13,<3`, `json5>=0.17,<1`, `pyahocorasick>=2.3,<3`, `pyyaml>=6.0,<7`, not open-ended
-- consumer doc: kaye-library step table drops the dynamic substitution step, which the library removed; 5 steps, corpus & blueprints now 4 & 5
-- exports that build in a temp folder then copy out (`claude plugin -z`, `claude skills -z`, `claude vs-code-extension`, both installers) log 2 phases, build and publish; scratch lines print `tmp` with the temp root as `<tmp>`, not `new`, at `-V`, plus 1 `tmp` summary line at `-v`; `quiet_deeds()` replaced by `tmp_deeds()`, new `tmp_roots()`, `cp_file`, `del_file`, `del_dir`, `create_tmp` deeds, and `CP_BADGE`, `TMP_BADGE`, `UNDO_BADGE`
-- `vs-code-extension` merge (`place_vs_code_payload`) logs every step at `-V` through kamilog: phases, passed checks, temp write and rename, per-file marketplace diff, swap steps, `undo` on rollback, one `new` line per `settings.json` key added or `SKIP` per key kept; the dry run prints the same lines
-- every local marketplace (`claude marketplace`, `claude vs-code-extension`, both installers, `codex marketplace`) named by repo name (`set_repo_name`), not `kaye-engine`; folder `~/.claude/REPO/`; unset repo name exits 1
-- tests pin: installers share 1 payload shape, release assets 1 zip per plugin consumer, taken-over skill absent from original consumer's plugin
-
-> [!WARNING]
-> Breaking: marketplace `kaye-engine` & folder `~/.claude/kaye-engine/` gone; `enabledPlugins` keys `NAME@kaye-engine` go stale, installers never remove them; re-run `a v`, delete the old folder & keys
-
-> [!WARNING]
-> Installing 2 repos' marketplaces (e.g. `kaye-library` & another consumer repo) lists plugin `kaye-library` twice, 1 per marketplace; a skill can surface twice
 
 ### Deprecated
 
@@ -53,26 +35,39 @@ manually add chat & coder, instead by data structure
 
 ### Fixed
 
-- `-n/--dry-run` now stamps the `dry` badge on the deed lines of `codex plugin`, `codex marketplace`, `codex skills` and `build-github-marketplace`: their loggers were missing from the dry-run logger list
-
-- `register_md_file_dynamic_substitution` reads the file as UTF-8, not the platform encoding, so non-ASCII text registers verbatim on Windows; a file that is not valid UTF-8 logs a critical line & exits 1, not a traceback
-
 ### Security
 
-[unreleased]: https://github.com/kami-lel/kaye-engine/compare/v12.0.0...dev
+[unreleased]: https://github.com/kami-lel/kaye-engine/compare/v13.0.0...dev
 
+## [13.0.0] - 2026-11-18
 
+### Added
 
+- public registration helpers: `bind_registrars(consumer)` (`register_exportable`, `register_prompt`, `register_internal`, `register_abbr_glossary`), `register_node`, `register_leaf`, `mark_as_leaf`, `walk_and_checkmark`, `glossary_blueprint`, `register_md_file_dynamic_substitution`; `description=` on `register_node` & `register_leaf`
+- `override_exportable(name, consumer=...)` w/o blueprint re-homes an entry to `consumer`'s plugin
+- `override_blueprint(name, blueprint, *, render_profile=None)`: consumer replaces another consumer's internal blueprint, w/ `override_exportable`'s checks
 
+### Changed
 
+- every local marketplace named by repo name (`set_repo_name`), folder `~/.claude/REPO/`, not `kaye-engine`; unset repo name exits 1
+- exports building in a temp folder log build & publish phases; scratch lines wear the `tmp` badge; `quiet_deeds()` → `tmp_deeds()`
+- `vs-code-extension` merge logs every step at `-V`, dry run too
+- `kamilog` pin `v3.0.0` → `v3.0.1`
+- runtime dependencies bounded by a major cap
+- consumer doc: kaye-library step table drops the dynamic substitution step, 5 steps left
 
+> [!WARNING]
+> Breaking: marketplace `kaye-engine` & folder `~/.claude/kaye-engine/` gone; `enabledPlugins` keys `NAME@kaye-engine` go stale, installers never remove them; re-run `a v`, delete the old folder & keys
 
+> [!WARNING]
+> Installing 2 repos' marketplaces (e.g. `kaye-library` & another consumer repo) lists plugin `kaye-library` twice, 1 per marketplace; a skill can surface twice
 
+### Fixed
 
+- `-n/--dry-run` now stamps the `dry` badge on `codex plugin`, `codex marketplace`, `codex skills` & `build-github-marketplace`
+- `register_md_file_dynamic_substitution` reads UTF-8, not the platform encoding; invalid UTF-8 logs a critical line & exits 1, no traceback
 
-
-
-
+[13.0.0]: https://github.com/kami-lel/kaye-engine/compare/v12.0.0...v13.0.0
 
 ## [12.0.0] - 2026-11-15
 
