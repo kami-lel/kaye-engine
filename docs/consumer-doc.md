@@ -98,6 +98,12 @@ bp = replace_meta(
 override_exportable("commit-sense", bp, consumer="my-consumer")
 ```
 
+When the library skill already renders your content, because a blueprint it depends on by name is one you took over, pass no blueprint: the skill only moves to your plugin, so your text never ships in the library's.
+
+```python
+override_exportable("coder", consumer="my-consumer")
+```
+
 ## Running the CLI
 
 The consumer's distribution must be installed (`pip install .`, or `pip install -e .` while developing): `--version` reads its version from the installed metadata. An uninstalled package still builds every command, and `--version` reports `unknown (not installed)`.
@@ -111,4 +117,4 @@ parsed_args = cli_parser.parse_args()
 parsed_args.func(parsed_args)
 ```
 
-The `claude`, `codex` and `hermes` subcommands also need `setup_claude_cli(...)`, `setup_codex_cli(...)` and `setup_hermes_cli(...)` as the last step; a missing one exits 1 and names what is absent. The library's standalone chat blueprints are not included when composing steps, so supply your own.
+The `claude`, `codex` and `hermes` subcommands also need `setup_claude_cli(...)`, `setup_codex_cli(...)` and `setup_hermes_cli(...)` as the last step; a missing one exits 1 and names what is absent.

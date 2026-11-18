@@ -284,7 +284,7 @@ def override_blueprint(name, blueprint, *, render_profile=None):
 
 
 def override_exportable(
-    name, blueprint, *, consumer, render_profile=None, always_apply=None
+    name, blueprint=None, *, consumer, render_profile=None, always_apply=None
 ):
     """
     replace the exportable registered under ``name`` with ``blueprint``,
@@ -296,11 +296,17 @@ def override_exportable(
     registry entry, so every registry holding it sees the new content; the
     other export flags are kept, ``always_apply`` excepted when given
 
+    with no ``blueprint``, the entry keeps its own and only moves to
+    ``consumer``'s plugin: a re-home, for a skill whose render carries
+    the overriding consumer's content, e.g. through a dependency it
+    took over by name
+
 
     :param name: canonical name of the registered exportable to replace
     :type name: str
-    :param blueprint: the replacement blueprint
-    :type blueprint: Blueprint
+    :param blueprint: the replacement blueprint; ``None`` keeps the
+            current one
+    :type blueprint: Blueprint, optional
     :param consumer: canonical name of the registered consumer taking the
             skill over
     :type consumer: str
@@ -319,6 +325,7 @@ def override_exportable(
     :rtype: BlueprintRegistry
     :example:
     >>> override_exportable("commit-sense", bp, consumer="some-pkg")
+    >>> override_exportable("coder", consumer="some-pkg")
     """
     entry = blueprint_registry.get(name)
     if entry is None or not entry.is_exportable:
@@ -327,10 +334,11 @@ def override_exportable(
         )
 
     check_consumer(consumer)
-    validate_blueprint(blueprint)
-    _check_no_cycle_through(blueprint, name)
+    if blueprint is not None:
+        validate_blueprint(blueprint)
+        _check_no_cycle_through(blueprint, name)
+        entry.blueprint = blueprint
 
-    entry.blueprint = blueprint
     if render_profile is not None:
         entry.render_profile = render_profile
     entry.consumer = consumer

@@ -27,6 +27,7 @@ manually add chat & coder, instead by data structure
 
 ### Added
 
+- `override_exportable(name, consumer=...)` w/o blueprint: re-home, entry keeps blueprint, moves to `consumer`'s plugin; render profile & `always_apply` still set when given
 - `override_blueprint(name, blueprint, *, render_profile=None)`: consumer replaces another consumer's internal (not exportable) blueprint, w/ `override_exportable`'s dependency, path & cycle checks; string dependents pick up replacement
 
 ### Changed
