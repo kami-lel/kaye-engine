@@ -53,6 +53,8 @@ manually add chat & coder, instead by data structure
 
 - `-n/--dry-run` now stamps the `dry` badge on the deed lines of `codex plugin`, `codex marketplace`, `codex skills` and `build-github-marketplace`: their loggers were missing from the dry-run logger list
 
+- `register_md_file_dynamic_substitution` reads the file as UTF-8, not the platform encoding, so non-ASCII text registers verbatim on Windows; a file that is not valid UTF-8 logs a critical line & exits 1, not a traceback
+
 ### Security
 
 [unreleased]: https://github.com/kami-lel/kaye-engine/compare/v12.0.0...dev

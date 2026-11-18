@@ -302,6 +302,34 @@ class TestMdFileSubstitution:
         finally:
             dynamic_substitution_registry.pop(name, None)
 
+    def test_registers_non_ascii_text_verbatim(_, tmp_path):
+        text = "café 你好 — \U0001f9e9"
+        path = tmp_path / "sub.md"
+        path.write_bytes(text.encode("utf-8"))
+        name = _PREFIX + "utf8"
+        try:
+            register_md_file_dynamic_substitution(
+                name, path, logger_name="reg-test"
+            )
+
+            assert dynamic_substitution_registry[name].generate() == text
+        finally:
+            dynamic_substitution_registry.pop(name, None)
+
+    def test_invalid_utf8_file_exits_1_with_critical(_, tmp_path, capsys):
+        path = tmp_path / "bad.md"
+        path.write_bytes(b"ok \xff\xfe broken")
+        name = _PREFIX + "bad"
+
+        with pytest.raises(SystemExit) as info:
+            register_md_file_dynamic_substitution(
+                name, path, logger_name="reg-test"
+            )
+
+        assert info.value.code == 1
+        assert f"cannot read {name} file" in capsys.readouterr().err
+        assert name not in dynamic_substitution_registry
+
     def test_unreadable_file_exits_1(_, tmp_path):
         with pytest.raises(SystemExit) as info:
             register_md_file_dynamic_substitution(

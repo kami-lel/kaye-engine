@@ -279,12 +279,11 @@ def register_md_file_dynamic_substitution(name, md_file_path, *, logger_name):
     :param logger_name: logger a read failure reports through, so a
             consumer logs under its own name
     :type logger_name: str
-    :raises SystemExit: the file cannot be read
+    :raises SystemExit: the file cannot be read or is not valid UTF-8
     """
     try:
-        # BUG no utf-8: non-ASCII file raises UnicodeDecodeError on Windows
-        content = md_file_path.read_text()
-    except OSError as err:
+        content = md_file_path.read_text(encoding="utf-8")
+    except (OSError, UnicodeDecodeError) as err:
         kamilog.getLogger(logger_name).critical(
             f"cannot read {name} file {md_file_path}:\t" + str(err)
         )
