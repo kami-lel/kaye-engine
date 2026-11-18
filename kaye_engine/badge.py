@@ -13,6 +13,7 @@ __all__ = (
     "NEW_BADGE",
     "OWR_BADGE",
     "TMP_BADGE",
+    "UNDO_BADGE",
 )
 
 # constants  ###################################################################
@@ -28,3 +29,6 @@ DEL_BADGE = "del"
 
 # data: a line writes scratch data, discarded once the run or block ends
 TMP_BADGE = "tmp"
+
+# guard: a line reverses a step already taken
+UNDO_BADGE = "undo"

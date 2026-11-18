@@ -83,7 +83,7 @@ def export_plugin_as_folder(
             badges=TMP_BADGE,
         )
     else:
-        logger.succ("export plugin:\t" + str(plugin_root))
+        logger.succ(mask_tmp_roots("export plugin:\t" + str(plugin_root)))
 
     return plugin_root
 
