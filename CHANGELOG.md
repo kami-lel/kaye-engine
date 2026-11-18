@@ -29,6 +29,7 @@ manually add chat & coder, instead by data structure
 
 ### Changed
 
+- `kamilog` pin `v3.0.0` -> `v3.0.1`, which adds the native `tmp` badge
 - every local marketplace (`claude marketplace`, `claude vs-code-extension`, both installers, `codex marketplace`) named by repo name (`set_repo_name`), not `kaye-engine`; folder `~/.claude/REPO/`; unset repo name exits 1
 - tests pin: installers share 1 payload shape, release assets 1 zip per plugin consumer, taken-over skill absent from original consumer's plugin
 
