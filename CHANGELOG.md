@@ -30,6 +30,8 @@ manually add chat & coder, instead by data structure
 ### Changed
 
 - `kamilog` pin `v3.0.0` -> `v3.0.1`, which adds the native `tmp` badge
+- exports that build in a temp folder then copy out (`claude plugin -z`, `claude skills -z`, `claude vs-code-extension`, both installers) log 2 phases, build and publish; scratch lines print `tmp` with the temp root as `<tmp>`, not `new`, at `-V`, plus 1 `tmp` summary line at `-v`; `quiet_deeds()` replaced by `tmp_deeds()`, new `tmp_roots()`, `cp_file`, `del_file`, `del_dir`, `create_tmp` deeds, and `CP_BADGE`, `TMP_BADGE`, `UNDO_BADGE`
+- `vs-code-extension` merge (`place_vs_code_payload`) logs every step at `-V` through kamilog: phases, passed checks, temp write and rename, per-file marketplace diff, swap steps, `undo` on rollback, one `new` line per `settings.json` key added or `SKIP` per key kept; the dry run prints the same lines
 - every local marketplace (`claude marketplace`, `claude vs-code-extension`, both installers, `codex marketplace`) named by repo name (`set_repo_name`), not `kaye-engine`; folder `~/.claude/REPO/`; unset repo name exits 1
 - tests pin: installers share 1 payload shape, release assets 1 zip per plugin consumer, taken-over skill absent from original consumer's plugin
 
