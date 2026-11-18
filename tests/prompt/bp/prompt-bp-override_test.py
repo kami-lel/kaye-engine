@@ -137,6 +137,48 @@ class TestOverride:
         )
 
 
+class TestRehome:
+
+    def test_blueprint_kept_consumer_moved(_):
+        before = blueprint_registry["ovr-base"].blueprint
+
+        entry = override_exportable("ovr-base", consumer="other-pkg")
+
+        assert entry.blueprint is before
+        assert entry.consumer == "other-pkg"
+        assert select_exportables(consumer="other-pkg")[0].canonical_name == (
+            "ovr-base"
+        )
+
+    def test_flags_and_profile_kept(_):
+        entry = override_exportable("ovr-base", consumer="other-pkg")
+
+        assert entry.render_profile.sparseness == 3
+        assert entry.always_apply is True
+
+    def test_render_profile_and_always_apply_set_when_given(_):
+        profile = RenderProfile(sparseness=9)
+
+        entry = override_exportable(
+            "ovr-base",
+            consumer="other-pkg",
+            render_profile=profile,
+            always_apply=False,
+        )
+
+        assert entry.render_profile is profile
+        assert entry.always_apply is False
+
+    def test_non_exportable_raises(_):
+        with pytest.raises(ValueError, match="ovr-internal"):
+            override_exportable("ovr-internal", consumer="other-pkg")
+
+    def test_unknown_consumer_raises(_):
+        with pytest.raises(ValueError, match="nobody"):
+            override_exportable("ovr-base", consumer="nobody")
+        assert exportable_registry["ovr-base"].consumer == TEST_CONSUMER
+
+
 class TestRefused:
 
     def test_unknown_dependency_raises_and_changes_nothing(_):

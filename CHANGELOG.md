@@ -27,6 +27,8 @@ manually add chat & coder, instead by data structure
 
 ### Added
 
+- registration helpers, public: `bind_registrars(consumer)` -> `Registrars` (`register_exportable`, `register_prompt`, `register_internal`, `register_abbr_glossary`); `register_node`, `register_leaf`, `mark_as_leaf`, `walk_and_checkmark`, `glossary_blueprint`, `register_md_file_dynamic_substitution(name, path, *, logger_name)`; `description=` on `register_node` & `register_leaf`
+- `override_exportable(name, consumer=...)` w/o blueprint: re-home, entry keeps blueprint, moves to `consumer`'s plugin; render profile & `always_apply` still set when given
 - `override_blueprint(name, blueprint, *, render_profile=None)`: consumer replaces another consumer's internal (not exportable) blueprint, w/ `override_exportable`'s dependency, path & cycle checks; string dependents pick up replacement
 
 ### Changed

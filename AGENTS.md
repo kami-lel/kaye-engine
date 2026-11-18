@@ -218,8 +218,8 @@ name is empty. An exportable entry must name a registered `consumer=`,
 with no fallback; the consumer decides which plugin the skill lands in.
 
 A consumer replaces another consumer's exportable only through
-`override_exportable(name, blueprint, *, consumer, render_profile=None,
-always_apply=None)`, and another consumer's internal blueprint only
+`override_exportable(name, blueprint=None, *, consumer, render_profile=None,
+always_apply=None)` (no blueprint: a re-home, the entry only moves plugin), and another consumer's internal blueprint only
 through `override_blueprint(name, blueprint, *, render_profile=None)`;
 never reassign `.blueprint` or `.consumer` on a
 registry entry from a consumer package, since that skips the dependency,
@@ -281,7 +281,8 @@ After meaningful changes, keep these in sync:
 - `docs/` — one file per topic; update the one a change touches:
   - the corpus Markdown format and `register_corpus_under_node` rules:
     [docs/corpus-doc.md](docs/corpus-doc.md)
-  - the `prompt` module, blueprints, and the blueprint registry:
+  - the `prompt` module, blueprints, the blueprint registry, and the
+    registration helpers (`bind_registrars`, `register_node`, ~):
     [docs/prompt-doc.md](docs/prompt-doc.md)
   - `exportable_registry`, export flags, and `override_exportable`:
     [docs/exportable-registry-doc.md](docs/exportable-registry-doc.md)

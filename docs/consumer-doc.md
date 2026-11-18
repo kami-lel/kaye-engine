@@ -75,6 +75,23 @@ Rules:
 - Abbreviations: your file may repeat a library entry only to add a glossary or habit flag; `priority`, `wrap` and `remark` must not conflict, see [abbreviations](abbrs-doc.md)
 - Contract: library skill names and node paths are stable; selecting them is safe
 
+## Registering Blueprints
+
+Bind your consumer once, then register through the shared helpers instead of writing partials of your own, see [Registration Helpers](prompt-doc.md#registration-helpers):
+
+```python
+from kaye_engine import bind_registrars, register_node
+
+(
+    register_exportable,
+    register_prompt,
+    register_internal,
+    register_abbr_glossary,
+) = bind_registrars("my-consumer")
+
+register_node(register_exportable, "my-rules", get_corpus_node(), "My Rules")
+```
+
 ## Taking a Library Skill Over
 
 Build the new blueprint over the library's blueprint *object*, never its name (that is a cycle), then register it with `override_exportable`. The skill keeps its name and flags and moves to your plugin, leaving no copy in the library's plugin. `commit-sense` and `coder` are made for this.
@@ -98,6 +115,12 @@ bp = replace_meta(
 override_exportable("commit-sense", bp, consumer="my-consumer")
 ```
 
+When the library skill already renders your content, because a blueprint it depends on by name is one you took over, pass no blueprint: the skill only moves to your plugin, so your text never ships in the library's.
+
+```python
+override_exportable("coder", consumer="my-consumer")
+```
+
 ## Running the CLI
 
 The consumer's distribution must be installed (`pip install .`, or `pip install -e .` while developing): `--version` reads its version from the installed metadata. An uninstalled package still builds every command, and `--version` reports `unknown (not installed)`.
@@ -111,4 +134,4 @@ parsed_args = cli_parser.parse_args()
 parsed_args.func(parsed_args)
 ```
 
-The `claude`, `codex` and `hermes` subcommands also need `setup_claude_cli(...)`, `setup_codex_cli(...)` and `setup_hermes_cli(...)` as the last step; a missing one exits 1 and names what is absent. The library's standalone chat blueprints are not included when composing steps, so supply your own.
+The `claude`, `codex` and `hermes` subcommands also need `setup_claude_cli(...)`, `setup_codex_cli(...)` and `setup_hermes_cli(...)` as the last step; a missing one exits 1 and names what is absent.

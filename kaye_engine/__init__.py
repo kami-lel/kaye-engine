@@ -9,14 +9,17 @@ __all__ = (
     "AbbrData",
     "DynamicSubstitution",
     "StringDynamicSubstitution",
+    "bind_registrars",
     "clear_corpus_tree",
     "get_corpus_tree",
+    "glossary_blueprint",
     "load_corpus_tree",
     "populate_abbr_data_with_json_file",
     "override_blueprint",
     "override_exportable",
     "register_abbr_glossary",
     "register_blueprint",
+    "mark_as_leaf",
     "register_comment_line",
     "register_consumer",
     "set_abbr_group_consumer",
@@ -28,9 +31,13 @@ __all__ = (
     "register_image_prompt_exportable",
     "register_render_profile",
     "register_dynamic_substitution",
+    "register_leaf",
+    "register_md_file_dynamic_substitution",
+    "register_node",
     "setup_claude_cli",
     "setup_codex_cli",
     "setup_hermes_cli",
+    "walk_and_checkmark",
 )
 
 
@@ -70,4 +77,13 @@ from kaye_engine.prompt import (
     register_corpus_under_node,
     register_dynamic_substitution,
     register_render_profile,
+)
+from kaye_engine.registration import (
+    bind_registrars,
+    glossary_blueprint,
+    mark_as_leaf,
+    register_leaf,
+    register_md_file_dynamic_substitution,
+    register_node,
+    walk_and_checkmark,
 )
