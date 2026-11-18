@@ -27,7 +27,7 @@ from kaye_engine.cli.github_release.installer_windows import (
     build_windows_installer,
 )
 
-_CONSUMER_NAMES = ("kaye-library", "kaye-vault", "pkg-one", "pkg-two")
+_CONSUMER_NAMES = ("kaye-library", "pkg-three", "pkg-one", "pkg-two")
 
 
 # auxiliaries  #################################################################

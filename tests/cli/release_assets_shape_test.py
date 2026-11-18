@@ -2,7 +2,7 @@
 tests/cli/release_assets_shape_test.py
 
 test: the release assets of a library-shaped repo (one consumer) and a
-vault-shaped repo (default consumer plus the library it takes skills from),
+pkg-three-shaped repo (default consumer plus the library it takes skills from),
 with the exact names and contents of each plugin zip; ``claude plugin``
 with no consumer argument writes the default consumer's plugin
 """
@@ -81,22 +81,22 @@ def library_repo():
 
 
 @pytest.fixture
-def vault_repo():
-    # the vault took every library skill but one over, as override_exportable
-    # does: the overridden skill belongs to the vault alone
+def three_repo():
+    # pkg-three took every library skill but one over, as override_exportable
+    # does: the overridden skill belongs to pkg-three alone
     _setup(
         {
             "lib-skill": _entry("lib-skill", "kaye-library"),
-            "taken-over": _entry("taken-over", "kaye-vault"),
-            "vault-skill": _entry("vault-skill", "kaye-vault"),
+            "taken-over": _entry("taken-over", "pkg-three"),
+            "three-skill": _entry("three-skill", "pkg-three"),
         },
         [
             ("Kaye Library", "kaye-library", "1.4.1"),
-            ("Kaye Vault", "kaye-vault", "1.2.2"),
+            ("Pkg Three", "pkg-three", "1.2.2"),
         ],
-        "kaye-vault",
+        "pkg-three",
         "1.2.2",
-        "kaye-vault",
+        "pkg-three",
     )
 
 
@@ -146,40 +146,40 @@ class TestLibraryShapedRepo:
         assert "claude-desktop-plugin-" not in caplog.text
 
 
-class TestVaultShapedRepo:
+class TestPkgThreeShapedRepo:
 
     def test_default_consumer_zip_has_no_suffix_library_zip_has_one(
-        _, tmp_path, vault_repo
+        _, tmp_path, three_repo
     ):
         _run_release(tmp_path)
 
         assert _names(tmp_path) == sorted(
             [
-                "kaye-vault-1.2.2-claude-desktop-plugin.zip",
-                "kaye-vault-1.2.2-claude-desktop-plugin-kaye-library.zip",
+                "pkg-three-1.2.2-claude-desktop-plugin.zip",
+                "pkg-three-1.2.2-claude-desktop-plugin-kaye-library.zip",
             ]
-            + [n.format("kaye-vault-1.2.2") for n in _INSTALLERS]
+            + [n.format("pkg-three-1.2.2") for n in _INSTALLERS]
         )
 
-    def test_library_zip_lacks_the_taken_over_skill(_, tmp_path, vault_repo):
+    def test_library_zip_lacks_the_taken_over_skill(_, tmp_path, three_repo):
         _run_release(tmp_path)
 
         library_zip = (
-            tmp_path / "kaye-vault-1.2.2-claude-desktop-plugin-kaye-library.zip"
+            tmp_path / "pkg-three-1.2.2-claude-desktop-plugin-kaye-library.zip"
         )
-        vault_zip = tmp_path / "kaye-vault-1.2.2-claude-desktop-plugin.zip"
+        three_zip = tmp_path / "pkg-three-1.2.2-claude-desktop-plugin.zip"
         assert _skills_in_zip(library_zip) == ["lib-skill"]
-        assert _skills_in_zip(vault_zip) == ["taken-over", "vault-skill"]
+        assert _skills_in_zip(three_zip) == ["taken-over", "three-skill"]
 
     def test_dry_run_lists_both_plugin_zips(
-        _, tmp_path, vault_repo, caplog
+        _, tmp_path, three_repo, caplog
     ):
         _run_release(tmp_path / "out", "--dry-run")
 
         assert not (tmp_path / "out").exists()
-        assert "kaye-vault-1.2.2-claude-desktop-plugin.zip" in caplog.text
+        assert "pkg-three-1.2.2-claude-desktop-plugin.zip" in caplog.text
         assert (
-            "kaye-vault-1.2.2-claude-desktop-plugin-kaye-library.zip"
+            "pkg-three-1.2.2-claude-desktop-plugin-kaye-library.zip"
             in caplog.text
         )
 
@@ -187,7 +187,7 @@ class TestVaultShapedRepo:
 class TestClaudePluginDefault:
 
     def test_no_consumer_argument_writes_the_default_plugin(
-        _, tmp_path, vault_repo
+        _, tmp_path, three_repo
     ):
         parser = ArgumentParser()
         register_plugin_parser(parser.add_subparsers())
@@ -197,4 +197,4 @@ class TestClaudePluginDefault:
         ):
             args.func(args)
 
-        assert _names(tmp_path) == ["kaye-vault"]
+        assert _names(tmp_path) == ["pkg-three"]

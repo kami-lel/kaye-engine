@@ -42,10 +42,9 @@ _TEMPLATES = (
 )
 
 # every name a consumer project of this workspace is known by
-# FIXME names consumer `kaye-vault`, here & in 3 more test files; AGENTS forbids
-_HARDCODED_NAMES = ("kaye-engine", "kaye-library", "kaye-vault")
+_HARDCODED_NAMES = ("kaye-engine", "kaye-library", "pkg-three")
 
-_REPO_NAMES = ("kaye-library", "kaye-vault")
+_REPO_NAMES = ("kaye-library", "pkg-three")
 
 
 # auxiliaries  #################################################################
@@ -69,7 +68,7 @@ def _consumers():
     load_corpus_from_sources(["# R\n"])
     entries = {
         "lib-skill": _entry("lib-skill", "kaye-library"),
-        "app-skill": _entry("app-skill", "kaye-vault"),
+        "app-skill": _entry("app-skill", "pkg-three"),
     }
     with isolated_consumers(), isolated_repo(), patch.dict(
         exportable_registry, entries, clear=True
@@ -77,8 +76,8 @@ def _consumers():
         payload_module, "export_user_system_prompt_file", _fake_prompt
     ):
         register_consumer("Kaye Library", "kaye-library", "1.4.1")
-        register_consumer("Kaye Vault", "kaye-vault", "1.2.2")
-        set_default_consumer("kaye-vault")
+        register_consumer("Pkg Three", "pkg-three", "1.2.2")
+        set_default_consumer("pkg-three")
         set_repo_version("1.2.2")
         meta_mock.side_effect = lambda name: _FakeMetadata(name)
         yield
@@ -132,12 +131,12 @@ class TestStagedPayload:
         )
         assert [p["name"] for p in manifest["plugins"]] == [
             "kaye-library",
-            "kaye-vault",
+            "pkg-three",
         ]
         plugins = sorted(
             p.name for p in (folder / repo_name / "plugins").iterdir()
         )
-        assert plugins == ["kaye-library", "kaye-vault"]
+        assert plugins == ["kaye-library", "pkg-three"]
 
 
 @pytest.mark.parametrize("repo_name", _REPO_NAMES)
@@ -157,7 +156,7 @@ class TestPlaceVsCodePayload:
         assert list(settings["extraKnownMarketplaces"]) == [repo_name]
         assert sorted(settings["enabledPlugins"]) == [
             "kaye-library@" + repo_name,
-            "kaye-vault@" + repo_name,
+            "pkg-three@" + repo_name,
         ]
 
 
@@ -190,7 +189,7 @@ class TestLinuxInstaller:
         assert list(settings["extraKnownMarketplaces"]) == [repo_name]
         assert sorted(settings["enabledPlugins"]) == [
             "kaye-library@" + repo_name,
-            "kaye-vault@" + repo_name,
+            "pkg-three@" + repo_name,
         ]
 
 

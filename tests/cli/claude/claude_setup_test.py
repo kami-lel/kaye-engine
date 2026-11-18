@@ -43,7 +43,7 @@ def _isolate_globals():
 class TestMarketplaceNames:
 
     @pytest.mark.parametrize("getter", _GETTERS)
-    @pytest.mark.parametrize("repo_name", ["kaye-library", "kaye-vault"])
+    @pytest.mark.parametrize("repo_name", ["kaye-library", "pkg-three"])
     def test_is_repo_name(_, getter, repo_name):
         with isolated_repo():
             set_repo_name(repo_name)

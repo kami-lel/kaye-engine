@@ -30,7 +30,7 @@ from kaye_engine.cli.github_release.installer_stage import (
 from tests.cli.github_release_installer_windows_test import fake_payload
 
 _MARKER = b"\n# __PAYLOAD_BELOW__\n"
-_CONSUMER_NAMES = ("kaye-library", "kaye-vault", "pkg-one", "pkg-two")
+_CONSUMER_NAMES = ("kaye-library", "pkg-three", "pkg-one", "pkg-two")
 
 pytestmark = pytest.mark.skipif(
     not (shutil.which("bash") and shutil.which("python3")),
