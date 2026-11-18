@@ -62,8 +62,8 @@ no fallback; a `glossary-*` group takes its glossary's consumer:
 | `populate_abbr_data_with_json_file` | additive | one call per file, one layer each; a later layer may repeat an (abbreviation, meaning) pair to add tags, glossaries, or a missing remark, a conflict raises |
 | `register_blueprint` | guarded | |
 | `register_image_prompt_exportable` | guarded | name must already be exportable |
-| `override_exportable` | guarded | the only way a consumer replaces another's exportable; validates names, paths and cycles, moves the skill to the overriding consumer's plugin, and may set `always_apply`; an unregistered or non-exportable name raises |
-| `override_blueprint` | guarded | the only way a consumer replaces another's internal blueprint; same checks as `override_exportable`, may set the render profile; an unregistered or exportable name raises |
+| `override_exportable` | guarded | the only way a consumer replaces another's exportable; validates names, paths and cycles, moves the skill to the overriding consumer's plugin, and may set `always_apply`; an unregistered or non-exportable name raises; a repeat override of 1 name replaces the earlier one, last call wins |
+| `override_blueprint` | guarded | the only way a consumer replaces another's internal blueprint; same checks as `override_exportable`, may set the render profile; an unregistered or exportable name raises; a repeat override of 1 name replaces the earlier one, last call wins |
 | `register_exportable_entry` | guarded | |
 | `bind_registrars` registrars | guarded | each forwards to `register_blueprint` or `register_abbr_glossary`, bound to one consumer |
 | `register_node` | guarded | forwards to the registrar it is given |

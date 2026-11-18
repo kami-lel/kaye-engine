@@ -32,7 +32,9 @@ mechanism meant to stay consumer-agnostic. The one exception is
 **Several consumers may share one process.** Every public registering API
 declares one policy (additive, guarded, or entry-point) in the
 [CONTEXT.md](CONTEXT.md) Registration Policy table; a new API takes a row there in the
-same change, and none overwrites silently.
+same change, and none overwrites silently, bar `override_exportable` and
+`override_blueprint`: a repeat override of 1 name replaces the earlier one,
+last call wins.
 
 ## Setup
 

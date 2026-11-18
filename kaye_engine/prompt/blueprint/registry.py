@@ -239,7 +239,6 @@ def _check_no_cycle_through(blueprint, name):
                 stack.append(blueprint_registry[dep].blueprint)
 
 
-# FIXME repeat override of 1 name, here or in override_exportable, wins silently
 def override_blueprint(name, blueprint, *, render_profile=None):
     """
     replace the internal (not exportable) blueprint registered under
@@ -249,6 +248,10 @@ def override_blueprint(name, blueprint, *, render_profile=None):
 
     an exportable goes through :func:`override_exportable` instead,
     since its skill also moves to the overriding consumer's plugin
+
+    a repeat override of one ``name`` replaces the earlier one, the last
+    call wins, with no guard or warning: the deliberate exception to the
+    no-silent-overwrite registration policy
 
 
     :param name: canonical name of the registered internal blueprint to
@@ -301,6 +304,10 @@ def override_exportable(
     ``consumer``'s plugin: a re-home, for a skill whose render carries
     the overriding consumer's content, e.g. through a dependency it
     took over by name
+
+    a repeat override of one ``name`` replaces the earlier one, the last
+    call wins, with no guard or warning: the deliberate exception to the
+    no-silent-overwrite registration policy
 
 
     :param name: canonical name of the registered exportable to replace
