@@ -281,7 +281,8 @@ After meaningful changes, keep these in sync:
 - `docs/` — one file per topic; update the one a change touches:
   - the corpus Markdown format and `register_corpus_under_node` rules:
     [docs/corpus-doc.md](docs/corpus-doc.md)
-  - the `prompt` module, blueprints, and the blueprint registry:
+  - the `prompt` module, blueprints, the blueprint registry, and the
+    registration helpers (`bind_registrars`, `register_node`, ~):
     [docs/prompt-doc.md](docs/prompt-doc.md)
   - `exportable_registry`, export flags, and `override_exportable`:
     [docs/exportable-registry-doc.md](docs/exportable-registry-doc.md)
