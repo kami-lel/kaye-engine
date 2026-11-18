@@ -219,7 +219,9 @@ with no fallback; the consumer decides which plugin the skill lands in.
 
 A consumer replaces another consumer's exportable only through
 `override_exportable(name, blueprint, *, consumer, render_profile=None,
-always_apply=None)`; never reassign `.blueprint` or `.consumer` on a
+always_apply=None)`, and another consumer's internal blueprint only
+through `override_blueprint(name, blueprint, *, render_profile=None)`;
+never reassign `.blueprint` or `.consumer` on a
 registry entry from a consumer package, since that skips the dependency,
 path, and cycle checks.
 

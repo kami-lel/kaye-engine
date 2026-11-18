@@ -27,6 +27,8 @@ manually add chat & coder, instead by data structure
 
 ### Added
 
+- `override_blueprint(name, blueprint, *, render_profile=None)`: consumer replaces another consumer's internal (not exportable) blueprint, w/ `override_exportable`'s dependency, path & cycle checks; string dependents pick up replacement
+
 ### Changed
 
 - `kamilog` pin `v3.0.0` -> `v3.0.1`, which adds the native `tmp` badge

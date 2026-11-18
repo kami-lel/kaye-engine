@@ -147,7 +147,7 @@ Two kinds of exportable registration feed `exportable_registry`:
 - **consumer registered exportable**:
   - blueprint: `register_blueprint(name, blueprint, consumer=...)` creates a `BlueprintRegistry`, inserts it into `blueprint_registry`, and, when `is_exportable` is true (the default), into `exportable_registry` too; an exportable entry must name a registered consumer, with no fallback. Its display name comes from `blueprint.meta.display_name`, with the optional `display_name=` argument as fallback, else `""`. It accepts `is_user_invokable`, `llm_invokable`, `always_apply` and `render_profile`, see [`prompt-doc.md`](prompt-doc.md#blueprint-registry)
   - glossary: `register_abbr_glossary(name, ..., consumer=...)` registers the glossary's name and settings into `abbr_glossary_registry`; with `is_exportable=True`, its group is inserted into `exportable_registry` the next time the abbreviation groups are registered, as `glossary-NAME`, owned by the glossary's consumer. Its `is_user_invokable` flag decides whether a human may invoke that group
-  - override: `override_exportable(name, blueprint, *, consumer, ...)` replaces another consumer's exportable blueprint, see [Overriding an Exportable](#overriding-an-exportable)
+  - override: `override_exportable(name, blueprint, *, consumer, ...)` replaces another consumer's exportable blueprint, see [Overriding an Exportable](#overriding-an-exportable); `override_blueprint(name, blueprint, ...)` does the same for an internal blueprint
   - image-prompt subset: `register_image_prompt_exportable(canonical_name)` marks a name already in `exportable_registry` as a member of the image-prompt export subset, appending it to `image_prompt_exportable_registry`. It never creates an exportable itself: an unregistered `canonical_name` raises `KeyError`, and a name already in the subset raises `ValueError`
 
 Usage:
@@ -211,7 +211,7 @@ override_exportable("commit-sense", bp, consumer="my-package")
 
 The overridden skill keeps its canonical name, so a skill always sits in exactly one plugin: the overriding consumer's. Every export path (`claude plugin`, `claude marketplace`, the release zips, the installers) reads `exportable.consumer`, so the original consumer's plugin carries no copy of it.
 
-An internal blueprint, such as a `-core` that other blueprints depend on, is not an exportable and cannot be overridden: `override_exportable` raises `ValueError`. Take over its exportable dependents instead.
+An internal blueprint, such as a `-core` that other blueprints depend on, is not an exportable: `override_exportable` raises `ValueError` for it. Replace it with `override_blueprint(name, blueprint, *, render_profile=None)` instead, which runs the same checks, then sets the blueprint and, when given, the render profile; every blueprint depending on `name` by string picks up the replacement. An unregistered or exportable `name` raises `ValueError`, and nothing changes.
 
 ## Engine Registered Exportable
 

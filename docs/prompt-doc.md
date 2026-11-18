@@ -753,7 +753,7 @@ canonical_name = registry.canonical_name  # kebab-case slug, e.g. "chat"
 text = registry.content(query="hello")  # rendered prompt
 ```
 
-`register_blueprint()` raises `ValueError` for a duplicate name, an unregistered dependency name, an exportable entry naming no registered `consumer=`, or, while a corpus is loaded, a path it does not contain. To replace an exportable another consumer registered, call `override_exportable()`, see [Exportable Registry Documentation](exportable-registry-doc.md#overriding-an-exportable).
+`register_blueprint()` raises `ValueError` for a duplicate name, an unregistered dependency name, an exportable entry naming no registered `consumer=`, or, while a corpus is loaded, a path it does not contain. To replace an exportable another consumer registered, call `override_exportable()`; to replace an internal one, call `override_blueprint()`; see [Exportable Registry Documentation](exportable-registry-doc.md#overriding-an-exportable).
 
 Each entry carries:
 

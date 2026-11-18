@@ -18,6 +18,7 @@ __all__ = (
     "BlueprintRegistry",
     "blueprint_registry",
     "get_blueprint",
+    "override_blueprint",
     "override_exportable",
     "register_blueprint",
 )
@@ -236,6 +237,50 @@ def _check_no_cycle_through(blueprint, name):
             if dep not in seen:
                 seen.add(dep)
                 stack.append(blueprint_registry[dep].blueprint)
+
+
+def override_blueprint(name, blueprint, *, render_profile=None):
+    """
+    replace the internal (not exportable) blueprint registered under
+    ``name`` with ``blueprint``: the one way a consumer takes over a
+    building block another consumer registered; every blueprint that
+    depends on ``name`` by string picks up the replacement
+
+    an exportable goes through :func:`override_exportable` instead,
+    since its skill also moves to the overriding consumer's plugin
+
+
+    :param name: canonical name of the registered internal blueprint to
+            replace
+    :type name: str
+    :param blueprint: the replacement blueprint
+    :type blueprint: Blueprint
+    :param render_profile: the entry's new default render settings;
+            ``None`` keeps the current ones
+    :type render_profile: RenderProfile, optional
+    :raises ValueError: ``name`` is not registered or is exportable,
+            ``blueprint`` names an unregistered dependency or a path the
+            loaded corpus lacks, or it depends, however indirectly, on
+            ``name`` itself; nothing changes
+    :return: the updated registry entry
+    :rtype: BlueprintRegistry
+    :example:
+    >>> override_blueprint("persona-core", bp)
+    """
+    entry = blueprint_registry.get(name)
+    if entry is None or entry.is_exportable:
+        raise ValueError(
+            "no internal blueprint registered under name: {}".format(name)
+        )
+
+    validate_blueprint(blueprint)
+    _check_no_cycle_through(blueprint, name)
+
+    entry.blueprint = blueprint
+    if render_profile is not None:
+        entry.render_profile = render_profile
+
+    return entry
 
 
 def override_exportable(
