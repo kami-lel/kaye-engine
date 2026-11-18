@@ -15,9 +15,12 @@ from argparse import ArgumentParser
 from kaye_engine import LOGGER_NAME
 from kaye_engine.badge import DRY_BADGE
 from kaye_engine.cli.claude import LOGGER_CLAUDE_NAME
+from kaye_engine.cli.codex import LOGGER_CODEX_NAME
 from kaye_engine.cli.continue_ai import LOGGER_CONTINUE_NAME
+from kaye_engine.cli.github_marketplace import LOGGER_GITHUB_MARKETPLACE_NAME
 from kaye_engine.cli.hermes import LOGGER_HERMES_NAME
 from kaye_engine.cli.open_webui import LOGGER_OPEN_WEBUI_NAME
+from kaye_engine.cli.plugin_platform import LOGGER_PLUGIN_PLATFORM_NAME
 from kaye_engine.skill import LOGGER_SKILL_NAME
 
 __all__ = (
@@ -32,13 +35,15 @@ __all__ = (
 
 
 # constants  ###################################################################
-# BUG lacks codex, plugin & github-marketplace loggers: their -n lines no `dry`
 _LOGGER_NAMES = (
     LOGGER_NAME,
     LOGGER_CLAUDE_NAME,
+    LOGGER_CODEX_NAME,
     LOGGER_CONTINUE_NAME,
+    LOGGER_GITHUB_MARKETPLACE_NAME,
     LOGGER_HERMES_NAME,
     LOGGER_OPEN_WEBUI_NAME,
+    LOGGER_PLUGIN_PLATFORM_NAME,
     LOGGER_SKILL_NAME,
 )
 

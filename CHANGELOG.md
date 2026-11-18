@@ -51,6 +51,8 @@ manually add chat & coder, instead by data structure
 
 ### Fixed
 
+- `-n/--dry-run` now stamps the `dry` badge on the deed lines of `codex plugin`, `codex marketplace`, `codex skills` and `build-github-marketplace`: their loggers were missing from the dry-run logger list
+
 ### Security
 
 [unreleased]: https://github.com/kami-lel/kaye-engine/compare/v12.0.0...dev
