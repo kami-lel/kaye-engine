@@ -12,13 +12,12 @@ authors = [
     { name = "kamiLeL", email = "77594253+kami-lel@users.noreply.github.com" },
 ]
 requires-python = ">=3.11"
-# FIXME anytree, json5, pyahocorasick, pyyaml unpinned: no lower/upper bound
 dependencies = [
-    "anytree",
-    "json5",
+    "anytree>=2.13,<3",
+    "json5>=0.17,<1",
     "kamilog @ git+https://github.com/kami-lel/kamilog.git@v3.0.1",
-    "pyahocorasick",
-    "pyyaml",
+    "pyahocorasick>=2.3,<3",
+    "pyyaml>=6.0,<7",
 ]
 
 [project.urls]
