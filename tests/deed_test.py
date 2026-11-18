@@ -19,7 +19,7 @@ from kaye_engine.badge import (
     OWR_BADGE,
     TMP_BADGE,
 )
-from kaye_engine.deed import format_size, tmp_deeds, track
+from kaye_engine.deed import format_size, tmp_deeds, tmp_roots, track
 
 _NAME = "kaye-engine.deed-test"
 _LOGGER = kamilog.getLogger(_NAME)
@@ -209,6 +209,17 @@ class TestTmpDeeds:
                         pass
 
         assert caplog.records[0].message == "move <tmp>/a -> <tmp>/b"
+
+    def test_tmp_roots_masks_without_making_the_line_scratch(_, caplog):
+        with caplog.at_level(logging.DEBUG, logger=_NAME):
+            with tmp_roots("/tmp/x1y2"):
+                with track(_LOGGER).mv_file("/tmp/x1y2/a.zip", "out/a.zip"):
+                    pass
+
+        record = caplog.records[0]
+        assert record.message == "move <tmp>/a.zip -> out/a.zip"
+        assert record.levelno == logging.INFO
+        assert record.badges == (MV_BADGE,)
 
     def test_root_is_shown_again_after_block(_, caplog):
         with caplog.at_level(logging.DEBUG, logger=_NAME):

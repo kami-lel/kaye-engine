@@ -19,7 +19,9 @@ from kaye_engine.badge import (
     TMP_BADGE,
 )
 
-__all__ = ("format_size", "tmp_deeds", "track")
+__all__ = (
+    "format_size", "mask_tmp_roots", "tmp_deeds", "tmp_roots", "track",
+)
 
 
 # constants  ###################################################################
@@ -89,11 +91,14 @@ class _DeedScope:  # ***********************************************************
     def __exit__(self, exc_type, exc_value, traceback):
         if exc_type is None and _tmp_depth:
             self._emit(
-                logging.DEBUG, _mask_tmp_roots(self._message),
+                logging.DEBUG, mask_tmp_roots(self._message),
                 badges=TMP_BADGE,
             )
         elif exc_type is None:
-            self._emit(self.level, self._message, badges=self._badge)
+            self._emit(
+                self.level, mask_tmp_roots(self._message),
+                badges=self._badge,
+            )
         elif issubclass(exc_type, Exception):
             cause = exc_type.__name__
             if str(exc_value):
@@ -113,7 +118,7 @@ class _DeedScope:  # ***********************************************************
             )
 
 
-def _mask_tmp_roots(message):
+def mask_tmp_roots(message):
     """
     :return: ``message`` with every open tmp root shown as ``<tmp>``, the
             longest root first so a nested root is not cut short
@@ -122,6 +127,26 @@ def _mask_tmp_roots(message):
     for root in sorted(_tmp_roots, key=len, reverse=True):
         message = message.replace(root, _TMP_MARK)
     return message
+
+
+@contextlib.contextmanager
+def tmp_roots(*roots):  # ======================================================
+    """
+    show each temp folder as ``<tmp>`` in the paths of deed success lines
+    logged inside the block, without making those lines scratch; for a
+    publish step that moves data out of a temp folder to its real place
+
+
+    :param roots: temp folders to mask
+    :type roots: Path-like
+    """
+    marks = [os.fspath(root).rstrip(os.sep) for root in roots]
+    marks = [m for m in marks if m]
+    _tmp_roots.extend(marks)
+    try:
+        yield
+    finally:
+        del _tmp_roots[len(_tmp_roots) - len(marks):]
 
 
 @contextlib.contextmanager
@@ -139,15 +164,12 @@ def tmp_deeds(*roots):  # ======================================================
     :type roots: Path-like
     """
     global _tmp_depth  # pylint: disable=global-statement
-    marks = [os.fspath(root).rstrip(os.sep) for root in roots]
-    marks = [m for m in marks if m]
     _tmp_depth += 1
-    _tmp_roots.extend(marks)
     try:
-        yield
+        with tmp_roots(*roots):
+            yield
     finally:
         _tmp_depth -= 1
-        del _tmp_roots[len(_tmp_roots) - len(marks):]
 
 
 def format_size(size):  # ======================================================

@@ -10,6 +10,8 @@ from pathlib import Path
 
 import kamilog
 from kaye_engine import PACKAGE_NAME
+from kaye_engine.badge import TMP_BADGE
+from kaye_engine.deed import mask_tmp_roots
 from kaye_engine.skill.export_folders import export_skills_as_folders
 
 from .consumers import get_plugin_consumers, select_plugin_consumers
@@ -75,8 +77,13 @@ def export_plugin_as_folder(
         consumer=plugin_name,
     )
 
-    report = logger.debug if quiet else logger.succ
-    report("export plugin:\t" + str(plugin_root))
+    if quiet:
+        logger.debug(
+            mask_tmp_roots("build plugin folder:\t" + str(plugin_root)),
+            badges=TMP_BADGE,
+        )
+    else:
+        logger.succ("export plugin:\t" + str(plugin_root))
 
     return plugin_root
 

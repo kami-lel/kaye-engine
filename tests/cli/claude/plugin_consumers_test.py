@@ -237,6 +237,41 @@ class TestPluginZipOutput:
         assert "  skills/lib-skill/SKILL.md" in caplog.text
         assert "pkg-one-claude-1.1.0.zip: " in caplog.text
 
+    def test_debug_level_separates_scratch_from_publish(
+        _, tmp_path, caplog
+    ):
+        _capture(caplog, logging.DEBUG)
+        export_plugins_as_zips(tmp_path)
+
+        records = caplog.records
+        assert any(
+            r.levelno == kamilog.ENTER
+            and r.message.startswith("build plugin in tmp")
+            for r in records
+        )
+        assert any(
+            r.levelno == kamilog.ENTER
+            and r.message.startswith("publish plugin")
+            for r in records
+        )
+        packs = [r for r in records if r.message.startswith("pack <tmp>")]
+        assert packs
+        assert all(r.badges == ("tmp",) for r in packs)
+        moves = [r for r in records if r.message.startswith("move <tmp>")]
+        assert moves
+        assert all(r.badges == ("mv",) for r in moves)
+        assert all(r.levelno == logging.DEBUG for r in moves)
+
+    def test_info_level_shows_one_tmp_summary_per_plugin(_, tmp_path, caplog):
+        _capture(caplog, logging.INFO)
+        export_plugins_as_zips(tmp_path)
+
+        summaries = [
+            r for r in caplog.records if r.message.startswith("build plugin")
+        ]
+        assert len(summaries) == 2
+        assert all(r.badges == ("tmp",) for r in summaries)
+
     def test_returns_zip_count(_, tmp_path):
         assert export_plugins_as_zips(tmp_path) == 2
 
