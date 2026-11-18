@@ -268,10 +268,22 @@ subclass names its command's logger in `_logger` (`Skill`: skill,
 byte-reproducible and keep overwriting; `save_blueprint` is a library API
 with no logger and keeps its plain write.
 
-Deeds stamp a native badge on success (`new`, `owr`, `mv`; none for config
-deeds or failures), led by the run-wide badge, so a dry run prints
+Deeds stamp a native badge on success (`new`, `owr`, `mv`, `cp`, `del`; none
+for config deeds or failures), led by the run-wide badge, so a dry run prints
 `dry new`. A zip export logs one `create_zip` line per archive: the plugin
 line at `DONE`, skill lines at `-v`.
+
+An export that builds in a temp folder then copies out runs in 2 phases,
+each opened by an `ENTER` line: build, inside `tmp_deeds(ROOT)`, and publish.
+`tmp_deeds` drops every deed success to `DEBUG`, stamps `tmp` (kamilog's
+scratch badge) in place of the deed badge, and shows `ROOT` as `<tmp>`;
+failure lines keep their error level and real paths. `tmp_roots(ROOT)` only
+masks, for the publish step that moves data out (the move stays an `mv` line
+at `DEBUG`). Each build logs 1 `tmp` summary at `-v`; the dry run skips the
+build. `place_vs_code_payload` reports its own steps the same way: per-file
+tree diff before the marketplace swap (`new`, `owr`, `del`), the temp copy
+and renames (`tmp`, `mv`), an `undo` line on rollback, and 1 `new` line per
+`settings.json` key added.
 
 Dynamic nodes (today's date, the abbreviation glossaries) auto-attach to
 every tree at load time; an authored `(name)` heading, at any depth, fixes

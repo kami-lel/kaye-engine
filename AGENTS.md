@@ -65,7 +65,7 @@ merge.
 | `kaye_engine/cli/skill/` | `tests/cli/skill/` |
 | `kaye_engine/cli/github_release/` | `tests/cli/github_release_test.py`, `tests/cli/github_release_installer_windows_test.py`, `tests/cli/github_release_installer_linux_test.py`, `tests/cli/github_release_parity_test.py`, `tests/cli/dry_run_test.py` |
 | `kaye_engine/cli/github_marketplace/` | `tests/cli/github_marketplace_test.py`, `tests/cli/dry_run_test.py` |
-| `kaye_engine/cli/claude/vs_code/` | `tests/cli/claude/vs_code_payload_test.py`, `tests/cli/claude/vs_code_place_test.py`, `tests/cli/claude/vs_code_settings_test.py`, `tests/cli/dry_run_test.py` |
+| `kaye_engine/cli/claude/vs_code/` | `tests/cli/claude/vs_code_payload_test.py`, `tests/cli/claude/vs_code_export_test.py`, `tests/cli/claude/vs_code_place_test.py`, `tests/cli/claude/vs_code_settings_test.py`, `tests/cli/dry_run_test.py` |
 | `kaye_engine/cli/claude/skills/` | `tests/cli/cli_main_test.py`, `tests/cli/dry_run_test.py` |
 | `kaye_engine/cli/plugin_platform/` | `tests/cli/plugin_platform/`, `tests/cli/claude/plugin_consumers_test.py`, `tests/cli/hermes/`, `tests/cli/github_release_test.py` |
 | `kaye_engine/skill/` | `tests/skill/`, plus `tests/cli/open_webui/skill_form_test.py` (reads `Skill`) |
@@ -186,8 +186,10 @@ list in [CONTEXT.md](CONTEXT.md).
 - log through the `kamilog` package (`import kamilog`; a dependency, not
   vendored): report every file or directory action as a deed
   (`with track(logger).create_file(path)` from `kaye_engine.deed`;
-  also `create_zip`, `mv_file`, `save_config`, ...) rather than a
-  hand-built string; wrap a temporary inner build in `quiet_deeds()`;
+  also `create_zip`, `mv_file`, `cp_file`, `del_dir`, `save_config`, ...)
+  rather than a hand-built string; wrap a build in a temp folder in
+  `tmp_deeds(ROOT)` and a publish step reading from it in
+  `tmp_roots(ROOT)`, so scratch lines wear `tmp` and show `<tmp>`;
   take every badge name from `kaye_engine.badge` (e.g.
   `badges=DRY_BADGE`), never an ad hoc string; keep `done` for a
   whole-export summary

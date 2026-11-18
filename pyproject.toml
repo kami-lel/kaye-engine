@@ -14,7 +14,7 @@ requires-python = ">=3.11"
 dependencies = [
     "anytree",
     "json5",
-    "kamilog @ git+https://github.com/kami-lel/kamilog.git@v3.0.0",
+    "kamilog @ git+https://github.com/kami-lel/kamilog.git@v3.0.1",
     "pyahocorasick",
     "pyyaml",
 ]

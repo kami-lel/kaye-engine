@@ -11,8 +11,15 @@ import logging
 import kamilog
 import pytest
 
-from kaye_engine.badge import MV_BADGE, NEW_BADGE, OWR_BADGE
-from kaye_engine.deed import format_size, quiet_deeds, track
+from kaye_engine.badge import (
+    CP_BADGE,
+    DEL_BADGE,
+    MV_BADGE,
+    NEW_BADGE,
+    OWR_BADGE,
+    TMP_BADGE,
+)
+from kaye_engine.deed import format_size, tmp_deeds, tmp_roots, track
 
 _NAME = "kaye-engine.deed-test"
 _LOGGER = kamilog.getLogger(_NAME)
@@ -55,6 +62,10 @@ class TestTrack:
             ("pack_files", ("a", "b"), NEW_BADGE),
             ("owr_file", ("f",), OWR_BADGE),
             ("mv_file", ("a", "b"), MV_BADGE),
+            ("cp_file", ("a", "b"), CP_BADGE),
+            ("del_file", ("f",), DEL_BADGE),
+            ("del_dir", ("d",), DEL_BADGE),
+            ("create_tmp", ("t",), TMP_BADGE),
             ("create_zip", ("plugin", "z"), NEW_BADGE),
             ("save_config", ("c",), None),
             ("load_config", ("c",), None),
@@ -130,29 +141,47 @@ class TestLevelOverride:
         assert caplog.records[0].levelno == logging.ERROR
 
 
-class TestQuietDeeds:
+class TestTmpDeeds:
 
     def test_success_inside_block_logs_at_debug(_, caplog):
         with caplog.at_level(logging.DEBUG, logger=_NAME):
-            with quiet_deeds():
+            with tmp_deeds():
                 with track(_LOGGER).create_file("f"):
                     pass
 
         assert caplog.records[0].levelno == logging.DEBUG
 
+    @pytest.mark.parametrize(
+        "deed, args",
+        [
+            ("create_file", ("f",)),
+            ("mv_file", ("a", "b")),
+            ("cp_file", ("a", "b")),
+            ("del_file", ("f",)),
+        ],
+    )
+    def test_success_inside_block_wears_tmp_badge(_, caplog, deed, args):
+        with caplog.at_level(logging.DEBUG, logger=_NAME):
+            with tmp_deeds():
+                with getattr(track(_LOGGER), deed)(*args):
+                    pass
+
+        assert caplog.records[0].badges == (TMP_BADGE,)
+
     def test_success_after_block_logs_at_normal_level(_, caplog):
         with caplog.at_level(logging.DEBUG, logger=_NAME):
-            with quiet_deeds():
+            with tmp_deeds():
                 pass
             with track(_LOGGER).create_file("f"):
                 pass
 
         assert caplog.records[0].levelno == logging.INFO
+        assert caplog.records[0].badges == (NEW_BADGE,)
 
-    def test_nested_blocks_stay_quiet_until_outer_exits(_, caplog):
+    def test_nested_blocks_stay_scratch_until_outer_exits(_, caplog):
         with caplog.at_level(logging.DEBUG, logger=_NAME):
-            with quiet_deeds():
-                with quiet_deeds():
+            with tmp_deeds():
+                with tmp_deeds():
                     pass
                 with track(_LOGGER).create_file("inner"):
                     pass
@@ -164,24 +193,65 @@ class TestQuietDeeds:
             logging.INFO,
         ]
 
-    def test_failure_inside_block_stays_error(_, caplog):
+    def test_root_shows_as_tmp_mark(_, caplog):
+        with caplog.at_level(logging.DEBUG, logger=_NAME):
+            with tmp_deeds("/tmp/x1y2"):
+                with track(_LOGGER).create_file("/tmp/x1y2/a/SKILL.md"):
+                    pass
+
+        assert caplog.records[0].message == "create <tmp>/a/SKILL.md"
+
+    def test_every_open_root_is_masked(_, caplog):
+        with caplog.at_level(logging.DEBUG, logger=_NAME):
+            with tmp_deeds("/tmp/one"):
+                with tmp_deeds("/tmp/two/"):
+                    with track(_LOGGER).mv_file("/tmp/one/a", "/tmp/two/b"):
+                        pass
+
+        assert caplog.records[0].message == "move <tmp>/a -> <tmp>/b"
+
+    def test_tmp_roots_masks_without_making_the_line_scratch(_, caplog):
+        with caplog.at_level(logging.DEBUG, logger=_NAME):
+            with tmp_roots("/tmp/x1y2"):
+                with track(_LOGGER).mv_file("/tmp/x1y2/a.zip", "out/a.zip"):
+                    pass
+
+        record = caplog.records[0]
+        assert record.message == "move <tmp>/a.zip -> out/a.zip"
+        assert record.levelno == logging.INFO
+        assert record.badges == (MV_BADGE,)
+
+    def test_root_is_shown_again_after_block(_, caplog):
+        with caplog.at_level(logging.DEBUG, logger=_NAME):
+            with tmp_deeds("/tmp/x1y2"):
+                pass
+            with track(_LOGGER).create_file("/tmp/x1y2/a"):
+                pass
+
+        assert caplog.records[0].message == "create /tmp/x1y2/a"
+
+    def test_failure_inside_block_stays_error_with_real_path(_, caplog):
         with caplog.at_level(logging.DEBUG, logger=_NAME):
             with pytest.raises(OSError):
-                with quiet_deeds():
-                    with track(_LOGGER).create_file("f"):
+                with tmp_deeds("/tmp/x1y2"):
+                    with track(_LOGGER).create_file("/tmp/x1y2/f"):
                         raise OSError("denied")
 
-        assert caplog.records[0].levelno == logging.ERROR
+        record = caplog.records[0]
+        assert record.levelno == logging.ERROR
+        assert record.badges == ()
+        assert "/tmp/x1y2/f" in record.message
 
     def test_error_in_block_restores_normal_level(_, caplog):
         with caplog.at_level(logging.DEBUG, logger=_NAME):
             with pytest.raises(RuntimeError):
-                with quiet_deeds():
+                with tmp_deeds("/tmp/x1y2"):
                     raise RuntimeError("boom")
-            with track(_LOGGER).create_file("f"):
+            with track(_LOGGER).create_file("/tmp/x1y2/f"):
                 pass
 
         assert caplog.records[0].levelno == logging.INFO
+        assert caplog.records[0].message == "create /tmp/x1y2/f"
 
 
 class TestFormatSize:

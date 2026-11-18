@@ -11,7 +11,8 @@ import zipfile
 from pathlib import Path
 
 import kamilog
-from kaye_engine.deed import format_size, quiet_deeds, track
+from kaye_engine.badge import TMP_BADGE
+from kaye_engine.deed import format_size, tmp_deeds, tmp_roots, track
 from kaye_engine.cli.claude import LOGGER_CLAUDE_NAME
 from kaye_engine.cli.plugin_platform.consumers import (
     select_plugin_consumers,
@@ -121,25 +122,40 @@ def export_plugin_as_zip(
         tempfile.TemporaryDirectory() as plugin_temp,
         tempfile.TemporaryDirectory() as zip_temp,
     ):
-        logger.enter("build plugin folder: " + consumer.canonical_name)
-        with quiet_deeds():
+        logger.enter(
+            "build plugin in tmp: {}  [<tmp> = {}]".format(
+                consumer.canonical_name, plugin_temp
+            )
+        )
+        with tmp_deeds(plugin_temp):
             plugin_root = export_plugin_as_folder(
                 Path(plugin_temp),
                 consumer,
                 render_profile=render_profile,
                 quiet=True,
             )
+        skills = _count_skills(len(list((plugin_root / "skills").iterdir())))
+        logger.info("build plugin folder ({})".format(skills), badges=TMP_BADGE)
 
         # one line for the finished archive, shown at default verbosity
-        with track(logger).create_zip("plugin", dest) as deed:
+        logger.enter("publish plugin: archive at zip root, no wrapper folder")
+        zip_base = Path(zip_temp) / plugin_root.name
+        zip_tmp = zip_base.with_suffix(".zip")
+        with (
+            tmp_roots(plugin_temp, zip_temp),
+            track(logger).create_zip("plugin", dest) as deed,
+        ):
             deed.level = kamilog.DONE
-            logger.enter("archive plugin at zip root, no wrapper folder")
-            zip_base = Path(zip_temp) / plugin_root.name
-            shutil.make_archive(str(zip_base), "zip", root_dir=plugin_root)
-            shutil.move(str(zip_base.with_suffix(".zip")), str(dest))
+            with tmp_deeds():
+                with track(logger).pack_files(plugin_root, zip_tmp):
+                    shutil.make_archive(
+                        str(zip_base), "zip", root_dir=plugin_root
+                    )
+            with track(logger).mv_file(zip_tmp, dest) as moved:
+                moved.level = logging.DEBUG
+                shutil.move(str(zip_tmp), str(dest))
             deed.stats = "{}, {}".format(
-                _count_skills(len(list((plugin_root / "skills").iterdir()))),
-                format_size(dest.stat().st_size),
+                skills, format_size(dest.stat().st_size)
             )
         _log_zip_entries(dest)
 

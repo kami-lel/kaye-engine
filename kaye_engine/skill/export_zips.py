@@ -9,7 +9,8 @@ import tempfile
 from pathlib import Path
 
 import kamilog
-from kaye_engine.deed import format_size, quiet_deeds, track
+from kaye_engine.badge import TMP_BADGE
+from kaye_engine.deed import format_size, tmp_deeds, track
 from kaye_engine.skill import LOGGER_SKILL_NAME
 from kaye_engine.cli.dry_run import is_dry_run
 
@@ -66,17 +67,23 @@ def export_skills_as_zips(
         )
 
     with tempfile.TemporaryDirectory() as skills_temp:
-        logger.debug("building skill folders in temporary directory")
-        with quiet_deeds():
+        logger.enter(
+            "build skill folders in tmp  [<tmp> = {}]".format(skills_temp)
+        )
+        with tmp_deeds(skills_temp):
             export_skills_as_folders(
                 Path(skills_temp),
                 version=version,
                 render_profile=render_profile,
                 names=[e.canonical_name for e in exportables],
             )
-
-        logger.debug("archiving skills to .zip packages")
         skill_folders = sorted(Path(skills_temp).iterdir())
+        logger.info(
+            "build {} skill folders".format(len(skill_folders)),
+            badges=TMP_BADGE,
+        )
+
+        logger.enter("publish skills: archive each folder as .zip")
         for skill_folder in skill_folders:
             dest = parent_folder / (skill_folder.name + ".zip")
             try:
