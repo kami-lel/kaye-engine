@@ -73,6 +73,9 @@ merge.
 | `kaye_engine/consumer.py` | `tests/consumer_test.py`, `tests/cli/claude/plugin_consumers_test.py`, `tests/cli/exportable_abbr_consumer_test.py` |
 | `kaye_engine/cli/file_write.py` | `tests/cli/file_write_test.py`, then every writer's test: `tests/cli/frontmatter_doc_test.py`, `tests/cli/hermes/`, `tests/cli/claude/`, `tests/cli/exportable_as_json_parser_test.py`, `tests/cli/dry_run_test.py` |
 | `kaye_engine/deed.py` | `tests/deed_test.py` |
+| `kaye_engine/registration.py` | `tests/prompt/bp/prompt-bp-registration_test.py` |
+| `kaye_engine/repo.py` | `tests/repo_test.py` |
+| `kaye_engine/badge.py` | `tests/badge_test.py` |
 
 ```bash
 pytest tests/prompt/

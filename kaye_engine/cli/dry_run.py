@@ -32,6 +32,7 @@ __all__ = (
 
 
 # constants  ###################################################################
+# BUG lacks codex, plugin & github-marketplace loggers: their -n lines no `dry`
 _LOGGER_NAMES = (
     LOGGER_NAME,
     LOGGER_CLAUDE_NAME,

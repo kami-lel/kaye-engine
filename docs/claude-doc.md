@@ -46,7 +46,7 @@ kaye-engine claude skills -z           # one .zip per skill
 
 ### marketplace
 
-Wraps every consumer's plugin in one marketplace named after the repo (`set_repo_name`), so `kaye-library` writes `kaye-library` and `kaye-vault` writes `kaye-vault`, never clobbering each other. Add the resulting folder in Claude's marketplace settings.
+Wraps every consumer's plugin in one marketplace named after the repo (`set_repo_name`), so `kaye-library` writes `kaye-library` and another repo writes its own name, never clobbering each other. Add the resulting folder in Claude's marketplace settings.
 
 ```bash
 kaye-engine claude marketplace         # ~/.claude/REPO/

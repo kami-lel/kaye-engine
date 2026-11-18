@@ -43,7 +43,7 @@ manually add chat & coder, instead by data structure
 > Breaking: marketplace `kaye-engine` & folder `~/.claude/kaye-engine/` gone; `enabledPlugins` keys `NAME@kaye-engine` go stale, installers never remove them; re-run `a v`, delete the old folder & keys
 
 > [!WARNING]
-> Installing 2 repos' marketplaces (e.g. `kaye-library` & `kaye-vault`) lists plugin `kaye-library` twice, 1 per marketplace; a skill can surface twice
+> Installing 2 repos' marketplaces (e.g. `kaye-library` & another consumer repo) lists plugin `kaye-library` twice, 1 per marketplace; a skill can surface twice
 
 ### Deprecated
 

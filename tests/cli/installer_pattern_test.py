@@ -42,6 +42,7 @@ _TEMPLATES = (
 )
 
 # every name a consumer project of this workspace is known by
+# FIXME names consumer `kaye-vault`, here & in 3 more test files; AGENTS forbids
 _HARDCODED_NAMES = ("kaye-engine", "kaye-library", "kaye-vault")
 
 _REPO_NAMES = ("kaye-library", "kaye-vault")

@@ -282,6 +282,7 @@ def register_md_file_dynamic_substitution(name, md_file_path, *, logger_name):
     :raises SystemExit: the file cannot be read
     """
     try:
+        # BUG no utf-8: non-ASCII file raises UnicodeDecodeError on Windows
         content = md_file_path.read_text()
     except OSError as err:
         kamilog.getLogger(logger_name).critical(

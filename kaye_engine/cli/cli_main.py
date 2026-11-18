@@ -74,8 +74,9 @@ def register_cli_subcommands(cli_subparser):
     ``codex``, ``continue``, ``hermes``, the dynamic-node command, the
     dynamic-substitution command, the exportable command, the
     export-json command, ``affordance``, ``variant``,
-    ``render-profile``, ``glossary``, ``skill``, and the
-    sync-open-webui-skills command) onto an
+    ``render-profile``, ``glossary``, ``skill``, the
+    build-github-release-assets and build-github-marketplace commands,
+    and the sync-open-webui-skills command) onto an
     existing subparsers action, so sibling packages can compose their own
     top-level parser
     with engine's subcommands mixed in, instead of only being able to

@@ -794,12 +794,12 @@ from kaye_engine import bind_registrars, register_leaf, register_node
     register_abbr_glossary,
 ) = bind_registrars("my-consumer")
 
-# the node "Tarot Reader" of `role_node`, whole subtree, as a skill
+# the node "Code Reviewer" of `role_node`, whole subtree, as a skill
 register_node(
     register_exportable,
-    "tarot-reader",
+    "code-reviewer",
     role_node,
-    "Tarot Reader",
+    "Code Reviewer",
     recursively=True,
     llm_invokable=False,
 )

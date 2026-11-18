@@ -239,6 +239,7 @@ def _check_no_cycle_through(blueprint, name):
                 stack.append(blueprint_registry[dep].blueprint)
 
 
+# FIXME repeat override of 1 name, here or in override_exportable, wins silently
 def override_blueprint(name, blueprint, *, render_profile=None):
     """
     replace the internal (not exportable) blueprint registered under
