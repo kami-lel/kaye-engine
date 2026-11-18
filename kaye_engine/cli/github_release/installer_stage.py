@@ -12,7 +12,7 @@ import kamilog
 from kaye_engine.cli.claude import LOGGER_CLAUDE_NAME
 from kaye_engine.cli.claude.vs_code.payload import generate_vs_code_payload
 from kaye_engine.cli.dry_run import live_run
-from kaye_engine.deed import quiet_deeds
+from kaye_engine.deed import tmp_deeds
 
 __all__ = ("get_installer_template_path", "stage_installer_payload")
 
@@ -47,5 +47,5 @@ def stage_installer_payload(payload_folder, *, render_profile=None):
     :param render_profile: render options forwarded to stage 1
     :type render_profile: RenderProfile, optional
     """
-    with live_run(), quiet_deeds():
+    with live_run(), tmp_deeds(payload_folder):
         generate_vs_code_payload(payload_folder, render_profile=render_profile)

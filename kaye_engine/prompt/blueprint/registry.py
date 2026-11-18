@@ -18,6 +18,7 @@ __all__ = (
     "BlueprintRegistry",
     "blueprint_registry",
     "get_blueprint",
+    "override_blueprint",
     "override_exportable",
     "register_blueprint",
 )
@@ -238,8 +239,56 @@ def _check_no_cycle_through(blueprint, name):
                 stack.append(blueprint_registry[dep].blueprint)
 
 
+def override_blueprint(name, blueprint, *, render_profile=None):
+    """
+    replace the internal (not exportable) blueprint registered under
+    ``name`` with ``blueprint``: the one way a consumer takes over a
+    building block another consumer registered; every blueprint that
+    depends on ``name`` by string picks up the replacement
+
+    an exportable goes through :func:`override_exportable` instead,
+    since its skill also moves to the overriding consumer's plugin
+
+    a repeat override of one ``name`` replaces the earlier one, the last
+    call wins, with no guard or warning: the deliberate exception to the
+    no-silent-overwrite registration policy
+
+
+    :param name: canonical name of the registered internal blueprint to
+            replace
+    :type name: str
+    :param blueprint: the replacement blueprint
+    :type blueprint: Blueprint
+    :param render_profile: the entry's new default render settings;
+            ``None`` keeps the current ones
+    :type render_profile: RenderProfile, optional
+    :raises ValueError: ``name`` is not registered or is exportable,
+            ``blueprint`` names an unregistered dependency or a path the
+            loaded corpus lacks, or it depends, however indirectly, on
+            ``name`` itself; nothing changes
+    :return: the updated registry entry
+    :rtype: BlueprintRegistry
+    :example:
+    >>> override_blueprint("persona-core", bp)
+    """
+    entry = blueprint_registry.get(name)
+    if entry is None or entry.is_exportable:
+        raise ValueError(
+            "no internal blueprint registered under name: {}".format(name)
+        )
+
+    validate_blueprint(blueprint)
+    _check_no_cycle_through(blueprint, name)
+
+    entry.blueprint = blueprint
+    if render_profile is not None:
+        entry.render_profile = render_profile
+
+    return entry
+
+
 def override_exportable(
-    name, blueprint, *, consumer, render_profile=None, always_apply=None
+    name, blueprint=None, *, consumer, render_profile=None, always_apply=None
 ):
     """
     replace the exportable registered under ``name`` with ``blueprint``,
@@ -251,11 +300,21 @@ def override_exportable(
     registry entry, so every registry holding it sees the new content; the
     other export flags are kept, ``always_apply`` excepted when given
 
+    with no ``blueprint``, the entry keeps its own and only moves to
+    ``consumer``'s plugin: a re-home, for a skill whose render carries
+    the overriding consumer's content, e.g. through a dependency it
+    took over by name
+
+    a repeat override of one ``name`` replaces the earlier one, the last
+    call wins, with no guard or warning: the deliberate exception to the
+    no-silent-overwrite registration policy
+
 
     :param name: canonical name of the registered exportable to replace
     :type name: str
-    :param blueprint: the replacement blueprint
-    :type blueprint: Blueprint
+    :param blueprint: the replacement blueprint; ``None`` keeps the
+            current one
+    :type blueprint: Blueprint, optional
     :param consumer: canonical name of the registered consumer taking the
             skill over
     :type consumer: str
@@ -274,6 +333,7 @@ def override_exportable(
     :rtype: BlueprintRegistry
     :example:
     >>> override_exportable("commit-sense", bp, consumer="some-pkg")
+    >>> override_exportable("coder", consumer="some-pkg")
     """
     entry = blueprint_registry.get(name)
     if entry is None or not entry.is_exportable:
@@ -282,10 +342,11 @@ def override_exportable(
         )
 
     check_consumer(consumer)
-    validate_blueprint(blueprint)
-    _check_no_cycle_through(blueprint, name)
+    if blueprint is not None:
+        validate_blueprint(blueprint)
+        _check_no_cycle_through(blueprint, name)
+        entry.blueprint = blueprint
 
-    entry.blueprint = blueprint
     if render_profile is not None:
         entry.render_profile = render_profile
     entry.consumer = consumer

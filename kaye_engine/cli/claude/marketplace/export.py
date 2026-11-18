@@ -19,7 +19,7 @@ def export_marketplace(marketplace_folder, *, render_profile=None):
 
     writes each plugin into ``<marketplace_folder>/plugins/<consumer>/``,
     then ``.claude-plugin/marketplace.json`` at ``marketplace_folder``,
-    named after the engine and listing one plugin per consumer with source
+    named after the repo and listing one plugin per consumer with source
     ``"./plugins/<consumer>"``; the whole marketplace is written from this
     process's consumers, so the last export wins
 

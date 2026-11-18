@@ -15,7 +15,7 @@ _NATIVE_BADGES = frozenset(
     {
         "dry", "chk", "mock", "sandbox",
         "force", "undo", "grant", "elevated", "legacy", "unstable",
-        "new", "owr", "del", "mv", "cp", "cached", "stale",
+        "new", "owr", "del", "mv", "cp", "tmp", "cached", "stale",
         "auto", "fresh", "resume", "offline",
         "watch", "bg",
         "retry", "fallback", "timeout", "abort",

@@ -39,7 +39,7 @@ def get_github_marketplace_name():
     """
     :raises SystemExit: exit code 1, when the repo name is unset
     :return: the marketplace name, ``REPO-marketplace``, distinct from the
-            local ``kaye-engine`` marketplace so both can be added
+            local ``REPO`` marketplace so both can be added
     :rtype: str
     """
     return get_repo_name() + _NAME_SUFFIX

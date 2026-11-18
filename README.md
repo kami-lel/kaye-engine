@@ -17,7 +17,7 @@ Kaye Engine parses a plain Markdown file, as the structured single source of tru
 - 📤 GitHub Release build: write every release asset with `build-github-release-assets OUTPUT`: a plugin `.zip` per consumer plus one-click VS Code installers for Windows and Linux
 - 🏪 GitHub Marketplace build: write one marketplace repo root with `build-github-marketplace OUTPUT`, which both Claude and Codex add by URL
 - 🔄 Open WebUI sync: push every exportable into a running Open WebUI server as an Agent Skill, creating, updating, and (optionally) pruning to match
-- 🔌 pluggable mechanism: any number of consumer packages share one process, each registering its identity (`register_consumer(...)`), its corpus, abbreviations, and blueprints, and exporting as its own plugin under one `kaye-engine` marketplace
+- 🔌 pluggable mechanism: any number of consumer packages share one process, each registering its identity (`register_consumer(...)`), its corpus, abbreviations, and blueprints, and exporting as its own plugin under one marketplace named after the repo
 
 
 

@@ -46,10 +46,10 @@ kaye-engine claude skills -z           # one .zip per skill
 
 ### marketplace
 
-Wraps every consumer's plugin in one marketplace named `kaye-engine`. Add the resulting folder in Claude's marketplace settings.
+Wraps every consumer's plugin in one marketplace named after the repo (`set_repo_name`), so `kaye-library` writes `kaye-library` and another repo writes its own name, never clobbering each other. Add the resulting folder in Claude's marketplace settings.
 
 ```bash
-kaye-engine claude marketplace         # ~/.claude/kaye-engine/
+kaye-engine claude marketplace         # ~/.claude/REPO/
 kaye-engine claude marketplace FOLDER
 ```
 
@@ -92,7 +92,7 @@ CONSUMER_CLI build-github-release-assets dist
 
 - `OUTPUT`: the one required argument, the destination folder; there is no `-o` and no consumer argument
 - one Claude Desktop plugin `.zip` per plugin consumer of the process, built as `claude plugin -z` builds it
-- the VS Code installer for Windows (`.zip`) and for Linux (`.run`): one click puts the current `CLAUDE.md` and every plugin into `~/.claude/`, registers the marketplace, and enables the plugins, with no Kaye Engine on the user's machine; the steps are in [Installer Algorithm](installer-algorithm-doc.md#claude-vs-code-plugin). Windows: extract the zip, double-click `install.cmd`. Linux: `bash NAME.run`. Both take no option. To remove: delete the `kaye-engine/` folder and its keys in `settings.json`
+- the VS Code installer for Windows (`.zip`) and for Linux (`.run`): one click puts the current `CLAUDE.md` and every plugin into `~/.claude/`, registers the marketplace, and enables the plugins, with no Kaye Engine on the user's machine; the steps are in [Installer Algorithm](installer-algorithm-doc.md#claude-vs-code-plugin). Windows: extract the zip, double-click `install.cmd`. Linux: `bash NAME.run`. Both take no option. To remove: delete the `REPO/` folder and its keys in `settings.json`
 - the installers always render for the `claude-vsc` surface; `--surface` applies to the zips only
 - `--dry-run` lists every asset and writes nothing
 - it takes the [render flags](#render-flags) below

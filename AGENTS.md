@@ -32,7 +32,9 @@ mechanism meant to stay consumer-agnostic. The one exception is
 **Several consumers may share one process.** Every public registering API
 declares one policy (additive, guarded, or entry-point) in the
 [CONTEXT.md](CONTEXT.md) Registration Policy table; a new API takes a row there in the
-same change, and none overwrites silently.
+same change, and none overwrites silently, bar `override_exportable` and
+`override_blueprint`: a repeat override of 1 name replaces the earlier one,
+last call wins.
 
 ## Setup
 
@@ -65,7 +67,7 @@ merge.
 | `kaye_engine/cli/skill/` | `tests/cli/skill/` |
 | `kaye_engine/cli/github_release/` | `tests/cli/github_release_test.py`, `tests/cli/github_release_installer_windows_test.py`, `tests/cli/github_release_installer_linux_test.py`, `tests/cli/github_release_parity_test.py`, `tests/cli/dry_run_test.py` |
 | `kaye_engine/cli/github_marketplace/` | `tests/cli/github_marketplace_test.py`, `tests/cli/dry_run_test.py` |
-| `kaye_engine/cli/claude/vs_code/` | `tests/cli/claude/vs_code_payload_test.py`, `tests/cli/claude/vs_code_place_test.py`, `tests/cli/claude/vs_code_settings_test.py`, `tests/cli/dry_run_test.py` |
+| `kaye_engine/cli/claude/vs_code/` | `tests/cli/claude/vs_code_payload_test.py`, `tests/cli/claude/vs_code_export_test.py`, `tests/cli/claude/vs_code_place_test.py`, `tests/cli/claude/vs_code_settings_test.py`, `tests/cli/dry_run_test.py` |
 | `kaye_engine/cli/claude/skills/` | `tests/cli/cli_main_test.py`, `tests/cli/dry_run_test.py` |
 | `kaye_engine/cli/plugin_platform/` | `tests/cli/plugin_platform/`, `tests/cli/claude/plugin_consumers_test.py`, `tests/cli/hermes/`, `tests/cli/github_release_test.py` |
 | `kaye_engine/skill/` | `tests/skill/`, plus `tests/cli/open_webui/skill_form_test.py` (reads `Skill`) |
@@ -73,6 +75,9 @@ merge.
 | `kaye_engine/consumer.py` | `tests/consumer_test.py`, `tests/cli/claude/plugin_consumers_test.py`, `tests/cli/exportable_abbr_consumer_test.py` |
 | `kaye_engine/cli/file_write.py` | `tests/cli/file_write_test.py`, then every writer's test: `tests/cli/frontmatter_doc_test.py`, `tests/cli/hermes/`, `tests/cli/claude/`, `tests/cli/exportable_as_json_parser_test.py`, `tests/cli/dry_run_test.py` |
 | `kaye_engine/deed.py` | `tests/deed_test.py` |
+| `kaye_engine/registration.py` | `tests/prompt/bp/prompt-bp-registration_test.py` |
+| `kaye_engine/repo.py` | `tests/repo_test.py` |
+| `kaye_engine/badge.py` | `tests/badge_test.py` |
 
 ```bash
 pytest tests/prompt/
@@ -186,8 +191,10 @@ list in [CONTEXT.md](CONTEXT.md).
 - log through the `kamilog` package (`import kamilog`; a dependency, not
   vendored): report every file or directory action as a deed
   (`with track(logger).create_file(path)` from `kaye_engine.deed`;
-  also `create_zip`, `mv_file`, `save_config`, ...) rather than a
-  hand-built string; wrap a temporary inner build in `quiet_deeds()`;
+  also `create_zip`, `mv_file`, `cp_file`, `del_dir`, `save_config`, ...)
+  rather than a hand-built string; wrap a build in a temp folder in
+  `tmp_deeds(ROOT)` and a publish step reading from it in
+  `tmp_roots(ROOT)`, so scratch lines wear `tmp` and show `<tmp>`;
   take every badge name from `kaye_engine.badge` (e.g.
   `badges=DRY_BADGE`), never an ad hoc string; keep `done` for a
   whole-export summary
@@ -216,8 +223,10 @@ name is empty. An exportable entry must name a registered `consumer=`,
 with no fallback; the consumer decides which plugin the skill lands in.
 
 A consumer replaces another consumer's exportable only through
-`override_exportable(name, blueprint, *, consumer, render_profile=None,
-always_apply=None)`; never reassign `.blueprint` or `.consumer` on a
+`override_exportable(name, blueprint=None, *, consumer, render_profile=None,
+always_apply=None)` (no blueprint: a re-home, the entry only moves plugin), and another consumer's internal blueprint only
+through `override_blueprint(name, blueprint, *, render_profile=None)`;
+never reassign `.blueprint` or `.consumer` on a
 registry entry from a consumer package, since that skips the dependency,
 path, and cycle checks.
 
@@ -277,7 +286,8 @@ After meaningful changes, keep these in sync:
 - `docs/` — one file per topic; update the one a change touches:
   - the corpus Markdown format and `register_corpus_under_node` rules:
     [docs/corpus-doc.md](docs/corpus-doc.md)
-  - the `prompt` module, blueprints, and the blueprint registry:
+  - the `prompt` module, blueprints, the blueprint registry, and the
+    registration helpers (`bind_registrars`, `register_node`, ~):
     [docs/prompt-doc.md](docs/prompt-doc.md)
   - `exportable_registry`, export flags, and `override_exportable`:
     [docs/exportable-registry-doc.md](docs/exportable-registry-doc.md)

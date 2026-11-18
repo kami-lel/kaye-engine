@@ -1,17 +1,27 @@
 """
 deed.py
 
-define ``track``, ``format_size``, ``quiet_deeds`` -- report a file or directory action as one fixed-wording
-log line at block exit, success or failure; stands in for the deed feature
-dropped from kamilog 3.0.0
+define ``track``, ``format_size``, ``tmp_deeds`` -- report a file or
+directory action as one fixed-wording log line at block exit, success or
+failure; stands in for the deed feature dropped from kamilog 3.0.0
 """
 
 import contextlib
 import logging
+import os
 
-from kaye_engine.badge import MV_BADGE, NEW_BADGE, OWR_BADGE
+from kaye_engine.badge import (
+    CP_BADGE,
+    DEL_BADGE,
+    MV_BADGE,
+    NEW_BADGE,
+    OWR_BADGE,
+    TMP_BADGE,
+)
 
-__all__ = ("format_size", "quiet_deeds", "track")
+__all__ = (
+    "format_size", "mask_tmp_roots", "tmp_deeds", "tmp_roots", "track",
+)
 
 
 # constants  ###################################################################
@@ -22,6 +32,11 @@ _DEEDS = {
     "create_dir": ("create dir {}", logging.INFO, logging.ERROR, NEW_BADGE),
     "pack_files": ("pack {} -> {}", logging.INFO, logging.ERROR, NEW_BADGE),
     "mv_file": ("move {} -> {}", logging.INFO, logging.ERROR, MV_BADGE),
+    "cp_file": ("copy {} -> {}", logging.INFO, logging.ERROR, CP_BADGE),
+    "del_file": ("delete {}", logging.INFO, logging.ERROR, DEL_BADGE),
+    "del_dir": ("delete dir {}", logging.INFO, logging.ERROR, DEL_BADGE),
+    # scratch write outside any ``tmp_deeds`` root, eg a sibling temp name
+    "create_tmp": ("create {}", logging.DEBUG, logging.ERROR, TMP_BADGE),
     # args: kind, path; ``stats`` set on the scope fills the bracket
     "create_zip": (
         "export {}{stats}: {}", logging.INFO, logging.ERROR, NEW_BADGE,
@@ -30,8 +45,15 @@ _DEEDS = {
     "save_config": ("save {}", logging.INFO, logging.ERROR, None),
 }
 
-# open ``quiet_deeds`` blocks; success lines drop to DEBUG while above 0
-_quiet_depth = 0
+# open ``tmp_deeds`` blocks; success lines drop to DEBUG and wear the tmp
+# badge while above 0
+_tmp_depth = 0
+
+# temp folders of the open blocks, shown as ``<tmp>`` in a logged path
+_tmp_roots = []
+
+# stands in for a tmp root inside a logged path
+_TMP_MARK = "<tmp>"
 
 # unit steps for ``format_size``
 _SIZE_STEP = 1024
@@ -67,9 +89,16 @@ class _DeedScope:  # ***********************************************************
         return self
 
     def __exit__(self, exc_type, exc_value, traceback):
-        if exc_type is None:
-            level = logging.DEBUG if _quiet_depth else self.level
-            self._emit(level, self._message, badges=self._badge)
+        if exc_type is None and _tmp_depth:
+            self._emit(
+                logging.DEBUG, mask_tmp_roots(self._message),
+                badges=TMP_BADGE,
+            )
+        elif exc_type is None:
+            self._emit(
+                self.level, mask_tmp_roots(self._message),
+                badges=self._badge,
+            )
         elif issubclass(exc_type, Exception):
             cause = exc_type.__name__
             if str(exc_value):
@@ -89,20 +118,58 @@ class _DeedScope:  # ***********************************************************
             )
 
 
-@contextlib.contextmanager
-def quiet_deeds():  # ==========================================================
+def mask_tmp_roots(message):
     """
-    log every deed success inside the block at ``DEBUG``, whatever its own
-    level; failure lines stay at their error level
+    :return: ``message`` with every open tmp root shown as ``<tmp>``, the
+            longest root first so a nested root is not cut short
+    :rtype: str
+    """
+    for root in sorted(_tmp_roots, key=len, reverse=True):
+        message = message.replace(root, _TMP_MARK)
+    return message
 
-    blocks nest: lines stay quiet until the outermost block exits
+
+@contextlib.contextmanager
+def tmp_roots(*roots):  # ======================================================
     """
-    global _quiet_depth  # pylint: disable=global-statement
-    _quiet_depth += 1
+    show each temp folder as ``<tmp>`` in the paths of deed success lines
+    logged inside the block, without making those lines scratch; for a
+    publish step that moves data out of a temp folder to its real place
+
+
+    :param roots: temp folders to mask
+    :type roots: Path-like
+    """
+    marks = [os.fspath(root).rstrip(os.sep) for root in roots]
+    marks = [m for m in marks if m]
+    _tmp_roots.extend(marks)
     try:
         yield
     finally:
-        _quiet_depth -= 1
+        del _tmp_roots[len(_tmp_roots) - len(marks):]
+
+
+@contextlib.contextmanager
+def tmp_deeds(*roots):  # ======================================================
+    """
+    log every deed success inside the block at ``DEBUG`` with the ``tmp``
+    badge, whatever its own level and badge; failure lines keep their error
+    level, badge-free, and real paths
+
+    blocks nest: lines stay scratch until the outermost block exits
+
+
+    :param roots: temp folders the block works in; each shows as ``<tmp>``
+            inside a logged path
+    :type roots: Path-like
+    """
+    global _tmp_depth  # pylint: disable=global-statement
+    _tmp_depth += 1
+    try:
+        with tmp_roots(*roots):
+            yield
+    finally:
+        _tmp_depth -= 1
 
 
 def format_size(size):  # ======================================================
@@ -156,6 +223,7 @@ def track(logger):  # ==========================================================
     :type logger: logging.Logger
     :return: namespace with one method per deed (``create_file``,
             ``owr_file``, ``create_dir``, ``pack_files``, ``mv_file``,
+            ``cp_file``, ``del_file``, ``del_dir``, ``create_tmp``,
             ``create_zip``, ``load_config``, ``save_config``); every
             scope takes a ``level`` attribute to override its success
             level, and the ``create_zip`` scope a ``stats`` attribute,

@@ -12,7 +12,7 @@ Register in this order; later steps validate against earlier ones:
 4. Substitutions: `register_dynamic_substitution(name, substitution)`, where `substitution` is a `DynamicSubstitution` such as `StringDynamicSubstitution("text")`, see [dynamic content](dynamic-content-doc.md)
 5. Corpus: `register_corpus_under_node(...)`, then `load_corpus_tree()`, see [corpus format](corpus-doc.md)
 6. Blueprints: `register_blueprint(...)`, then `set_entry_consumer(canonical_name)`, see [prompt](prompt-doc.md#prompt-blueprint) and the [exportable registry](exportable-registry-doc.md)
-7. Releases: `set_repo_name(name)`, `set_repo_version(version)`, and `set_default_consumer(canonical_name)`, which name every `build-github-release` asset and the plugin `claude plugin` exports without a consumer, see [release assets](claude-doc.md#build-github-release-assets)
+7. Releases: `set_repo_name(name)`, `set_repo_version(version)`, and `set_default_consumer(canonical_name)`, where the repo name also names the marketplace and its `~/.claude/REPO/` folder, and the three name every `build-github-release-assets` asset and the plugin `claude plugin` exports without a consumer, see [release assets](claude-doc.md#build-github-release-assets)
 
 ## Engine Only
 
@@ -63,9 +63,8 @@ A skill-backing section needs `{description}` and `{when_to_use}` sidecars, see 
 | 1 | `register_kaye_library_consumer()` |
 | 2 | `register_kaye_library_abbr_glossaries()` |
 | 3 | `get_kaye_library_abbrs_json_path()`, passed to `populate_abbr_data_with_json_file` |
-| 4 | `register_kaye_library_dynamic_substitutions()` |
-| 5 | `register_kaye_library_corpus()` |
-| 6 | `register_kaye_library_blueprints()` |
+| 4 | `register_kaye_library_corpus()` |
+| 5 | `register_kaye_library_blueprints()` |
 
 Never call `setup_kaye_library_for_kaye_engine()` from a consumer: it is the library's own whole setup.
 
@@ -75,9 +74,26 @@ Rules:
 - Abbreviations: your file may repeat a library entry only to add a glossary or habit flag; `priority`, `wrap` and `remark` must not conflict, see [abbreviations](abbrs-doc.md)
 - Contract: library skill names and node paths are stable; selecting them is safe
 
+## Registering Blueprints
+
+Bind your consumer once, then register through the shared helpers instead of writing partials of your own, see [Registration Helpers](prompt-doc.md#registration-helpers):
+
+```python
+from kaye_engine import bind_registrars, register_node
+
+(
+    register_exportable,
+    register_prompt,
+    register_internal,
+    register_abbr_glossary,
+) = bind_registrars("my-consumer")
+
+register_node(register_exportable, "my-rules", get_corpus_node(), "My Rules")
+```
+
 ## Taking a Library Skill Over
 
-Build the new blueprint over the library's blueprint *object*, never its name (that is a cycle), then register it with `override_exportable`. The skill keeps its name and flags and moves to your plugin. `commit-sense` and `coder` are made for this.
+Build the new blueprint over the library's blueprint *object*, never its name (that is a cycle), then register it with `override_exportable`. The skill keeps its name and flags and moves to your plugin, leaving no copy in the library's plugin. `commit-sense` and `coder` are made for this.
 
 ```python
 from kaye_engine import override_exportable
@@ -98,6 +114,12 @@ bp = replace_meta(
 override_exportable("commit-sense", bp, consumer="my-consumer")
 ```
 
+When the library skill already renders your content, because a blueprint it depends on by name is one you took over, pass no blueprint: the skill only moves to your plugin, so your text never ships in the library's.
+
+```python
+override_exportable("coder", consumer="my-consumer")
+```
+
 ## Running the CLI
 
 The consumer's distribution must be installed (`pip install .`, or `pip install -e .` while developing): `--version` reads its version from the installed metadata. An uninstalled package still builds every command, and `--version` reports `unknown (not installed)`.
@@ -111,4 +133,4 @@ parsed_args = cli_parser.parse_args()
 parsed_args.func(parsed_args)
 ```
 
-The `claude`, `codex` and `hermes` subcommands also need `setup_claude_cli(...)`, `setup_codex_cli(...)` and `setup_hermes_cli(...)` as the last step; a missing one exits 1 and names what is absent. The library's standalone chat blueprints are not included when composing steps, so supply your own.
+The `claude`, `codex` and `hermes` subcommands also need `setup_claude_cli(...)`, `setup_codex_cli(...)` and `setup_hermes_cli(...)` as the last step; a missing one exits 1 and names what is absent.

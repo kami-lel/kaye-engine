@@ -40,7 +40,7 @@ creates new skills and updates changed ones through the Open WebUI
 Skills REST API; unchanged skills are left alone:
 
     OWU_API_KEY=sk-... kaye-engine sync-open-webui-skills
-    kaye-engine o -n
+    kaye-engine w -n
 """
 
 

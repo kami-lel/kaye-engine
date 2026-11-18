@@ -43,7 +43,9 @@ def _patched_fixture():
 # pytest  ######################################################################
 class TestExportSkillsAsZips:
 
-    def test_logs_create_dir_and_one_result_line(_, _patched, tmp_path, caplog):
+    def test_logs_create_dir_tmp_summary_and_one_result_line(
+        _, _patched, tmp_path, caplog
+    ):
         dest = tmp_path / "out"
         with caplog.at_level(logging.INFO, logger=LOGGER_SKILL_NAME):
             count = export_skills_as_zips(dest, version="1")
@@ -52,11 +54,21 @@ class TestExportSkillsAsZips:
         assert (dest / "alpha.zip").is_file()
         assert [rec.message for rec in caplog.records] == [
             "create dir {}".format(dest),
+            "build 1 skill folders",
             "export skill ({}): {}".format(
                 format_size((dest / "alpha.zip").stat().st_size),
                 dest / "alpha.zip",
             ),
         ]
+
+    def test_build_and_publish_phases_are_entered(_, _patched, tmp_path, caplog):
+        with caplog.at_level(kamilog.ENTER, logger=LOGGER_SKILL_NAME):
+            export_skills_as_zips(tmp_path / "out", version="1")
+
+        entered = [r.message for r in caplog.records
+                   if r.levelno == kamilog.ENTER]
+        assert entered[0].startswith("build skill folders in tmp")
+        assert entered[-1].startswith("publish skills")
 
     def test_result_line_hidden_at_default_level(_, _patched, tmp_path, caplog):
         with caplog.at_level(kamilog.DONE, logger=LOGGER_SKILL_NAME):

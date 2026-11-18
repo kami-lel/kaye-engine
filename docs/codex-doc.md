@@ -41,7 +41,7 @@ kaye-engine codex marketplace ROOT
 codex plugin marketplace add ROOT      # then, for a ROOT outside ~
 ```
 
-The marketplace is named `kaye-engine`; each entry is a local plugin, `AVAILABLE` to install, category `Productivity`.
+The marketplace is named after the repo (`set_repo_name`); each entry is a local plugin, `AVAILABLE` to install, category `Productivity`.
 
 ### skills
 
@@ -81,7 +81,7 @@ market/
 ```
 
 - `OUTPUT`: the one required argument; there is no consumer argument
-- the marketplace is named `REPO-marketplace` from `set_repo_name`, so it never clashes with the local `kaye-engine` marketplace; the default consumer's metadata describes and owns it
+- the marketplace is named `REPO-marketplace` from `set_repo_name`, so it never clashes with the local marketplace, named `REPO`; the default consumer's metadata describes and owns it
 - only `.claude-plugin/`, `.agents/` and `plugins/` are written; a `README.md` or any other root file is left alone
 - `--surface` is refused, since each half renders its own surface; the other render flags apply to both
 - `--dry-run` lists every write and writes nothing

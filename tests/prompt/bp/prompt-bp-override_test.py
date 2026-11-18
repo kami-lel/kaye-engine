@@ -1,7 +1,7 @@
 """
 prompt-bp-override_test.py
 
-Unit Tests (using pytest) for: override_exportable()
+Unit Tests (using pytest) for: override_exportable(), override_blueprint()
 """
 
 import pytest
@@ -12,6 +12,7 @@ from kaye_engine.prompt.blueprint import create_blueprint
 from kaye_engine.prompt.blueprint.render_profile import RenderProfile
 from kaye_engine.prompt.blueprint.registry import (
     blueprint_registry,
+    override_blueprint,
     override_exportable,
     register_blueprint,
 )
@@ -19,7 +20,13 @@ from kaye_engine.skill.select import select_exportables
 
 from tests.consumer_helper import TEST_CONSUMER, isolated_consumers
 
-_NAMES = ("ovr-base", "ovr-core", "ovr-top", "ovr-internal")
+_NAMES = (
+    "ovr-base",
+    "ovr-core",
+    "ovr-top",
+    "ovr-internal",
+    "ovr-internal-top",
+)
 
 
 @pytest.fixture(autouse=True)
@@ -43,6 +50,11 @@ def _registered():
         )
         register_blueprint(
             "ovr-internal", create_blueprint(), is_exportable=False
+        )
+        register_blueprint(
+            "ovr-internal-top",
+            create_blueprint(dependencies=["ovr-internal"]),
+            is_exportable=False,
         )
         yield
         for name in _NAMES:
@@ -125,6 +137,48 @@ class TestOverride:
         )
 
 
+class TestRehome:
+
+    def test_blueprint_kept_consumer_moved(_):
+        before = blueprint_registry["ovr-base"].blueprint
+
+        entry = override_exportable("ovr-base", consumer="other-pkg")
+
+        assert entry.blueprint is before
+        assert entry.consumer == "other-pkg"
+        assert select_exportables(consumer="other-pkg")[0].canonical_name == (
+            "ovr-base"
+        )
+
+    def test_flags_and_profile_kept(_):
+        entry = override_exportable("ovr-base", consumer="other-pkg")
+
+        assert entry.render_profile.sparseness == 3
+        assert entry.always_apply is True
+
+    def test_render_profile_and_always_apply_set_when_given(_):
+        profile = RenderProfile(sparseness=9)
+
+        entry = override_exportable(
+            "ovr-base",
+            consumer="other-pkg",
+            render_profile=profile,
+            always_apply=False,
+        )
+
+        assert entry.render_profile is profile
+        assert entry.always_apply is False
+
+    def test_non_exportable_raises(_):
+        with pytest.raises(ValueError, match="ovr-internal"):
+            override_exportable("ovr-internal", consumer="other-pkg")
+
+    def test_unknown_consumer_raises(_):
+        with pytest.raises(ValueError, match="nobody"):
+            override_exportable("ovr-base", consumer="nobody")
+        assert exportable_registry["ovr-base"].consumer == TEST_CONSUMER
+
+
 class TestRefused:
 
     def test_unknown_dependency_raises_and_changes_nothing(_):
@@ -175,3 +229,71 @@ class TestRefused:
                 "ovr-base", create_blueprint(), consumer="nobody"
             )
         assert exportable_registry["ovr-base"].consumer == TEST_CONSUMER
+
+
+class TestOverrideBlueprint:
+
+    def test_blueprint_replaced(_):
+        new = create_blueprint(dependencies=["ovr-core"])
+
+        entry = override_blueprint("ovr-internal", new)
+
+        assert entry.blueprint is new
+        assert blueprint_registry["ovr-internal"] is entry
+        assert "ovr-internal" not in exportable_registry
+
+    def test_render_profile_set_when_given(_):
+        profile = RenderProfile(sparseness=9)
+
+        entry = override_blueprint(
+            "ovr-internal", create_blueprint(), render_profile=profile
+        )
+
+        assert entry.render_profile is profile
+
+    def test_render_profile_kept_when_omitted(_):
+        before = blueprint_registry["ovr-internal"].render_profile
+
+        entry = override_blueprint("ovr-internal", create_blueprint())
+
+        assert entry.render_profile is before
+
+    def test_dependents_see_the_new_blueprint(_):
+        new = create_blueprint(dependencies=["ovr-core"])
+
+        override_blueprint("ovr-internal", new)
+
+        dep = blueprint_registry["ovr-internal-top"].blueprint.dependencies[0]
+        assert blueprint_registry[dep].blueprint is new
+
+
+class TestOverrideBlueprintRefused:
+
+    def test_exportable_raises_and_changes_nothing(_):
+        before = blueprint_registry["ovr-base"].blueprint
+
+        with pytest.raises(ValueError, match="ovr-base"):
+            override_blueprint("ovr-base", create_blueprint())
+
+        assert blueprint_registry["ovr-base"].blueprint is before
+
+    def test_unregistered_name_raises(_):
+        with pytest.raises(ValueError, match="no-such-bp"):
+            override_blueprint("no-such-bp", create_blueprint())
+
+    def test_unknown_dependency_raises_and_changes_nothing(_):
+        before = blueprint_registry["ovr-internal"].blueprint
+
+        with pytest.raises(ValueError, match="no-such-dep"):
+            override_blueprint(
+                "ovr-internal", create_blueprint(dependencies=["no-such-dep"])
+            )
+
+        assert blueprint_registry["ovr-internal"].blueprint is before
+
+    def test_indirect_cycle_raises(_):
+        with pytest.raises(ValueError, match="cycle"):
+            override_blueprint(
+                "ovr-internal",
+                create_blueprint(dependencies=["ovr-internal-top"]),
+            )

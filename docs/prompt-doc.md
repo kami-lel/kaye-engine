@@ -753,7 +753,7 @@ canonical_name = registry.canonical_name  # kebab-case slug, e.g. "chat"
 text = registry.content(query="hello")  # rendered prompt
 ```
 
-`register_blueprint()` raises `ValueError` for a duplicate name, an unregistered dependency name, an exportable entry naming no registered `consumer=`, or, while a corpus is loaded, a path it does not contain. To replace an exportable another consumer registered, call `override_exportable()`, see [Exportable Registry Documentation](exportable-registry-doc.md#overriding-an-exportable).
+`register_blueprint()` raises `ValueError` for a duplicate name, an unregistered dependency name, an exportable entry naming no registered `consumer=`, or, while a corpus is loaded, a path it does not contain. To replace an exportable another consumer registered, call `override_exportable()`; to replace an internal one, call `override_blueprint()`; see [Exportable Registry Documentation](exportable-registry-doc.md#overriding-an-exportable).
 
 Each entry carries:
 
@@ -768,3 +768,55 @@ Each entry carries:
 `registry.content(profile=None, **kwargs)` calls `render_prompt()` with the entry's own `.render_profile` merged with the caller's `profile`; the comment is named after the entry unless the caller chose a name.
 
 Iterate `blueprint_registry` directly to list every registered blueprint.
+
+### Registration Helpers
+
+A consumer registers dozens of blueprints, nearly all of the same few shapes. `kaye_engine` exports the helpers for them, in `kaye_engine.registration` and at the package top level, so a consumer defines none of its own.
+
+`bind_registrars(consumer)` binds the registration functions to the canonical name of a registered consumer, and returns a named tuple `Registrars`:
+
+| Field | Registers |
+| --- | --- |
+| `register_exportable` | an exportable skill owned by `consumer` |
+| `register_prompt` | an exportable with `llm_invokable=False`: surfaced by name, never on the assistant's own judgment |
+| `register_internal` | a building block, `is_exportable=False`, for other blueprints to depend on |
+| `register_abbr_glossary` | an abbreviation glossary owned by `consumer` |
+
+Each is `register_blueprint` or `register_abbr_glossary` with the fixed keywords applied; any other keyword stays overridable per call.
+
+```python
+from kaye_engine import bind_registrars, register_leaf, register_node
+
+(
+    register_exportable,
+    register_prompt,
+    register_internal,
+    register_abbr_glossary,
+) = bind_registrars("my-consumer")
+
+# the node "Code Reviewer" of `role_node`, whole subtree, as a skill
+register_node(
+    register_exportable,
+    "code-reviewer",
+    role_node,
+    "Code Reviewer",
+    recursively=True,
+    llm_invokable=False,
+)
+
+# a leaf under its ancestor headings, with its own descriptors
+register_leaf(
+    register_exportable,
+    "style-markdown-extended",
+    ["Style Guide", "Style Guide Markdown Format"],
+    "Extended Markdown Format",
+)
+```
+
+- `register_node(register_fn, slug, container, name, *, recursively=False, dependencies=None, display_name=None, description=None, **extra)`: registers the node `container[name]`, its display name defaulting to `name`; `description` is a literal that wins over the node's `{description}` sidecar
+- `register_leaf(register_fn, slug, ancestor_path, leaf_name, *, display_name=None, description=None, dependencies=None, extra_checkmarks=(), **extra)`: checkmarks each ancestor heading alone, then the leaf's whole subtree, and points the meta at the leaf's own `{description}`, `{when_to_use}` and `{globs}` sidecars
+- `walk_and_checkmark(bp, ancestor_path)` and `mark_as_leaf(bp, leaf_path)`: the two halves of `register_leaf`, for a blueprint built by hand
+- `glossary_blueprint(*names)`: a blueprint checkmarking the dynamic node `(name)` of each glossary
+- `register_md_file_dynamic_substitution(name, md_file_path, *, logger_name)`: registers a file's text as a `StringDynamicSubstitution`; an unreadable file logs through `logger_name` and exits 1
+
+Pass `description=` and the other meta fields when registering, rather than assigning `.blueprint` afterwards: an assignment skips the validation `register_blueprint()` runs.

@@ -121,3 +121,23 @@ A second run over the same payload reports `unchanged` throughout, writes
 nothing, and makes no `.bak`. A changed `CLAUDE.md` makes a new `.bak`
 each run. The engine alone honors `--dry-run` (steps 2 to 4 report their
 verdict, write nothing) and takes `CLAUDE_FOLDER`.
+
+### Log Output
+
+The `print` lines in the pseudo code are the scripts' own wording; they
+are not part of the algorithm, and the parity test compares the installed
+result, never the output. The engine reports through kamilog instead, at
+`-V`, so a run can be followed step by step:
+
+- one `ENTER` line per phase (preflight, `CLAUDE.md`, marketplace swap,
+  `settings.json`), one `DEBUG` line per passed check
+- each sibling temp write and rename as `tmp` and `mv` lines, the backup
+  as a `cp` line
+- before the marketplace swap, one line per added (`new`), changed (`owr`)
+  and removed (`del`) file, and a count; then the temp copy, the move of the
+  old folder aside, the move into place and the delete of the old folder,
+  with an `undo` line when the old folder is restored
+- one `new` line per `settings.json` key added, one `SKIP` line per key
+  kept
+
+A dry run prints the same lines under the `dry` badge and touches nothing.

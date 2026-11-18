@@ -6,12 +6,17 @@ Unit Tests (using pytest) for:
 build_dry_run_parent_parser, enable_dry_run, disable_dry_run, is_dry_run
 """
 
+import importlib
 import json
+import pkgutil
+import re
 from argparse import ArgumentParser
 from unittest.mock import patch
 
 import kamilog
 import pytest
+
+import kaye_engine.cli
 
 from kaye_engine.badge import NEW_BADGE, OWR_BADGE
 from kaye_engine.consumer import Consumer
@@ -74,6 +79,21 @@ class TestSwitch:
         enable_dry_run()
         disable_dry_run()
         assert is_dry_run() is False
+
+    def test_every_cli_logger_constant_is_listed(_):
+        found = set()
+        for info in pkgutil.walk_packages(
+            kaye_engine.cli.__path__, "kaye_engine.cli."
+        ):
+            module = importlib.import_module(info.name)
+            found.update(
+                value
+                for attr, value in vars(module).items()
+                if re.fullmatch(r"LOGGER_\w*NAME", attr)
+            )
+
+        assert found
+        assert found <= set(dry_run._LOGGER_NAMES)
 
     @pytest.mark.parametrize("name", dry_run._LOGGER_NAMES)
     def test_enable_badges_every_engine_logger(_, name):

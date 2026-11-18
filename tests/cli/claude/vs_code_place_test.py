@@ -7,9 +7,12 @@ place_vs_code_payload
 """
 
 import json
+import logging
 
+import kamilog
 import pytest
 
+from kaye_engine.cli.claude import LOGGER_CLAUDE_NAME
 from kaye_engine.cli.claude.vs_code.place import place_vs_code_payload
 from kaye_engine.cli.dry_run import disable_dry_run, enable_dry_run
 
@@ -314,3 +317,199 @@ class TestDryRun:
 
         after = {p: p.read_bytes() for p in claude.rglob("*") if p.is_file()}
         assert after == before
+
+
+# log output  ##################################################################
+def _lines(caplog):
+    """:return: (level, badges, message) of every record, in order"""
+    return [
+        (r.levelno, getattr(r, "badges", ()), r.message)
+        for r in caplog.records
+    ]
+
+
+def _messages(caplog, badge=None):
+    return [
+        m for _, badges, m in _lines(caplog) if badge is None or badge in badges
+    ]
+
+
+class TestLogOutput:
+
+    @pytest.fixture(autouse=True)
+    def _capture(_, caplog):
+        caplog.set_level(logging.DEBUG, logger=LOGGER_CLAUDE_NAME)
+
+    def test_phases_are_entered_in_order(_, payload, claude, caplog):
+        place_vs_code_payload(payload, claude)
+
+        entered = [
+            m for lv, _b, m in _lines(caplog) if lv == kamilog.ENTER
+        ]
+        assert entered == [
+            "preflight: check payload and settings, write nothing",
+            "merge CLAUDE.md",
+            "swap marketplace folder mk",
+            "merge settings.json",
+        ]
+
+    def test_each_preflight_check_that_passes_is_logged(
+        _, payload, claude, caplog
+    ):
+        place_vs_code_payload(payload, claude)
+
+        passed = [m for m in _messages(caplog) if m.startswith("pass:")]
+        assert len(passed) == 4
+        assert all(
+            lv == logging.DEBUG
+            for lv, _b, m in _lines(caplog) if m.startswith("pass:")
+        )
+
+    def test_prompt_write_logs_tmp_then_mv_then_create(
+        _, payload, claude, caplog
+    ):
+        place_vs_code_payload(payload, claude)
+
+        steps = [
+            (b, m.split()[0]) for _lv, b, m in _lines(caplog)
+            if "CLAUDE.md" in m and not m.startswith(("merge", "pass"))
+        ]
+        assert steps == [
+            (("tmp",), "create"), (("mv",), "move"), (("new",), "create"),
+        ]
+
+    def test_backup_is_a_cp_line(_, tmp_path, claude, caplog):
+        place_vs_code_payload(_payload(tmp_path / "a", prompt="1"), claude)
+        caplog.clear()
+
+        place_vs_code_payload(_payload(tmp_path / "b", prompt="2"), claude)
+
+        copies = _messages(caplog, "cp")
+        assert len(copies) == 1
+        assert copies[0].startswith("copy ") and ".bak" in copies[0]
+
+    def test_marketplace_diff_lists_each_file_then_counts(
+        _, tmp_path, claude, caplog
+    ):
+        place_vs_code_payload(_payload(tmp_path / "a", skill="1"), claude)
+        extra = claude / NAME / "gone.txt"
+        extra.write_text("x", encoding="utf-8")
+        caplog.clear()
+
+        place_vs_code_payload(_payload(tmp_path / "b", skill="2"), claude)
+
+        assert _messages(caplog, "owr")[:1] == [
+            "change plugins/pa/skills/x/SKILL.md"
+        ]
+        assert "remove gone.txt" in _messages(caplog, "del")
+        assert "mk: 0 added, 1 changed, 1 removed" in _messages(caplog)
+
+    def test_swap_steps_follow_the_algorithm(_, tmp_path, claude, caplog):
+        place_vs_code_payload(_payload(tmp_path / "a", skill="1"), claude)
+        caplog.clear()
+
+        place_vs_code_payload(_payload(tmp_path / "b", skill="2"), claude)
+
+        swap = [
+            (b, m.split()[0]) for _lv, b, m in _lines(caplog)
+            if ".new-" in m or ".old-" in m
+        ]
+        assert swap == [
+            (("tmp",), "create"),
+            (("mv",), "move"),
+            (("mv",), "move"),
+            (("del",), "delete"),
+        ]
+
+    def test_added_settings_keys_are_one_new_line_each(
+        _, payload, claude, caplog
+    ):
+        place_vs_code_payload(payload, claude)
+
+        assert [
+            m for m in _messages(caplog, "new") if "settings.json" in m
+        ] == [
+            "add marketplace mk to settings.json",
+            "add pa@mk to settings.json",
+            "add pb@mk to settings.json",
+        ]
+
+    def test_kept_existing_key_is_a_skip_line(_, payload, claude, caplog):
+        place_vs_code_payload(payload, claude)
+        data = _settings(claude)
+        data["enabledPlugins"]["pa@mk"] = False
+        data["enabledPlugins"].pop("pb@mk")
+        (claude / "settings.json").write_text(json.dumps(data), "utf-8")
+        caplog.clear()
+
+        place_vs_code_payload(payload, claude)
+
+        skips = [m for lv, _b, m in _lines(caplog) if lv == kamilog.SKIP]
+        assert "keep pa@mk: already False" in skips
+        assert "add pb@mk to settings.json" in _messages(caplog, "new")
+
+    def test_second_run_skips_every_target_and_writes_nothing(
+        _, payload, claude, caplog
+    ):
+        place_vs_code_payload(payload, claude)
+        caplog.clear()
+
+        place_vs_code_payload(payload, claude)
+
+        skips = [m for lv, _b, m in _lines(caplog) if lv == kamilog.SKIP]
+        assert sum(m.startswith("unchanged") for m in skips) == 3
+        for badge in ("tmp", "mv", "del", "new", "cp"):
+            assert not _messages(caplog, badge)
+
+    def test_dry_run_logs_the_same_lines_as_a_live_run(
+        _, tmp_path, claude, caplog
+    ):
+        dry_claude = tmp_path / "dry-claude"
+        enable_dry_run()
+        place_vs_code_payload(_payload(tmp_path / "p"), dry_claude)
+        dry = _lines(caplog)
+        caplog.clear()
+        disable_dry_run()
+
+        place_vs_code_payload(_payload(tmp_path / "p2"), claude)
+        live = _lines(caplog)
+
+        assert not dry_claude.exists()
+
+        def shape(lines):
+            # the dry badge leads every dry line; everything else is equal
+            return [
+                (lv, tuple(x for x in b if x != "dry"), m.split()[0])
+                for lv, b, m in lines
+            ]
+
+        assert shape(dry) == shape(live)
+
+    def test_rollback_logs_undo_caution(
+        _, tmp_path, claude, caplog, monkeypatch
+    ):
+        place_vs_code_payload(_payload(tmp_path / "a", skill="1"), claude)
+        caplog.clear()
+        real_replace = __import__("os").replace
+        calls = {"n": 0}
+
+        def fail_second(src, dst):
+            calls["n"] += 1
+            if calls["n"] == 2:  # the move of the new folder into place
+                raise OSError("denied")
+            return real_replace(src, dst)
+
+        monkeypatch.setattr(
+            "kaye_engine.cli.claude.vs_code.place.os.replace", fail_second
+        )
+        with pytest.raises(SystemExit):
+            place_vs_code_payload(_payload(tmp_path / "b", skill="2"), claude)
+
+        undo = [
+            m for lv, b, m in _lines(caplog)
+            if "undo" in b and lv == kamilog.CAUTION
+        ]
+        assert len(undo) == 1 and undo[0].startswith("restore old marketplace")
+        assert (
+            claude / NAME / "plugins" / "pa" / "skills" / "x" / "SKILL.md"
+        ).read_text(encoding="utf-8") == "1"

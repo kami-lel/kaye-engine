@@ -19,7 +19,9 @@ from kaye_engine.cli.codex.marketplace.manifest import (
 )
 from kaye_engine.cli.codex.platform import get_marketplace_display_name
 
+from kaye_engine.repo import set_repo_name
 from tests.cli.codex.codex_plugin_test import two_consumers  # noqa: F401
+from tests.consumer_helper import isolated_repo
 
 
 class TestStructure:
@@ -62,14 +64,16 @@ class TestContent:
     def test_catalog_lists_every_consumer_plugin(
         _, two_consumers, tmp_path  # noqa: F811
     ):
-        path = export_codex_marketplace(tmp_path)
+        with isolated_repo():
+            set_repo_name("pkg-one")
+            path = export_codex_marketplace(tmp_path)
 
         assert path == (
             tmp_path / ".agents" / "plugins" / "marketplace.json"
         ).resolve()
         data = json.loads(path.read_text(encoding="utf-8"))
-        assert data["name"] == "kaye-engine"
-        assert data["interface"] == {"displayName": "Kaye Engine"}
+        assert data["name"] == "pkg-one"
+        assert data["interface"] == {"displayName": "Pkg One"}
         assert [p["source"]["path"] for p in data["plugins"]] == [
             "./plugins/pkg-one",
             "./plugins/pkg-two",

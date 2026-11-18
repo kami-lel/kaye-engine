@@ -37,20 +37,37 @@ manually add chat & coder, instead by data structure
 
 ### Security
 
-[unreleased]: https://github.com/kami-lel/kaye-engine/compare/v12.0.0...dev
+[unreleased]: https://github.com/kami-lel/kaye-engine/compare/v13.0.0...dev
 
+## [13.0.0] - 2026-11-18
 
+### Added
 
+- public registration helpers: `bind_registrars(consumer)` (`register_exportable`, `register_prompt`, `register_internal`, `register_abbr_glossary`), `register_node`, `register_leaf`, `mark_as_leaf`, `walk_and_checkmark`, `glossary_blueprint`, `register_md_file_dynamic_substitution`; `description=` on `register_node` & `register_leaf`
+- `override_exportable(name, consumer=...)` w/o blueprint re-homes an entry to `consumer`'s plugin
+- `override_blueprint(name, blueprint, *, render_profile=None)`: consumer replaces another consumer's internal blueprint, w/ `override_exportable`'s checks
 
+### Changed
 
+- every local marketplace named by repo name (`set_repo_name`), folder `~/.claude/REPO/`, not `kaye-engine`; unset repo name exits 1
+- exports building in a temp folder log build & publish phases; scratch lines wear the `tmp` badge; `quiet_deeds()` → `tmp_deeds()`
+- `vs-code-extension` merge logs every step at `-V`, dry run too
+- `kamilog` pin `v3.0.0` → `v3.0.1`
+- runtime dependencies bounded by a major cap
+- consumer doc: kaye-library step table drops the dynamic substitution step, 5 steps left
 
+> [!WARNING]
+> Breaking: marketplace `kaye-engine` & folder `~/.claude/kaye-engine/` gone; `enabledPlugins` keys `NAME@kaye-engine` go stale, installers never remove them; re-run `a v`, delete the old folder & keys
 
+> [!WARNING]
+> Installing 2 repos' marketplaces (e.g. `kaye-library` & another consumer repo) lists plugin `kaye-library` twice, 1 per marketplace; a skill can surface twice
 
+### Fixed
 
+- `-n/--dry-run` now stamps the `dry` badge on `codex plugin`, `codex marketplace`, `codex skills` & `build-github-marketplace`
+- `register_md_file_dynamic_substitution` reads UTF-8, not the platform encoding; invalid UTF-8 logs a critical line & exits 1, no traceback
 
-
-
-
+[13.0.0]: https://github.com/kami-lel/kaye-engine/compare/v12.0.0...v13.0.0
 
 ## [12.0.0] - 2026-11-15
 

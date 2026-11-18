@@ -62,8 +62,13 @@ no fallback; a `glossary-*` group takes its glossary's consumer:
 | `populate_abbr_data_with_json_file` | additive | one call per file, one layer each; a later layer may repeat an (abbreviation, meaning) pair to add tags, glossaries, or a missing remark, a conflict raises |
 | `register_blueprint` | guarded | |
 | `register_image_prompt_exportable` | guarded | name must already be exportable |
-| `override_exportable` | guarded | the only way a consumer replaces another's exportable; validates names, paths and cycles, moves the skill to the overriding consumer's plugin, and may set `always_apply`; an unregistered or non-exportable name raises |
+| `override_exportable` | guarded | the only way a consumer replaces another's exportable; validates names, paths and cycles, moves the skill to the overriding consumer's plugin, and may set `always_apply`; an unregistered or non-exportable name raises; a repeat override of 1 name replaces the earlier one, last call wins |
+| `override_blueprint` | guarded | the only way a consumer replaces another's internal blueprint; same checks and last-call-wins as `override_exportable`; may set the render profile; an unregistered or exportable name raises |
 | `register_exportable_entry` | guarded | |
+| `bind_registrars` registrars | guarded | each forwards to `register_blueprint` or `register_abbr_glossary`, bound to one consumer |
+| `register_node` | guarded | forwards to the registrar it is given |
+| `register_leaf` | guarded | forwards to the registrar it is given |
+| `register_md_file_dynamic_substitution` | guarded | forwards to `register_dynamic_substitution`; an unreadable file exits 1 |
 | `register_exportable_abbrs` | additive | rebuilds the abbr groups on every populate, replacing earlier abbr groups only; a name held by another exportable raises |
 | `register_dynamic_substitution` | guarded | |
 | `register_affordance` | guarded | a repeated name raises; `remark` must be a `str`, `""` when omitted |
@@ -197,8 +202,9 @@ flags via `RenderProfile.merge()`. `--variant`/`--conditional-sidecar` union
 with what `--surface` derives; `--reverse-order` ORs into `mode` before the
 merge, because `mode` is scalar and would otherwise be clobbered. An omitted
 flag keeps the subcommand's own `--comment`/`--sparseness` default. The
-resolved profile travels as one `profile=` object through every `claude`
-export chain and `skill`; a default `RenderProfile()` is a no-op under
+resolved profile travels as one `render_profile=` object through every
+`claude` export chain and `skill`, reaching `Exportable.content()` as
+`profile=`; a default `RenderProfile()` is a no-op under
 `merge()`, so a registry entry's own `render_profile` still applies. Q.v.
 [Claude documentation](docs/claude-doc.md) and [render profile
 documentation](docs/render-profile-doc.md).
@@ -250,8 +256,8 @@ means `--dry-run` on every write command.
 
 `--dry-run` on the write commands comes from `cli/dry_run.py`: a shared
 `-n/--dry-run` parent parser, plus a run-wide switch (`enable_dry_run()`,
-`is_dry_run()`) that also stamps the `dry` badge on the five engine
-loggers. Writers keep their deed lines (`kaye_engine/deed.py`) and skip only the filesystem call
+`is_dry_run()`) that also stamps the `dry` badge on every logger named
+in its `_LOGGER_NAMES`. Writers keep their deed lines (`kaye_engine/deed.py`) and skip only the filesystem call
 under `is_dry_run()`; the zip exports skip the temporary build and log
 their one `create_zip` result line with size `n/a`. `sync-open-webui-skills` keeps its own
 `-n`/`--dry-run` and threads `is_dry_run` as a parameter instead.
@@ -268,10 +274,22 @@ subclass names its command's logger in `_logger` (`Skill`: skill,
 byte-reproducible and keep overwriting; `save_blueprint` is a library API
 with no logger and keeps its plain write.
 
-Deeds stamp a native badge on success (`new`, `owr`, `mv`; none for config
-deeds or failures), led by the run-wide badge, so a dry run prints
+Deeds stamp a native badge on success (`new`, `owr`, `mv`, `cp`, `del`; none
+for config deeds or failures), led by the run-wide badge, so a dry run prints
 `dry new`. A zip export logs one `create_zip` line per archive: the plugin
 line at `DONE`, skill lines at `-v`.
+
+An export that builds in a temp folder then copies out runs in 2 phases,
+each opened by an `ENTER` line: build, inside `tmp_deeds(ROOT)`, and publish.
+`tmp_deeds` drops every deed success to `DEBUG`, stamps `tmp` (kamilog's
+scratch badge) in place of the deed badge, and shows `ROOT` as `<tmp>`;
+failure lines keep their error level and real paths. `tmp_roots(ROOT)` only
+masks, for the publish step that moves data out (the move stays an `mv` line
+at `DEBUG`). Each build logs 1 `tmp` summary at `-v`; the dry run skips the
+build. `place_vs_code_payload` reports its own steps the same way: per-file
+tree diff before the marketplace swap (`new`, `owr`, `del`), the temp copy
+and renames (`tmp`, `mv`), an `undo` line on rollback, and 1 `new` line per
+`settings.json` key added.
 
 Dynamic nodes (today's date, the abbreviation glossaries) auto-attach to
 every tree at load time; an authored `(name)` heading, at any depth, fixes
@@ -308,8 +326,8 @@ a console command runs then names one entry consumer
 (`set_entry_consumer`), which owns the process-wide CLI identity, and calls
 `setup_claude_cli(...)`/`setup_codex_cli(...)`/`setup_hermes_cli(...)`,
 whose Chat, Coder, and
-soul names are all optional. The marketplace is always named
-`kaye-engine` (`PACKAGE_NAME`, also what `get_marketplace_name()` and
+soul names are all optional. The marketplace is named
+after the repo (`set_repo_name`, also what `get_marketplace_name()` and
 `get_marketplace_folder_name()` return) and lists one plugin per consumer holding
 an exportable (`get_plugin_consumers()`). A consumer console script builds
 on `register_cli_main_parser(package_name, program_name)`, so every script
@@ -318,10 +336,13 @@ package. Q.v. [Kaye Engine: `prompt` module
 Documentation](docs/prompt-doc.md) and [Claude
 documentation](docs/claude-doc.md#setup-for-consumer-packages).
 
-Every CLI subcommand entrypoint calls a setup guard
-(`check_corpus_setup_for_cli()`, or `check_setup_for_claude_cli()` for
-`claude`) that logs an error when no corpus tree or blueprint is loaded,
-surfacing bare-checkout misuse early; the Claude guard also exits 1 with no
+Every CLI subcommand that reads the corpus or the exportables calls a
+setup guard (`check_corpus_setup_for_cli()`, or
+`check_setup_for_claude_cli()` for `claude`) that logs an error when no
+corpus tree or blueprint is loaded, surfacing bare-checkout misuse early;
+the list-only `affordance`, `variant`, `render-profile` and
+`dynamic-substitution` take no guard, and `dynamic-node` loads an empty
+tree itself when none is loaded; the Claude guard also exits 1 with no
 consumer registered. The entry consumer and Chat/Coder names are enforced
 by their getters (`get_consumer_display_name()`,
 `get_consumer_canonical_name()`, `get_consumer_version()`,
@@ -425,9 +446,3 @@ renders its soul and profile blueprints straight from `blueprint_registry`
 `export_skills_as_folders`, which only ever sees `exportable_registry`. Both
 are detailed in [Continue](docs/continue-doc.md) and
 [Hermes](docs/hermes-doc.md).
-
-## Testing Strategy
-
-Tests mirror the source tree and run **serially by design**: shared fixtures
-carry run-order assumptions. Exporter suites render small inline corpora; a
-full-sized corpus belongs to the consumer package's own suite.

@@ -5,11 +5,14 @@ from argparse import RawDescriptionHelpFormatter
 from pathlib import Path
 
 import kamilog
-from kaye_engine import LOGGER_NAME, PACKAGE_NAME
+from kaye_engine import PACKAGE_NAME
 from kaye_engine.cli import DEFAULT_SPARSENESS
 from kaye_engine.cli.dry_run import (
     apply_dry_run_arg,
     build_dry_run_parent_parser,
+)
+from kaye_engine.cli.github_marketplace import (
+    LOGGER_GITHUB_MARKETPLACE_NAME,
 )
 from kaye_engine.cli.plugin_platform.consumers import (
     check_setup_for_plugin_cli,
@@ -34,7 +37,7 @@ from .export import (
 __all__ = ("register_github_marketplace_parser",)
 
 # logger  ######################################################################
-logger = kamilog.getLogger(LOGGER_NAME + ".github-marketplace")
+logger = kamilog.getLogger(LOGGER_GITHUB_MARKETPLACE_NAME)
 
 # constants  ===================================================================
 
