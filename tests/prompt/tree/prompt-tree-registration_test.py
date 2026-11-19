@@ -2,11 +2,18 @@
 prompt-tree-registration_test.py
 
 Unit Tests (using pytest) for: register_corpus_under_node, building the
-tree with load_corpus_tree from registrations alone
+tree with load_corpus_tree from registrations alone, including a source
+grafted under a conditional sidecar and how that graft renders
 """
 
 import pytest
 
+from kaye_engine.prompt.blueprint import (
+    create_blueprint_from_node,
+    get_corpus_node,
+)
+from kaye_engine.prompt.blueprint.render.prompt import render_prompt
+from kaye_engine.prompt.blueprint.render_profile import RenderProfile
 from kaye_engine.prompt.prompt_corpus_loader import (
     clear_corpus_tree,
     load_corpus_tree,
@@ -63,3 +70,47 @@ class TestStructure:
         tree = load_corpus_tree()
 
         assert _static_names(tree) == []
+
+
+class TestSidecarTarget:
+
+    @pytest.fixture
+    def grafted_blueprint(_):
+        register_corpus_under_node((), "# A\nbody A\n## {a}\nrule a\n")
+        register_corpus_under_node(
+            ("A", "{a}"), "lead in\n### {for B}\nexample B\n"
+        )
+        load_corpus_tree()
+        return create_blueprint_from_node(
+            get_corpus_node("A"), is_recursive=True
+        )
+
+    def test_graft_lands_under_sidecar(_, grafted_blueprint):
+        node = get_corpus_node("A", "{a}")
+
+        assert [c.name for c in node.children] == ["{for B}"]
+        assert "lead in" in node.content_lines()
+
+    @pytest.mark.parametrize(
+        "sidecars, has_rule, has_example",
+        [
+            ((), False, False),
+            (("a",), True, False),
+            (("for B",), False, False),
+            (("a", "for B"), True, True),
+        ],
+    )
+    def test_grafted_sidecar_spliced_only_under_its_parent(
+        _, grafted_blueprint, sidecars, has_rule, has_example
+    ):
+        text = render_prompt(
+            grafted_blueprint,
+            profile=RenderProfile(
+                conditional_sidecars=sidecars, show_comment=False
+            ),
+        )
+
+        assert "body A" in text
+        assert ("rule a" in text) is has_rule
+        assert ("lead in" in text) is has_rule
+        assert ("example B" in text) is has_example
