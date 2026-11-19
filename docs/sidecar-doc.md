@@ -194,6 +194,8 @@ A conditional sidecar is real prompt content, such as an instruction or a rule, 
 
 Both routes share one step that runs before the tree walk: `splice_sidecars()` in `kaye_engine/prompt/blueprint/render/sidecar_splice.py`. It adds the wanted sidecars to the selection under one rule: a sidecar is spliced in **only when its parent is already selected**. Sidecars are visited in pre-order, so a sidecar nested under another spliced sidecar sees its parent already added. Both the positive and the negative render apply it, and `render_prompt()` runs it after the dependencies are merged.
 
+A sidecar grafted from another source splices the same way.
+
 
 
 
