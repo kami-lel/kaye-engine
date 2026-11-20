@@ -3,6 +3,7 @@
 [^format]
 
 <!--
+Todo build gh release incl system prompt file
 todo organize exportable registry,
 such that not all calling export all exportable
 
