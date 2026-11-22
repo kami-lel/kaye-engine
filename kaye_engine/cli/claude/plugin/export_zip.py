@@ -14,6 +14,10 @@ import kamilog
 from kaye_engine.badge import TMP_BADGE
 from kaye_engine.deed import format_size, tmp_deeds, tmp_roots, track
 from kaye_engine.cli.claude import LOGGER_CLAUDE_NAME
+from kaye_engine.cli.github_release.asset_name import (
+    ASSET_DESKTOP_PLUGIN,
+    get_release_asset_stem,
+)
 from kaye_engine.cli.plugin_platform.consumers import (
     select_plugin_consumers,
 )
@@ -39,13 +43,13 @@ def export_plugins_as_zips(
 ):
     """
     export every consumer holding an exportable as its own ``.zip``
-    plugin, each carrying its consumer's version
+    plugin, named as ``build-github-release-assets`` names it
 
 
     :param parent_folder: destination directory to write the archives into
     :type parent_folder: Path-like
-    :param includes_version: append each consumer's version to its
-            ``.zip`` filename when ``True``
+    :param includes_version: whether each ``.zip`` filename keeps the repo
+            version
     :type includes_version: bool
     :param render_profile: forwarded to :func:`export_plugin_as_zip`
     :type render_profile: RenderProfile, optional
@@ -61,19 +65,33 @@ def export_plugins_as_zips(
         export_plugin_as_zip(
             parent_folder,
             consumer,
-            includes_version=includes_version,
             render_profile=render_profile,
+            zip_stem=get_plugin_zip_stem_maker(includes_version),
         )
     return len(consumers)
+
+
+def get_plugin_zip_stem_maker(includes_version=True):
+    """
+    :param includes_version: whether the stem keeps the repo version
+    :type includes_version: bool
+    :return: names a consumer's plugin ``.zip`` (w/o extension) exactly as
+            ``build-github-release-assets`` does
+    :rtype: Callable[[Consumer], str]
+    """
+    return lambda consumer: get_release_asset_stem(
+        ASSET_DESKTOP_PLUGIN,
+        consumer=consumer.canonical_name,
+        includes_version=includes_version,
+    )
 
 
 def export_plugin_as_zip(
     parent_folder,
     consumer,
     *,
-    includes_version=True,
+    zip_stem,
     render_profile=None,
-    zip_stem=None,
 ):
     """
     export one consumer's exportables as an upload-ready ``.zip`` Claude
@@ -89,16 +107,11 @@ def export_plugin_as_zip(
     :type parent_folder: Path-like
     :param consumer: the consumer the plugin belongs to
     :type consumer: Consumer
-    :param includes_version: append the consumer's version to the ``.zip``
-            filename when ``True``
-    :type includes_version: bool
+    :param zip_stem: names the ``.zip`` (w/o extension) from the consumer
+    :type zip_stem: Callable[[Consumer], str]
     :param render_profile: render options forwarded to
             :func:`export_plugin_as_folder`
     :type render_profile: RenderProfile, optional
-    :param zip_stem: names the ``.zip`` (w/o extension) from the consumer,
-            replacing :func:`get_plugin_zip_file_name` and
-            ``includes_version``
-    :type zip_stem: Callable[[Consumer], str], optional
     """
     parent_folder = Path(parent_folder)
     try:
@@ -108,12 +121,7 @@ def export_plugin_as_zip(
     except OSError as err:
         raise SystemExit(1) from err
 
-    stem = (
-        zip_stem(consumer)
-        if zip_stem is not None
-        else get_plugin_zip_file_name(consumer, includes_version)
-    )
-    dest = parent_folder / (stem + ".zip")
+    dest = parent_folder / (zip_stem(consumer) + ".zip")
     if is_dry_run():
         _report_zip_without_writing(dest, consumer)
         return
@@ -161,17 +169,6 @@ def export_plugin_as_zip(
 
 
 # auxiliaries  #################################################################
-def get_plugin_zip_file_name(consumer, includes_version):
-    """
-    :return: archive file name of the consumer's plugin, w/o extension
-    :rtype: str
-    """
-    stem = "{}-claude".format(consumer.canonical_name)
-    if includes_version:
-        return "{}-{}".format(stem, consumer.version)
-    return stem
-
-
 def _count_skills(count):
     """
     :return: skill count with its noun, eg ``1 skill``, ``23 skills``

@@ -12,12 +12,13 @@ import pytest
 from kaye_engine.cli.plugin_platform import package_meta
 from kaye_engine.cli.claude.plugin.parser import register_plugin_parser
 from kaye_engine.consumer import register_consumer, set_default_consumer
+from kaye_engine.repo import set_repo_name, set_repo_version
 from kaye_engine.exportable import exportable_registry
 from kaye_engine.prompt.blueprint import BlueprintRegistry, create_blueprint
 from kaye_engine.prompt.prompt_corpus_loader import clear_corpus_tree
 
 from tests.cli.claude.plugin_consumers_test import _FakeMetadata
-from tests.consumer_helper import isolated_consumers
+from tests.consumer_helper import isolated_consumers, isolated_repo
 from tests.corpus_helper import load_corpus_from_sources
 
 
@@ -37,12 +38,14 @@ def _two_consumers():
         "lib-skill": _entry("lib-skill", "pkg-one"),
         "app-skill": _entry("app-skill", "pkg-two"),
     }
-    with isolated_consumers(), patch.dict(
+    with isolated_consumers(), isolated_repo(), patch.dict(
         exportable_registry, entries, clear=True
     ), patch.object(package_meta, "metadata") as meta_mock:
         register_consumer("Package One", "pkg-one", "1.1.0")
         register_consumer("Package Two", "pkg-two", "2.2.0")
         set_default_consumer("pkg-one")
+        set_repo_name("pkg-one")
+        set_repo_version("1.1.0")
         meta_mock.side_effect = lambda name: _FakeMetadata(name)
         yield
     clear_corpus_tree()
@@ -85,13 +88,13 @@ class TestConsumerExport:
     def test_zip_writes_one_consumer(_, tmp_path):
         _run(["-z", str(tmp_path), "pkg-two"])
 
-        assert [p.name for p in tmp_path.iterdir()] == ["pkg-two-claude-2.2.0.zip"]
+        assert [p.name for p in tmp_path.iterdir()] == ["pkg-one-1.1.0-claude-desktop-plugin-pkg-two.zip"]
 
     def test_zip_without_name_writes_the_default_consumer(_, tmp_path):
         _run(["-z", str(tmp_path)])
 
         assert [p.name for p in tmp_path.iterdir()] == [
-            "pkg-one-claude-1.1.0.zip"
+            "pkg-one-1.1.0-claude-desktop-plugin.zip"
         ]
 
     def test_folder_without_name_writes_the_default_consumer(_, tmp_path):

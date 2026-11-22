@@ -18,13 +18,17 @@ from kaye_engine.cli.claude.plugin.export_folder import (
     export_plugins_as_folders,
 )
 from kaye_engine.cli.claude.plugin.export_zip import export_plugins_as_zips
+from kaye_engine.cli.github_release.asset_name import (
+    ASSET_DESKTOP_PLUGIN,
+    get_release_asset_name,
+)
 from kaye_engine.cli.plugin_platform import package_meta
 from kaye_engine.cli.plugin_platform.consumers import (
     select_plugin_consumers,
 )
 from kaye_engine.deed import format_size
-from kaye_engine.consumer import register_consumer
-from kaye_engine.repo import set_repo_name
+from kaye_engine.consumer import register_consumer, set_default_consumer
+from kaye_engine.repo import set_repo_name, set_repo_version
 from kaye_engine.cli.dry_run import disable_dry_run, enable_dry_run
 from kaye_engine.skill import LOGGER_SKILL_NAME
 from kaye_engine.exportable import exportable_registry
@@ -52,12 +56,15 @@ def _two_consumers():
         "app-skill": _entry("app-skill", "pkg-two"),
         "app-other": _entry("app-other", "pkg-two"),
     }
-    with isolated_consumers(), patch.dict(
+    with isolated_consumers(), isolated_repo(), patch.dict(
         exportable_registry, entries, clear=True
     ), patch.object(package_meta, "metadata") as meta_mock:
         register_consumer("Package One", "pkg-one", "1.1.0")
         register_consumer("Package Two", "pkg-two", "2.2.0")
         register_consumer("Idle Package", "pkg-idle", "9.9.9")
+        set_default_consumer("pkg-one")
+        set_repo_name("pkg-one")
+        set_repo_version("1.1.0")
         meta_mock.side_effect = lambda name: _FakeMetadata(name)
         yield
     clear_corpus_tree()
@@ -159,7 +166,7 @@ class TestConsumerFilter:
         count = export_plugins_as_zips(tmp_path, consumer_name="pkg-one")
 
         assert count == 1
-        assert [p.name for p in tmp_path.iterdir()] == ["pkg-one-claude-1.1.0.zip"]
+        assert [p.name for p in tmp_path.iterdir()] == ["pkg-one-1.1.0-claude-desktop-plugin.zip"]
 
     def test_unknown_name_raises_and_writes_nothing(_, tmp_path):
         with pytest.raises(ValueError):
@@ -172,26 +179,36 @@ class TestConsumerFilter:
 
 class TestPluginZips:
 
-    def test_two_zips_each_with_own_version(_, tmp_path):
+    def test_zips_named_as_release_assets(_, tmp_path):
         export_plugins_as_zips(tmp_path)
 
-        assert sorted(p.name for p in tmp_path.iterdir()) == [
-            "pkg-one-claude-1.1.0.zip",
-            "pkg-two-claude-2.2.0.zip",
-        ]
+        assert sorted(p.name for p in tmp_path.iterdir()) == sorted(
+            [
+                get_release_asset_name(
+                    ASSET_DESKTOP_PLUGIN, consumer=name
+                )
+                for name in ("pkg-one", "pkg-two")
+            ]
+        )
+        assert (tmp_path / "pkg-one-1.1.0-claude-desktop-plugin.zip").exists()
+        assert (
+            tmp_path / "pkg-one-1.1.0-claude-desktop-plugin-pkg-two.zip"
+        ).exists()
 
     def test_no_version_drops_version_from_names(_, tmp_path):
         export_plugins_as_zips(tmp_path, includes_version=False)
 
-        assert sorted(p.name for p in tmp_path.iterdir()) == [
-            "pkg-one-claude.zip",
-            "pkg-two-claude.zip",
-        ]
+        assert sorted(p.name for p in tmp_path.iterdir()) == sorted(
+            [
+                "pkg-one-claude-desktop-plugin.zip",
+                "pkg-one-claude-desktop-plugin-pkg-two.zip",
+            ]
+        )
 
     def test_zip_holds_only_own_skills(_, tmp_path):
         export_plugins_as_zips(tmp_path)
 
-        with zipfile.ZipFile(tmp_path / "pkg-one-claude-1.1.0.zip") as archive:
+        with zipfile.ZipFile(tmp_path / "pkg-one-1.1.0-claude-desktop-plugin.zip") as archive:
             names = archive.namelist()
         assert any(n.startswith("skills/lib-skill/") for n in names)
         assert not any("app-skill" in n for n in names)
@@ -212,12 +229,12 @@ class TestPluginZipOutput:
 
         assert [r.message for r in caplog.records] == [
             "export plugin (1 skill, {}): {}".format(
-                _size_of(tmp_path / "pkg-one-claude-1.1.0.zip"),
-                tmp_path / "pkg-one-claude-1.1.0.zip",
+                _size_of(tmp_path / "pkg-one-1.1.0-claude-desktop-plugin.zip"),
+                tmp_path / "pkg-one-1.1.0-claude-desktop-plugin.zip",
             ),
             "export plugin (2 skills, {}): {}".format(
-                _size_of(tmp_path / "pkg-two-claude-2.2.0.zip"),
-                tmp_path / "pkg-two-claude-2.2.0.zip",
+                _size_of(tmp_path / "pkg-one-1.1.0-claude-desktop-plugin-pkg-two.zip"),
+                tmp_path / "pkg-one-1.1.0-claude-desktop-plugin-pkg-two.zip",
             ),
         ]
 
@@ -235,7 +252,7 @@ class TestPluginZipOutput:
         export_plugins_as_zips(tmp_path)
 
         assert "  skills/lib-skill/SKILL.md" in caplog.text
-        assert "pkg-one-claude-1.1.0.zip: " in caplog.text
+        assert "pkg-one-1.1.0-claude-desktop-plugin.zip: " in caplog.text
 
     def test_debug_level_separates_scratch_from_publish(
         _, tmp_path, caplog
@@ -287,7 +304,7 @@ class TestPluginZipOutput:
         assert not destination.exists()
         assert (
             "export plugin (1 skill, size n/a): {}".format(
-                destination / "pkg-one-claude-1.1.0.zip"
+                destination / "pkg-one-1.1.0-claude-desktop-plugin.zip"
             )
             in caplog.text
         )
