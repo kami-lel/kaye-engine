@@ -93,18 +93,20 @@ CONSUMER_CLI build-github-release-assets dist
 - `OUTPUT`: the one required argument, the destination folder; there is no `-o` and no consumer argument
 - one Claude Desktop plugin `.zip` per plugin consumer of the process, built as `claude plugin -z` builds it
 - the VS Code installer for Windows (`.zip`) and for Linux (`.run`): one click puts the current `CLAUDE.md` and every plugin into `~/.claude/`, registers the marketplace, and enables the plugins, with no Kaye Engine on the user's machine; the steps are in [Installer Algorithm](installer-algorithm-doc.md#claude-vs-code-plugin). Windows: extract the zip, double-click `install.cmd`. Linux: `bash NAME.run`. Both take no option. To remove: delete the `REPO/` folder and its keys in `settings.json`
-- the installers always render for the `claude-vsc` surface; `--surface` applies to the zips only
+- the User System Prompt as 2 `.md` files for marketplace users to paste by hand: `-chat` (Chat Blueprint, as `user-system-prompt`) and `-coder` (Chat + Coder, as `user-system-prompt -c`)
+- the installers always render for the `claude-vsc` surface; `--surface` applies to the zips and the prompts only
 - `--dry-run` lists every asset and writes nothing
 - it takes the [render flags](#render-flags) below
 
-Every file is named `REPO-VERSION-TYPE[-CONSUMER|-OS].ext`:
+Every file is named `REPO-VERSION-TYPE[-X].ext`:
 
 | part | value |
 | --- | --- |
 | `REPO`, `VERSION` | the repo name and version the consumer project registered with `set_repo_name` and `set_repo_version` |
-| `TYPE` | `claude-desktop-plugin` or `claude-vsc-installer` |
+| `TYPE` | `claude-desktop-plugin`, `claude-vsc-installer` or `claude-system-prompt` |
 | `-CONSUMER` | a plugin zip only; left out for the default consumer (`set_default_consumer`), so the name never repeats the repo name |
 | `-OS` | an installer only: `Win` (`.zip`) or `linux` (`.run`) |
+| `-VARIANT` | a system prompt only: `chat` or `coder` (`.md`) |
 
 An unset repo name, repo version, or default consumer exits 1 before anything is written. `claude plugin` takes an optional `CONSUMER` after `FOLDER`; absent means the default consumer, and an unknown name exits 1 listing the valid ones (`claude plugin -z . NAME` still works).
 
