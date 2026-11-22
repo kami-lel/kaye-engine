@@ -14,7 +14,7 @@ Kaye Engine parses a plain Markdown file, as the structured single source of tru
 - 🪽 Hermes export: write a Hermes home directory in one command: a root `SOUL.md`, one `SOUL.md` per profile, and every exportable as an Agent Skill, for the default profile and each named one
 - 🧩 Agent Skills export: write every exportable, or just the ones you name, as Agent Skill folders or `.zip`s
 - 🤖 Codex export: write every exportable to OpenAI Codex as a plugin per consumer, a marketplace, Agent Skills in `~/.agents/skills`, or a global prompt for `~/.codex/AGENTS.md`
-- 📤 GitHub Release build: write every release asset with `build-github-release-assets OUTPUT`: a plugin `.zip` per consumer plus one-click VS Code installers for Windows and Linux
+- 📤 GitHub Release build: write every release asset with `build-github-release-assets OUTPUT`: a plugin `.zip` per consumer, one-click VS Code installers for Windows and Linux, and the system prompt as 2 `.md` files
 - 🏪 GitHub Marketplace build: write one marketplace repo root with `build-github-marketplace OUTPUT`, which both Claude and Codex add by URL
 - 🔄 Open WebUI sync: push every exportable into a running Open WebUI server as an Agent Skill, creating, updating, and (optionally) pruning to match
 - 🔌 pluggable mechanism: any number of consumer packages share one process, each registering its identity (`register_consumer(...)`), its corpus, abbreviations, and blueprints, and exporting as its own plugin under one marketplace named after the repo

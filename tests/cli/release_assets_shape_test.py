@@ -13,6 +13,7 @@ from unittest.mock import patch
 
 import pytest
 from kaye_engine.cli.claude.plugin.parser import register_plugin_parser
+from kaye_engine.cli.claude.user_prompt import export as prompt_export
 from kaye_engine.cli.cli_main import register_cli_subcommands
 from kaye_engine.cli.dry_run import disable_dry_run
 from kaye_engine.cli.github_release import installer_stage
@@ -31,6 +32,10 @@ from tests.corpus_helper import load_corpus_from_sources
 _INSTALLERS = [
     "{}-claude-vsc-installer-Win.zip",
     "{}-claude-vsc-installer-linux.run",
+]
+_PROMPTS = [
+    "{}-claude-system-prompt-chat.md",
+    "{}-claude-system-prompt-coder.md",
 ]
 
 
@@ -62,6 +67,8 @@ def _isolation():
         exportable_registry, {}, clear=True
     ), patch.object(package_meta, "metadata") as meta_mock, patch.object(
         installer_stage, "generate_vs_code_payload", fake_payload
+    ), patch.object(
+        prompt_export, "generate_user_system_prompt", return_value="p\n"
     ):
         meta_mock.side_effect = lambda name: _FakeMetadata(name)
         yield
@@ -128,12 +135,15 @@ def _skills_in_zip(path):
 # pytest  ######################################################################
 class TestLibraryShapedRepo:
 
-    def test_one_plugin_zip_and_two_installers(_, tmp_path, library_repo):
+    def test_one_zip_two_installers_and_two_prompts(
+        _, tmp_path, library_repo
+    ):
         _run_release(tmp_path)
 
         assert _names(tmp_path) == sorted(
             ["kaye-library-1.4.1-claude-desktop-plugin.zip"]
             + [n.format("kaye-library-1.4.1") for n in _INSTALLERS]
+            + [n.format("kaye-library-1.4.1") for n in _PROMPTS]
         )
 
     def test_dry_run_lists_them_and_writes_nothing(
@@ -159,6 +169,7 @@ class TestPkgThreeShapedRepo:
                 "pkg-three-1.2.2-claude-desktop-plugin-kaye-library.zip",
             ]
             + [n.format("pkg-three-1.2.2") for n in _INSTALLERS]
+            + [n.format("pkg-three-1.2.2") for n in _PROMPTS]
         )
 
     def test_library_zip_lacks_the_taken_over_skill(_, tmp_path, three_repo):

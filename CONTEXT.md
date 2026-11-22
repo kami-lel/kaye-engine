@@ -421,8 +421,9 @@ marketplace). `ClaudePlatform` (`cli/claude/platform.py`) and
 `build-github-marketplace` runs both into one repo root.
 
 `build-github-release-assets OUTPUT` writes every release asset from one run: a
-Desktop plugin zip per plugin consumer plus the Windows and Linux VS Code
-installers, each named `REPO-VERSION-TYPE[-CONSUMER|-OS].ext` by
+Desktop plugin zip per plugin consumer, the Windows and Linux VS Code
+installers, and the Chat and Chat + Coder system prompts as `.md` files, each
+named `REPO-VERSION-TYPE[-X].ext` by
 `get_release_asset_name` from the repo name and version (`kaye_engine/
 repo.py`); the default consumer's name is left out. The installers are
 static scripts (`cli/github_release/installer_templates/`, copied verbatim)

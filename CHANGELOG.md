@@ -3,7 +3,6 @@
 [^format]
 
 <!--
-Todo build gh release incl system prompt file
 todo organize exportable registry,
 such that not all calling export all exportable
 
@@ -29,6 +28,7 @@ manually add chat & coder, instead by data structure
 ### Added
 
 - `register_corpus_under_node` may target a conditional sidecar, eg `("a", "{for Kaye}")`, so a package adds children to another package's sidecar; grafted sidecars splice like ones written in place
+- `build-github-release-assets` also writes the User System Prompt as 2 `.md` assets, `REPO-VERSION-claude-system-prompt-chat.md` & `-coder.md`, for marketplace users to paste by hand; `get_release_asset_name` takes `prompt_variant`
 
 ### Changed
 
