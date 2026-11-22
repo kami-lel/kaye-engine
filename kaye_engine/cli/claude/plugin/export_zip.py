@@ -39,7 +39,7 @@ def export_plugins_as_zips(
     *,
     includes_version=True,
     render_profile=None,
-    consumer_name=None,
+    consumer_names=None,
 ):
     """
     export every consumer holding an exportable as its own ``.zip``
@@ -53,14 +53,15 @@ def export_plugins_as_zips(
     :type includes_version: bool
     :param render_profile: forwarded to :func:`export_plugin_as_zip`
     :type render_profile: RenderProfile, optional
-    :param consumer_name: export only the consumer of this canonical
-            name; every plugin consumer when ``None``
-    :type consumer_name: str, optional
+    :param consumer_names: export only the consumers of these canonical
+            names, one str or an iterable; every plugin consumer when
+            ``None``
+    :type consumer_names: str or Iterable[str], optional
     :return: number of ``.zip`` plugins exported
     :rtype: int
-    :raises ValueError: when ``consumer_name`` matches no plugin consumer
+    :raises ValueError: when a name matches no plugin consumer
     """
-    consumers = select_plugin_consumers(consumer_name)
+    consumers = select_plugin_consumers(consumer_names)
     for consumer in consumers:
         export_plugin_as_zip(
             parent_folder,

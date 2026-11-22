@@ -178,21 +178,39 @@ class TestPluginFolders:
 class TestConsumerFilter:
 
     def test_folders_for_one_consumer_only(_, tmp_path):
-        export_plugins_as_folders(tmp_path, consumer_name="pkg-two")
+        export_plugins_as_folders(tmp_path, consumer_names="pkg-two")
 
         assert [p.name for p in tmp_path.iterdir()] == ["pkg-two"]
 
     def test_zip_for_one_consumer_only(_, tmp_path):
-        count = export_plugins_as_zips(tmp_path, consumer_name="pkg-one")
+        count = export_plugins_as_zips(tmp_path, consumer_names="pkg-one")
 
         assert count == 1
         assert [p.name for p in tmp_path.iterdir()] == ["pkg-one-1.1.0-claude-desktop-plugin.zip"]
 
+    def test_folders_for_several_consumers(_, tmp_path):
+        export_plugins_as_folders(
+            tmp_path, consumer_names=["pkg-two", "pkg-one"]
+        )
+
+        assert sorted(p.name for p in tmp_path.iterdir()) == [
+            "pkg-one",
+            "pkg-two",
+        ]
+
+    def test_zips_for_several_consumers(_, tmp_path):
+        count = export_plugins_as_zips(
+            tmp_path, consumer_names=["pkg-one", "pkg-two"]
+        )
+
+        assert count == 2
+        assert len(list(tmp_path.iterdir())) == 2
+
     def test_unknown_name_raises_and_writes_nothing(_, tmp_path):
         with pytest.raises(ValueError):
-            export_plugins_as_zips(tmp_path, consumer_name="pkg-nope")
+            export_plugins_as_zips(tmp_path, consumer_names="pkg-nope")
         with pytest.raises(ValueError):
-            export_plugins_as_folders(tmp_path, consumer_name="pkg-nope")
+            export_plugins_as_folders(tmp_path, consumer_names="pkg-nope")
 
         assert list(tmp_path.iterdir()) == []
 

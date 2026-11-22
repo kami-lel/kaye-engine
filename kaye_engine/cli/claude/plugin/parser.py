@@ -141,7 +141,7 @@ def register_plugin_parser(cli_subparser):  ####################################
                     folder,
                     includes_version=args.includes_version,
                     render_profile=render_profile,
-                    consumer_name=consumer_name,
+                    consumer_names=consumer_name,
                 )
             except ValueError as err:
                 logger.critical(str(err))
@@ -153,7 +153,7 @@ def register_plugin_parser(cli_subparser):  ####################################
                 export_plugins_as_folders(
                     folder,
                     render_profile=render_profile,
-                    consumer_name=consumer_name,
+                    consumer_names=consumer_name,
                 )
             except ValueError as err:
                 logger.critical(str(err))
