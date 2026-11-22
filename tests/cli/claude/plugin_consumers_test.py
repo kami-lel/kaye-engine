@@ -109,6 +109,26 @@ class TestSelectPluginConsumers:
 
         assert names == ["pkg-two"]
 
+    def test_names_select_in_the_order_given(_):
+        names = [
+            c.canonical_name
+            for c in select_plugin_consumers(["pkg-two", "pkg-one"])
+        ]
+
+        assert names == ["pkg-two", "pkg-one"]
+
+    def test_repeated_name_selects_once(_):
+        names = [
+            c.canonical_name
+            for c in select_plugin_consumers(["pkg-one", "pkg-one"])
+        ]
+
+        assert names == ["pkg-one"]
+
+    def test_one_unknown_name_among_valid_ones_raises(_):
+        with pytest.raises(ValueError, match="pkg-nope"):
+            select_plugin_consumers(["pkg-one", "pkg-nope"])
+
     def test_unknown_name_raises_listing_valid_names(_):
         with pytest.raises(ValueError, match="pkg-one, pkg-two"):
             select_plugin_consumers("pkg-nope")
