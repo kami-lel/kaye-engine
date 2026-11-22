@@ -40,9 +40,12 @@ _DESCRIPTION = (
 
 writes, per consumer, plugin.json and one SKILL.md per exportable of that
 consumer under PLUGIN_NAME/skills/; with -z, creates one upload-ready .zip
-(PLUGIN_NAME-claude-VERSION.zip) per consumer for Claude Desktop instead.
-CONSUMER selects one consumer's plugin, default: the default consumer the
-consumer project registered; naming it needs FOLDER first (plugin -z . NAME).
+per consumer for Claude Desktop instead, named as
+'build-github-release-assets' names it: REPO-VERSION-claude-desktop-plugin
+for the default consumer, plus -CONSUMER for any other.
+--consumer selects these consumers' plugins, --all every consumer's plugin;
+default: the default consumer the consumer project registered. --consumer
+takes every word after it, so give FOLDER first (plugin -z . --consumer A B).
 
 FOLDER/  (default: ~/.claude/plugins/)
 └── PLUGIN_NAME/
@@ -88,13 +91,21 @@ def register_plugin_parser(cli_subparser):  ####################################
         help="destination folder; default: ~/.claude/plugins/",
     )
 
-    plugin_parser.add_argument(
-        "consumer",
-        nargs="?",
+    consumer_group = plugin_parser.add_mutually_exclusive_group()
+    consumer_group.add_argument(
+        "--consumer",
+        nargs="+",
         metavar="CONSUMER",
         default=None,
-        help="export only this consumer's plugin; default: the default "
-        "consumer of the consumer project",
+        help="export only these consumers' plugins, give FOLDER first; "
+        "default: the default consumer of the consumer project",
+    )
+    consumer_group.add_argument(
+        "-a",
+        "--all",
+        action="store_true",
+        dest="all_consumers",
+        help="export every consumer's plugin",
     )
 
     plugin_parser.add_argument(
@@ -123,8 +134,11 @@ def register_plugin_parser(cli_subparser):  ####################################
         logger.enter("{} claude plugin".format(PACKAGE_NAME))
         check_setup_for_claude_cli()
 
-        consumer_name = args.consumer
-        if consumer_name is None:
+        if args.all_consumers:
+            consumer_name = None  # every plugin consumer
+        elif args.consumer is not None:
+            consumer_name = args.consumer
+        else:
             consumer_name = get_default_consumer().canonical_name
         folder = args.folder
         if folder is None:

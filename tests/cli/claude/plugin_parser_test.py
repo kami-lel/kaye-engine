@@ -1,7 +1,7 @@
 """
 tests/cli/claude/plugin_parser_test.py
 
-test: the ``claude plugin`` CONSUMER positional -- parse, one-consumer
+test: the ``claude plugin`` --consumer, --all options -- parse, one-consumer
 export, absent means the default consumer, unknown name exits 1
 """
 
@@ -67,8 +67,11 @@ def _run(argv):
 
 class TestConsumerArgument:
 
-    def test_defaults_to_none(_):
-        assert _parse([]).consumer is None
+    def test_defaults_to_none_and_not_all(_):
+        args = _parse([])
+
+        assert args.consumer is None
+        assert args.all_consumers is False
 
     def test_folder_alone_still_parses(_, tmp_path):
         args = _parse([str(tmp_path)])
@@ -76,19 +79,58 @@ class TestConsumerArgument:
         assert args.folder == tmp_path
         assert args.consumer is None
 
-    def test_second_positional_is_consumer(_, tmp_path):
-        args = _parse(["-z", str(tmp_path), "pkg-two"])
+    def test_consumer_option_takes_several_names(_, tmp_path):
+        args = _parse(
+            ["-z", str(tmp_path), "--consumer", "pkg-two", "pkg-one"]
+        )
 
         assert args.folder == tmp_path
-        assert args.consumer == "pkg-two"
+        assert args.consumer == ["pkg-two", "pkg-one"]
+
+    def test_all_flag_long_and_short(_):
+        assert _parse(["--all"]).all_consumers is True
+        assert _parse(["-a"]).all_consumers is True
+
+    def test_old_second_positional_is_rejected(_, tmp_path):
+        with pytest.raises(SystemExit):
+            _parse(["-z", str(tmp_path), "pkg-two"])
+
+    def test_consumer_with_all_is_rejected(_):
+        with pytest.raises(SystemExit):
+            _parse(["--consumer", "pkg-two", "--all"])
 
 
 class TestConsumerExport:
 
     def test_zip_writes_one_consumer(_, tmp_path):
-        _run(["-z", str(tmp_path), "pkg-two"])
+        _run(["-z", str(tmp_path), "--consumer", "pkg-two"])
 
-        assert [p.name for p in tmp_path.iterdir()] == ["pkg-one-1.1.0-claude-desktop-plugin-pkg-two.zip"]
+        assert [p.name for p in tmp_path.iterdir()] == [
+            "pkg-one-1.1.0-claude-desktop-plugin-pkg-two.zip"
+        ]
+
+    def test_zip_writes_several_consumers(_, tmp_path):
+        _run(["-z", str(tmp_path), "--consumer", "pkg-two", "pkg-one"])
+
+        assert sorted(p.name for p in tmp_path.iterdir()) == sorted(
+            [
+                "pkg-one-1.1.0-claude-desktop-plugin.zip",
+                "pkg-one-1.1.0-claude-desktop-plugin-pkg-two.zip",
+            ]
+        )
+
+    def test_all_writes_every_plugin_consumer(_, tmp_path):
+        _run(["-z", str(tmp_path), "-a"])
+
+        assert len(list(tmp_path.iterdir())) == 2
+
+    def test_all_writes_every_folder(_, tmp_path):
+        _run([str(tmp_path), "--all"])
+
+        assert sorted(p.name for p in tmp_path.iterdir()) == [
+            "pkg-one",
+            "pkg-two",
+        ]
 
     def test_zip_without_name_writes_the_default_consumer(_, tmp_path):
         _run(["-z", str(tmp_path)])
@@ -115,13 +157,13 @@ class TestConsumerExport:
         assert list(tmp_path.iterdir()) == []
 
     def test_folder_writes_one_consumer(_, tmp_path):
-        _run([str(tmp_path), "pkg-one"])
+        _run([str(tmp_path), "--consumer", "pkg-one"])
 
         assert [p.name for p in tmp_path.iterdir()] == ["pkg-one"]
 
     def test_unknown_name_exits_1_listing_valid_names(_, tmp_path, caplog):
         with pytest.raises(SystemExit) as raised:
-            _run(["-z", str(tmp_path), "pkg-nope"])
+            _run(["-z", str(tmp_path), "--consumer", "pkg-nope"])
 
         assert raised.value.code == 1
         assert "pkg-one, pkg-two" in caplog.text
