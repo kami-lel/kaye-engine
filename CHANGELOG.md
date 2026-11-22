@@ -29,6 +29,8 @@ manually add chat & coder, instead by data structure
 
 ### Changed
 
+- Prompt documentation: the `register_leaf` example registers the `Long File` leaf of Header Separation, replacing a removed library skill
+
 ### Deprecated
 
 ### Removed

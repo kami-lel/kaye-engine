@@ -807,9 +807,9 @@ register_node(
 # a leaf under its ancestor headings, with its own descriptors
 register_leaf(
     register_exportable,
-    "style-markdown-extended",
-    ["Style Guide", "Style Guide Markdown Format"],
-    "Extended Markdown Format",
+    "style-heading-separation-long",
+    ["Style Guide", "Style Guide Markdown Format", "Header Separation"],
+    "Long File",
 )
 ```
 
