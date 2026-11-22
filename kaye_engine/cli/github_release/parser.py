@@ -167,6 +167,13 @@ def register_github_release_parser(cli_subparser):  ############################
             )
         ]
 
+        # prompts first: an unset Chat exportable exits 1 before any write
+        for name, use_coder in prompts:
+            export_user_system_prompt_file(
+                args.output / name,
+                use_coder=use_coder,
+                render_profile=render_profile,
+            )
         for consumer, _name in plugins:
             export_plugin_as_zip(
                 args.output,
@@ -175,12 +182,6 @@ def register_github_release_parser(cli_subparser):  ############################
                 zip_stem=lambda c: get_release_asset_stem(
                     ASSET_DESKTOP_PLUGIN, consumer=c.canonical_name
                 ),
-            )
-        for name, use_coder in prompts:
-            export_user_system_prompt_file(
-                args.output / name,
-                use_coder=use_coder,
-                render_profile=render_profile,
             )
         installer_profile = _resolve_installer_render_profile(args)
         for name, build in installers:

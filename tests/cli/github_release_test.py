@@ -116,6 +116,20 @@ class TestBuildGithubRelease:
         assert chat.read_text(encoding="utf-8") == "chat prompt\n"
         assert coder.read_text(encoding="utf-8") == "coder prompt\n"
 
+    def test_an_unrenderable_prompt_exits_1_before_any_write(_, tmp_path):
+        out = tmp_path / "out"
+
+        with patch.object(
+            prompt_export,
+            "generate_user_system_prompt",
+            side_effect=SystemExit(1),
+        ):
+            with pytest.raises(SystemExit) as raised:
+                _run(["build-github-release-assets", str(out)])
+
+        assert raised.value.code == 1
+        assert not out.exists()
+
     def test_prompt_files_render_on_the_release_profile(_, tmp_path):
         seen = []
 

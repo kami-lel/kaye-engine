@@ -12,6 +12,7 @@ from unittest.mock import patch
 
 import pytest
 from kaye_engine.cli.claude.marketplace.export import export_marketplace
+from kaye_engine.cli.claude.user_prompt import export as prompt_export
 from kaye_engine.cli.claude.plugin.export_folder import (
     export_plugins_as_folders,
 )
@@ -131,6 +132,8 @@ class TestOverrideExport:
         args = parser.parse_args(["build-github-release-assets", str(tmp_path)])
         with patch(
             "kaye_engine.cli.github_release.parser.check_setup_for_claude_cli"
+        ), patch.object(
+            prompt_export, "generate_user_system_prompt", return_value="p\n"
         ):
             args.func(args)
 
