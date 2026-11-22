@@ -428,7 +428,7 @@ named `REPO-VERSION-TYPE[-X].ext` by
 repo.py`); the default consumer's name is left out. The installers are
 static scripts (`cli/github_release/installer_templates/`, copied verbatim)
 around a stage 1 payload; no Python or engine ships in them. `claude plugin
-[FOLDER [CONSUMER]]` exports the default consumer when `CONSUMER` is absent.
+[FOLDER]` exports the default consumer unless `--consumer` or `-a` is given.
 
 The `vs-code-extension` command and the release installers place a payload
 into `~/.claude/` by one algorithm, specified in [Installer
