@@ -123,7 +123,10 @@ target node (`()` the root), and `load_corpus_tree()` parses each source on
 its own and grafts it in passes, so several consumers may register in any
 order. A source's top headings sit exactly one level below its target; a
 wrong level, an unresolved target, a duplicate sibling heading, or a
-`{sidecar}`/`(dynamic)` target raises `ValueError`. `load_corpus_tree()`
+reserved sidecar (`{description}`, `{when_to_use}`, `{globs}`, `{avoid}`),
+affordance sidecar, or `(dynamic)` target raises `ValueError`; a plain
+conditional sidecar such as `{for Kaye}` is a valid target, and its grafted
+children splice as if written in place. `load_corpus_tree()`
 raises on a second call, registering after a load raises,
 `get_corpus_tree()` raises before a load, and `clear_corpus_tree()` drops
 the tree and the registrations together with everything derived from it

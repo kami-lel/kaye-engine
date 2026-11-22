@@ -57,6 +57,10 @@ A source's top headings sit exactly one level below its target: `#` under the
 root, `###` under a `## a` node. Text before a source's first heading is
 appended to the target's own content, after one blank line.
 
+A target may be a conditional sidecar, eg `("a", "{b}")`; grafted nodes
+render as if written in place, see
+[Conditional Sidecars](sidecar-doc.md#conditional-sidecars).
+
 ```python
 from pathlib import Path
 
@@ -84,7 +88,7 @@ so a fence, tag block, or unclosed comment never reaches another source.
 | target path never appears | `ValueError` naming the path and source |
 | top headings too deep or too shallow for the target | `ValueError` naming the source |
 | 2 siblings share a heading, within or across sources | `ValueError` naming both sources |
-| target is a `{sidecar}` or `(dynamic)` node | `ValueError` at registration |
+| target is a reserved sidecar (`{description}`, `{when_to_use}`, `{globs}`, `{avoid}`), an affordance sidecar (`{[...] ...}`), or a `(dynamic)` node | `ValueError` at registration |
 | registering after the tree is loaded | `ValueError`; `clear_corpus_tree()` drops tree and registrations |
 
 See [Creating a Tree](prompt-doc.md#creating-a-tree) for the loader API.

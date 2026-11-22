@@ -28,7 +28,11 @@ manually add chat & coder, instead by data structure
 
 ### Added
 
+- `register_corpus_under_node` may target a conditional sidecar, eg `("a", "{for Kaye}")`, so a package adds children to another package's sidecar; grafted sidecars splice like ones written in place
+
 ### Changed
+
+- graft refusal narrows to reserved sidecars (`{description}`, `{when_to_use}`, `{globs}`, `{avoid}`), affordance sidecars & dynamic nodes; error message names the 3
 
 ### Deprecated
 
