@@ -1,11 +1,11 @@
 """
 tests/cli/github_release_test.py
 
-test: ``build-github-release-assets OUTPUT`` -- one zip per plugin consumer plus
-both VS Code installers, all named ``REPO-VERSION-TYPE[-CONSUMER|-OS]``, the
-old ``-o`` and consumer argument rejected, an unset repo name, version, or
-default consumer exits 1, dry run lists every asset and writes nothing;
-``get_release_asset_name``
+test: ``build-github-release-assets OUTPUT`` -- one zip per plugin consumer
+plus both VS Code installers and the 2 system prompt files, all named
+``REPO-VERSION-TYPE[-CONSUMER|-OS|-VARIANT]``, the old ``-o`` and consumer
+argument rejected, an unset repo name, version, or default consumer exits 1,
+dry run lists every asset and writes nothing; ``get_release_asset_name``
 """
 
 import zipfile
@@ -13,6 +13,7 @@ from argparse import ArgumentParser
 from unittest.mock import patch
 
 import pytest
+from kaye_engine.cli.claude.user_prompt import export as prompt_export
 from kaye_engine.cli.cli_main import register_cli_subcommands
 from kaye_engine.cli.plugin_platform import package_meta
 from kaye_engine.cli.dry_run import disable_dry_run
@@ -39,6 +40,10 @@ from tests.consumer_helper import isolated_consumers, isolated_repo
 from tests.corpus_helper import load_corpus_from_sources
 
 
+def _fake_prompt(*, use_coder=False, render_profile=None):
+    return "coder prompt\n" if use_coder else "chat prompt\n"
+
+
 def _entry(name, consumer):
     return BlueprintRegistry(
         canonical_name=name,
@@ -59,6 +64,8 @@ def _two_consumers():
         exportable_registry, entries, clear=True
     ), patch.object(package_meta, "metadata") as meta_mock, patch.object(
         installer_stage, "generate_vs_code_payload", fake_payload
+    ), patch.object(
+        prompt_export, "generate_user_system_prompt", _fake_prompt
     ):
         register_consumer("Package One", "pkg-one", "1.1.0")
         register_consumer("Package Two", "pkg-two", "2.2.0")
@@ -87,15 +94,40 @@ def _run(argv):
 
 class TestBuildGithubRelease:
 
-    def test_one_run_writes_two_zips_and_both_installers(_, tmp_path):
+    def test_one_run_writes_two_zips_both_installers_and_two_prompts(
+        _, tmp_path
+    ):
         _run(["build-github-release-assets", str(tmp_path)])
 
         assert sorted(p.name for p in tmp_path.iterdir()) == [
             "pkg-one-1.1.0-claude-desktop-plugin-pkg-two.zip",
             "pkg-one-1.1.0-claude-desktop-plugin.zip",
+            "pkg-one-1.1.0-claude-system-prompt-chat.md",
+            "pkg-one-1.1.0-claude-system-prompt-coder.md",
             "pkg-one-1.1.0-claude-vsc-installer-Win.zip",
             "pkg-one-1.1.0-claude-vsc-installer-linux.run",
         ]
+
+    def test_prompt_files_hold_the_chat_and_the_coder_prompt(_, tmp_path):
+        _run(["build-github-release-assets", str(tmp_path)])
+
+        chat = tmp_path / "pkg-one-1.1.0-claude-system-prompt-chat.md"
+        coder = tmp_path / "pkg-one-1.1.0-claude-system-prompt-coder.md"
+        assert chat.read_text(encoding="utf-8") == "chat prompt\n"
+        assert coder.read_text(encoding="utf-8") == "coder prompt\n"
+
+    def test_prompt_files_render_on_the_release_profile(_, tmp_path):
+        seen = []
+
+        def spy(*, use_coder=False, render_profile=None):
+            seen.append(render_profile)
+            return _fake_prompt(use_coder=use_coder)
+
+        with patch.object(prompt_export, "generate_user_system_prompt", spy):
+            _run(["build-github-release-assets", str(tmp_path)])
+
+        assert len(seen) == 2
+        assert not any(profile.show_comment for profile in seen)
 
     def test_default_consumer_zip_leaves_its_name_out(_, tmp_path):
         set_default_consumer("pkg-two")
@@ -182,6 +214,8 @@ class TestBuildGithubRelease:
         for name in (
             "pkg-one-1.1.0-claude-desktop-plugin.zip",
             "pkg-one-1.1.0-claude-desktop-plugin-pkg-two.zip",
+            "pkg-one-1.1.0-claude-system-prompt-chat.md",
+            "pkg-one-1.1.0-claude-system-prompt-coder.md",
             "pkg-one-1.1.0-claude-vsc-installer-Win.zip",
             "pkg-one-1.1.0-claude-vsc-installer-linux.run",
         ):

@@ -13,6 +13,9 @@ from kaye_engine.cli.claude.plugin.export_zip import export_plugin_as_zip
 from kaye_engine.cli.claude.plugin_marketplace_name import (
     check_setup_for_claude_cli,
 )
+from kaye_engine.cli.claude.user_prompt.export import (
+    export_user_system_prompt_file,
+)
 from kaye_engine.cli.plugin_platform.consumers import get_plugin_consumers
 from kaye_engine.cli.dry_run import (
     apply_dry_run_arg,
@@ -20,9 +23,12 @@ from kaye_engine.cli.dry_run import (
 )
 from kaye_engine.cli.github_release.asset_name import (
     ASSET_DESKTOP_PLUGIN,
+    ASSET_SYSTEM_PROMPT,
     ASSET_VSC_INSTALLER,
     OS_LINUX,
     OS_WINDOWS,
+    PROMPT_CHAT,
+    PROMPT_CODER,
     get_release_asset_name,
     get_release_asset_stem,
 )
@@ -60,8 +66,11 @@ writes into OUTPUT, for a release workflow to attach to a GitHub Release:
 - the VS Code installer for Windows (.zip) and for Linux (.run), each
   placing every plugin consumer's plugin into ~/.claude (surface
   claude-vsc, whatever --surface says)
+- the User System Prompt as 2 .md files to paste by hand, for users who
+  install through a marketplace: -chat (Chat Blueprint) and -coder (Chat +
+  Coder Blueprint), rendered as 'claude user-system-prompt' and its -c
 
-each file is named REPO-VERSION-TYPE[-CONSUMER|-OS].ext from the repo name
+each file is named REPO-VERSION-TYPE[-X].ext from the repo name
 and version the consumer project registered; the default consumer's name
 is left out. --dry-run lists every asset and writes nothing. Run it from a
 consumer's console script, which registers them:
@@ -138,6 +147,15 @@ def register_github_release_parser(cli_subparser):  ############################
             logger.critical("no plugin consumer holds an exportable")
             raise SystemExit(1)
 
+        prompts = [
+            (
+                get_release_asset_name(
+                    ASSET_SYSTEM_PROMPT, prompt_variant=variant
+                ),
+                variant == PROMPT_CODER,
+            )
+            for variant in (PROMPT_CHAT, PROMPT_CODER)
+        ]
         installers = [
             (
                 get_release_asset_name(ASSET_VSC_INSTALLER, os_name=os_name),
@@ -158,6 +176,12 @@ def register_github_release_parser(cli_subparser):  ############################
                     ASSET_DESKTOP_PLUGIN, consumer=c.canonical_name
                 ),
             )
+        for name, use_coder in prompts:
+            export_user_system_prompt_file(
+                args.output / name,
+                use_coder=use_coder,
+                render_profile=render_profile,
+            )
         installer_profile = _resolve_installer_render_profile(args)
         for name, build in installers:
             build(args.output / name, render_profile=installer_profile)
@@ -166,6 +190,7 @@ def register_github_release_parser(cli_subparser):  ############################
                 args.output,
                 "\n".join(
                     [name for _c, name in plugins]
+                    + [name for name, _c in prompts]
                     + [name for name, _b in installers]
                 ),
             )
