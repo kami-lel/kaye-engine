@@ -272,6 +272,16 @@ class TestGetReleaseAssetName:
             == "pkg-one-1.1.0-claude-desktop-plugin-pkg-two.zip"
         )
 
+    def test_desktop_plugin_without_version(_):
+        assert (
+            get_release_asset_name(
+                ASSET_DESKTOP_PLUGIN,
+                consumer="pkg-two",
+                includes_version=False,
+            )
+            == "pkg-one-claude-desktop-plugin-pkg-two.zip"
+        )
+
     def test_windows_installer(_):
         assert (
             get_release_asset_name(ASSET_VSC_INSTALLER, os_name=OS_WINDOWS)

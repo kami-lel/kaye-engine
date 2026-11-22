@@ -38,7 +38,12 @@ _PROMPT_VARIANTS = (PROMPT_CHAT, PROMPT_CODER)
 
 # Public API  ##################################################################
 def get_release_asset_stem(
-    asset_type, *, os_name=None, consumer=None, prompt_variant=None
+    asset_type,
+    *,
+    os_name=None,
+    consumer=None,
+    prompt_variant=None,
+    includes_version=True,
 ):
     """
     :param asset_type: ``ASSET_DESKTOP_PLUGIN``, ``ASSET_VSC_INSTALLER`` or
@@ -55,6 +60,8 @@ def get_release_asset_stem(
             or ``PROMPT_CODER``; required for a system prompt, refused for
             the other types
     :type prompt_variant: str, optional
+    :param includes_version: whether to keep the repo version segment
+    :type includes_version: bool
     :raises ValueError: on an unknown ``asset_type``, ``os_name`` or
             ``prompt_variant``, or an argument the type does not take
     :raises SystemExit: exit code 1, when the repo name, the repo version,
@@ -96,13 +103,23 @@ def get_release_asset_stem(
     else:
         raise ValueError("unknown asset type {!r}".format(asset_type))
 
-    return "-".join([get_repo_name(), get_repo_version(), *segments])
+    head = [get_repo_name()]
+    if includes_version:
+        head.append(get_repo_version())
+    return "-".join([*head, *segments])
 
 
 def get_release_asset_name(
-    asset_type, *, os_name=None, consumer=None, prompt_variant=None
+    asset_type,
+    *,
+    os_name=None,
+    consumer=None,
+    prompt_variant=None,
+    includes_version=True,
 ):
     """
+    :param includes_version: whether to keep the repo version segment
+    :type includes_version: bool
     :return: the asset's full file name, :func:`get_release_asset_stem`
             plus its extension: ``.zip`` for a plugin and the Windows
             installer, ``.run`` for the Linux installer, ``.md`` for a
@@ -114,6 +131,7 @@ def get_release_asset_name(
         os_name=os_name,
         consumer=consumer,
         prompt_variant=prompt_variant,
+        includes_version=includes_version,
     )
     if asset_type == ASSET_DESKTOP_PLUGIN:
         extension = ".zip"
