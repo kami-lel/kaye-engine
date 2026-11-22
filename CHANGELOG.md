@@ -30,9 +30,15 @@ manually add chat & coder, instead by data structure
 - `register_corpus_under_node` may target a conditional sidecar, eg `("a", "{for Kaye}")`, so a package adds children to another package's sidecar; grafted sidecars splice like ones written in place
 - `build-github-release-assets` also writes the User System Prompt as 2 `.md` assets, `REPO-VERSION-claude-system-prompt-chat.md` & `-coder.md`, for marketplace users to paste by hand; `get_release_asset_name` takes `prompt_variant`
 
+- `claude plugin --consumer CONSUMER [CONSUMER2 ...]` exports several consumers' plugins, `-a`/`--all` every consumer's; `select_plugin_consumers` takes several names
+
 ### Changed
 
 - graft refusal narrows to reserved sidecars (`{description}`, `{when_to_use}`, `{globs}`, `{avoid}`), affordance sidecars & dynamic nodes; error message names the 3
+- `claude plugin -z` names zips as `build-github-release-assets` does, `REPO-VERSION-claude-desktop-plugin[-CONSUMER].zip`; `--no-version` drops VERSION only; `export_plugins_as_zips`, `export_plugins_as_folders` take `consumer_names`; `export_plugin_as_zip` needs `zip_stem`, `get_plugin_zip_file_name` gone
+
+> [!WARNING]
+> Breaking: `claude plugin` loses its `CONSUMER` positional, use `--consumer`; `-z` zip names change & now need repo name, repo version & default consumer set, else exit 1; update scripts before upgrading
 
 ### Deprecated
 
