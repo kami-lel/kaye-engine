@@ -32,6 +32,13 @@ from .prompt_corpus_node import (
     PromptCorpusNode,
     split_sections,
 )
+from .sidecar_node import (
+    _SIDECAR_HEADING_PATTERN,
+    AVOID_NAME,
+    DESCRIPTION_NAME,
+    GLOBS_NAME,
+    WHEN_TO_USE_NAME,
+)
 
 __all__ = (
     "add_corpus_clear_hook",
@@ -47,6 +54,11 @@ ROOT_NODE_NAME = "○"
 
 _HEADING_PATTERN = re.compile(r"(#+) ")
 
+# sidecars whose content the engine reads specially; never a graft target
+_RESERVED_SIDECAR_NAMES = frozenset(
+    (DESCRIPTION_NAME, WHEN_TO_USE_NAME, GLOBS_NAME, AVOID_NAME)
+)
+
 
 # auxiliaries  #################################################################
 
@@ -58,6 +70,22 @@ def _is_parenthesized_heading(heading):
     :rtype: bool
     """
     return heading.startswith("(") and heading.endswith(")")
+
+
+def _is_graft_refused(heading):
+    """
+    :return: if ``heading`` names a dynamic node, an affordance sidecar,
+            or a reserved sidecar; a plain conditional sidecar such as
+            ``{for Kaye}`` is a valid graft target
+    :rtype: bool
+    """
+    if _is_parenthesized_heading(heading):
+        return True
+    match = _SIDECAR_HEADING_PATTERN.match(heading)
+    if match is None:
+        return False
+    name = match.group(1)
+    return name.startswith("[") or name in _RESERVED_SIDECAR_NAMES
 
 
 def _collapse_unfenced_blank_runs(text_lines):
@@ -142,7 +170,8 @@ def _normalize_node_path(node_path):
     :rtype: tuple[str, ...]
     :raises TypeError: ``node_path`` is neither a tuple nor a ``str``
     :raises ValueError: a heading is empty, a bare ``str`` looks like a
-            file path, or a heading names a sidecar or dynamic node
+            file path, or a heading names a reserved sidecar, an
+            affordance sidecar, or a dynamic node
     """
     if isinstance(node_path, str):
         if "/" in node_path or node_path.strip().endswith(".md"):
@@ -166,10 +195,12 @@ def _normalize_node_path(node_path):
                     node_path
                 )
             )
-        if heading.startswith("{") or _is_parenthesized_heading(heading):
+        if _is_graft_refused(heading):
             raise ValueError(
-                "cannot register corpus under a sidecar or dynamic node: "
-                "{!r}".format(node_path)
+                "cannot register corpus under a reserved sidecar, an "
+                "affordance sidecar, or a dynamic node: {!r}".format(
+                    node_path
+                )
             )
 
     return node_path
@@ -365,6 +396,11 @@ def register_corpus_under_node(node_path, source):  # =========================
     content before its first heading is appended to the target's own
     content
 
+    the target may be a conditional sidecar such as ``{for Kaye}``, so a
+    package can add children to a sidecar another package wrote; a
+    reserved sidecar (``{description}``, ``{when_to_use}``, ``{globs}``,
+    ``{avoid}``), an affordance sidecar, or a dynamic node is refused
+
 
     :param node_path: headings from the root to the target node; ``()``
             is the root; a bare ``str`` without ``/`` or ``.md`` is a
@@ -374,8 +410,9 @@ def register_corpus_under_node(node_path, source):  # =========================
     :type source: Path or str
     :raises TypeError: ``node_path`` or ``source`` has the wrong type
     :raises ValueError: a corpus tree is already loaded, ``node_path``
-            names a sidecar or dynamic node or looks like a file path,
-            or a ``str`` ``source`` ends in ``.md``
+            names a reserved sidecar, an affordance sidecar, or a
+            dynamic node, or looks like a file path, or a ``str``
+            ``source`` ends in ``.md``
     """
     if _corpus_tree is not None:
         raise ValueError(

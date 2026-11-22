@@ -37,32 +37,35 @@ def get_plugin_consumers():
 
 def select_plugin_consumers(consumer_name=None):
     """
-    narrow the plugin consumers to one, by canonical name
+    narrow the plugin consumers to those named, by canonical name
 
 
-    :param consumer_name: canonical name of the one consumer to keep;
-            every plugin consumer when ``None``
-    :type consumer_name: str, optional
-    :return: the matching plugin consumers
+    :param consumer_name: canonical name, or names, of the consumers to
+            keep; every plugin consumer when ``None``
+    :type consumer_name: str or Iterable[str], optional
+    :return: the matching plugin consumers, in the order named, each once
     :rtype: tuple[Consumer, ...]
-    :raises ValueError: when ``consumer_name`` matches no plugin consumer;
-            the message lists the valid names
+    :raises ValueError: when a name matches no plugin consumer; the
+            message lists the valid names
     """
     consumers = get_plugin_consumers()
     if consumer_name is None:
         return consumers
 
-    selected = tuple(
-        c for c in consumers if c.canonical_name == consumer_name
+    names = (
+        [consumer_name] if isinstance(consumer_name, str) else consumer_name
     )
-    if not selected:
-        raise ValueError(
-            "unknown consumer {!r}; valid: {}".format(
-                consumer_name,
-                ", ".join(c.canonical_name for c in consumers),
+    by_name = {c.canonical_name: c for c in consumers}
+    selected = {}
+    for name in names:
+        if name not in by_name:
+            raise ValueError(
+                "unknown consumer {!r}; valid: {}".format(
+                    name, ", ".join(by_name)
+                )
             )
-        )
-    return selected
+        selected[name] = by_name[name]
+    return tuple(selected.values())
 
 
 def check_setup_for_plugin_cli():

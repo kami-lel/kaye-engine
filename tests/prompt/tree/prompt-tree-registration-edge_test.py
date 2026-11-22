@@ -117,11 +117,27 @@ class TestHeadingLevel:
 class TestRefusedTarget:
 
     @pytest.mark.parametrize(
-        "node_path", [("A", "{description}"), ("(today)",), ("A", "(x)")]
+        "node_path",
+        [
+            ("A", "{description}"),
+            ("A", "{when_to_use}"),
+            ("A", "{globs}"),
+            ("A", "{avoid}"),
+            ("A", "{[Claude:Skill] Usage}"),
+            ("A", "{[memory] Fallback}"),
+            ("(today)",),
+            ("A", "(x)"),
+        ],
     )
-    def test_sidecar_or_dynamic_target_refused(_, node_path):
-        with pytest.raises(ValueError, match="sidecar or dynamic"):
+    def test_reserved_affordance_or_dynamic_target_refused(_, node_path):
+        with pytest.raises(ValueError, match="reserved sidecar"):
             register_corpus_under_node(node_path, "text\n")
+
+    @pytest.mark.parametrize(
+        "node_path", [("A", "{b}"), ("A", "{for Kaye}"), ("A", "{b}", "{c}")]
+    )
+    def test_conditional_sidecar_target_accepted(_, node_path):
+        register_corpus_under_node(node_path, "text\n")
 
     def test_str_source_ending_md_raises(_):
         with pytest.raises(ValueError, match=r"\.md"):

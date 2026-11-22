@@ -37,7 +37,25 @@ manually add chat & coder, instead by data structure
 
 ### Security
 
-[unreleased]: https://github.com/kami-lel/kaye-engine/compare/v13.0.0...dev
+[unreleased]: https://github.com/kami-lel/kaye-engine/compare/v13.0.1...dev
+
+## [13.0.1] - 2026-11-21
+
+### Added
+
+- `register_corpus_under_node` accepts a conditional sidecar as target, eg `("a", "{for Kaye}")`, so a package adds children to another package's sidecar
+- `build-github-release-assets` writes the User System Prompt as 2 `.md` assets, `-claude-system-prompt-chat` & `-coder`, for marketplace users to paste by hand
+- `claude plugin --consumer CONSUMER [CONSUMER2 ...]` exports several consumers' plugins, `-a`/`--all` every consumer's
+
+### Changed
+
+- corpus graft refusal narrows to reserved sidecars, affordance sidecars & dynamic nodes
+- `claude plugin -z` names zips as `build-github-release-assets` does, `REPO-VERSION-claude-desktop-plugin[-CONSUMER].zip`; `--no-version` drops VERSION only
+
+> [!WARNING]
+> Breaking: `claude plugin` loses its `CONSUMER` positional, use `--consumer`; `-z` zip names change & need repo name, repo version & default consumer set, else exit 1; `get_plugin_zip_file_name` gone, `export_plugin_as_zip` needs `zip_stem`; update scripts before upgrading
+
+[13.0.1]: https://github.com/kami-lel/kaye-engine/compare/v13.0.0...v13.0.1
 
 ## [13.0.0] - 2026-11-18
 

@@ -45,7 +45,7 @@ def export_plugin_as_folder(
 
 
 def export_plugins_as_folders(
-    parent_folder, *, render_profile=None, consumer_name=None
+    parent_folder, *, render_profile=None, consumer_names=None
 ):
     """
     export every consumer holding an exportable as its own plugin folder
@@ -55,16 +55,17 @@ def export_plugins_as_folders(
     :type parent_folder: Path-like
     :param render_profile: forwarded to :func:`export_plugin_as_folder`
     :type render_profile: RenderProfile, optional
-    :param consumer_name: export only the consumer of this canonical
-            name; every plugin consumer when ``None``
-    :type consumer_name: str, optional
+    :param consumer_names: export only the consumers of these canonical
+            names, one str or an iterable; every plugin consumer when
+            ``None``
+    :type consumer_names: str or Iterable[str], optional
     :return: path of each created plugin directory
     :rtype: list[Path]
-    :raises ValueError: when ``consumer_name`` matches no plugin consumer
+    :raises ValueError: when a name matches no plugin consumer
     """
     return platform_export.export_plugins_as_folders(
         CLAUDE_PLATFORM,
         parent_folder,
         render_profile=render_profile,
-        consumer_name=consumer_name,
+        consumer_name=consumer_names,
     )
