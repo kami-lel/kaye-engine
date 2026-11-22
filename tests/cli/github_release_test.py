@@ -18,9 +18,12 @@ from kaye_engine.cli.plugin_platform import package_meta
 from kaye_engine.cli.dry_run import disable_dry_run
 from kaye_engine.cli.github_release.asset_name import (
     ASSET_DESKTOP_PLUGIN,
+    ASSET_SYSTEM_PROMPT,
     ASSET_VSC_INSTALLER,
     OS_LINUX,
     OS_WINDOWS,
+    PROMPT_CHAT,
+    PROMPT_CODER,
     get_release_asset_name,
 )
 from kaye_engine.consumer import register_consumer, set_default_consumer
@@ -233,10 +236,35 @@ class TestGetReleaseAssetName:
             == "pkg-one-1.1.0-claude-vsc-installer-linux.run"
         )
 
+    def test_chat_system_prompt(_):
+        assert (
+            get_release_asset_name(
+                ASSET_SYSTEM_PROMPT, prompt_variant=PROMPT_CHAT
+            )
+            == "pkg-one-1.1.0-claude-system-prompt-chat.md"
+        )
+
+    def test_coder_system_prompt(_):
+        assert (
+            get_release_asset_name(
+                ASSET_SYSTEM_PROMPT, prompt_variant=PROMPT_CODER
+            )
+            == "pkg-one-1.1.0-claude-system-prompt-coder.md"
+        )
+
     @pytest.mark.parametrize(
         "kwargs",
         [
             {"asset_type": "nope"},
+            {"asset_type": ASSET_SYSTEM_PROMPT},
+            {"asset_type": ASSET_SYSTEM_PROMPT, "prompt_variant": "both"},
+            {"asset_type": ASSET_SYSTEM_PROMPT, "prompt_variant": "chat",
+             "os_name": "Win"},
+            {"asset_type": ASSET_SYSTEM_PROMPT, "prompt_variant": "chat",
+             "consumer": "pkg-one"},
+            {"asset_type": ASSET_DESKTOP_PLUGIN, "prompt_variant": "chat"},
+            {"asset_type": ASSET_VSC_INSTALLER, "os_name": "Win",
+             "prompt_variant": "chat"},
             {"asset_type": ASSET_VSC_INSTALLER},
             {"asset_type": ASSET_VSC_INSTALLER, "os_name": "mac"},
             {"asset_type": ASSET_VSC_INSTALLER, "os_name": "Win",
