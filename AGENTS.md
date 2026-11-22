@@ -123,7 +123,7 @@ Bare `blueprint`, `exportable`, `dynamic-node` and `glossary` (`bp`, `x`,
 ```bash
 kaye-engine blueprint render BLUEPRINT -D   # own nodes only; stdin if omitted
 kaye-engine blueprint validate BLUEPRINT    # exit 0 if sound, 1 with reason
-kaye-engine claude plugin -z . CONSUMER     # only that consumer's plugin
+kaye-engine claude plugin -z . --consumer A B  # only those plugins; -a for all
 kaye-engine codex plugin . CONSUMER         # only that consumer's Codex plugin
 CONSUMER_CLI build-github-release-assets OUTPUT    # every release asset into OUTPUT
 CONSUMER_CLI build-github-marketplace OUTPUT       # marketplace repo root

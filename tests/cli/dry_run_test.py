@@ -178,7 +178,9 @@ class TestWritersUnderDryRun:
         destination = tmp_path / "out"
         consumer = Consumer("Plug", "plug", "1")
         with caplog.at_level("DEBUG"):
-            plugin_export_zip.export_plugin_as_zip(destination, consumer)
+            plugin_export_zip.export_plugin_as_zip(
+                destination, consumer, zip_stem=lambda c: "plug-claude-1"
+            )
 
         assert not destination.exists()
         assert "plug-claude-1.zip" in caplog.text

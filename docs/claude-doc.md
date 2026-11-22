@@ -27,12 +27,14 @@ Writes one plugin per consumer, with one skill per exportable.
 ```bash
 kaye-engine claude plugin              # ~/.claude/plugins/PLUGIN_NAME/
 kaye-engine claude plugin FOLDER       # FOLDER/PLUGIN_NAME/
-kaye-engine claude plugin -z           # one .zip per consumer
-kaye-engine claude plugin -z . NAME    # only consumer NAME's zip
+kaye-engine claude plugin -z           # default consumer's .zip
+kaye-engine claude plugin -z . -a      # one .zip per consumer
+kaye-engine claude plugin -z . --consumer A B   # only A, B zips
 ```
 
 - `-z`, `--zip`: write upload-ready zips instead of folders
-- `--no-version`: drop the version from the zip name, giving `NAME-claude.zip`
+- `--consumer CONSUMER [CONSUMER2 ...]`, `-a`/`--all`: pick consumers, default: the default one; give FOLDER first
+- `--no-version`: drop the version from the zip name; zips are named as release assets are
 
 ### skills
 
@@ -108,7 +110,7 @@ Every file is named `REPO-VERSION-TYPE[-X].ext`:
 | `-OS` | an installer only: `Win` (`.zip`) or `linux` (`.run`) |
 | `-VARIANT` | a system prompt only: `chat` or `coder` (`.md`) |
 
-An unset repo name, repo version, or default consumer exits 1 before anything is written. `claude plugin` takes an optional `CONSUMER` after `FOLDER`; absent means the default consumer, and an unknown name exits 1 listing the valid ones (`claude plugin -z . NAME` still works).
+An unset repo name, repo version, or default consumer exits 1 before anything is written. `claude plugin` takes `--consumer CONSUMER [CONSUMER2 ...]` or `-a`/`--all`; neither means the default consumer, and an unknown name exits 1 listing the valid ones.
 
 ## Build the Marketplace Repo
 
