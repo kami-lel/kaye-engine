@@ -29,9 +29,6 @@ manually add chat & coder, instead by data structure
 
 ### Changed
 
-- Claude render surfaces: identity sidecars renamed `[Claude]` → `[for Claude]` and `[ClaudeVSC]` → `[for Claude VSC]`, matching `[for Hermes]` and `[for Codex]`; content keyed on `{[Claude]}` or `{[ClaudeVSC]}` no longer renders
-- Prompt documentation: the `register_leaf` example registers the `Long File` leaf of Header Separation, replacing a removed library skill
-
 ### Deprecated
 
 ### Removed
@@ -40,7 +37,19 @@ manually add chat & coder, instead by data structure
 
 ### Security
 
-[unreleased]: https://github.com/kami-lel/kaye-engine/compare/v13.0.1...dev
+[unreleased]: https://github.com/kami-lel/kaye-engine/compare/v13.0.2...dev
+
+## [13.0.2] - 2026-11-23
+
+### Changed
+
+- Claude identity sidecars renamed `[Claude]` → `[for Claude]`, `[ClaudeVSC]` → `[for Claude VSC]`, matching `[for Hermes]` & `[for Codex]`
+- Prompt documentation: `register_leaf` example uses the `Long File` leaf of Header Separation
+
+> [!WARNING]
+> Breaking: content keyed on `{[Claude]}` or `{[ClaudeVSC]}`, & `conditional_sidecars` naming `[Claude]`, no longer render; rename to `[for Claude]` / `[for Claude VSC]` before upgrading
+
+[13.0.2]: https://github.com/kami-lel/kaye-engine/compare/v13.0.1...v13.0.2
 
 ## [13.0.1] - 2026-11-21
 
