@@ -89,7 +89,8 @@ _CODEX_AFFORDANCES = tuple(
     if name.startswith("Codex:")
 ) + ("git", "QwenImage")
 
-_UNIVERSAL_SIDECAR = "Claude"
+# identity marker every Claude surface shares
+_UNIVERSAL_SIDECAR = "for Claude"
 
 # platform-identity marker of the Hermes Agents surface
 _HERMES_SIDECAR = "for Hermes"
@@ -107,7 +108,7 @@ def _claude_profile(affordances, identity_name):
     :return: a ``RenderProfile`` whose ``variants`` carry only
             ``affordances`` and whose ``conditional_sidecars`` are those
             plus the surface's identity marker and the universal
-            ``Claude`` marker, each bracket-wrapped, then ``avoid`` --
+            ``for Claude`` marker, each bracket-wrapped, then ``avoid`` --
             identity names are never registered variants, so they never
             belong in ``variants``
     :rtype: RenderProfile

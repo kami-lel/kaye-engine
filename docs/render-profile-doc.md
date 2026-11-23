@@ -301,7 +301,7 @@ from kaye_engine.prompt.blueprint.render_profile import RenderProfile
 register_blueprint(
     "coder",
     coder_blueprint,
-    render_profile=RenderProfile(conditional_sidecars=("[Claude]",)),
+    render_profile=RenderProfile(conditional_sidecars=("[for Claude]",)),
 )
 ```
 
@@ -328,7 +328,7 @@ register_render_profile(
     "my-surface",
     RenderProfile(
         variants=("Claude:AskUserQuestion", ...),
-        conditional_sidecars=("[Claude]",),
+        conditional_sidecars=("[for Claude]",),
     ),
     "my own target",
 )

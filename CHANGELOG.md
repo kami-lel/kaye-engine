@@ -29,7 +29,7 @@ manually add chat & coder, instead by data structure
 
 ### Changed
 
-- `claude-vsc` render surface: identity sidecar renamed `[ClaudeVSC]` → `[for Claude VSC]`, matching `[for Hermes]` and `[for Codex]`; content keyed on `{[ClaudeVSC]}` no longer renders
+- Claude render surfaces: identity sidecars renamed `[Claude]` → `[for Claude]` and `[ClaudeVSC]` → `[for Claude VSC]`, matching `[for Hermes]` and `[for Codex]`; content keyed on `{[Claude]}` or `{[ClaudeVSC]}` no longer renders
 - Prompt documentation: the `register_leaf` example registers the `Long File` leaf of Header Separation, replacing a removed library skill
 
 ### Deprecated

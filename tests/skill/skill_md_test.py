@@ -65,8 +65,8 @@ class TestVersionInjection:
 
         registry = _dummy_registry(blueprint)
         render_profile = RenderProfile(
-            variants=("Claude", "for Claude VSC"),
-            conditional_sidecars=("[Claude]", "[for Claude VSC]"),
+            variants=("for Claude", "for Claude VSC"),
+            conditional_sidecars=("[for Claude]", "[for Claude VSC]"),
             sparseness=0,
             show_comment=False,
         )
