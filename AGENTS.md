@@ -132,35 +132,17 @@ kaye-engine rp -l -r '^claude$'             # list command: -r -c -l -N -f -C
 OWU_API_KEY=sk-... kaye-engine w -n         # Open WebUI sync, dry run
 ```
 
-**Rendering commands** — any subcommand that reaches
-`render_prompt(...)`, directly or via
-`Exportable.content()` (`blueprint render`, `dynamic-node`,
-`exportable`, `skill`, `claude skills`, `claude plugin`,
-`claude marketplace`, `claude user-system-prompt`,
-`claude vs-code-extension`, `claude code`, `codex plugin`,
-`codex marketplace`, `codex skills`, `codex user-system-prompt`,
-`build-github-marketplace`) — all expose the same 6 options via one shared parent parser
-and one aux function, `build_render_profile_parent_parser`/
-`resolve_render_profile` (`kaye_engine/cli/render_profile_parser.py`),
-the latter returning a `RenderProfile` rather than a kwargs dict:
-
-| flag | short | effect |
-|---|---|---|
-| `--surface` | `-u` | Claude surface(s) to checkmark variants for; combinable |
-| `--comment`/`--no-comment` | none | show/omit the trailing generated-by comment |
-| `--conditional-sidecar` | `-i` | conditional-sidecar name(s), unioned with `--surface` |
-| `--variant` | none | variant name(s), unioned with `--surface` |
-| `--sparseness` | `-s` | blank-line policy, v.i. |
-| `--reverse-order` | none | reverse sibling order at every level of the tree walk |
-
-`--comment`/`--no-comment` are long-form only everywhere.
-`blueprint preview` shares the toggle but is not a rendering command. Merge
-semantics live in [CONTEXT.md](CONTEXT.md).
-
-`--sparseness` runs from `-1` (one line) through `0` (no blank lines) and
-`1` (single blank lines) up to `99` (no trimming); the default is
-`DEFAULT_SPARSENESS` (`kaye_engine/cli/__init__.py`). Fenced code and tag
-blocks are never trimmed: see [CONTEXT.md](CONTEXT.md).
+**Rendering commands** (any subcommand reaching `render_prompt(...)`,
+directly or via `Exportable.content()`) share one parent parser and one
+aux function, `build_render_profile_parent_parser`/`resolve_render_profile`
+(`kaye_engine/cli/render_profile_parser.py`), which returns a
+`RenderProfile`. Add or change a render flag there, never in one command.
+`--comment`/`--no-comment` are long-form only everywhere; `--sparseness`
+defaults to `DEFAULT_SPARSENESS` (`kaye_engine/cli/__init__.py`);
+`blueprint preview` shares only the comment toggle. The flag table and
+merge semantics are in
+[docs/render-profile-doc.md](docs/render-profile-doc.md) and
+[CONTEXT.md](CONTEXT.md).
 
 **Verbosity flags** — every command takes `-v`/`-q`/`-V`/`-Q` from
 `kamilog.add_verbose_arguments` and applies them through
@@ -223,28 +205,18 @@ name is empty. An exportable entry must name a registered `consumer=`,
 with no fallback; the consumer decides which plugin the skill lands in.
 
 A consumer replaces another consumer's exportable only through
-`override_exportable(name, blueprint=None, *, consumer, render_profile=None,
-always_apply=None)` (no blueprint: a re-home, the entry only moves plugin), and another consumer's internal blueprint only
-through `override_blueprint(name, blueprint, *, render_profile=None)`;
-never reassign `.blueprint` or `.consumer` on a
-registry entry from a consumer package, since that skips the dependency,
-path, and cycle checks.
+`override_exportable` (no blueprint: a re-home, the entry only moves
+plugin), and another consumer's internal blueprint only through
+`override_blueprint`. Never reassign `.blueprint` or `.consumer` on a
+registry entry from a consumer package: that skips the dependency, path,
+and cycle checks.
 
-Export policy — one gate plus four independent flags, no allow-list
-constant:
-
-| flag | default | effect |
-|---|---|---|
-| `is_exportable` | `True` | `False` excludes it from `exportable_registry` entirely — never export as an Agent Skill |
-| `is_user_invokable` | `True` | a human may invoke it by name |
-| `llm_invokable` | `True` | the assistant may surface it unprompted |
-| `always_apply` | `False` | unconditionally relevant; `continue` exports it as an always-apply rule, the Agent Skill exporter ignores it |
-
-`render_profile` (a `RenderProfile`, default `RenderProfile()`) sets
-this entry's own default render settings — including
-`conditional_sidecars`/`variants` — merged (not clobbered) by
-`BlueprintRegistry.content()` with any caller-supplied `profile=`
-via `RenderProfile.merge()`.
+Export flags (`is_exportable`, `is_user_invokable`, `llm_invokable`,
+`always_apply`) and the entry's own `render_profile` are set at
+registration: see
+[docs/exportable-registry-doc.md](docs/exportable-registry-doc.md). No
+allow-list constant exists; never export an entry as an Agent Skill by
+other means.
 
 `register_image_prompt_exportable(canonical_name)`
 (`kaye_engine/exportable/image_prompt_export.py`) marks an already-registered
@@ -256,17 +228,15 @@ it raises `KeyError` if `canonical_name` is not already registered,
 
 ## Abbreviation Data
 
-`get_exportable_abbrs()` rebuilds every glossary on each call, so there is no
-import-order constraint — populate the abbreviation database at any point
-before an export actually runs. An unpopulated database logs an error and
-returns an empty list, so no skill folders are exported. Check
-`bool(get_abbr_data())` to test for an empty singleton directly.
+Populate the abbreviation database at any point before an export runs;
+`get_exportable_abbrs()` rebuilds every glossary per call. An unpopulated
+database logs an error and exports no skill folders (`bool(get_abbr_data())`
+tests for empty).
 
-Every glossary name an entry's `glossaries` array uses must be registered via
+Register every glossary name an entry's `glossaries` array uses via
 `register_abbr_glossary(name, ...)` before that entry loads, or `ValueError`
-is raised — `tests/conftest.py` registers every glossary name the test suite
-references, module-level, so it runs at collection time before any test
-module builds `AbbrData`. Register a new glossary there when adding one.
+is raised. `tests/conftest.py` registers every glossary name the suite
+references at collection time: add a new glossary there.
 
 ## Security
 

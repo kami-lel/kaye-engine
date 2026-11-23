@@ -22,7 +22,6 @@ through a Python API and a CLI.
 | distribution / import name | `kaye-engine` / `kaye_engine` |
 | dependencies | `anytree`, `json5`, `kamilog`, `pyahocorasick`, `pyyaml` |
 | entry point | `kaye-engine` console script → `kaye_engine.__main__:main` |
-| CLI subcommands | `blueprint`, `claude`, `codex`, `continue`, `hermes`, `dynamic-node`, `dynamic-substitution`, `exportable`, `export-json`, `affordance`, `variant`, `render-profile`, `glossary`, `build-github-release-assets`, `build-github-marketplace`, `skill`, `sync-open-webui-skills` |
 
 ## Personalization Boundary
 
@@ -215,84 +214,51 @@ documentation](docs/render-profile-doc.md).
 ### CLI Flag Surface
 
 `apply_verbosity_arg` (`cli/verbosity.py`) sets the level on `kaye-engine`
-and resets each existing descendant to `NOTSET`, so every engine logger
-follows `-v`/`-q`/`-V`/`-Q`. `-n` dry-run badges are per-logger state and
-keep their own name list (`cli/dry_run.py`).
+and resets each descendant logger to `NOTSET`, so every engine logger
+follows `-v`/`-q`/`-V`/`-Q`. Short letters are project-wide (rule in
+[AGENTS.md](AGENTS.md)); long-only by collision or choice: `--comment`/
+`--no-comment`, `--flat` and `--affordance` (`variant`), `--no-version`
+(`claude plugin`), `--output-file` (`export-json`), and the `blueprint
+preview` options. `skill` keeps `-a` for `--all`; `-z/--zip` is
+hand-duplicated per parser; `-n` is `--dry-run` on every write command.
 
-Several subcommands print rendered or registry content without the
-render-profile options: `export-json` uses a
-hardcoded `RenderProfile`; `dynamic-substitution` and `glossary` print raw
-registry content; `sync-open-webui-skills` renders per skill with no exposed
-profile; `affordance`/`variant`/`render-profile` are list-only.
+Not every printing command takes the render-profile options:
+`export-json` uses a hardcoded `RenderProfile`; `dynamic-substitution` and
+`glossary` print raw registry content; `sync-open-webui-skills` renders per
+skill with no exposed profile; `affordance`/`variant`/`render-profile` are
+list-only; `blueprint preview` takes only the comment parent parser, since
+it renders a preview tree, not a prompt.
 
-`affordance`, `variant` and `render-profile` share `cli/list_view.py` and
-one flag set: `-r/--regex` (repeatable name filter), `-c/--columns`,
-`-l/--long` (one card per row), `-N/--names-only`, `-f/--format
-table|tsv|json`, `-C/--no-color`; `variant` adds long-only `--affordance` and
-`--flat`. A TTY gets an aligned table (`variant`: grouped under a bold
-affordance header), a pipe gets tsv. Color goes only through kamilog's
-`AnsiRenderer` and is off under `-C`, `NO_COLOR`, a non-TTY, `-N`, tsv and
-json. An empty registry logs one `NOTE` through
-`note_empty_registry_for_cli`, not the corpus `ERROR` pair.
+List commands share `cli/list_view.py` and one flag set: `-r/--regex`,
+`-c/--columns`, `-l/--long`, `-N/--names-only`, `-f/--format
+table|tsv|json`, `-C/--no-color`. A TTY gets an aligned table, banner
+(`print_banner`) and color (kamilog's `AnsiRenderer`); a pipe gets bare
+names, tsv, or json. An empty registry logs one `NOTE`
+(`note_empty_registry_for_cli`), not the corpus `ERROR` pair. `blueprint
+show` follows the same rule; `-F/--field` prints one field raw.
 
-Informational output pairs color with a comment banner (a centered 80-column
-`CB5`) through `list_view`'s `print_banner`, `print_section`, `print_names`
-and `make_renderer`. The banner, `label (N)` counts included, shows on a TTY
-only; a piped run prints bare names, tsv, or json. `blueprint show` follows
-the same rule: a table on a TTY, `key<TAB>value` rows piped, one object with
-`-f json`, and `-F/--field` prints one field raw.
-
-Short letters follow the project-wide rule in [AGENTS.md](AGENTS.md).
-Long-only by collision or choice: `--comment`/`--no-comment`, `--flat` and
-`--affordance` (`variant`), `--no-version` (`claude plugin`), `--output-file`
-(`export-json`), `--preview-line-count`, `--preview-line-width`,
-`--show-full-tree` (`blueprint preview`). `skill` keeps `-a` for `--all`.
-
-`blueprint preview` is the one asymmetric case inside the rendering set: it
-takes only `build_comment_parent_parser()` from the bundle, no
-`--surface`/`--variant`/`--sparseness`, since it renders a preview tree, not a
-prompt.
-
-`-z/--zip` is shared behavior (`claude plugin`, `claude skills`, `skill`) but
-hand-duplicated per parser rather than pulled into its own builder. `-n`
-means `--dry-run` on every write command.
-
-`--dry-run` on the write commands comes from `cli/dry_run.py`: a shared
-`-n/--dry-run` parent parser, plus a run-wide switch (`enable_dry_run()`,
-`is_dry_run()`) that also stamps the `dry` badge on every logger named
-in its `_LOGGER_NAMES`. Writers keep their deed lines (`kaye_engine/deed.py`) and skip only the filesystem call
-under `is_dry_run()`; the zip exports skip the temporary build and log
-their one `create_zip` result line with size `n/a`. `sync-open-webui-skills` keeps its own
-`-n`/`--dry-run` and threads `is_dry_run` as a parameter instead.
+`-n/--dry-run` (`cli/dry_run.py`) is a shared parent parser plus a run-wide
+switch (`enable_dry_run()`, `is_dry_run()`) that stamps the `dry` badge on
+every logger in `_LOGGER_NAMES`. Writers keep their deed lines
+(`kaye_engine/deed.py`) and skip only the filesystem call; zip exports log
+one `create_zip` line with size `n/a`. `sync-open-webui-skills` threads
+`is_dry_run` as a parameter instead.
 
 Every text-file writer goes through `write_text_if_changed`
-(`kaye_engine/cli/file_write.py`): a missing file takes the `create_file`
-deed, a file already holding the exact text takes a `SKIP`-level line
-(`unchanged PATH`) and no write, a differing file takes the `owr_file`
-deed and is overwritten. The read and compare run under a dry run too, so
-the dry verdict equals the live one; only the write is skipped. `SKIP` is
-level 16, below `INFO`, so it prints from `-vv` up. A `FrontmatterDoc`
-subclass names its command's logger in `_logger` (`Skill`: skill,
-`ContinueRule`: continue), so its write lines follow that command's `-v`/`-q`. Zip archives are not
-byte-reproducible and keep overwriting; `save_blueprint` is a library API
-with no logger and keeps its plain write.
+(`cli/file_write.py`): a missing file takes `create_file`, an identical one
+a `SKIP`-level line (level 16, shown from `-vv`) and no write, a differing
+one `owr_file`. The compare runs under a dry run too, so the dry verdict
+equals the live one. A `FrontmatterDoc` subclass names its command's logger
+in `_logger`. Zip archives are not byte-reproducible and always overwrite;
+`save_blueprint` is a logger-less library API with a plain write.
 
-Deeds stamp a native badge on success (`new`, `owr`, `mv`, `cp`, `del`; none
-for config deeds or failures), led by the run-wide badge, so a dry run prints
-`dry new`. A zip export logs one `create_zip` line per archive: the plugin
-line at `DONE`, skill lines at `-v`.
-
-An export that builds in a temp folder then copies out runs in 2 phases,
-each opened by an `ENTER` line: build, inside `tmp_deeds(ROOT)`, and publish.
-`tmp_deeds` drops every deed success to `DEBUG`, stamps `tmp` (kamilog's
-scratch badge) in place of the deed badge, and shows `ROOT` as `<tmp>`;
-failure lines keep their error level and real paths. `tmp_roots(ROOT)` only
-masks, for the publish step that moves data out (the move stays an `mv` line
-at `DEBUG`). Each build logs 1 `tmp` summary at `-v`; the dry run skips the
-build. `place_vs_code_payload` reports its own steps the same way: per-file
-tree diff before the marketplace swap (`new`, `owr`, `del`), the temp copy
-and renames (`tmp`, `mv`), an `undo` line on rollback, and 1 `new` line per
-`settings.json` key added.
+Deeds stamp a native badge on success (`new`, `owr`, `mv`, `cp`, `del`;
+none for config deeds or failures), led by the run-wide badge. An export
+that builds in a temp folder then copies out runs 2 phases, build inside
+`tmp_deeds(ROOT)` (successes drop to `DEBUG`, badge `tmp`, `ROOT` shown as
+`<tmp>`) and publish inside `tmp_roots(ROOT)` (masks only). A zip export
+logs one `create_zip` line per archive: the plugin line at `DONE`, skill
+lines at `-v`.
 
 Dynamic nodes (today's date, the abbreviation glossaries) auto-attach to
 every tree at load time; an authored `(name)` heading, at any depth, fixes
@@ -311,48 +277,39 @@ collection documentation](docs/abbrs-doc.md).
 ## Public API
 
 `kaye_engine` re-exports most registering APIs of the Registration Policy
-table (`__all__` in `kaye_engine/__init__.py` is the list; affordance,
-variant, and exportable-entry registration live in submodules), plus
-`PACKAGE_NAME`, `KAYE_ENGINE_DISPLAY_NAME`, `LOGGER_NAME`, `AbbrData`,
-`DynamicSubstitution`, and `StringDynamicSubstitution`. `get_abbr_data`, `get_abbr_glossary`, and `get_blueprint` are not exported
-at this top level — reach them through their owning submodule
-(`kaye_engine.abbr_collection`, `kaye_engine.prompt`) instead.
-`Exportable`, `exportable_registry`, `register_exportable_entry`, and
-`get_exportable` (`kaye_engine.exportable`) round out the registry every
-`BlueprintRegistry` and `ExportableAbbr` entry is inserted into.
+table (`__all__` in `kaye_engine/__init__.py`; affordance, variant, and
+exportable-entry registration live in submodules), plus `PACKAGE_NAME`,
+`KAYE_ENGINE_DISPLAY_NAME`, `LOGGER_NAME`, `AbbrData`,
+`DynamicSubstitution`, and `StringDynamicSubstitution`. `get_abbr_data`,
+`get_abbr_glossary`, and `get_blueprint` live in `kaye_engine.abbr_collection`
+and `kaye_engine.prompt`; `Exportable`, `exportable_registry`,
+`register_exportable_entry`, and `get_exportable` in `kaye_engine.exportable`.
 
-Every consumer package calls `register_consumer(display_name,
-canonical_name, version)` for itself before it registers any exportable;
-the kebab `canonical_name` is its plugin name and equals its installed
-distribution name, whose metadata fills that plugin's manifest. The setup
-a console command runs then names one entry consumer
+A consumer package calls `register_consumer(display_name, canonical_name,
+version)` before registering any exportable; the kebab `canonical_name` is
+its plugin name and its installed distribution name, whose metadata fills
+the manifest. A console command's setup names one entry consumer
 (`set_entry_consumer`), which owns the process-wide CLI identity, and calls
 `setup_claude_cli(...)`/`setup_codex_cli(...)`/`setup_hermes_cli(...)`,
-whose Chat, Coder, and
-soul names are all optional. The marketplace is named
-after the repo (`set_repo_name`, also what `get_marketplace_name()` and
-`get_marketplace_folder_name()` return) and lists one plugin per consumer holding
+whose Chat, Coder, and soul names are optional. The marketplace is named
+after the repo (`set_repo_name`) and lists one plugin per consumer holding
 an exportable (`get_plugin_consumers()`). A consumer console script builds
-on `register_cli_main_parser(package_name, program_name)`, so every script
-shares one `--help` text and only the usage line and `--version` name the
-package. Q.v. [Kaye Engine: `prompt` module
-Documentation](docs/prompt-doc.md) and [Claude
-documentation](docs/claude-doc.md#setup-for-consumer-packages).
+on `register_cli_main_parser(package_name, program_name)`, sharing one
+`--help` text. Q.v. [prompt documentation](docs/prompt-doc.md) and
+[Claude documentation](docs/claude-doc.md#setup-for-consumer-packages).
 
-Every CLI subcommand that reads the corpus or the exportables calls a
-setup guard (`check_corpus_setup_for_cli()`, or
-`check_setup_for_claude_cli()` for `claude`) that logs an error when no
-corpus tree or blueprint is loaded, surfacing bare-checkout misuse early;
-the list-only `affordance`, `variant`, `render-profile` and
-`dynamic-substitution` take no guard, and `dynamic-node` loads an empty
-tree itself when none is loaded; the Claude guard also exits 1 with no
-consumer registered. The entry consumer and Chat/Coder names are enforced
-by their getters (`get_consumer_display_name()`,
-`get_consumer_canonical_name()`, `get_consumer_version()`,
-`get_claude_chat_exportable()`, `get_claude_merged_coder_exportable()`),
-which log `logger.critical` and raise `SystemExit(1)` when unset or, for
-blueprint getters, unregistered, so `None` never reaches path, manifest, or
-prompt building.
+Every subcommand reading the corpus or exportables calls a setup guard
+(`check_corpus_setup_for_cli()`, or `check_setup_for_claude_cli()` for
+`claude`) that logs an error when no corpus tree or blueprint is loaded; the
+list-only `affordance`, `variant`, `render-profile` and
+`dynamic-substitution` take none, and `dynamic-node` loads an empty tree
+itself. The Claude guard also exits 1 with no consumer registered. The entry
+consumer and Chat/Coder names are enforced by their getters
+(`get_consumer_display_name()`, `get_consumer_canonical_name()`,
+`get_consumer_version()`, `get_claude_chat_exportable()`,
+`get_claude_merged_coder_exportable()`), which log `logger.critical` and
+raise `SystemExit(1)` when unset or unregistered, so `None` never reaches
+path, manifest, or prompt building.
 
 ## Blueprint API Verbs
 
@@ -420,27 +377,23 @@ marketplace). `ClaudePlatform` (`cli/claude/platform.py`) and
 `claude` and `codex` exporters are thin wrappers over the templates, and
 `build-github-marketplace` runs both into one repo root.
 
-`build-github-release-assets OUTPUT` writes every release asset from one run: a
-Desktop plugin zip per plugin consumer, the Windows and Linux VS Code
-installers, and the Chat and Chat + Coder system prompts as `.md` files, each
-named `REPO-VERSION-TYPE[-X].ext` by
-`get_release_asset_name` from the repo name and version (`kaye_engine/
-repo.py`); the default consumer's name is left out. The installers are
-static scripts (`cli/github_release/installer_templates/`, copied verbatim)
+`build-github-release-assets OUTPUT` writes every release asset in one run:
+a Desktop plugin zip per plugin consumer, the Windows and Linux VS Code
+installers, and the Chat and Chat + Coder system prompts as `.md`, each
+named `REPO-VERSION-TYPE[-X].ext` by `get_release_asset_name`
+(`kaye_engine/repo.py`); the default consumer's name is left out. The
+installers are static scripts (`cli/github_release/installer_templates/`)
 around a stage 1 payload; no Python or engine ships in them. `claude plugin
 [FOLDER]` exports the default consumer unless `--consumer` or `-a` is given.
 
 The `vs-code-extension` command and the release installers place a payload
 into `~/.claude/` by one algorithm, specified in [Installer
-Algorithm](docs/installer-algorithm-doc.md#claude-vs-code-plugin). The
-command runs 2 stages: `generate_vs_code_payload` (stage 1, `vs_code/
-payload.py`) writes `CLAUDE.md` and the marketplace into a folder and knows
-nothing of `~/.claude`; `place_vs_code_payload` (stage 2, `place.py`)
-backs up a differing `CLAUDE.md` to `CLAUDE.md.YYYYMMDDHHMMSS.bak`, swaps
-the marketplace folder in, and merges `settings.json` (`extraKnownMarketplaces`
-and `enabledPlugins`, missing keys only). `export_vs_code_extension` renders
-stage 1 into a temp folder, always live (`live_run`), so a dry run reports
-stage 2's true verdict and writes nothing under `CLAUDE_FOLDER`.
+Algorithm](docs/installer-algorithm-doc.md#claude-vs-code-plugin):
+`generate_vs_code_payload` (stage 1, `vs_code/payload.py`) knows nothing of
+`~/.claude`; `place_vs_code_payload` (stage 2, `place.py`) places it.
+`export_vs_code_extension` renders stage 1 into a temp folder, always live
+(`live_run`), so a dry run reports stage 2's true verdict and writes nothing
+under `CLAUDE_FOLDER`.
 
 `continue` classifies each `exportable_registry` entry by its export-policy
 flags: `always_apply` forces a rule, otherwise `llm_invokable` gives a rule,
