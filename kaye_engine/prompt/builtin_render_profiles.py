@@ -141,7 +141,7 @@ def register_builtin_render_profiles():
         ),
         (
             "claude-vsc",
-            _claude_profile(_VSC_AFFORDANCES, "ClaudeVSC"),
+            _claude_profile(_VSC_AFFORDANCES, "for Claude VSC"),
             "Anthropic Claude Code extension for Microsoft Visual Studio"
             " Code",
         ),

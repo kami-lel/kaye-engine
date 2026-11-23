@@ -28,7 +28,7 @@ from kaye_engine.prompt.builtin_render_profiles import (
 )
 from tests.consumer_helper import isolated_render_profiles
 
-_IDENTITY_NAMES = ("Claude", "ClaudeVSC")
+_IDENTITY_NAMES = ("Claude", "for Claude VSC")
 _RETIRED_NAMES = ("chat", "cowork", "code", "vsc", "ioschat")
 
 
@@ -102,13 +102,13 @@ class TestConditionalSidecars:
         assert "[Claude]" in VSC_PROFILE.conditional_sidecars
 
     def test_claude_vsc_present_only_on_vsc(_):
-        assert "[ClaudeVSC]" in VSC_PROFILE.conditional_sidecars
-        assert "[ClaudeVSC]" not in CLAUDE_PROFILE.conditional_sidecars
+        assert "[for Claude VSC]" in VSC_PROFILE.conditional_sidecars
+        assert "[for Claude VSC]" not in CLAUDE_PROFILE.conditional_sidecars
 
     def test_claude_vsc_survives_merge(_):
         combined = CLAUDE_PROFILE.merge(VSC_PROFILE)
 
-        assert "[ClaudeVSC]" in combined.conditional_sidecars
+        assert "[for Claude VSC]" in combined.conditional_sidecars
 
     def test_retired_identity_markers_gone(_):
         for entry in render_profile_registry.values():
